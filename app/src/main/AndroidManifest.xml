@@ -23,7 +23,9 @@
         android:theme="@style/Theme.Guardian">
         <activity
             android:name=".ui.OTP.OTPScreen"
-            android:exported="false" />
+            android:exported="true" >
+
+        </activity>
         <activity
             android:name=".ui.SelectRole.SelectRoleScreen"
             android:exported="false"
@@ -37,6 +39,13 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|adjustPan">
+
+        </activity>
+
+        <activity android:name=".ui.ResetPassword.ResetPasswordActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

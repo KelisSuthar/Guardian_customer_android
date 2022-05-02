@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Guardian</string>
 
+
+    <!--    Common String -->
     <string name="text_error_network">No Internet connection!!!</string>
     <string name="skip">Skip</string>
     <string name="text_error_internal_server">Internal server error. Please retry!!!</string>
@@ -29,6 +31,7 @@
     <string name="remember_password">Remember Password? <b>Sign In</b></string>
 
     <!--    Reset password-->
+    <string name="reset_password">Reset Password</string>
     <string name="new_password">New Password</string>
     <string name="confirm_new_password">Confirm New Password</string>
     <string name="select_user_role">Select user Role</string>
