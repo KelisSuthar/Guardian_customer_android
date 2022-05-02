@@ -5,8 +5,12 @@
       <map>
         <entry key="app/src/main/res/drawable/ic_vector__1_.xml" value="0.2085" />
         <entry key="app/src/main/res/drawable/normal_rounded_light_blue.xml" value="0.2085" />
+        <entry key="app/src/main/res/drawable/password_show_hide.xml" value="0.2085" />
         <entry key="app/src/main/res/drawable/toast_rounded.xml" value="0.2135" />
+        <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.2359375" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/activity_reset_password.xml" value="0.2359375" />
+        <entry key="app/src/main/res/layout/activity_select_role_screen.xml" value="0.1" />
         <entry key="app/src/main/res/layout/progress_dialog.xml" value="0.3802083333333333" />
         <entry key="app/src/main/res/layout/toast_hint_layout.xml" value="0.36614583333333334" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2135" />
