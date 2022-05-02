@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import com.app.guardian.R
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.ReusedMethod.Companion.change_edittext_background
 import com.app.guardian.databinding.ActivityForgotPasswordBinding
 import com.app.guardian.databinding.ActivityLoginBinding
 import com.app.guardian.shareddata.base.BaseActivity
@@ -21,19 +22,25 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     override fun initView() {
         mBinding = getBinding()
+        change_edittext_background(this,mBinding.edtLoginEmail)
+        change_edittext_background(this,mBinding.editTextLoginPass)
     }
 
     override fun initObserver() {
+    }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.leftto, R.anim.right)
     }
 
     override fun handleListener() {
-    mBinding.txtForgotPassword.setOnClickListener(this)
+        mBinding.txtForgotPassword.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-            R.id.txtForgotPassword ->{
+            R.id.txtForgotPassword -> {
                 startActivity(
                     Intent(
                         this@LoginActivity,

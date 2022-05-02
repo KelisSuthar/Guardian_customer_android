@@ -10,6 +10,7 @@ import android.widget.RadioGroup
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.ReusedMethod.Companion.displayMessageDialog
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.databinding.ActivitySelectRoleScreenBinding
 import com.app.guardian.shareddata.base.BaseActivity
@@ -28,6 +29,7 @@ class SelectRoleScreen : BaseActivity(),View.OnClickListener {
         mBinding = getBinding()
         mBinding.headder.tvHeaderText.text = resources.getString(R.string.select_user_role)
         mBinding.headder.ivBack.gone()
+
     }
 
     override fun initObserver() {
@@ -84,7 +86,7 @@ class SelectRoleScreen : BaseActivity(),View.OnClickListener {
 
                     }
                     else -> {
-
+                        displayMessageDialog(this,"","Please Select",false,"Cancel","")
                     }
                 }
             }
