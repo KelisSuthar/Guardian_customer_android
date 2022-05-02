@@ -36,6 +36,7 @@
     <string name="mediator">Mediator</string>
     <string name="lawyer">Lawyer</string>
     <string name="submit">Submit</string>
+    <string name="enter_otp">Enter OTP</string>
     <!-- TODO: Validation Message  -->
     <!-- TODO: Place Holders  -->
 </resources>

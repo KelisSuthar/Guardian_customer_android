@@ -22,10 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Guardian">
         <activity
-            android:name=".ui.ResetPassword.ResetPasswordActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.forgot.ForgotPasswordActivity"
+            android:name=".ui.OTP.OTPScreen"
             android:exported="false" />
         <activity
             android:name=".ui.SelectRole.SelectRoleScreen"
@@ -33,6 +30,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.Login.LoginActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.Splash.SplashScreen"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|adjustPan">
@@ -42,10 +43,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.Splash.SplashScreen"
-            android:exported="true"
-            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

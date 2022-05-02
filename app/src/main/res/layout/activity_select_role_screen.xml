@@ -24,22 +24,25 @@
                 android:id="@+id/cv1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/lightBlue_2"
+
                 app:cardCornerRadius="@dimen/_10sdp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <RelativeLayout
+                    android:id="@+id/rl1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:background="@color/lightBlue_2"
                     android:paddingVertical="@dimen/_20sdp">
 
-
                     <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/rb1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_20sdp"
+                        android:button="@drawable/radio_button_selector"
                         android:drawableLeft="@drawable/ic_user"
                         android:drawablePadding="@dimen/_15sdp"
                         android:fontFamily="@font/lora_semibold"
@@ -58,33 +61,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
-                app:cardBackgroundColor="@color/lightBlue_2"
+
                 app:cardCornerRadius="@dimen/_10sdp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cv1">
 
                 <RelativeLayout
+                    android:id="@+id/rl2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:background="@color/lightBlue_2"
                     android:paddingVertical="@dimen/_20sdp">
 
-
                     <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/rb2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_20sdp"
                         android:drawableLeft="@drawable/ic_user"
                         android:drawablePadding="@dimen/_15sdp"
                         android:fontFamily="@font/lora_semibold"
                         android:layoutDirection="rtl"
                         android:text="@string/mediator"
+                        android:button="@drawable/radio_button_selector"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12ssp" />
 
 
                 </RelativeLayout>
-
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
@@ -92,32 +97,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
-                app:cardBackgroundColor="@color/lightBlue_2"
+
                 app:cardCornerRadius="@dimen/_10sdp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cv2">
 
                 <RelativeLayout
+                    android:id="@+id/rl3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:background="@color/lightBlue_2"
                     android:paddingVertical="@dimen/_20sdp">
 
                     <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/rb3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_20sdp"
                         android:drawableLeft="@drawable/ic_user"
                         android:drawablePadding="@dimen/_15sdp"
                         android:fontFamily="@font/lora_semibold"
                         android:layoutDirection="rtl"
+                        android:button="@drawable/radio_button_selector"
                         android:text="@string/lawyer"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12ssp" />
 
 
                 </RelativeLayout>
-
             </com.google.android.material.card.MaterialCardView>
 
             <androidx.appcompat.widget.AppCompatButton

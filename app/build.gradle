@@ -127,4 +127,7 @@ dependencies {
 //    implementation 'com.google.firebase:firebase-messaging:21.0.1'
 //    implementation 'com.google.firebase:firebase-core:17.5.0'
 
+    //OTP View
+    implementation 'com.github.aabhasr1:otpview:1.1.2'
+
 }
