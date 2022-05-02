@@ -6,4 +6,13 @@
     <string name="internet_message_alert">Please Check Your internet connection</string>
     <string name="text_error_network">No Internet connection!!!</string>
     <string name="skip">Skip</string>
+
+    <!-- TODO: Normal String  -->
+    <string name="select_user_role">Select user Role</string>
+    <string name="user">User</string>
+    <string name="mediator">Mediator</string>
+    <string name="lawyer">Lawyer</string>
+    <string name="submit">Submit</string>
+    <!-- TODO: Validation Message  -->
+    <!-- TODO: Place Holders  -->
 </resources>

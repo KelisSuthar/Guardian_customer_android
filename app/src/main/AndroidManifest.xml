@@ -22,20 +22,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Guardian">
         <activity
+            android:name=".ui.SelectRole.SelectRoleScreen"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".ui.Login.LoginActivity"
-            android:exported="true" >
-
-        </activity>
-
+            android:exported="true"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.Splash.SplashScreen"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
     </application>
 
