@@ -10,7 +10,9 @@ import com.app.guardian.common.ReusedMethod
 import com.app.guardian.databinding.ActivitySplashScreenBinding
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.OTP.OTPScreen
+import com.app.guardian.ui.ResetPassword.ResetPasswordActivity
 import com.app.guardian.ui.SelectRole.SelectRoleScreen
+import com.google.android.gms.actions.ReserveIntents
 
 class SplashScreen : BaseActivity(),View.OnClickListener {
     lateinit var mBinding: ActivitySplashScreenBinding
@@ -25,7 +27,7 @@ class SplashScreen : BaseActivity(),View.OnClickListener {
             startActivity(
                 Intent(
                     this@SplashScreen,
-                    OTPScreen::class.java
+                    ResetPasswordActivity::class.java
                 )
             )
 

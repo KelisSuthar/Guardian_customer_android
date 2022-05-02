@@ -23,14 +23,23 @@
         android:theme="@style/Theme.Guardian">
         <activity
             android:name=".ui.OTP.OTPScreen"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.SelectRole.SelectRoleScreen"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.forgot.ForgotPasswordActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.Login.LoginActivity"
-            android:exported="true"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.ResetPassword.ResetPasswordActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.Splash.SplashScreen"

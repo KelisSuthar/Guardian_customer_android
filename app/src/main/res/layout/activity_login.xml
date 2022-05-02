@@ -1,123 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/screen_bg"
-    >
+<layout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_20sdp">
+        android:layout_height="match_parent"
+        android:background="@color/screen_bg">
 
-        <TextView
-            android:id="@+id/txtWelcomeBack"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:fontFamily="@font/lora_semibold"
-            android:text="@string/welcome_back"
-            android:textAlignment="center"
-            android:textColor="@color/txt_dark"
-            android:textFontWeight="600"
-            android:textSize="@dimen/_18ssp"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/txtEnterYourCredentialsToContinue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
-            android:text="@string/enter_your_credentials_to_continue"
-            android:textAlignment="center"
-            android:textColor="@color/txt_dark"
-            android:textFontWeight="400"
-            android:textSize="@dimen/_12ssp"
-            app:layout_constraintTop_toBottomOf="@+id/txtWelcomeBack" />
-
-        <LinearLayout
-            android:id="@+id/lyLoginEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/txtEnterYourCredentialsToContinue">
-
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtLoginEmail"
-                style="@style/White_edittext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_mail"
-                android:hint="@string/email_or_phone"
-                android:fontFamily="@font/lora_regular"
-                android:textFontWeight="400"
-                android:inputType="textEmailAddress"
-                android:textSize="@dimen/_12ssp"
-                app:layout_constraintTop_toBottomOf="@+id/img" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editLoginPassword"
-                style="@style/White_edittext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_password"
-                android:layout_marginTop="@dimen/_14ssp"
-                android:hint="@string/password"
-                android:fontFamily="@font/lora_regular"
-                android:textFontWeight="400"
-                android:inputType="textPassword"
-                android:textSize="@dimen/_12sdp"
-                />
+            android:layout_marginHorizontal="@dimen/_20sdp">
 
             <TextView
-                android:id="@+id/txtForgotPassword"
+                android:id="@+id/txtWelcomeBack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:fontFamily="@font/lora_semibold"
+                android:text="@string/welcome_back"
+                android:textAlignment="center"
+                android:textColor="@color/txt_dark"
+                android:textFontWeight="600"
+                android:textSize="@dimen/_18ssp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/txtEnterYourCredentialsToContinue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/lora_regular"
-                android:text="@string/forgot_your_password_underline"
-                android:textAlignment="gravity"
-                android:gravity="right"
+                android:text="@string/enter_your_credentials_to_continue"
+                android:textAlignment="center"
                 android:textColor="@color/txt_dark"
                 android:textFontWeight="400"
                 android:textSize="@dimen/_12ssp"
-                android:paddingRight="@dimen/_10sdp"
-                 android:layout_marginTop="@dimen/_8sdp"/>
+                app:layout_constraintTop_toBottomOf="@+id/txtWelcomeBack" />
 
-        </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnSigIn"
-            style="@style/blue_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sign_in"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginHorizontal="@dimen/_20sdp"
-            app:layout_constraintTop_toBottomOf="@+id/lyLoginEditText" />
+            <LinearLayout
+                android:id="@+id/lyLoginEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/txtEnterYourCredentialsToContinue">
 
 
-        <TextView
-            android:id="@+id/txtDoNotHaveAccount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
-            android:text="@string/do_not_have_an_account"
-            android:textAlignment="gravity"
-            android:gravity="center"
-            android:textColor="@color/txt_dark"
-            android:textFontWeight="400"
-            android:textSize="@dimen/_12ssp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:padding="@dimen/_5sdp"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtLoginEmail"
+                    style="@style/White_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_mail"
+                    android:fontFamily="@font/lora_regular"
 
-            app:layout_constraintTop_toBottomOf="@+id/btnSigIn"/>
+                    android:hint="@string/email_or_phone"
+                    android:inputType="textEmailAddress"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintTop_toBottomOf="@+id/img" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editLoginPassword"
+                    style="@style/White_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_14ssp"
+                    android:drawableLeft="@drawable/ic_password"
+                    android:fontFamily="@font/lora_regular"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_12sdp" />
 
-</ScrollView>
+                <TextView
+                    android:id="@+id/txtForgotPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:fontFamily="@font/lora_regular"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:text="@string/forgot_your_password_underline"
+                    android:textAlignment="gravity"
+                    android:textColor="@color/txt_dark"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_12ssp" />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSigIn"
+                style="@style/blue_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:text="@string/sign_in"
+                app:layout_constraintTop_toBottomOf="@+id/lyLoginEditText" />
+
+
+            <TextView
+                android:id="@+id/txtDoNotHaveAccount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:fontFamily="@font/lora_regular"
+                android:gravity="center"
+                android:padding="@dimen/_5sdp"
+                android:text="@string/do_not_have_an_account"
+                android:textAlignment="gravity"
+                android:textColor="@color/txt_dark"
+                android:textFontWeight="400"
+                android:textSize="@dimen/_12ssp"
+
+                app:layout_constraintTop_toBottomOf="@+id/btnSigIn" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</layout>
