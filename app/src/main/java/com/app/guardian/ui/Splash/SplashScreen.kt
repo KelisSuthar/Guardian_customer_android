@@ -25,6 +25,6 @@ class SplashScreen : BaseActivity(),View.OnClickListener {
 
 
     override fun onClick(p0: View?) {
-        
+
     }
 }
