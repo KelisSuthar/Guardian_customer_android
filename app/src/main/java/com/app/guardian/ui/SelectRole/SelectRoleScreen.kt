@@ -26,9 +26,6 @@ class SelectRoleScreen : BaseActivity(),View.OnClickListener {
         mBinding.headder.tvHeaderText.text = resources.getString(R.string.select_user_role)
         mBinding.headder.ivBack.gone()
 
-//        mBinding.rb1.setOnCheckedChangeListener { p0, p1 -> changeLayout(1) }
-//        mBinding.rb2.setOnCheckedChangeListener { p0, p1 -> changeLayout(2) }
-//        mBinding.rb3.setOnCheckedChangeListener { p0, p1 -> changeLayout(3) }
 
     }
 

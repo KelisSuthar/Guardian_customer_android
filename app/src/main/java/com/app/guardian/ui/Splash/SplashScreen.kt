@@ -9,6 +9,7 @@ import com.app.guardian.R
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.databinding.ActivitySplashScreenBinding
 import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.ui.OTP.OTPScreen
 import com.app.guardian.ui.SelectRole.SelectRoleScreen
 
 class SplashScreen : BaseActivity(),View.OnClickListener {
@@ -24,7 +25,7 @@ class SplashScreen : BaseActivity(),View.OnClickListener {
             startActivity(
                 Intent(
                     this@SplashScreen,
-                    SelectRoleScreen::class.java
+                    OTPScreen::class.java
                 )
             )
 

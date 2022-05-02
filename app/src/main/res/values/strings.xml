@@ -1,24 +1,26 @@
 <resources>
     <string name="app_name">Guardian</string>
 
-
-    <!--    Common String -->
     <string name="text_error_network">No Internet connection!!!</string>
     <string name="skip">Skip</string>
     <string name="text_error_internal_server">Internal server error. Please retry!!!</string>
     <string name="text_error_timeout">Sorry, We lost you. Please retry!!!</string>
     <string name="text_error_connection">Look a like we lost you for a moment. Please retry!!!</string>
     <string name="internet_message_alert">Please Check Your internet connection</string>
+
+
+    <!-- TODO: Normal String  -->
+
+    <!--    Common String -->
     <string name="password">Password</string>
     <string name="forgot_your_password">Forgot your password?</string>
     <string name="sign_in">Sign In</string>
     <string name="email">Email</string>
     <string name="phone">Phone</string>
-
     <!--    Login screen -->
     <string name="welcome_back">Welcome Back!</string>
     <string name="enter_your_credentials_to_continue">Enter your credentials to continue</string>
-    <string name="email_or_phone">Email or Phone</string>
+
     <string name="forgot_your_password_underline"><u>Forgot your password?</u></string>
     <string name="do_not_have_an_account">Don’t have an account? <b>Sign Up</b></string>
 
@@ -26,17 +28,26 @@
     <string name="forgot_password_msg">Please enter the email address associated with your account</string>
     <string name="remember_password">Remember Password? <b>Sign In</b></string>
 
-<!--    Reset password-->
+    <!--    Reset password-->
     <string name="new_password">New Password</string>
     <string name="confirm_new_password">Confirm New Password</string>
-
-    <!-- TODO: Normal String  -->
     <string name="select_user_role">Select user Role</string>
     <string name="user">User</string>
     <string name="mediator">Mediator</string>
     <string name="lawyer">Lawyer</string>
     <string name="submit">Submit</string>
+
+
+    <!--    OTP -->
     <string name="enter_otp">Enter OTP</string>
+    <string name="code_sent_to_email">A 4 digit code has been sent to \n your mail id</string>
+    <string name="code_sent_to_ph_num">A 4 digit code has been sent to \n your phone number</string>
+    <string name="verify_otp">Verify OTP</string>
+
     <!-- TODO: Validation Message  -->
     <!-- TODO: Place Holders  -->
+
+    <!-- login-->
+    <string name="email_or_phone">Email or Phone</string>
+
 </resources>
