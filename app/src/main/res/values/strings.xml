@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Guardian</string>
+    <string name="text_error_internal_server">Internal server error. Please retry!!!</string>
+    <string name="text_error_timeout">Sorry, We lost you. Please retry!!!</string>
+    <string name="text_error_connection">Look a like we lost you for a moment. Please retry!!!</string>
+    <string name="internet_message_alert">Please Check Your internet connection</string>
+    <string name="text_error_network">No Internet connection!!!</string>
+    <string name="skip">Skip</string>
+</resources>
