@@ -1,5 +1,6 @@
 package com.app.guardian.ui.SelectRole
 
+import android.content.Intent
 import android.graphics.Color
 import android.util.Log
 import android.view.View
@@ -12,6 +13,8 @@ import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.databinding.ActivitySelectRoleScreenBinding
 import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.ui.Login.LoginActivity
+import com.app.guardian.ui.forgot.ForgotPasswordActivity
 
 class SelectRoleScreen : BaseActivity(),View.OnClickListener {
     lateinit var mBinding:ActivitySelectRoleScreenBinding
@@ -25,8 +28,6 @@ class SelectRoleScreen : BaseActivity(),View.OnClickListener {
         mBinding = getBinding()
         mBinding.headder.tvHeaderText.text = resources.getString(R.string.select_user_role)
         mBinding.headder.ivBack.gone()
-
-
     }
 
     override fun initObserver() {
@@ -40,6 +41,7 @@ class SelectRoleScreen : BaseActivity(),View.OnClickListener {
         mBinding.rb1.setOnClickListener(this)
         mBinding.rb2.setOnClickListener(this)
         mBinding.rb3.setOnClickListener(this)
+        mBinding.btnSubmit.setOnClickListener(this)
 
     }
 
@@ -63,6 +65,28 @@ class SelectRoleScreen : BaseActivity(),View.OnClickListener {
             }
             R.id.rb3->{
                 changeLayout(3)
+            }
+            R.id.btnSubmit->{
+                when {
+                    mBinding.rb1.isChecked -> {
+                        startActivity(
+                            Intent(
+                                this@SelectRoleScreen,
+                                LoginActivity::class.java
+                            )
+                        )
+                        overridePendingTransition(R.anim.rightto, R.anim.left)
+                    }
+                    mBinding.rb2.isChecked -> {
+
+                    }
+                    mBinding.rb3.isChecked -> {
+
+                    }
+                    else -> {
+
+                    }
+                }
             }
         }
     }

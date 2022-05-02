@@ -20,6 +20,11 @@ class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
         mBinding = getBinding()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.leftto, R.anim.right)
+    }
+
     override fun initObserver() {
 
     }
