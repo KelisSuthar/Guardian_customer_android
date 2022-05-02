@@ -1,11 +1,25 @@
 <resources>
     <string name="app_name">Guardian</string>
+
+
+<!--    Common String -->
+    <string name="text_error_network">No Internet connection!!!</string>
+    <string name="skip">Skip</string>
     <string name="text_error_internal_server">Internal server error. Please retry!!!</string>
     <string name="text_error_timeout">Sorry, We lost you. Please retry!!!</string>
     <string name="text_error_connection">Look a like we lost you for a moment. Please retry!!!</string>
     <string name="internet_message_alert">Please Check Your internet connection</string>
-    <string name="text_error_network">No Internet connection!!!</string>
-    <string name="skip">Skip</string>
+    <string name="password">Password</string>
+    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="sign_in">Sign In</string>
+
+    <!--    Login screen -->
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="enter_your_credentials_to_continue">Enter your credentials to continue</string>
+    <string name="email_or_phone">Email or Phone</string>
+    <string name="do_not_have_an_account">Don’t have an account?</string>
+    <string name="forgot_your_password_underline"><u>Forgot your password?</u></string>
+
 
     <!-- TODO: Normal String  -->
     <string name="select_user_role">Select user Role</string>

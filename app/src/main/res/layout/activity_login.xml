@@ -1,9 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Login.LoginActivity">
+    android:background="@color/screen_bg"
+    >
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_20sdp">
+
+        <TextView
+            android:id="@+id/txtWelcomeBack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:fontFamily="@font/lora_semibold"
+            android:text="@string/welcome_back"
+            android:textAlignment="center"
+            android:textColor="@color/txt_dark"
+            android:textFontWeight="600"
+            android:textSize="@dimen/_18ssp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/txtEnterYourCredentialsToContinue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="@string/enter_your_credentials_to_continue"
+            android:textAlignment="center"
+            android:textColor="@color/txt_dark"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintTop_toBottomOf="@+id/txtWelcomeBack" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/txtEnterYourCredentialsToContinue">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtLoginEmail"
+                style="@style/White_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_mail"
+                android:hint="@string/email_or_phone"
+                android:fontFamily="@font/lora_regular"
+                android:textFontWeight="400"
+                android:inputType="textEmailAddress"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintTop_toBottomOf="@+id/img" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editLoginPassword"
+                style="@style/White_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_password"
+                android:layout_marginTop="@dimen/_14ssp"
+                android:hint="@string/password"
+                android:fontFamily="@font/lora_regular"
+                android:textFontWeight="400"
+                android:inputType="textPassword"
+                android:textSize="@dimen/_12sdp"
+                />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

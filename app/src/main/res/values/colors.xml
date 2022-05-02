@@ -17,4 +17,8 @@
 
 
     <color name="colorTransparent">#00FFFFFF</color>
+    <color name="screen_bg">@color/lightBlue</color>
+
+<!--    text color -->
+    <color name="txt_dark">@color/colorPrimaryDark</color>
 </resources>
