@@ -9,7 +9,7 @@ import com.app.guardian.shareddata.base.BaseActivity
 import com.google.gson.JsonObject
 
 
-import com.studelicious_user.shareddata.repo.UserRepo
+import com.app.guardian.shareddata.repo.UserRepo
 
 
 class KeyViewModel(private val mUserRepository: UserRepo) : ViewModel() {

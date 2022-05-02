@@ -14,7 +14,7 @@ import com.app.guardian.ui.Splash.viewmodel.KeyViewModel
 
 import com.google.gson.GsonBuilder
 
-import com.studelicious_user.shareddata.repo.UserRepo
+import com.app.guardian.shareddata.repo.UserRepo
 import com.studelicious_user.shareddata.repo.UserRepository
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient

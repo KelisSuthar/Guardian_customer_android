@@ -1,11 +1,12 @@
-package com.studelicious_user.shareddata.networkmanager
+package com.app.guardian.shareddata.networkmanager
 
 import androidx.lifecycle.MutableLiveData
-import com.studelicious_user.model.ApiError
-import com.studelicious_user.model.CommonResponseModel
-import com.studelicious_user.model.RequestState
+import com.app.guardian.model.ApiError
+import com.app.guardian.model.CommonResponseModel
+import com.app.guardian.model.RequestState
 import com.app.guardian.shareddata.BaseView
-import com.studelicious_user.utils.Config
+import com.app.guardian.utils.Config
+
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
