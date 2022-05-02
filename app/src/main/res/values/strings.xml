@@ -44,6 +44,10 @@
     <string name="code_sent_to_ph_num">A 4 digit code has been sent to \n your phone number</string>
     <string name="verify_otp">Verify OTP</string>
 
+    <!--    subbscription Plan-->
+    <string name="sub_plan">Subscription Plan</string>
+    <string name="subcription">Subscription</string>
+
     <!-- TODO: Validation Message  -->
     <!-- TODO: Place Holders  -->
 

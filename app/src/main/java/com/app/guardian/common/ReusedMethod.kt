@@ -2,6 +2,7 @@ package com.app.guardian.common
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -12,14 +13,19 @@ import android.view.Gravity
 import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup.MarginLayoutParams
+import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
+import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.visible
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textview.MaterialTextView
 
 
 class ReusedMethod {
@@ -147,22 +153,78 @@ class ReusedMethod {
             )
         }
 
+        fun displayMessageDialog(
+            context: Activity,
+            message: String,
+            title: String,
+            isCancelShow: Boolean,
+            posBtnTxt: String,
+            negBtnTxt: String
+        ) {
+            val dialog = Dialog(
+                context,
+                com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+            )
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            dialog.setContentView(R.layout.dialig_layout)
+            dialog.setCancelable(false)
+
+            val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
+            val TITLE = dialog.findViewById<TextView>(R.id.tvTitle)
+            val MESSAGE = dialog.findViewById<TextView>(R.id.tvMessage)
+            val CANCEL = dialog.findViewById<MaterialTextView>(R.id.tvNegative)
+            TITLE.text = title
+            MESSAGE.text = message
+            if (posBtnTxt.isNotEmpty()) {
+                OK.text = posBtnTxt
+            }
+            if (negBtnTxt.isNotEmpty()) {
+                CANCEL.text = negBtnTxt
+            }
+
+            if (isCancelShow) {
+                CANCEL.visible()
+            } else {
+                CANCEL.gone()
+            }
+
+            CANCEL.setOnClickListener {
+                dialog.dismiss()
+            }
+            OK.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialog.show()
+        }
+        fun ShowRedBorders(context: Context,editText: EditText){
+            editText.background = ContextCompat.getDrawable(
+                context,
+                R.drawable.normal_rounded_light_blue_red_borders
+            )
+        }
+        fun ShowNoBorders(context: Context,editText: EditText){
+            editText.background = ContextCompat.getDrawable(
+                context,
+                R.drawable.normal_rounded_light_blue
+            )
+        }
         fun change_edittext_background(context: Activity?, editText: TextInputEditText) {
             editText.onFocusChangeListener =
                 OnFocusChangeListener { p0, isFoucus ->
                     run {
-//                        if (isFoucus) {
-//                            editText.background = ContextCompat.getDrawable(
-//                                context!!,
-//                                R.drawable.normal_rounded_white_back_borders
-//                            )
-//
-//                        } else {
-//                            editText.background = ContextCompat.getDrawable(
-//                                context!!,
-//                                R.drawable.normal_rounded_white_back
-//                            )
-//                        }
+                        if (isFoucus) {
+                            editText.background = ContextCompat.getDrawable(
+                                context!!,
+                                R.drawable.normal_rounded_light_blue_borders
+                            )
+
+                        } else {
+                            editText.background = ContextCompat.getDrawable(
+                                context!!,
+                                R.drawable.normal_rounded_light_blue
+                            )
+                        }
                     }
                 }
 

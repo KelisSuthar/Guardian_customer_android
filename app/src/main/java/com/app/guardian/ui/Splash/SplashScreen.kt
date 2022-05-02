@@ -27,7 +27,7 @@ class SplashScreen : BaseActivity(),View.OnClickListener {
             startActivity(
                 Intent(
                     this@SplashScreen,
-                    ResetPasswordActivity::class.java
+                    SelectRoleScreen::class.java
                 )
             )
 

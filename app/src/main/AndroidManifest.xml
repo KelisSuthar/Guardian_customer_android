@@ -22,9 +22,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Guardian">
         <activity
+            android:name=".ui.SubscriptionPlan.SubScriptionPlanScreen"
+            android:exported="false" />
+        <activity
             android:name=".ui.OTP.OTPScreen"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.SelectRole.SelectRoleScreen"
             android:exported="false"
@@ -52,7 +55,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
