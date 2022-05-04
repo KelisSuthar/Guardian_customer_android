@@ -14,6 +14,8 @@ class SubscriptionPlanAdapter(
     var listeners: onItemClicklisteners
 ) :
     RecyclerView.Adapter<SubscriptionPlanAdapter.myViewHolder>() {
+
+    var subscriptionPlanDetailsAdapter: SubscriptionPlanDetailsAdapter? = null
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -24,7 +26,7 @@ class SubscriptionPlanAdapter(
     }
 
     override fun onBindViewHolder(holder: SubscriptionPlanAdapter.myViewHolder, position: Int) {
-
+        holder.bindItem(position)
     }
 
     override fun getItemCount(): Int {
@@ -34,12 +36,18 @@ class SubscriptionPlanAdapter(
 
     inner class myViewHolder(view: View?) : RecyclerView.ViewHolder(view!!) {
         var btn = view?.findViewById<Button>(R.id.btnSubscription)
+        var rv = view?.findViewById<RecyclerView>(R.id.recyclerView)
         fun bindItem(position: Int) {
             btn?.setOnClickListener {
                 listeners.onSubclick(position)
             }
+            //Set Adapter
+            rv?.adapter = null
+            subscriptionPlanDetailsAdapter = SubscriptionPlanDetailsAdapter(context,arrayList)
+            rv?.adapter = subscriptionPlanDetailsAdapter
         }
     }
+
 
 
     interface onItemClicklisteners {

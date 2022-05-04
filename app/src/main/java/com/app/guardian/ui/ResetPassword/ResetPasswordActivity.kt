@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import com.app.guardian.R
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.extentions.gone
 import com.app.guardian.databinding.ActivityLoginBinding
 import com.app.guardian.databinding.ActivityResetPasswordBinding
 import com.app.guardian.shareddata.base.BaseActivity
@@ -18,6 +19,8 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
 
     override fun initView() {
         mBinding = getBinding()
+        mBinding.headder.ivBack.gone()
+        mBinding.headder.tvHeaderText.text = resources.getString(R.string.reset_password)
     }
 
     override fun initObserver() {
