@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+<!--    <androidx.appcompat.widget.AppCompatImageView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:src="@drawable/ic_no_internet"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintLeft_toRightOf="parent"-->
+<!--        tools:ignore="MissingConstraints" />-->
+
+    <com.google.android.material.textview.MaterialTextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lora_bold"
+        android:text="Ooops!"
+        android:layout_gravity="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/_18sdp" />
+
+    <com.google.android.material.textview.MaterialTextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:fontFamily="@font/lora_semibold"
+        android:text="No Internet Connection Found"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@color/black" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lora_semibold"
+        android:text="Please Check Your Connection"
+        android:layout_gravity="center"
+        android:textColor="@color/black" />
+
+<!--    <androidx.appcompat.widget.AppCompatButton-->
+<!--        android:id="@+id/buttonTryAgain"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_marginHorizontal="@dimen/_20sdp"-->
+<!--        android:layout_marginTop="@dimen/_15sdp"-->
+<!--        android:background="@drawable/ic_green_button"-->
+<!--        android:backgroundTint="@color/colorGreen"-->
+<!--        android:fontFamily="@font/montserrat_bold"-->
+<!--        android:paddingBottom="@dimen/_8sdp"-->
+<!--        android:text="Try Again"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:textColor="@color/colorWhite"-->
+<!--        android:textSize="@dimen/_15sdp"-->
+<!--        android:textStyle="bold" />-->
+
+</LinearLayout>

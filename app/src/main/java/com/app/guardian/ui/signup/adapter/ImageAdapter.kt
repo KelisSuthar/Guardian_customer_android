@@ -1,6 +1,8 @@
 package com.app.guardian.ui.signup.adapter
 
 import android.app.Activity
+import android.graphics.Bitmap
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +13,7 @@ import com.bumptech.glide.Glide
 
 class ImageAdapter(
     var context: Activity,
-    var arrayList: ArrayList<String>,
+    var arrayList: ArrayList<Bitmap>,
     var listeners: onItemClicklisteners
 ) : RecyclerView.Adapter<ImageAdapter.myViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageAdapter.myViewHolder {
@@ -25,8 +27,7 @@ class ImageAdapter(
     }
 
     override fun getItemCount(): Int {
-//        return arrayList.size
-        return 5
+        return arrayList.size
 
     }
 
@@ -35,9 +36,7 @@ class ImageAdapter(
         var cancel = view?.findViewById<ImageView>(R.id.ivCancel)
         fun bindItem(position: Int) {
 //
-//            Glide.with(context)
-//                .load(arrayList[position])
-//                .into(img!!)
+            img?.setImageBitmap(arrayList[position])
             cancel?.setOnClickListener { listeners.onCancelCick(position) }
         }
     }
