@@ -9,6 +9,8 @@ import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
 import android.view.View.OnFocusChangeListener
@@ -143,6 +145,26 @@ class ReusedMethod {
             return null
         }
 
+        fun checkInputs(editText: EditText): Boolean {
+            var isAllEmpty = false
+            editText.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    isAllEmpty = p0?.length == 0
+
+                }
+
+                override fun afterTextChanged(p0: Editable?) {
+
+                }
+
+            })
+            return isAllEmpty
+        }
+
         fun displayMessage(context: Activity, message: String) {
             CustomToast.showToast(
                 context, message,
@@ -197,18 +219,21 @@ class ReusedMethod {
             }
             dialog.show()
         }
-        fun ShowRedBorders(context: Context,editText: EditText){
+
+        fun ShowRedBorders(context: Context, editText: EditText) {
             editText.background = ContextCompat.getDrawable(
                 context,
                 R.drawable.normal_rounded_light_blue_red_borders
             )
         }
-        fun ShowNoBorders(context: Context,editText: EditText){
+
+        fun ShowNoBorders(context: Context, editText: EditText) {
             editText.background = ContextCompat.getDrawable(
                 context,
                 R.drawable.normal_rounded_light_blue
             )
         }
+
         fun change_edittext_background(context: Activity?, editText: TextInputEditText) {
             editText.onFocusChangeListener =
                 OnFocusChangeListener { p0, isFoucus ->

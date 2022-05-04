@@ -7,6 +7,7 @@
     <string name="text_error_timeout">Sorry, We lost you. Please retry!!!</string>
     <string name="text_error_connection">Look a like we lost you for a moment. Please retry!!!</string>
     <string name="internet_message_alert">Please Check Your internet connection</string>
+    <string name="map_api_key">AIzaSyCp1fVDgDOgajG2WGXGX2murW0LE4hWzYQ</string>
 
 
     <!-- TODO: Normal String  -->
@@ -20,11 +21,14 @@
 
     <!--    SignUp screen -->
     <string name="create_acc">Create Account</string>
+    <string name="sign_up">Sign Up</string>
     <string name="signup_to_start">Sign Up to Get Started!</string>
     <string name="upload_doc">Upload Document</string>
     <string name="upload_max_doc">(Maximum Upload 5 Document)</string>
     <string name="profile_pic">Profile Picture</string>
     <string name="upload_doc_ex">(Like : Drivers license, Vehicle Registration, Learners Permit)</string>
+    <string name="do_not_have_an_account_sign_in">Don’t have an account? <b>Sign In</b></string>
+    <string name="t_and_c"><u>Terms &amp; Conditions</u></string>
 
     <!--    Login screen -->
     <string name="welcome_back">Welcome Back!</string>
