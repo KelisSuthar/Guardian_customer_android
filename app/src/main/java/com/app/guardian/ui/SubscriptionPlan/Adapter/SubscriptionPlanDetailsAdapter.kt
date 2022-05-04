@@ -11,7 +11,7 @@ import com.app.guardian.R
 class SubscriptionPlanDetailsAdapter(
     var context: Activity,
     var arrayList: ArrayList<String>,
-    var listeners: onItemClicklisteners
+
 ) :
     RecyclerView.Adapter<SubscriptionPlanDetailsAdapter.myViewHolder>() {
     override fun onCreateViewHolder(
@@ -39,10 +39,8 @@ class SubscriptionPlanDetailsAdapter(
     }
 
     override fun onBindViewHolder(holder: myViewHolder, position: Int) {
-
+        holder.bindItem(position)
     }
 
-    interface onItemClicklisteners {
-        fun itemClick(position: Int)
-    }
+
 }

@@ -12,6 +12,7 @@ import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.OTP.OTPScreen
 import com.app.guardian.ui.ResetPassword.ResetPasswordActivity
 import com.app.guardian.ui.SelectRole.SelectRoleScreen
+import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
 import com.google.android.gms.actions.ReserveIntents
 
 class SplashScreen : BaseActivity(),View.OnClickListener {
