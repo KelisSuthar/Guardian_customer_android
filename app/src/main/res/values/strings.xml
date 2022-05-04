@@ -17,10 +17,18 @@
     <string name="sign_in">Sign In</string>
     <string name="email">Email</string>
     <string name="phone">Phone</string>
+
+    <!--    SignUp screen -->
+    <string name="create_acc">Create Account</string>
+    <string name="signup_to_start">Sign Up to Get Started!</string>
+    <string name="upload_doc">Upload Document</string>
+    <string name="upload_max_doc">(Maximum Upload 5 Document)</string>
+    <string name="profile_pic">Profile Picture</string>
+    <string name="upload_doc_ex">(Like : Drivers license, Vehicle Registration, Learners Permit)</string>
+
     <!--    Login screen -->
     <string name="welcome_back">Welcome Back!</string>
     <string name="enter_your_credentials_to_continue">Enter your credentials to continue</string>
-
     <string name="forgot_your_password_underline"><u>Forgot your password?</u></string>
     <string name="do_not_have_an_account">Don’t have an account? <b>Sign Up</b></string>
 
@@ -54,5 +62,16 @@
 
     <!-- login-->
     <string name="email_or_phone">Email or Phone</string>
+
+    <!-- SignUp Screen-->
+    <string name="fullname">Full Name</string>
+<!--    <string name="email">Email</string>-->
+    <string name="mo_num">Mobile Number</string>
+<!--    <string name="password">Password</string>-->
+    <string name="con_pass">Confirm Password</string>
+    <string name="provience_state">Province/State</string>
+    <string name="postal_code">Postal Code/Zip Code</string>
+    <string name="licence_num">Licence Plate No. for Car</string>
+
 
 </resources>
