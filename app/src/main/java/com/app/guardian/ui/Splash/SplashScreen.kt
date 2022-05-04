@@ -13,6 +13,7 @@ import com.app.guardian.ui.OTP.OTPScreen
 import com.app.guardian.ui.ResetPassword.ResetPasswordActivity
 import com.app.guardian.ui.SelectRole.SelectRoleScreen
 import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
+import com.app.guardian.ui.signup.SignupScreen
 import com.google.android.gms.actions.ReserveIntents
 
 class SplashScreen : BaseActivity(),View.OnClickListener {
@@ -28,7 +29,7 @@ class SplashScreen : BaseActivity(),View.OnClickListener {
             startActivity(
                 Intent(
                     this@SplashScreen,
-                    SelectRoleScreen::class.java
+                    SignupScreen::class.java
                 )
             )
 

@@ -73,6 +73,11 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.leftto, R.anim.right)
+    }
+
     fun initProgressBar() {
         dialog = Dialog(this)
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
