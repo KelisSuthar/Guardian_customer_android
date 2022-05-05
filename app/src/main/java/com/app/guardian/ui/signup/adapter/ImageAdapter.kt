@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 
 class ImageAdapter(
     var context: Activity,
-    var arrayList: ArrayList<Bitmap>,
+    var arrayList: ArrayList<String>,
     var listeners: onItemClicklisteners
 ) : RecyclerView.Adapter<ImageAdapter.myViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageAdapter.myViewHolder {
@@ -36,7 +36,10 @@ class ImageAdapter(
         var cancel = view?.findViewById<ImageView>(R.id.ivCancel)
         fun bindItem(position: Int) {
 //
-            img?.setImageBitmap(arrayList[position])
+//            img?.setImageBitmap(arrayList[position])
+            Glide.with(context)
+                .load(arrayList[position])
+                .into(img!!)
             cancel?.setOnClickListener { listeners.onCancelCick(position) }
         }
     }

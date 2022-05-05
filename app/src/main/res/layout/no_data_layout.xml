@@ -5,35 +5,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center"
+    >
 
-<!--    <androidx.appcompat.widget.AppCompatImageView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:src="@drawable/ic_no_data"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent"-->
-<!--        app:layout_constraintLeft_toRightOf="parent"-->
-<!--        tools:ignore="MissingConstraints" />-->
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_no_data"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvopps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/lora_bold"
+        android:text="Oops!"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/_28ssp" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvNodataTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:fontFamily="@font/lora_bold"
+        android:fontFamily="@font/lora_regular"
         android:text="No Data Found"
+        android:layout_marginTop="@dimen/_10sdp"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="@dimen/_18sdp" />
+        android:textSize="@dimen/_18ssp" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvNodatadesc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:fontFamily="@font/lora_semibold"
-        android:text="There is no data to show you \n right now"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textColor="@color/black" />
+
 
 </LinearLayout>

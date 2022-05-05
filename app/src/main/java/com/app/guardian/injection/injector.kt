@@ -25,6 +25,8 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 val viewModelModule = module {
@@ -45,6 +47,7 @@ fun provideHttpLogging(): OkHttpClient {
         if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
     return OkHttpClient.Builder()
         .addNetworkInterceptor(AddHeaderInterceptor())
+
         .connectTimeout(60, TimeUnit.SECONDS)
         .readTimeout(60, TimeUnit.SECONDS)
         .writeTimeout(60, TimeUnit.SECONDS)
@@ -64,29 +67,37 @@ fun provideRetrofit(client: OkHttpClient): Retrofit {
 class AddHeaderInterceptor : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
+        val fmt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val currentTime: Date = Calendar.getInstance().time
+        val date = fmt.format(currentTime)
         val builder = chain.request().newBuilder()
         val apikey: String? = SharedPreferenceManager.getString(API_KEY_VALUE, STATIC_API_KEY)
 
         val accessToken: String? = SharedPreferenceManager.getString(ACCESS_TOKEN, "")
-        val userRole: String? = SharedPreferenceManager.getString(USER_ROLE, "User")
+        val userRole: String? = SharedPreferenceManager.getString(USER_ROLE, "user")
         val userID: String? = SharedPreferenceManager.getString(LOGGED_IN_USER_ID, "-1")!!
 
-        if (apikey == STATIC_API_KEY) builder.addHeader(
-            "xapikey",
-            "" + apikey
-        ) else builder.addHeader("apikey", "" + apikey)
-        if (accessToken != "") builder.addHeader("accesstoken", "" + accessToken)
+//        if (apikey == STATIC_API_KEY) builder.addHeader(
+//            "xapikey",
+//            "" + apikey
+//        ) else builder.addHeader("apikey", "" + apikey)
+//        if (accessToken != "") builder.addHeader("accesstoken", "" + accessToken)
 //        if (!userID.equals("-1")) builder.addHeader("userid", "" + userID)
-        if (!userID.equals("-1")) builder.addHeader("userID", "" + userID)
-//        builder.addHeader("userrole", userRole.toString())
-        builder.addHeader("role", userRole.toString())
+//        if (!userID.equals("-1")) builder.addHeader("userID", "" + userID)
+        builder.addHeader("userrole", userRole.toString())
+//        builder. header("Authorization", "$tokenType $acceessToken")
+//        builder.addHeader("role", userRole.toString())
 //        builder.addHeader("Devicetype", "android")
-        builder.addHeader("devicetype", "android")
+        builder.addHeader("device_type", "android")
+        builder.addHeader("local_datetime", date)
+
+
 
         ShowLogToast.ShowLog("http Apikey -->$apikey")
         ShowLogToast.ShowLog("http accesstoken -->$accessToken")
         ShowLogToast.ShowLog("http userID -->$userID")
         ShowLogToast.ShowLog("http role -->$userRole")
+        ShowLogToast.ShowLog("http userID -->$userID")
         ShowLogToast.ShowLog("http userID -->$userID")
         return chain.proceed(builder.build())
     }

@@ -20,6 +20,7 @@
     <string name="sign_in">Sign In</string>
     <string name="email">Email</string>
     <string name="phone">Phone</string>
+    <string name="refresh">Refresh</string>
 
     <!--    SignUp screen -->
     <string name="create_acc">Create Account</string>
@@ -57,6 +58,7 @@
     <string name="enter_otp">Enter OTP</string>
     <string name="code_sent_to_email">A 4 digit code has been sent to \n your mail id</string>
     <string name="code_sent_to_ph_num">A 4 digit code has been sent to \n your phone number</string>
+    <string name="dont_recieve_otp_resend_otp">Don\'t receive the OTP?<b> Resend OTP</b></string>
     <string name="verify_otp">Verify OTP</string>
 
     <!--    subbscription Plan-->

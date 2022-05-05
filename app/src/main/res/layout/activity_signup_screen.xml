@@ -10,19 +10,31 @@
         tools:context=".ui.signup.SignupScreen">
 
         <include
-            android:id="@+id/headder"
-            layout="@layout/headder_layout"
-            android:visibility="gone" />
+            android:id="@+id/headderSignUp"
+            layout="@layout/headder_layout" />
+
+        <include
+            android:id="@+id/noDataSignup"
+            layout="@layout/no_data_layout"
+            android:visibility="gone"
+            />
+
+        <include
+            android:id="@+id/noInternetSignUp"
+            layout="@layout/no_internet_connection_layout"
+            android:visibility="gone"
+            />
 
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nsSignUp"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/headder"
+            app:layout_constraintTop_toBottomOf="@+id/headderSignUp"
             app:layout_constraintVertical_bias="0.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -103,6 +115,7 @@
                         android:drawableLeft="@drawable/ic_profile"
                         android:fontFamily="@font/lora_regular"
                         android:hint="@string/fullname"
+                        android:maxLength="35"
                         android:inputType="textEmailAddress"
                         android:textFontWeight="400"
                         android:textSize="@dimen/_12ssp" />
@@ -121,19 +134,48 @@
                         android:textFontWeight="400"
                         android:textSize="@dimen/_12ssp" />
 
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp">
+
+                        <com.rilixtech.widget.countrycodepicker.CountryCodePicker
+                            android:id="@+id/ccp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center|left"
+                            app:ccp_textSize="@dimen/_10ssp"
+                            android:layout_marginLeft="@dimen/_23sdp"
+                            android:gravity="center"
+                            app:ccp_defaultCode="1"
+                            app:ccp_setCountryByTimeZone="true"
+                            android:elevation="@dimen/_10sdp"
+                            app:ccp_backgroundColor="@color/transparent"
+                            app:ccp_dialogTextColor="@color/black"
+                            app:ccp_hideNameCode="true"
+                            app:ccp_hidePhoneCode="false"
+                            app:ccp_keyboardAutoPopOnSearch="false"
+                            app:ccp_showFlag="false"
+
+                            app:ccp_showFullName="false"
+                            app:ccp_textColor="@color/black" />
+
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtMobileNum"
                         style="@style/White_edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:drawablePadding="@dimen/_35sdp"
                         android:drawableLeft="@drawable/ic_mobile"
                         android:fontFamily="@font/lora_regular"
                         android:hint="@string/mo_num"
-                        android:maxLength="10"
                         android:inputType="number"
+                        android:maxLength="10"
                         android:textFontWeight="400"
                         android:textSize="@dimen/_12ssp" />
+
+                    </FrameLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/textInputLayout1"
@@ -189,10 +231,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:drawableLeft="@drawable/ic_map"
+                        android:focusable="false"
                         android:fontFamily="@font/lora_regular"
                         android:hint="@string/provience_state"
                         android:inputType="text"
-                        android:focusable="false"
                         android:textFontWeight="400"
                         android:textSize="@dimen/_12ssp" />
 
@@ -203,10 +245,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:drawableLeft="@drawable/ic_map_pin"
+                        android:focusable="false"
                         android:fontFamily="@font/lora_regular"
                         android:hint="@string/postal_code"
                         android:inputType="text"
-                        android:focusable="false"
                         android:textFontWeight="400"
                         android:textSize="@dimen/_12ssp" />
 
@@ -231,6 +273,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_15sdp"
                     android:orientation="vertical"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ll2">
 
                     <LinearLayout
@@ -267,110 +311,119 @@
 
                     </LinearLayout>
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/upload_doc_ex"
-                        android:textAlignment="center"
-                        android:textColor="@color/txt_dark"
-                        android:textFontWeight="400"
+                        android:layout_height="wrap_content">
 
-                        android:textSize="@dimen/_6ssp"
-                        app:layout_constraintTop_toBottomOf="@+id/txtWelcomeBack" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/upload_doc_ex"
+                            android:textAlignment="center"
+                            android:textColor="@color/txt_dark"
+                            android:textFontWeight="400"
+
+                            android:textSize="@dimen/_6ssp"
+                            app:layout_constraintTop_toBottomOf="@+id/txtWelcomeBack" />
+                    </LinearLayout>
 
                     <HorizontalScrollView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="@dimen/_10sdp"
                         android:scrollbars="none">
-                        <LinearLayout
+
+
+                        <RelativeLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:orientation="horizontal">
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rvImage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:nestedScrollingEnabled="false"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            />
 
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/ivAddImage"
-                            android:layout_width="@dimen/_80sdp"
-                            android:layout_height="@dimen/_80sdp"
-                            android:layout_marginHorizontal="@dimen/_5sdp"
-                            android:layout_marginVertical="@dimen/_10sdp"
-                            app:cardCornerRadius="@dimen/_10ssp">
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvImage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:nestedScrollingEnabled="false"
+                                android:orientation="horizontal"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                tools:listitem="@layout/image_layout" />
 
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
 
-                                <androidx.appcompat.widget.AppCompatImageView
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/ivAddImage"
+                                android:layout_width="@dimen/_80sdp"
+                                android:layout_height="@dimen/_80sdp"
+                                android:layout_marginHorizontal="@dimen/_5sdp"
+                                android:layout_marginVertical="@dimen/_10sdp"
+                                android:layout_toRightOf="@+id/rvImage"
+                                app:cardCornerRadius="@dimen/_10ssp">
 
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/ic_big_plus"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintLeft_toLeftOf="parent"
-                                    app:layout_constraintRight_toRightOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
 
-                            </androidx.constraintlayout.widget.ConstraintLayout>
+                                    <androidx.appcompat.widget.AppCompatImageView
 
-                        </com.google.android.material.card.MaterialCardView>
-                        </LinearLayout>
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/ic_big_plus"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintLeft_toLeftOf="parent"
+                                        app:layout_constraintRight_toRightOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            </com.google.android.material.card.MaterialCardView>
+
+                        </RelativeLayout>
 
                     </HorizontalScrollView>
-
-
-
                 </LinearLayout>
+
+
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnSigUp"
                     style="@style/blue_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/sign_up"
-                    android:layout_marginTop="@dimen/_20sdp"
                     android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="@string/sign_up"
                     app:layout_constraintTop_toBottomOf="@+id/ll3" />
 
                 <TextView
                     android:id="@+id/txtDoNotHaveAccount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
                     android:fontFamily="@font/lora_regular"
+                    android:gravity="center"
+                    android:padding="@dimen/_5sdp"
                     android:text="@string/do_not_have_an_account_sign_in"
                     android:textAlignment="gravity"
-                    android:gravity="center"
                     android:textColor="@color/txt_dark"
                     android:textFontWeight="400"
                     android:textSize="@dimen/_12ssp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:padding="@dimen/_5sdp"
-                    app:layout_constraintTop_toBottomOf="@+id/btnSigUp"/>
+                    app:layout_constraintTop_toBottomOf="@+id/btnSigUp" />
 
                 <TextView
                     android:id="@+id/txtTermsAndConditions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
                     android:fontFamily="@font/lora_regular"
+                    android:gravity="center"
+                    android:padding="@dimen/_5sdp"
                     android:text="@string/t_and_c"
                     android:textAlignment="gravity"
-                    android:gravity="center"
                     android:textColor="@color/txt_dark"
                     android:textFontWeight="400"
                     android:textSize="@dimen/_12ssp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:padding="@dimen/_5sdp"
-                    app:layout_constraintTop_toBottomOf="@+id/txtDoNotHaveAccount"/>
+                    app:layout_constraintTop_toBottomOf="@+id/txtDoNotHaveAccount" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

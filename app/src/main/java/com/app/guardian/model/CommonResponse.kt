@@ -6,12 +6,12 @@ import com.google.gson.annotations.SerializedName
 
 data class CommonResponse(
         @SerializedName("status")
-        var status: Int?,
+        var status: Boolean?,
         @SerializedName("message")
         var message: String?
 ) : Parcelable {
         constructor(parcel: Parcel) : this(
-                parcel.readValue(Int::class.java.classLoader) as? Int,
+                parcel.readValue(Int::class.java.classLoader) as? Boolean,
                 parcel.readString()
         ) {
         }

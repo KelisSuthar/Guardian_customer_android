@@ -2,22 +2,37 @@ package com.app.guardian.common
 
 interface ValidationView {
     interface LoginView {
-        fun email()
+//        fun email()
         fun emailValidation()
-        fun passwordValidation()
+//        fun passwordValidation()
+fun numberValidation()
         fun passwordMinValidation()
         fun passwordSpecialValidation()
         fun success()
+
     }
 
     interface SignUp {
 
-        fun email_empty()
+//        fun email_empty()
+fun profileImgValidations()
+        fun fulllNameValidation()
         fun emailValidation()
-        fun password_empty()
-        fun passwordMinValidation()
-        fun passwordSpecialValidation()
+        fun moNumberValidation()
+//        fun password_empty()
+        fun newpasswordMinValidation()
+        fun conpasswordMinValidation()
+        fun newpasswordSpecialValidation()
+        fun confpasswordSpecialValidation()
+
+        fun matchPassowrds()
+        fun licencPlatevalidations()
+        fun licencPlateLength()
+        fun docValidations()
         fun success()
+
+
+
     }
 
     interface CreateProile {
@@ -40,16 +55,18 @@ interface ValidationView {
     }
 
     interface ForgotPass {
-        fun email()
+//        fun email()
         fun emailValidation()
+        fun phoneValidation()
         fun success()
+
     }
 
-    interface NewPass {
-        fun passwordValidation()
+    interface RestPass {
+//        fun passwordValidation()
         fun passwordMinValidation()
         fun passwordSpecialValidation()
-        fun confirmPass()
+//        fun confirmPass()
         fun con_passwordMinValidation()
         fun con_passwordSpecialValidation()
         fun comparePass()
