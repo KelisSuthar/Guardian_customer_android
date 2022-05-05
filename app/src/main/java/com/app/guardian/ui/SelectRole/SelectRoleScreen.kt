@@ -17,12 +17,12 @@ import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.forgot.ForgotPasswordActivity
 
-class SelectRoleScreen : BaseActivity(),View.OnClickListener {
-    lateinit var mBinding:ActivitySelectRoleScreenBinding
-    var selectedRole :String = ""
+class SelectRoleScreen : BaseActivity(), View.OnClickListener {
+    lateinit var mBinding: ActivitySelectRoleScreenBinding
+    var selectedRole: String = ""
     override fun getResource(): Int {
         ReusedMethod.updateStatusBarColor(this, R.color.colorPrimaryDark, 4)
-        return  R.layout.activity_select_role_screen
+        return R.layout.activity_select_role_screen
     }
 
     override fun initView() {
@@ -48,27 +48,26 @@ class SelectRoleScreen : BaseActivity(),View.OnClickListener {
     }
 
     override fun onClick(p0: View?) {
-        when(p0?.id)
-        {
-            R.id.rl1->{
+        when (p0?.id) {
+            R.id.rl1 -> {
                 changeLayout(1)
             }
-            R.id.rl2->{
+            R.id.rl2 -> {
                 changeLayout(2)
             }
-            R.id.rl3->{
+            R.id.rl3 -> {
                 changeLayout(3)
             }
-            R.id.rb1->{
+            R.id.rb1 -> {
                 changeLayout(1)
             }
-            R.id.rb2->{
+            R.id.rb2 -> {
                 changeLayout(2)
             }
-            R.id.rb3->{
+            R.id.rb3 -> {
                 changeLayout(3)
             }
-            R.id.btnSubmit->{
+            R.id.btnSubmit -> {
                 when {
                     mBinding.rb1.isChecked -> {
                         startActivity(
@@ -80,13 +79,13 @@ class SelectRoleScreen : BaseActivity(),View.OnClickListener {
                         overridePendingTransition(R.anim.rightto, R.anim.left)
                     }
                     mBinding.rb2.isChecked -> {
-
+                        displayMessageDialog(this, "", "Coming Soon!!", false, "Ok", "")
                     }
                     mBinding.rb3.isChecked -> {
-
+                        displayMessageDialog(this, "", "Coming Soon!!", false, "Ok", "")
                     }
                     else -> {
-                        displayMessageDialog(this,"","Please Select",false,"Cancel","")
+                        displayMessageDialog(this, "", "Please Select", false, "Cancel", "")
                     }
                 }
             }
@@ -96,16 +95,26 @@ class SelectRoleScreen : BaseActivity(),View.OnClickListener {
     private fun changeLayout(i: Int) {
         when (i) {
             1 -> {
-                mBinding.rl1.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
+                mBinding.rl1.setBackgroundColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.colorPrimaryDark
+                    )
+                )
                 mBinding.rl2.setBackgroundColor(ContextCompat.getColor(this, R.color.lightBlue_2))
                 mBinding.rl3.setBackgroundColor(ContextCompat.getColor(this, R.color.lightBlue_2))
                 mBinding.rb1.isChecked = true
                 mBinding.rb2.isChecked = false
                 mBinding.rb3.isChecked = false
-                mBinding.rb1.setTextColor( ContextCompat.getColor(this,R.color.white))
-                mBinding.rb2.setTextColor( ContextCompat.getColor(this,R.color.black))
-                mBinding.rb3.setTextColor( ContextCompat.getColor(this,R.color.black))
-                mBinding.rb1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_user_selected, 0, 0, 0);
+                mBinding.rb1.setTextColor(ContextCompat.getColor(this, R.color.white))
+                mBinding.rb2.setTextColor(ContextCompat.getColor(this, R.color.black))
+                mBinding.rb3.setTextColor(ContextCompat.getColor(this, R.color.black))
+                mBinding.rb1.setCompoundDrawablesWithIntrinsicBounds(
+                    R.drawable.ic_user_selected,
+                    0,
+                    0,
+                    0
+                );
                 mBinding.rb2.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_user, 0, 0, 0);
                 mBinding.rb3.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_user, 0, 0, 0);
                 selectedRole = ""
@@ -113,31 +122,51 @@ class SelectRoleScreen : BaseActivity(),View.OnClickListener {
             }
             2 -> {
                 mBinding.rl1.setBackgroundColor(ContextCompat.getColor(this, R.color.lightBlue_2))
-                mBinding.rl2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
+                mBinding.rl2.setBackgroundColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.colorPrimaryDark
+                    )
+                )
                 mBinding.rl3.setBackgroundColor(ContextCompat.getColor(this, R.color.lightBlue_2))
                 mBinding.rb1.isChecked = false
                 mBinding.rb2.isChecked = true
                 mBinding.rb3.isChecked = false
-                mBinding.rb1.setTextColor( ContextCompat.getColor(this,R.color.black))
-                mBinding.rb2.setTextColor( ContextCompat.getColor(this,R.color.white))
-                mBinding.rb3.setTextColor( ContextCompat.getColor(this,R.color.black))
+                mBinding.rb1.setTextColor(ContextCompat.getColor(this, R.color.black))
+                mBinding.rb2.setTextColor(ContextCompat.getColor(this, R.color.white))
+                mBinding.rb3.setTextColor(ContextCompat.getColor(this, R.color.black))
                 mBinding.rb1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_user, 0, 0, 0);
-                mBinding.rb2.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_user_selected, 0, 0, 0);
+                mBinding.rb2.setCompoundDrawablesWithIntrinsicBounds(
+                    R.drawable.ic_user_selected,
+                    0,
+                    0,
+                    0
+                );
                 mBinding.rb3.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_user, 0, 0, 0);
             }
             3 -> {
                 mBinding.rl1.setBackgroundColor(ContextCompat.getColor(this, R.color.lightBlue_2))
                 mBinding.rl2.setBackgroundColor(ContextCompat.getColor(this, R.color.lightBlue_2))
-                mBinding.rl3.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
+                mBinding.rl3.setBackgroundColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.colorPrimaryDark
+                    )
+                )
                 mBinding.rb1.isChecked = false
                 mBinding.rb2.isChecked = false
                 mBinding.rb3.isChecked = true
-                mBinding.rb1.setTextColor( ContextCompat.getColor(this,R.color.black))
-                mBinding.rb2.setTextColor( ContextCompat.getColor(this,R.color.black))
-                mBinding.rb3.setTextColor( ContextCompat.getColor(this,R.color.white))
+                mBinding.rb1.setTextColor(ContextCompat.getColor(this, R.color.black))
+                mBinding.rb2.setTextColor(ContextCompat.getColor(this, R.color.black))
+                mBinding.rb3.setTextColor(ContextCompat.getColor(this, R.color.white))
                 mBinding.rb1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_user, 0, 0, 0);
                 mBinding.rb2.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_user, 0, 0, 0);
-                mBinding.rb3.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_user_selected, 0, 0, 0);
+                mBinding.rb3.setCompoundDrawablesWithIntrinsicBounds(
+                    R.drawable.ic_user_selected,
+                    0,
+                    0,
+                    0
+                );
 
             }
         }

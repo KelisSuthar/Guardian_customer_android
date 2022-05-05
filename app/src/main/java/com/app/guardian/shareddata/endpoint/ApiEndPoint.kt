@@ -14,11 +14,23 @@ interface ApiEndPoint {
     @GET("apikey")
     fun getKey(): Call<CommonResponseModel<KeyData>>
 
-    @POST("signup")
+    @POST("createAccount")
     fun doSignIn(@Body jsonObject: JsonObject): Call<CommonResponseModel<LoginResp>>
 
-    @POST("login")
+    @POST("signIn")
     fun doLogIn(@Body jsonObject: JsonObject): Call<CommonResponseModel<LoginResp>>
+
+    @POST("forgotPassword")
+    fun forGotPass(@Body jsonObject: JsonObject): Call<CommonResponseModel<LoginResp>>
+
+    @POST("verifyFPOTP")
+    fun verifyOTP(@Body jsonObject: JsonObject): Call<CommonResponseModel<LoginResp>>
+
+    @POST("resetPassword")
+    fun resetPass(@Body jsonObject: JsonObject): Call<CommonResponseModel<LoginResp>>
+
+    @POST("signOut")
+    fun signOut(@Body jsonObject: JsonObject): Call<CommonResponseModel<LoginResp>>
 
 
 

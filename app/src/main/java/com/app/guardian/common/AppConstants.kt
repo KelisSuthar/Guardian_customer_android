@@ -47,10 +47,13 @@ object AppConstants {
     const val EXTRA_OTHERS = "Others"
     const val EXTRA_ITEM_ADDED = "Item added in cart successfully"
     const val EXTRA_ITEM_REMOVED = "Item removed successfully"
-    const val EXTRA_FINE_PERMISIION = 100
-    const val EXTRA_COURSE_PERMISIION = 101
+    const val EXTRA_FINE_PERMISSION = 100
+    const val EXTRA_COURSE_PERMISSION = 101
     const val EXTRA_STORAGE_PERMISSION = 102
     const val EXTRA_CALL_PERMISSION = 103
+    const val EXTRA_CAMERA_PERMISSION = 104
+    const val EXTRA_READ_PERMISSION = 105
+    const val EXTRA_WRITE_PERMISSION = 106
     const val EXTRA_TOTAL_CART_ITEM_COUNT = "TOTAL_ITEM_COUNT"
     const val EXTRA_ASCENDING = "asc"
     const val EXTRA_DESCENDING = "desc"

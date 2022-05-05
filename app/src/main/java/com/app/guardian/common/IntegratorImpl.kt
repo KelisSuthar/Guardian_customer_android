@@ -5,45 +5,84 @@ import android.text.TextUtils
 object IntegratorImpl {
 
     fun isValidLogin(
-        email: String,
+        is_email: Boolean,
+        email_number: String,
         password: String,
         ValidationView: ValidationView.LoginView
     ) {
-        if (TextUtils.isEmpty(email)) {
-            ValidationView.email()
-        } else if (!SmartUtils.emailValidator(email)) {
-            ValidationView.emailValidation()
-        } else if (TextUtils.isEmpty(password)) {
-            ValidationView.passwordValidation()
-        } else if (password.length < 8) {
-            ValidationView.passwordMinValidation()
-        } else if (!SmartUtils.checkSpecialPasswordValidation(password)) {
-            ValidationView.passwordSpecialValidation()
+//        if (TextUtils.isEmpty(email_number)) {
+//            ValidationView.email()
+        if (is_email) {
+            if (!SmartUtils.emailValidator(email_number)) {
+                ValidationView.emailValidation()
+//            } else if (TextUtils.isEmpty(password)) {
+//                ValidationView.passwordValidation()
+            } else if (password.length < 8) {
+                ValidationView.passwordMinValidation()
+            } else if (!SmartUtils.checkSpecialPasswordValidation(password)) {
+                ValidationView.passwordSpecialValidation()
+            } else {
+                ValidationView.success()
+            }
         } else {
-            ValidationView.success()
+            if (email_number.length < 10) {
+                ValidationView.numberValidation()
+//            } else if (TextUtils.isEmpty(password)) {
+//                ValidationView.passwordValidation()
+            } else if (password.length < 8) {
+                ValidationView.passwordMinValidation()
+            } else if (!SmartUtils.checkSpecialPasswordValidation(password)) {
+                ValidationView.passwordSpecialValidation()
+            } else {
+                ValidationView.success()
+            }
         }
+
     }
 
     fun isValidSignUp(
-
-
+        profile_img: String,
+        fullName: String,
         email: String,
+        mobile: String,
 
-        password: String,
+        newpassword: String,
+        conpassword: String,
+        provience: String,
+        postal_code: String,
+        licence_plate: String,
+        documentList: ArrayList<String>,
 
         ValidationView: ValidationView.SignUp
     ) {
 
-       if (TextUtils.isEmpty(email)) {
-            ValidationView.email_empty()
+//       if (TextUtils.isEmpty(email)) {
+//            ValidationView.email_empty()
+//        } else
+        if (profile_img == "") {
+            ValidationView.profileImgValidations()
+        } else if (fullName.length > 35 || fullName.length < 3) {
+            ValidationView.fulllNameValidation()
         } else if (!SmartUtils.emailValidator(email)) {
             ValidationView.emailValidation()
-        } else if (TextUtils.isEmpty(password)) {
-            ValidationView.password_empty()
-        } else if (password.length < 8) {
-            ValidationView.passwordMinValidation()
-        } else if (!SmartUtils.checkSpecialPasswordValidation(password)) {
-            ValidationView.passwordSpecialValidation()
+        } else if (mobile.length < 10) {
+            ValidationView.moNumberValidation()
+        } else if (newpassword.length < 8) {
+            ValidationView.newpasswordMinValidation()
+        } else if (!SmartUtils.checkSpecialPasswordValidation(newpassword)) {
+            ValidationView.newpasswordSpecialValidation()
+        } else if (conpassword.length < 8) {
+            ValidationView.conpasswordMinValidation()
+        } else if (!SmartUtils.checkSpecialPasswordValidation(conpassword)) {
+            ValidationView.confpasswordSpecialValidation()
+        } else if (newpassword != conpassword) {
+            ValidationView.matchPassowrds()
+        } else if (licence_plate.length < 15) {
+            ValidationView.licencPlateLength()
+        } else if (licence_plate.contains("[A-Za-z0-9-]")) {
+            ValidationView.licencPlatevalidations()
+        } else if (documentList.size == 0) {
+            ValidationView.docValidations()
         } else {
             ValidationView.success()
         }
@@ -88,28 +127,45 @@ object IntegratorImpl {
         }
     }
 
-    fun isValidForgotPass(email: String, ValidationView: ValidationView.ForgotPass) {
-
-        if (TextUtils.isEmpty(email)) {
-            ValidationView.email()
-        } else if (!SmartUtils.emailValidator(email)) {
-            ValidationView.emailValidation()
+    fun isValidForgotPass(
+        isEmail: Boolean,
+        email_phone: String,
+        ValidationView: ValidationView.ForgotPass
+    ) {
+        if (isEmail) {
+            if (!SmartUtils.emailValidator(email_phone)) {
+                ValidationView.emailValidation()
+            } else {
+                ValidationView.success()
+            }
         } else {
-            ValidationView.success()
+            if (email_phone.length < 10) {
+                ValidationView.phoneValidation()
+            } else {
+                ValidationView.success()
+            }
         }
+
     }
 
-    fun isValidNewPass(password: String, conPass: String, ValidationView: ValidationView.NewPass) {
+    fun isValidResetPass(
+        password: String,
+        conPass: String,
+        ValidationView: ValidationView.RestPass
+    ) {
 
-        if (TextUtils.isEmpty(password)) {
-            ValidationView.passwordValidation()
-        } else if (password.length < 6) {
+//        if (TextUtils.isEmpty(password)) {
+//            ValidationView.passwordValidation()
+//        } else
+        if (password.length < 8) {
             ValidationView.passwordMinValidation()
         } else if (!SmartUtils.checkSpecialPasswordValidation(password)) {
             ValidationView.passwordSpecialValidation()
-        } else if (TextUtils.isEmpty(conPass)) {
-            ValidationView.confirmPass()
-        } else if (conPass.length < 6) {
+        }
+//            else if (TextUtils.isEmpty(conPass)) {
+//            ValidationView.confirmPass()
+//        }
+        else if (conPass.length < 8) {
             ValidationView.con_passwordMinValidation()
         } else if (!SmartUtils.checkSpecialPasswordValidation(conPass)) {
             ValidationView.con_passwordSpecialValidation()
@@ -213,12 +269,11 @@ object IntegratorImpl {
             ValidationView.city()
         } else if (City.length < 2 || City.length > 20) {
             ValidationView.city_length()
-        }else if (TextUtils.isEmpty(country)) {
+        } else if (TextUtils.isEmpty(country)) {
             ValidationView.country()
         } else if (country.length < 2 || country.length > 20) {
             ValidationView.country()
-        }
-        else if (TextUtils.isEmpty(postal_code)) {
+        } else if (TextUtils.isEmpty(postal_code)) {
             ValidationView.postal_code()
         } else if (postal_code.length < 3 || postal_code.length > 9) {
             ValidationView.postal_code_length()
@@ -280,7 +335,7 @@ object IntegratorImpl {
             ValidationView.bedRoomprice_length()
         } else if (TextUtils.isEmpty(about_room)) {
             ValidationView.aboutRoom()
-        } else if (about_room.length < 3 ) {
+        } else if (about_room.length < 3) {
             ValidationView.aboutRoom_length()
         } else if (property_type_id == -1) {
             ValidationView.property_Type_id()
@@ -300,9 +355,9 @@ object IntegratorImpl {
             ValidationView.email()
         } else if (!SmartUtils.emailValidator(email)) {
             ValidationView.emailValidation()
-        }else if (TextUtils.isEmpty(desc)) {
-                ValidationView.desc()
-        }else if (desc.length<3) {
+        } else if (TextUtils.isEmpty(desc)) {
+            ValidationView.desc()
+        } else if (desc.length < 3) {
             ValidationView.desc_length()
         } else if (TextUtils.isEmpty(h_rules)) {
             ValidationView.h_rules()
@@ -395,13 +450,13 @@ object IntegratorImpl {
         restRate: Int,
         ValidationView: ValidationView.AddReviews
     ) {
-        if(booleanExtra){
-            if(itemRate == 0){
+        if (booleanExtra) {
+            if (itemRate == 0) {
                 ValidationView.item_rate()
-            }else{
+            } else {
                 ValidationView.success()
             }
-        }else{
+        } else {
             when {
                 itemRate == 0 -> {
                     ValidationView.item_rate()
@@ -416,7 +471,11 @@ object IntegratorImpl {
         }
     }
 
-    fun addAppReview(rattings: String, reviews: String, addAppReviews: ValidationView.AddAppReviews) {
+    fun addAppReview(
+        rattings: String,
+        reviews: String,
+        addAppReviews: ValidationView.AddAppReviews
+    ) {
         when {
             rattings.equals("0.0") -> {
                 addAppReviews.rattings()

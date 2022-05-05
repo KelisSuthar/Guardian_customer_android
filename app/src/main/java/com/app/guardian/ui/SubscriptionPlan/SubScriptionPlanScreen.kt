@@ -20,6 +20,7 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener {
 
     override fun initView() {
         mBinding = getBinding()
+        mBinding.headderSubscritpion.tvHeaderText.text = resources.getString(R.string.sub_plan)
         setAdapter()
     }
 
@@ -41,12 +42,18 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener {
 
     }
 
-    override fun handleListener() {
 
+    override fun handleListener() {
+        mBinding.headderSubscritpion.ivBack.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
-
+        when (p0?.id) {
+            R.id.ivBack -> {
+                onBackPressed()
+                overridePendingTransition(R.anim.leftto, R.anim.right)
+            }
+        }
     }
 
 }

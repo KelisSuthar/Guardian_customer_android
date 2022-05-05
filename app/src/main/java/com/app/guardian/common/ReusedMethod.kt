@@ -90,7 +90,7 @@ class ReusedMethod {
             return false
         }
 
-        private fun isInternetAvailable(context: Context): Boolean {
+         fun isInternetAvailable(context: Context): Boolean {
             var result = false
             val connectivityManager =
                 context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

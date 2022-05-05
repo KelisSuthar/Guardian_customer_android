@@ -9,10 +9,28 @@
         android:background="@color/lightBlue"
         tools:context=".ui.OTP.OTPScreen">
 
+        <include
+            android:id="@+id/headderOTP"
+            layout="@layout/headder_layout" />
+
+        <include
+            android:id="@+id/noDataOTP"
+            layout="@layout/no_data_layout"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/noInternetOTP"
+            layout="@layout/no_internet_connection_layout"
+            android:visibility="gone" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clOtp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_20sdp">
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/headderOTP">
 
             <TextView
                 android:id="@+id/txtWelcomeBack"
@@ -80,7 +98,7 @@
 
 
             <TextView
-                android:id="@+id/txtDoNotHaveAccount"
+                android:id="@+id/txtResendOTP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -88,7 +106,7 @@
                 android:fontFamily="@font/lora_regular"
                 android:gravity="center"
                 android:padding="@dimen/_5sdp"
-                android:text="@string/do_not_have_an_account"
+                android:text="@string/dont_recieve_otp_resend_otp"
                 android:textAlignment="gravity"
                 android:textColor="@color/txt_dark"
                 android:textFontWeight="400"

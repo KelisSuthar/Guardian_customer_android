@@ -73,7 +73,7 @@ fun checkLoationPermission(activity: Activity): Boolean {
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ),
-                AppConstants.EXTRA_FINE_PERMISIION
+                AppConstants.EXTRA_FINE_PERMISSION
             )
             false
         }
