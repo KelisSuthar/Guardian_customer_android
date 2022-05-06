@@ -2,18 +2,21 @@ package com.app.guardian.ui.OTP
 
 import `in`.aabhasjindal.otptextview.OTPListener
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.view.View
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityOtpscreenBinding
+import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.ResetPassword.ResetPasswordActivity
+import com.app.guardian.utils.Config
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class OTPScreen : BaseActivity(), View.OnClickListener {
+    private val mViewModel: AuthenticationViewModel by viewModel()
     lateinit var mBinding: ActivityOtpscreenBinding
     var OTP = ""
     override fun getResource(): Int {
@@ -24,6 +27,9 @@ class OTPScreen : BaseActivity(), View.OnClickListener {
     override fun initView() {
         mBinding = getBinding()
         checkInputData()
+        if (intent.extras != null || intent != null) {
+            mBinding.otpTextView.otp = intent.getStringExtra(AppConstants.EXTRA_OTP)
+        }
     }
 
     private fun checkInputData() {
@@ -40,6 +46,65 @@ class OTPScreen : BaseActivity(), View.OnClickListener {
 
     override fun initObserver() {
 
+        //VerifyOTP RESP
+        mViewModel.getVerifyOTPResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            finish()
+                            startActivity(
+                                Intent(
+                                    this@OTPScreen,
+                                    ResetPasswordActivity::class.java
+                                )
+                            )
+                            overridePendingTransition(R.anim.rightto, R.anim.left)
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                this,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let { ReusedMethod.displayMessage(this, it) }
+                    }
+                }
+            }
+        }
+        //RESEND OTP RESP
+        mViewModel.getForgotPassResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            mBinding.otpTextView.otp = data.otp.toString()
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                this,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let { ReusedMethod.displayMessage(this, it) }
+                    }
+                }
+            }
+        }
     }
 
     override fun handleListener() {
@@ -72,25 +137,30 @@ class OTPScreen : BaseActivity(), View.OnClickListener {
 
     private fun callResendOTPAPI() {
         if (ReusedMethod.isNetworkConnected(this)) {
-            startActivity(
-                Intent(
-                    this@OTPScreen,
-                    ResetPasswordActivity::class.java
-                )
+            mViewModel.forgotPass(
+                true, this, intent.getBooleanExtra(AppConstants.EXTRA_IS_EMAIL, false),
+                intent.getStringExtra(AppConstants.EXTRA_EMAIL_PHONE)!!
             )
-            overridePendingTransition(R.anim.rightto, R.anim.left)
+
         } else {
-
+            mBinding.noInternetOTP.llNointernet.visible()
+            mBinding.clOtp.gone()
+            mBinding.noDataOTP.gone()
         }
-
     }
 
     private fun callVerifyOtpApi() {
         if (ReusedMethod.isNetworkConnected(this)) {
-
+            mViewModel.verifyOTP(
+                true,
+                this,
+                intent.getBooleanExtra(AppConstants.EXTRA_IS_EMAIL, false),
+                intent.getStringExtra(AppConstants.EXTRA_EMAIL_PHONE)!!,
+                mBinding.otpTextView.otp.toString(),
+            )
         } else {
             mBinding.clOtp.gone()
-            mBinding.noInternetOTP.visible()
+            mBinding.noInternetOTP.llNointernet.visible()
             mBinding.noDataOTP.gone()
         }
     }

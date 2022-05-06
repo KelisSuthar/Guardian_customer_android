@@ -1,8 +1,6 @@
 package com.app.guardian.ui.Splash
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import com.app.guardian.R
@@ -10,12 +8,6 @@ import com.app.guardian.common.ReusedMethod
 import com.app.guardian.databinding.ActivitySplashScreenBinding
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.Login.LoginActivity
-import com.app.guardian.ui.OTP.OTPScreen
-import com.app.guardian.ui.ResetPassword.ResetPasswordActivity
-import com.app.guardian.ui.SelectRole.SelectRoleScreen
-import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
-import com.app.guardian.ui.signup.SignupScreen
-import com.google.android.gms.actions.ReserveIntents
 
 class SplashScreen : BaseActivity(),View.OnClickListener {
     lateinit var mBinding: ActivitySplashScreenBinding
@@ -27,10 +19,12 @@ class SplashScreen : BaseActivity(),View.OnClickListener {
     override fun initView() {
         mBinding = getBinding()
         Handler().postDelayed({
+            finish()
             startActivity(
                 Intent(
                     this@SplashScreen,
-                    SelectRoleScreen::class.java
+
+                    LoginActivity::class.java
                 )
             )
 

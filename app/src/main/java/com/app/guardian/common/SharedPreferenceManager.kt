@@ -4,9 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.app.guardian.common.AppConstants.APP_NAME
 import com.app.guardian.common.AppConstants.SKIP_INTRO
+import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.utils.ApiConstant
 import com.google.gson.Gson
-import com.app.guardian.model.Login.LoginResp
 
 
 object SharedPreferenceManager {

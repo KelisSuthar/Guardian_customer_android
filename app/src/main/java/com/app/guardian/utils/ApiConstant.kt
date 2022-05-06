@@ -4,8 +4,15 @@ package com.app.guardian.utils
 class ApiConstant{
     companion object{
      val EXTRAS_EMAIL="email"
+     val EXTRAS_PHONE="phone"
      val EXTRAS_PASSWORD="password"
      val EXTRAS_DEVICETOKEN="device_token"
+     val EXTRAS_PRICE_ID="pricing_id"
+     val EXTRAS_APPLE_RECEIPT="apple_receipt"
+     val EXTRAS_SHARED_SECRET="shared_secret"
+     val EXTRAS_START_DATE="start_date"
+     val EXTRAS_END_DATE="end_date"
+     val EXTRAS_PRICE="price"
      val EXTRAS_SOCIAL_ID="social_id"
      val EXTRAS_LOGIN_TYPE="login_type"
      val EXTRAS_OTP="otp"
@@ -13,7 +20,12 @@ class ApiConstant{
      val EXTRAS_CONFIRM_PASS="confirm_password"
      val EXTRAS_FULL_NAME="fullname"
      val EXTRAS_FULL_UNDERSCORE_NAME="full_name"
-     val EXTRAS_PH_NUMBER="phone_number"
+     val EXTRAS_STATE="state"
+     val EXTRAS_PROFILE_AVATAR="profile_avatar"
+     val EXTRAS_USER_DOC="user_doc"
+     val EXTRAS_USER_ID="user_id"
+
+
      val EXTRAS_REFERAL_CODE="referral_by"
      val EXTRAS_MEMBER_FULL_NAME="member_fullname"
      val EXTRAS_PROFILE_IMAGE="profile_image"
@@ -80,14 +92,14 @@ class ApiConstant{
      val EXTRAS_ITEM_TYPE="item_type"
      val EXTRAS_ITEM_ID="item_id"
      val EXTRAS_ITEM_QUENTITY="item_quantity"
-     val EXTRAS_ITEM_PRICE="item_price"
+
      val EXTRAS_REVIEWS="review"
      val EXTRAS_ITEM_SUB_TOTAL ="sub_total"
      val EXTRAS_ITEM_DISCOUNT ="discount"
      val EXTRAS_ITEM_GRAND_TOTAL ="grand_total"
      val EXTRAS_ITEM_BUY_FOR ="buy_for"
      val EXTRAS_ITEM_FULL_NAME ="full_name"
-     val EXTRAS_ITEM_PH_NUM ="phone_number"
+
      val EXTRAS_ITEM_REWARD_BAL_USE ="reward_balance_use"
      val EXTRAS_IS_RESERVED ="is_reserved"
      val EXTRAS_MEAL_QTY_DISCOUNT ="meal_quantity_discount"

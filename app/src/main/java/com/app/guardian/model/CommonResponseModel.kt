@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class CommonResponseModel<T>(
         @SerializedName("status")
-        var status: Int,
+        var status: Boolean,
         @SerializedName("message")
         var message: String? = null,
         @SerializedName("data")
