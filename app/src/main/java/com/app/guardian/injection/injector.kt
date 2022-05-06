@@ -1,7 +1,8 @@
 package com.app.guardian.injection
 
 
-import androidx.multidex.BuildConfig
+
+import com.app.guardian.BuildConfig
 import com.app.guardian.common.AppConstants.ACCESS_TOKEN
 import com.app.guardian.common.AppConstants.API_KEY_VALUE
 import com.app.guardian.common.AppConstants.LOGGED_IN_USER_ID
@@ -9,12 +10,10 @@ import com.app.guardian.common.AppConstants.STATIC_API_KEY
 import com.app.guardian.common.AppConstants.USER_ROLE
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.ShowLogToast
+import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.endpoint.ApiEndPoint
-import com.app.guardian.ui.Splash.viewmodel.KeyViewModel
-
-import com.google.gson.GsonBuilder
-
 import com.app.guardian.shareddata.repo.UserRepo
+import com.google.gson.GsonBuilder
 import com.studelicious_user.shareddata.repo.UserRepository
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -31,7 +30,7 @@ import java.util.concurrent.TimeUnit
 
 val viewModelModule = module {
     single<UserRepo> { UserRepository(get()) }
-    viewModel { KeyViewModel(get()) }
+    viewModel { AuthenticationViewModel(get()) }
 
 }
 
@@ -58,7 +57,7 @@ fun provideHttpLogging(): OkHttpClient {
 fun provideRetrofit(client: OkHttpClient): Retrofit {
     val gson = GsonBuilder().setLenient().create()
     return Retrofit.Builder()
-//        .baseUrl(BuildConfig.API_URL)//Your Base Url
+        .baseUrl(BuildConfig.API_URL)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .client(client)
         .build()
@@ -84,7 +83,7 @@ class AddHeaderInterceptor : Interceptor {
 //        if (accessToken != "") builder.addHeader("accesstoken", "" + accessToken)
 //        if (!userID.equals("-1")) builder.addHeader("userid", "" + userID)
 //        if (!userID.equals("-1")) builder.addHeader("userID", "" + userID)
-        builder.addHeader("userrole", userRole.toString())
+        builder.addHeader("user_role", userRole.toString())
 //        builder. header("Authorization", "$tokenType $acceessToken")
 //        builder.addHeader("role", userRole.toString())
 //        builder.addHeader("Devicetype", "android")

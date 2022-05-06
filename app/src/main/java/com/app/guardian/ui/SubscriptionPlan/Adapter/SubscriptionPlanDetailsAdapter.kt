@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
+import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 
 class SubscriptionPlanDetailsAdapter(
     var context: Activity,
-    var arrayList: ArrayList<String>,
+    var arrayList: ArrayList<SubscriptionPlanResp>,
 
-) :
+    ) :
     RecyclerView.Adapter<SubscriptionPlanDetailsAdapter.myViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,

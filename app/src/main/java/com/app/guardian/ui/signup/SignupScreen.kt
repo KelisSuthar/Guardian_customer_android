@@ -9,8 +9,6 @@ import android.location.Address
 import android.location.Geocoder
 import android.net.Uri
 import android.provider.MediaStore
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -22,7 +20,6 @@ import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.ReusedMethod.Companion.ShowNoBorders
 import com.app.guardian.common.ReusedMethod.Companion.ShowRedBorders
 import com.app.guardian.common.ReusedMethod.Companion.checkInputs
-import com.app.guardian.common.ReusedMethod.Companion.displayMessage
 import com.app.guardian.common.ReusedMethod.Companion.displayMessageDialog
 import com.app.guardian.common.ReusedMethod.Companion.isNetworkConnected
 import com.app.guardian.common.ValidationView
@@ -31,6 +28,7 @@ import com.app.guardian.common.extentions.checkPermissions
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivitySignupScreenBinding
+import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.AutoCompleteAdapter
 import com.app.guardian.ui.signup.adapter.ImageAdapter
@@ -43,14 +41,13 @@ import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.ByteArrayOutputStream
-import java.io.File
 import java.util.*
-import java.util.jar.Manifest
-import kotlin.collections.ArrayList
 
 
 class SignupScreen : BaseActivity(), View.OnClickListener {
+    private val mViewModel: AuthenticationViewModel by viewModel()
     lateinit var mBinding: ActivitySignupScreenBinding
     var imageAdapter: ImageAdapter? = null
     var images = ArrayList<String>()
@@ -69,7 +66,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
     override fun initView() {
         mBinding = getBinding()
-        mBinding.noInternetSignUp.gone()
+        mBinding.noInternetSignUp.llNointernet.gone()
         mBinding.nsSignUp.visible()
         mBinding.noDataSignup.gone()
         setAdaper()
@@ -129,7 +126,16 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-
+            R.id.txtDoNotHaveAccount -> {
+                finish()
+                startActivity(
+                    Intent(
+                        this@SignupScreen,
+                        SignupScreen::class.java
+                    )
+                )
+                overridePendingTransition(R.anim.rightto, R.anim.left)
+            }
             R.id.ivBack -> {
                 onBackPressed()
                 overridePendingTransition(R.anim.leftto, R.anim.right)
@@ -216,8 +222,6 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
             object : ValidationView.SignUp {
                 override fun profileImgValidations() {
 //                    displayMessageDialog(this,"","","","","")
-
-
                 }
 
                 override fun fulllNameValidation() {
@@ -282,9 +286,24 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
     private fun callApi() {
         if (isNetworkConnected(this)) {
-
+            mViewModel.signUp(
+                true,
+                this,
+                mBinding.edtFullname.text?.trim().toString(),
+                mBinding.edtEmail.text?.trim().toString(),
+                mBinding.edtPass.text?.trim().toString(),
+                mBinding.edtConPass.text?.trim().toString(),
+                mBinding.edtMobileNum.text?.trim().toString(),
+//                mBinding.edtProvience.text?.trim().toString(),
+                "CANADA",
+                "123456",
+//                mBinding.edtPostalCode.text?.trim().toString(),
+                profile_img,
+                images,
+                "DEVICE@123"
+            )
         } else {
-            mBinding.noInternetSignUp.visible()
+            mBinding.noInternetSignUp.llNointernet.visible()
             mBinding.nsSignUp.gone()
             mBinding.noDataSignup.gone()
         }

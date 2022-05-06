@@ -1,7 +1,6 @@
 package com.app.guardian.ui.ResetPassword
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+import android.content.Intent
 import android.view.View
 import com.app.guardian.R
 import com.app.guardian.common.IntegratorImpl
@@ -13,11 +12,15 @@ import com.app.guardian.common.ValidationView
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityResetPasswordBinding
+import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.databinding.ActivitySelectRoleScreenBinding
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.Login.LoginActivity
+import com.app.guardian.utils.Config
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
+    private val mViewModel: AuthenticationViewModel by viewModel()
     lateinit var mBinding:ActivityResetPasswordBinding
 
     lateinit var mBinding: ActivityResetPasswordBinding
@@ -30,9 +33,42 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
         mBinding = getBinding()
         mBinding.lyHeaderResetPassword.tvHeaderText.text = resources.getString(R.string.reset_password)
         mBinding.lyHeaderResetPassword.ivBack.gone()
+//        mBinding.headderResetPass.ivBack.gone()
+        mBinding.headderResetPass.tvHeaderText.text = resources.getString(R.string.reset_password)
     }
 
     override fun initObserver() {
+        mViewModel.getResetPAssResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            startActivity(
+                                Intent(
+                                    this@ResetPasswordActivity,
+                                    LoginActivity::class.java
+                                )
+                            )
+                            overridePendingTransition(R.anim.rightto, R.anim.left)
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                this,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let { ReusedMethod.displayMessage(this, it) }
+                    }
+                }
+            }
+        }
     }
 
     override fun handleListener() {
@@ -92,11 +128,12 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
 
     private fun callApi() {
         if (isNetworkConnected(this)) {
-            startActivity(
-                Intent(
-                    this@ResetPasswordActivity,
-                    LoginActivity::class.java
-                )
+            mViewModel.resetPassword(
+                true,
+                this,
+                mBinding.editTextConPass.text?.trim().toString(),
+                mBinding.editTextConPass.text?.trim().toString(),
+                ""
             )
             overridePendingTransition(R.anim.rightto, R.anim.left)
         } else {

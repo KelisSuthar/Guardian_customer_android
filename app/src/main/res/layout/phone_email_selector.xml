@@ -1,101 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/cl1"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/normal_rounded_light_blue"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cl1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/normal_rounded_light_blue">
 
-
-
-    <com.rilixtech.widget.countrycodepicker.CountryCodePicker
-        android:id="@+id/ccp"
-        android:layout_width="@dimen/_35sdp"
-        android:layout_height="0dp"
-        android:layout_gravity="center|left"
-        android:background="@drawable/left_corners_blue_back"
-        android:layout_marginVertical="@dimen/_1sdp"
-        android:layout_marginLeft="@dimen/_1sdp"
-        android:gravity="center"
-        android:paddingVertical="@dimen/_10sdp"
-        app:ccp_defaultCode="1"
-        app:ccp_dialogTextColor="@color/darkBlue"
-        app:ccp_hideNameCode="true"
-        app:ccp_hidePhoneCode="false"
-        app:ccp_keyboardAutoPopOnSearch="false"
-        app:ccp_setCountryByTimeZone="true"
-        app:ccp_showFlag="false"
-        app:ccp_showFullName="false"
-        app:ccp_textColor="@color/white"
-        app:ccp_textSize="@dimen/_9ssp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:visibility="visible"/>
-
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edtLoginEmail"
-        android:layout_width="0dp"
-        app:layout_constraintLeft_toRightOf="@+id/ccp"
-        app:layout_constraintRight_toLeftOf="@+id/rgLogin"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_height="0dp"
-        android:background="@color/transparent"
-        android:paddingHorizontal="@dimen/_10sdp"
-        android:fontFamily="@font/lora_regular"
-        android:hint="@string/email_or_phone"
-        android:inputType="textEmailAddress"
-        android:singleLine="true"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        android:textFontWeight="400"
-        android:textSize="@dimen/_12ssp"
-        />
-
-    <RadioGroup
-        android:id="@+id/rgLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:layout_gravity="right"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginVertical="@dimen/_1sdp"
-        android:layout_marginRight="@dimen/_1sdp">
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rbEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@null"
+        <com.rilixtech.widget.countrycodepicker.CountryCodePicker
+            android:id="@+id/ccp"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="0dp"
+            android:layout_gravity="center|left"
+            android:layout_marginVertical="@dimen/_1sdp"
+            android:layout_marginLeft="@dimen/_1sdp"
+            android:background="@drawable/left_corners_blue_back"
             android:gravity="center"
-            android:paddingHorizontal="@dimen/_5sdp"
             android:paddingVertical="@dimen/_10sdp"
-            android:checked="true"
+            android:visibility="gone"
+            app:ccp_defaultCode="1"
+            app:ccp_dialogTextColor="@color/darkBlue"
+            app:ccp_hideNameCode="true"
+            app:ccp_hidePhoneCode="false"
+            app:ccp_keyboardAutoPopOnSearch="false"
+            app:ccp_setCountryByTimeZone="true"
+            app:ccp_showFlag="false"
+            app:ccp_showFullName="false"
+            app:ccp_textColor="@color/white"
+            app:ccp_textSize="@dimen/_9ssp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtLoginEmail"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/transparent"
+            android:drawableLeft="@drawable/ic_mail"
+            android:drawablePadding="@dimen/_10sdp"
             android:fontFamily="@font/lora_regular"
+            android:hint="@string/email_or_phone"
+            android:inputType="textEmailAddress"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:singleLine="true"
             android:textColor="@color/black"
-            android:text="@string/email"
-            android:background="@drawable/left_corner_email_selector"/>
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rbPhone"
+            android:textColorHint="@color/black"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/ccp"
+            app:layout_constraintRight_toLeftOf="@+id/rgLogin"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioGroup
+            android:id="@+id/rgLogin"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:button="@null"
-            android:paddingHorizontal="@dimen/_5sdp"
-            android:fontFamily="@font/lora_regular"
-            android:paddingVertical="@dimen/_10sdp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:background="@drawable/right_corner_phone_selector"
-            android:text="@string/phone"/>
+            android:layout_gravity="right"
+            android:layout_marginVertical="@dimen/_1sdp"
+            android:layout_marginRight="@dimen/_1sdp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    </RadioGroup>
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/rbEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/left_corner_email_selector"
+                android:button="@null"
+                android:checked="true"
+                android:fontFamily="@font/lora_regular"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/_5sdp"
+                android:paddingVertical="@dimen/_10sdp"
+                android:text="@string/email"
+                android:textColor="@color/white_black_color_selector" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/rbPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/right_corner_phone_selector"
+                android:button="@null"
+                android:fontFamily="@font/lora_regular"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/_5sdp"
+                android:paddingVertical="@dimen/_10sdp"
+                android:text="@string/phone"
+                android:textColor="@color/white_black_color_selector"/>
+
+        </RadioGroup>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

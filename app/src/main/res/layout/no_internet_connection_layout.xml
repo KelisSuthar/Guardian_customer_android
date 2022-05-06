@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llNointernet"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="match_parent"
@@ -20,10 +23,10 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_20sdp"
         android:fontFamily="@font/lora_semibold"
         android:text="Ooops!"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:layout_gravity="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/_28ssp" />
 
@@ -31,13 +34,13 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="@dimen/_10sdp"
         android:fontFamily="@font/lora_regular"
-        android:textSize="@dimen/_18ssp"
-        android:text="No Internet Connection\nPlease Check Your Connection"
-        android:layout_gravity="center"
         android:gravity="center"
-        android:textColor="@color/black" />
+        android:text="No Internet Connection\nPlease Check Your Connection"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_18ssp" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnTryAgain"
@@ -52,3 +55,4 @@
 
 
 </LinearLayout>
+    </layout>

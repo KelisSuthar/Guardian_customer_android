@@ -60,7 +60,7 @@ object NetworkManager {
                     /**
                      * based on status pass body
                      */
-                    if (response.body()?.status == 1) {
+                    if (response.body()?.status == true) {
                         callback?.postValue(RequestState(apiResponse = response.body()))
                     } else {
                         /**

@@ -26,6 +26,9 @@ object AppConstants {
     const val USER_DETAIL_LOGIN = "USER_DETAIL_LOGIN"
     const val EXTRA_PARAM_PAGE_POSITION = "EXTRA_PARAM_PAGE_POSITION"
     const val STATIC_API_KEY = "335a559c51b88b4752b8325980abb3c14e1c4e61"
+    const val EXTRA_OTP = "OTP"
+    const val EXTRA_EMAIL_PHONE = "EMAIL_PHONE"
+    const val EXTRA_IS_EMAIL = "IS_EMAIL"
     const val IS_FROM_SETTINGS: Boolean = false
     const val EXTRA_ORDER_PENDING = "Pending"
     const val EXTRA_ORDER_CANCELED = "Cancelled"

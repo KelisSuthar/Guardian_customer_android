@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.app.guardian">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -15,12 +16,27 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
     <application
-        android:allowBackup="true"
+        android:name=".GuardianApplication"
+        android:allowBackup="false"
+        android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Guardian">
+        android:theme="@style/Theme.Guardian"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:allowBackup"
+        tools:targetApi="q">
+        <activity
+            android:name=".ui.signup.SignupScreen"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|adjustPan" />
+        <activity
+            android:name=".ui.SubscriptionPlan.SubScriptionPlanScreen"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.OTP.OTPScreen"
             android:exported="true" >

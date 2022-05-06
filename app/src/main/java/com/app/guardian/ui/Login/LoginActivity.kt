@@ -8,19 +8,26 @@ import com.app.guardian.common.IntegratorImpl
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.ReusedMethod.Companion.ShowNoBorders
 import com.app.guardian.common.ReusedMethod.Companion.ShowRedBorders
-import com.app.guardian.common.ReusedMethod.Companion.displayMessageDialog
+import com.app.guardian.common.ReusedMethod.Companion.changePhoneEmailState
+import com.app.guardian.common.ReusedMethod.Companion.displayMessage
 import com.app.guardian.common.ReusedMethod.Companion.isNetworkConnected
 import com.app.guardian.common.ValidationView
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityLoginBinding
+import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
 import com.app.guardian.ui.forgot.ForgotPasswordActivity
+import com.app.guardian.ui.signup.SignupScreen
+import com.app.guardian.utils.Config
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
+    private val mViewModel: AuthenticationViewModel by viewModel()
     lateinit var mBinding: ActivityLoginBinding
-    var is_Email = false
+    var is_Email = true
     override fun getResource(): Int {
         ReusedMethod.updateStatusBarColor(this, R.color.colorPrimaryDark, 4)
         return R.layout.activity_login
@@ -28,72 +35,67 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     override fun initView() {
         mBinding = getBinding()
-        mBinding.headderLogin.ivBack.gone()
-        setPhoneEmailSelector()
 
+
+        setPhoneEmailSelector()
 
 
     }
 
     private fun setPhoneEmailSelector() {
         mBinding.emailphoneSelector.rgLogin.setOnCheckedChangeListener { _, checkedId ->
-
             when (checkedId) {
                 R.id.rbEmail -> {
                     is_Email = true
-                    mBinding.emailphoneSelector.rbPhone.setTextColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.white
-                        )
+                    changePhoneEmailState(
+                        this,
+                        is_Email,
+                        mBinding.emailphoneSelector.edtLoginEmail,
+                        mBinding.emailphoneSelector.ccp
                     )
-                    mBinding.emailphoneSelector.rbEmail.setTextColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.black
-                        )
-                    )
-                    mBinding.emailphoneSelector.ccp.gone()
-
-                    mBinding.emailphoneSelector.edtLoginEmail.setCompoundDrawablesWithIntrinsicBounds(
-                        R.drawable.ic_mail,
-                        0,
-                        0,
-                        0
-                    )
-                    mBinding.emailphoneSelector.edtLoginEmail.compoundDrawablePadding =
-                        resources.getDimension(com.intuit.sdp.R.dimen._10sdp).toInt()
-                    mBinding.emailphoneSelector.edtLoginEmail.setText("")
                 }
                 R.id.rbPhone -> {
                     is_Email = false
-                    mBinding.emailphoneSelector.rbPhone.setTextColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.black
-                        )
+                    changePhoneEmailState(
+                        this,
+                        is_Email,
+                        mBinding.emailphoneSelector.edtLoginEmail,
+                        mBinding.emailphoneSelector.ccp
                     )
-                    mBinding.emailphoneSelector.rbEmail.setTextColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.white
-                        )
-                    )
-                    mBinding.emailphoneSelector.ccp.visible()
-                    mBinding.emailphoneSelector.edtLoginEmail.setCompoundDrawablesWithIntrinsicBounds(
-                        0,
-                        0,
-                        0,
-                        0
-                    );
-                    mBinding.emailphoneSelector.edtLoginEmail.setText("")
-
                 }
             }
         }
     }
 
     override fun initObserver() {
+        mViewModel.getLoginResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            startActivity(
+                                Intent(
+                                    this@LoginActivity,
+                                    SubScriptionPlanScreen::class.java
+                                )
+                            )
+                            overridePendingTransition(R.anim.rightto, R.anim.left)
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            displayMessage(this, getString(R.string.text_error_network))
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let { displayMessage(this, it) }
+                    }
+                }
+            }
+        }
     }
 
     override fun onBackPressed() {
@@ -105,10 +107,21 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         mBinding.txtForgotPassword.setOnClickListener(this)
         mBinding.btnSigIn.setOnClickListener(this)
         mBinding.headderLogin.ivBack.setOnClickListener(this)
+        mBinding.txtDoNotHaveAccount.setOnClickListener(this)
+        mBinding.noInternetLogin.btnTryAgain.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
+            R.id.txtDoNotHaveAccount -> {
+                startActivity(
+                    Intent(
+                        this@LoginActivity,
+                        SignupScreen::class.java
+                    )
+                )
+                overridePendingTransition(R.anim.rightto, R.anim.left)
+            }
             R.id.btnSigIn -> {
                 validations()
             }
@@ -124,6 +137,9 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     )
                 )
                 overridePendingTransition(R.anim.rightto, R.anim.left)
+            }
+            R.id.btnTryAgain->{
+                callApi()
             }
         }
     }
@@ -169,11 +185,15 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     private fun callApi() {
         if (isNetworkConnected(this)) {
-            displayMessageDialog(this, "", "Successful", false, "Ok", "")
+            mViewModel.Login(
+                isNetworkConnected(this), this@LoginActivity, is_Email,
+                mBinding.emailphoneSelector.edtLoginEmail.text?.trim().toString(),
+                mBinding.editTextLoginPass.text?.trim().toString()
+            )
         } else {
             mBinding.nsLogin.gone()
             mBinding.noDataLogin.gone()
-            mBinding.noInternetLogin.visible()
+            mBinding.noInternetLogin.llNointernet.visible()
         }
     }
 

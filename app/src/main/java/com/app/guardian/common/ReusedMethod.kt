@@ -5,11 +5,11 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
@@ -18,7 +18,6 @@ import android.view.ViewGroup.MarginLayoutParams
 import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -28,6 +27,7 @@ import com.app.guardian.common.extentions.visible
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
+import com.rilixtech.widget.countrycodepicker.CountryCodePicker
 
 
 class ReusedMethod {
@@ -90,7 +90,7 @@ class ReusedMethod {
             return false
         }
 
-         fun isInternetAvailable(context: Context): Boolean {
+        fun isInternetAvailable(context: Context): Boolean {
             var result = false
             val connectivityManager =
                 context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -289,5 +289,39 @@ class ReusedMethod {
             }
             window.statusBarColor = ContextCompat.getColor(context, color)
         }
+
+
+        fun changePhoneEmailState(
+            context: Context,
+            b: Boolean,
+            editText: EditText,
+            ccp: CountryCodePicker
+        ) {
+            editText.setText("")
+            if (b) {
+                editText.inputType = InputType.TYPE_CLASS_TEXT
+                ccp.gone()
+                editText.setCompoundDrawablesWithIntrinsicBounds(
+                    R.drawable.ic_mail,
+                    0,
+                    0,
+                    0
+                )
+                editText.compoundDrawablePadding =
+                    context.resources.getDimension(com.intuit.sdp.R.dimen._10sdp).toInt()
+            } else {
+                editText.inputType =
+                    InputType.TYPE_CLASS_NUMBER
+                ccp.visible()
+                editText.setCompoundDrawablesWithIntrinsicBounds(
+                    0,
+                    0,
+                    0,
+                    0
+                )
+            }
+        }
+
+
     }
 }

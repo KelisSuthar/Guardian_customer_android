@@ -24,29 +24,17 @@
             layout="@layout/no_internet_connection_layout"
             android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/txtWelcomeBack"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:fontFamily="@font/lora_semibold"
-            android:text="@string/sub_plan"
-            android:textAlignment="center"
-            android:textColor="@color/txt_dark"
-            android:textFontWeight="600"
-            android:visibility="gone"
-            android:textSize="@dimen/_18ssp"
-            app:layout_constraintTop_toTopOf="parent" />
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginVertical="@dimen/_30sdp"
+            android:layout_marginBottom="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtWelcomeBack"
+            app:layout_constraintTop_toBottomOf="@+id/headderSubscritpion"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/subscription_list_layout" />
