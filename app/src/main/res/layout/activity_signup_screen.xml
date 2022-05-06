@@ -113,8 +113,8 @@
                         android:drawableLeft="@drawable/ic_profile"
                         android:fontFamily="@font/lora_regular"
                         android:hint="@string/fullname"
-                        android:inputType="textEmailAddress"
                         android:maxLength="35"
+                        android:inputType="textEmailAddress"
                         android:textFontWeight="400"
                         android:textSize="@dimen/_12ssp" />
 
@@ -222,20 +222,21 @@
                             android:inputType="textPassword" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <AutoCompleteTextView
                         android:id="@+id/edtProvience"
                         style="@style/White_edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:drawableLeft="@drawable/ic_map"
+                        android:focusable="false"
                         android:fontFamily="@font/lora_regular"
                         android:hint="@string/provience_state"
                         android:inputType="text"
                         android:textFontWeight="400"
                         android:textSize="@dimen/_12ssp" />
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <AutoCompleteTextView
                         android:id="@+id/edtPostalCode"
                         style="@style/White_edittext"
                         android:layout_width="match_parent"

@@ -29,6 +29,9 @@ object AppConstants {
     const val EXTRA_OTP = "OTP"
     const val EXTRA_EMAIL_PHONE = "EMAIL_PHONE"
     const val EXTRA_IS_EMAIL = "IS_EMAIL"
+    const val EXTRA_IS_USER = "IS_USER"
+    const val EXTRA_IS_LAWYER = "IS_LAWYER"
+    const val EXTRA_IS_MEDIATOR = "IS_MEDIAOR"
     const val IS_FROM_SETTINGS: Boolean = false
     const val EXTRA_ORDER_PENDING = "Pending"
     const val EXTRA_ORDER_CANCELED = "Cancelled"
