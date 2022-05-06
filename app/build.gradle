@@ -133,6 +133,9 @@ dependencies {
 
     //Circular Image View
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    //Country Picker
+    implementation 'com.github.joielechong:countrycodepicker:2.4.2'
+
 
     //Image pickup
     implementation 'com.github.dhaval2404:imagepicker-support:1.7.1'
