@@ -76,7 +76,7 @@
     <string name="empty_pass">Please enter Password.</string>
     <string name="empty_con_pass">Please enter Confirm Password.</string>
     <string name="valid_pass">Password must contain 1 Uppercase Letter, 1 Lowercase Letter, 1 Digit, 1 Special Character and length is 8 or more.</string>
-    <string name="valid_con_pass">Password must contain 1 Uppercase Letter, 1 Lowercase Letter, 1 Digit, 1 Special Character and length is 8 or more.</string>
+    <string name="valid_con_pass">Confirm Password must contain 1 Uppercase Letter, 1 Lowercase Letter, 1 Digit, 1 Special Character and length is 8 or more.</string>
     <string name="valid_email">Please enter valid Email.</string>
     <string name="same_old_new_pass">Old password and new password can not be same.</string>
     <string name="empty_name">Please enter Name.</string>
@@ -90,6 +90,12 @@
     <string name="empty_licence">Please enter Licence Plate No. for Car.</string>
     <string name="valid_licence">Please enter Valid Licence Plate No. for Car.</string>
     <string name="valid_doc">Please upload at least One Document of yours</string>
+
+
+    <!--    ResetPAss Screen-->
+    <string name="empty_new_pass">Please enter New Password.</string>
+    <string name="valid_new_pass">New Password must contain 1 Uppercase Letter, 1 Lowercase Letter, 1 Digit, 1 Special Character and length is 8 or more.</string>
+    <string name="same_old_new_new_pass">New Password and Confirm Password does not match.</string>
 
     <!-- TODO: Place Holders  -->
 

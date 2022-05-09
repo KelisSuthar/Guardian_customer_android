@@ -2,10 +2,11 @@ package com.app.guardian.common
 
 interface ValidationView {
     interface LoginView {
-//        fun email()
+        fun empty_email()
         fun emailValidation()
-//        fun passwordValidation()
-fun numberValidation()
+        fun empty_passwordValidation()
+        fun empty_number()
+        fun numberValidation()
         fun passwordMinValidation()
         fun passwordSpecialValidation()
         fun success()
@@ -15,7 +16,7 @@ fun numberValidation()
     interface SignUp {
 
 
-fun profileImgValidations()
+        fun profileImgValidations()
         fun fullname_empty()
         fun fulllNameValidation()
         fun email_empty()
@@ -35,10 +36,10 @@ fun profileImgValidations()
         fun valid_postal_code()
         fun licencPlate_empty()
         fun licencPlatevalidations()
-//        fun licencPlateLength()
+
+        //        fun licencPlateLength()
         fun docValidations()
         fun success()
-
 
 
     }
@@ -63,18 +64,19 @@ fun profileImgValidations()
     }
 
     interface ForgotPass {
-//        fun email()
+        fun empty_email()
         fun emailValidation()
+        fun empty_phone()
         fun phoneValidation()
         fun success()
 
     }
 
     interface RestPass {
-//        fun passwordValidation()
+        fun empty_pass()
         fun passwordMinValidation()
         fun passwordSpecialValidation()
-//        fun confirmPass()
+        fun empty_con_Pass()
         fun con_passwordMinValidation()
         fun con_passwordSpecialValidation()
         fun comparePass()
@@ -118,7 +120,8 @@ fun profileImgValidations()
 
     interface AddProperty {
         fun name()
-//        fun name_length()
+
+        //        fun name_length()
         fun Address()
         fun flat_name()
         fun rent_per_month()
@@ -144,7 +147,8 @@ fun profileImgValidations()
         fun h_rules_length()
         fun health_sefaty()
         fun health_sefaty_length()
-//        fun cancel_policy()
+
+        //        fun cancel_policy()
 //        fun cancel_policy_length()
         fun Success()
 
@@ -165,7 +169,8 @@ fun profileImgValidations()
     interface UpdateProfile {
         fun first_name()
         fun first_name_length()
-//        fun last_name()
+
+        //        fun last_name()
 //        fun last_name_length()
         fun email()
         fun emailValidation()

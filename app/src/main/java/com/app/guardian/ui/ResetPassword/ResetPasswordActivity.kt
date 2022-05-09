@@ -97,23 +97,87 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
             mBinding.editTextNewPass.text?.trim().toString(),
             mBinding.editTextConPass.text?.trim().toString(),
             object : ValidationView.RestPass {
+                override fun empty_pass() {
+                    ReusedMethod.displayMessageDialog(
+                        this@ResetPasswordActivity,
+                        "",
+                        resources.getString(R.string.new_password),
+                        false,
+                        "Ok",
+                        ""
+                    )
+                    ShowRedBorders(this@ResetPasswordActivity, mBinding.editTextNewPass)
+                }
+
                 override fun passwordMinValidation() {
+                    ReusedMethod.displayMessageDialog(
+                        this@ResetPasswordActivity,
+                        "",
+                        resources.getString(R.string.valid_new_pass),
+                        false,
+                        "Ok",
+                        ""
+                    )
                     ShowRedBorders(this@ResetPasswordActivity, mBinding.editTextNewPass)
                 }
 
                 override fun passwordSpecialValidation() {
+                    ReusedMethod.displayMessageDialog(
+                        this@ResetPasswordActivity,
+                        "",
+                        resources.getString(R.string.valid_new_pass),
+                        false,
+                        "Ok",
+                        ""
+                    )
                     ShowRedBorders(this@ResetPasswordActivity, mBinding.editTextNewPass)
                 }
 
+                override fun empty_con_Pass() {
+                    ReusedMethod.displayMessageDialog(
+                        this@ResetPasswordActivity,
+                        "",
+                        resources.getString(R.string.valid_con_pass),
+                        false,
+                        "Ok",
+                        ""
+                    )
+                    ShowRedBorders(this@ResetPasswordActivity, mBinding.editTextConPass)
+                }
+
                 override fun con_passwordMinValidation() {
+                    ReusedMethod.displayMessageDialog(
+                        this@ResetPasswordActivity,
+                        "",
+                        resources.getString(R.string.valid_con_pass),
+                        false,
+                        "Ok",
+                        ""
+                    )
                     ShowRedBorders(this@ResetPasswordActivity, mBinding.editTextConPass)
                 }
 
                 override fun con_passwordSpecialValidation() {
+                    ReusedMethod.displayMessageDialog(
+                        this@ResetPasswordActivity,
+                        "",
+                        resources.getString(R.string.valid_con_pass),
+                        false,
+                        "Ok",
+                        ""
+                    )
                     ShowRedBorders(this@ResetPasswordActivity, mBinding.editTextConPass)
                 }
 
                 override fun comparePass() {
+                    ReusedMethod.displayMessageDialog(
+                        this@ResetPasswordActivity,
+                        "",
+                        resources.getString(R.string.same_old_new_new_pass),
+                        false,
+                        "Ok",
+                        ""
+                    )
                     ShowRedBorders(this@ResetPasswordActivity, mBinding.editTextConPass)
                     ShowRedBorders(this@ResetPasswordActivity, mBinding.editTextNewPass)
                 }
