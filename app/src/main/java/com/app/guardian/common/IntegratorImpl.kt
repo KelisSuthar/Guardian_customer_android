@@ -91,9 +91,11 @@ object IntegratorImpl {
                     ValidationView.empty_postal_code()
                 } else if (postal_code.length < 3 || postal_code.length > 9) {
                     ValidationView.valid_postal_code()
-                } else if (licence_plate.length < 15) {
-                    ValidationView.licencPlateLength()
-                } else if (TextUtils.isEmpty(licence_plate)) {
+                }
+//                else if (licence_plate.length < 15) {
+//                    ValidationView.licencPlateLength()
+//                }
+                else if (TextUtils.isEmpty(licence_plate)) {
                     ValidationView.licencPlate_empty()
                 } else if (licence_plate.contains("[A-Za-z0-9-]")) {
                     ValidationView.licencPlatevalidations()

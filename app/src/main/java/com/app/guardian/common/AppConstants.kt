@@ -57,6 +57,8 @@ object AppConstants {
     const val EXTRA_CAMERA_PERMISSION = 104
     const val EXTRA_READ_PERMISSION = 105
     const val EXTRA_WRITE_PERMISSION = 106
+    const val EXTRA_CORSE_LOC_PERMISSION = 107
+    const val EXTRA_FINE_LOC_PERMISSION = 108
     const val EXTRA_TOTAL_CART_ITEM_COUNT = "TOTAL_ITEM_COUNT"
     const val EXTRA_ASCENDING = "asc"
     const val EXTRA_DESCENDING = "desc"
