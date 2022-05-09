@@ -7,6 +7,7 @@ import android.database.Cursor
 import android.graphics.Bitmap
 import android.location.Address
 import android.location.Geocoder
+import android.location.LocationManager
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
@@ -14,15 +15,12 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.TextView
 import com.app.guardian.R
-import com.app.guardian.common.AppConstants
-import com.app.guardian.common.IntegratorImpl
-import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.*
 import com.app.guardian.common.ReusedMethod.Companion.ShowNoBorders
 import com.app.guardian.common.ReusedMethod.Companion.ShowRedBorders
 import com.app.guardian.common.ReusedMethod.Companion.checkInputs
 import com.app.guardian.common.ReusedMethod.Companion.displayMessageDialog
 import com.app.guardian.common.ReusedMethod.Companion.isNetworkConnected
-import com.app.guardian.common.ValidationView
 import com.app.guardian.common.extentions.checkLoationPermission
 import com.app.guardian.common.extentions.checkPermissions
 import com.app.guardian.common.extentions.gone
@@ -31,8 +29,10 @@ import com.app.guardian.databinding.ActivitySignupScreenBinding
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.AutoCompleteAdapter
+import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.signup.adapter.ImageAdapter
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.android.gms.location.*
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.AutocompletePrediction
 import com.google.android.libraries.places.api.model.Place
@@ -54,10 +54,14 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
     var PROFILE_IMG_CODE = 101
     var DOCUMENT_CODE = 102
     var profile_img = ""
-    var adapter: AutoCompleteAdapter? = null
-    var responseView: TextView? = null
-    var placesClient: PlacesClient? = null
-    private val AUTOCOMPLETE_REQUEST_CODE = 1
+//    var adapter: AutoCompleteAdapter? = null
+//    var responseView: TextView? = null
+//    var placesClient: PlacesClient? = null
+//    private val AUTOCOMPLETE_REQUEST_CODE = 1
+private var locationManager: LocationManager? = null
+    private var mFusedLocationClient: FusedLocationProviderClient? = null
+    private var locationRequest: LocationRequest? = null
+    private var locationCallback: LocationCallback? = null
     var isAllEmpty = true
     override fun getResource(): Int {
         ReusedMethod.updateStatusBarColor(this, R.color.colorPrimaryDark, 4)
@@ -70,7 +74,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
         mBinding.nsSignUp.visible()
         mBinding.noDataSignup.gone()
         setAdaper()
-        initializeAutocompleteTextView()
+//        initializeAutocompleteTextView()
         checkInputs(mBinding.edtFullname)
         checkInputs(mBinding.edtEmail)
         checkInputs(mBinding.edtMobileNum)
@@ -92,6 +96,11 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
         )
         checkLoationPermission(this)
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getLatLong()
     }
 
 
@@ -131,7 +140,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 startActivity(
                     Intent(
                         this@SignupScreen,
-                        SignupScreen::class.java
+                        LoginActivity::class.java
                     )
                 )
                 overridePendingTransition(R.anim.rightto, R.anim.left)
@@ -141,30 +150,30 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 overridePendingTransition(R.anim.leftto, R.anim.right)
             }
             R.id.edtProvience -> {
-                val fields =
-                    listOf(
-                        Place.Field.ID,
-                        Place.Field.NAME,
-                        Place.Field.ADDRESS,
-                        Place.Field.LAT_LNG
-                    )
-                val intent =
-                    Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
-                        .build(this)
-                startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
+//                val fields =
+//                    listOf(
+//                        Place.Field.ID,
+//                        Place.Field.NAME,
+//                        Place.Field.ADDRESS,
+//                        Place.Field.LAT_LNG
+//                    )
+//                val intent =
+//                    Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+//                        .build(this)
+//                startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
             }
             R.id.edtPostalCode -> {
-                val fields =
-                    listOf(
-                        Place.Field.ID,
-                        Place.Field.NAME,
-                        Place.Field.ADDRESS,
-                        Place.Field.LAT_LNG
-                    )
-                val intent =
-                    Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
-                        .build(this)
-                startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
+//                val fields =
+//                    listOf(
+//                        Place.Field.ID,
+//                        Place.Field.NAME,
+//                        Place.Field.ADDRESS,
+//                        Place.Field.LAT_LNG
+//                    )
+//                val intent =
+//                    Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+//                        .build(this)
+//                startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
             }
             R.id.ll1 -> {
                 ImagePicker.with(this)
@@ -210,7 +219,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
     private fun validations() {
         IntegratorImpl.isValidSignUp(
-            profile_img.toString(), mBinding.edtFullname.text?.trim().toString(),
+            profile_img, mBinding.edtFullname.text?.trim().toString(),
             mBinding.edtEmail.text?.trim().toString(),
             mBinding.edtMobileNum.text?.trim().toString(),
             mBinding.edtPass.text?.trim().toString(),
@@ -221,41 +230,95 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
             images,
             object : ValidationView.SignUp {
                 override fun profileImgValidations() {
-//                    displayMessageDialog(this,"","","","","")
+                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.profile_pic), false, "Cancel", "")
                 }
 
-                override fun fulllNameValidation() {
+                override fun fullname_empty() {
+                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.empty_name), false, "Cancel", "")
                     ShowRedBorders(this@SignupScreen, mBinding.edtFullname)
                 }
 
-                override fun emailValidation() {
+                override fun fulllNameValidation() {
+                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.valid_name), false, "Cancel", "")
+                    ShowRedBorders(this@SignupScreen, mBinding.edtFullname)
+                }
+
+                override fun email_empty() {
+                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.empty_email), false, "Cancel", "")
                     ShowRedBorders(this@SignupScreen, mBinding.edtEmail)
                 }
 
-                override fun moNumberValidation() {
+                override fun emailValidation() {
+                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.valid_email), false, "Cancel", "")
+                    ShowRedBorders(this@SignupScreen, mBinding.edtEmail)
+                }
+
+                override fun moNumber_empty() {
+                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.empty_number), false, "Cancel", "")
                     ShowRedBorders(this@SignupScreen, mBinding.edtMobileNum)
                 }
 
+                override fun moNumberValidation() {
+                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.valid_number), false, "Cancel", "")
+                    ShowRedBorders(this@SignupScreen, mBinding.edtMobileNum)
+                }
+
+                override fun password_empty() {
+                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.empty_pass), false, "Cancel", "")
+                    ShowRedBorders(this@SignupScreen, mBinding.edtPass)
+
+                }
+
                 override fun newpasswordMinValidation() {
+                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.valid_pass), false, "Cancel", "")
                     ShowRedBorders(this@SignupScreen, mBinding.edtPass)
                 }
 
-                override fun conpasswordMinValidation() {
+                override fun con_password_empty() {
+                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.empty_con_pass), false, "Cancel", "")
                     ShowRedBorders(this@SignupScreen, mBinding.edtConPass)
                 }
 
-                override fun newpasswordSpecialValidation() {
+                override fun conpasswordMinValidation() {
+                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.same_old_new_pass), false, "Cancel", "")
+                    ShowRedBorders(this@SignupScreen, mBinding.edtConPass)
+                }
+
+                override fun passwordSpecialValidation() {
+                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.valid_pass), false, "Cancel", "")
                     ShowRedBorders(this@SignupScreen, mBinding.edtPass)
 
                 }
 
                 override fun confpasswordSpecialValidation() {
+                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.same_old_new_pass), false, "Cancel", "")
                     ShowRedBorders(this@SignupScreen, mBinding.edtConPass)
                 }
 
                 override fun matchPassowrds() {
+                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.same_old_new_pass), false, "Cancel", "")
                     ShowRedBorders(this@SignupScreen, mBinding.edtPass)
                     ShowRedBorders(this@SignupScreen, mBinding.edtConPass)
+                }
+
+                override fun empty_provience() {
+                    TODO("Not yet implemented")
+                }
+
+                override fun valid_state() {
+                    TODO("Not yet implemented")
+                }
+
+                override fun empty_postal_code() {
+                    TODO("Not yet implemented")
+                }
+
+                override fun valid_postal_code() {
+                    TODO("Not yet implemented")
+                }
+
+                override fun licencPlate_empty() {
+
                 }
 
                 override fun licencPlatevalidations() {
@@ -309,68 +372,68 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun initializeAutocompleteTextView() {
-        val apiKey = getString(R.string.map_api_key)
-        if (apiKey.isEmpty()) {
-            responseView!!.text = "error"
-            return
-        }
+//    private fun initializeAutocompleteTextView() {
+//        val apiKey = getString(R.string.map_api_key)
+//        if (apiKey.isEmpty()) {
+//            responseView!!.text = "error"
+//            return
+//        }
+//
+//        // Setup Places Client
+//
+//        // Setup Places Client
+//        if (!Places.isInitialized()) {
+//            Places.initialize(applicationContext, apiKey)
+//        }
+//
+//        placesClient = Places.createClient(this)
+//
+//        mBinding.edtProvience.threshold = 1
+//        mBinding.edtPostalCode.threshold = 1
+//        mBinding.edtProvience.onItemClickListener = autocompleteClickListener
+//        mBinding.edtPostalCode.onItemClickListener = autocompleteClickListener
+//        adapter = AutoCompleteAdapter(this, placesClient)
+//        mBinding.edtProvience.setAdapter(adapter)
+//        mBinding.edtPostalCode.setAdapter(adapter)
+//
+//
+//    }
 
-        // Setup Places Client
-
-        // Setup Places Client
-        if (!Places.isInitialized()) {
-            Places.initialize(applicationContext, apiKey)
-        }
-
-        placesClient = Places.createClient(this)
-
-        mBinding.edtProvience.threshold = 1
-        mBinding.edtPostalCode.threshold = 1
-        mBinding.edtProvience.onItemClickListener = autocompleteClickListener
-        mBinding.edtPostalCode.onItemClickListener = autocompleteClickListener
-        adapter = AutoCompleteAdapter(this, placesClient)
-        mBinding.edtProvience.setAdapter(adapter)
-        mBinding.edtPostalCode.setAdapter(adapter)
-
-
-    }
-
-    private val autocompleteClickListener =
-        AdapterView.OnItemClickListener { adapterView, view, i, l ->
-            try {
-                val item: AutocompletePrediction? = adapter!!.getItem(i)
-                var placeID: String? = null
-                if (item != null) {
-                    placeID = item.placeId
-                }
-                val placeFields: List<Place.Field> =
-                    listOf(
-                        Place.Field.ID,
-                        Place.Field.NAME,
-                        Place.Field.ADDRESS,
-                        Place.Field.LAT_LNG,
-
-                        )
-                var request: FetchPlaceRequest? = null
-                if (placeID != null) {
-                    request = FetchPlaceRequest.builder(placeID, placeFields).build()
-                }
-                if (request != null) {
-                    placesClient!!.fetchPlace(request)
-                        .addOnSuccessListener { task ->
-                            responseView!!.text =
-                                """${task.place.name}""".trimIndent() + task.place.address
-                        }.addOnFailureListener { e ->
-                            e.printStackTrace()
-                            responseView!!.text = e.message
-                        }
-                }
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+//    private val autocompleteClickListener =
+//        AdapterView.OnItemClickListener { adapterView, view, i, l ->
+//            try {
+//                val item: AutocompletePrediction? = adapter!!.getItem(i)
+//                var placeID: String? = null
+//                if (item != null) {
+//                    placeID = item.placeId
+//                }
+//                val placeFields: List<Place.Field> =
+//                    listOf(
+//                        Place.Field.ID,
+//                        Place.Field.NAME,
+//                        Place.Field.ADDRESS,
+//                        Place.Field.LAT_LNG,
+//
+//                        )
+//                var request: FetchPlaceRequest? = null
+//                if (placeID != null) {
+//                    request = FetchPlaceRequest.builder(placeID, placeFields).build()
+//                }
+//                if (request != null) {
+//                    placesClient!!.fetchPlace(request)
+//                        .addOnSuccessListener { task ->
+//                            responseView!!.text =
+//                                """${task.place.name}""".trimIndent() + task.place.address
+//                        }.addOnFailureListener { e ->
+//                            e.printStackTrace()
+//                            responseView!!.text = e.message
+//                        }
+//                }
+//
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//        }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -393,53 +456,30 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
                 }
             }
-//            if (requestCode == PROFILE_IMG_CODE) {
-//                val uri: Uri = data?.data!!
-//                mBinding.ivProfileImg.setImageURI(uri)
-//
-//
-//            } else if (requestCode == DOCUMENT_CODE) {
-//                val imageBitmap = data?.extras?.get("data") as Bitmap
-//                val tempUri: Uri = getImageUri(applicationContext, imageBitmap)
-//
-//                images.add(imageBitmap)
-//                imageAdapter?.notifyDataSetChanged()
-////                imageAdapter?.notifyDataSetChanged()
-//                val finalFile = File(getRealPathFromURI(tempUri))
-//
-//
-//                if (images.size == 5) {
-//                    mBinding.ivAddImage.gone()
-//                }
-//                Log.i(
-//                    "THIS_APP",
-//                    tempUri.toString() + "  " + images.size.toString() + "  " + finalFile.toString()
-//                )
-//
-//            }
-            if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
 
-                when (resultCode) {
-                    Activity.RESULT_OK -> {
-                        data?.let {
-                            val places = Autocomplete.getPlaceFromIntent(data)
-                            val lat_long = places.latLng
-                            getLOC(lat_long?.latitude!!, lat_long?.longitude!!)
-                        }
-                    }
-                    AutocompleteActivity.RESULT_ERROR -> {
-                        // TODO: Handle the error.
-                        data?.let {
-                            val status = Autocomplete.getStatusFromIntent(data)
-                            Log.i("TAG_Place_Error", status.statusMessage.toString())
-                        }
-                    }
-                    Activity.RESULT_CANCELED -> {
-                        // The user canceled the operation.
-                    }
-                }
-                return
-            }
+//            if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+//
+//                when (resultCode) {
+//                    Activity.RESULT_OK -> {
+//                        data?.let {
+//                            val places = Autocomplete.getPlaceFromIntent(data)
+//                            val lat_long = places.latLng
+//                            getLOC(lat_long?.latitude!!, lat_long?.longitude!!)
+//                        }
+//                    }
+//                    AutocompleteActivity.RESULT_ERROR -> {
+//                        // TODO: Handle the error.
+//                        data?.let {
+//                            val status = Autocomplete.getStatusFromIntent(data)
+//                            Log.i("TAG_Place_Error", status.statusMessage.toString())
+//                        }
+//                    }
+//                    Activity.RESULT_CANCELED -> {
+//                        // The user canceled the operation.
+//                    }
+//                }
+//                return
+//            }
         }
     }
 
@@ -452,25 +492,40 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
     }
 
-    fun getImageUri(inContext: Context, inImage: Bitmap): Uri {
-        val bytes = ByteArrayOutputStream()
-        inImage.compress(Bitmap.CompressFormat.PNG, 100, bytes)
-        val path: String =
-            MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
-        return Uri.parse(path)
-    }
+    private fun getLatLong() {
+        locationManager =
+            getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        locationRequest = LocationRequest.create()
+        locationRequest?.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest?.interval = 20 * 1000
+        if (checkLoationPermission(this)) {
+            locationCallback = object : LocationCallback() {
+                override fun onLocationResult(p0: LocationResult) {
+                    super.onLocationResult(p0!!)
+                    if (p0.equals(null)) {
+                        return
+                    }
+                    for (location in p0.locations) {
+                        if (location != null) {
+//                            SharedPreferenceManager.putString(
+//                                AppConstants.EXTRA_LAT,
+//                                location.latitude.toString()
+//                            )
+//                            SharedPreferenceManager.putString(
+//                                AppConstants.EXTRA_LONG,
+//                                location.longitude.toString()
+//                            )
 
-    fun getRealPathFromURI(uri: Uri?): String {
-        var path = ""
-        if (contentResolver != null) {
-            val cursor: Cursor? = contentResolver.query(uri!!, null, null, null, null)
-            if (cursor != null) {
-                cursor.moveToFirst()
-                val idx: Int = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-                path = cursor.getString(idx)
-                cursor.close()
+    getLOC(location.latitude,location.longitude)
+
+                            if (mFusedLocationClient != null) {
+                                mFusedLocationClient?.removeLocationUpdates(locationCallback!!)
+                            }
+                        }
+                    }
+                }
             }
         }
-        return path
     }
 }

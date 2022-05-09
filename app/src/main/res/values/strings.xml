@@ -54,7 +54,7 @@
 
     <!--    OTP -->
     <string name="enter_otp">Enter OTP</string>
-    <string name="code_sent_to_email">A 4 digit code has been sent to \n your mail id</string>
+    <string name="code_sent_to_email">A 4 digit code has been sent to \n your mail id or phone number</string>
     <string name="code_sent_to_ph_num">A 4 digit code has been sent to \n your phone number</string>
     <string name="dont_recieve_otp_resend_otp">Don\'t receive the OTP?<b> Resend OTP</b></string>
     <string name="verify_otp">Verify OTP</string>
@@ -64,16 +64,34 @@
     <string name="subcription">Subscription</string>
 
     <!-- TODO: Validation Message  -->
+
+    <!--    RoleSelector Screen-->
+    <string name="empty_role">Please Select Role</string>
+
+    <!--    SignUPScreen-->
+    <string name="empty_profileImage">Please select your profile image</string>
+    <string name="empty_email">Please enter Email.</string>
+    <string name="empty_pass">Please enter Password.</string>
+    <string name="empty_con_pass">Please enter Confirm Password.</string>
+    <string name="valid_pass">Password must contain 1 Uppercase Letter, 1 Lowercase Letter, 1 Digit, 1 Special Character and length is 8 or more.</string>
+    <string name="valid_con_pass">Password must contain 1 Uppercase Letter, 1 Lowercase Letter, 1 Digit, 1 Special Character and length is 8 or more.</string>
+    <string name="valid_email">Please enter valid Email.</string>
+    <string name="same_old_new_pass">Old password and new password can not be same.</string>
+    <string name="empty_name">Please enter Name.</string>
+    <string name="valid_name">Please enter Valid Name.</string>
+    <string name="empty_number">Please enter Phone Number.</string>
+    <string name="valid_number">Phone Number must be greater than or equal 10.</string>
+
     <!-- TODO: Place Holders  -->
 
     <!-- login-->
-    <string name="email_or_phone">Email or Phone</string>
+
 
     <!-- SignUp Screen-->
     <string name="fullname">Full Name</string>
-<!--    <string name="email">Email</string>-->
+    <!--    <string name="email">Email</string>-->
     <string name="mo_num">Mobile Number</string>
-<!--    <string name="password">Password</string>-->
+    <!--    <string name="password">Password</string>-->
     <string name="con_pass">Confirm Password</string>
     <string name="provience_state">Province/State</string>
     <string name="postal_code">Postal Code/Zip Code</string>

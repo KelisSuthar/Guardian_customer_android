@@ -35,8 +35,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     override fun initView() {
         mBinding = getBinding()
-
-
         setPhoneEmailSelector()
 
 
@@ -67,6 +65,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
+
     override fun initObserver() {
         mViewModel.getLoginResp().observe(this) { response ->
             response?.let { requestState ->
@@ -74,6 +73,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
+                            finish()
                             startActivity(
                                 Intent(
                                     this@LoginActivity,
@@ -100,6 +100,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        finish()
         overridePendingTransition(R.anim.leftto, R.anim.right)
     }
 
@@ -139,7 +140,11 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 overridePendingTransition(R.anim.rightto, R.anim.left)
             }
             R.id.btnTryAgain->{
-                callApi()
+                if(is_Email){
+                    callApi(mBinding.emailphoneSelector.edtLoginEmail.text?.trim().toString())
+                }else{
+                    callApi(mBinding.emailphoneSelector.ccp.selectedCountryCode.toString()+mBinding.emailphoneSelector.edtLoginEmail.text?.trim().toString())
+                }
             }
         }
     }
@@ -177,17 +182,22 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                         R.drawable.normal_rounded_light_blue
                     )
                     ShowNoBorders(this@LoginActivity, mBinding.editTextLoginPass)
-                    callApi()
+                    if(is_Email){
+                        callApi(mBinding.emailphoneSelector.edtLoginEmail.text?.trim().toString())
+                    }else{
+                        callApi(mBinding.emailphoneSelector.ccp.selectedCountryCode.toString()+mBinding.emailphoneSelector.edtLoginEmail.text?.trim().toString())
+                    }
+
                 }
 
             })
     }
 
-    private fun callApi() {
+    private fun callApi(phone_email:String) {
         if (isNetworkConnected(this)) {
             mViewModel.Login(
                 isNetworkConnected(this), this@LoginActivity, is_Email,
-                mBinding.emailphoneSelector.edtLoginEmail.text?.trim().toString(),
+                phone_email,
                 mBinding.editTextLoginPass.text?.trim().toString()
             )
         } else {

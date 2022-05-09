@@ -8,6 +8,7 @@ import com.app.guardian.common.ReusedMethod
 import com.app.guardian.databinding.ActivitySplashScreenBinding
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.Login.LoginActivity
+import com.app.guardian.ui.SelectRole.SelectRoleScreen
 
 class SplashScreen : BaseActivity(),View.OnClickListener {
     lateinit var mBinding: ActivitySplashScreenBinding
@@ -24,11 +25,11 @@ class SplashScreen : BaseActivity(),View.OnClickListener {
                 Intent(
                     this@SplashScreen,
 
-                    LoginActivity::class.java
+                    SelectRoleScreen::class.java
                 )
             )
 
-        }, 1500)
+        }, 2000)
     }
 
     override fun initObserver() {

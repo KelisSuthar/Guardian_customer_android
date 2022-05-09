@@ -107,6 +107,7 @@ class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
         mBinding.headdeForgotPass.ivBack.setOnClickListener(this)
         mBinding.btnSubmit.setOnClickListener(this)
         mBinding.txtDoNotHaveAccount.setOnClickListener(this)
+        mBinding.noInternetoginForgotPass.btnTryAgain.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
@@ -122,7 +123,16 @@ class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
                 finish()
                 onBackPressed()
                 overridePendingTransition(R.anim.leftto, R.anim.right)
-
+            }
+            R.id.btnTryAgain -> {
+                if (isEmail) {
+                    callApi(mBinding.emailphoneSelector.edtLoginEmail.text?.trim().toString())
+                } else {
+                    callApi(
+                        mBinding.emailphoneSelector.ccp.selectedCountryCode.toString() + mBinding.emailphoneSelector.edtLoginEmail.text?.trim()
+                            .toString()
+                    )
+                }
             }
         }
     }
@@ -150,17 +160,25 @@ class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
                         this@ForgotPasswordActivity,
                         R.drawable.normal_rounded_light_blue_red_borders
                     )
-                    callApi()
+
+                    if (isEmail) {
+                        callApi(mBinding.emailphoneSelector.edtLoginEmail.text?.trim().toString())
+                    } else {
+                        callApi(
+                            mBinding.emailphoneSelector.ccp.selectedCountryCode.toString() + mBinding.emailphoneSelector.edtLoginEmail.text?.trim()
+                                .toString()
+                        )
+                    }
                 }
 
             })
     }
 
-    private fun callApi() {
+    private fun callApi(phone_email: String) {
         if (isNetworkConnected(this)) {
             mViewModel.forgotPass(
                 true, this, isEmail,
-                mBinding.emailphoneSelector.edtLoginEmail.text?.trim().toString()
+                phone_email
             )
 
         } else {
