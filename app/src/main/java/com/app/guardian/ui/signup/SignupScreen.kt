@@ -54,11 +54,12 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
     var PROFILE_IMG_CODE = 101
     var DOCUMENT_CODE = 102
     var profile_img = ""
-//    var adapter: AutoCompleteAdapter? = null
+
+    //    var adapter: AutoCompleteAdapter? = null
 //    var responseView: TextView? = null
 //    var placesClient: PlacesClient? = null
 //    private val AUTOCOMPLETE_REQUEST_CODE = 1
-private var locationManager: LocationManager? = null
+    private var locationManager: LocationManager? = null
     private var mFusedLocationClient: FusedLocationProviderClient? = null
     private var locationRequest: LocationRequest? = null
     private var locationCallback: LocationCallback? = null
@@ -94,13 +95,15 @@ private var locationManager: LocationManager? = null
             AppConstants.EXTRA_WRITE_PERMISSION,
             android.Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
+
         checkLoationPermission(this)
 
     }
 
     override fun onResume() {
         super.onResume()
-        getLatLong()
+//        getLatLong()
+
     }
 
 
@@ -230,107 +233,264 @@ private var locationManager: LocationManager? = null
             images,
             object : ValidationView.SignUp {
                 override fun profileImgValidations() {
-                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.profile_pic), false, "Cancel", "")
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.profile_pic),
+                        false,
+                        "Cancel",
+                        ""
+                    )
                 }
 
                 override fun fullname_empty() {
-                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.empty_name), false, "Cancel", "")
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.empty_name),
+                        false,
+                        "Cancel",
+                        ""
+                    )
                     ShowRedBorders(this@SignupScreen, mBinding.edtFullname)
                 }
 
                 override fun fulllNameValidation() {
-                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.valid_name), false, "Cancel", "")
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.valid_name),
+                        false,
+                        "Cancel",
+                        ""
+                    )
                     ShowRedBorders(this@SignupScreen, mBinding.edtFullname)
                 }
 
                 override fun email_empty() {
-                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.empty_email), false, "Cancel", "")
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.empty_email),
+                        false,
+                        "Cancel",
+                        ""
+                    )
                     ShowRedBorders(this@SignupScreen, mBinding.edtEmail)
                 }
 
                 override fun emailValidation() {
-                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.valid_email), false, "Cancel", "")
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.valid_email),
+                        false,
+                        "Cancel",
+                        ""
+                    )
                     ShowRedBorders(this@SignupScreen, mBinding.edtEmail)
                 }
 
                 override fun moNumber_empty() {
-                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.empty_number), false, "Cancel", "")
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.empty_number),
+                        false,
+                        "Cancel",
+                        ""
+                    )
                     ShowRedBorders(this@SignupScreen, mBinding.edtMobileNum)
                 }
 
                 override fun moNumberValidation() {
-                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.valid_number), false, "Cancel", "")
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.valid_number),
+                        false,
+                        "Cancel",
+                        ""
+                    )
                     ShowRedBorders(this@SignupScreen, mBinding.edtMobileNum)
                 }
 
                 override fun password_empty() {
-                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.empty_pass), false, "Cancel", "")
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.empty_pass),
+                        false,
+                        "Cancel",
+                        ""
+                    )
                     ShowRedBorders(this@SignupScreen, mBinding.edtPass)
 
                 }
 
                 override fun newpasswordMinValidation() {
-                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.valid_pass), false, "Cancel", "")
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.valid_pass),
+                        false,
+                        "Cancel",
+                        ""
+                    )
                     ShowRedBorders(this@SignupScreen, mBinding.edtPass)
                 }
 
                 override fun con_password_empty() {
-                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.empty_con_pass), false, "Cancel", "")
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.empty_con_pass),
+                        false,
+                        "Cancel",
+                        ""
+                    )
                     ShowRedBorders(this@SignupScreen, mBinding.edtConPass)
                 }
 
                 override fun conpasswordMinValidation() {
-                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.same_old_new_pass), false, "Cancel", "")
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.same_old_new_pass),
+                        false,
+                        "Cancel",
+                        ""
+                    )
                     ShowRedBorders(this@SignupScreen, mBinding.edtConPass)
                 }
 
                 override fun passwordSpecialValidation() {
-                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.valid_pass), false, "Cancel", "")
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.valid_pass),
+                        false,
+                        "Cancel",
+                        ""
+                    )
                     ShowRedBorders(this@SignupScreen, mBinding.edtPass)
 
                 }
 
                 override fun confpasswordSpecialValidation() {
-                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.same_old_new_pass), false, "Cancel", "")
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.same_old_new_pass),
+                        false,
+                        "Cancel",
+                        ""
+                    )
                     ShowRedBorders(this@SignupScreen, mBinding.edtConPass)
                 }
 
                 override fun matchPassowrds() {
-                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.same_old_new_pass), false, "Cancel", "")
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.same_old_new_pass),
+                        false,
+                        "Cancel",
+                        ""
+                    )
                     ShowRedBorders(this@SignupScreen, mBinding.edtPass)
                     ShowRedBorders(this@SignupScreen, mBinding.edtConPass)
                 }
 
                 override fun empty_provience() {
-                    TODO("Not yet implemented")
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.empty_state),
+                        false,
+                        "Cancel",
+                        ""
+                    )
+                    ShowRedBorders(this@SignupScreen, mBinding.edtProvience)
+
                 }
 
                 override fun valid_state() {
-                    TODO("Not yet implemented")
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.valid_state),
+                        false,
+                        "Cancel",
+                        ""
+                    )
+                    ShowRedBorders(this@SignupScreen, mBinding.edtProvience)
                 }
 
                 override fun empty_postal_code() {
-                    TODO("Not yet implemented")
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.valid_state),
+                        false,
+                        "Cancel",
+                        ""
+                    )
+                    ShowRedBorders(this@SignupScreen, mBinding.edtProvience)
                 }
 
                 override fun valid_postal_code() {
-                    TODO("Not yet implemented")
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.valid_state),
+                        false,
+                        "Cancel",
+                        ""
+                    )
+                    ShowRedBorders(this@SignupScreen, mBinding.edtProvience)
                 }
 
                 override fun licencPlate_empty() {
-
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.empty_licence),
+                        false,
+                        "Cancel",
+                        ""
+                    )
+                    ShowRedBorders(this@SignupScreen, mBinding.edtVehicalNum)
                 }
 
                 override fun licencPlatevalidations() {
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.valid_licence),
+                        false,
+                        "Cancel",
+                        ""
+                    )
                     ShowRedBorders(this@SignupScreen, mBinding.edtVehicalNum)
+
                 }
 
-                override fun licencPlateLength() {
-                    ShowRedBorders(this@SignupScreen, mBinding.edtVehicalNum)
-                }
+//                override fun licencPlateLength() {
+//                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.empty_licence), false, "Cancel", "")
+//                    ShowRedBorders(this@SignupScreen, mBinding.edtVehicalNum)
+//
+//                }
 
                 override fun docValidations() {
-                    //                    displayMessageDialog(this,"","","","","")
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.valid_doc),
+                        false,
+                        "Cancel",
+                        ""
+                    )
                 }
 
                 override fun success() {
@@ -508,16 +668,10 @@ private var locationManager: LocationManager? = null
                     }
                     for (location in p0.locations) {
                         if (location != null) {
-//                            SharedPreferenceManager.putString(
-//                                AppConstants.EXTRA_LAT,
-//                                location.latitude.toString()
-//                            )
-//                            SharedPreferenceManager.putString(
-//                                AppConstants.EXTRA_LONG,
-//                                location.longitude.toString()
-//                            )
 
-    getLOC(location.latitude,location.longitude)
+                            Log.i("THIS_APP", location.latitude.toString())
+                            Log.i("THIS_APP", location.longitude.toString())
+                            getLOC(location.latitude, location.longitude)
 
                             if (mFusedLocationClient != null) {
                                 mFusedLocationClient?.removeLocationUpdates(locationCallback!!)

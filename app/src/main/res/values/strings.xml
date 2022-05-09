@@ -83,6 +83,13 @@
     <string name="valid_name">Please enter Valid Name.</string>
     <string name="empty_number">Please enter Phone Number.</string>
     <string name="valid_number">Phone Number must be greater than or equal 10.</string>
+    <string name="empty_state">Please enter Province/State.</string>
+    <string name="valid_state">Please enter valid Province/State name.</string>
+    <string name="empty_postal_code">Please enter Postal Code/Zip Code.</string>
+    <string name="valid_postal_code">Please enter valid Postal Code/Zip Code.</string>
+    <string name="empty_licence">Please enter Licence Plate No. for Car.</string>
+    <string name="valid_licence">Please enter Valid Licence Plate No. for Car.</string>
+    <string name="valid_doc">Please upload at least One Document of yours</string>
 
     <!-- TODO: Place Holders  -->
 

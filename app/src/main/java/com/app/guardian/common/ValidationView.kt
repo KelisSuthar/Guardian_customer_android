@@ -35,7 +35,7 @@ fun profileImgValidations()
         fun valid_postal_code()
         fun licencPlate_empty()
         fun licencPlatevalidations()
-        fun licencPlateLength()
+//        fun licencPlateLength()
         fun docValidations()
         fun success()
 
