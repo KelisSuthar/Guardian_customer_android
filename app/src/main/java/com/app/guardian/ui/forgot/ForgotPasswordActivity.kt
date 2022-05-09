@@ -141,7 +141,45 @@ class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
         IntegratorImpl.isValidForgotPass(isEmail,
             mBinding.emailphoneSelector.edtLoginEmail.text?.trim().toString(),
             object : ValidationView.ForgotPass {
+                override fun empty_email() {
+                    ReusedMethod.displayMessageDialog(
+                        this@ForgotPasswordActivity,
+                        "",
+                        resources.getString(R.string.empty_email),
+                        false,
+                        "Ok",
+                        ""
+                    )
+                    mBinding.emailphoneSelector.cl1.background = ContextCompat.getDrawable(
+                        this@ForgotPasswordActivity,
+                        R.drawable.normal_rounded_light_blue_red_borders
+                    )
+                }
+
                 override fun emailValidation() {
+                    ReusedMethod.displayMessageDialog(
+                        this@ForgotPasswordActivity,
+                        "",
+                        resources.getString(R.string.valid_pass),
+                        false,
+                        "Ok",
+                        ""
+                    )
+                    mBinding.emailphoneSelector.cl1.background = ContextCompat.getDrawable(
+                        this@ForgotPasswordActivity,
+                        R.drawable.normal_rounded_light_blue_red_borders
+                    )
+                }
+
+                override fun empty_phone() {
+                    ReusedMethod.displayMessageDialog(
+                        this@ForgotPasswordActivity,
+                        "",
+                        resources.getString(R.string.empty_number),
+                        false,
+                        "Ok",
+                        ""
+                    )
                     mBinding.emailphoneSelector.cl1.background = ContextCompat.getDrawable(
                         this@ForgotPasswordActivity,
                         R.drawable.normal_rounded_light_blue_red_borders
@@ -149,6 +187,14 @@ class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
                 }
 
                 override fun phoneValidation() {
+                    ReusedMethod.displayMessageDialog(
+                        this@ForgotPasswordActivity,
+                        "",
+                        resources.getString(R.string.valid_number),
+                        false,
+                        "Ok",
+                        ""
+                    )
                     mBinding.emailphoneSelector.cl1.background = ContextCompat.getDrawable(
                         this@ForgotPasswordActivity,
                         R.drawable.normal_rounded_light_blue_red_borders

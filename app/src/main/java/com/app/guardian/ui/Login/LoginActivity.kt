@@ -139,11 +139,14 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 )
                 overridePendingTransition(R.anim.rightto, R.anim.left)
             }
-            R.id.btnTryAgain->{
-                if(is_Email){
+            R.id.btnTryAgain -> {
+                if (is_Email) {
                     callApi(mBinding.emailphoneSelector.edtLoginEmail.text?.trim().toString())
-                }else{
-                    callApi(mBinding.emailphoneSelector.ccp.selectedCountryCode.toString()+mBinding.emailphoneSelector.edtLoginEmail.text?.trim().toString())
+                } else {
+                    callApi(
+                        mBinding.emailphoneSelector.ccp.selectedCountryCode.toString() + mBinding.emailphoneSelector.edtLoginEmail.text?.trim()
+                            .toString()
+                    )
                 }
             }
         }
@@ -154,7 +157,56 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             mBinding.emailphoneSelector.edtLoginEmail.text?.trim().toString(),
             mBinding.editTextLoginPass.text?.trim().toString(),
             object : ValidationView.LoginView {
+                override fun empty_email() {
+                    ReusedMethod.displayMessageDialog(
+                        this@LoginActivity,
+                        "",
+                        resources.getString(R.string.empty_email),
+                        false,
+                        "Ok",
+                        ""
+                    )
+                    mBinding.emailphoneSelector.cl1.background = ContextCompat.getDrawable(
+                        this@LoginActivity,
+                        R.drawable.normal_rounded_light_blue_red_borders
+                    )
+                }
+
                 override fun emailValidation() {
+                    ReusedMethod.displayMessageDialog(
+                        this@LoginActivity,
+                        "",
+                        resources.getString(R.string.valid_email),
+                        false,
+                        "Ok",
+                        ""
+                    )
+                    mBinding.emailphoneSelector.cl1.background = ContextCompat.getDrawable(
+                        this@LoginActivity,
+                        R.drawable.normal_rounded_light_blue_red_borders
+                    )
+                }
+
+                override fun empty_passwordValidation() {
+                    ReusedMethod.displayMessageDialog(
+                        this@LoginActivity,
+                        "",
+                        resources.getString(R.string.empty_pass),
+                        false,
+                        "Ok",
+                        ""
+                    )
+                }
+
+                override fun empty_number() {
+                    ReusedMethod.displayMessageDialog(
+                        this@LoginActivity,
+                        "",
+                        resources.getString(R.string.empty_number),
+                        false,
+                        "Ok",
+                        ""
+                    )
                     mBinding.emailphoneSelector.cl1.background = ContextCompat.getDrawable(
                         this@LoginActivity,
                         R.drawable.normal_rounded_light_blue_red_borders
@@ -166,13 +218,37 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                         this@LoginActivity,
                         R.drawable.normal_rounded_light_blue_red_borders
                     )
+                    ReusedMethod.displayMessageDialog(
+                        this@LoginActivity,
+                        "",
+                        resources.getString(R.string.valid_number),
+                        false,
+                        "Ok",
+                        ""
+                    )
                 }
 
                 override fun passwordMinValidation() {
+                    ReusedMethod.displayMessageDialog(
+                        this@LoginActivity,
+                        "",
+                        resources.getString(R.string.valid_pass),
+                        false,
+                        "Ok",
+                        ""
+                    )
                     ShowRedBorders(this@LoginActivity, mBinding.editTextLoginPass)
                 }
 
                 override fun passwordSpecialValidation() {
+                    ReusedMethod.displayMessageDialog(
+                        this@LoginActivity,
+                        "",
+                        resources.getString(R.string.valid_pass),
+                        false,
+                        "Ok",
+                        ""
+                    )
                     ShowRedBorders(this@LoginActivity, mBinding.editTextLoginPass)
                 }
 
@@ -182,10 +258,13 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                         R.drawable.normal_rounded_light_blue
                     )
                     ShowNoBorders(this@LoginActivity, mBinding.editTextLoginPass)
-                    if(is_Email){
+                    if (is_Email) {
                         callApi(mBinding.emailphoneSelector.edtLoginEmail.text?.trim().toString())
-                    }else{
-                        callApi(mBinding.emailphoneSelector.ccp.selectedCountryCode.toString()+mBinding.emailphoneSelector.edtLoginEmail.text?.trim().toString())
+                    } else {
+                        callApi(
+                            mBinding.emailphoneSelector.ccp.selectedCountryCode.toString() + mBinding.emailphoneSelector.edtLoginEmail.text?.trim()
+                                .toString()
+                        )
                     }
 
                 }
@@ -193,7 +272,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             })
     }
 
-    private fun callApi(phone_email:String) {
+    private fun callApi(phone_email: String) {
         if (isNetworkConnected(this)) {
             mViewModel.Login(
                 isNetworkConnected(this), this@LoginActivity, is_Email,

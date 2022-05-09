@@ -10,13 +10,14 @@ object IntegratorImpl {
         password: String,
         ValidationView: ValidationView.LoginView
     ) {
-//        if (TextUtils.isEmpty(email_number)) {
-//            ValidationView.email()
+
         if (is_email) {
-            if (!SmartUtils.emailValidator(email_number)) {
+            if (TextUtils.isEmpty(email_number)) {
+                ValidationView.empty_email()
+            } else if (!SmartUtils.emailValidator(email_number)) {
                 ValidationView.emailValidation()
-//            } else if (TextUtils.isEmpty(password)) {
-//                ValidationView.passwordValidation()
+            } else if (TextUtils.isEmpty(password)) {
+                ValidationView.empty_passwordValidation()
             } else if (password.length < 8) {
                 ValidationView.passwordMinValidation()
             } else if (!SmartUtils.checkSpecialPasswordValidation(password)) {
@@ -25,17 +26,20 @@ object IntegratorImpl {
                 ValidationView.success()
             }
         } else {
-            if (email_number.length < 10) {
-                ValidationView.numberValidation()
-//            } else if (TextUtils.isEmpty(password)) {
-//                ValidationView.passwordValidation()
-            } else if (password.length < 8) {
-                ValidationView.passwordMinValidation()
-            } else if (!SmartUtils.checkSpecialPasswordValidation(password)) {
-                ValidationView.passwordSpecialValidation()
-            } else {
-                ValidationView.success()
-            }
+            if (TextUtils.isEmpty(email_number)) {
+                ValidationView.empty_number()
+            } else
+                if (email_number.length < 10) {
+                    ValidationView.numberValidation()
+                } else if (TextUtils.isEmpty(password)) {
+                    ValidationView.empty_passwordValidation()
+                } else if (password.length < 8) {
+                    ValidationView.passwordMinValidation()
+                } else if (!SmartUtils.checkSpecialPasswordValidation(password)) {
+                    ValidationView.passwordSpecialValidation()
+                } else {
+                    ValidationView.success()
+                }
         }
 
     }
@@ -151,13 +155,17 @@ object IntegratorImpl {
         ValidationView: ValidationView.ForgotPass
     ) {
         if (isEmail) {
-            if (!SmartUtils.emailValidator(email_phone)) {
+            if (TextUtils.isEmpty(email_phone)) {
+                ValidationView.empty_email()
+            } else if (!SmartUtils.emailValidator(email_phone)) {
                 ValidationView.emailValidation()
             } else {
                 ValidationView.success()
             }
         } else {
-            if (email_phone.length < 10) {
+            if (TextUtils.isEmpty(email_phone)) {
+                ValidationView.empty_phone()
+            } else if (email_phone.length < 10) {
                 ValidationView.phoneValidation()
             } else {
                 ValidationView.success()
@@ -172,17 +180,17 @@ object IntegratorImpl {
         ValidationView: ValidationView.RestPass
     ) {
 
-//        if (TextUtils.isEmpty(password)) {
-//            ValidationView.passwordValidation()
-//        } else
+        if (TextUtils.isEmpty(password)) {
+            ValidationView.empty_pass()
+        } else
         if (password.length < 8) {
             ValidationView.passwordMinValidation()
         } else if (!SmartUtils.checkSpecialPasswordValidation(password)) {
             ValidationView.passwordSpecialValidation()
         }
-//            else if (TextUtils.isEmpty(conPass)) {
-//            ValidationView.confirmPass()
-//        }
+            else if (TextUtils.isEmpty(conPass)) {
+            ValidationView.empty_con_Pass()
+        }
         else if (conPass.length < 8) {
             ValidationView.con_passwordMinValidation()
         } else if (!SmartUtils.checkSpecialPasswordValidation(conPass)) {
