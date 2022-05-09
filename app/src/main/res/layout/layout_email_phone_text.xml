@@ -45,7 +45,6 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_mail"
                 android:fontFamily="@font/lora_regular"
-                android:hint="@string/email_or_phone"
                 android:drawablePadding="@dimen/_15sdp"
                 android:inputType="textEmailAddress"
                 android:textFontWeight="400"
