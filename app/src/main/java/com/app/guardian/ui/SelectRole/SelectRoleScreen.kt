@@ -85,7 +85,7 @@ class SelectRoleScreen : BaseActivity(), View.OnClickListener {
                         displayMessageDialog(this, "", "Coming Soon!!", false, "Ok", "")
                     }
                     else -> {
-                        displayMessageDialog(this, "", "Please Select", false, "Cancel", "")
+                        displayMessageDialog(this, "", resources.getString(R.string.empty_role), false, "Cancel", "")
                     }
                 }
             }

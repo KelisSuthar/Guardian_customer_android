@@ -16,14 +16,12 @@
         <include
             android:id="@+id/noDataSignup"
             layout="@layout/no_data_layout"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
         <include
             android:id="@+id/noInternetSignUp"
             layout="@layout/no_internet_connection_layout"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
 
         <androidx.core.widget.NestedScrollView
@@ -115,8 +113,8 @@
                         android:drawableLeft="@drawable/ic_profile"
                         android:fontFamily="@font/lora_regular"
                         android:hint="@string/fullname"
-                        android:maxLength="35"
                         android:inputType="textEmailAddress"
+                        android:maxLength="35"
                         android:textFontWeight="400"
                         android:textSize="@dimen/_12ssp" />
 
@@ -144,36 +142,36 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center|left"
-                            app:ccp_textSize="@dimen/_10ssp"
                             android:layout_marginLeft="@dimen/_23sdp"
-                            android:gravity="center"
-                            app:ccp_defaultCode="1"
-                            app:ccp_setCountryByTimeZone="true"
                             android:elevation="@dimen/_10sdp"
+                            android:gravity="center"
                             app:ccp_backgroundColor="@color/transparent"
+                            app:ccp_defaultCode="1"
                             app:ccp_dialogTextColor="@color/black"
                             app:ccp_hideNameCode="true"
                             app:ccp_hidePhoneCode="false"
                             app:ccp_keyboardAutoPopOnSearch="false"
+                            app:ccp_setCountryByTimeZone="true"
                             app:ccp_showFlag="false"
-
                             app:ccp_showFullName="false"
-                            app:ccp_textColor="@color/black" />
+
+                            app:ccp_textColor="@color/black"
+                            app:ccp_textSize="@dimen/_10ssp" />
 
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtMobileNum"
-                        style="@style/White_edittext"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="@dimen/_35sdp"
-                        android:drawableLeft="@drawable/ic_mobile"
-                        android:fontFamily="@font/lora_regular"
-                        android:hint="@string/mo_num"
-                        android:inputType="number"
-                        android:maxLength="10"
-                        android:textFontWeight="400"
-                        android:textSize="@dimen/_12ssp" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtMobileNum"
+                            style="@style/White_edittext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_mobile"
+                            android:drawablePadding="@dimen/_35sdp"
+                            android:fontFamily="@font/lora_regular"
+                            android:hint="@string/mo_num"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:textFontWeight="400"
+                            android:textSize="@dimen/_12ssp" />
 
                     </FrameLayout>
 
@@ -224,28 +222,26 @@
                             android:inputType="textPassword" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <AutoCompleteTextView
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtProvience"
                         style="@style/White_edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:drawableLeft="@drawable/ic_map"
-                        android:focusable="false"
                         android:fontFamily="@font/lora_regular"
                         android:hint="@string/provience_state"
                         android:inputType="text"
                         android:textFontWeight="400"
                         android:textSize="@dimen/_12ssp" />
 
-                    <AutoCompleteTextView
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtPostalCode"
                         style="@style/White_edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:drawableLeft="@drawable/ic_map_pin"
-                        android:focusable="false"
                         android:fontFamily="@font/lora_regular"
                         android:hint="@string/postal_code"
                         android:inputType="text"

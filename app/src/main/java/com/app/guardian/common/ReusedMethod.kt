@@ -298,6 +298,7 @@ class ReusedMethod {
             ccp: CountryCodePicker
         ) {
             editText.setText("")
+            editText.hint = context.resources.getString(R.string.email)
             if (b) {
                 editText.inputType = InputType.TYPE_CLASS_TEXT
                 ccp.gone()
@@ -312,6 +313,7 @@ class ReusedMethod {
             } else {
                 editText.inputType =
                     InputType.TYPE_CLASS_NUMBER
+                editText.hint = context.resources.getString(R.string.phone)
                 ccp.visible()
                 editText.setCompoundDrawablesWithIntrinsicBounds(
                     0,
