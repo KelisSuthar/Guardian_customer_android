@@ -131,7 +131,62 @@
                         android:inputType="textEmailAddress"
                         android:textFontWeight="400"
                         android:textSize="@dimen/_12ssp" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtSpecializations"
+                        style="@style/White_edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:drawableLeft="@drawable/ic_specialization"
+                        android:fontFamily="@font/lora_regular"
+                        android:hint="@string/specialization"
 
+                        android:inputType="textEmailAddress"
+                        android:textFontWeight="400"
+                        android:textSize="@dimen/_12ssp" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp">
+
+                        <com.rilixtech.widget.countrycodepicker.CountryCodePicker
+                            android:id="@+id/ccpOffice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center|left"
+                            app:ccp_textSize="@dimen/_10ssp"
+                            android:layout_marginLeft="@dimen/_23sdp"
+                            android:gravity="center"
+                            app:ccp_defaultCode="1"
+                            app:ccp_setCountryByTimeZone="true"
+                            android:elevation="@dimen/_10sdp"
+                            app:ccp_backgroundColor="@color/transparent"
+                            app:ccp_dialogTextColor="@color/black"
+                            app:ccp_hideNameCode="true"
+                            app:ccp_hidePhoneCode="false"
+                            app:ccp_keyboardAutoPopOnSearch="false"
+                            app:ccp_showFlag="false"
+
+                            app:ccp_showFullName="false"
+                            app:ccp_textColor="@color/black" />
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtOfficeNum"
+                        style="@style/White_edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_35sdp"
+                        android:drawableLeft="@drawable/ic_mobile"
+                        android:fontFamily="@font/lora_regular"
+                        android:hint="@string/office_num"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:textFontWeight="400"
+                        android:textSize="@dimen/_12ssp" />
+
+                    </FrameLayout>
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -157,6 +212,7 @@
 
                             app:ccp_textColor="@color/black"
                             app:ccp_textSize="@dimen/_10ssp" />
+
 
 
                         <com.google.android.material.textfield.TextInputEditText

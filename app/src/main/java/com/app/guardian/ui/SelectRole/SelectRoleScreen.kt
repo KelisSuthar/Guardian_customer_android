@@ -1,12 +1,7 @@
 package com.app.guardian.ui.SelectRole
 
 import android.content.Intent
-import android.graphics.Color
-import android.util.Log
 import android.view.View
-import android.widget.CompoundButton
-import android.widget.RadioButton
-import android.widget.RadioGroup
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
 import com.app.guardian.common.ReusedMethod
@@ -15,7 +10,6 @@ import com.app.guardian.common.extentions.gone
 import com.app.guardian.databinding.ActivitySelectRoleScreenBinding
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.Login.LoginActivity
-import com.app.guardian.ui.forgot.ForgotPasswordActivity
 
 class SelectRoleScreen : BaseActivity(), View.OnClickListener {
     lateinit var mBinding: ActivitySelectRoleScreenBinding
@@ -75,14 +69,30 @@ class SelectRoleScreen : BaseActivity(), View.OnClickListener {
                                 this@SelectRoleScreen,
                                 LoginActivity::class.java
                             )
+
                         )
+
                         overridePendingTransition(R.anim.rightto, R.anim.left)
                     }
                     mBinding.rb2.isChecked -> {
-                        displayMessageDialog(this, "", "Coming Soon!!", false, "Ok", "")
+                        startActivity(
+                            Intent(
+                                this@SelectRoleScreen,
+                                LoginActivity::class.java
+                            )
+
+                        )
+                        overridePendingTransition(R.anim.rightto, R.anim.left)
                     }
                     mBinding.rb3.isChecked -> {
-                        displayMessageDialog(this, "", "Coming Soon!!", false, "Ok", "")
+                        startActivity(
+                            Intent(
+                                this@SelectRoleScreen,
+                                LoginActivity::class.java
+                            )
+
+                        )
+                        overridePendingTransition(R.anim.rightto, R.anim.left)
                     }
                     else -> {
                         displayMessageDialog(this, "", resources.getString(R.string.empty_role), false, "Cancel", "")
