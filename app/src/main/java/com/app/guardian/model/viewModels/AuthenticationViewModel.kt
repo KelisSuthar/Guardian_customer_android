@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.ForgotPass.ForgotPassResp
 import com.app.guardian.model.Login.LoginResp
+import com.app.guardian.model.Login.User
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
@@ -62,8 +63,13 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
     fun signUp(
         isInternetConnected: Boolean,
         baseView: BaseActivity,
+        is_lawyer: Boolean,
+        is_mediator: Boolean,
         full_name: String,
         email: String,
+        specialization: String,
+        years_of_experience: String,
+        office_phone: String,
         password: String,
         confirm_password: String,
         phone: String,
@@ -79,17 +85,27 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         val array = JsonArray()
         signUpJson.addProperty(ApiConstant.EXTRAS_FULL_NAME, full_name)
         signUpJson.addProperty(ApiConstant.EXTRAS_EMAIL, email)
+        if (is_lawyer) {
+            signUpJson.addProperty(ApiConstant.EXTRAS_SPECIALIZATION, specialization)
+            signUpJson.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
+            signUpJson.addProperty(ApiConstant.EXTRAS_OFFICE_PHONE, office_phone)
+        } else if (is_mediator) {
+            signUpJson.addProperty(ApiConstant.EXTRAS_SPECIALIZATION, specialization)
+            signUpJson.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
+
+        }
+
         signUpJson.addProperty(ApiConstant.EXTRAS_PASSWORD, password)
         signUpJson.addProperty(ApiConstant.EXTRAS_CONFIRM_PASS, confirm_password)
         signUpJson.addProperty(ApiConstant.EXTRAS_PHONE, phone)
         signUpJson.addProperty(ApiConstant.EXTRAS_STATE, state)
         signUpJson.addProperty(ApiConstant.EXTRAS_POSTAL_CODE, postal_code)
-        signUpJson.addProperty(ApiConstant.EXTRAS_PROFILE_AVATAR, profile_avatar)
+//        signUpJson.addProperty(ApiConstant.EXTRAS_PROFILE_AVATAR, profile_avatar)
 
-        for (i in user_doc.indices) {
-            array.add(user_doc[i])
-        }
-        signUpJson.add(ApiConstant.EXTRAS_USER_DOC, array)
+//        for (i in user_doc.indices) {
+//            array.add(user_doc[i])
+//        }
+//        signUpJson.add(ApiConstant.EXTRAS_USER_DOC, array)
         signUpJson.addProperty(ApiConstant.EXTRAS_DEVICETOKEN, device_token)
 
 
@@ -101,8 +117,8 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         )
     }
     //RESET PASS API CALLING
-
-    fun getResetPAssResp(): LiveData<RequestState<CommonResponse>> = CommonResponse
+    private val CommonRestPassResponse = MutableLiveData<RequestState<MutableList<CommonResponse>>>()
+    fun getResetPAssResp(): LiveData<RequestState<MutableList<CommonResponse>>> = CommonRestPassResponse
 
     fun resetPassword(
         isInternetConnected: Boolean,
@@ -122,18 +138,21 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             restePassJson,
             isInternetConnected,
             baseView,
-            CommonResponse
+            CommonRestPassResponse
         )
     }
     //VERIFY OTP API CALLING
-
-    fun getVerifyOTPResp(): LiveData<RequestState<CommonResponse>> = CommonResponse
+    private val UserResp = MutableLiveData<RequestState<User>>()
+    fun getVerifyOTPResp(): LiveData<RequestState<User>> = UserResp
 
     fun verifyOTP(
         isInternetConnected: Boolean,
         baseView: BaseActivity,
         isEmail: Boolean,
+
         email_phone: String,
+
+        ccp: String,
         OTP: String,
 
         ) {
@@ -141,7 +160,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         if (isEmail) {
             verifyOTPJson.addProperty(ApiConstant.EXTRAS_EMAIL, email_phone)
         } else {
-            verifyOTPJson.addProperty(ApiConstant.EXTRAS_PHONE, email_phone)
+            verifyOTPJson.addProperty(ApiConstant.EXTRAS_PHONE, ccp + email_phone)
         }
         verifyOTPJson.addProperty(ApiConstant.EXTRAS_OTP, OTP)
 
@@ -149,7 +168,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             verifyOTPJson,
             isInternetConnected,
             baseView,
-            CommonResponse
+            UserResp
         )
     }
 
@@ -182,16 +201,16 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         price_id: String,
         price: String,
         shared_secret: String,
-        start_date: String,
-        end_date: String,
+//        start_date: String,
+//        end_date: String,
     ) {
         val buyPlanJson = JsonObject()
         buyPlanJson.addProperty(ApiConstant.EXTRAS_PRICE_ID, price_id)
         buyPlanJson.addProperty(ApiConstant.EXTRAS_PRICE, price)
-        buyPlanJson.addProperty(ApiConstant.EXTRAS_APPLE_RECEIPT, "")
+        buyPlanJson.addProperty(ApiConstant.EXTRAS_APPLE_RECEIPT, "fddgfgfgfg@hardik15")
         buyPlanJson.addProperty(ApiConstant.EXTRAS_SHARED_SECRET, shared_secret)
-        buyPlanJson.addProperty(ApiConstant.EXTRAS_START_DATE, start_date)
-        buyPlanJson.addProperty(ApiConstant.EXTRAS_END_DATE, end_date)
+//        buyPlanJson.addProperty(ApiConstant.EXTRAS_START_DATE, start_date)
+//        buyPlanJson.addProperty(ApiConstant.EXTRAS_END_DATE, end_date)
 
         mUserRepository.buySubscriptionPlan(
             buyPlanJson,

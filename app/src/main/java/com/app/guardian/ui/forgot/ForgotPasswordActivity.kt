@@ -30,6 +30,7 @@ class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
     override fun initView() {
         mBinding = getBinding()
         setPhoneEmailSelector()
+        mBinding.emailphoneSelector.ccp.setCountryForPhoneCode(1)
     }
 
     private fun setPhoneEmailSelector() {
@@ -41,7 +42,8 @@ class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
                         this,
                         isEmail,
                         mBinding.emailphoneSelector.edtLoginEmail,
-                        mBinding.emailphoneSelector.ccp
+                        mBinding.emailphoneSelector.ccp,
+                        mBinding.emailphoneSelector.cl1
                     )
                 }
                 R.id.rbPhone -> {
@@ -50,7 +52,8 @@ class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
                         this,
                         isEmail,
                         mBinding.emailphoneSelector.edtLoginEmail,
-                        mBinding.emailphoneSelector.ccp
+                        mBinding.emailphoneSelector.ccp,
+                        mBinding.emailphoneSelector.cl1
                     )
                 }
             }
@@ -70,6 +73,7 @@ class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
+                            finish()
                             startActivity(
                                 Intent(
                                     this@ForgotPasswordActivity,
@@ -81,8 +85,16 @@ class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
                                         mBinding.emailphoneSelector.edtLoginEmail.text?.trim()
                                             .toString()
                                     )
+                                    .putExtra(
+                                        AppConstants.EXTRA_CCP,
+                                        mBinding.emailphoneSelector.ccp.selectedCountryCode.toString()
+
+                                    )
                             )
                             overridePendingTransition(R.anim.rightto, R.anim.left)
+                            ReusedMethod.displayMessage(this, it.message.toString())
+                        } else {
+                            ReusedMethod.displayMessage(this, it.message.toString())
                         }
                     }
                 }
@@ -96,7 +108,7 @@ class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { ReusedMethod.displayMessage(this, it) }
+                                ?.let { }
                     }
                 }
             }
@@ -160,7 +172,7 @@ class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
                     ReusedMethod.displayMessageDialog(
                         this@ForgotPasswordActivity,
                         "",
-                        resources.getString(R.string.valid_pass),
+                        resources.getString(R.string.valid_email),
                         false,
                         "Ok",
                         ""
@@ -204,7 +216,7 @@ class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
                 override fun success() {
                     mBinding.emailphoneSelector.cl1.background = ContextCompat.getDrawable(
                         this@ForgotPasswordActivity,
-                        R.drawable.normal_rounded_light_blue_red_borders
+                        R.drawable.normal_rounded_light_blue
                     )
 
                     if (isEmail) {

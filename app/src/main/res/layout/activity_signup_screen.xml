@@ -24,22 +24,20 @@
             android:visibility="gone" />
 
 
-        <androidx.core.widget.NestedScrollView
+        <ScrollView
             android:id="@+id/nsSignUp"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/headderSignUp"
-            app:layout_constraintVertical_bias="0.0">
+            >
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_20sdp">
+                android:layout_marginHorizontal="@dimen/_20sdp">
 
                 <TextView
                     android:id="@+id/txtWelcomeBack"
@@ -88,7 +86,7 @@
                         android:layout_gravity="center"
                         android:layout_marginHorizontal="@dimen/_15sdp"
                         android:fontFamily="@font/lora_regular"
-                        android:text="@string/profile_pic"
+                        android:text="Profile Picture"
                         android:textAlignment="center"
                         android:textColor="@color/txt_dark"
                         android:textFontWeight="400"
@@ -140,15 +138,31 @@
                         android:drawableLeft="@drawable/ic_specialization"
                         android:fontFamily="@font/lora_regular"
                         android:hint="@string/specialization"
-
+                        android:visibility="gone"
                         android:inputType="textEmailAddress"
                         android:textFontWeight="400"
                         android:textSize="@dimen/_12ssp" />
 
-                    <FrameLayout
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtYearsOfExp"
+                        style="@style/White_edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp">
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:drawableLeft="@drawable/ic_years_exp"
+                        android:fontFamily="@font/lora_regular"
+                        android:hint="@string/years_exp"
+                        android:inputType="number"
+                        android:visibility="gone"
+                        android:textFontWeight="400"
+                        android:textSize="@dimen/_12ssp" />
+
+                    <FrameLayout
+                        android:id="@+id/fmOficeNum"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:visibility="gone">
 
                         <com.rilixtech.widget.countrycodepicker.CountryCodePicker
                             android:id="@+id/ccpOffice"
@@ -183,6 +197,7 @@
                         android:hint="@string/office_num"
                         android:inputType="number"
                         android:maxLength="10"
+
                         android:textFontWeight="400"
                         android:textSize="@dimen/_12ssp" />
 
@@ -454,18 +469,31 @@
                     android:fontFamily="@font/lora_regular"
                     android:gravity="center"
                     android:padding="@dimen/_5sdp"
-                    android:text="@string/do_not_have_an_account_sign_in"
+                    android:text="@string/already_have_an_acc"
                     android:textAlignment="gravity"
                     android:textColor="@color/txt_dark"
                     android:textFontWeight="400"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintTop_toBottomOf="@+id/btnSigUp" />
 
+<!--                <TextView-->
+<!--                    android:id="@+id/txtTermsAndConditions"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:fontFamily="@font/lora_regular"-->
+<!--                    android:gravity="center"-->
+<!--                    android:padding="@dimen/_5sdp"-->
+<!--                    android:text="@string/t_and_c"-->
+<!--                    android:textColor="@color/txt_dark"-->
+<!--                    android:textFontWeight="400"-->
+<!--                    android:textSize="@dimen/_12ssp"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/txtDoNotHaveAccount"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"/>-->
                 <TextView
                     android:id="@+id/txtTermsAndConditions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginVertical="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:fontFamily="@font/lora_regular"
                     android:gravity="center"
@@ -475,10 +503,11 @@
                     android:textColor="@color/txt_dark"
                     android:textFontWeight="400"
                     android:textSize="@dimen/_12ssp"
-                    app:layout_constraintTop_toBottomOf="@+id/txtDoNotHaveAccount" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtDoNotHaveAccount"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

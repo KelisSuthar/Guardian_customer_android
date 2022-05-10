@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.ForgotPass.ForgotPassResp
 import com.app.guardian.model.Login.LoginResp
+import com.app.guardian.model.Login.User
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
@@ -50,7 +51,7 @@ interface UserRepo {
         verifyOTPJson: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
-        commonResponse: MutableLiveData<RequestState<CommonResponse>>
+        commonResponse: MutableLiveData<RequestState<User>>
     )
 
     fun forgotPass(
@@ -70,7 +71,7 @@ interface UserRepo {
         restePassJson: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
-        commonResponse: MutableLiveData<RequestState<CommonResponse>>
+        commonResponse: MutableLiveData<RequestState<MutableList<CommonResponse>>>
     )
 
 }

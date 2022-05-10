@@ -4,6 +4,7 @@ import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.CommonResponseModel
 import com.app.guardian.model.ForgotPass.ForgotPassResp
 import com.app.guardian.model.Login.LoginResp
+import com.app.guardian.model.Login.User
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.google.gson.JsonObject
@@ -17,7 +18,7 @@ interface ApiEndPoint {
 //    @GET("apikey")
 //    fun getKey(): Call<CommonResponseModel<KeyData>>
 
-    @POST("createAccount")
+    @POST("signUp")
     fun doSignUp(@Body jsonObject: JsonObject): Call<CommonResponseModel<SignupResp>>
 
     @POST("signIn")
@@ -27,10 +28,10 @@ interface ApiEndPoint {
     fun forGotPass(@Body jsonObject: JsonObject): Call<CommonResponseModel<ForgotPassResp>>
 
     @POST("verifyFPOTP")
-    fun verifyOTP(@Body jsonObject: JsonObject): Call<CommonResponseModel<CommonResponse>>
+    fun verifyOTP(@Body jsonObject: JsonObject): Call<CommonResponseModel<User>>
 
     @POST("resetPassword")
-    fun resetPass(@Body jsonObject: JsonObject): Call<CommonResponseModel<CommonResponse>>
+    fun resetPass(@Body jsonObject: JsonObject): Call<CommonResponseModel<MutableList<CommonResponse>>>
 
     @POST("signOut")
     fun signOut(): Call<CommonResponseModel<LoginResp>>

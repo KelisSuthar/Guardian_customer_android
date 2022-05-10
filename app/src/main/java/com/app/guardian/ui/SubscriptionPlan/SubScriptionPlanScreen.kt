@@ -21,9 +21,9 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
     lateinit var mBinding: ActivitySubScriptionPlanScreenBinding
     private val mViewModel: AuthenticationViewModel by viewModel()
     var subscriptionPlanAdapter: SubscriptionPlanAdapter? = null
-    var shared_secret = ""
-    var start_date = ""
-    var end_date = ""
+    var shared_secret = "Q@hagfgfggfggrdik15"
+//    var start_date = ""
+//    var end_date = ""
     var array = ArrayList<SubscriptionPlanResp>()
 
     private lateinit var billingClient: BillingClient//inApp Purchase
@@ -70,6 +70,8 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
 
 
     override fun initObserver() {
+
+        //SUBSCRIPTION PLAN RESP
         mViewModel.getSubcriptionPlanResp().observe(this) { response ->
             response?.let { requestState ->
                 showLoadingIndicator(requestState.progress)
@@ -83,6 +85,42 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                             mBinding.recyclerView.gone()
                             mBinding.noDataSubscritpion.visible()
                             mBinding.noInternetSubscritpion.llNointernet.gone()
+                        }
+
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                this,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let { ReusedMethod.displayMessage(this, it) }
+                    }
+                }
+            }
+        }
+        //BUY SUBSCRIPTION PLAN RESP
+        mViewModel.getBuySubcriptionPlanResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            ReusedMethod.displayMessageDialog(
+                                this,
+                                "",
+                                "Currently, your selected plan is successful. This feature coming soon update.",
+                                false,
+                                "Ok",
+                                ""
+                            )
+                        }else{
+                            ReusedMethod.displayMessage(this, it.message.toString())
                         }
 
                     }
@@ -130,10 +168,10 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                 true,
                 this,
                 id.toString(),
-                firstSubString,
+                firstSubString.replace("$",""),
                 shared_secret,
-                start_date,
-                end_date
+//                start_date,
+//                end_date
             )
         } else {
             mBinding.recyclerView.gone()

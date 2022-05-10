@@ -73,7 +73,8 @@
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center_horizontal"
                     android:textColor="@color/black"
-                    app:height="@dimen/_45sdp"
+                    app:height="@dimen/_40sdp"
+                    app:box_margin="@dimen/_10sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -81,7 +82,7 @@
                     app:length="4"
                     app:otp_box_background="@drawable/normal_rounded_light_blue"
                     app:otp_text_size="@dimen/_18ssp"
-                    app:width="@dimen/_50sdp" />
+                    app:width="@dimen/_40sdp" />
 
 
             </LinearLayout>

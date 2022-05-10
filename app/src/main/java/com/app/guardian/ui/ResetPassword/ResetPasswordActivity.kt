@@ -3,6 +3,7 @@ package com.app.guardian.ui.ResetPassword
 import android.content.Intent
 import android.view.View
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.IntegratorImpl
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.ReusedMethod.Companion.ShowNoBorders
@@ -39,6 +40,7 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
+                            finish()
                             startActivity(
                                 Intent(
                                     this@ResetPasswordActivity,
@@ -46,6 +48,9 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
                                 )
                             )
                             overridePendingTransition(R.anim.rightto, R.anim.left)
+                            ReusedMethod.displayMessage(this, it.message.toString())
+                        }else{
+                            ReusedMethod.displayMessage(this, it.message.toString())
                         }
                     }
                 }
@@ -59,7 +64,7 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { ReusedMethod.displayMessage(this, it) }
+                                ?.let {  }
                     }
                 }
             }
@@ -189,7 +194,7 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
                 this,
                 mBinding.editTextConPass.text?.trim().toString(),
                 mBinding.editTextConPass.text?.trim().toString(),
-                ""
+                intent.getStringExtra(AppConstants.EXTRA_CCP).toString()
             )
         } else {
             mBinding.noInternetoginResetPass.llNointernet.visible()
