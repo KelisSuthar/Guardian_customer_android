@@ -4,14 +4,13 @@ import android.content.Intent
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
-import com.app.guardian.common.IntegratorImpl
-import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.*
 import com.app.guardian.common.ReusedMethod.Companion.ShowNoBorders
 import com.app.guardian.common.ReusedMethod.Companion.ShowRedBorders
 import com.app.guardian.common.ReusedMethod.Companion.changePhoneEmailState
 import com.app.guardian.common.ReusedMethod.Companion.displayMessage
+import com.app.guardian.common.ReusedMethod.Companion.displayMessageDialog
 import com.app.guardian.common.ReusedMethod.Companion.isNetworkConnected
-import com.app.guardian.common.ValidationView
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityLoginBinding
@@ -36,7 +35,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     override fun initView() {
         mBinding = getBinding()
         setPhoneEmailSelector()
-
+        mBinding.emailphoneSelector.ccp.setCountryForPhoneCode(1)
 
     }
 
@@ -49,7 +48,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                         this,
                         is_Email,
                         mBinding.emailphoneSelector.edtLoginEmail,
-                        mBinding.emailphoneSelector.ccp
+                        mBinding.emailphoneSelector.ccp,
+                        mBinding.emailphoneSelector.cl1
                     )
                 }
                 R.id.rbPhone -> {
@@ -58,7 +58,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                         this,
                         is_Email,
                         mBinding.emailphoneSelector.edtLoginEmail,
-                        mBinding.emailphoneSelector.ccp
+                        mBinding.emailphoneSelector.ccp,
+                        mBinding.emailphoneSelector.cl1
                     )
                 }
             }
@@ -73,14 +74,56 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
-                            finish()
-                            startActivity(
-                                Intent(
-                                    this@LoginActivity,
-                                    SubScriptionPlanScreen::class.java
-                                )
-                            )
-                            overridePendingTransition(R.anim.rightto, R.anim.left)
+                            SharedPreferenceManager.putString(AppConstants.BEREAR_TOKEN, data.token)
+
+                            when {
+                                SharedPreferenceManager.getString(
+                                    AppConstants.USER_ROLE,
+                                    AppConstants.APP_ROLE_USER
+                                ) == AppConstants.APP_ROLE_USER -> {
+                                    
+                                    startActivity(
+                                        Intent(
+                                            this@LoginActivity,
+                                            SubScriptionPlanScreen::class.java
+                                        )
+                                    )
+                                    finish()
+                                    overridePendingTransition(R.anim.rightto, R.anim.left)
+
+                                }
+                                SharedPreferenceManager.getString(
+                                    AppConstants.USER_ROLE,
+                                    AppConstants.APP_ROLE_USER
+                                ) == AppConstants.APP_ROLE_LAWYER -> {
+                                    displayMessageDialog(
+                                        this@LoginActivity,
+                                        "",
+                                        it.message.toString(),
+                                        false,
+                                        "Ok",
+                                        ""
+                                    )
+//                                    displayMessage(this,it.message.toString())
+                                }
+                                SharedPreferenceManager.getString(
+                                    AppConstants.USER_ROLE,
+                                    AppConstants.APP_ROLE_USER
+                                ) == AppConstants.APP_ROLE_MEDIATOR -> {
+                                    displayMessageDialog(
+                                        this@LoginActivity,
+                                        "",
+                                        it.message.toString(),
+                                        false,
+                                        "Ok",
+                                        ""
+                                    )
+//                                    displayMessage(this,it.message.toString())
+                                }
+                            }
+
+                        } else {
+                            ReusedMethod.displayMessage(this, it.message.toString())
                         }
                     }
                 }
@@ -91,7 +134,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { displayMessage(this, it) }
+                                ?.let { }
                     }
                 }
             }
@@ -115,6 +158,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.txtDoNotHaveAccount -> {
+                finish()
                 startActivity(
                     Intent(
                         this@LoginActivity,
