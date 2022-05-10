@@ -53,14 +53,18 @@ class OTPScreen : BaseActivity(), View.OnClickListener {
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
+
                             finish()
                             startActivity(
                                 Intent(
                                     this@OTPScreen,
                                     ResetPasswordActivity::class.java
-                                )
+                                ).putExtra(AppConstants.EXTRA_CCP,data.id.toString())
                             )
                             overridePendingTransition(R.anim.rightto, R.anim.left)
+                            ReusedMethod.displayMessage(this, it.message.toString())
+                        }else{
+                            ReusedMethod.displayMessage(this, it.message.toString())
                         }
                     }
                 }
@@ -74,7 +78,7 @@ class OTPScreen : BaseActivity(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { ReusedMethod.displayMessage(this, it) }
+                                ?.let { }
                     }
                 }
             }
@@ -87,6 +91,8 @@ class OTPScreen : BaseActivity(), View.OnClickListener {
                     it.data?.let { data ->
                         if (it.status) {
                             mBinding.otpTextView.otp = data.otp.toString()
+                        }else{
+                            ReusedMethod.displayMessage(this, it.message.toString())
                         }
                     }
                 }
@@ -116,7 +122,16 @@ class OTPScreen : BaseActivity(), View.OnClickListener {
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.txtResendOTP -> {
-                callResendOTPAPI()
+                if (intent.getBooleanExtra(AppConstants.EXTRA_IS_EMAIL, false)) {
+                    callResendOTPAPI(intent.getStringExtra(AppConstants.EXTRA_EMAIL_PHONE)!!)
+                } else {
+                    callResendOTPAPI(
+                        intent.getStringExtra(AppConstants.EXTRA_CCP) + intent.getStringExtra(
+                            AppConstants.EXTRA_EMAIL_PHONE
+                        )
+                    )
+                }
+
             }
             R.id.ivBack -> {
                 onBackPressed()
@@ -135,11 +150,11 @@ class OTPScreen : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun callResendOTPAPI() {
+    private fun callResendOTPAPI(email_phone: String) {
         if (ReusedMethod.isNetworkConnected(this)) {
             mViewModel.forgotPass(
                 true, this, intent.getBooleanExtra(AppConstants.EXTRA_IS_EMAIL, false),
-                intent.getStringExtra(AppConstants.EXTRA_EMAIL_PHONE)!!
+                email_phone
             )
 
         } else {
@@ -156,6 +171,7 @@ class OTPScreen : BaseActivity(), View.OnClickListener {
                 this,
                 intent.getBooleanExtra(AppConstants.EXTRA_IS_EMAIL, false),
                 intent.getStringExtra(AppConstants.EXTRA_EMAIL_PHONE)!!,
+                intent.getStringExtra(AppConstants.EXTRA_CCP)!!,
                 mBinding.otpTextView.otp.toString(),
             )
         } else {

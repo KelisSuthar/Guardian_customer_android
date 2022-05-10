@@ -28,9 +28,10 @@
     <string name="signup_to_start">Sign Up to Get Started!</string>
     <string name="upload_doc">Upload Document</string>
     <string name="upload_max_doc">(Maximum Upload 5 Document)</string>
-    <string name="profile_pic">Profile Picture</string>
+    <string name="empty_profile_pic">Please select your profile image</string>
     <string name="upload_doc_ex">(Like : Drivers license, Vehicle Registration, Learners Permit)</string>
     <string name="do_not_have_an_account_sign_in">Don’t have an account? <b>Sign In</b></string>
+    <string name="already_have_an_acc">Already have an account? <b>Sign In</b></string>
     <string name="t_and_c"><u>Terms &amp; Conditions</u></string>
 
 
@@ -83,7 +84,7 @@
     <string name="empty_name">Please enter Name.</string>
     <string name="valid_name">Please enter Valid Name.</string>
     <string name="empty_number">Please enter Phone Number.</string>
-    <string name="valid_number">Phone Number must be greater than or equal 10.</string>
+    <string name="valid_number">Phone Number must be less than or equal 10 Digits.</string>
     <string name="empty_state">Please enter Province/State.</string>
     <string name="valid_state">Please enter valid Province/State name.</string>
     <string name="empty_postal_code">Please enter Postal Code/Zip Code.</string>
@@ -91,7 +92,12 @@
     <string name="empty_licence">Please enter Licence Plate No. for Car.</string>
     <string name="valid_licence">Please enter Valid Licence Plate No. for Car.</string>
     <string name="valid_doc">Please upload at least One Document of yours</string>
-
+    <string name="empty_specialization">Please enter Specialization.</string>
+    <string name="valid_specialization">Please enter Valid description of Specialization</string>
+    <string name="empty_exp">Please enter Experience.</string>
+    <string name="valid_exp">Your Experience Must Be Greater Than 0 years.</string>
+    <string name="empty_office_number">Please enter Office Phone Number.</string>
+    <string name="valid_office_number">Office Phone Number must be less than or equal 10 Digits.</string>
 
     <!--    ResetPAss Screen-->
     <string name="empty_new_pass">Please enter New Password.</string>
@@ -106,6 +112,7 @@
     <!-- SignUp Screen-->
     <string name="fullname">Full Name</string>
     <string name="specialization">Specialization</string>
+    <string name="years_exp">Years of Experience</string>
 <!--    <string name="email">Email</string>-->
     <!--    <string name="email">Email</string>-->
     <string name="mo_num">Mobile Number</string>

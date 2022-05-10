@@ -4,8 +4,10 @@ import android.content.Intent
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.ReusedMethod.Companion.displayMessageDialog
+import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.databinding.ActivitySelectRoleScreenBinding
 import com.app.guardian.shareddata.base.BaseActivity
@@ -23,7 +25,7 @@ class SelectRoleScreen : BaseActivity(), View.OnClickListener {
         mBinding = getBinding()
         mBinding.headder.tvHeaderText.text = resources.getString(R.string.select_user_role)
         mBinding.headder.ivBack.gone()
-
+        changeLayout(1)
     }
 
     override fun initObserver() {
@@ -64,6 +66,10 @@ class SelectRoleScreen : BaseActivity(), View.OnClickListener {
             R.id.btnSubmit -> {
                 when {
                     mBinding.rb1.isChecked -> {
+                        SharedPreferenceManager.putString(
+                            AppConstants.USER_ROLE,
+                            AppConstants.APP_ROLE_USER
+                        )
                         startActivity(
                             Intent(
                                 this@SelectRoleScreen,
@@ -75,6 +81,10 @@ class SelectRoleScreen : BaseActivity(), View.OnClickListener {
                         overridePendingTransition(R.anim.rightto, R.anim.left)
                     }
                     mBinding.rb2.isChecked -> {
+                        SharedPreferenceManager.putString(
+                            AppConstants.USER_ROLE,
+                            AppConstants.APP_ROLE_MEDIATOR
+                        )
                         startActivity(
                             Intent(
                                 this@SelectRoleScreen,
@@ -85,17 +95,28 @@ class SelectRoleScreen : BaseActivity(), View.OnClickListener {
                         overridePendingTransition(R.anim.rightto, R.anim.left)
                     }
                     mBinding.rb3.isChecked -> {
-                        startActivity(
-                            Intent(
-                                this@SelectRoleScreen,
-                                LoginActivity::class.java
-                            )
-
+                        SharedPreferenceManager.putString(
+                            AppConstants.USER_ROLE,
+                            AppConstants.APP_ROLE_LAWYER
                         )
+                                startActivity(
+                                    Intent(
+                                        this@SelectRoleScreen,
+                                        LoginActivity::class.java
+                                    )
+
+                                )
                         overridePendingTransition(R.anim.rightto, R.anim.left)
                     }
                     else -> {
-                        displayMessageDialog(this, "", resources.getString(R.string.empty_role), false, "Cancel", "")
+                        displayMessageDialog(
+                            this,
+                            "",
+                            resources.getString(R.string.empty_role),
+                            false,
+                            "Cancel",
+                            ""
+                        )
                     }
                 }
             }

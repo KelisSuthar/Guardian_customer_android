@@ -7,23 +7,27 @@
     android:layout_marginHorizontal="@dimen/_30sdp"
     android:layout_marginVertical="@dimen/_20sdp">
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/top_corner_blue_back"
+        android:fontFamily="@font/lora_regular"
+        android:padding="@dimen/_5sdp"
+        android:text="Monthly Plan"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:background="@color/lightBlue_2"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/txtTitle">
 
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/top_corner_blue_back"
-            android:fontFamily="@font/lora_regular"
-            android:padding="@dimen/_5sdp"
-            android:text="Monthly Plan"
-            android:textAlignment="center"
-            android:textColor="@color/white" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,7 +60,7 @@
                 android:id="@+id/txtIntroOffer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginVertical="@dimen/_10sdp"
                 android:fontFamily="@font/lora_semibold"
                 android:text="Intro offer $25 first year"
                 android:textAlignment="center"
@@ -80,8 +84,8 @@
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:orientation="vertical"
+                    android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/subscription_plan_detail_list_layout" />
 
@@ -89,10 +93,10 @@
                     android:id="@+id/txtFeature"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:drawablePadding="@dimen/_20sdp"
                     android:fontFamily="@font/lora_regular"
                     android:text="Dummy Text"
+                    android:textColor="@color/txt_dark"
                     android:textSize="@dimen/_10ssp" />
 
             </RelativeLayout>

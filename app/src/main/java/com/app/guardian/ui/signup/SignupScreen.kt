@@ -1,24 +1,24 @@
 package com.app.guardian.ui.signup
 
-import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.database.Cursor
-import android.graphics.Bitmap
 import android.location.Address
 import android.location.Geocoder
 import android.location.LocationManager
 import android.net.Uri
-import android.provider.MediaStore
+import android.os.Looper
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
+import android.view.Window
 import android.widget.TextView
+import androidx.core.content.PermissionChecker
 import com.app.guardian.R
 import com.app.guardian.common.*
 import com.app.guardian.common.ReusedMethod.Companion.ShowNoBorders
 import com.app.guardian.common.ReusedMethod.Companion.ShowRedBorders
 import com.app.guardian.common.ReusedMethod.Companion.checkInputs
+import com.app.guardian.common.ReusedMethod.Companion.displayMessage
 import com.app.guardian.common.ReusedMethod.Companion.displayMessageDialog
 import com.app.guardian.common.ReusedMethod.Companion.isNetworkConnected
 import com.app.guardian.common.extentions.checkLoationPermission
@@ -28,21 +28,13 @@ import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivitySignupScreenBinding
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.base.BaseActivity
-import com.app.guardian.ui.AutoCompleteAdapter
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.signup.adapter.ImageAdapter
+import com.app.guardian.utils.Config
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.gms.location.*
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.AutocompletePrediction
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.FetchPlaceRequest
-import com.google.android.libraries.places.api.net.PlacesClient
-import com.google.android.libraries.places.widget.Autocomplete
-import com.google.android.libraries.places.widget.AutocompleteActivity
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.io.ByteArrayOutputStream
 import java.util.*
 
 
@@ -54,6 +46,9 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
     var PROFILE_IMG_CODE = 101
     var DOCUMENT_CODE = 102
     var profile_img = ""
+    var is_lawyer = false
+    var is_mediator = false
+    var is_user = false
 
     //    var adapter: AutoCompleteAdapter? = null
 //    var responseView: TextView? = null
@@ -80,6 +75,14 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
         checkInputs(mBinding.edtEmail)
         checkInputs(mBinding.edtMobileNum)
         mBinding.ccp.setCountryForPhoneCode(1)
+        mBinding.ccpOffice.setCountryForPhoneCode(1)
+        locationManager = getSystemService(
+            Context.LOCATION_SERVICE
+        ) as LocationManager
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        locationRequest = LocationRequest.create()
+        locationRequest?.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest?.interval = 20 * 1000
         checkPermissions(
             this,
             AppConstants.EXTRA_CAMERA_PERMISSION,
@@ -96,14 +99,84 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
             android.Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
 
-        checkLoationPermission(this)
+        when {
+            SharedPreferenceManager.getString(
+                AppConstants.USER_ROLE,
+                AppConstants.APP_ROLE_USER
+            ) == AppConstants.APP_ROLE_USER -> {
+                is_user = true
 
+            }
+            SharedPreferenceManager.getString(
+                AppConstants.USER_ROLE,
+                AppConstants.APP_ROLE_USER
+            ) == AppConstants.APP_ROLE_LAWYER -> {
+                is_lawyer = true
+                mBinding.edtSpecializations.visible()
+                mBinding.fmOficeNum.visible()
+                mBinding.edtYearsOfExp.visible()
+                mBinding.edtVehicalNum.gone()
+            }
+            SharedPreferenceManager.getString(
+                AppConstants.USER_ROLE,
+                AppConstants.APP_ROLE_USER
+            ) == AppConstants.APP_ROLE_MEDIATOR -> {
+                is_mediator = true
+                mBinding.edtSpecializations.visible()
+                mBinding.edtYearsOfExp.visible()
+                mBinding.edtVehicalNum.gone()
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
-//        getLatLong()
+        getLatLong()
 
+        if (checkLoationPermission(this)) {
+
+
+            if (locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER)!!) {
+
+                mFusedLocationClient?.requestLocationUpdates(
+                    locationRequest!!,
+                    locationCallback!!,
+                    Looper.getMainLooper()
+                )
+            } else {
+
+                setDialog()
+            }
+        }
+
+
+    }
+
+    private fun setDialog() {
+        val dialog = Dialog(
+            this@SignupScreen,
+            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+        )
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setContentView(R.layout.dialig_layout)
+        dialog.setCancelable(false)
+
+        val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
+        val TITLE = dialog.findViewById<TextView>(R.id.tvTitle)
+        val MESSAGE = dialog.findViewById<TextView>(R.id.tvMessage)
+        val CANCEL = dialog.findViewById<MaterialTextView>(R.id.tvNegative)
+        MESSAGE.gone()
+        CANCEL.gone()
+        OK.text = "OK"
+
+        TITLE.text = "Please turn on location to continue"
+        OK.setOnClickListener {
+            startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
 
@@ -121,7 +194,37 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
 
     override fun initObserver() {
+        mViewModel.getSignupResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            finish()
+                            startActivity(
+                                Intent(
+                                    this@SignupScreen,
+                                    LoginActivity::class.java
+                                )
+                            )
+                            overridePendingTransition(R.anim.rightto, R.anim.left)
+                        }else{
+                            displayMessage(this,it.message.toString())
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            displayMessage(this, getString(R.string.text_error_network))
 
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {  }
+                    }
+                }
+            }
+        }
     }
 
     override fun handleListener() {
@@ -132,12 +235,16 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
         mBinding.edtProvience.setOnClickListener(this)
         mBinding.edtPostalCode.setOnClickListener(this)
         mBinding.btnSigUp.setOnClickListener(this)
-        mBinding.txtTermsAndConditions.setOnClickListener(this)
+
         mBinding.headderSignUp.ivBack.setOnClickListener(this)
+        mBinding.noInternetSignUp.btnTryAgain.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
+            R.id.btnTryAgain->{
+                callApi()
+            }
             R.id.txtDoNotHaveAccount -> {
                 finish()
                 startActivity(
@@ -203,15 +310,14 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                             1080
                         )
                         .start(DOCUMENT_CODE)
-//                    val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//                    startActivityForResult(takePictureIntent, DOCUMENT_CODE)
+
                 } else {
                     displayMessageDialog(this, "", "Maximum Image Limit Reached", false, "Ok", "")
                 }
 
             }
             R.id.txtTermsAndConditions -> {
-                displayMessageDialog(this, "", "Coming Soon", false, "Ok", "")
+                displayMessageDialog(this, "", "Coming Soon!!", false, "Ok", "")
             }
             R.id.btnSigUp -> {
                 validations()
@@ -222,8 +328,12 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
     private fun validations() {
         IntegratorImpl.isValidSignUp(
+            is_lawyer, is_mediator,
             profile_img, mBinding.edtFullname.text?.trim().toString(),
             mBinding.edtEmail.text?.trim().toString(),
+            mBinding.edtSpecializations.text?.trim().toString(),
+            mBinding.edtYearsOfExp.text?.trim().toString(),
+            mBinding.edtOfficeNum.text?.trim().toString(),
             mBinding.edtMobileNum.text?.trim().toString(),
             mBinding.edtPass.text?.trim().toString(),
             mBinding.edtConPass.text?.trim().toString(),
@@ -236,7 +346,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     displayMessageDialog(
                         this@SignupScreen,
                         "",
-                        resources.getString(R.string.profile_pic),
+                        resources.getString(R.string.empty_profile_pic),
                         false,
                         "Cancel",
                         ""
@@ -289,6 +399,78 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtEmail)
+                }
+
+                override fun empty_specialization() {
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.empty_specialization),
+                        false,
+                        "Cancel",
+                        ""
+                    )
+                    ShowRedBorders(this@SignupScreen, mBinding.edtSpecializations)
+                }
+
+                override fun valid_specialization() {
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.valid_specialization),
+                        false,
+                        "Cancel",
+                        ""
+                    )
+                    ShowRedBorders(this@SignupScreen, mBinding.edtSpecializations)
+                }
+
+                override fun empty_years_exp() {
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.empty_exp),
+                        false,
+                        "Cancel",
+                        ""
+                    )
+                    ShowRedBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                }
+
+                override fun valid_years_exp() {
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.valid_exp),
+                        false,
+                        "Cancel",
+                        ""
+                    )
+                    ShowRedBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                }
+
+                override fun empty_office_num() {
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.empty_office_number),
+                        false,
+                        "Cancel",
+                        ""
+                    )
+                    ShowRedBorders(this@SignupScreen, mBinding.edtOfficeNum)
+                }
+
+                override fun valid_office_num() {
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.valid_office_number),
+                        false,
+                        "Cancel",
+                        ""
+                    )
+                    ShowRedBorders(this@SignupScreen, mBinding.edtOfficeNum)
                 }
 
                 override fun moNumber_empty() {
@@ -512,15 +694,18 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
             mViewModel.signUp(
                 true,
                 this,
+                is_lawyer,
+                is_mediator,
                 mBinding.edtFullname.text?.trim().toString(),
                 mBinding.edtEmail.text?.trim().toString(),
+                mBinding.edtSpecializations.text?.trim().toString(),
+                mBinding.edtYearsOfExp.text?.trim().toString(),
+                mBinding.ccpOffice.selectedCountryCode.toString()+mBinding.edtOfficeNum.text?.trim().toString(),
                 mBinding.edtPass.text?.trim().toString(),
                 mBinding.edtConPass.text?.trim().toString(),
-                mBinding.edtMobileNum.text?.trim().toString(),
-//                mBinding.edtProvience.text?.trim().toString(),
-                "CANADA",
-                "123456",
-//                mBinding.edtPostalCode.text?.trim().toString(),
+                mBinding.ccp.selectedCountryCode.toString()+mBinding.edtMobileNum.text?.trim().toString(),
+                mBinding.edtProvience.text?.trim().toString(),
+                mBinding.edtPostalCode.text?.trim().toString(),
                 profile_img,
                 images,
                 "DEVICE@123"
@@ -595,7 +780,24 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 //            }
 //        }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            AppConstants.EXTRA_FINE_PERMISSION -> {
+                if (grantResults.isNotEmpty() && grantResults[0] === PermissionChecker.PERMISSION_GRANTED) {
+                    getLatLong()
 
+                } else {
+                    displayMessage(this,"Please accept permission")
+                }
+            }
+        }
+
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -646,24 +848,29 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
     private fun getLOC(MyLat: Double, MyLong: Double) {
         val geocoder = Geocoder(this, Locale.getDefault())
         val addresses: List<Address> = geocoder.getFromLocation(MyLat, MyLong, 100)
+//
+//        Log.i("THIS_APP",addresses[0].adminArea)
+//        Log.i("THIS_APP",addresses[0].countryCode)
+//        Log.i("THIS_APP",addresses[0].countryName)
+//        Log.i("THIS_APP",addresses[0].featureName)
+//        Log.i("THIS_APP",addresses[0].locality)
+//        Log.i("THIS_APP",addresses[0].postalCode)
+        mBinding.edtPostalCode.setText(addresses[0].postalCode)
+        mBinding.edtProvience.setText(addresses[0].locality+"/"+addresses[0].adminArea)
 
-        mBinding.edtPostalCode.setText(addresses[0].subLocality)
-        mBinding.edtProvience.setText(addresses[0].locality)
 
     }
 
     private fun getLatLong() {
-        locationManager =
-            getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        locationRequest = LocationRequest.create()
-        locationRequest?.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        locationRequest?.interval = 20 * 1000
+
         if (checkLoationPermission(this)) {
+
             locationCallback = object : LocationCallback() {
                 override fun onLocationResult(p0: LocationResult) {
                     super.onLocationResult(p0!!)
+
                     if (p0.equals(null)) {
+
                         return
                     }
                     for (location in p0.locations) {

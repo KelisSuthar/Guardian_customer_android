@@ -21,6 +21,13 @@ interface ValidationView {
         fun fulllNameValidation()
         fun email_empty()
         fun emailValidation()
+        fun empty_specialization()
+        fun valid_specialization()
+        fun empty_years_exp()
+        fun valid_years_exp()
+        fun empty_office_num()
+        fun valid_office_num()
+
         fun moNumber_empty()
         fun moNumberValidation()
         fun password_empty()

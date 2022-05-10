@@ -18,12 +18,15 @@ class ApiConstant{
      val EXTRAS_OTP="otp"
      val EXTRAS_NEW_PASS="new_password"
      val EXTRAS_CONFIRM_PASS="confirm_password"
-     val EXTRAS_FULL_NAME="fullname"
+     val EXTRAS_FULL_NAME="full_name"
      val EXTRAS_FULL_UNDERSCORE_NAME="full_name"
      val EXTRAS_STATE="state"
      val EXTRAS_PROFILE_AVATAR="profile_avatar"
      val EXTRAS_USER_DOC="user_doc"
      val EXTRAS_USER_ID="user_id"
+     val EXTRAS_SPECIALIZATION="specialization"
+     val EXTRAS_YEARS_OF_EXP="years_of_experience"
+     val EXTRAS_OFFICE_PHONE="office_phone"
 
 
      val EXTRAS_REFERAL_CODE="referral_by"

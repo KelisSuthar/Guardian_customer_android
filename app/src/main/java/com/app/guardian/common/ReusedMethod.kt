@@ -20,10 +20,12 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
+import com.app.guardian.databinding.PhoneEmailSelectorBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
@@ -295,8 +297,13 @@ class ReusedMethod {
             context: Context,
             b: Boolean,
             editText: EditText,
-            ccp: CountryCodePicker
+            ccp: CountryCodePicker,
+            parentLayout: ConstraintLayout
         ) {
+            parentLayout.background = ContextCompat.getDrawable(
+                context,
+                R.drawable.normal_rounded_light_blue
+            )
             editText.setText("")
             editText.hint = context.resources.getString(R.string.email)
             if (b) {

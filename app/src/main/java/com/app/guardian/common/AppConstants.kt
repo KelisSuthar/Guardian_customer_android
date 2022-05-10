@@ -15,10 +15,14 @@ object AppConstants {
 
     const val LOG_DEBUG = true
     val APP_NAME = "Tajmeel"
+    val APP_ROLE_USER = "user"
+    val APP_ROLE_LAWYER = "lawyer"
+    val APP_ROLE_MEDIATOR = "mediator"
     const val SKIP_INTRO = "SKIP_INTRO"
     const val LOGGED_IN_USER_ID = "LOGGED_IN_USER_ID"
     val API_KEY_VALUE = "API_KEY_VALUE"
     const val ACCESS_TOKEN = "ACCESS_TOKEN"
+    const val BEREAR_TOKEN = "BEREAR_TOKEN"
     const val EXTRA_YOU_CAN_ORDER_ONE = "You can order from one restaurant at a time"
     const val USER_ROLE = "USER_ROLE"
     const val IS_LOGIN = "IS_LOGIN"
@@ -28,6 +32,7 @@ object AppConstants {
     const val STATIC_API_KEY = "335a559c51b88b4752b8325980abb3c14e1c4e61"
     const val EXTRA_OTP = "OTP"
     const val EXTRA_EMAIL_PHONE = "EMAIL_PHONE"
+    const val EXTRA_CCP = "CCP"
     const val EXTRA_IS_EMAIL = "IS_EMAIL"
     const val EXTRA_IS_USER = "IS_USER"
     const val EXTRA_IS_LAWYER = "IS_LAWYER"

@@ -24,7 +24,7 @@ object CustomToast {
         // ImageView ivStatus = toastView.findViewById(R.id.ivStatus);
 //        ll.setBackgroundColor(bgColor);
         text.text = toast_title
-        text.setTextColor(txtColor)
+//        text.setTextColor(txtColor)
         /* if (drawable != 0) {
             ivStatus.setVisibility(View.VISIBLE);
             ivStatus.setImageResource(drawable);

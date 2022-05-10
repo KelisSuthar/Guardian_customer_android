@@ -5,6 +5,7 @@ import com.app.guardian.model.ApiError
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.ForgotPass.ForgotPassResp
 import com.app.guardian.model.Login.LoginResp
+import com.app.guardian.model.Login.User
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
@@ -108,17 +109,17 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
         verifyOTPJson: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
-        commonResponse: MutableLiveData<RequestState<CommonResponse>>
+        UserResp: MutableLiveData<RequestState<User>>
     ) {
         if (!internetConnected) {
-            commonResponse.value =
+            UserResp.value =
                 RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
         } else {
-            commonResponse.value = RequestState(progress = true)
+            UserResp.value = RequestState(progress = true)
             NetworkManager.requestData(
                 mApiEndPoint.verifyOTP(verifyOTPJson),
                 baseView,
-                commonResponse
+                UserResp
             )
         }
     }
@@ -160,7 +161,7 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
         restePassJson: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
-        commonResponse: MutableLiveData<RequestState<CommonResponse>>
+        commonResponse: MutableLiveData<RequestState<MutableList<CommonResponse>>>
     ) {
         if (!internetConnected) {
             commonResponse.value =
