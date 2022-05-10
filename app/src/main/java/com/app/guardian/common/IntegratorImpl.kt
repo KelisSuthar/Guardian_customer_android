@@ -45,11 +45,16 @@ object IntegratorImpl {
     }
 
     fun isValidSignUp(
+
+        is_lawyer: Boolean,
+        is_mediator: Boolean,
         profile_img: String,
         fullName: String,
         email: String,
+        specialization: String,
+        years_exp: String,
+        office_num: String,
         mobile: String,
-
         newpassword: String,
         conpassword: String,
         provience: String,
@@ -60,20 +65,49 @@ object IntegratorImpl {
         ValidationView: ValidationView.SignUp
     ) {
 
-        if (TextUtils.isEmpty(email)) {
-            ValidationView.email_empty()
-        } else
-            if (profile_img == "") {
-                ValidationView.profileImgValidations()
 
-            } else if (TextUtils.isEmpty(fullName)) {
-                ValidationView.fullname_empty()
+        if (profile_img == "") {
+            ValidationView.profileImgValidations()
+
+        } else if (TextUtils.isEmpty(fullName)) {
+            ValidationView.fullname_empty()
+        } else
+            if (fullName.length > 35 || fullName.length < 3) {
+                ValidationView.fulllNameValidation()
+            } else if (TextUtils.isEmpty(email)) {
+                ValidationView.email_empty()
             } else
-                if (fullName.length > 35 || fullName.length < 3) {
-                    ValidationView.fulllNameValidation()
-                } else if (!SmartUtils.emailValidator(email)) {
+                if (!SmartUtils.emailValidator(email)) {
                     ValidationView.emailValidation()
-                } else if (TextUtils.isEmpty(mobile)) {
+
+                } else if (is_lawyer) {
+                    if (TextUtils.isEmpty(specialization)) {
+                        ValidationView.empty_specialization()
+                    } else if (specialization.length < 3) {
+                        ValidationView.valid_specialization()
+                    } else if (TextUtils.isEmpty(years_exp)) {
+                        ValidationView.empty_years_exp()
+                    } else if (specialization == "0") {
+                        ValidationView.valid_years_exp()
+                    } else if (office_num.length < 10) {
+                        ValidationView.valid_office_num()
+                    }
+
+
+
+
+                } else if (is_mediator) {
+                    if (TextUtils.isEmpty(specialization)) {
+                        ValidationView.empty_specialization()
+                    } else if (specialization.length < 3) {
+                        ValidationView.valid_specialization()
+                    } else if (TextUtils.isEmpty(years_exp)) {
+                        ValidationView.empty_years_exp()
+                    } else if (specialization == "0") {
+                        ValidationView.valid_years_exp()
+                    }
+                }
+                if (TextUtils.isEmpty(mobile)) {
                     ValidationView.moNumber_empty()
                 } else if (mobile.length < 10) {
                     ValidationView.moNumberValidation()
@@ -95,14 +129,11 @@ object IntegratorImpl {
                     ValidationView.empty_postal_code()
                 } else if (postal_code.length < 3 || postal_code.length > 9) {
                     ValidationView.valid_postal_code()
-                }
+
 //                else if (licence_plate.length < 15) {
 //                    ValidationView.licencPlateLength()
 //                }
-                else if (TextUtils.isEmpty(licence_plate)) {
-                    ValidationView.licencPlate_empty()
-                } else if (licence_plate.contains("[A-Za-z0-9-]")) {
-                    ValidationView.licencPlatevalidations()
+
                 } else if (documentList.size == 0) {
                     ValidationView.docValidations()
                 } else {
@@ -183,23 +214,21 @@ object IntegratorImpl {
         if (TextUtils.isEmpty(password)) {
             ValidationView.empty_pass()
         } else
-        if (password.length < 8) {
-            ValidationView.passwordMinValidation()
-        } else if (!SmartUtils.checkSpecialPasswordValidation(password)) {
-            ValidationView.passwordSpecialValidation()
-        }
-            else if (TextUtils.isEmpty(conPass)) {
-            ValidationView.empty_con_Pass()
-        }
-        else if (conPass.length < 8) {
-            ValidationView.con_passwordMinValidation()
-        } else if (!SmartUtils.checkSpecialPasswordValidation(conPass)) {
-            ValidationView.con_passwordSpecialValidation()
-        } else if (password != conPass) {
-            ValidationView.comparePass()
-        } else {
-            ValidationView.success()
-        }
+            if (password.length < 8) {
+                ValidationView.passwordMinValidation()
+            } else if (!SmartUtils.checkSpecialPasswordValidation(password)) {
+                ValidationView.passwordSpecialValidation()
+            } else if (TextUtils.isEmpty(conPass)) {
+                ValidationView.empty_con_Pass()
+            } else if (conPass.length < 8) {
+                ValidationView.con_passwordMinValidation()
+            } else if (!SmartUtils.checkSpecialPasswordValidation(conPass)) {
+                ValidationView.con_passwordSpecialValidation()
+            } else if (password != conPass) {
+                ValidationView.comparePass()
+            } else {
+                ValidationView.success()
+            }
 
     }
 
