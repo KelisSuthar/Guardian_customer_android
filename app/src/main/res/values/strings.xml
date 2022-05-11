@@ -106,23 +106,34 @@
 
     <!-- TODO: Place Holders  -->
 
-    <!-- login-->
+    <!-- user home-->
+    <string name="record">Record (Police Interaction)</string>
+    <string name="schedule_virtual_witness">Schedule Virtual Witness</string>
+    <string name="support_services">Support Services</string>
 
+    <!--    Bottom navigation menu -->
+    <string name="menu_home">Home</string>
+    <string name="menu_lawyer">Lawyer</string>
+    <string name="menu_radar">Radar</string>
+    <string name="menu_history">History</string>
+    <string name="menu_setting">Setting</string>
 
     <!-- SignUp Screen-->
     <string name="fullname">Full Name</string>
     <string name="specialization">Specialization</string>
     <string name="years_exp">Years of Experience</string>
-<!--    <string name="email">Email</string>-->
+    <!--    <string name="email">Email</string>-->
     <!--    <string name="email">Email</string>-->
     <string name="mo_num">Mobile Number</string>
     <string name="office_num">Office Phone(Optional)</string>
-<!--    <string name="password">Password</string>-->
+    <!--    <string name="password">Password</string>-->
     <!--    <string name="password">Password</string>-->
     <string name="con_pass">Confirm Password</string>
     <string name="provience_state">Province/State</string>
     <string name="postal_code">Postal Code/Zip Code</string>
     <string name="licence_num">Licence Plate No. for Car</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

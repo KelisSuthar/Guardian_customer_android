@@ -16,6 +16,7 @@ import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityLoginBinding
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
 import com.app.guardian.ui.forgot.ForgotPasswordActivity
 import com.app.guardian.ui.signup.SignupScreen
@@ -82,10 +83,16 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                                     AppConstants.APP_ROLE_USER
                                 ) == AppConstants.APP_ROLE_USER -> {
                                     
+//                                    startActivity(
+//                                        Intent(
+//                                            this@LoginActivity,
+//                                            SubScriptionPlanScreen::class.java
+//                                        )
+//                                    )
                                     startActivity(
                                         Intent(
                                             this@LoginActivity,
-                                            SubScriptionPlanScreen::class.java
+                                            HomeActivity::class.java
                                         )
                                     )
                                     finish()

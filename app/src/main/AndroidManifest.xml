@@ -29,6 +29,9 @@
         tools:replace="android:allowBackup"
         tools:targetApi="q">
         <activity
+            android:name=".ui.Home.HomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.signup.SignupScreen"
             android:exported="false"
             android:screenOrientation="portrait"
@@ -45,16 +48,13 @@
         <activity
             android:name=".ui.SelectRole.SelectRoleScreen"
             android:exported="true"
-            android:screenOrientation="portrait" >
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.Login.LoginActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
             android:exported="false"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ui.Splash.SplashScreen"
             android:exported="true"
@@ -66,14 +66,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".ui.ResetPassword.ResetPasswordActivity"
+        <activity
+            android:name=".ui.ResetPassword.ResetPasswordActivity"
             android:exported="true"
-            android:screenOrientation="portrait" >
-
-
-        </activity>
-
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
