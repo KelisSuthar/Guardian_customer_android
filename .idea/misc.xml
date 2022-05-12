@@ -22,21 +22,9 @@
         <entry key="app/src/main/res/drawable/rounded_blue_back.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/toast_rounded.xml" value="0.2135" />
         <entry key="app/src/main/res/drawable/top_corner_blue_back.xml" value="0.187" />
-        <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.2359375" />
-        <entry key="app/src/main/res/layout/activity_home.xml" value="0.2359375" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.19610507246376813" />
-        <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.30925925925925923" />
-        <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.2359375" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.19610507246376813" />
-        <entry key="app/src/main/res/layout/activity_reset_password.xml" value="0.2359375" />
-        <entry key="app/src/main/res/layout/activity_select_role_screen.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/layout_email_phone.xml" value="0.1" />
-        <entry key="app/src/main/res/drawable/top_corner_blue_back.xml" value="0.187" />
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.2653061224489796" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.2359375" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/activity_otpscreen.xml" value="0.37604166666666666" />
-        <entry key="app/src/main/res/layout/activity_signup_screen.xml" value="0.5" />
-        <entry key="app/src/main/res/layout/phone_email_selector.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/activity_otpscreen.xml" value="0.31209918768704575" />
         <entry key="app/src/main/res/layout/activity_reset_password.xml" value="0.2359375" />
         <entry key="app/src/main/res/layout/activity_select_role_screen.xml" value="0.1" />
@@ -44,6 +32,11 @@
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.20260416666666667" />
         <entry key="app/src/main/res/layout/activity_sub_scription_plan_screen.xml" value="0.2" />
         <entry key="app/src/main/res/layout/dialig_layout.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_contact_support.xml" value="0.2359375" />
+        <entry key="app/src/main/res/layout/fragment_know_your_basic_right.xml" value="0.2359375" />
+        <entry key="app/src/main/res/layout/fragment_live_virtual_vitness_mediator.xml" value="0.2359375" />
+        <entry key="app/src/main/res/layout/fragment_record_police_interaction.xml" value="0.2359375" />
+        <entry key="app/src/main/res/layout/fragment_schedule_virtual_witness.xml" value="0.2359375" />
         <entry key="app/src/main/res/layout/fragment_user_home.xml" value="0.2359375" />
         <entry key="app/src/main/res/layout/headder_layout.xml" value="0.25" />
         <entry key="app/src/main/res/layout/image_layout.xml" value="0.5" />

@@ -14,7 +14,6 @@ import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityResetPasswordBinding
 import com.app.guardian.model.viewModels.AuthenticationViewModel
-import com.app.guardian.databinding.ActivitySelectRoleScreenBinding
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.utils.Config
@@ -22,18 +21,14 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
     private val mViewModel: AuthenticationViewModel by viewModel()
-    lateinit var mBinding:ActivityResetPasswordBinding
-
     lateinit var mBinding: ActivityResetPasswordBinding
     override fun getResource(): Int {
         ReusedMethod.updateStatusBarColor(this, R.color.colorPrimaryDark, 4)
-        return  R.layout.activity_reset_password
+        return R.layout.activity_reset_password
     }
 
     override fun initView() {
         mBinding = getBinding()
-        mBinding.lyHeaderResetPassword.tvHeaderText.text = resources.getString(R.string.reset_password)
-        mBinding.lyHeaderResetPassword.ivBack.gone()
 //        mBinding.headderResetPass.ivBack.gone()
         mBinding.headderResetPass.tvHeaderText.text = resources.getString(R.string.reset_password)
     }
@@ -77,11 +72,8 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun handleListener() {
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_reset_password)
+        mBinding.headderResetPass.ivBack.setOnClickListener(this)
+        mBinding.btnResetPasswordSubmit.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
@@ -204,11 +196,11 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
                 mBinding.editTextConPass.text?.trim().toString(),
                 intent.getStringExtra(AppConstants.EXTRA_CCP).toString()
             )
-            overridePendingTransition(R.anim.rightto, R.anim.left)
         } else {
-            mBinding.noInternetoginResetPass.visible()
+            mBinding.noInternetoginResetPass.llNointernet.visible()
             mBinding.noDataoginResetPass.gone()
             mBinding.nsResetPass.gone()
         }
     }
+
 }

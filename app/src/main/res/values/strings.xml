@@ -123,10 +123,8 @@
     <string name="specialization">Specialization</string>
     <string name="years_exp">Years of Experience</string>
     <!--    <string name="email">Email</string>-->
-    <!--    <string name="email">Email</string>-->
     <string name="mo_num">Mobile Number</string>
     <string name="office_num">Office Phone(Optional)</string>
-    <!--    <string name="password">Password</string>-->
     <!--    <string name="password">Password</string>-->
     <string name="con_pass">Confirm Password</string>
     <string name="provience_state">Province/State</string>
@@ -134,6 +132,28 @@
     <string name="licence_num">Licence Plate No. for Car</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="profile_pic">Profile Picture</string>
 
+    <!-- Record (Police Interaction)-->
+    <string name="video_and_audio">Video And Audio</string>
+    <string name="just_audio">Just Audio</string>
+    <string name="know_your_basic_rights">Know Your basic Rights</string>
+    <string name="live_virtual_witness_mediator">Live Virtual Witness/Mediator</string>
+
+    <!--    live virtual witness / mediator-->
+    <string name="access_your_recording">Access Your recording</string>
+    <string name="driving_offence_list">Driving Offence List</string>
+    <string name="dial_a_lawyer">Dial a Lawyer</string>
+
+    <!--    Schedule Virtual witness-->
+    <string name="schedule_a_call_date_and_time">Schedule a call date &amp; time</string>
+    <string name="location_where_call_will_take_place">Location/Where call will take place</string>
+    <string name="schedule_multiple_calls">Schedule Multiple Calls</string>
+    <string name="contact_support">Contact Support</string>
+    
+<!--    Contact Support groups-->
+    <string name="support_groups">Support Groups</string>
+    <string name="find_a_counsellors">Find a counsellors</string>
+    <string name="support_groups_example">(crises Lines, women Shelters Children Shelters, Domestic Violence)</string>
 
 </resources>
