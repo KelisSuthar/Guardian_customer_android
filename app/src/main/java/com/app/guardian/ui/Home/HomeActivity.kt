@@ -1,8 +1,5 @@
 package com.app.guardian.ui.Home
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import androidx.fragment.app.FragmentTransaction
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
@@ -13,6 +10,7 @@ import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityHomeBinding
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.User.UserHome.UserHomeFragment
+import com.app.guardian.ui.User.settings.SettingsFragment
 
 class HomeActivity : BaseActivity() {
     lateinit var mBinding: ActivityHomeBinding
@@ -24,8 +22,19 @@ class HomeActivity : BaseActivity() {
 
     override fun initView() {
         mBinding = getBinding()
+
+        val settingsFragment = SettingsFragment()
+
+        mBinding.bottomNavigationUser.setOnNavigationItemReselectedListener {
+            when(it.itemId){
+                R.id.menu_setting ->ReplaceFragment.homeFragmentReplace(this,SettingsFragment(),null);
+
+            }
+        }
+
         loadHomeScreen()
     }
+
 
     override fun initObserver() {
     }

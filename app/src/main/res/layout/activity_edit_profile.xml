@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.editProfile.EditProfileActivity">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:paddingBottom="@dimen/_30sdp">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imgProfile"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:src="@drawable/profile"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginStart="@dimen/_20sdp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@+id/imgProfile"
+                    app:layout_constraintStart_toEndOf="@+id/imgProfile"
+                    app:layout_constraintBottom_toBottomOf="@id/imgProfile"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:textSize="@dimen/_13ssp"
+                    android:fontFamily="@font/lora_semibold"
+                    android:textColor="@color/lightblack"
+                    android:text="@string/profile_pic"/>
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtFullname"
+                    style="@style/White_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_profile"
+                    android:fontFamily="@font/lora_regular"
+                    android:hint="@string/fullname"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:inputType="textEmailAddress"
+                    app:layout_constraintTop_toBottomOf="@id/imgProfile"
+                    android:maxLength="35"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_12ssp" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtEmail"
+                    style="@style/White_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:drawableLeft="@drawable/ic_mail"
+                    android:fontFamily="@font/lora_regular"
+                    android:hint="@string/email"
+                    app:layout_constraintTop_toBottomOf="@id/edtFullname"
+                    android:inputType="textEmailAddress"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_12ssp" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/clayout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintTop_toBottomOf="@id/edtEmail"
+                    android:background="@drawable/normal_rounded_light_blue">
+
+                    <com.rilixtech.widget.countrycodepicker.CountryCodePicker
+                        android:id="@+id/ccp"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center|left"
+                        android:layout_marginVertical="@dimen/_1sdp"
+                        android:layout_marginLeft="@dimen/_1sdp"
+                        android:background="@drawable/left_corners_blue_back"
+                        android:gravity="center"
+                        android:paddingVertical="@dimen/_10sdp"
+                        android:visibility="gone"
+                        app:ccp_defaultCode="1"
+                        app:ccp_dialogTextColor="@color/darkBlue"
+                        app:ccp_hideNameCode="true"
+                        app:ccp_hidePhoneCode="false"
+                        app:ccp_keyboardAutoPopOnSearch="false"
+                        app:ccp_setCountryByTimeZone="true"
+                        app:ccp_showFlag="false"
+                        app:ccp_showFullName="false"
+                        android:padding="@dimen/_10sdp"
+                        app:ccp_textColor="@color/white"
+                        app:ccp_textSize="@dimen/_9ssp"
+                        app:layout_constraintEnd_toStartOf="@id/edtLoginEmail"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtLoginEmail"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorTransparent"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:padding="@dimen/_10sdp"
+                        android:fontFamily="@font/lora_regular"
+                        android:hint="@string/phone"
+                        android:inputType="textEmailAddress"
+                        android:paddingHorizontal="@dimen/_10sdp"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:textColorHint="@color/black"
+                        android:textFontWeight="400"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/ccp"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtProvience"
+                    style="@style/White_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintTop_toBottomOf="@id/clayout1"
+                    android:drawableLeft="@drawable/ic_map"
+                    android:fontFamily="@font/lora_regular"
+                    android:hint="@string/provience_state"
+                    android:inputType="text"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_12ssp" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtPostalCode"
+                    style="@style/White_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintTop_toBottomOf="@id/edtProvience"
+                    android:drawableLeft="@drawable/ic_map_pin"
+                    android:fontFamily="@font/lora_regular"
+                    android:hint="@string/postal_code"
+                    android:inputType="text"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_12ssp" />
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtVehicalNum"
+                    style="@style/White_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintTop_toBottomOf="@id/edtPostalCode"
+                    android:drawableLeft="@drawable/ic_vehical_number"
+                    android:fontFamily="@font/lora_regular"
+                    android:hint="@string/licence_num"
+                    android:inputType="text"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_12ssp" />
+
+                <LinearLayout
+                    android:id="@+id/ll3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:orientation="vertical"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edtVehicalNum">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+
+                            android:fontFamily="@font/lora_semibold"
+                            android:text="@string/upload_doc"
+                            android:textAlignment="center"
+                            android:textColor="@color/txt_dark"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_14ssp"
+                            app:layout_constraintTop_toBottomOf="@+id/txtWelcomeBack" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/upload_max_doc"
+                            android:textAlignment="center"
+                            android:textColor="@color/txt_dark"
+                            android:textFontWeight="400"
+                            android:textSize="@dimen/_8ssp"
+                            app:layout_constraintTop_toBottomOf="@+id/txtWelcomeBack" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/upload_doc_ex"
+                            android:textAlignment="center"
+                            android:textColor="@color/txt_dark"
+                            android:textFontWeight="400"
+
+                            android:textSize="@dimen/_6ssp"
+                            app:layout_constraintTop_toBottomOf="@+id/txtWelcomeBack" />
+                    </LinearLayout>
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="none">
+
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvImage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:nestedScrollingEnabled="false"
+                                android:orientation="horizontal"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                tools:listitem="@layout/image_layout" />
+
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/ivAddImage"
+                                android:layout_width="@dimen/_80sdp"
+                                android:layout_height="@dimen/_80sdp"
+                                android:layout_marginHorizontal="@dimen/_5sdp"
+                                android:layout_marginVertical="@dimen/_10sdp"
+                                android:layout_toRightOf="@+id/rvImage"
+                                app:cardCornerRadius="@dimen/_10ssp">
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+
+                                    <androidx.appcompat.widget.AppCompatImageView
+
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/ic_big_plus"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintLeft_toLeftOf="parent"
+                                        app:layout_constraintRight_toRightOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            </com.google.android.material.card.MaterialCardView>
+
+                        </RelativeLayout>
+
+                    </HorizontalScrollView>
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnSubmit"
+                    style="@style/blue_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="@string/submit"
+                    app:layout_constraintTop_toBottomOf="@+id/ll3" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

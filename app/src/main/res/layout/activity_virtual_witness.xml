@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.virtualWitness.VirtualWitnessActivity">
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnRequest"
+        style="@style/blue_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:paddingStart="@dimen/_30sdp"
+        android:paddingEnd="@dimen/_30sdp"
+        android:text="@string/request"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvVirtualWitness"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/lora_regular"
+        android:text="Lorem Ipsum is simply dummy text of the printing
+and typesetting industry. Lorem Ipsum has been the
+industry's standard dummy text ever since the 1500s,
+when an unknown printer took a galley of type and
+scrambled it to make a type specimen book. It has
+survived only five centuries, but also the electronic
+typesetting, remaining essentially unchanged. \n\n Lorem Ipsum is simply dummy text of the printing
+and typesetting industry. Lorem Ipsum has been the
+industry's standard dummy text ever since the 1500s,
+when an unknown printer took a galley of type and
+scrambled it to make a type specimen book. It has
+survived only five centuries, but also the electronic
+typesetting, remaining essentially unchanged."
+        app:layout_constraintTop_toBottomOf="@id/btnRequest"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

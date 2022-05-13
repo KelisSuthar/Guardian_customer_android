@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.app.guardian">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -27,12 +28,25 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup"
         tools:targetApi="q">
-        android:theme="@style/Theme.Guardian"
-        android:usesCleartextTraffic="true"
-        tools:replace="android:allowBackup"
-        tools:targetApi="q">
+        <activity
+            android:name=".termsandcondtions.TermAndConditionsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.virtualWitness.VirtualWitnessActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.aboutus.AboutUsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.editProfile.EditProfileActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.signup.SignupScreen"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.forgot.ForgotPasswordActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
@@ -42,30 +56,19 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.Home.HomeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.signup.SignupScreen"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.SubscriptionPlan.SubScriptionPlanScreen"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.OTP.OTPScreen"
-            android:exported="true" >
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".ui.SelectRole.SelectRoleScreen"
             android:exported="true"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.Login.LoginActivity"
             android:exported="true"
-            android:screenOrientation="portrait" />
-            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.Splash.SplashScreen"
@@ -81,7 +84,7 @@
         <activity
             android:name=".ui.ResetPassword.ResetPasswordActivity"
             android:exported="true"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

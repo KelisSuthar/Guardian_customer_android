@@ -149,9 +149,21 @@
     <string name="schedule_multiple_calls">Schedule Multiple Calls</string>
     <string name="contact_support">Contact Support</string>
 
-<!--    Contact Support groups-->
+    <!--    Contact Support groups-->
     <string name="support_groups">Support Groups</string>
     <string name="find_a_counsellors">Find a counsellors</string>
     <string name="support_groups_example">(crises Lines, women Shelters Children Shelters, Domestic Violence)</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="subscription_plan">Subscription Plan</string>
+    <string name="contact_history">Contact History</string>
+    <string name="change_password">Change Password</string>
+    <string name="about_us">About us</string>
+    <string name="notification">Notification</string>
+    <string name="virtual_witness">Virtual Witness</string>
+    <string name="terms_amp_conditions"><![CDATA[Terms & Conditions]]></string>
+    <string name="sign_out">Sign out</string>
+    <string name="old_password">Old Password</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="request">Request</string>
 
 </resources>
