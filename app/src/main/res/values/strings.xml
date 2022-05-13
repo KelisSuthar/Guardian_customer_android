@@ -21,6 +21,7 @@
     <string name="email">Email</string>
     <string name="phone">Phone</string>
     <string name="refresh">Refresh</string>
+    <string name="search_here">Search here</string>
 
     <!--    SignUp screen -->
     <string name="create_acc">Create Account</string>
@@ -150,8 +151,8 @@
     <string name="location_where_call_will_take_place">Location/Where call will take place</string>
     <string name="schedule_multiple_calls">Schedule Multiple Calls</string>
     <string name="contact_support">Contact Support</string>
-    
-<!--    Contact Support groups-->
+
+    <!--    Contact Support groups-->
     <string name="support_groups">Support Groups</string>
     <string name="find_a_counsellors">Find a counsellors</string>
     <string name="support_groups_example">(crises Lines, women Shelters Children Shelters, Domestic Violence)</string>

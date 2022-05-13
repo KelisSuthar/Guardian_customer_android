@@ -3,23 +3,28 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2135" />
         <entry key="app/src/main/res/drawable/active_dot.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/bottom_navigation_item_background_colors.xml" value="0.1345" />
         <entry key="app/src/main/res/drawable/button_back_blue_corner.xml" value="0.2135" />
         <entry key="app/src/main/res/drawable/ic_back_arrow.xml" value="0.21" />
+        <entry key="app/src/main/res/drawable/ic_call.xml" value="0.193" />
         <entry key="app/src/main/res/drawable/ic_eye.xml" value="0.21" />
         <entry key="app/src/main/res/drawable/ic_eye_hide.xml" value="0.21" />
+        <entry key="app/src/main/res/drawable/ic_filter.xml" value="0.193" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2135" />
         <entry key="app/src/main/res/drawable/ic_mail.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/ic_password.xml" value="0.2685" />
         <entry key="app/src/main/res/drawable/ic_radio_btn_selected.xml" value="0.2135" />
+        <entry key="app/src/main/res/drawable/normal_rounded_dark_blue.xml" value="0.193" />
         <entry key="app/src/main/res/drawable/normal_rounded_light_blue.xml" value="0.209" />
         <entry key="app/src/main/res/drawable/normal_rounded_light_blue_borders.xml" value="0.209" />
         <entry key="app/src/main/res/drawable/normal_rounded_light_blue_red_borders.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/password_show_hide.xml" value="0.2135" />
         <entry key="app/src/main/res/drawable/radio_button_selector.xml" value="0.2135" />
         <entry key="app/src/main/res/drawable/rounded_blue_back.xml" value="0.187" />
+        <entry key="app/src/main/res/drawable/search_rounded_light_blue.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/toast_rounded.xml" value="0.2135" />
         <entry key="app/src/main/res/drawable/top_corner_blue_back.xml" value="0.187" />
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.2653061224489796" />
@@ -33,19 +38,25 @@
         <entry key="app/src/main/res/layout/activity_sub_scription_plan_screen.xml" value="0.2" />
         <entry key="app/src/main/res/layout/dialig_layout.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_contact_support.xml" value="0.2359375" />
+        <entry key="app/src/main/res/layout/fragment_driving_office_list.xml" value="0.2359375" />
         <entry key="app/src/main/res/layout/fragment_know_your_basic_right.xml" value="0.2359375" />
+        <entry key="app/src/main/res/layout/fragment_lawyer_list.xml" value="0.2359375" />
         <entry key="app/src/main/res/layout/fragment_live_virtual_vitness_mediator.xml" value="0.2359375" />
         <entry key="app/src/main/res/layout/fragment_record_police_interaction.xml" value="0.2359375" />
         <entry key="app/src/main/res/layout/fragment_schedule_virtual_witness.xml" value="0.2359375" />
+        <entry key="app/src/main/res/layout/fragment_support_group_list.xml" value="0.2359375" />
         <entry key="app/src/main/res/layout/fragment_user_home.xml" value="0.2359375" />
         <entry key="app/src/main/res/layout/headder_layout.xml" value="0.25" />
         <entry key="app/src/main/res/layout/image_layout.xml" value="0.5" />
         <entry key="app/src/main/res/layout/layout_email_phone.xml" value="0.1" />
         <entry key="app/src/main/res/layout/layout_email_phone_text.xml" value="0.10572916666666667" />
+        <entry key="app/src/main/res/layout/layout_search_filter.xml" value="0.5431141750871644" />
         <entry key="app/src/main/res/layout/no_data_layout.xml" value="0.21" />
         <entry key="app/src/main/res/layout/no_internet_connection_layout.xml" value="0.31209918768704575" />
         <entry key="app/src/main/res/layout/phone_email_selector.xml" value="0.2359375" />
         <entry key="app/src/main/res/layout/progress_dialog.xml" value="0.3802083333333333" />
+        <entry key="app/src/main/res/layout/row_lawyer_list.xml" value="0.2661488850911458" />
+        <entry key="app/src/main/res/layout/row_support_group.xml" value="0.2359375" />
         <entry key="app/src/main/res/layout/subcription_list_layout.xml" value="0.1" />
         <entry key="app/src/main/res/layout/subscription_list_layout.xml" value="0.33" />
         <entry key="app/src/main/res/layout/subscription_plan_detail_list_layout.xml" value="0.5" />
