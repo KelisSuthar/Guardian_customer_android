@@ -51,6 +51,7 @@
             android:textColorHint="@color/black"
             android:textFontWeight="400"
             android:textSize="@dimen/_12ssp"
+            android:text="meetpatel.iqlance@gmail.com"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/ccp"
             app:layout_constraintRight_toLeftOf="@+id/rgLogin"

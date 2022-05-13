@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/menu_home"/>
+    <item
+        android:id="@+id/menu_lawyer"
+        android:icon="@drawable/ic_lawyer"
+        android:title="@string/menu_lawyer"/>
+    <item
+        android:id="@+id/menu_radar"
+        android:icon="@drawable/ic_radar"
+        android:title="@string/menu_radar"/>
+    <item
+        android:id="@+id/menu_history"
+        android:icon="@drawable/ic_histroy"
+        android:title="@string/menu_history"/>
+    <item
+        android:id="@+id/menu_setting"
+        android:icon="@drawable/ic_setting"
+        android:title="@string/menu_setting"/>
+</menu>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_margin="@dimen/_5sdp"
+        android:background="@drawable/edit_text_half_rounded">
+
+        <FrameLayout
+            android:id="@+id/flEmailPhone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_weight="1">
+            <com.rilixtech.widget.countrycodepicker.CountryCodePicker
+                android:id="@+id/countryCodePicker"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center|left"
+                app:ccp_textSize="@dimen/_9ssp"
+                android:background="@drawable/left_corners_blue_back"
+                android:gravity="center"
+                app:ccp_defaultCode="1"
+                app:ccp_setCountryByTimeZone="true"
+                android:elevation="@dimen/_10sdp"
+                app:ccp_dialogTextColor="@color/black"
+                app:ccp_hideNameCode="true"
+                app:ccp_hidePhoneCode="false"
+                app:ccp_keyboardAutoPopOnSearch="false"
+                app:ccp_showFlag="false"
+                app:ccp_showFullName="false"
+                app:ccp_textColor="@color/white"
+                android:visibility="gone"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtPhoneEmail"
+                style="@style/EmailPhoneEditTextField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_mail"
+                android:fontFamily="@font/lora_regular"
+                android:drawablePadding="@dimen/_15sdp"
+                android:inputType="textEmailAddress"
+                android:textFontWeight="400"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintTop_toBottomOf="@+id/img" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/layout_email_phone"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

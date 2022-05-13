@@ -23,7 +23,6 @@
             layout="@layout/no_internet_connection_layout"
             android:visibility="gone" />
 
-
         <ScrollView
             android:id="@+id/nsSignUp"
             android:layout_width="0dp"
@@ -71,7 +70,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintLeft_toLeftOf="parent"
-
                     app:layout_constraintTop_toBottomOf="@+id/txtEnterYourCredentialsToContinue">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -181,25 +179,23 @@
                             app:ccp_hidePhoneCode="false"
                             app:ccp_keyboardAutoPopOnSearch="false"
                             app:ccp_showFlag="false"
-
                             app:ccp_showFullName="false"
                             app:ccp_textColor="@color/black" />
 
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtOfficeNum"
-                        style="@style/White_edittext"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="@dimen/_35sdp"
-                        android:drawableLeft="@drawable/ic_mobile"
-                        android:fontFamily="@font/lora_regular"
-                        android:hint="@string/office_num"
-                        android:inputType="number"
-                        android:maxLength="10"
-
-                        android:textFontWeight="400"
-                        android:textSize="@dimen/_12ssp" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtOfficeNum"
+                            style="@style/White_edittext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="@dimen/_35sdp"
+                            android:drawableLeft="@drawable/ic_mobile"
+                            android:fontFamily="@font/lora_regular"
+                            android:hint="@string/office_num"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:textFontWeight="400"
+                            android:textSize="@dimen/_12ssp" />
 
                     </FrameLayout>
                     <FrameLayout
@@ -224,11 +220,8 @@
                             app:ccp_setCountryByTimeZone="true"
                             app:ccp_showFlag="false"
                             app:ccp_showFullName="false"
-
                             app:ccp_textColor="@color/black"
                             app:ccp_textSize="@dimen/_10ssp" />
-
-
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtMobileNum"
@@ -476,19 +469,6 @@
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintTop_toBottomOf="@+id/btnSigUp" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/txtTermsAndConditions"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:fontFamily="@font/lora_regular"-->
-<!--                    android:gravity="center"-->
-<!--                    android:padding="@dimen/_5sdp"-->
-<!--                    android:text="@string/t_and_c"-->
-<!--                    android:textColor="@color/txt_dark"-->
-<!--                    android:textFontWeight="400"-->
-<!--                    android:textSize="@dimen/_12ssp"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/txtDoNotHaveAccount"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"/>-->
                 <TextView
                     android:id="@+id/txtTermsAndConditions"
                     android:layout_width="match_parent"

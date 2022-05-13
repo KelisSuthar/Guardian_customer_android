@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lightBlue"
+        tools:context=".ui.SelectRole.SelectRoleScreen">
+
+        <include
+            android:id="@+id/headder"
+            layout="@layout/headder_layout" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            app:layout_constraintTop_toBottomOf="@+id/headder">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cvVideoAndAudio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <RelativeLayout
+                    android:id="@+id/rlVideoAndAudio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/lightBlue_2"
+                    android:paddingVertical="@dimen/_20sdp">
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/rbVideoAndAudio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_20sdp"
+                        android:button="@drawable/radio_button_selector"
+                        android:drawablePadding="@dimen/_15sdp"
+                        android:fontFamily="@font/lora_semibold"
+                        android:layoutDirection="ltr"
+                        android:paddingStart="@dimen/_15sdp"
+                        android:text="@string/video_and_audio"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        tools:ignore="RtlSymmetry" />
+
+
+                </RelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cvJustAudio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cvVideoAndAudio">
+
+                <RelativeLayout
+                    android:id="@+id/rlJustAudio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/lightBlue_2"
+                    android:paddingVertical="@dimen/_20sdp">
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/rbJustAudio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_20sdp"
+                        android:button="@drawable/radio_button_selector"
+                        android:drawablePadding="@dimen/_15sdp"
+                        android:fontFamily="@font/lora_semibold"
+                        android:layoutDirection="ltr"
+                        android:paddingStart="@dimen/_15sdp"
+                        android:text="@string/just_audio"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        tools:ignore="RtlSymmetry" />
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
