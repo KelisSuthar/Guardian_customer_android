@@ -15,7 +15,13 @@ object ReplaceFragment {
     fun homeFragmentReplace(currentActivity : HomeActivity,fragment: Fragment,backStackName : String?){
         val transaction  = currentActivity.supportFragmentManager.beginTransaction()
         transaction.replace(R.id.flUserContainer, fragment)
-        transaction.addToBackStack(backStackName)
+        if(backStackName.equals(null)){
+            transaction.addToBackStack(null)
+        }
+        else{
+            transaction.addToBackStack(backStackName)
+        }
+
         transaction.commit()
     }
 }

@@ -1,4 +1,4 @@
-package com.app.guardian.ui.User.KnowRight
+package com.app.guardian.ui.LawyerProfile
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import com.app.guardian.R
 
 
-class KnowYourBasicRightFragment : Fragment() {
-    private  var rootView : View ?= null
+class LawyerProfile : Fragment() {
+
+    private var rootView : View ?= null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -20,7 +22,7 @@ class KnowYourBasicRightFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        rootView = inflater.inflate(R.layout.fragment_know_your_basic_right, container, false)
+        rootView= inflater.inflate(R.layout.fragment_lawyer_profile, container, false)
         return  rootView
     }
 
@@ -28,7 +30,7 @@ class KnowYourBasicRightFragment : Fragment() {
 
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            KnowYourBasicRightFragment().apply {
+            LawyerProfile().apply {
 
             }
     }

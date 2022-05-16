@@ -12,17 +12,17 @@
 
     <include
         layout="@layout/layout_search_filter"
-        android:id="@+id/lyLawyerListFilter"
+        android:id="@+id/lyHeaderKnowRight"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvLawyerList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:listitem="@layout/row_lawyer_list"
-            app:layout_constraintTop_toBottomOf="@+id/lyLawyerListFilter" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvLawyerList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/row_know_right"
+        app:layout_constraintTop_toBottomOf="@+id/lyHeaderKnowRight" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.app.guardian.ui.Lawyer
+package com.app.guardian.ui.LawyerList
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
