@@ -7,28 +7,29 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.app.guardian.R
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.shareddata.base.BaseActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.rilixtech.widget.countrycodepicker.CountryCodePicker
 
-class EditProfileActivity : Activity() {
 
+class EditProfileActivity : BaseActivity(),View.OnClickListener {
+    override fun getResource(): Int {
+        return R.layout.activity_edit_profile
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_profile)
+    override fun initView() {
 
+    }
 
-        val edtEmail = findViewById<TextInputEditText>(R.id.edtLoginEmail)
-        val ccp = findViewById<CountryCodePicker>(R.id.ccp)
-        val cl1 = findViewById<ConstraintLayout>(R.id.clayout1)
+    override fun initObserver() {
 
-        ReusedMethod.changePhoneState(
-            this,
-            edtEmail,
-            ccp,
-            cl1
-        )
-        ccp.setCountryForPhoneCode(1)
+    }
+
+    override fun handleListener() {
+
+    }
+
+    override fun onClick(v: View?) {
 
     }
 

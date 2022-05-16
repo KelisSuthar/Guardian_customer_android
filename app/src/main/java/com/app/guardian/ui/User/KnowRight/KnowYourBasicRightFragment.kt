@@ -6,30 +6,42 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.app.guardian.R
+import com.app.guardian.databinding.FragmentKnowYourBasicRightBinding
+import com.app.guardian.databinding.FragmentUserHomeBinding
+import com.app.guardian.shareddata.base.BaseFragment
 
 
-class KnowYourBasicRightFragment : Fragment() {
-    private  var rootView : View ?= null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+class KnowYourBasicRightFragment : BaseFragment(),View.OnClickListener {
+    lateinit var mBinding: FragmentKnowYourBasicRightBinding
+
+    override fun getInflateResource(): Int {
+        return R.layout.fragment_know_your_basic_right
+    }
+
+    override fun initView() {
+        mBinding = getBinding()
+    }
+
+    override fun postInit() {
 
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        rootView = inflater.inflate(R.layout.fragment_know_your_basic_right, container, false)
-        return  rootView
+    override fun handleListener() {
+        mBinding.cvKnowBasicRight.setOnClickListener(this)
+        mBinding.cvLiveVirtualWitness.setOnClickListener(this)
     }
 
-    companion object {
+    override fun initObserver() {
 
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            KnowYourBasicRightFragment().apply {
+    }
 
-            }
+    override fun onClick(v: View?) {
+       when(v?.id){
+           R.id.cvKnowBasicRight->{
+
+           }R.id.cvLiveVirtualWitness->{
+
+           }
+       }
     }
 }

@@ -9,61 +9,84 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import com.app.guardian.R
+import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.visible
+import com.app.guardian.databinding.ActivityLoginBinding
+import com.app.guardian.databinding.FragmentSettingsBinding
+import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.termsandcondtions.TermAndConditionsActivity
 import com.app.guardian.ui.ResetPassword.ResetPasswordActivity
+import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
 import com.app.guardian.ui.aboutus.AboutUsActivity
 import com.app.guardian.ui.editProfile.EditProfileActivity
 import com.app.guardian.ui.virtualWitness.VirtualWitnessActivity
 
 
-class SettingsFragment : Fragment() {
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+class SettingsFragment : BaseFragment(), View.OnClickListener {
+    private lateinit var mBinding: FragmentSettingsBinding
+    override fun getInflateResource(): Int {
+        return R.layout.fragment_settings
 
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-
-        val btnEditprofile = view?.findViewById(R.id.btnEditProfile) as AppCompatButton
-        val tvChangePwd = view?.findViewById(R.id.tvChangePwd) as TextView
-        val tvAbout = view?.findViewById(R.id.tvAbout) as TextView
-        val tvVirtualWitness= view?.findViewById(R.id.tvVirtualWitness) as TextView
-        val tvTerms= view?.findViewById(R.id.tvTerms) as TextView
-
-        tvAbout.setOnClickListener {
-            startActivity(Intent(context,AboutUsActivity::class.java))
-
-        }
-        tvTerms.setOnClickListener {
-            startActivity(Intent(context,TermAndConditionsActivity::class.java))
-
-        }
-        tvVirtualWitness.setOnClickListener {
-            startActivity(Intent(context,VirtualWitnessActivity::class.java))
-
-        }
-
-        tvChangePwd.setOnClickListener {
-            startActivity(Intent(context,ResetPasswordActivity::class.java))
-
-        }
-
-        btnEditprofile.setOnClickListener {
-            startActivity(Intent(context,EditProfileActivity::class.java))
-        }
+    override fun initView() {
+        mBinding = getBinding()
+        mBinding.headderSettitng.ivBack.visible()
+        mBinding.headderSettitng.tvHeaderText.gone()
     }
 
+    override fun postInit() {
+
+    }
+
+    override fun handleListener() {
+        mBinding.tvSubScription.setOnClickListener(this)
+        mBinding.tvAbout.setOnClickListener(this)
+        mBinding.tvTerms.setOnClickListener(this)
+        mBinding.tvVirtualWitness.setOnClickListener(this)
+        mBinding.tvChangePwd.setOnClickListener(this)
+        mBinding.btnEditProfile.setOnClickListener(this)
+        mBinding.btnSignOut.setOnClickListener(this)
+        mBinding.headderSettitng.ivBack.setOnClickListener(this)
+    }
+
+    override fun initObserver() {
+
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.tvSubScription -> {
+                startActivity(Intent(context, SubScriptionPlanScreen::class.java))
+                requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
+            }
+            R.id.tvAbout -> {
+                startActivity(Intent(context, AboutUsActivity::class.java))
+                requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
+            }
+            R.id.tvTerms -> {
+                startActivity(Intent(context, TermAndConditionsActivity::class.java))
+                requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
+            }
+            R.id.tvVirtualWitness -> {
+                startActivity(Intent(context, VirtualWitnessActivity::class.java))
+                requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
+            }
+            R.id.tvChangePwd -> {
+                startActivity(Intent(context, ResetPasswordActivity::class.java))
+                requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
+            }
+            R.id.btnEditProfile -> {
+                startActivity(Intent(context, EditProfileActivity::class.java))
+                requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
+
+            }
+            R.id.btnSignOut -> {
+
+
+            }
+        }
+
+
+    }
 }

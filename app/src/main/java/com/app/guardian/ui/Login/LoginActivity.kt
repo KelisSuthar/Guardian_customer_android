@@ -76,6 +76,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     it.data?.let { data ->
                         if (it.status) {
                             SharedPreferenceManager.putString(AppConstants.BEREAR_TOKEN, data.token)
+                            SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
 
                             when {
                                 SharedPreferenceManager.getString(
@@ -328,7 +329,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             mViewModel.Login(
                 isNetworkConnected(this), this@LoginActivity, is_Email,
                 phone_email,
-                mBinding.editTextLoginPass.text?.trim().toString()
+                mBinding.editTextLoginPass.text?.trim().toString(),
+                "DEVICETOKEN@1234"
             )
         } else {
             mBinding.nsLogin.gone()

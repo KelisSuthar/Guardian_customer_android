@@ -1,37 +1,52 @@
 package com.app.guardian.ui.User.ScheduleVirtualWitness
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.app.guardian.R
+import com.app.guardian.databinding.FragmentScheduleVirtualWitnessBinding
+import com.app.guardian.shareddata.base.BaseFragment
 
 
-class ScheduleVirtualWitnessFragment : Fragment() {
+class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
+    lateinit var mBinding: FragmentScheduleVirtualWitnessBinding
+    override fun getInflateResource(): Int {
+        return R.layout.fragment_schedule_virtual_witness
+    }
 
-    private var rootView : View ?= null
+    override fun initView() {
+        mBinding = getBinding()
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun postInit() {
 
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        rootView =  inflater.inflate(R.layout.fragment_schedule_virtual_witness, container, false)
-        return  rootView
+    override fun handleListener() {
+        mBinding.cvScheduleDateTime.setOnClickListener(this)
+        mBinding.cvLocationWhereCallWillTakePlace.setOnClickListener(this)
+        mBinding.cvScheduleMultipleCalls.setOnClickListener(this)
+        mBinding.cvContactSupport.setOnClickListener(this)
     }
 
-    companion object {
+    override fun initObserver() {
 
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ScheduleVirtualWitnessFragment().apply {
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.cvScheduleDateTime -> {
 
             }
+            R.id.cvLocationWhereCallWillTakePlace -> {
+
+            }
+            R.id.cvScheduleMultipleCalls -> {
+
+            }
+            R.id.cvContactSupport -> {
+
+            }
+        }
     }
+
+
 }

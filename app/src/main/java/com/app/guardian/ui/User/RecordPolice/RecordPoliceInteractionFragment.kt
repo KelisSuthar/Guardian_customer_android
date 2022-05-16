@@ -6,31 +6,34 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.app.guardian.R
+import com.app.guardian.databinding.FragmentRecordPoliceInteractionBinding
+import com.app.guardian.shareddata.base.BaseFragment
 
 
-class RecordPoliceInteractionFragment : Fragment() {
-    private var rootView : View ?= null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+class RecordPoliceInteractionFragment : BaseFragment(),View.OnClickListener {
+    lateinit var mBinding:FragmentRecordPoliceInteractionBinding
+    override fun getInflateResource(): Int {
+        return R.layout.fragment_record_police_interaction
+    }
+
+    override fun initView() {
 
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        rootView =  inflater.inflate(R.layout.fragment_record_police_interaction, container, false)
+    override fun postInit() {
 
-        return  rootView
     }
 
-    companion object {
+    override fun handleListener() {
 
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            RecordPoliceInteractionFragment().apply {
-
-            }
     }
+
+    override fun initObserver() {
+
+    }
+
+    override fun onClick(v: View?) {
+
+    }
+
 }

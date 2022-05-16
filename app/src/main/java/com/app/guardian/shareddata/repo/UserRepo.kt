@@ -8,6 +8,7 @@ import com.app.guardian.model.Login.User
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
+import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
 import com.app.guardian.shareddata.BaseView
 import com.app.guardian.shareddata.base.BaseActivity
 import com.google.gson.JsonObject
@@ -72,6 +73,12 @@ interface UserRepo {
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResponse: MutableLiveData<RequestState<MutableList<CommonResponse>>>
+    )
+
+    fun getuserHomeBanners(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<UserHomeBannerResp>>>
     )
 
 }

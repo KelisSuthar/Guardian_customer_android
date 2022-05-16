@@ -21,7 +21,7 @@ android {
     }
 
     buildTypes {
-        debug{
+        debug {
             minifyEnabled false
             debuggable true
         }
@@ -146,5 +146,7 @@ dependencies {
 
     //In App Purchase
     implementation 'com.android.billingclient:billing-ktx:4.0.0'
+//Dot Indicator
+    implementation 'com.romandanylyk:pageindicatorview:1.0.3'
 
 }

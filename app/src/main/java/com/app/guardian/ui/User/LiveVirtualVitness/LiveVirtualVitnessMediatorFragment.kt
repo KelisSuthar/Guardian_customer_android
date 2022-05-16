@@ -6,38 +6,47 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.app.guardian.R
+import com.app.guardian.databinding.FragmentLiveVirtualVitnessMediatorBinding
+import com.app.guardian.databinding.FragmentRecordPoliceInteractionBinding
+import com.app.guardian.shareddata.base.BaseFragment
 
 
-class LiveVirtualVitnessMediatorFragment : Fragment() {
-    private var rootView : View ?= null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+class LiveVirtualVitnessMediatorFragment : BaseFragment(), View.OnClickListener {
+    lateinit var mBinding: FragmentLiveVirtualVitnessMediatorBinding
+    override fun getInflateResource(): Int {
+        return R.layout.fragment_live_virtual_vitness_mediator
+    }
+
+    override fun initView() {
+        mBinding = getBinding()
+    }
+
+    override fun postInit() {
 
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        rootView =  inflater.inflate(R.layout.fragment_live_virtual_vitness_mediator, container, false)
-        return  rootView
+    override fun handleListener() {
+        mBinding.cvAccessYourRecording.setOnClickListener(this)
+        mBinding.cvDrivingOffenceList.setOnClickListener(this)
+        mBinding.cvDialLawyer.setOnClickListener(this)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment LiveVirtualVitnessMediatorFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LiveVirtualVitnessMediatorFragment().apply {
+    override fun initObserver() {
+
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.cvAccessYourRecording -> {
 
             }
+            R.id.cvDrivingOffenceList -> {
+
+            }
+            R.id.cvDialLawyer -> {
+
+            }
+        }
     }
+
 }

@@ -25,6 +25,7 @@ object AppConstants {
     const val BEREAR_TOKEN = "BEREAR_TOKEN"
     const val EXTRA_YOU_CAN_ORDER_ONE = "You can order from one restaurant at a time"
     const val USER_ROLE = "USER_ROLE"
+    const val IS_SUBSCRIBE = "IS_SUBSCRIBE"
     const val IS_LOGIN = "IS_LOGIN"
     const val IS_WALKTHROUGH_VIEWED = "IS_WALKTHROUGH_VIEWED"
     const val USER_DETAIL_LOGIN = "USER_DETAIL_LOGIN"

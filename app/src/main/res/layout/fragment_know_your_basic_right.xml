@@ -68,8 +68,8 @@
                         android:drawablePadding="@dimen/_15sdp"
                         android:fontFamily="@font/lora_semibold"
                         android:layoutDirection="ltr"
-                        android:textAlignment="center"
                         android:text="@string/know_your_basic_rights"
+                        android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12ssp"
                         tools:ignore="RtlSymmetry" />

@@ -6,29 +6,45 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.app.guardian.R
+import com.app.guardian.databinding.FragmentContactSupportBinding
+import com.app.guardian.databinding.FragmentRecordPoliceInteractionBinding
+import com.app.guardian.shareddata.base.BaseFragment
 
 
-class ContactSupportFragment : Fragment() {
+class ContactSupportFragment : BaseFragment(), View.OnClickListener {
+    lateinit var mBinding: FragmentContactSupportBinding
+    override fun getInflateResource(): Int {
+        return R.layout.fragment_contact_support
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initView() {
+        mBinding = getBinding()
+    }
+
+    override fun postInit() {
 
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_contact_support, container, false)
+    override fun handleListener() {
+        mBinding.cvSupportGroups.setOnClickListener(this)
+        mBinding.rlFindCounsellors.setOnClickListener(this)
+
     }
 
-    companion object {
+    override fun initObserver() {
 
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ContactSupportFragment().apply {
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.rlFindCounsellors -> {
 
             }
+            R.id.cvSupportGroups -> {
+
+            }
+
+        }
     }
+
 }

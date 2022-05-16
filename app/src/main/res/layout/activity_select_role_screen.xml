@@ -79,12 +79,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_20sdp"
+                        android:button="@drawable/radio_button_selector"
                         android:drawableLeft="@drawable/ic_user"
                         android:drawablePadding="@dimen/_15sdp"
                         android:fontFamily="@font/lora_semibold"
                         android:layoutDirection="rtl"
                         android:text="@string/mediator"
-                        android:button="@drawable/radio_button_selector"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12ssp" />
 

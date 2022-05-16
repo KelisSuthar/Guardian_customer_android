@@ -9,6 +9,7 @@ import com.app.guardian.model.Login.User
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
+import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
 import com.app.guardian.shareddata.BaseView
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.endpoint.ApiEndPoint
@@ -172,6 +173,24 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
                 mApiEndPoint.resetPass(restePassJson),
                 baseView,
                 commonResponse
+            )
+        }
+    }
+
+    override fun getuserHomeBanners(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<UserHomeBannerResp>>>
+    ) {
+        if (!internetConnected) {
+            commonResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            commonResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.getUserHomeBanners(),
+                baseView,
+                commonResp
             )
         }
     }

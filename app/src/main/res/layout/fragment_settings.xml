@@ -7,10 +7,14 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".ui.User.settings.SettingsFragment">
 
+        <include
+            android:id="@+id/headderSettitng"
+            layout="@layout/headder_layout" />
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/headderSettitng">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -79,13 +83,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/_10sdp"
+
                         android:fontFamily="@font/lora_semibold"
                         app:layout_constraintTop_toTopOf="@id/imgSubscription"
                         app:layout_constraintBottom_toBottomOf="@id/imgSubscription"
                         android:text="@string/subscription_plan"
                         android:textColor="@color/lightblack"
                         app:layout_constraintStart_toEndOf="@id/imgSubscription"
-                        android:layout_marginStart="@dimen/_20sdp"/>
+                        android:textSize="@dimen/_14ssp"
+                        android:layout_marginStart="@dimen/_15sdp"/>
 
                     <View
                         android:layout_width="match_parent"
@@ -119,7 +125,8 @@
                         android:fontFamily="@font/lora_semibold"
                         android:textColor="@color/lightblack"
                         app:layout_constraintStart_toEndOf="@id/imgContactHistory"
-                        android:layout_marginStart="@dimen/_20sdp"/>
+                        android:textSize="@dimen/_14ssp"
+                        android:layout_marginStart="@dimen/_15sdp"/>
 
                     <View
                         android:layout_width="match_parent"
@@ -154,7 +161,8 @@
                         android:fontFamily="@font/lora_semibold"
                         android:textColor="@color/lightblack"
                         app:layout_constraintStart_toEndOf="@id/imgChangePwd"
-                        android:layout_marginStart="@dimen/_20sdp"/>
+                        android:textSize="@dimen/_14ssp"
+                        android:layout_marginStart="@dimen/_15sdp"/>
 
                     <View
                         android:layout_width="match_parent"
@@ -188,7 +196,8 @@
                         android:fontFamily="@font/lora_semibold"
                         android:textColor="@color/lightblack"
                         app:layout_constraintStart_toEndOf="@id/imgAbout"
-                        android:layout_marginStart="@dimen/_20sdp"/>
+                        android:textSize="@dimen/_14ssp"
+                        android:layout_marginStart="@dimen/_15sdp"/>
 
                     <View
                         android:layout_width="match_parent"
@@ -222,7 +231,8 @@
                         android:textColor="@color/lightblack"
                         android:padding="@dimen/_10sdp"
                         app:layout_constraintStart_toEndOf="@id/imgNotification"
-                        android:layout_marginStart="@dimen/_20sdp"/>
+                        android:textSize="@dimen/_14ssp"
+                        android:layout_marginStart="@dimen/_15sdp"/>
 
                     <View
                         android:layout_width="match_parent"
@@ -257,7 +267,8 @@
                         android:textColor="@color/lightblack"
                         android:padding="@dimen/_10sdp"
                         app:layout_constraintStart_toEndOf="@id/imgVirtualWitness"
-                        android:layout_marginStart="@dimen/_20sdp"/>
+                        android:textSize="@dimen/_14ssp"
+                        android:layout_marginStart="@dimen/_15sdp"/>
 
                     <View
                         android:layout_width="match_parent"
@@ -287,12 +298,13 @@
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="@id/imgSpecialization"
                         app:layout_constraintBottom_toBottomOf="@id/imgSpecialization"
-                        android:text="@string/virtual_witness"
+                        android:text="@string/specialization"
                         android:fontFamily="@font/lora_semibold"
                         android:textColor="@color/lightblack"
                         android:padding="@dimen/_10sdp"
                         app:layout_constraintStart_toEndOf="@id/imgSpecialization"
-                        android:layout_marginStart="@dimen/_20sdp"/>
+                        android:textSize="@dimen/_14ssp"
+                        android:layout_marginStart="@dimen/_15sdp"/>
 
                     <View
                         android:layout_width="match_parent"
@@ -327,7 +339,8 @@
                         android:textColor="@color/lightblack"
                         android:padding="@dimen/_10sdp"
                         app:layout_constraintStart_toEndOf="@id/imgTerms"
-                        android:layout_marginStart="@dimen/_20sdp"/>
+                        android:textSize="@dimen/_14ssp"
+                        android:layout_marginStart="@dimen/_15sdp"/>
 
                     <View
                         android:layout_width="match_parent"
@@ -339,7 +352,10 @@
                         app:layout_constraintTop_toBottomOf="@id/imgTerms"
                         android:background="@color/lightBlue"/>
 
+
+
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSignOut"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_30sdp"
