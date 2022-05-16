@@ -328,7 +328,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             mViewModel.Login(
                 isNetworkConnected(this), this@LoginActivity, is_Email,
                 phone_email,
-                mBinding.editTextLoginPass.text?.trim().toString()
+                mBinding.editTextLoginPass.text?.trim().toString(),
+                "Devicetoken@123"
             )
         } else {
             mBinding.nsLogin.gone()

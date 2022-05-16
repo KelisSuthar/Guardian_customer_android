@@ -42,6 +42,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
+                    android:id="@+id/tvLawyerName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lora_semibold"
@@ -52,6 +53,7 @@
                     android:textSize="@dimen/_12ssp" />
 
                 <TextView
+                    android:id="@+id/tvLawyerExp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lora_regular"
@@ -77,6 +79,7 @@
                         android:textSize="@dimen/_8ssp" />
 
                     <TextView
+                        android:id="@+id/tvSpecialization"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/lora_regular"

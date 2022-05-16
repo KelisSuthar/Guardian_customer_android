@@ -1,29 +1,118 @@
 package com.app.guardian.ui.Lawyer
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
+import android.app.Activity
 import android.view.View
-import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import com.app.guardian.R
+import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.visible
+import com.app.guardian.databinding.FragmentLawyerListBinding
+import com.app.guardian.model.LawyerLsit.LawyerListResp
+import com.app.guardian.shareddata.base.BaseFragment
+import com.app.guardian.model.viewModels.UserViewModel
+import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
+import com.app.guardian.ui.SubscriptionPlan.Adapter.SubscriptionPlanAdapter
+import com.app.guardian.utils.Config
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class LawyerListFragment : Fragment() {
+class LawyerListFragment : BaseFragment() {
 
-    private var rootView : View ?= null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private lateinit var mBinding: FragmentLawyerListBinding
+    private val mViewModel: UserViewModel by viewModel()
+    var lawyerListAdapter: LawyerListAdapter? = null
+    var array = ArrayList<LawyerListResp>()
+
+    private var rootView: View? = null
+    override fun getInflateResource(): Int {
+        return R.layout.fragment_lawyer_list
+    }
+
+    override fun initView() {
+        mBinding = getBinding()
+    }
+
+    private fun setAdapter() {
+        lawyerListAdapter = LawyerListAdapter(
+            context as Activity,
+            array,
+        )
+        mBinding.rvLawyerList.adapter = lawyerListAdapter
+    }
+
+    override fun postInit() {
+    }
+
+    override fun handleListener() {
 
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        rootView = inflater.inflate(R.layout.fragment_lawyer_list, container, false)
-        return  rootView
+    override fun initObserver() {
+        mViewModel.getLawyerList().observe(this, Observer { response ->
+            response.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+
+                            array.clear()
+                            array.addAll(data)
+                        if(array.size !=0){
+                            lawyerListAdapter?.notifyDataSetChanged()
+                        }else{
+                            mBinding.rvLawyerList.gone()
+                            mBinding.noLawyer.visible()
+                        }
+
+
+
+
+
+                    }
+                }
+
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                context as Activity,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let { ReusedMethod.displayMessage(context as Activity, it) }
+                    }
+                }
+            }
+
+        })
     }
+
+    override fun onResume() {
+        super.onResume()
+        callAPI()
+        setAdapter()
+        mBinding.rvLawyerList.visible()
+        mBinding.lyLawyerListFilter.lySearch.visible()
+        mBinding.lyLawyerListFilter.lySearchFilter.visible()
+      //  mBinding.lyLawyerListFilter.edtLoginEmail.gone()
+        mBinding.noLawyer.gone()
+        mBinding.noInternetLawyer.llNointernet.gone()
+    }
+
+
+    private fun callAPI() {
+        if (ReusedMethod.isNetworkConnected(requireContext())) {
+            mViewModel.LawyerList(true, context as BaseActivity)
+        } else {
+            mBinding.rvLawyerList.gone()
+            mBinding.noLawyer.gone()
+            mBinding.noInternetLawyer.llNointernet.visible()
+        }
+    }
+
 
     companion object {
 

@@ -12,6 +12,7 @@ import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityHomeBinding
 import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.ui.Lawyer.LawyerListFragment
 import com.app.guardian.ui.User.UserHome.UserHomeFragment
 
 class HomeActivity : BaseActivity() {
@@ -24,6 +25,16 @@ class HomeActivity : BaseActivity() {
 
     override fun initView() {
         mBinding = getBinding()
+
+
+        //bottom navigation click listener
+        mBinding.bottomNavigationUser.setOnNavigationItemReselectedListener {
+            when(it.itemId){
+                R.id.menu_lawyer ->ReplaceFragment.homeFragmentReplace(this,LawyerListFragment(),null);
+
+            }
+        }
+
         loadHomeScreen()
     }
 

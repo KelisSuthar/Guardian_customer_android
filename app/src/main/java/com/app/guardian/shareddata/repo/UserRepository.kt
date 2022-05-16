@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.app.guardian.model.ApiError
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.ForgotPass.ForgotPassResp
+import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
 import com.app.guardian.model.RequestState
@@ -173,6 +174,21 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
                 baseView,
                 commonResponse
             )
+        }
+    }
+
+    override fun getLawyerList(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        lawyerResp: MutableLiveData<RequestState<MutableList<LawyerListResp>>>
+    ) {
+        if (!internetConnected){
+            lawyerResp.value = RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR,null))
+        } else {
+            lawyerResp.value = RequestState(progress = true)
+            NetworkManager.requestData(mApiEndPoint.getLawyerList(),
+            baseView,
+            lawyerResp)
         }
     }
 }
