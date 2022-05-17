@@ -6,9 +6,11 @@ import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
 import com.app.guardian.model.LawyerLsit.LawyerListResp
+import com.app.guardian.model.LawyerProfileDetails.LawyerProfileDetailsResp
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
 import com.app.guardian.model.RequestState
+import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
@@ -227,6 +229,38 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
             NetworkManager.requestData(mApiEndPoint.getLawyerList(),
             baseView,
             lawyerResp)
+        }
+    }
+
+    override fun getLawyerProfileDetails(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        lawyerProfileDetails: MutableLiveData<RequestState<LawyerProfileDetailsResp>>,
+        idn: Int
+    ) {
+        if (!isInternetConnected){
+            lawyerProfileDetails.value = RequestState(progress =  false, error = ApiError(Config.NETWORK_ERROR,null))
+        } else{
+            lawyerProfileDetails.value = RequestState(progress = true)
+            NetworkManager.requestData(mApiEndPoint.getLawyerProfileDetails(idn),
+            baseView,
+            lawyerProfileDetails)
+        }
+    }
+
+    override fun getSeekLegalAdviceList(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        seekLegalAdvice: MutableLiveData<RequestState<MutableList<SeekLegalAdviceResp>>>,
+        idn: Int
+    ) {
+        if (!isInternetConnected){
+            seekLegalAdvice.value = RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR,null))
+        } else{
+            seekLegalAdvice.value = RequestState(progress = true)
+            NetworkManager.requestData(mApiEndPoint.getSeekLegalAdvice(idn),
+            baseView,
+            seekLegalAdvice)
         }
     }
 }

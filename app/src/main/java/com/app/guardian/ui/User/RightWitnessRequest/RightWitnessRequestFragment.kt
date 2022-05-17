@@ -1,4 +1,4 @@
-package com.app.guardian.ui.User.KnowRight
+package com.app.guardian.ui.User.RightWitnessRequest
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

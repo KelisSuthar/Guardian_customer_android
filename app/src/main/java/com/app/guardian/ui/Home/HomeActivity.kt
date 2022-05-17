@@ -14,6 +14,8 @@ import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.Lawyer.LawyerHome.LawyerHomeFragment
 import com.app.guardian.ui.Lawyer.LawyerListFragment
 import com.app.guardian.ui.Mediator.MediatorHome.MediatorHomeFragment
+import com.app.guardian.ui.LawyerList.LawyerListFragment
+import com.app.guardian.ui.SeekLegalAdvice.SeekLegalAdviceListFragment
 import com.app.guardian.ui.User.UserHome.UserHomeFragment
 import com.app.guardian.ui.User.settings.SettingsFragment
 
@@ -47,6 +49,16 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
 //        navView.itemIconTintList = null
 //        NavigationUI.setupWithNavController(navView, navController!!)
 
+
+        //bottom navigation click listener
+        mBinding.bottomNavigationUser.setOnNavigationItemReselectedListener {
+            when(it.itemId){
+                R.id.menu_lawyer ->ReplaceFragment.replaceFragment(this,
+                    LawyerListFragment(),false,"",HomeActivity::class.java.name);
+
+            }
+        }
+
         loadHomeScreen()
     }
 
@@ -75,6 +87,8 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
             ) == AppConstants.APP_ROLE_USER -> {
 
                 ReplaceFragment.homeFragmentReplace(this, UserHomeFragment(), null);
+            ) == AppConstants.APP_ROLE_USER ->{
+                    ReplaceFragment.replaceFragment(this,UserHomeFragment(),true,HomeActivity::class.java.name,HomeActivity::class.java.name)
             }
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
@@ -91,20 +105,16 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
         }
     }
 
-    fun headerTextVisible(
-        headerTitle: String,
-        isHeaderVisible: Boolean,
-        isBackButtonVisible: Boolean
-    ) {
-        if (isHeaderVisible) {
-            mBinding.headerToolbar.tvHeaderText.text =
-                resources.getString(R.string.select_user_role)
+    fun headerTextVisible(headerTitle : String, isHeaderVisible : Boolean, isBackButtonVisible : Boolean){
+        if(isHeaderVisible){
+            mBinding.headerToolbar.tvHeaderText.text = resources.getString(R.string.select_user_role)
 
-            if (isBackButtonVisible)
-                mBinding.headerToolbar.ivBack.visible()
+            if(isBackButtonVisible)
+            mBinding.headerToolbar.ivBack.visible()
             else
                 mBinding.headerToolbar.ivBack.gone()
-        } else {
+        }
+        else{
             mBinding.headerToolbar.clHeadder.gone()
         }
 
