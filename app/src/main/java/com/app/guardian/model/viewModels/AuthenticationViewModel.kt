@@ -34,6 +34,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         isInternetConnected: Boolean,
         baseView: BaseActivity,
         isEmail: Boolean,
+        dial_code: String,
         email_phone: String,
         pass: String,
     ) {
@@ -42,6 +43,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             signInJson.addProperty(ApiConstant.EXTRAS_EMAIL, email_phone)
         } else {
             signInJson.addProperty(ApiConstant.EXTRAS_PHONE, email_phone)
+            signInJson.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
         }
         signInJson.addProperty(ApiConstant.EXTRAS_PASSWORD, pass)
 
@@ -69,9 +71,11 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         email: String,
         specialization: String,
         years_of_experience: String,
+        office_dial_code:String,
         office_phone: String,
         password: String,
         confirm_password: String,
+        dial_code:String,
         phone: String,
         state: String,
         postal_code: String,
@@ -89,15 +93,18 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             signUpJson.addProperty(ApiConstant.EXTRAS_SPECIALIZATION, specialization)
             signUpJson.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
             signUpJson.addProperty(ApiConstant.EXTRAS_OFFICE_PHONE, office_phone)
+            signUpJson.addProperty(ApiConstant.EXTRAS_OFFICE_DIAL_CODE, office_dial_code)
         } else if (is_mediator) {
             signUpJson.addProperty(ApiConstant.EXTRAS_SPECIALIZATION, specialization)
             signUpJson.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
 
+        }else{
+            signUpJson.addProperty(ApiConstant.EXTRAS_PHONE, phone)
+            signUpJson.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
         }
 
         signUpJson.addProperty(ApiConstant.EXTRAS_PASSWORD, password)
         signUpJson.addProperty(ApiConstant.EXTRAS_CONFIRM_PASS, confirm_password)
-        signUpJson.addProperty(ApiConstant.EXTRAS_PHONE, phone)
         signUpJson.addProperty(ApiConstant.EXTRAS_STATE, state)
         signUpJson.addProperty(ApiConstant.EXTRAS_POSTAL_CODE, postal_code)
 //        signUpJson.addProperty(ApiConstant.EXTRAS_PROFILE_AVATAR, profile_avatar)
@@ -160,7 +167,8 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         if (isEmail) {
             verifyOTPJson.addProperty(ApiConstant.EXTRAS_EMAIL, email_phone)
         } else {
-            verifyOTPJson.addProperty(ApiConstant.EXTRAS_PHONE, ccp + email_phone)
+            verifyOTPJson.addProperty(ApiConstant.EXTRAS_PHONE,  email_phone)
+            verifyOTPJson.addProperty(ApiConstant.EXTRAS_DIAL_CODE,  ccp)
         }
         verifyOTPJson.addProperty(ApiConstant.EXTRAS_OTP, OTP)
 
@@ -229,6 +237,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         isInternetConnected: Boolean,
         baseView: BaseActivity,
         isEmail: Boolean,
+        dial_code: String,
         email_phone: String,
 
 
@@ -238,6 +247,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             forgotPassJson.addProperty(ApiConstant.EXTRAS_EMAIL, email_phone)
         } else {
             forgotPassJson.addProperty(ApiConstant.EXTRAS_PHONE, email_phone)
+            forgotPassJson.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
         }
 
 

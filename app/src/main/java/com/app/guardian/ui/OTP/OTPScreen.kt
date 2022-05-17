@@ -59,7 +59,7 @@ class OTPScreen : BaseActivity(), View.OnClickListener {
                                 Intent(
                                     this@OTPScreen,
                                     ResetPasswordActivity::class.java
-                                ).putExtra(AppConstants.EXTRA_CCP,data.id.toString())
+                                ).putExtra(AppConstants.EXTRA_USER_ID,data.id.toString())
                             )
                             overridePendingTransition(R.anim.rightto, R.anim.left)
                             ReusedMethod.displayMessage(this, it.message.toString())
@@ -154,6 +154,7 @@ class OTPScreen : BaseActivity(), View.OnClickListener {
         if (ReusedMethod.isNetworkConnected(this)) {
             mViewModel.forgotPass(
                 true, this, intent.getBooleanExtra(AppConstants.EXTRA_IS_EMAIL, false),
+                intent.getStringExtra(AppConstants.EXTRA_CCP).toString(),
                 email_phone
             )
 

@@ -194,7 +194,7 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
                 this,
                 mBinding.editTextConPass.text?.trim().toString(),
                 mBinding.editTextConPass.text?.trim().toString(),
-                intent.getStringExtra(AppConstants.EXTRA_CCP).toString()
+                intent.getStringExtra(AppConstants.EXTRA_USER_ID).toString()
             )
         } else {
             mBinding.noInternetoginResetPass.llNointernet.visible()

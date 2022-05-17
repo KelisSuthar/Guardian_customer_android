@@ -90,6 +90,7 @@ class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
                                         mBinding.emailphoneSelector.ccp.selectedCountryCode.toString()
 
                                     )
+
                             )
                             overridePendingTransition(R.anim.rightto, R.anim.left)
                             ReusedMethod.displayMessage(this, it.message.toString())
@@ -235,7 +236,7 @@ class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
     private fun callApi(phone_email: String) {
         if (isNetworkConnected(this)) {
             mViewModel.forgotPass(
-                true, this, isEmail,
+                true, this, isEmail, mBinding.emailphoneSelector.ccp.selectedCountryCode.toString(),
                 phone_email
             )
 

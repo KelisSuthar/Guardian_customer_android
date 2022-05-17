@@ -319,7 +319,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private fun callApi(phone_email: String) {
         if (isNetworkConnected(this)) {
             mViewModel.Login(
-                isNetworkConnected(this), this@LoginActivity, is_Email,
+                isNetworkConnected(this), this@LoginActivity, is_Email,mBinding.emailphoneSelector.ccp.selectedCountryCode.toString(),
                 phone_email,
                 mBinding.editTextLoginPass.text?.trim().toString()
             )

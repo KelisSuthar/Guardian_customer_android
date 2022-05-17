@@ -33,6 +33,7 @@ object AppConstants {
     const val EXTRA_OTP = "OTP"
     const val EXTRA_EMAIL_PHONE = "EMAIL_PHONE"
     const val EXTRA_CCP = "CCP"
+    const val EXTRA_USER_ID = "USER_ID"
     const val EXTRA_IS_EMAIL = "IS_EMAIL"
     const val EXTRA_IS_USER = "IS_USER"
     const val EXTRA_IS_LAWYER = "IS_LAWYER"

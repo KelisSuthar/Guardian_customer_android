@@ -27,6 +27,9 @@ class ApiConstant{
      val EXTRAS_SPECIALIZATION="specialization"
      val EXTRAS_YEARS_OF_EXP="years_of_experience"
      val EXTRAS_OFFICE_PHONE="office_phone"
+     val EXTRAS_LICENCE_NO="licence_no"
+     val EXTRAS_OFFICE_DIAL_CODE="office_dialing_code"
+     val EXTRAS_DIAL_CODE="dialing_code"
 
 
      val EXTRAS_REFERAL_CODE="referral_by"
