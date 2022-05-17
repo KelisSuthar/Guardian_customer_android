@@ -63,7 +63,6 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
             object : SubscriptionPlanAdapter.onItemClicklisteners {
                 override fun onSubclick(position: Int) {
 //                    loadAllSKUs()
-
                     callBuyPlanAPI(array[position].id, array[position].pricing)
                 }
 

@@ -2,6 +2,7 @@ package com.app.guardian.shareddata.endpoint
 
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.CommonResponseModel
+import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
@@ -47,9 +48,10 @@ interface ApiEndPoint {
     fun getUserHomeBanners(): Call<CommonResponseModel<MutableList<UserHomeBannerResp>>>
 
     @GET("getUserDetail")
-    fun getUserDetails(): Call<CommonResponseModel<UserHomeBannerResp>>
+    fun getUserDetails(): Call<CommonResponseModel<UserDetailsResp>>
 
-
+    @GET("updateUserProfile")
+    fun updateUserProfile(): Call<CommonResponseModel<CommonResponse>>
 
 
 }

@@ -208,8 +208,8 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                                 )
                             )
                             overridePendingTransition(R.anim.rightto, R.anim.left)
-                        }else{
-                            displayMessage(this,it.message.toString())
+                        } else {
+                            displayMessage(this, it.message.toString())
                         }
                     }
                 }
@@ -220,7 +220,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let {  }
+                                ?.let { }
                     }
                 }
             }
@@ -242,7 +242,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-            R.id.btnTryAgain->{
+            R.id.btnTryAgain -> {
                 callApi()
             }
             R.id.txtDoNotHaveAccount -> {
@@ -700,10 +700,12 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 mBinding.edtEmail.text?.trim().toString(),
                 mBinding.edtSpecializations.text?.trim().toString(),
                 mBinding.edtYearsOfExp.text?.trim().toString(),
-                mBinding.ccpOffice.selectedCountryCode.toString()+mBinding.edtOfficeNum.text?.trim().toString(),
+                mBinding.ccpOffice.selectedCountryCode.toString() + mBinding.edtOfficeNum.text?.trim()
+                    .toString(),
                 mBinding.edtPass.text?.trim().toString(),
                 mBinding.edtConPass.text?.trim().toString(),
-                mBinding.ccp.selectedCountryCode.toString()+mBinding.edtMobileNum.text?.trim().toString(),
+                mBinding.ccp.selectedCountryCode.toString() + mBinding.edtMobileNum.text?.trim()
+                    .toString(),
                 mBinding.edtProvience.text?.trim().toString(),
                 mBinding.edtPostalCode.text?.trim().toString(),
                 profile_img,
@@ -792,12 +794,13 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     getLatLong()
 
                 } else {
-                    displayMessage(this,"Please accept permission")
+                    displayMessage(this, "Please accept permission")
                 }
             }
         }
 
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -856,7 +859,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 //        Log.i("THIS_APP",addresses[0].locality)
 //        Log.i("THIS_APP",addresses[0].postalCode)
         mBinding.edtPostalCode.setText(addresses[0].postalCode)
-        mBinding.edtProvience.setText(addresses[0].locality+"/"+addresses[0].adminArea)
+        mBinding.edtProvience.setText(addresses[0].locality + "/" + addresses[0].adminArea)
 
 
     }
