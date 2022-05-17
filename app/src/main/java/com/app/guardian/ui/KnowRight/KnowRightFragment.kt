@@ -1,37 +1,81 @@
 package com.app.guardian.ui.KnowRight
 
+import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.TextView
 import com.app.guardian.R
+import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.visible
+import com.app.guardian.databinding.FragmentKnowRightBinding
+import com.app.guardian.databinding.FragmentKnowYourBasicRightBinding
+import com.app.guardian.databinding.FragmentLawyerHomeBinding
+import com.app.guardian.shareddata.base.BaseFragment
+import com.app.guardian.ui.KnowRight.Adapter.KnowYourRightsAdapter
+import com.google.android.material.textview.MaterialTextView
+import java.util.*
+import kotlin.collections.ArrayList
 
 
-class KnowRightFragment : Fragment() {
-
-    private var rootView : View ?= null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+class KnowRightFragment : BaseFragment(),View.OnClickListener {
+    lateinit var mBinding: FragmentKnowRightBinding
+    var knowYourRightsAdapter: KnowYourRightsAdapter? = null
+    var array = ArrayList<String>()
+    override fun getInflateResource(): Int {
+        return R.layout.fragment_know_right
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        rootView= inflater.inflate(R.layout.fragment_know_right, container, false)
-
-        return rootView
+    override fun initView() {
+        mBinding = getBinding()
+        setAdapter()
     }
 
-    companion object {
-
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            KnowRightFragment().apply {
-
+    private fun setAdapter() {
+        mBinding.rvLawyerList.adapter = null
+        knowYourRightsAdapter = KnowYourRightsAdapter(requireActivity(),array,object :KnowYourRightsAdapter.onItemClicklisteners{
+            override fun onItemClick(position: Int) {
+                showDialog()
             }
+        })
+        mBinding.rvLawyerList.adapter = knowYourRightsAdapter
     }
+
+    private fun showDialog() {
+        val dialog = Dialog(
+            requireActivity(),
+            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+        )
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setContentView(R.layout.know_right_dialog)
+        dialog.setCancelable(false)
+
+        val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
+
+
+
+        dialog.show()
+    }
+
+    override fun postInit() {
+
+    }
+
+    override fun handleListener() {
+
+    }
+
+    override fun initObserver() {
+
+    }
+
+    override fun onClick(v: View?) {
+
+    }
+
+
 }

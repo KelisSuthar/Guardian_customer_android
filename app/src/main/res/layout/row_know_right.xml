@@ -23,12 +23,12 @@
             android:paddingVertical="@dimen/_10sdp">
 
             <TextView
-                android:id="@+id/rbRowKnowRight"
+                android:id="@+id/txtText1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_marginHorizontal="@dimen/_20sdp"
-                android:layout_toStartOf="@+id/rbRowKnowRightIndex"
+                android:layout_toStartOf="@+id/txtText2"
                 android:fontFamily="@font/lora_semibold"
                 android:paddingTop="@dimen/_10sdp"
                 android:paddingBottom="@dimen/_10sdp"
@@ -37,16 +37,16 @@
                 android:textSize="@dimen/_10ssp" />
 
             <TextView
-                android:id="@+id/rbRowKnowRightIndex"
+                android:id="@+id/txtText2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/txtText1"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_alignBottom="@+id/rbRowKnowRight"
                 android:layout_marginHorizontal="@dimen/_20sdp"
                 android:fontFamily="@font/lora_semibold"
-                android:text="Index know"
                 android:gravity="center_vertical"
+                android:text="Index know"
                 android:textColor="@color/txt_dark"
                 android:textSize="@dimen/_10ssp" />
         </RelativeLayout>

@@ -11,11 +11,10 @@ import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityHomeBinding
 import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.ui.KnowRight.KnowRightFragment
 import com.app.guardian.ui.Lawyer.LawyerHome.LawyerHomeFragment
-import com.app.guardian.ui.Lawyer.LawyerListFragment
-import com.app.guardian.ui.Mediator.MediatorHome.MediatorHomeFragment
 import com.app.guardian.ui.LawyerList.LawyerListFragment
-import com.app.guardian.ui.SeekLegalAdvice.SeekLegalAdviceListFragment
+import com.app.guardian.ui.Mediator.MediatorHome.MediatorHomeFragment
 import com.app.guardian.ui.User.UserHome.UserHomeFragment
 import com.app.guardian.ui.User.settings.SettingsFragment
 
@@ -33,12 +32,13 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
         mBinding.bottomNavigationUser.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.menu_home -> {
-                    loadHomeScreen()
+//                    loadHomeScreen()
+                    ReplaceFragment.replaceFragment(this,KnowRightFragment(),false,"",HomeActivity::class.java.name)
                 }
-                R.id.menu_lawyer -> {ReplaceFragment.homeFragmentReplace(this,LawyerListFragment(),null);}
+                R.id.menu_lawyer -> {ReplaceFragment.replaceFragment(this,LawyerListFragment(),false,"",HomeActivity::class.java.name)}
                 R.id.menu_radar -> {}
                 R.id.menu_history ->{}
-                R.id.menu_setting ->ReplaceFragment.homeFragmentReplace(this, SettingsFragment(), null);
+                R.id.menu_setting ->{ReplaceFragment.replaceFragment(this,SettingsFragment(),false,"",HomeActivity::class.java.name)}
             }
             true
         }
@@ -51,13 +51,6 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
 
 
         //bottom navigation click listener
-        mBinding.bottomNavigationUser.setOnNavigationItemReselectedListener {
-            when(it.itemId){
-                R.id.menu_lawyer ->ReplaceFragment.replaceFragment(this,
-                    LawyerListFragment(),false,"",HomeActivity::class.java.name);
-
-            }
-        }
 
         loadHomeScreen()
     }
@@ -86,21 +79,19 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_USER -> {
 
-                ReplaceFragment.homeFragmentReplace(this, UserHomeFragment(), null);
-            ) == AppConstants.APP_ROLE_USER ->{
-                    ReplaceFragment.replaceFragment(this,UserHomeFragment(),true,HomeActivity::class.java.name,HomeActivity::class.java.name)
+                ReplaceFragment.replaceFragment(this,UserHomeFragment(),false,"",HomeActivity::class.java.name)
             }
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_LAWYER -> {
-                ReplaceFragment.homeFragmentReplace(this, LawyerHomeFragment(), null);
+                ReplaceFragment.replaceFragment(this, LawyerHomeFragment(), false,"",HomeActivity::class.java.name);
             }
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_MEDIATOR -> {
-                ReplaceFragment.homeFragmentReplace(this, MediatorHomeFragment(), null);
+                ReplaceFragment.replaceFragment(this, MediatorHomeFragment(), false,"",HomeActivity::class.java.name);
             }
         }
     }
@@ -121,6 +112,6 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        TODO("Not yet implemented")
+
     }
 }
