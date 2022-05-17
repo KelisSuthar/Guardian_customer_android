@@ -4,6 +4,7 @@ import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.CommonResponseModel
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
+import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
 import com.app.guardian.model.SignUp.SignupResp
@@ -54,5 +55,7 @@ interface ApiEndPoint {
     @PUT("updateUserProfile")
     fun updateUserProfile(): Call<CommonResponseModel<CommonResponse>>
 
+    @GET("getLawyerList")
+    fun getLawyerList(): Call<CommonResponseModel<MutableList<LawyerListResp>>>
 
 }

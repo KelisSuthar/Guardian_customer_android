@@ -14,6 +14,7 @@ import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.ShowLogToast
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.model.viewModels.CommonScreensViewModel
+import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.endpoint.ApiEndPoint
 import com.app.guardian.shareddata.repo.UserRepo
 import com.google.gson.GsonBuilder
@@ -35,6 +36,7 @@ val viewModelModule = module {
     single<UserRepo> { UserRepository(get()) }
     viewModel { AuthenticationViewModel(get()) }
     viewModel { CommonScreensViewModel(get()) }
+    viewModel { UserViewModel(get()) }
 
 }
 

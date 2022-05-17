@@ -38,6 +38,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         email_phone: String,
         pass: String,
         device_token: String,
+
     ) {
         val signInJson = JsonObject()
         if (isEmail) {
@@ -48,6 +49,8 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         }
         signInJson.addProperty(ApiConstant.EXTRAS_PASSWORD, pass)
         signInJson.addProperty(ApiConstant.EXTRAS_DEVICETOKEN, device_token)
+        signInJson.addProperty(ApiConstant.EXTRAS_DEVICETOKEN, device_token)
+
 
 
         mUserRepository.doSignIn(

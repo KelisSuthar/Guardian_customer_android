@@ -20,7 +20,6 @@
             android:layout_marginTop="@dimen/_20sdp"
             app:layout_constraintTop_toBottomOf="@+id/headder">
 
-
             <LinearLayout
                 android:id="@+id/lyBannerAds4VirtyalWitness"
                 android:layout_width="match_parent"

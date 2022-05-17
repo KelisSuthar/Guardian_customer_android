@@ -13,6 +13,7 @@ import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityHomeBinding
 import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.ui.Lawyer.LawyerListFragment
 import com.app.guardian.ui.User.UserHome.UserHomeFragment
 import com.app.guardian.ui.User.settings.SettingsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -30,7 +31,7 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
         mBinding.bottomNavigationUser.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.menu_home ->loadHomeScreen()
-                R.id.menu_lawyer -> {}
+                R.id.menu_lawyer -> {ReplaceFragment.homeFragmentReplace(this,LawyerListFragment(),null);}
                 R.id.menu_radar -> {}
                 R.id.menu_history ->{}
                 R.id.menu_setting ->ReplaceFragment.homeFragmentReplace(this, SettingsFragment(), null);

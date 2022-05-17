@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
+import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
 import com.app.guardian.model.RequestState
@@ -74,6 +75,12 @@ interface UserRepo {
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResponse: MutableLiveData<RequestState<MutableList<CommonResponse>>>
+    )
+
+    fun getLawyerList(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        lawyerResp: MutableLiveData<RequestState<MutableList<LawyerListResp>>>
     )
 
     fun getuserHomeBanners(
