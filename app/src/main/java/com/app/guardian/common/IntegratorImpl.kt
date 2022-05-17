@@ -94,8 +94,6 @@ object IntegratorImpl {
                     }
 
 
-
-
                 } else if (is_mediator) {
                     if (TextUtils.isEmpty(specialization)) {
                         ValidationView.empty_specialization()
@@ -107,38 +105,38 @@ object IntegratorImpl {
                         ValidationView.valid_years_exp()
                     }
                 }
-                if (TextUtils.isEmpty(mobile)) {
-                    ValidationView.moNumber_empty()
-                } else if (mobile.length < 10) {
-                    ValidationView.moNumberValidation()
-                } else if (newpassword.length < 8) {
-                    ValidationView.newpasswordMinValidation()
-                } else if (!SmartUtils.checkSpecialPasswordValidation(newpassword)) {
-                    ValidationView.passwordSpecialValidation()
-                } else if (conpassword.length < 8) {
-                    ValidationView.conpasswordMinValidation()
-                } else if (!SmartUtils.checkSpecialPasswordValidation(conpassword)) {
-                    ValidationView.confpasswordSpecialValidation()
-                } else if (newpassword != conpassword) {
-                    ValidationView.matchPassowrds()
-                } else if (TextUtils.isEmpty(provience)) {
-                    ValidationView.empty_provience()
-                } else if (postal_code.length < 3 || postal_code.length > 9) {
-                    ValidationView.valid_state()
-                } else if (TextUtils.isEmpty(postal_code)) {
-                    ValidationView.empty_postal_code()
-                } else if (postal_code.length < 3 || postal_code.length > 9) {
-                    ValidationView.valid_postal_code()
+        if (TextUtils.isEmpty(mobile)) {
+            ValidationView.moNumber_empty()
+        } else if (mobile.length < 10) {
+            ValidationView.moNumberValidation()
+        } else if (newpassword.length < 8) {
+            ValidationView.newpasswordMinValidation()
+        } else if (!SmartUtils.checkSpecialPasswordValidation(newpassword)) {
+            ValidationView.passwordSpecialValidation()
+        } else if (conpassword.length < 8) {
+            ValidationView.conpasswordMinValidation()
+        } else if (!SmartUtils.checkSpecialPasswordValidation(conpassword)) {
+            ValidationView.confpasswordSpecialValidation()
+        } else if (newpassword != conpassword) {
+            ValidationView.matchPassowrds()
+        } else if (TextUtils.isEmpty(provience)) {
+            ValidationView.empty_provience()
+        } else if (postal_code.length < 3 || postal_code.length > 9) {
+            ValidationView.valid_state()
+        } else if (TextUtils.isEmpty(postal_code)) {
+            ValidationView.empty_postal_code()
+        } else if (postal_code.length < 3 || postal_code.length > 9) {
+            ValidationView.valid_postal_code()
 
 //                else if (licence_plate.length < 15) {
 //                    ValidationView.licencPlateLength()
 //                }
 
-                } else if (documentList.size == 0) {
-                    ValidationView.docValidations()
-                } else {
-                    ValidationView.success()
-                }
+        } else if (documentList.size == 0) {
+            ValidationView.docValidations()
+        } else {
+            ValidationView.success()
+        }
     }
 
     fun isValidCreateProfile(
@@ -541,6 +539,51 @@ object IntegratorImpl {
             else -> {
                 addAppReviews.success()
             }
+        }
+    }
+
+    fun isValidEdit(
+        isLawyer: Boolean,
+        isMediator: Boolean,
+        profileImg: String,
+        fullName: String,
+//        email: String,
+        mobile: String,
+        provience: String,
+        postal_code: String,
+        vehicalnumber: String,
+        images: ArrayList<String>,
+        ValidationView: ValidationView.EditProfile
+    ) {
+        if (TextUtils.isEmpty(profileImg)) {
+            ValidationView.empty_profilePic()
+        } else if (TextUtils.isEmpty(fullName)) {
+            ValidationView.fullname_empty()
+        } else if (fullName.length > 35 || fullName.length < 3) {
+            ValidationView.fulllNameValidation()
+//        }         else if (TextUtils.isEmpty(email)) {
+//            ValidationView.email_empty()
+//        } else if (!SmartUtils.emailValidator(email)) {
+//            ValidationView.emailValidation()
+        } else if (TextUtils.isEmpty(mobile)) {
+            ValidationView.moNumber_empty()
+        } else if (mobile.length < 10) {
+            ValidationView.moNumberValidation()
+        } else if (TextUtils.isEmpty(provience)) {
+            ValidationView.empty_provience()
+        } else if (postal_code.length < 3 || postal_code.length > 9) {
+            ValidationView.valid_state()
+        } else if (TextUtils.isEmpty(postal_code)) {
+            ValidationView.empty_postal_code()
+        } else if (postal_code.length < 3 || postal_code.length > 9) {
+            ValidationView.valid_postal_code()
+        }//                else if (licence_plate.length < 15) {
+//                    ValidationView.licencPlateLength()
+//                }
+        else if (images.size == 0) {
+            ValidationView.docValidations()
+        } else {
+            ValidationView.success()
         }
     }
 }

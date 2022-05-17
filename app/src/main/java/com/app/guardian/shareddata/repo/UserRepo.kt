@@ -2,12 +2,14 @@ package com.app.guardian.shareddata.repo
 
 import androidx.lifecycle.MutableLiveData
 import com.app.guardian.model.CommonResponse
+import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
+import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
 import com.app.guardian.shareddata.BaseView
 import com.app.guardian.shareddata.base.BaseActivity
 import com.google.gson.JsonObject
@@ -72,6 +74,18 @@ interface UserRepo {
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResponse: MutableLiveData<RequestState<MutableList<CommonResponse>>>
+    )
+
+    fun getuserHomeBanners(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<UserHomeBannerResp>>>
+    )
+
+    fun getUserDetails(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        userDetailsResp: MutableLiveData<RequestState<UserDetailsResp>>
     )
 
 }

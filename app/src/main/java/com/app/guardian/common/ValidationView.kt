@@ -213,4 +213,21 @@ interface ValidationView {
         fun reviews()
         fun success()
     }
+
+    interface EditProfile {
+        fun empty_profilePic()
+        fun fullname_empty()
+        fun fulllNameValidation()
+//        fun email_empty()
+        fun emailValidation()
+        fun moNumber_empty()
+        fun moNumberValidation()
+        fun empty_provience()
+        fun valid_state()
+        fun empty_postal_code()
+        fun valid_postal_code()
+        fun docValidations()
+        fun success()
+
+    }
 }

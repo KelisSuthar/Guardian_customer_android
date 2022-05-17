@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.editProfile.EditProfileActivity">
+
+        <include
+            android:id="@+id/headderEdit"
+            layout="@layout/headder_layout" />
+
+        <include
+            android:id="@+id/noDataEdit"
+            layout="@layout/no_data_layout"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/noInternetEdit"
+            layout="@layout/no_internet_connection_layout"
+            android:visibility="gone" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/ns"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/headderEdit">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:paddingBottom="@dimen/_30sdp">
+
+                <LinearLayout
+                    android:id="@+id/ll1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/ivProfileImg"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_80sdp"
+                        android:src="@drawable/profile" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="@dimen/_15sdp"
+                        android:fontFamily="@font/lora_regular"
+                        android:text="Profile Picture"
+                        android:textAlignment="center"
+                        android:textColor="@color/txt_dark"
+                        android:textFontWeight="400"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintTop_toBottomOf="@+id/txtWelcomeBack" />
+
+                </LinearLayout>
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtFullname"
+                    style="@style/White_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:drawableLeft="@drawable/ic_profile"
+                    android:fontFamily="@font/lora_regular"
+                    android:hint="@string/fullname"
+                    android:inputType="textEmailAddress"
+                    android:maxLength="35"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintTop_toBottomOf="@id/ll1" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtEmail"
+                    style="@style/White_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:drawableLeft="@drawable/ic_mail"
+                    android:fontFamily="@font/lora_regular"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
+                    android:textFontWeight="400"
+                    android:focusable="false"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintTop_toBottomOf="@id/edtFullname" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clayout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/normal_rounded_light_blue"
+                    app:layout_constraintTop_toBottomOf="@id/edtEmail"
+                    >
+
+                    <com.rilixtech.widget.countrycodepicker.CountryCodePicker
+                        android:id="@+id/ccp"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/left_corners_blue_back"
+                        android:padding="@dimen/_10sdp"
+                        android:paddingVertical="@dimen/_10sdp"
+                        app:ccp_defaultCode="1"
+                        app:ccp_dialogTextColor="@color/darkBlue"
+                        app:ccp_hideNameCode="true"
+                        app:ccp_hidePhoneCode="false"
+                        app:ccp_keyboardAutoPopOnSearch="false"
+                        app:ccp_setCountryByTimeZone="true"
+                        app:ccp_showFlag="false"
+                        app:ccp_showFullName="false"
+                        app:ccp_textColor="@color/white"
+                        app:ccp_textSize="@dimen/_9ssp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtPhone"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorTransparent"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:fontFamily="@font/lora_regular"
+                        android:hint="@string/phone"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:padding="@dimen/_10sdp"
+                        android:paddingHorizontal="@dimen/_10sdp"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textFontWeight="400"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintLeft_toRightOf="@+id/ccp"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtProvience"
+                    style="@style/White_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:drawableLeft="@drawable/ic_map"
+                    android:fontFamily="@font/lora_regular"
+                    android:hint="@string/provience_state"
+                    android:inputType="text"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintTop_toBottomOf="@id/clayout1" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtPostalCode"
+                    style="@style/White_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:drawableLeft="@drawable/ic_map_pin"
+                    android:fontFamily="@font/lora_regular"
+                    android:hint="@string/postal_code"
+                    android:inputType="text"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintTop_toBottomOf="@id/edtProvience" />
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtVehicalNum"
+                    style="@style/White_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:drawableLeft="@drawable/ic_vehical_number"
+                    android:fontFamily="@font/lora_regular"
+                    android:hint="@string/licence_num"
+                    android:inputType="text"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintTop_toBottomOf="@id/edtPostalCode" />
+
+                <LinearLayout
+                    android:id="@+id/ll3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:orientation="vertical"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edtVehicalNum">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+
+                            android:fontFamily="@font/lora_semibold"
+                            android:text="@string/upload_doc"
+                            android:textAlignment="center"
+                            android:textColor="@color/txt_dark"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_14ssp"
+                            app:layout_constraintTop_toBottomOf="@+id/txtWelcomeBack" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/upload_max_doc"
+                            android:textAlignment="center"
+                            android:textColor="@color/txt_dark"
+                            android:textFontWeight="400"
+                            android:textSize="@dimen/_8ssp"
+                            app:layout_constraintTop_toBottomOf="@+id/txtWelcomeBack" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/upload_doc_ex"
+                            android:textAlignment="center"
+                            android:textColor="@color/txt_dark"
+                            android:textFontWeight="400"
+
+                            android:textSize="@dimen/_6ssp"
+                            app:layout_constraintTop_toBottomOf="@+id/txtWelcomeBack" />
+                    </LinearLayout>
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="none">
+
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvImage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:nestedScrollingEnabled="false"
+                                android:orientation="horizontal"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                tools:listitem="@layout/image_layout" />
+
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/ivAddImage"
+                                android:layout_width="@dimen/_80sdp"
+                                android:layout_height="@dimen/_80sdp"
+                                android:layout_marginHorizontal="@dimen/_5sdp"
+                                android:layout_marginVertical="@dimen/_10sdp"
+                                android:layout_toRightOf="@+id/rvImage"
+                                app:cardCornerRadius="@dimen/_10ssp">
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+
+                                    <androidx.appcompat.widget.AppCompatImageView
+
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/ic_big_plus"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintLeft_toLeftOf="parent"
+                                        app:layout_constraintRight_toRightOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            </com.google.android.material.card.MaterialCardView>
+
+                        </RelativeLayout>
+
+                    </HorizontalScrollView>
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnSubmit"
+                    style="@style/blue_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="@string/submit"
+                    app:layout_constraintTop_toBottomOf="@+id/ll3" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

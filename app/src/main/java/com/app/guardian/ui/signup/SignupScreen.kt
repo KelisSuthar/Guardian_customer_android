@@ -208,8 +208,8 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                                 )
                             )
                             overridePendingTransition(R.anim.rightto, R.anim.left)
-                        }else{
-                            displayMessage(this,it.message.toString())
+                        } else {
+                            displayMessage(this, it.message.toString())
                         }
                     }
                 }
@@ -220,7 +220,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let {  }
+                                ?.let {}
                     }
                 }
             }
@@ -242,7 +242,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-            R.id.btnTryAgain->{
+            R.id.btnTryAgain -> {
                 callApi()
             }
             R.id.txtDoNotHaveAccount -> {
@@ -794,12 +794,13 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     getLatLong()
 
                 } else {
-                    displayMessage(this,"Please accept permission")
+                    displayMessage(this, "Please accept permission")
                 }
             }
         }
 
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -858,7 +859,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 //        Log.i("THIS_APP",addresses[0].locality)
 //        Log.i("THIS_APP",addresses[0].postalCode)
         mBinding.edtPostalCode.setText(addresses[0].postalCode)
-        mBinding.edtProvience.setText(addresses[0].locality+"/"+addresses[0].adminArea)
+        mBinding.edtProvience.setText(addresses[0].locality + "/" + addresses[0].adminArea)
 
 
     }

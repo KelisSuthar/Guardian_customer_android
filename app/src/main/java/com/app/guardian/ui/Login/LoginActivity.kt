@@ -16,6 +16,7 @@ import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityLoginBinding
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
 import com.app.guardian.ui.forgot.ForgotPasswordActivity
 import com.app.guardian.ui.signup.SignupScreen
@@ -75,17 +76,24 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     it.data?.let { data ->
                         if (it.status) {
                             SharedPreferenceManager.putString(AppConstants.BEREAR_TOKEN, data.token)
+                            SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
 
                             when {
                                 SharedPreferenceManager.getString(
                                     AppConstants.USER_ROLE,
                                     AppConstants.APP_ROLE_USER
                                 ) == AppConstants.APP_ROLE_USER -> {
-                                    
+
+//                                    startActivity(
+//                                        Intent(
+//                                            this@LoginActivity,
+//                                            SubScriptionPlanScreen::class.java
+//                                        )
+//                                    )
                                     startActivity(
                                         Intent(
                                             this@LoginActivity,
-                                            SubScriptionPlanScreen::class.java
+                                            HomeActivity::class.java
                                         )
                                     )
                                     finish()
@@ -321,7 +329,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             mViewModel.Login(
                 isNetworkConnected(this), this@LoginActivity, is_Email,mBinding.emailphoneSelector.ccp.selectedCountryCode.toString(),
                 phone_email,
-                mBinding.editTextLoginPass.text?.trim().toString()
+                mBinding.editTextLoginPass.text?.trim().toString(),
+                "DEVICETOKEN@1234"
             )
         } else {
             mBinding.nsLogin.gone()

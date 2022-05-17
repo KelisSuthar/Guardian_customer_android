@@ -3,12 +3,30 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/drawable/button_back_blue_corner.xml" value="0.199" />
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/drawable/ic_mail.xml" value="0.1995" />
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/drawable/ic_password.xml" value="0.199" />
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/drawable/med_rounded_blue_back.xml" value="0.199" />
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/drawable/medium_rounded_light_blue.xml" value="0.199" />
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/drawable/normal_rounded_light_blue.xml" value="0.199" />
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/drawable/normal_rounded_light_blue_borders.xml" value="0.199" />
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/drawable/normal_rounded_light_blue_red_borders.xml" value="0.199" />
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/drawable/rounded_blue_back.xml" value="0.199" />
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/layout/activity_about_us.xml" value="0.31875" />
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/layout/activity_edit_profile.xml" value="0.3359375" />
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/layout/activity_forgot_password.xml" value="0.3359375" />
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/layout/activity_home.xml" value="0.3111111111111111" />
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/layout/activity_login.xml" value="0.31666666666666665" />
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/layout/activity_reset_password.xml" value="0.3175925925925926" />
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/layout/activity_signup_screen.xml" value="0.31666666666666665" />
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/layout/activity_term_and_conditions.xml" value="0.3359375" />
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/layout/activity_virtual_witness.xml" value="0.3359375" />
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/layout/fragment_settings.xml" value="0.3111111111111111" />
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/layout/fragment_user_home.xml" value="0.3175925925925926" />
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/layout/phone_email_selector.xml" value="0.3359375" />
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/layout/phone_selector.xml" value="0.3359375" />
+        <entry key="..\:/Hardik Workspace/android/Guardian_customer_android/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.3359375" />
         <entry key="app/src/main/res/drawable/toast_rounded.xml" value="0.2135" />
-        <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.30925925925925923" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/activity_otpscreen.xml" value="0.37604166666666666" />
-        <entry key="app/src/main/res/layout/activity_signup_screen.xml" value="0.5" />
-        <entry key="app/src/main/res/layout/phone_email_selector.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/progress_dialog.xml" value="0.3802083333333333" />
         <entry key="app/src/main/res/layout/toast_hint_layout.xml" value="0.36614583333333334" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2135" />

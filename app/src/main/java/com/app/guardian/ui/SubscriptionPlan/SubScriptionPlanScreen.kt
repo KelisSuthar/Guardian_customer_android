@@ -4,7 +4,9 @@ import android.util.Log
 import android.view.View
 import com.android.billingclient.api.*
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivitySubScriptionPlanScreenBinding
@@ -22,7 +24,8 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
     private val mViewModel: AuthenticationViewModel by viewModel()
     var subscriptionPlanAdapter: SubscriptionPlanAdapter? = null
     var shared_secret = "Q@hagfgfggfggrdik15"
-//    var start_date = ""
+
+    //    var start_date = ""
 //    var end_date = ""
     var array = ArrayList<SubscriptionPlanResp>()
 
@@ -60,7 +63,6 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
             object : SubscriptionPlanAdapter.onItemClicklisteners {
                 override fun onSubclick(position: Int) {
 //                    loadAllSKUs()
-
                     callBuyPlanAPI(array[position].id, array[position].pricing)
                 }
 
@@ -77,6 +79,8 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
+                        SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
+
                         if (it.status) {
                             array.clear()
                             array.addAll(data)
@@ -119,7 +123,7 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                                 "Ok",
                                 ""
                             )
-                        }else{
+                        } else {
                             ReusedMethod.displayMessage(this, it.message.toString())
                         }
 
@@ -168,7 +172,7 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                 true,
                 this,
                 id.toString(),
-                firstSubString.replace("$",""),
+                firstSubString.replace("$", ""),
                 shared_secret,
 //                start_date,
 //                end_date
@@ -300,6 +304,7 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
     } else {
         println("Billing Client not ready")
     }
+
     override fun onPurchasesUpdated(
         billingResult: BillingResult,
         purchases: MutableList<Purchase>?

@@ -331,6 +331,31 @@ class ReusedMethod {
             }
         }
 
+        fun changePhoneState(
+            context: Context,
+            editText: TextInputEditText,
+            ccp: CountryCodePicker,
+            parentLayout: ConstraintLayout
+        ) {
+            parentLayout.background = ContextCompat.getDrawable(
+                context,
+                R.drawable.normal_rounded_light_blue
+            )
+            editText.setText("")
+            editText.hint = context.resources.getString(R.string.email)
+                editText.inputType =
+                    InputType.TYPE_CLASS_NUMBER
+                editText.hint = context.resources.getString(R.string.phone)
+                ccp.visible()
+                editText.setCompoundDrawablesWithIntrinsicBounds(
+                    0,
+                    0,
+                    0,
+                    0
+                )
+
+        }
+
 
     }
 }

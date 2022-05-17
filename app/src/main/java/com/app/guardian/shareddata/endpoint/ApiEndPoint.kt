@@ -2,16 +2,19 @@ package com.app.guardian.shareddata.endpoint
 
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.CommonResponseModel
+import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
+import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 
 
 interface ApiEndPoint {
@@ -41,6 +44,15 @@ interface ApiEndPoint {
 
     @POST("addSubscription")
     fun buysubscribePlan(@Body jsonObject: JsonObject): Call<CommonResponseModel<CommonResponse>>
+
+    @GET("getUserHomeBanner")
+    fun getUserHomeBanners(): Call<CommonResponseModel<MutableList<UserHomeBannerResp>>>
+
+    @GET("getUserDetail")
+    fun getUserDetails(): Call<CommonResponseModel<UserDetailsResp>>
+
+    @PUT("updateUserProfile")
+    fun updateUserProfile(): Call<CommonResponseModel<CommonResponse>>
 
 
 }
