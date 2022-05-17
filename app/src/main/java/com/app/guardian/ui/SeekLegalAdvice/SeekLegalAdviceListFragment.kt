@@ -2,10 +2,7 @@ package com.app.guardian.ui.SeekLegalAdvice
 
 import android.app.Activity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
 import androidx.lifecycle.Observer
 import com.app.guardian.R
 import com.app.guardian.common.ReusedMethod
@@ -16,27 +13,33 @@ import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
-import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
 import com.app.guardian.ui.SeekLegalAdvice.adapter.SeekLegalAdviceAdapter
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class SeekLegalAdviceListFragment : BaseFragment() {
+class SeekLegalAdviceListFragment(seekLegalIdParams: Int) : BaseFragment() {
 
     private  lateinit var mBinding: FragmentSeekLegalAdviceListBinding
     private var seekLegalAdviceAdapter: SeekLegalAdviceAdapter? = null
     private val mViewModel: UserViewModel by viewModel()
     var array = ArrayList<SeekLegalAdviceResp>()
 
+    private var seekLegalId: Int? = null
+
     override fun getInflateResource(): Int {
         return  R.layout.fragment_seek_legal_advice_list
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            seekLegalId = it.getInt("SeekID")
+        }
     }
 
     override fun initView() {
         mBinding = getBinding()
     }
-
-
 
     private fun setAdapter() {
         seekLegalAdviceAdapter = SeekLegalAdviceAdapter(
@@ -101,11 +104,22 @@ class SeekLegalAdviceListFragment : BaseFragment() {
 
     private fun callAPI() {
         if (ReusedMethod.isNetworkConnected(requireContext())) {
-            mViewModel.getSeekLegalAdvice(true, context as BaseActivity,15)
+            mViewModel.getSeekLegalAdvice(true, context as BaseActivity,seekLegalId!!)
         } else {
             mBinding.rcySeekLegalAdviceList.gone()
             mBinding.noSeekLegal.gone()
             mBinding.noInternetSeekLegal.llNointernet.visible()
         }
+    }
+
+    companion object {
+
+        @JvmStatic
+        fun newInstance(seekLegalIdParams: Int) =
+            SeekLegalAdviceListFragment(seekLegalIdParams).apply {
+                arguments = Bundle().apply {
+                    putInt("SeekID", seekLegalIdParams)
+                }
+            }
     }
 }

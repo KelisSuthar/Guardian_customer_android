@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
 import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 
-class SeekLegalAdviceAdapter(var context: Activity,var arrayList: ArrayList<SeekLegalAdviceResp>) :
+class SeekLegalAdviceAdapter(var context: Activity, var arrayList: ArrayList<SeekLegalAdviceResp>) :
     RecyclerView.Adapter<SeekLegalAdviceAdapter.myViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -34,17 +34,12 @@ class SeekLegalAdviceAdapter(var context: Activity,var arrayList: ArrayList<Seek
 
         var rbRowKnowRight = view.findViewById<TextView>(R.id.rbRowKnowRight)
         var conIcons = view.findViewById<ConstraintLayout>(R.id.conIcons)
-        fun bind(position: Int){
+        fun bind(position: Int) {
 
-            val array = arrayList[position]
+            val seekLegalAdviceData = arrayList[position]
+            conIcons.visibility = View.GONE
 
-            if (array.user_role == "lawyer"){
-                conIcons.visibility = View.VISIBLE
-            }else{
-                conIcons.visibility = View.GONE
-            }
-
-            rbRowKnowRight.text = array.title
+            rbRowKnowRight.text = seekLegalAdviceData.title
         }
     }
 }

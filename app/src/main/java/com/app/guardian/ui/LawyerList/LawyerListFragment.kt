@@ -14,7 +14,7 @@ import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
-import com.app.guardian.ui.LawyerProfile.LawyerProfile
+import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -42,7 +42,7 @@ class LawyerListFragment : BaseFragment() {
             object : LawyerListAdapter.onItemClicklisteners {
                 override fun onSubclick(selectedLawyerListId: Int?) {
                     ReplaceFragment.replaceFragment(requireActivity(),
-                        LawyerProfile.newInstance(selectedLawyerListId!!),true,LawyerListFragment::class.java.name,LawyerListFragment::class.java.name);
+                        LawyerProfileFragment.newInstance(selectedLawyerListId!!),true,LawyerListFragment::class.java.name,LawyerListFragment::class.java.name);
                   //  callLawyerProfileDetails(array[position].id)
                 }
 

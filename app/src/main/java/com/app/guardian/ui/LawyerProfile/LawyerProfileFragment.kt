@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import com.app.guardian.R
+import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
@@ -13,16 +14,19 @@ import com.app.guardian.databinding.FragmentLawyerProfileBinding
 import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
+import com.app.guardian.ui.LawyerList.LawyerListFragment
+import com.app.guardian.ui.SeekLegalAdvice.SeekLegalAdviceListFragment
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class LawyerProfile(selectedLawyerListId: Int?) : BaseFragment() {
+class LawyerProfileFragment(selectedLawyerListId: Int?) : BaseFragment() {
 
     private  lateinit var  mBinding: FragmentLawyerProfileBinding
     private val mViewModel: UserViewModel by viewModel()
     private var selectedLawyerListId: Int? = null
 
+    private var storeSelctedId : Int ?= null
 
     private var rootView : View ?= null
 
@@ -30,6 +34,7 @@ class LawyerProfile(selectedLawyerListId: Int?) : BaseFragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             selectedLawyerListId = it.getInt("LawyerId")
+            storeSelctedId = selectedLawyerListId
         }
     }
 
@@ -41,12 +46,22 @@ class LawyerProfile(selectedLawyerListId: Int?) : BaseFragment() {
     override fun initView() {
         mBinding = getBinding()
         callAPI()
+
+
+        mBinding.btnSeeLegal.setOnClickListener {
+
+            ReplaceFragment.replaceFragment(requireActivity(),
+                SeekLegalAdviceListFragment.newInstance(storeSelctedId!!),true,
+                LawyerProfileFragment::class.java.name,
+                null)
+        }
     }
 
     override fun postInit() {
     }
 
     override fun handleListener() {
+
     }
 
     override fun initObserver() {
@@ -84,7 +99,6 @@ class LawyerProfile(selectedLawyerListId: Int?) : BaseFragment() {
     }
 
     private fun callAPI() {
-        Log.e("lawyerId","Selected lawyer list id : "+selectedLawyerListId.toString())
 
         if (ReusedMethod.isNetworkConnected(requireContext())) {
             mViewModel.getLawyerProfileDetails(true, context as BaseActivity,selectedLawyerListId!!)
@@ -99,12 +113,10 @@ class LawyerProfile(selectedLawyerListId: Int?) : BaseFragment() {
 
         @JvmStatic
         fun newInstance(selectLawyerListIdParams: Int) =
-            LawyerProfile(selectLawyerListIdParams).apply {
+            LawyerProfileFragment(selectLawyerListIdParams).apply {
                 arguments = Bundle().apply {
                     putInt("LawyerId", selectLawyerListIdParams)
                 }
             }
-
-
     }
 }
