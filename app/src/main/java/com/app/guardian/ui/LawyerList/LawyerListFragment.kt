@@ -1,4 +1,4 @@
-package com.app.guardian.ui.Lawyer
+package com.app.guardian.ui.LawyerList
 
 import android.app.Activity
 import android.view.View
