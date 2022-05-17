@@ -1,7 +1,6 @@
 package com.app.guardian.ui.editProfile
 
 import android.Manifest
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -9,38 +8,31 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.LocationManager
 import android.net.Uri
-import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
-import android.text.Layout
 import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.PermissionChecker
 import com.app.guardian.R
 import com.app.guardian.common.*
-import com.app.guardian.common.extentions.checkLoationPermission
-import com.app.guardian.common.extentions.checkPermissions
-import com.app.guardian.common.extentions.gone
-import com.app.guardian.common.extentions.visible
+import com.app.guardian.common.extentions.*
 import com.app.guardian.databinding.ActivityEditProfileBinding
-import com.app.guardian.databinding.FragmentContactSupportBinding
-import com.app.guardian.model.viewModels.AuthenticationViewModel
+import com.app.guardian.model.Editprofile.UserDetailsResp
+import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.signup.adapter.ImageAdapter
+import com.app.guardian.utils.Config
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.gms.location.*
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
-import com.rilixtech.widget.countrycodepicker.CountryCodePicker
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
 
 class EditProfileActivity : BaseActivity(), View.OnClickListener {
-    private val mViewModel: AuthenticationViewModel by viewModel()
+    private val mViewModel: CommonScreensViewModel by viewModel()
     lateinit var mBinding: ActivityEditProfileBinding
     var imageAdapter: ImageAdapter? = null
     var images = ArrayList<String>()
@@ -66,7 +58,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         mBinding.noDataEdit.gone()
         mBinding.ns.visible()
         setAdaper()
-
+        callGetuserDetailsApi()
         mBinding.ccp.setCountryForPhoneCode(1)
         locationManager = getSystemService(
             Context.LOCATION_SERVICE
@@ -119,6 +111,16 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
 //            }
 //        }
 //        //Check ROle
+    }
+
+    private fun callGetuserDetailsApi() {
+        if (ReusedMethod.isNetworkConnected(this)) {
+            mViewModel.getUserDetials(true, this)
+        } else {
+            mBinding.noDataEdit.gone()
+            mBinding.ns.gone()
+            mBinding.noInternetEdit.llNointernet.visible()
+        }
     }
 
     override fun onResume() {
@@ -183,7 +185,55 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun initObserver() {
+        mViewModel.getuserDetailsResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            setApiData(data)
+                        } else {
+                            ReusedMethod.displayMessage(this, it.message.toString())
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                this,
+                                getString(R.string.text_error_network)
+                            )
 
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let { }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setApiData(data: UserDetailsResp) {
+        mBinding.edtFullname.setText(data.full_name)
+        mBinding.edtEmail.setText(data.email)
+        mBinding.edtPhone.setText(data.phone)
+        mBinding.edtProvience.setText(data.state)
+        mBinding.edtPostalCode.setText(data.postal_code)
+        mBinding.edtVehicalNum.setText(data.licence_no)
+
+        if(data.profile_avatar != "null"|| data.profile_avatar!!.isNotEmpty()){
+            profile_img = data.profile_avatar.toString()
+            mBinding.ivProfileImg.loadImage(data.profile_avatar)
+        }
+
+
+        if(data.user_doc.isNotEmpty()){
+            for(i in data.user_doc.indices){
+                images.add(data.user_doc[i].document.toString())
+            }
+
+        }
     }
 
     override fun handleListener() {
@@ -329,7 +379,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
 
                 override fun moNumberValidation() {
                     ReusedMethod.displayMessageDialog(
-                        this@EditProfileActivity ,
+                        this@EditProfileActivity,
                         "",
                         resources.getString(R.string.valid_number),
                         false,
@@ -349,7 +399,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         "Cancel",
                         ""
                     )
-                    ReusedMethod.ShowRedBorders(this@EditProfileActivity  , mBinding.edtProvience)
+                    ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtProvience)
 
                 }
 

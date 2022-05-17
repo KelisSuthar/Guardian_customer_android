@@ -14,6 +14,7 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 
 
 interface ApiEndPoint {
@@ -50,7 +51,7 @@ interface ApiEndPoint {
     @GET("getUserDetail")
     fun getUserDetails(): Call<CommonResponseModel<UserDetailsResp>>
 
-    @GET("updateUserProfile")
+    @PUT("updateUserProfile")
     fun updateUserProfile(): Call<CommonResponseModel<CommonResponse>>
 
 

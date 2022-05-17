@@ -2,6 +2,7 @@ package com.app.guardian.shareddata.repo
 
 import androidx.lifecycle.MutableLiveData
 import com.app.guardian.model.CommonResponse
+import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
@@ -79,6 +80,12 @@ interface UserRepo {
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<MutableList<UserHomeBannerResp>>>
+    )
+
+    fun getUserDetails(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        userDetailsResp: MutableLiveData<RequestState<UserDetailsResp>>
     )
 
 }

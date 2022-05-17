@@ -3,6 +3,7 @@ package com.studelicious_user.shareddata.repo
 import androidx.lifecycle.MutableLiveData
 import com.app.guardian.model.ApiError
 import com.app.guardian.model.CommonResponse
+import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
@@ -191,6 +192,24 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
                 mApiEndPoint.getUserHomeBanners(),
                 baseView,
                 commonResp
+            )
+        }
+    }
+
+    override fun getUserDetails(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        userDetailsResp: MutableLiveData<RequestState<UserDetailsResp>>
+    ) {
+        if (!internetConnected) {
+            userDetailsResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            userDetailsResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.getUserDetails(),
+                baseView,
+                userDetailsResp
             )
         }
     }
