@@ -1,9 +1,13 @@
-package com.app.guardian.ui.User.UserHome
-
+package com.app.guardian.ui.Mediator.MediatorHome
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.net.Uri
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
@@ -11,7 +15,8 @@ import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
-import com.app.guardian.databinding.FragmentUserHomeBinding
+import com.app.guardian.databinding.FragmentLawyerHomeBinding
+import com.app.guardian.databinding.FragmentMediatorHomeBinding
 import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
@@ -20,15 +25,23 @@ import com.app.guardian.ui.BannerAds.BannerAdsPager
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
+// TODO: Rename parameter arguments, choose names that match
+// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"
 
-class UserHomeFragment : BaseFragment(), View.OnClickListener {
+/**
+ * A simple [Fragment] subclass.
+ * Use the [MediatorHomeFragment.newInstance] factory method to
+ * create an instance of this fragment.
+ */
+class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
-    private lateinit var mBinding: FragmentUserHomeBinding
     var array = ArrayList<UserHomeBannerResp>()
     var bannerAdsPager: BannerAdsPager? = null
-
+    lateinit var mBinding: FragmentMediatorHomeBinding
     override fun getInflateResource(): Int {
-        return R.layout.fragment_user_home
+        return R.layout.fragment_mediator_home
     }
 
     override fun initView() {
@@ -59,10 +72,6 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding.pager.adapter = bannerAdsPager
     }
 
-    override fun postInit() {
-
-    }
-
     override fun onResume() {
         super.onResume()
         mBinding.noInternetUserHomeFrag.llNointernet.gone()
@@ -70,14 +79,16 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding.cl.visible()
     }
 
+    override fun postInit() {
+
+    }
+
     override fun handleListener() {
-        mBinding.cvRecord.setOnClickListener(this)
-        mBinding.cvScheduleVirtualWitness.setOnClickListener(this)
-        mBinding.cvSupportService.setOnClickListener(this)
-        mBinding.rbRecord.setOnClickListener(this)
-        mBinding.rbScheduleVirtualWitness.setOnClickListener(this)
-        mBinding.rbSupportService.setOnClickListener(this)
-        mBinding.noInternetUserHomeFrag.btnTryAgain.setOnClickListener(this)
+        mBinding.cvDialLawyer.setOnClickListener(this)
+        mBinding.cvKnowBasicRight.setOnClickListener(this)
+        mBinding.rbDialLawyer.setOnClickListener(this)
+        mBinding.rbKnowBasicRight.setOnClickListener(this)
+
     }
 
     override fun initObserver() {
@@ -119,105 +130,80 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.cvRecord -> {
-                changeLayout(1)
+            R.id.cvKnowBasicRight -> {
+                chnagelayout(1)
             }
-            R.id.cvScheduleVirtualWitness -> {
-                changeLayout(2)
+            R.id.cvDialLawyer -> {
+                chnagelayout(2)
             }
-            R.id.cvSupportService -> {
-                changeLayout(3)
+
+            R.id.rbKnowBasicRight -> {
+                chnagelayout(1)
             }
-            R.id.rbRecord -> {
-                changeLayout(1)
+            R.id.rbDialLawyer -> {
+                chnagelayout(2)
             }
-            R.id.rbScheduleVirtualWitness -> {
-                changeLayout(2)
-            }
-            R.id.rbSupportService -> {
-                changeLayout(3)
-            }
-            R.id.btnTryAgain -> {
-                callApi()
-            }
+
         }
     }
-
-    private fun changeLayout(i: Int) {
-
+    private fun chnagelayout(i: Int) {
         when (i) {
             1 -> {
-                mBinding.rlRecord.setBackgroundColor(
+                mBinding.rlKnowBasicRight.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.blue
                     )
                 )
-                mBinding.rlScheduleVirtualWitness.setBackgroundColor(
+                mBinding.rlDialLawyer.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.lightBlue_2
                     )
                 )
-                mBinding.rlSupportService.setBackgroundColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.lightBlue_2
+                mBinding.rbKnowBasicRight.isChecked = true
+                mBinding.rbDialLawyer.isChecked = false
+
+                mBinding.rbKnowBasicRight.buttonTintList =
+                    ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
+
+                mBinding.rbDialLawyer.buttonTintList =
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorPrimaryDark
+                        )
                     )
-                )
-                mBinding.rbRecord.isChecked = true
-                mBinding.rbScheduleVirtualWitness.isChecked = false
-                mBinding.rbSupportService.isChecked = false
-
-
             }
             2 -> {
-                mBinding.rlRecord.setBackgroundColor(
+                mBinding.rlKnowBasicRight.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.lightBlue_2
                     )
                 )
-                mBinding.rlScheduleVirtualWitness.setBackgroundColor(
+
+                mBinding.rlDialLawyer.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.blue
                     )
                 )
-                mBinding.rlSupportService.setBackgroundColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.lightBlue_2
+                mBinding.rbKnowBasicRight.isChecked = false
+                mBinding.rbDialLawyer.isChecked = true
+                mBinding.rbKnowBasicRight.buttonTintList =
+                    ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark))
+
+                mBinding.rbDialLawyer.buttonTintList =
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.white
+                        )
                     )
-                )
-                mBinding.rbRecord.isChecked = false
-                mBinding.rbScheduleVirtualWitness.isChecked = true
-                mBinding.rbSupportService.isChecked = false
-            }
-            3 -> {
-                mBinding.rlRecord.setBackgroundColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.lightBlue_2
-                    )
-                )
-                mBinding.rlScheduleVirtualWitness.setBackgroundColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.lightBlue_2
-                    )
-                )
-                mBinding.rlSupportService.setBackgroundColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.blue
-                    )
-                )
-                mBinding.rbRecord.isChecked = false
-                mBinding.rbScheduleVirtualWitness.isChecked = false
-                mBinding.rbSupportService.isChecked = true
             }
 
         }
     }
+
 }

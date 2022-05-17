@@ -1,17 +1,21 @@
-package com.app.guardian.ui.User.UserHome
-
+package com.app.guardian.ui.Lawyer.LawyerHome
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.graphics.drawable.toDrawable
+import androidx.fragment.app.Fragment
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
-import com.app.guardian.databinding.FragmentUserHomeBinding
+import com.app.guardian.databinding.FragmentLawyerHomeBinding
 import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
@@ -21,14 +25,23 @@ import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class UserHomeFragment : BaseFragment(), View.OnClickListener {
+// TODO: Rename parameter arguments, choose names that match
+// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"
+
+/**
+ * A simple [Fragment] subclass.
+ * Use the [LawyerHomeFragment.newInstance] factory method to
+ * create an instance of this fragment.
+ */
+class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
-    private lateinit var mBinding: FragmentUserHomeBinding
     var array = ArrayList<UserHomeBannerResp>()
     var bannerAdsPager: BannerAdsPager? = null
-
+    lateinit var mBinding: FragmentLawyerHomeBinding
     override fun getInflateResource(): Int {
-        return R.layout.fragment_user_home
+        return R.layout.fragment_lawyer_home
     }
 
     override fun initView() {
@@ -59,10 +72,6 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding.pager.adapter = bannerAdsPager
     }
 
-    override fun postInit() {
-
-    }
-
     override fun onResume() {
         super.onResume()
         mBinding.noInternetUserHomeFrag.llNointernet.gone()
@@ -70,14 +79,17 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding.cl.visible()
     }
 
+    override fun postInit() {
+
+    }
+
     override fun handleListener() {
-        mBinding.cvRecord.setOnClickListener(this)
-        mBinding.cvScheduleVirtualWitness.setOnClickListener(this)
-        mBinding.cvSupportService.setOnClickListener(this)
-        mBinding.rbRecord.setOnClickListener(this)
-        mBinding.rbScheduleVirtualWitness.setOnClickListener(this)
-        mBinding.rbSupportService.setOnClickListener(this)
-        mBinding.noInternetUserHomeFrag.btnTryAgain.setOnClickListener(this)
+        mBinding.cvKnowRights.setOnClickListener(this)
+        mBinding.cvAskQuestion.setOnClickListener(this)
+        mBinding.cvSeekAdv.setOnClickListener(this)
+        mBinding.btnKnowRights.setOnClickListener(this)
+        mBinding.btnAskQuestions.setOnClickListener(this)
+        mBinding.btnSeekAdv.setOnClickListener(this)
     }
 
     override fun initObserver() {
@@ -119,105 +131,148 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.cvRecord -> {
-                changeLayout(1)
+            R.id.cvKnowRights -> {
+                chnagelayout(1)
             }
-            R.id.cvScheduleVirtualWitness -> {
-                changeLayout(2)
+            R.id.cvAskQuestion -> {
+                chnagelayout(2)
             }
-            R.id.cvSupportService -> {
-                changeLayout(3)
+            R.id.cvSeekAdv -> {
+                chnagelayout(3)
             }
-            R.id.rbRecord -> {
-                changeLayout(1)
+            R.id.btnKnowRights -> {
+                chnagelayout(1)
             }
-            R.id.rbScheduleVirtualWitness -> {
-                changeLayout(2)
+            R.id.btnAskQuestions -> {
+                chnagelayout(2)
             }
-            R.id.rbSupportService -> {
-                changeLayout(3)
-            }
-            R.id.btnTryAgain -> {
-                callApi()
+            R.id.btnSeekAdv -> {
+                chnagelayout(3)
             }
         }
     }
 
-    private fun changeLayout(i: Int) {
-
+    private fun chnagelayout(i: Int) {
         when (i) {
             1 -> {
-                mBinding.rlRecord.setBackgroundColor(
+                mBinding.rlKnowRights.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.blue
                     )
                 )
-                mBinding.rlScheduleVirtualWitness.setBackgroundColor(
+                mBinding.rlAskQuestions.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.lightBlue_2
                     )
                 )
-                mBinding.rlSupportService.setBackgroundColor(
+                mBinding.rlSeekAdv.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.lightBlue_2
                     )
                 )
-                mBinding.rbRecord.isChecked = true
-                mBinding.rbScheduleVirtualWitness.isChecked = false
-                mBinding.rbSupportService.isChecked = false
-
-
+                mBinding.btnKnowRights.isChecked = true
+                mBinding.btnAskQuestions.isChecked = false
+                mBinding.btnSeekAdv.isChecked = false
+                mBinding.btnKnowRights.buttonTintList =
+                    ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
+                mBinding.btnAskQuestions.buttonTintList =
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorPrimaryDark
+                        )
+                    )
+                mBinding.btnSeekAdv.buttonTintList =
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorPrimaryDark
+                        )
+                    )
             }
             2 -> {
-                mBinding.rlRecord.setBackgroundColor(
+                mBinding.rlKnowRights.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.lightBlue_2
                     )
                 )
-                mBinding.rlScheduleVirtualWitness.setBackgroundColor(
+                mBinding.rlAskQuestions.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.blue
                     )
                 )
-                mBinding.rlSupportService.setBackgroundColor(
+                mBinding.rlSeekAdv.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.lightBlue_2
                     )
                 )
-                mBinding.rbRecord.isChecked = false
-                mBinding.rbScheduleVirtualWitness.isChecked = true
-                mBinding.rbSupportService.isChecked = false
+                mBinding.btnKnowRights.isChecked = false
+                mBinding.btnAskQuestions.isChecked = true
+                mBinding.btnSeekAdv.isChecked = false
+                mBinding.btnKnowRights.buttonTintList =
+                    ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark))
+                mBinding.btnAskQuestions.buttonTintList =
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.white
+                        )
+                    )
+                mBinding.btnSeekAdv.buttonTintList =
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorPrimaryDark
+                        )
+                    )
             }
             3 -> {
-                mBinding.rlRecord.setBackgroundColor(
+                mBinding.rlKnowRights.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.lightBlue_2
                     )
                 )
-                mBinding.rlScheduleVirtualWitness.setBackgroundColor(
+                mBinding.rlAskQuestions.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.lightBlue_2
                     )
                 )
-                mBinding.rlSupportService.setBackgroundColor(
+                mBinding.rlSeekAdv.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.blue
                     )
                 )
-                mBinding.rbRecord.isChecked = false
-                mBinding.rbScheduleVirtualWitness.isChecked = false
-                mBinding.rbSupportService.isChecked = true
+                mBinding.btnKnowRights.isChecked = false
+                mBinding.btnAskQuestions.isChecked = false
+                mBinding.btnSeekAdv.isChecked = true
+                mBinding.btnKnowRights.buttonTintList =
+                    ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark))
+                mBinding.btnAskQuestions.buttonTintList =
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorPrimaryDark
+                        )
+                    )
+                mBinding.btnSeekAdv.buttonTintList =
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.white
+                        )
+                    )
             }
-
         }
     }
+
+
 }

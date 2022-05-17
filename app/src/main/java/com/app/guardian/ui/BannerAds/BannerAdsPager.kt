@@ -8,9 +8,12 @@ import android.widget.ImageView
 import androidx.viewpager.widget.PagerAdapter
 import com.app.guardian.R
 import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
+import com.app.guardian.ui.signup.adapter.ImageAdapter
 import com.bumptech.glide.Glide
 
-class BannerAdsPager(var activity: Activity, var arrayList: ArrayList<UserHomeBannerResp>) : PagerAdapter() {
+class BannerAdsPager(var activity: Activity, var arrayList: ArrayList<UserHomeBannerResp>,var listener: BannerAdsPager.onItemClicklisteners) : PagerAdapter() {
+
+
     override fun getCount(): Int {
         return arrayList.size
     }
@@ -28,10 +31,14 @@ class BannerAdsPager(var activity: Activity, var arrayList: ArrayList<UserHomeBa
                 myImage!!
             )
         container.addView(imgview)
+        myImage.setOnClickListener { listener.onItemClick(position) }
         return imgview!!
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         container.removeView(`object` as View?)
+    }
+    interface onItemClicklisteners {
+        fun onItemClick(position: Int)
     }
 }

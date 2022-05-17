@@ -1,9 +1,7 @@
 package com.app.guardian.ui.Home
 
+
 import android.view.View
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.ui.NavigationUI
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
@@ -13,10 +11,12 @@ import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityHomeBinding
 import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.ui.Lawyer.LawyerHome.LawyerHomeFragment
 import com.app.guardian.ui.Lawyer.LawyerListFragment
+import com.app.guardian.ui.Mediator.MediatorHome.MediatorHomeFragment
 import com.app.guardian.ui.User.UserHome.UserHomeFragment
 import com.app.guardian.ui.User.settings.SettingsFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
+
 
 class HomeActivity : BaseActivity(),View.OnClickListener {
     lateinit var mBinding: ActivityHomeBinding
@@ -30,7 +30,10 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
         mBinding = getBinding()
         mBinding.bottomNavigationUser.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.menu_home ->loadHomeScreen()
+                R.id.menu_home -> {
+                    loadHomeScreen()
+
+                }
                 R.id.menu_lawyer -> {ReplaceFragment.homeFragmentReplace(this,LawyerListFragment(),null);}
                 R.id.menu_radar -> {}
                 R.id.menu_history ->{}
@@ -71,18 +74,20 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
                 AppConstants.USER_ROLE,
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_USER -> {
+
                 ReplaceFragment.homeFragmentReplace(this, UserHomeFragment(), null);
             }
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_LAWYER -> {
-
+                ReplaceFragment.homeFragmentReplace(this, LawyerHomeFragment(), null);
             }
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_MEDIATOR -> {
+                ReplaceFragment.homeFragmentReplace(this, MediatorHomeFragment(), null);
             }
         }
     }

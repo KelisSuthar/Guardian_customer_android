@@ -47,4 +47,6 @@ class ImageAdapter(
     interface onItemClicklisteners {
         fun onCancelCick(position: Int)
     }
+
+
 }

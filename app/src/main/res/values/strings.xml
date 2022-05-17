@@ -110,6 +110,11 @@
     <string name="schedule_virtual_witness">Schedule Virtual Witness</string>
     <string name="support_services">Support Services</string>
 
+    <!--    lawyer home-->
+    <string name="seek_legal_adv">Seek Legal Advice</string>
+    <string name="ask_mode_question">Ask Mod A Question</string>
+
+
     <!--    Bottom navigation menu -->
     <string name="menu_home">Home</string>
     <string name="menu_lawyer">Lawyer</string>
