@@ -4,15 +4,15 @@ import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.CommonResponseModel
 import com.app.guardian.model.ForgotPass.ForgotPassResp
 import com.app.guardian.model.LawyerLsit.LawyerListResp
+import com.app.guardian.model.LawyerProfileDetails.LawyerProfileDetailsResp
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
+import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.google.gson.JsonObject
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 
 interface ApiEndPoint {
@@ -45,5 +45,12 @@ interface ApiEndPoint {
 
     @GET("getLawyerList")
     fun getLawyerList(): Call<CommonResponseModel<MutableList<LawyerListResp>>>
+
+    @GET("lawyerDetail/{id}")
+    fun getLawyerProfileDetails(@Path("id") id: Int): Call<CommonResponseModel<LawyerProfileDetailsResp>>
+
+    @GET("lawyerSeekLegalAdviceList/{id}")
+    fun getSeekLegalAdvice(@Path("id") id: Int): Call<CommonResponseModel<MutableList<SeekLegalAdviceResp>>>
+
 
 }

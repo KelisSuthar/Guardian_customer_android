@@ -10,11 +10,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
 import com.app.guardian.model.LawyerLsit.LawyerListResp
+import com.google.android.material.card.MaterialCardView
 import de.hdodenhof.circleimageview.CircleImageView
 
 class LawyerListAdapter(
     var context: Activity,
-    var arrayList: ArrayList<LawyerListResp> ) :
+    var arrayList: ArrayList<LawyerListResp> ,
+    var listeners: onItemClicklisteners
+) :
+
     RecyclerView.Adapter<LawyerListAdapter.myViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -36,6 +40,7 @@ class LawyerListAdapter(
     inner class myViewHolder(view: View?): RecyclerView.ViewHolder(view!!){
 
         var imgPicture = view?.findViewById<CircleImageView>(R.id.imgRowLawyerPicture)
+        var cvRowSupportGroup = view?.findViewById<MaterialCardView>(R.id.cvRowSupportGroup)
         var imgRowLawyerCall = view?.findViewById<ImageView>(R.id.imgRowLawyerCall)
         var imgRowLawyerVideo = view?.findViewById<ImageView>(R.id.imgRowLawyerVideo)
         var imgRowLawyerChat = view?.findViewById<ImageView>(R.id.imgRowLawyerChat)
@@ -46,13 +51,21 @@ class LawyerListAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(position: Int){
 
-            val array = arrayList[position]
+            val lawyerProfileData = arrayList[position]
+            cvRowSupportGroup?.setOnClickListener {
+                listeners.onSubclick(lawyerProfileData.id)
+            }
 
-            tvLawyerName?.text = array.full_name
-            tvLawyerExp?.text ="Experience - "+ array.years_of_experience
-            tvLawyerSpecialization?.text = array.specialization
+            tvLawyerName?.text = lawyerProfileData.full_name
+            tvLawyerExp?.text ="Experience - "+ lawyerProfileData.years_of_experience
+            tvLawyerSpecialization?.text = lawyerProfileData.specialization
 
         }
 
+    }
+
+
+    interface onItemClicklisteners {
+        fun onSubclick(selectedLawyerId: Int?)
     }
 }

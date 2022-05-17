@@ -4,14 +4,17 @@ import androidx.lifecycle.MutableLiveData
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.ForgotPass.ForgotPassResp
 import com.app.guardian.model.LawyerLsit.LawyerListResp
+import com.app.guardian.model.LawyerProfileDetails.LawyerProfileDetailsResp
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
 import com.app.guardian.model.RequestState
+import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.shareddata.BaseView
 import com.app.guardian.shareddata.base.BaseActivity
 import com.google.gson.JsonObject
+import java.net.IDN
 
 interface UserRepo {
 //    fun getKey(
@@ -79,6 +82,20 @@ interface UserRepo {
         internetConnected: Boolean,
         baseView: BaseActivity,
         lawyerResp: MutableLiveData<RequestState<MutableList<LawyerListResp>>>
+    )
+
+    fun getLawyerProfileDetails(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        lawyerProfileDetails: MutableLiveData<RequestState<LawyerProfileDetailsResp>>,
+        idn: Int
+    )
+
+    fun getSeekLegalAdviceList(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        seekLegalAdvice: MutableLiveData<RequestState<MutableList<SeekLegalAdviceResp>>>,
+        idn: Int
     )
 
 }

@@ -1,183 +1,214 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginHorizontal="@dimen/_20sdp">
+<layout>
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:id="@+id/lyLawyerProfilePicName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:gravity="center_vertical">
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/_20sdp">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imgRowLawyerPicture"
-                android:layout_width="@dimen/_70sdp"
-                android:layout_height="@dimen/_70sdp"
-                android:src="@drawable/user_sample"
-                app:layout_constraintBottom_toBottomOf="@+id/lyRowLawyerContact"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/lyRowLawyerContact" />
 
-            <LinearLayout
-                android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/conLawyer"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_marginLeft="@dimen/_8sdp"
-                >
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:id="@+id/lyLawyerProfilePicName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/imgRowLawyerPicture"
+                        android:layout_width="@dimen/_70sdp"
+                        android:layout_height="@dimen/_70sdp"
+                        android:src="@drawable/user_sample"
+                        app:layout_constraintBottom_toBottomOf="@+id/lyRowLawyerContact"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/lyRowLawyerContact" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvLawyerName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_semibold"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/_8sdp"
+                            android:text="Michael Santa"
+                            android:textColor="@color/txt_dark"
+                            android:textSize="@dimen/_12ssp" />
+
+                        <TextView
+                            android:id="@+id/tvSpecialization"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/_8sdp"
+                            android:paddingRight="@dimen/_8sdp"
+                            android:text="Lawyer"
+                            android:textColor="@color/txt_dark"
+                            android:textSize="@dimen/_8ssp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
 
                 <TextView
+                    android:id="@+id/txtSpecializationTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lora_semibold"
-                    android:text="Michael Santa"
-                    android:gravity="center_vertical"
+                    android:paddingTop="@dimen/_25sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:text="@string/specialization_title"
                     android:textColor="@color/txt_dark"
-                    android:textSize="@dimen/_12ssp"
-                    android:paddingLeft="@dimen/_8sdp"
-                    />
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintTop_toBottomOf="@+id/lyLawyerProfilePicName" />
 
                 <TextView
+                    android:id="@+id/txtSpecializationInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lora_regular"
-                    android:text="Lawyer"
-                    android:paddingLeft="@dimen/_8sdp"
-                    android:paddingRight="@dimen/_8sdp"
-                    android:gravity="center_vertical"
+                    android:paddingTop="@dimen/_3sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:text="Criminal Lawyer\t\t\t 7+ year Experiance "
                     android:textColor="@color/txt_dark"
-                    android:textSize="@dimen/_8ssp" />
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintTop_toBottomOf="@+id/txtSpecializationTitle" />
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/txtContactTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lora_semibold"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:text="@string/contact_title"
+                    android:textColor="@color/txt_dark"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintTop_toBottomOf="@+id/txtSpecializationInfo" />
 
+                <TextView
+                    android:id="@+id/txtContactInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lora_regular"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_3sdp"
+                    android:text="yourname@gmail.com"
+                    android:textColor="@color/txt_dark"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintTop_toBottomOf="@+id/txtContactTitle" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/txtDescriptionTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lora_semibold"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:text="@string/description"
+                    android:textColor="@color/txt_dark"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintTop_toBottomOf="@+id/txtContactInfo" />
 
-        <TextView
-            android:id="@+id/txtSpecializationTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/lyLawyerProfilePicName"
-            android:fontFamily="@font/lora_semibold"
-            android:paddingTop="@dimen/_25sdp"
-            android:paddingBottom="@dimen/_5sdp"
-            android:text="@string/specialization_title"
-            android:textColor="@color/txt_dark"
-            android:textSize="@dimen/_13ssp" />
+                <TextView
+                    android:id="@+id/txtDescriptionInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lora_regular"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_3sdp"
+                    android:text="@string/sample_text"
+                    android:textColor="@color/txt_dark"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintTop_toBottomOf="@+id/txtDescriptionTitle" />
 
-        <TextView
-            android:id="@+id/txtSpecializationInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/txtSpecializationTitle"
-            android:fontFamily="@font/lora_regular"
-            android:paddingTop="@dimen/_3sdp"
-            android:paddingBottom="@dimen/_5sdp"
-            android:text="Criminal Lawyer\t\t\t 7+ year Experiance "
-            android:textColor="@color/txt_dark"
-            android:textSize="@dimen/_11ssp" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnSeeLegal"
+                    style="@style/blue_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginRight="@dimen/_150sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="@string/see_legal_advice"
+                    app:layout_constraintTop_toBottomOf="@id/txtDescriptionInfo"/>
 
-        <TextView
-            android:id="@+id/txtContactTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/txtSpecializationInfo"
-            android:fontFamily="@font/lora_semibold"
-            android:paddingTop="@dimen/_10sdp"
-            android:paddingBottom="@dimen/_5sdp"
-            android:text="@string/contact_title"
-            android:textColor="@color/txt_dark"
-            android:textSize="@dimen/_13ssp" />
+                <LinearLayout
+                    android:id="@+id/lyLawyerContactIcon"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btnSeeLegal">
 
-        <TextView
-            android:id="@+id/txtContactInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/txtContactTitle"
-            android:fontFamily="@font/lora_regular"
-            android:paddingTop="@dimen/_5sdp"
-            android:paddingBottom="@dimen/_3sdp"
-            android:text="yourname@gmail.com"
-            android:textColor="@color/txt_dark"
-            android:textSize="@dimen/_11ssp" />
+                    <ImageView
+                        android:id="@+id/imgRowLawyerCall"
+                        android:layout_width="@dimen/_33sdp"
+                        android:layout_height="@dimen/_33sdp"
+                        android:src="@drawable/ic_call" />
 
-        <TextView
-            android:id="@+id/txtDescriptionTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/txtContactInfo"
-            android:fontFamily="@font/lora_semibold"
-            android:paddingTop="@dimen/_10sdp"
-            android:paddingBottom="@dimen/_5sdp"
-            android:text="@string/description"
-            android:textColor="@color/txt_dark"
-            android:textSize="@dimen/_13ssp" />
+                    <View
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_1ssp" />
 
-        <TextView
-            android:id="@+id/txtDescriptionInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/txtDescriptionTitle"
-            android:fontFamily="@font/lora_regular"
-            android:paddingTop="@dimen/_5sdp"
-            android:paddingBottom="@dimen/_3sdp"
-            android:text="@string/sample_text"
-            android:textColor="@color/txt_dark"
-            android:textSize="@dimen/_11ssp" />
+                    <ImageView
+                        android:id="@+id/imgRowLawyerVideo"
+                        android:layout_width="@dimen/_33sdp"
+                        android:layout_height="@dimen/_33sdp"
+                        android:src="@drawable/ic_video" />
 
-        <LinearLayout
-            android:id="@+id/lyLawyerContactIcon"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtDescriptionInfo"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:gravity="center"
-            >
+                    <View
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_1ssp" />
 
-            <ImageView
-                android:id="@+id/imgRowLawyerCall"
-                android:layout_width="@dimen/_33sdp"
-                android:layout_height="@dimen/_33sdp"
-                android:src="@drawable/ic_call" />
+                    <ImageView
+                        android:id="@+id/imgRowLawyerChat"
+                        android:layout_width="@dimen/_33sdp"
+                        android:layout_height="@dimen/_33sdp"
+                        android:src="@drawable/ic_chat"
 
-            <View
-                android:layout_width="@dimen/_15sdp"
-                android:layout_height="@dimen/_1ssp"/>
-
-            <ImageView
-                android:id="@+id/imgRowLawyerVideo"
-                android:layout_width="@dimen/_33sdp"
-                android:layout_height="@dimen/_33sdp"
-                android:src="@drawable/ic_video"
-                />
-
-            <View
-                android:layout_width="@dimen/_15sdp"
-                android:layout_height="@dimen/_1ssp"/>
-            <ImageView
-                android:id="@+id/imgRowLawyerChat"
-                android:layout_width="@dimen/_33sdp"
-                android:layout_height="@dimen/_33sdp"
-                android:src="@drawable/ic_chat"
-
-                />
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                        />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</ScrollView>
+            <include
+                android:id="@+id/noLawyerProfile"
+                layout="@layout/no_data_layout"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/noInternetLawyerProfile"
+                layout="@layout/no_internet_connection_layout"
+                android:visibility="gone" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+</layout>

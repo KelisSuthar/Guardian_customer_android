@@ -4,6 +4,7 @@ import android.app.Activity
 import android.view.View
 import androidx.lifecycle.Observer
 import com.app.guardian.R
+import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
@@ -13,7 +14,7 @@ import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
-import com.app.guardian.ui.SubscriptionPlan.Adapter.SubscriptionPlanAdapter
+import com.app.guardian.ui.LawyerProfile.LawyerProfile
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -38,6 +39,14 @@ class LawyerListFragment : BaseFragment() {
         lawyerListAdapter = LawyerListAdapter(
             context as Activity,
             array,
+            object : LawyerListAdapter.onItemClicklisteners {
+                override fun onSubclick(selectedLawyerListId: Int?) {
+                    ReplaceFragment.replaceFragment(requireActivity(),
+                        LawyerProfile.newInstance(selectedLawyerListId!!),true,LawyerListFragment::class.java.name,LawyerListFragment::class.java.name);
+                  //  callLawyerProfileDetails(array[position].id)
+                }
+
+            }
         )
         mBinding.rvLawyerList.adapter = lawyerListAdapter
     }
@@ -64,11 +73,6 @@ class LawyerListFragment : BaseFragment() {
                             mBinding.rvLawyerList.gone()
                             mBinding.noLawyer.visible()
                         }
-
-
-
-
-
                     }
                 }
 
@@ -105,7 +109,7 @@ class LawyerListFragment : BaseFragment() {
 
     private fun callAPI() {
         if (ReusedMethod.isNetworkConnected(requireContext())) {
-            mViewModel.LawyerList(true, context as BaseActivity)
+            mViewModel.lawyerList(true, context as BaseActivity)
         } else {
             mBinding.rvLawyerList.gone()
             mBinding.noLawyer.gone()
