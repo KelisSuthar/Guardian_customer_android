@@ -6,9 +6,39 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.Mediator.MediatorHome.MediatorHomeFragment">
-        <!--      <include-->
-        <!--          android:id="@+id/headderUserHomeFrag"-->
-        <!--          layout="@layout/headder_layout" />-->
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/clHeadder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <com.github.angads25.toggle.widget.LabeledSwitch
+                    android:id="@+id/availabilitySwitch"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="right"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:textSize="@dimen/_10ssp"
+                    app:colorBorder="@color/transparent"
+                    app:colorOff="@color/white"
+                    app:colorOn="@color/blue"
+                    app:on="false"
+                    app:textOff=""
+                    app:textOn="" />
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </LinearLayout>
 
 
         <include
@@ -25,9 +55,9 @@
             android:id="@+id/cl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
+
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/clHeadder">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl1"
