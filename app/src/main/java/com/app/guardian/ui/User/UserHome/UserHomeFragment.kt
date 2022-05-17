@@ -23,7 +23,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class UserHomeFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
     private lateinit var mBinding: FragmentUserHomeBinding
-    var array=ArrayList<UserHomeBannerResp>()
+    var array = ArrayList<UserHomeBannerResp>()
     var bannerAdsPager: BannerAdsPager? = null
 
     override fun getInflateResource(): Int {
@@ -32,22 +32,22 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
 
     override fun initView() {
         mBinding = getBinding()
-setAdapter()
+        setAdapter()
         callApi()
     }
 
     private fun callApi() {
-        if(ReusedMethod.isNetworkConnected(requireActivity())){
+        if (ReusedMethod.isNetworkConnected(requireActivity())) {
             mViewModel.getuserHomeBanners(true, requireActivity() as BaseActivity)
-        }else{
-        mBinding.noInternetUserHomeFrag.llNointernet.visible()
-        mBinding.noDataUserHomeFrag.gone()
-        mBinding.cl.gone()
+        } else {
+            mBinding.noInternetUserHomeFrag.llNointernet.visible()
+            mBinding.noDataUserHomeFrag.gone()
+            mBinding.cl.gone()
         }
     }
 
     private fun setAdapter() {
-        bannerAdsPager = BannerAdsPager(requireActivity(),array)
+        bannerAdsPager = BannerAdsPager(requireActivity(), array)
         mBinding.pager.adapter = bannerAdsPager
     }
 
@@ -128,7 +128,8 @@ setAdapter()
             }
             R.id.rbSupportService -> {
                 changeLayout(3)
-            }R.id.btnTryAgain -> {
+            }
+            R.id.btnTryAgain -> {
                 callApi()
             }
         }

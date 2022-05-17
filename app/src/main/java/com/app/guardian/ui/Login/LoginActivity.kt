@@ -149,6 +149,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
+
     override fun onBackPressed() {
         super.onBackPressed()
         finish()
@@ -330,8 +331,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 isNetworkConnected(this), this@LoginActivity, is_Email,mBinding.emailphoneSelector.ccp.selectedCountryCode.toString(),
                 phone_email,
                 mBinding.editTextLoginPass.text?.trim().toString(),
-                "DEVICETOKEN@1234"
-            )
+            "DEVICETOKEN@123")
         } else {
             mBinding.nsLogin.gone()
             mBinding.noDataLogin.gone()

@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@drawable/ic_virtual_witness_selected" android:state_checked="true"/>
-    <item android:drawable="@drawable/ic_virtual_witness" android:state_checked="false"/>
+    <item>
+        <vector android:width="28dp"
+            android:height="27dp"
+            android:viewportWidth="28"
+            android:viewportHeight="27">
+            <path
+                android:pathData="M10,0.333V3H18V0.333H20.667V3H26C26.354,3 26.693,3.14 26.943,3.39C27.193,3.64 27.333,3.98 27.333,4.333V25.667C27.333,26.02 27.193,26.359 26.943,26.609C26.693,26.859 26.354,27 26,27H2C1.646,27 1.307,26.859 1.057,26.609C0.807,26.359 0.667,26.02 0.667,25.667V4.333C0.667,3.98 0.807,3.64 1.057,3.39C1.307,3.14 1.646,3 2,3H7.333V0.333H10ZM24.667,12.333H3.333V24.333H24.667V12.333ZM18.048,13.848L19.933,15.733L13.333,22.333L8.618,17.619L10.507,15.733L13.335,18.563L18.049,13.848H18.048ZM7.333,5.667H3.333V9.667H24.667V5.667H20.667V7H18V5.667H10V7H7.333V5.667Z"
+                android:fillColor="#03053D"/>
+        </vector>
+
+    </item>
 </selector>

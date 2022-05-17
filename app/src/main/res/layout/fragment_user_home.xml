@@ -101,7 +101,7 @@ android:layout_marginVertical="@dimen/_10sdp"
 
 
                         android:text="@string/record"
-                        android:textColor="@color/white_black_color_selector"
+                        android:textColor="@color/blue_white_color_selector"
 
                         android:textSize="@dimen/_12ssp" />
                 </RelativeLayout>
@@ -134,7 +134,7 @@ android:layout_marginVertical="@dimen/_10sdp"
                         android:paddingVertical="@dimen/_10sdp"
                         android:paddingLeft="@dimen/_15sdp"
                         android:text="@string/schedule_virtual_witness"
-                        android:textColor="@color/white_black_color_selector"
+                        android:textColor="@color/blue_white_color_selector"
                         android:textSize="@dimen/_12ssp" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -164,7 +164,7 @@ android:layout_marginVertical="@dimen/_10sdp"
                         android:fontFamily="@font/lora_semibold"
                         android:paddingLeft="@dimen/_15sdp"
                         android:text="@string/support_services"
-                        android:textColor="@color/white_black_color_selector"
+                        android:textColor="@color/blue_white_color_selector"
                         android:textSize="@dimen/_12ssp" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>

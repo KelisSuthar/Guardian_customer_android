@@ -129,7 +129,7 @@ class SelectRoleScreen : BaseActivity(), View.OnClickListener {
                 mBinding.rl1.setBackgroundColor(
                     ContextCompat.getColor(
                         this,
-                        R.color.colorPrimaryDark
+                        R.color.blue
                     )
                 )
                 mBinding.rl2.setBackgroundColor(ContextCompat.getColor(this, R.color.lightBlue_2))
@@ -156,7 +156,7 @@ class SelectRoleScreen : BaseActivity(), View.OnClickListener {
                 mBinding.rl2.setBackgroundColor(
                     ContextCompat.getColor(
                         this,
-                        R.color.colorPrimaryDark
+                        R.color.blue
                     )
                 )
                 mBinding.rl3.setBackgroundColor(ContextCompat.getColor(this, R.color.lightBlue_2))
@@ -181,7 +181,7 @@ class SelectRoleScreen : BaseActivity(), View.OnClickListener {
                 mBinding.rl3.setBackgroundColor(
                     ContextCompat.getColor(
                         this,
-                        R.color.colorPrimaryDark
+                        R.color.blue
                     )
                 )
                 mBinding.rb1.isChecked = false

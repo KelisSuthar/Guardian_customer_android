@@ -700,12 +700,12 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 mBinding.edtEmail.text?.trim().toString(),
                 mBinding.edtSpecializations.text?.trim().toString(),
                 mBinding.edtYearsOfExp.text?.trim().toString(),
-                mBinding.ccpOffice.selectedCountryCode.toString(),
-                mBinding.edtOfficeNum.text?.trim().toString(),
+                mBinding.ccpOffice.selectedCountryCode.toString() , mBinding.edtOfficeNum.text?.trim()
+                    .toString(),
                 mBinding.edtPass.text?.trim().toString(),
                 mBinding.edtConPass.text?.trim().toString(),
-                mBinding.ccp.selectedCountryCode.toString(),
-                mBinding.edtMobileNum.text?.trim().toString(),
+                mBinding.ccp.selectedCountryCode.toString() , mBinding.edtMobileNum.text?.trim()
+                    .toString(),
                 mBinding.edtProvience.text?.trim().toString(),
                 mBinding.edtPostalCode.text?.trim().toString(),
                 profile_img,

@@ -41,7 +41,7 @@ class SplashScreen : BaseActivity(), View.OnClickListener {
                         SubScriptionPlanScreen::class.java
                     )
                 )
-            }else  {
+            } else {
                 startActivity(
                     Intent(
                         this@SplashScreen,

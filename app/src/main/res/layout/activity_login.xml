@@ -95,7 +95,6 @@
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/ic_password"
                             android:hint="@string/password"
-                            android:text="Meet@1234"
                             android:inputType="textPassword" />
                     </com.google.android.material.textfield.TextInputLayout>
 

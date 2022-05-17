@@ -51,7 +51,6 @@
             android:textColorHint="@color/black"
             android:textFontWeight="400"
             android:textSize="@dimen/_12ssp"
-            android:text="meetpatel.iqlance@gmail.com"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/ccp"
             app:layout_constraintRight_toLeftOf="@+id/rgLogin"
@@ -81,7 +80,7 @@
                 android:paddingHorizontal="@dimen/_5sdp"
                 android:paddingVertical="@dimen/_10sdp"
                 android:text="@string/email"
-                android:textColor="@color/white_black_color_selector" />
+                android:textColor="@color/white_blue_color_selector" />
 
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rbPhone"
@@ -94,7 +93,7 @@
                 android:paddingHorizontal="@dimen/_5sdp"
                 android:paddingVertical="@dimen/_10sdp"
                 android:text="@string/phone"
-                android:textColor="@color/white_black_color_selector"/>
+                android:textColor="@color/white_blue_color_selector"/>
 
         </RadioGroup>
     </androidx.constraintlayout.widget.ConstraintLayout>

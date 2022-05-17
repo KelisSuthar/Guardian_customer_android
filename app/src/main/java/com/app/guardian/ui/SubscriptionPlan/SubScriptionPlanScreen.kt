@@ -1,5 +1,6 @@
 package com.app.guardian.ui.SubscriptionPlan
 
+import android.content.Intent
 import android.util.Log
 import android.view.View
 import com.android.billingclient.api.*
@@ -13,6 +14,7 @@ import com.app.guardian.databinding.ActivitySubScriptionPlanScreenBinding
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.SubscriptionPlan.Adapter.SubscriptionPlanAdapter
 import com.app.guardian.utils.Config
 import com.google.android.gms.common.util.CollectionUtils
@@ -23,10 +25,9 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
     lateinit var mBinding: ActivitySubScriptionPlanScreenBinding
     private val mViewModel: AuthenticationViewModel by viewModel()
     var subscriptionPlanAdapter: SubscriptionPlanAdapter? = null
-    var shared_secret = "Q@hagfgfggfggrdik15"
-
-    //    var start_date = ""
-//    var end_date = ""
+    var shared_secret = "ifjsjfkjs;p;'sjflk;jmsw;lfalsw"
+    var start_date = ""
+    var end_date = ""
     var array = ArrayList<SubscriptionPlanResp>()
 
     private lateinit var billingClient: BillingClient//inApp Purchase
@@ -63,6 +64,7 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
             object : SubscriptionPlanAdapter.onItemClicklisteners {
                 override fun onSubclick(position: Int) {
 //                    loadAllSKUs()
+
                     callBuyPlanAPI(array[position].id, array[position].pricing)
                 }
 
@@ -72,16 +74,14 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
 
 
     override fun initObserver() {
-
         //SUBSCRIPTION PLAN RESP
         mViewModel.getSubcriptionPlanResp().observe(this) { response ->
             response?.let { requestState ->
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
-                        SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
-
                         if (it.status) {
+                            SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
                             array.clear()
                             array.addAll(data)
                             subscriptionPlanAdapter?.notifyDataSetChanged()
@@ -115,15 +115,15 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
-                            ReusedMethod.displayMessageDialog(
-                                this,
-                                "",
-                                "Currently, your selected plan is successful. This feature coming soon update.",
-                                false,
-                                "Ok",
-                                ""
+                            startActivity(
+                                Intent(
+                                    this@SubScriptionPlanScreen,
+                                    HomeActivity::class.java
+                                )
                             )
-                        } else {
+                            finish()
+                            overridePendingTransition(R.anim.rightto, R.anim.left)
+                        }else{
                             ReusedMethod.displayMessage(this, it.message.toString())
                         }
 
@@ -172,7 +172,7 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                 true,
                 this,
                 id.toString(),
-                firstSubString.replace("$", ""),
+                firstSubString,
                 shared_secret,
 //                start_date,
 //                end_date
@@ -304,7 +304,6 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
     } else {
         println("Billing Client not ready")
     }
-
     override fun onPurchasesUpdated(
         billingResult: BillingResult,
         purchases: MutableList<Purchase>?
