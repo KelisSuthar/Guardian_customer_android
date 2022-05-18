@@ -3,8 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ScrollView
-        layout_width="match_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,7 +12,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/_15sdp">
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout
                 android:id="@+id/clHeadder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -30,19 +28,34 @@
                     app:layout_constraintTop_toTopOf="parent">
 
 
-                    <com.github.angads25.toggle.widget.LabeledSwitch
-                        android:id="@+id/availabilitySwitch"
-                        android:layout_width="@dimen/_40sdp"
-                        android:layout_height="@dimen/_20sdp"
-                        android:layout_gravity="right"
-                        android:layout_marginEnd="@dimen/_10sdp"
-                        android:textSize="@dimen/_10ssp"
-                        app:colorBorder="@color/transparent"
-                        app:colorOff="@color/white"
-                        app:colorOn="@color/blue"
-                        app:on="false"
-                        app:textOff=""
-                        app:textOn="" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="Your Status:"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="@dimen/_10sdp"/>
+
+                        <com.github.angads25.toggle.widget.LabeledSwitch
+                            android:id="@+id/availabilitySwitch"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_gravity="right"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:textSize="@dimen/_10ssp"
+                            app:colorBorder="@color/transparent"
+                            app:colorOff="@color/white"
+                            app:colorOn="@color/blue"
+                            app:on="false"
+                            app:textOff=""
+                            app:textOn="" />
+                    </LinearLayout>
 
                 </androidx.appcompat.widget.Toolbar>
 

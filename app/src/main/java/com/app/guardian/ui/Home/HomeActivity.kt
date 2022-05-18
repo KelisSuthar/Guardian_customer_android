@@ -38,7 +38,7 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
                 }
                 R.id.menu_lawyer -> {ReplaceFragment.replaceFragment(this,LawyerListFragment(),false,"",HomeActivity::class.java.name)}
                 R.id.menu_radar -> {}
-                R.id.menu_history ->{}
+                R.id.menu_history ->{ReplaceFragment.replaceFragment(this,KnowRightFragment(),false,"",HomeActivity::class.java.name)}
                 R.id.menu_setting ->{ReplaceFragment.replaceFragment(this,SettingsFragment(),false,"",HomeActivity::class.java.name)}
             }
             true
@@ -86,14 +86,14 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
                 AppConstants.USER_ROLE,
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_LAWYER -> {
-                mBinding.bottomNavigationUser.menu.getItem(4).isVisible = false
+                mBinding.bottomNavigationUser.menu.getItem(2).isVisible = false
                 ReplaceFragment.replaceFragment(this, LawyerHomeFragment(), false,"",HomeActivity::class.java.name);
             }
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_MEDIATOR -> {
-                mBinding.bottomNavigationUser.menu.getItem(4).isVisible = false
+                mBinding.bottomNavigationUser.menu.getItem(2).isVisible = false
                 ReplaceFragment.replaceFragment(this, MediatorHomeFragment(), false,"",HomeActivity::class.java.name);
             }
         }

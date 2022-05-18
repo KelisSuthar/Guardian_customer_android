@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import com.app.guardian.R
 import com.app.guardian.common.extentions.gone
@@ -54,7 +56,18 @@ class KnowRightFragment : BaseFragment(),View.OnClickListener {
         dialog.setContentView(R.layout.know_right_dialog)
         dialog.setCancelable(false)
 
-        val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
+        val ivClose = dialog.findViewById<ImageView>(R.id.ivClose)
+        val btnClose = dialog.findViewById<Button>(R.id.btnClose)
+        val txtRightName = dialog.findViewById<Button>(R.id.txtRightName)
+        val txtRightSections = dialog.findViewById<Button>(R.id.txtRightSections)
+        val txtLcation = dialog.findViewById<Button>(R.id.txtLcation)
+        val txtDesc = dialog.findViewById<Button>(R.id.txtDesc)
+        ivClose.setOnClickListener {
+            dialog.dismiss()
+        }
+        btnClose.setOnClickListener {
+            dialog.dismiss()
+        }
 
 
 
