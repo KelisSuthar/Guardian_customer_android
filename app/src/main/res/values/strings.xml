@@ -20,6 +20,7 @@
     <string name="phone">Phone</string>
     <string name="refresh">Refresh</string>
     <string name="search_here">Search here</string>
+    <string name="your_status">Your Status:</string>
 
     <!--    SignUp screen -->
     <string name="create_acc">Create Account</string>

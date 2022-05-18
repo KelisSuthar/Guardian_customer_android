@@ -29,10 +29,11 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
 
     override fun initView() {
         mBinding = getBinding()
+
         mBinding.bottomNavigationUser.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.menu_home -> {
-//                    loadHomeScreen()
+                    loadHomeScreen()
 //                    ReplaceFragment.replaceFragment(this,KnowRightFragment(),false,"",HomeActivity::class.java.name)
                 }
                 R.id.menu_lawyer -> {ReplaceFragment.replaceFragment(this,LawyerListFragment(),false,"",HomeActivity::class.java.name)}
@@ -85,12 +86,14 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
                 AppConstants.USER_ROLE,
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_LAWYER -> {
+                mBinding.bottomNavigationUser.menu.getItem(4).isVisible = false
                 ReplaceFragment.replaceFragment(this, LawyerHomeFragment(), false,"",HomeActivity::class.java.name);
             }
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_MEDIATOR -> {
+                mBinding.bottomNavigationUser.menu.getItem(4).isVisible = false
                 ReplaceFragment.replaceFragment(this, MediatorHomeFragment(), false,"",HomeActivity::class.java.name);
             }
         }
