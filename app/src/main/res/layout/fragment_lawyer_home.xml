@@ -1,209 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.Lawyer.LawyerHome.LawyerHomeFragment">
+   <ScrollView
+       xmlns:android="http://schemas.android.com/apk/res/android"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+       <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:paddingBottom="@dimen/_15sdp"
+          >
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/clHeadder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+           <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+               xmlns:app="http://schemas.android.com/apk/res-auto"
+               android:id="@+id/clHeadder"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="@color/colorPrimaryDark"
+               app:layout_constraintLeft_toLeftOf="parent"
+               app:layout_constraintRight_toRightOf="parent"
+               app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent">
+               <androidx.appcompat.widget.Toolbar
+                   android:id="@+id/toolbar"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   app:layout_constraintTop_toTopOf="parent">
 
 
-                <com.github.angads25.toggle.widget.LabeledSwitch
-                    android:id="@+id/availabilitySwitch"
+                   <com.github.angads25.toggle.widget.LabeledSwitch
+                       android:id="@+id/availabilitySwitch"
 
-                    android:layout_width="@dimen/_40sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_gravity="right"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:textSize="@dimen/_10ssp"
-                    app:colorBorder="@color/transparent"
-                    app:colorOff="@color/white"
-                    app:colorOn="@color/blue"
-                    app:on="false"
-                    app:textOff=""
-                    app:textOn="" />
+                       android:layout_width="@dimen/_40sdp"
+                       android:layout_height="@dimen/_20sdp"
+                       android:layout_gravity="right"
+                       android:layout_marginEnd="@dimen/_10sdp"
+                       android:textSize="@dimen/_10ssp"
+                       app:colorBorder="@color/transparent"
+                       app:colorOff="@color/white"
+                       app:colorOn="@color/blue"
+                       app:on="false"
+                       app:textOff=""
+                       app:textOn="" />
 
-            </androidx.appcompat.widget.Toolbar>
+               </androidx.appcompat.widget.Toolbar>
 
-        </LinearLayout>
+           </LinearLayout>
 
-        <include
-            android:id="@+id/noInternetUserHomeFrag"
-            layout="@layout/no_internet_connection_layout"
-            android:visibility="gone" />
+           <include
+               android:id="@+id/noInternetUserHomeFrag"
+               layout="@layout/no_internet_connection_layout"
+               android:visibility="gone" />
 
-        <include
-            android:id="@+id/noDataUserHomeFrag"
-            layout="@layout/no_data_layout"
-            android:visibility="gone" />
+           <include
+               android:id="@+id/noDataUserHomeFrag"
+               layout="@layout/no_data_layout"
+               android:visibility="gone" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clHeadder">
+           <androidx.constraintlayout.widget.ConstraintLayout
+               android:id="@+id/cl"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               app:layout_constraintLeft_toLeftOf="parent"
+               app:layout_constraintRight_toRightOf="parent"
+               app:layout_constraintTop_toBottomOf="@+id/clHeadder">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+               <androidx.constraintlayout.widget.ConstraintLayout
+                   android:id="@+id/cl1"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="@dimen/_15sdp"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/pager"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_170sdp"
-                    app:layout_constraintBottom_toTopOf="@+id/indicator"
-                    app:layout_constraintTop_toTopOf="parent" />
+                   <androidx.viewpager.widget.ViewPager
+                       android:id="@+id/pager"
+                       android:layout_width="match_parent"
+                       android:layout_height="@dimen/_170sdp"
+                       app:layout_constraintBottom_toTopOf="@+id/indicator"
+                       app:layout_constraintTop_toTopOf="parent" />
 
-                <com.rd.PageIndicatorView
-                    android:id="@+id/indicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginVertical="@dimen/_10sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/pager"
-                    app:piv_animationType="scale"
-                    app:piv_dynamicCount="true"
-                    app:piv_interactiveAnimation="true"
-                    app:piv_selectedColor="@color/grey"
-                    app:piv_unselectedColor="@color/darkBlue"
-                    app:piv_viewPager="@id/pager" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                   <com.rd.PageIndicatorView
+                       android:id="@+id/indicator"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_centerInParent="true"
+                       android:layout_marginVertical="@dimen/_10sdp"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintTop_toBottomOf="@+id/pager"
+                       app:piv_animationType="scale"
+                       app:piv_dynamicCount="true"
+                       app:piv_interactiveAnimation="true"
+                       app:piv_selectedColor="@color/grey"
+                       app:piv_unselectedColor="@color/darkBlue"
+                       app:piv_viewPager="@id/pager" />
+               </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_20sdp"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@+id/cl1">
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginHorizontal="@dimen/_20sdp"
+                   android:orientation="vertical"
+                   app:layout_constraintTop_toBottomOf="@+id/cl1">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cvKnowRights"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    app:cardCornerRadius="@dimen/_10sdp"
-                    app:layout_constraintTop_toBottomOf="@+id/cv1">
+                   <com.google.android.material.card.MaterialCardView
+                       android:id="@+id/cvKnowRights"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="@dimen/_20sdp"
+                       app:cardCornerRadius="@dimen/_10sdp"
+                       app:layout_constraintTop_toBottomOf="@+id/cv1">
 
-                    <RelativeLayout
-                        android:id="@+id/rlKnowRights"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/lightBlue_2"
-                        android:paddingVertical="@dimen/_20sdp">
+                       <RelativeLayout
+                           android:id="@+id/rlKnowRights"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:background="@color/lightBlue_2"
+                           android:paddingVertical="@dimen/_20sdp">
 
-                        <androidx.appcompat.widget.AppCompatRadioButton
-                            android:id="@+id/btnKnowRights"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="@dimen/_20sdp"
-                            android:background="@color/transparent"
-                            android:button="@drawable/ic_know_rights"
-                            android:fontFamily="@font/lora_semibold"
-                            android:paddingLeft="@dimen/_15sdp"
-                            android:text="@string/know_your_basic_rights"
-                            android:textAlignment="textStart"
-                            android:textAllCaps="false"
-                            android:textColor="@color/blue_white_color_selector"
-                            android:textSize="@dimen/_12ssp" />
-                    </RelativeLayout>
-                </com.google.android.material.card.MaterialCardView>
+                           <androidx.appcompat.widget.AppCompatRadioButton
+                               android:id="@+id/btnKnowRights"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:layout_marginHorizontal="@dimen/_20sdp"
+                               android:background="@color/transparent"
+                               android:button="@drawable/ic_know_rights"
+                               android:fontFamily="@font/lora_semibold"
+                               android:paddingLeft="@dimen/_15sdp"
+                               android:text="@string/know_your_basic_rights"
+                               android:textAlignment="textStart"
+                               android:textAllCaps="false"
+                               android:textColor="@color/blue_white_color_selector"
+                               android:textSize="@dimen/_12ssp" />
+                       </RelativeLayout>
+                   </com.google.android.material.card.MaterialCardView>
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cvAskQuestion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    app:cardCornerRadius="@dimen/_10sdp"
-                    app:layout_constraintTop_toBottomOf="@+id/cv1">
+                   <com.google.android.material.card.MaterialCardView
+                       android:id="@+id/cvAskQuestion"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="@dimen/_20sdp"
+                       app:cardCornerRadius="@dimen/_10sdp"
+                       app:layout_constraintTop_toBottomOf="@+id/cv1">
 
-                    <RelativeLayout
-                        android:id="@+id/rlAskQuestions"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/lightBlue_2"
-                        android:paddingVertical="@dimen/_20sdp">
+                       <RelativeLayout
+                           android:id="@+id/rlAskQuestions"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:background="@color/lightBlue_2"
+                           android:paddingVertical="@dimen/_20sdp">
 
-                        <RadioButton
-                            android:id="@+id/btnAskQuestions"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="@dimen/_20sdp"
-                            android:background="@color/transparent"
-                            android:button="@drawable/ic_support_service_selected"
-                            android:buttonTint="@color/colorPrimaryDark"
-                            android:fontFamily="@font/lora_semibold"
-                            android:paddingVertical="@dimen/_10sdp"
-                            android:paddingLeft="@dimen/_15sdp"
-                            android:text="@string/ask_mode_question"
-                            android:textAlignment="textStart"
-                            android:textAllCaps="false"
-                            android:textColor="@color/blue_white_color_selector"
-                            android:textSize="@dimen/_12ssp" />
-                    </RelativeLayout>
-                </com.google.android.material.card.MaterialCardView>
+                           <RadioButton
+                               android:id="@+id/btnAskQuestions"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:layout_marginHorizontal="@dimen/_20sdp"
+                               android:background="@color/transparent"
+                               android:button="@drawable/ic_support_service_selected"
+                               android:buttonTint="@color/colorPrimaryDark"
+                               android:fontFamily="@font/lora_semibold"
+                               android:paddingVertical="@dimen/_10sdp"
+                               android:paddingLeft="@dimen/_15sdp"
+                               android:text="@string/ask_mode_question"
+                               android:textAlignment="textStart"
+                               android:textAllCaps="false"
+                               android:textColor="@color/blue_white_color_selector"
+                               android:textSize="@dimen/_12ssp" />
+                       </RelativeLayout>
+                   </com.google.android.material.card.MaterialCardView>
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cvSeekAdv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    app:cardCornerRadius="@dimen/_10sdp"
-                    app:layout_constraintTop_toBottomOf="@+id/cv1">
+                   <com.google.android.material.card.MaterialCardView
+                       android:id="@+id/cvSeekAdv"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="@dimen/_20sdp"
+                       app:cardCornerRadius="@dimen/_10sdp"
+                       app:layout_constraintTop_toBottomOf="@+id/cv1">
 
-                    <RelativeLayout
-                        android:id="@+id/rlSeekAdv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/lightBlue_2"
-                        android:paddingVertical="@dimen/_20sdp">
+                       <RelativeLayout
+                           android:id="@+id/rlSeekAdv"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:background="@color/lightBlue_2"
+                           android:paddingVertical="@dimen/_20sdp">
 
-                        <androidx.appcompat.widget.AppCompatRadioButton
-                            android:id="@+id/btnSeekAdv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="@dimen/_20sdp"
-                            android:background="@color/transparent"
-                            android:button="@drawable/ic_seek_legal_advice_selected"
-                            android:buttonTint="@color/colorPrimaryDark"
-                            android:fontFamily="@font/lora_semibold"
-                            android:paddingLeft="@dimen/_15sdp"
-                            android:text="@string/seek_legal_adv"
-                            android:textAlignment="textStart"
-                            android:textAllCaps="false"
-                            android:textColor="@color/blue_white_color_selector"
-                            android:textSize="@dimen/_12ssp" />
-                    </RelativeLayout>
-                </com.google.android.material.card.MaterialCardView>
+                           <androidx.appcompat.widget.AppCompatRadioButton
+                               android:id="@+id/btnSeekAdv"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:layout_marginHorizontal="@dimen/_20sdp"
+                               android:background="@color/transparent"
+                               android:button="@drawable/ic_seek_legal_advice_selected"
+                               android:buttonTint="@color/colorPrimaryDark"
+                               android:fontFamily="@font/lora_semibold"
+                               android:paddingLeft="@dimen/_15sdp"
+                               android:text="@string/seek_legal_adv"
+                               android:textAlignment="textStart"
+                               android:textAllCaps="false"
+                               android:textColor="@color/blue_white_color_selector"
+                               android:textSize="@dimen/_12ssp" />
+                       </RelativeLayout>
+                   </com.google.android.material.card.MaterialCardView>
 
-            </LinearLayout>
+               </LinearLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+           </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+       </androidx.constraintlayout.widget.ConstraintLayout>
+
+   </ScrollView>
 </layout>
