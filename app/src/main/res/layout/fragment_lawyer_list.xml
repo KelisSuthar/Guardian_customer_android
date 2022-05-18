@@ -7,16 +7,17 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".ui.Lawyer.LawyerListFragment"
         android:layout_marginHorizontal="@dimen/_15sdp"
-        android:layout_marginVertical="@dimen/_15sdp">
+        android:paddingTop="@dimen/_15sdp"
+        >
 
 
 
         <include
             layout="@layout/layout_search_filter"
             android:id="@+id/lyLawyerListFilter"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            />
 
         <include
             android:id="@+id/noLawyer"
@@ -32,8 +33,10 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvLawyerList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:scrollbars="none"
             tools:listitem="@layout/row_lawyer_list"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@+id/lyLawyerListFilter" />
 

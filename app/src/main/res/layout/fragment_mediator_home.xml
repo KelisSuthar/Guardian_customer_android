@@ -1,46 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
+        layout_width="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.Mediator.MediatorHome.MediatorHomeFragment">
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/clHeadder"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:paddingBottom="@dimen/_15sdp">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/clHeadder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/your_status"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_10ssp" />
+                    app:layout_constraintTop_toTopOf="parent">
 
 
                     <com.github.angads25.toggle.widget.LabeledSwitch
                         android:id="@+id/availabilitySwitch"
-
                         android:layout_width="@dimen/_40sdp"
                         android:layout_height="@dimen/_20sdp"
                         android:layout_gravity="right"
@@ -52,138 +43,139 @@
                         app:on="false"
                         app:textOff=""
                         app:textOn="" />
-                </LinearLayout>
 
-            </androidx.appcompat.widget.Toolbar>
-
-        </LinearLayout>
-
-
-        <include
-            android:id="@+id/noInternetUserHomeFrag"
-            android:visibility="gone"
-            layout="@layout/no_internet_connection_layout" />
-
-        <include
-            android:id="@+id/noDataUserHomeFrag"
-            android:visibility="gone"
-            layout="@layout/no_data_layout" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clHeadder">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" >
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/pager"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_170sdp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@+id/indicator"
-                    />
-
-                <com.rd.PageIndicatorView
-                    android:id="@+id/indicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    app:piv_animationType="scale"
-                    app:piv_dynamicCount="true"
-                    app:layout_constraintTop_toBottomOf="@+id/pager"
-                    app:piv_interactiveAnimation="true"
-                    android:layout_marginVertical="@dimen/_10sdp"
-                    app:piv_selectedColor="@color/grey"
-                    app:piv_unselectedColor="@color/darkBlue"
-                    app:piv_viewPager="@id/pager"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_20sdp"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@+id/cl1">
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cvKnowBasicRight"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    app:cardCornerRadius="@dimen/_10sdp"
-                    app:layout_constraintTop_toBottomOf="@+id/cv1">
-
-                    <RelativeLayout
-                        android:id="@+id/rlKnowBasicRight"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/lightBlue_2"
-                        android:paddingVertical="@dimen/_20sdp">
-
-                        <androidx.appcompat.widget.AppCompatRadioButton
-                            android:id="@+id/rbKnowBasicRight"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="@dimen/_20sdp"
-                            android:background="@color/transparent"
-                            android:button="@drawable/ic_know_rights"
-                            android:drawablePadding="@dimen/_15sdp"
-                            android:fontFamily="@font/lora_semibold"
-                            android:paddingLeft="@dimen/_15sdp"
-                            android:text="@string/know_your_basic_rights"
-                            android:textColor="@color/blue_white_color_selector"
-
-                            android:textSize="@dimen/_12ssp" />
-                    </RelativeLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cvDialLawyer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    app:cardCornerRadius="@dimen/_10sdp"
-                    app:layout_constraintTop_toBottomOf="@+id/cv1">
-
-                    <RelativeLayout
-                        android:id="@+id/rlDialLawyer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/lightBlue_2"
-                        android:paddingVertical="@dimen/_20sdp">
-
-                        <androidx.appcompat.widget.AppCompatRadioButton
-                            android:id="@+id/rbDialLawyer"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="@dimen/_20sdp"
-                            android:background="@color/transparent"
-                            android:button="@drawable/support_service_selector"
-                            android:fontFamily="@font/lora_semibold"
-                            android:paddingLeft="@dimen/_15sdp"
-                            android:text="@string/dial_a_lawyer"
-                            android:textColor="@color/blue_white_color_selector"
-                            android:textSize="@dimen/_12ssp" />
-                    </RelativeLayout>
-                </com.google.android.material.card.MaterialCardView>
+                </androidx.appcompat.widget.Toolbar>
 
             </LinearLayout>
 
+
+            <include
+                android:id="@+id/noInternetUserHomeFrag"
+                android:visibility="gone"
+                layout="@layout/no_internet_connection_layout" />
+
+            <include
+                android:id="@+id/noDataUserHomeFrag"
+                android:visibility="gone"
+                layout="@layout/no_data_layout" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clHeadder">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" >
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/pager"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_170sdp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/indicator"
+                        />
+
+                    <com.rd.PageIndicatorView
+                        android:id="@+id/indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        app:piv_animationType="scale"
+                        app:piv_dynamicCount="true"
+                        app:layout_constraintTop_toBottomOf="@+id/pager"
+                        app:piv_interactiveAnimation="true"
+                        android:layout_marginVertical="@dimen/_10sdp"
+                        app:piv_selectedColor="@color/grey"
+                        app:piv_unselectedColor="@color/darkBlue"
+                        app:piv_viewPager="@id/pager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@+id/cl1">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cvKnowBasicRight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        app:cardCornerRadius="@dimen/_10sdp"
+                        app:layout_constraintTop_toBottomOf="@+id/cv1">
+
+                        <RelativeLayout
+                            android:id="@+id/rlKnowBasicRight"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/lightBlue_2"
+                            android:paddingVertical="@dimen/_20sdp">
+
+                            <androidx.appcompat.widget.AppCompatRadioButton
+                                android:id="@+id/rbKnowBasicRight"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/_20sdp"
+                                android:background="@color/transparent"
+                                android:button="@drawable/ic_know_rights"
+                                android:drawablePadding="@dimen/_15sdp"
+                                android:fontFamily="@font/lora_semibold"
+                                android:paddingLeft="@dimen/_15sdp"
+                                android:text="@string/know_your_basic_rights"
+                                android:textColor="@color/blue_white_color_selector"
+
+                                android:textSize="@dimen/_12ssp" />
+                        </RelativeLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cvDialLawyer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        app:cardCornerRadius="@dimen/_10sdp"
+                        app:layout_constraintTop_toBottomOf="@+id/cv1">
+
+                        <RelativeLayout
+                            android:id="@+id/rlDialLawyer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/lightBlue_2"
+                            android:paddingVertical="@dimen/_20sdp">
+
+                            <androidx.appcompat.widget.AppCompatRadioButton
+                                android:id="@+id/rbDialLawyer"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/_20sdp"
+                                android:background="@color/transparent"
+                                android:button="@drawable/support_service_selector"
+                                android:fontFamily="@font/lora_semibold"
+                                android:paddingLeft="@dimen/_15sdp"
+                                android:text="@string/dial_a_lawyer"
+                                android:textColor="@color/blue_white_color_selector"
+                                android:textSize="@dimen/_12ssp" />
+                        </RelativeLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

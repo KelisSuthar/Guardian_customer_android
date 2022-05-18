@@ -90,43 +90,38 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 //                                            SubScriptionPlanScreen::class.java
 //                                        )
 //                                    )
-                                    startActivity(
-                                        Intent(
-                                            this@LoginActivity,
-                                            HomeActivity::class.java
-                                        )
-                                    )
-                                    finish()
-                                    overridePendingTransition(R.anim.rightto, R.anim.left)
+                                    openDashBoard()
 
                                 }
                                 SharedPreferenceManager.getString(
                                     AppConstants.USER_ROLE,
                                     AppConstants.APP_ROLE_USER
                                 ) == AppConstants.APP_ROLE_LAWYER -> {
-                                    displayMessageDialog(
-                                        this@LoginActivity,
-                                        "",
-                                        it.message.toString(),
-                                        false,
-                                        "Ok",
-                                        ""
-                                    )
+//                                    displayMessageDialog(
+//                                        this@LoginActivity,
+//                                        "",
+//                                        it.message.toString(),
+//                                        false,
+//                                        "Ok",
+//                                        ""
+//                                    )
 //                                    displayMessage(this,it.message.toString())
+                                    openDashBoard()
                                 }
                                 SharedPreferenceManager.getString(
                                     AppConstants.USER_ROLE,
                                     AppConstants.APP_ROLE_USER
                                 ) == AppConstants.APP_ROLE_MEDIATOR -> {
-                                    displayMessageDialog(
-                                        this@LoginActivity,
-                                        "",
-                                        it.message.toString(),
-                                        false,
-                                        "Ok",
-                                        ""
-                                    )
+//                                    displayMessageDialog(
+//                                        this@LoginActivity,
+//                                        "",
+//                                        it.message.toString(),
+//                                        false,
+//                                        "Ok",
+//                                        ""
+//                                    )
 //                                    displayMessage(this,it.message.toString())
+                                    openDashBoard()
                                 }
                             }
 
@@ -149,6 +144,17 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
+    private fun openDashBoard(){
+        startActivity(
+            Intent(
+                this@LoginActivity,
+                HomeActivity::class.java
+            ).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+        )
+        finish()
+        overridePendingTransition(R.anim.rightto, R.anim.left)
+    }
 
     override fun onBackPressed() {
         super.onBackPressed()
