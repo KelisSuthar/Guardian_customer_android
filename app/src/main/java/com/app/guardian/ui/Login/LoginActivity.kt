@@ -131,7 +131,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                             }
 
                         } else {
-                            ReusedMethod.displayMessage(this, it.message.toString())
+                            displayMessage(this, it.message.toString())
                         }
                     }
                 }

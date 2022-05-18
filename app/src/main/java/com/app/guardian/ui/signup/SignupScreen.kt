@@ -708,6 +708,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     .toString(),
                 mBinding.edtProvience.text?.trim().toString(),
                 mBinding.edtPostalCode.text?.trim().toString(),
+                mBinding.edtVehicalNum.text?.trim().toString(),
                 profile_img,
                 images,
                 "DEVICE@123"

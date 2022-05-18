@@ -33,7 +33,7 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
             when (it.itemId) {
                 R.id.menu_home -> {
 //                    loadHomeScreen()
-                    ReplaceFragment.replaceFragment(this,KnowRightFragment(),false,"",HomeActivity::class.java.name)
+//                    ReplaceFragment.replaceFragment(this,KnowRightFragment(),false,"",HomeActivity::class.java.name)
                 }
                 R.id.menu_lawyer -> {ReplaceFragment.replaceFragment(this,LawyerListFragment(),false,"",HomeActivity::class.java.name)}
                 R.id.menu_radar -> {}

@@ -49,7 +49,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         }
         signInJson.addProperty(ApiConstant.EXTRAS_PASSWORD, pass)
         signInJson.addProperty(ApiConstant.EXTRAS_DEVICETOKEN, device_token)
-        signInJson.addProperty(ApiConstant.EXTRAS_DEVICETOKEN, device_token)
+
 
 
 
@@ -83,6 +83,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         phone: String,
         state: String,
         postal_code: String,
+        licence_no: String,
         profile_avatar: String,
         user_doc: ArrayList<String>,
         device_token: String,
@@ -98,13 +99,18 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             signUpJson.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
             signUpJson.addProperty(ApiConstant.EXTRAS_OFFICE_PHONE, office_phone)
             signUpJson.addProperty(ApiConstant.EXTRAS_OFFICE_DIAL_CODE, office_dial_code)
+            signUpJson.addProperty(ApiConstant.EXTRAS_PHONE, phone)
+            signUpJson.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
         } else if (is_mediator) {
             signUpJson.addProperty(ApiConstant.EXTRAS_SPECIALIZATION, specialization)
             signUpJson.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
+            signUpJson.addProperty(ApiConstant.EXTRAS_PHONE, phone)
+            signUpJson.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
 
         }else{
             signUpJson.addProperty(ApiConstant.EXTRAS_PHONE, phone)
             signUpJson.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
+            signUpJson.addProperty(ApiConstant.EXTRAS_LICENCE_NO, licence_no)
         }
 
         signUpJson.addProperty(ApiConstant.EXTRAS_PASSWORD, password)
