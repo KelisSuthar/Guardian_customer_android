@@ -14,6 +14,7 @@ import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.ShowLogToast
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.model.viewModels.CommonScreensViewModel
+import com.app.guardian.model.viewModels.LawyerViewModel
 import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.endpoint.ApiEndPoint
 import com.app.guardian.shareddata.repo.UserRepo
@@ -36,6 +37,7 @@ val viewModelModule = module {
     single<UserRepo> { UserRepository(get()) }
     viewModel { AuthenticationViewModel(get()) }
     viewModel { CommonScreensViewModel(get()) }
+    viewModel { LawyerViewModel(get()) }
     viewModel { UserViewModel(get()) }
 
 }

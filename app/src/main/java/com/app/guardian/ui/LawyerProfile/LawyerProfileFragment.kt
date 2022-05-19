@@ -20,23 +20,13 @@ import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class LawyerProfileFragment(selectedLawyerListId: Int?) : BaseFragment() {
+class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
 
-    private  lateinit var  mBinding: FragmentLawyerProfileBinding
+    private lateinit var mBinding: FragmentLawyerProfileBinding
     private val mViewModel: UserViewModel by viewModel()
     private var selectedLawyerListId: Int? = null
 
-    private var storeSelctedId : Int ?= null
-
-    private var rootView : View ?= null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            selectedLawyerListId = it.getInt("LawyerId")
-            storeSelctedId = selectedLawyerListId
-        }
-    }
+    private var storeSelctedId: Int? = null
 
 
     override fun getInflateResource(): Int {
@@ -45,15 +35,22 @@ class LawyerProfileFragment(selectedLawyerListId: Int?) : BaseFragment() {
 
     override fun initView() {
         mBinding = getBinding()
+
+
+        arguments?.let {
+            selectedLawyerListId = it.getInt("LawyerId")
+            storeSelctedId = selectedLawyerListId
+        }
+
         callAPI()
-
-
         mBinding.btnSeeLegal.setOnClickListener {
 
-            ReplaceFragment.replaceFragment(requireActivity(),
-                SeekLegalAdviceListFragment.newInstance(storeSelctedId!!),true,
+            ReplaceFragment.replaceFragment(
+                requireActivity(),
+                SeekLegalAdviceListFragment(false,storeSelctedId!!), true,
                 LawyerProfileFragment::class.java.name,
-                null)
+                null
+            )
         }
     }
 
@@ -66,14 +63,14 @@ class LawyerProfileFragment(selectedLawyerListId: Int?) : BaseFragment() {
 
     override fun initObserver() {
         mViewModel.lawyerProfileDetails().observe(this, Observer { response ->
-            response.let {
-                requestState ->
+            response.let { requestState ->
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse.let {
                     it?.data?.let {
                         mBinding.tvLawyerName.text = it.full_name
                         mBinding.tvSpecialization.text = it.specialization
-                        mBinding.txtSpecializationInfo.text = "Criminal Lawyer\t\t\t" +it.years_of_experience+"+ year Experiance"
+                        mBinding.txtSpecializationInfo.text =
+                            "Criminal Lawyer\t\t\t" + it.years_of_experience + "+ year Experiance"
                         mBinding.txtContactInfo.text = it.email
 
                         //description data is null from api side
@@ -101,7 +98,11 @@ class LawyerProfileFragment(selectedLawyerListId: Int?) : BaseFragment() {
     private fun callAPI() {
 
         if (ReusedMethod.isNetworkConnected(requireContext())) {
-            mViewModel.getLawyerProfileDetails(true, context as BaseActivity,selectedLawyerListId!!)
+            mViewModel.getLawyerProfileDetails(
+                true,
+                context as BaseActivity,
+                selectedLawyerListId!!
+            )
         } else {
             mBinding.conLawyer.gone()
             mBinding.noLawyerProfile.gone()

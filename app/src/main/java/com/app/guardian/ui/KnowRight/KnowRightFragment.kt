@@ -10,7 +10,9 @@ import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import com.app.guardian.R
+import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentKnowRightBinding
@@ -40,39 +42,13 @@ class KnowRightFragment : BaseFragment(),View.OnClickListener {
         mBinding.rvLawyerList.adapter = null
         knowYourRightsAdapter = KnowYourRightsAdapter(requireActivity(),array,object :KnowYourRightsAdapter.onItemClicklisteners{
             override fun onItemClick(position: Int) {
-                showDialog()
+                ReusedMethod. showKnowRightDialog(requireContext(),"","","","")
             }
         })
         mBinding.rvLawyerList.adapter = knowYourRightsAdapter
     }
 
-    private fun showDialog() {
-        val dialog = Dialog(
-            requireActivity(),
-            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
-        )
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.setContentView(R.layout.know_right_dialog)
-        dialog.setCancelable(false)
 
-        val ivClose = dialog.findViewById<ImageView>(R.id.ivClose)
-        val btnClose = dialog.findViewById<Button>(R.id.btnClose)
-        val txtRightName = dialog.findViewById<Button>(R.id.txtRightName)
-        val txtRightSections = dialog.findViewById<Button>(R.id.txtRightSections)
-        val txtLcation = dialog.findViewById<Button>(R.id.txtLcation)
-        val txtDesc = dialog.findViewById<Button>(R.id.txtDesc)
-        ivClose.setOnClickListener {
-            dialog.dismiss()
-        }
-        btnClose.setOnClickListener {
-            dialog.dismiss()
-        }
-
-
-
-        dialog.show()
-    }
 
     override fun postInit() {
 

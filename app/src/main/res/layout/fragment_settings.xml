@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".ui.User.settings.SettingsFragment">
 
         <include
@@ -14,369 +15,482 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/headderSettitng"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/headderSettitng">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imgProfile"
                     android:layout_width="@dimen/_50sdp"
                     android:layout_height="@dimen/_50sdp"
-                    android:src="@drawable/profile"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_20sdp"
-                    android:layout_marginStart="@dimen/_20sdp"/>
+                    android:src="@drawable/profile"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="@+id/imgProfile"
-                    app:layout_constraintStart_toEndOf="@+id/imgProfile"
-                    app:layout_constraintBottom_toBottomOf="@id/imgProfile"
                     android:layout_marginStart="@dimen/_20sdp"
-                    android:textSize="@dimen/_13ssp"
                     android:fontFamily="@font/lora_semibold"
+                    android:text="Franklin Neo"
                     android:textColor="@color/black"
-                    android:text="Franklin Neo"/>
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintBottom_toBottomOf="@id/imgProfile"
+                    app:layout_constraintStart_toEndOf="@+id/imgProfile"
+                    app:layout_constraintTop_toTopOf="@+id/imgProfile" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnEditProfile"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_30sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:background="@drawable/med_rounded_blue_back"
+                    android:fontFamily="@font/lora_semibold"
+                    android:paddingStart="@dimen/_7sdp"
+                    android:paddingEnd="@dimen/_7sdp"
                     android:text="@string/edit_profile"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:paddingStart="@dimen/_7sdp"
-                    android:paddingEnd="@dimen/_7sdp"
-                    android:fontFamily="@font/lora_semibold"
-                    android:background="@drawable/med_rounded_blue_back"
-                    app:layout_constraintTop_toTopOf="@id/imgProfile"
                     app:layout_constraintBottom_toBottomOf="@id/imgProfile"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="@dimen/_20sdp"/>
+                    app:layout_constraintTop_toTopOf="@id/imgProfile" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/medium_rounded_light_blue"
-                    app:layout_constraintTop_toBottomOf="@id/imgProfile"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginTop="@dimen/_20sdp"
                     android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@drawable/medium_rounded_light_blue"
                     android:paddingBottom="@dimen/_20sdp"
-                    android:layout_marginBottom="@dimen/_10sdp">
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/imgProfile">
 
                     <ImageView
                         android:id="@+id/imgSubscription"
                         android:layout_width="@dimen/_17sdp"
                         android:layout_height="@dimen/_17sdp"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:src="@drawable/ic_subscription"
-                        app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginStart="@dimen/_20sdp"
                         android:layout_marginTop="@dimen/_20sdp"
-                        />
+                        android:src="@drawable/ic_subscription"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <TextView
                         android:id="@+id/tvSubScription"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_15sdp"
 
                         android:fontFamily="@font/lora_semibold"
-                        app:layout_constraintTop_toTopOf="@id/imgSubscription"
-                        app:layout_constraintBottom_toBottomOf="@id/imgSubscription"
+                        android:padding="@dimen/_10sdp"
                         android:text="@string/subscription_plan"
                         android:textColor="@color/lightblack"
-                        app:layout_constraintStart_toEndOf="@id/imgSubscription"
                         android:textSize="@dimen/_14ssp"
-                        android:layout_marginStart="@dimen/_15sdp"/>
+                        app:layout_constraintBottom_toBottomOf="@id/imgSubscription"
+                        app:layout_constraintStart_toEndOf="@id/imgSubscription"
+                        app:layout_constraintTop_toTopOf="@id/imgSubscription" />
 
                     <View
+                        android:id="@+id/view"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:id="@+id/view"
 
                         android:layout_marginStart="@dimen/_20sdp"
                         android:layout_marginEnd="@dimen/_20sdp"
-                        app:layout_constraintTop_toBottomOf="@id/tvSubScription"
-                        android:background="@color/lightBlue"/>
+                        android:background="@color/lightBlue"
+                        app:layout_constraintTop_toBottomOf="@id/tvSubScription" />
 
                     <ImageView
                         android:id="@+id/imgContactHistory"
                         android:layout_width="@dimen/_17sdp"
                         android:layout_height="@dimen/_17sdp"
-                        app:layout_constraintTop_toBottomOf="@id/view"
-                        android:src="@drawable/ic_contact_history"
-                        app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginStart="@dimen/_20sdp"
                         android:layout_marginTop="@dimen/_20sdp"
-                        />
+                        android:src="@drawable/ic_contact_history"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/view" />
 
                     <TextView
                         android:id="@+id/tvContactHistory"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/_10sdp"
-                        app:layout_constraintTop_toTopOf="@id/imgContactHistory"
-                        app:layout_constraintBottom_toBottomOf="@id/imgContactHistory"
-                        android:text="@string/contact_history"
+                        android:layout_marginStart="@dimen/_15sdp"
                         android:fontFamily="@font/lora_semibold"
+                        android:padding="@dimen/_10sdp"
+                        android:text="@string/contact_history"
                         android:textColor="@color/lightblack"
-                        app:layout_constraintStart_toEndOf="@id/imgContactHistory"
                         android:textSize="@dimen/_14ssp"
-                        android:layout_marginStart="@dimen/_15sdp"/>
+                        app:layout_constraintBottom_toBottomOf="@id/imgContactHistory"
+                        app:layout_constraintStart_toEndOf="@id/imgContactHistory"
+                        app:layout_constraintTop_toTopOf="@id/imgContactHistory" />
 
                     <View
+                        android:id="@+id/view2"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:id="@+id/view2"
-                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_20sdp"
-                        app:layout_constraintTop_toBottomOf="@id/imgContactHistory"
-                        android:background="@color/lightBlue"/>
+                        android:background="@color/lightBlue"
+                        app:layout_constraintTop_toBottomOf="@id/imgContactHistory" />
 
                     <ImageView
                         android:id="@+id/imgChangePwd"
                         android:layout_width="@dimen/_17sdp"
                         android:layout_height="@dimen/_17sdp"
-                        app:layout_constraintTop_toBottomOf="@id/view2"
-                        android:src="@drawable/ic_lock"
-                        app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginStart="@dimen/_20sdp"
                         android:layout_marginTop="@dimen/_20sdp"
-                        />
+                        android:src="@drawable/ic_lock"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/view2" />
 
 
                     <TextView
                         android:id="@+id/tvChangePwd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="@id/imgChangePwd"
-                        app:layout_constraintBottom_toBottomOf="@id/imgChangePwd"
-                        android:text="@string/change_password"
-                        android:padding="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_15sdp"
                         android:fontFamily="@font/lora_semibold"
+                        android:padding="@dimen/_10sdp"
+                        android:text="@string/change_password"
                         android:textColor="@color/lightblack"
-                        app:layout_constraintStart_toEndOf="@id/imgChangePwd"
                         android:textSize="@dimen/_14ssp"
-                        android:layout_marginStart="@dimen/_15sdp"/>
+                        app:layout_constraintBottom_toBottomOf="@id/imgChangePwd"
+                        app:layout_constraintStart_toEndOf="@id/imgChangePwd"
+                        app:layout_constraintTop_toTopOf="@id/imgChangePwd" />
 
                     <View
+                        android:id="@+id/view3"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:id="@+id/view3"
-                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_20sdp"
-                        app:layout_constraintTop_toBottomOf="@id/imgChangePwd"
-                        android:background="@color/lightBlue"/>
+                        android:background="@color/lightBlue"
+                        app:layout_constraintTop_toBottomOf="@id/imgChangePwd" />
 
                     <ImageView
                         android:id="@+id/imgAbout"
                         android:layout_width="@dimen/_17sdp"
                         android:layout_height="@dimen/_17sdp"
-                        app:layout_constraintTop_toBottomOf="@id/view3"
-                        android:src="@drawable/ic_about"
-                        app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginStart="@dimen/_20sdp"
                         android:layout_marginTop="@dimen/_20sdp"
-                        />
+                        android:src="@drawable/ic_about"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/view3" />
 
                     <TextView
                         android:id="@+id/tvAbout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="@id/imgAbout"
-                        app:layout_constraintBottom_toBottomOf="@id/imgAbout"
-                        android:text="@string/about_us"
-                        android:padding="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_15sdp"
                         android:fontFamily="@font/lora_semibold"
+                        android:padding="@dimen/_10sdp"
+                        android:text="@string/about_us"
                         android:textColor="@color/lightblack"
-                        app:layout_constraintStart_toEndOf="@id/imgAbout"
                         android:textSize="@dimen/_14ssp"
-                        android:layout_marginStart="@dimen/_15sdp"/>
+                        app:layout_constraintBottom_toBottomOf="@id/imgAbout"
+                        app:layout_constraintStart_toEndOf="@id/imgAbout"
+                        app:layout_constraintTop_toTopOf="@id/imgAbout" />
 
                     <View
+                        android:id="@+id/view4"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:id="@+id/view4"
-                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_20sdp"
-                        app:layout_constraintTop_toBottomOf="@id/imgAbout"
-                        android:background="@color/lightBlue"/>
+                        android:background="@color/lightBlue"
+                        app:layout_constraintTop_toBottomOf="@id/imgAbout" />
 
                     <ImageView
                         android:id="@+id/imgNotification"
                         android:layout_width="@dimen/_17sdp"
                         android:layout_height="@dimen/_17sdp"
-                        app:layout_constraintTop_toBottomOf="@id/view4"
-                        android:src="@drawable/ic_notification"
-                        app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginStart="@dimen/_20sdp"
                         android:layout_marginTop="@dimen/_20sdp"
-                        />
+                        android:src="@drawable/ic_notification"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/view4" />
 
                     <TextView
                         android:id="@+id/tvNotification"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="@id/imgNotification"
-                        app:layout_constraintBottom_toBottomOf="@id/imgNotification"
-                        android:text="@string/notification"
+                        android:layout_marginStart="@dimen/_15sdp"
                         android:fontFamily="@font/lora_semibold"
-                        android:textColor="@color/lightblack"
                         android:padding="@dimen/_10sdp"
-                        app:layout_constraintStart_toEndOf="@id/imgNotification"
+                        android:text="@string/notification"
+                        android:textColor="@color/lightblack"
                         android:textSize="@dimen/_14ssp"
-                        android:layout_marginStart="@dimen/_15sdp"/>
+
+                        app:layout_constraintBottom_toBottomOf="@id/imgNotification"
+                        app:layout_constraintStart_toEndOf="@id/imgNotification"
+                        app:layout_constraintTop_toTopOf="@id/imgNotification" />
 
                     <View
+                        android:id="@+id/view5"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:id="@+id/view5"
-                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_20sdp"
-                        app:layout_constraintTop_toBottomOf="@id/imgNotification"
-                        android:background="@color/lightBlue"/>
+                        android:background="@color/lightBlue"
+                        app:layout_constraintTop_toBottomOf="@id/imgNotification" />
+
+
+                    <!--                SeekLegalAdv-->
+
+                    <ImageView
+                        android:id="@+id/imgSeekLegaladv"
+                        android:layout_width="@dimen/_17sdp"
+                        android:layout_height="@dimen/_17sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+android:visibility="gone"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:src="@drawable/ic_seek_legal_adv"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/view5" />
+
+                    <TextView
+                        android:id="@+id/tvSeekLegaladv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:fontFamily="@font/lora_semibold"
+                        android:padding="@dimen/_10sdp"
+                        android:text="@string/seek_legal_adv"
+                        android:textColor="@color/lightblack"
+                        android:textSize="@dimen/_14ssp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@id/imgSeekLegaladv"
+                        app:layout_constraintStart_toEndOf="@id/imgSeekLegaladv"
+                        app:layout_constraintTop_toTopOf="@id/imgSeekLegaladv" />
+
+                    <View
+                        android:id="@+id/viewSeekLegaladv"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:background="@color/lightBlue"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@id/imgSeekLegaladv" />
 
 
                     <ImageView
                         android:id="@+id/imgVirtualWitness"
                         android:layout_width="@dimen/_17sdp"
                         android:layout_height="@dimen/_17sdp"
-                        app:layout_constraintTop_toBottomOf="@id/view5"
-                        android:src="@drawable/ic_eye"
-                        app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginStart="@dimen/_20sdp"
                         android:layout_marginTop="@dimen/_20sdp"
+                        android:src="@drawable/ic_eye"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/viewSeekLegaladv"
                         app:tint="@color/blue" />
+
 
                     <TextView
                         android:id="@+id/tvVirtualWitness"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="@id/imgVirtualWitness"
-                        app:layout_constraintBottom_toBottomOf="@id/imgVirtualWitness"
-                        android:text="@string/virtual_witness"
+                        android:layout_marginStart="@dimen/_15sdp"
                         android:fontFamily="@font/lora_semibold"
-                        android:textColor="@color/lightblack"
                         android:padding="@dimen/_10sdp"
-                        app:layout_constraintStart_toEndOf="@id/imgVirtualWitness"
+                        android:text="@string/virtual_witness"
+                        android:textColor="@color/lightblack"
                         android:textSize="@dimen/_14ssp"
-                        android:layout_marginStart="@dimen/_15sdp"/>
+                        app:layout_constraintBottom_toBottomOf="@id/imgVirtualWitness"
+                        app:layout_constraintStart_toEndOf="@id/imgVirtualWitness"
+                        app:layout_constraintTop_toTopOf="@id/imgVirtualWitness" />
 
                     <View
+                        android:id="@+id/view6"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:id="@+id/view6"
-                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_20sdp"
-                        app:layout_constraintTop_toBottomOf="@id/imgVirtualWitness"
-                        android:background="@color/lightBlue"/>
+                        android:background="@color/lightBlue"
+                        app:layout_constraintTop_toBottomOf="@id/imgVirtualWitness" />
 
 
                     <ImageView
                         android:id="@+id/imgSpecialization"
                         android:layout_width="@dimen/_17sdp"
                         android:layout_height="@dimen/_17sdp"
-                        app:layout_constraintTop_toBottomOf="@id/view6"
-                        android:src="@drawable/ic_specialization"
-                        app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginStart="@dimen/_20sdp"
                         android:layout_marginTop="@dimen/_20sdp"
+                        android:src="@drawable/ic_specialization"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/view6"
                         app:tint="@color/blue" />
 
                     <TextView
                         android:id="@+id/tvSpecialization"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="@id/imgSpecialization"
-                        app:layout_constraintBottom_toBottomOf="@id/imgSpecialization"
-                        android:text="@string/specialization"
+                        android:layout_marginStart="@dimen/_15sdp"
                         android:fontFamily="@font/lora_semibold"
-                        android:textColor="@color/lightblack"
                         android:padding="@dimen/_10sdp"
-                        app:layout_constraintStart_toEndOf="@id/imgSpecialization"
+                        android:text="@string/specialization"
+                        android:textColor="@color/lightblack"
                         android:textSize="@dimen/_14ssp"
-                        android:layout_marginStart="@dimen/_15sdp"/>
+                        app:layout_constraintBottom_toBottomOf="@id/imgSpecialization"
+                        app:layout_constraintStart_toEndOf="@id/imgSpecialization"
+                        app:layout_constraintTop_toTopOf="@id/imgSpecialization" />
 
                     <View
+                        android:id="@+id/view7"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:id="@+id/view7"
-                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_20sdp"
-                        app:layout_constraintTop_toBottomOf="@id/imgSpecialization"
-                        android:background="@color/lightBlue"/>
+                        android:background="@color/lightBlue"
+                        app:layout_constraintTop_toBottomOf="@id/imgSpecialization" />
 
 
                     <ImageView
                         android:id="@+id/imgTerms"
                         android:layout_width="@dimen/_17sdp"
                         android:layout_height="@dimen/_17sdp"
-                        app:layout_constraintTop_toBottomOf="@id/view7"
-                        android:src="@drawable/ic_terms"
-                        app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginStart="@dimen/_20sdp"
                         android:layout_marginTop="@dimen/_20sdp"
+                        android:src="@drawable/ic_terms"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/view7"
                         app:tint="@color/blue" />
 
                     <TextView
                         android:id="@+id/tvTerms"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="@id/imgTerms"
-                        app:layout_constraintBottom_toBottomOf="@id/imgTerms"
-                        android:text="@string/terms_amp_conditions"
+                        android:layout_marginStart="@dimen/_15sdp"
                         android:fontFamily="@font/lora_semibold"
-                        android:textColor="@color/lightblack"
                         android:padding="@dimen/_10sdp"
-                        app:layout_constraintStart_toEndOf="@id/imgTerms"
+                        android:text="@string/terms_amp_conditions"
+                        android:textColor="@color/lightblack"
                         android:textSize="@dimen/_14ssp"
-                        android:layout_marginStart="@dimen/_15sdp"/>
+                        app:layout_constraintBottom_toBottomOf="@id/imgTerms"
+                        app:layout_constraintStart_toEndOf="@id/imgTerms"
+                        app:layout_constraintTop_toTopOf="@id/imgTerms" />
 
                     <View
+                        android:id="@+id/view8"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:id="@+id/view8"
-                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_20sdp"
-                        app:layout_constraintTop_toBottomOf="@id/imgTerms"
-                        android:background="@color/lightBlue"/>
+                        android:background="@color/lightBlue"
+                        app:layout_constraintTop_toBottomOf="@id/imgTerms" />
 
+
+                    <!--                    SubScription-->
+
+                    <ImageView
+                        android:id="@+id/imgSubscription2"
+                        android:layout_width="@dimen/_17sdp"
+                        android:layout_height="@dimen/_17sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:src="@drawable/ic_specialization"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/view8" />
+
+                    <TextView
+                        android:id="@+id/tvSubscription2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:fontFamily="@font/lora_semibold"
+                        android:padding="@dimen/_10sdp"
+                        android:text="Subscription"
+                        android:textColor="@color/lightblack"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintBottom_toBottomOf="@id/imgSubscription2"
+                        app:layout_constraintStart_toEndOf="@id/imgSubscription2"
+                        app:layout_constraintTop_toTopOf="@id/imgSubscription2" />
+
+                    <View
+                        android:id="@+id/viewSubscription2"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:background="@color/lightBlue"
+                        app:layout_constraintTop_toBottomOf="@id/imgSubscription2" />
+
+
+                    <!--                    Banneradds-->
+
+                    <ImageView
+                        android:id="@+id/imgBanneradds"
+                        android:layout_width="@dimen/_17sdp"
+                        android:layout_height="@dimen/_17sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:src="@drawable/ic_terms"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/viewSubscription2" />
+
+                    <TextView
+                        android:id="@+id/tvBanneradds"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:fontFamily="@font/lora_semibold"
+                        android:padding="@dimen/_10sdp"
+                        android:text="Banner Ads"
+                        android:textColor="@color/lightblack"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintBottom_toBottomOf="@id/imgBanneradds"
+                        app:layout_constraintStart_toEndOf="@id/imgBanneradds"
+                        app:layout_constraintTop_toTopOf="@id/imgBanneradds" />
+
+                    <View
+                        android:id="@+id/viewBanneradds"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:background="@color/lightBlue"
+                        app:layout_constraintTop_toBottomOf="@id/imgBanneradds" />
 
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnSignOut"
+                        style="@style/blue_btn"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_30sdp"
-                        android:text="@string/sign_out"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:iconGravity="textStart"
                         android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_30sdp"
                         android:layout_marginEnd="@dimen/_20sdp"
+                        android:text="@string/sign_out"
                         app:icon="@drawable/ic_signout"
-                        app:layout_constraintTop_toBottomOf="@id/view8"
-                        style="@style/blue_btn"/>
+                        app:iconGravity="textStart"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/imgBanneradds" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

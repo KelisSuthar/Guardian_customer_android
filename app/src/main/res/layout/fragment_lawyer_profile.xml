@@ -1,29 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="@dimen/_20sdp">
+        android:layout_height="wrap_content">
 
+        <include
+            android:id="@+id/noLawyerProfile"
+            layout="@layout/no_data_layout"
+            android:visibility="gone" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <include
+            android:id="@+id/noInternetLawyerProfile"
+            layout="@layout/no_internet_connection_layout"
+            android:visibility="gone" />
+
+        <ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/_20sdp">
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/conLawyer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingVertical="@dimen/_20sdp"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
                     android:id="@+id/lyLawyerProfilePicName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
+
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -151,10 +161,10 @@
                     style="@style/blue_btn"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_30sdp"
-                    android:layout_marginRight="@dimen/_150sdp"
                     android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_150sdp"
                     android:text="@string/see_legal_advice"
-                    app:layout_constraintTop_toBottomOf="@id/txtDescriptionInfo"/>
+                    app:layout_constraintTop_toBottomOf="@id/txtDescriptionInfo" />
 
                 <LinearLayout
                     android:id="@+id/lyLawyerContactIcon"
@@ -198,17 +208,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <include
-                android:id="@+id/noLawyerProfile"
-                layout="@layout/no_data_layout"
-                android:visibility="gone" />
-
-            <include
-                android:id="@+id/noInternetLawyerProfile"
-                layout="@layout/no_internet_connection_layout"
-                android:visibility="gone" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    </ScrollView>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

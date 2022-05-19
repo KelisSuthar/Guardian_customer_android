@@ -18,8 +18,11 @@ import android.view.ViewGroup.MarginLayoutParams
 import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
@@ -356,6 +359,38 @@ class ReusedMethod {
 
         }
 
+        fun showKnowRightDialog(context: Context,title: String?="",rightsection:String?="",location:String?="",desc:String?="") {
+            val dialog = Dialog(
+                context,
+                com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+            )
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            dialog.setContentView(R.layout.know_right_dialog)
+            dialog.setCancelable(false)
 
+            val ivClose = dialog.findViewById<ImageView>(R.id.ivClose)
+            val btnClose = dialog.findViewById<Button>(R.id.btnClose)
+            val txtRightName = dialog.findViewById<AppCompatTextView>(R.id.txtRightName)
+            val txtRightSections = dialog.findViewById<AppCompatTextView>(R.id.txtRightSections)
+            val txtLcation = dialog.findViewById<AppCompatTextView>(R.id.txtLcation)
+            val txtDesc = dialog.findViewById<AppCompatTextView>(R.id.txtDesc)
+
+            txtRightName.text = title
+            txtRightSections.text = rightsection
+            txtLcation.text = location
+            txtDesc.text = desc
+
+            ivClose.setOnClickListener {
+                dialog.dismiss()
+            }
+            btnClose.setOnClickListener {
+                dialog.dismiss()
+            }
+
+
+
+            dialog.show()
+        }
     }
 }

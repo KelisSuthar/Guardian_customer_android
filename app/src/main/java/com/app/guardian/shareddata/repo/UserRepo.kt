@@ -15,6 +15,7 @@ import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
 import com.app.guardian.shareddata.BaseView
 import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.shareddata.base.BaseFragment
 import com.google.gson.JsonObject
 import java.net.IDN
 
@@ -110,6 +111,27 @@ interface UserRepo {
         baseView: BaseActivity,
         seekLegalAdvice: MutableLiveData<RequestState<MutableList<SeekLegalAdviceResp>>>,
         idn: Int
+    )
+
+    fun deleteSeekLegalAdvice(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<CommonResponse>>,
+        idn: Int
+    )
+
+    fun addSeekLegalAdvice(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<CommonResponse>>
+    )
+
+    fun updateSeekLegalAdvice(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<CommonResponse>>
     )
 
 }

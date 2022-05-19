@@ -230,4 +230,10 @@ interface ValidationView {
         fun success()
 
     }
+
+    interface AddSeekLegalAdvice {
+        fun emptyTitle()
+        fun emptyTDesc()
+        fun success()
+    }
 }

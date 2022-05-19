@@ -21,6 +21,7 @@ import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
 import com.app.guardian.ui.forgot.ForgotPasswordActivity
 import com.app.guardian.ui.signup.SignupScreen
 import com.app.guardian.utils.Config
+import com.google.gson.Gson
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -77,7 +78,9 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                         if (it.status) {
                             SharedPreferenceManager.putString(AppConstants.BEREAR_TOKEN, data.token)
                             SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
-
+                            val gson = Gson()
+                            val json = gson.toJson(data)
+                            SharedPreferenceManager.putString(AppConstants.USER_DETAIL_LOGIN, json)
                             when {
                                 SharedPreferenceManager.getString(
                                     AppConstants.USER_ROLE,

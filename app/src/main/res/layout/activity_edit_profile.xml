@@ -117,6 +117,7 @@
                         app:ccp_dialogTextColor="@color/darkBlue"
                         app:ccp_hideNameCode="true"
                         app:ccp_hidePhoneCode="false"
+                        android:gravity="center"
                         app:ccp_keyboardAutoPopOnSearch="false"
                         app:ccp_setCountryByTimeZone="true"
                         app:ccp_showFlag="false"

@@ -30,6 +30,9 @@ class ApiConstant{
      val EXTRAS_LICENCE_NO="licence_no"
      val EXTRAS_OFFICE_DIAL_CODE="office_dialing_code"
      val EXTRAS_DIAL_CODE="dialing_code"
+     val EXTRAS_TITLE="title"
+     val EXTRAS_SEEK_LEGAL_ADV="seek_legal_advice_id"
+
 
 
      val EXTRAS_REFERAL_CODE="referral_by"

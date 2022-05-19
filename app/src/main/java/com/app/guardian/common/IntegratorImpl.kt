@@ -139,6 +139,20 @@ object IntegratorImpl {
         }
     }
 
+    fun isValidAddSeekAdv(
+        title: String,
+        desc: String,
+        validationView: ValidationView.AddSeekLegalAdvice,
+    ) {
+        if (TextUtils.isEmpty(title)) {
+            validationView.emptyTitle()
+        } else if (TextUtils.isEmpty(desc)) {
+            validationView.emptyTDesc()
+        } else {
+            validationView.success()
+        }
+    }
+
     fun isValidCreateProfile(
         fullName: String,
         phNumber: String,

@@ -222,13 +222,16 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
         baseView: BaseActivity,
         lawyerResp: MutableLiveData<RequestState<MutableList<LawyerListResp>>>
     ) {
-        if (!internetConnected){
-            lawyerResp.value = RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR,null))
+        if (!internetConnected) {
+            lawyerResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
         } else {
             lawyerResp.value = RequestState(progress = true)
-            NetworkManager.requestData(mApiEndPoint.getLawyerList(),
-            baseView,
-            lawyerResp)
+            NetworkManager.requestData(
+                mApiEndPoint.getLawyerList(),
+                baseView,
+                lawyerResp
+            )
         }
     }
 
@@ -238,13 +241,16 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
         lawyerProfileDetails: MutableLiveData<RequestState<LawyerProfileDetailsResp>>,
         idn: Int
     ) {
-        if (!isInternetConnected){
-            lawyerProfileDetails.value = RequestState(progress =  false, error = ApiError(Config.NETWORK_ERROR,null))
-        } else{
+        if (!isInternetConnected) {
+            lawyerProfileDetails.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
             lawyerProfileDetails.value = RequestState(progress = true)
-            NetworkManager.requestData(mApiEndPoint.getLawyerProfileDetails(idn),
-            baseView,
-            lawyerProfileDetails)
+            NetworkManager.requestData(
+                mApiEndPoint.getLawyerProfileDetails(idn),
+                baseView,
+                lawyerProfileDetails
+            )
         }
     }
 
@@ -254,13 +260,73 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
         seekLegalAdvice: MutableLiveData<RequestState<MutableList<SeekLegalAdviceResp>>>,
         idn: Int
     ) {
-        if (!isInternetConnected){
-            seekLegalAdvice.value = RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR,null))
-        } else{
+        if (!isInternetConnected) {
+            seekLegalAdvice.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
             seekLegalAdvice.value = RequestState(progress = true)
-            NetworkManager.requestData(mApiEndPoint.getSeekLegalAdvice(idn),
-            baseView,
-            seekLegalAdvice)
+            NetworkManager.requestData(
+                mApiEndPoint.getSeekLegalAdvice(idn),
+                baseView,
+                seekLegalAdvice
+            )
+        }
+    }
+
+    override fun deleteSeekLegalAdvice(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<CommonResponse>>,
+        idn: Int
+    ) {
+        if (!isInternetConnected) {
+            commonResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            commonResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.deleteSeekLegalAdvice(idn),
+                baseView,
+                commonResp
+            )
+        }
+    }
+
+    override fun addSeekLegalAdvice(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<CommonResponse>>
+    ) {
+        if (!internetConnected) {
+            commonResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            commonResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.addSeekLegalAdvice(body),
+                baseView,
+                commonResp
+            )
+        }
+    }
+
+    override fun updateSeekLegalAdvice(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<CommonResponse>>
+    ) {
+        if (!internetConnected) {
+            commonResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            commonResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.updateSeekLegalAdvice(body),
+                baseView,
+                commonResp
+            )
         }
     }
 }

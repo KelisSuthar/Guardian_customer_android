@@ -69,6 +69,10 @@
 
     <!-- TODO: Validation Message  -->
 
+<!--    Add Seek Legal Advice-->
+    <string name="empty_title">Please Enter Title.</string>
+    <string name="empty_desc">Please Enter Description.</string>
+
     <!--    RoleSelector Screen-->
     <string name="empty_role">Please Select Role</string>
 

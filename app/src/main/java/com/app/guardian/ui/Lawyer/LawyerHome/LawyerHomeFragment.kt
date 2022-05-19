@@ -11,6 +11,7 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
+import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
@@ -21,6 +22,9 @@ import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.BannerAds.BannerAdsPager
+import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.LawyerList.LawyerListFragment
+import com.app.guardian.ui.SeekLegalAdvice.SeekLegalAdviceListFragment
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -139,6 +143,13 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.cvSeekAdv -> {
                 chnagelayout(3)
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    SeekLegalAdviceListFragment(true,SharedPreferenceManager.getUser()!!.user.id!!),
+                    false,
+                    "",
+                    HomeActivity::class.java.name
+                )
             }
             R.id.btnKnowRights -> {
                 chnagelayout(1)
@@ -147,6 +158,13 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                 chnagelayout(2)
             }
             R.id.btnSeekAdv -> {
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    SeekLegalAdviceListFragment(true,SharedPreferenceManager.getUser()!!.user.id!!),
+                    false,
+                    "",
+                    HomeActivity::class.java.name
+                )
                 chnagelayout(3)
             }
         }
@@ -216,7 +234,12 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                 mBinding.btnAskQuestions.isChecked = true
                 mBinding.btnSeekAdv.isChecked = false
                 mBinding.btnKnowRights.buttonTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark))
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorPrimaryDark
+                        )
+                    )
                 mBinding.btnAskQuestions.buttonTintList =
                     ColorStateList.valueOf(
                         ContextCompat.getColor(
@@ -255,7 +278,12 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                 mBinding.btnAskQuestions.isChecked = false
                 mBinding.btnSeekAdv.isChecked = true
                 mBinding.btnKnowRights.buttonTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark))
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorPrimaryDark
+                        )
+                    )
                 mBinding.btnAskQuestions.buttonTintList =
                     ColorStateList.valueOf(
                         ContextCompat.getColor(

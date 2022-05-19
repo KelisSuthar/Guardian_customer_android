@@ -67,5 +67,14 @@ interface ApiEndPoint {
     @GET("lawyerSeekLegalAdviceList/{id}")
     fun getSeekLegalAdvice(@Path("id") id: Int): Call<CommonResponseModel<MutableList<SeekLegalAdviceResp>>>
 
+    @POST("addSeekLegalAdvice")
+    fun addSeekLegalAdvice(@Body body: JsonObject): Call<CommonResponseModel<CommonResponse>>
+
+    @PUT("updateSeekLegalAdvice")
+    fun updateSeekLegalAdvice(@Body body: JsonObject): Call<CommonResponseModel<CommonResponse>>
+
+    @DELETE("deleteSeekLegalAdvice/{id}")
+    fun deleteSeekLegalAdvice(@Path("id") id: Int): Call<CommonResponseModel<CommonResponse>>
+
 
 }

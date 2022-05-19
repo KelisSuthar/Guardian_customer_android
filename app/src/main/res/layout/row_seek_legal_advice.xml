@@ -1,93 +1,94 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools">-->
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cvRowSupportGroup"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_marginTop="@dimen/_10sdp"
+    app:cardCornerRadius="@dimen/_10sdp"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cvRowSupportGroup"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rlRowKnowRight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:cardCornerRadius="@dimen/_10sdp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@color/lightBlue_2"
+        android:paddingVertical="@dimen/_10sdp">
+
+        <TextView
+            android:id="@+id/rbRowKnowRight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:fontFamily="@font/lora_semibold"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp"
+            android:text="Traffic Rules"
+            android:textColor="@color/txt_dark"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintEnd_toStartOf="@id/conIcons"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/rlRowKnowRight"
-            android:layout_width="match_parent"
+            android:id="@+id/conIcons"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/lightBlue_2"
-            android:paddingVertical="@dimen/_10sdp">
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/rbRowKnowRight"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/rbRowKnowRight"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_20sdp"
+            <LinearLayout
+                android:id="@+id/liEdit"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:background="@drawable/rounded_blue_back"
+                android:gravity="center"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:fontFamily="@font/lora_semibold"
-                android:paddingTop="@dimen/_10sdp"
-                app:layout_constraintEnd_toStartOf="@id/conIcons"
-                android:paddingBottom="@dimen/_10sdp"
-                android:text="Traffic Rules"
-                android:textColor="@color/txt_dark"
-                android:textSize="@dimen/_10ssp" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/conIcons"
-                android:layout_width="wrap_content"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/rbRowKnowRight">
+                <ImageView
+                    android:id="@+id/imgEdit"
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_10sdp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_edit" />
 
-                <LinearLayout
-                    android:id="@+id/liEdit"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:gravity="center"
-                    android:background="@drawable/rounded_blue_back"
-                    android:layout_marginStart="@dimen/_10sdp">
+            </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="@dimen/_10sdp"
-                        android:layout_height="@dimen/_10sdp"
-                        android:id="@+id/imgEdit"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_edit"/>
+            <LinearLayout
+                android:id="@+id/lldelete"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:background="@drawable/rounded_blue_back"
+                android:gravity="center"
+                app:layout_constraintStart_toEndOf="@id/liEdit"
+                app:layout_constraintTop_toTopOf="parent">
 
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    app:layout_constraintStart_toEndOf="@id/liEdit"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:gravity="center"
-                    android:background="@drawable/rounded_blue_back"
-                    android:layout_marginStart="@dimen/_10sdp">
+                <ImageView
+                    android:id="@+id/imgDelete"
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_10sdp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_delete" />
 
-                    <ImageView
-                        android:layout_width="@dimen/_10sdp"
-                        android:layout_height="@dimen/_10sdp"
-                        android:id="@+id/imgDelete"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_delete"/>
-
-                </LinearLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>

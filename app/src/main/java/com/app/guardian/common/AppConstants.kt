@@ -27,6 +27,7 @@ object AppConstants {
     const val USER_ROLE = "USER_ROLE"
     const val IS_SUBSCRIBE = "IS_SUBSCRIBE"
     const val IS_LOGIN = "IS_LOGIN"
+    const val IS_EDIT = "IS_EDIT"
     const val IS_WALKTHROUGH_VIEWED = "IS_WALKTHROUGH_VIEWED"
     const val USER_DETAIL_LOGIN = "USER_DETAIL_LOGIN"
     const val EXTRA_PARAM_PAGE_POSITION = "EXTRA_PARAM_PAGE_POSITION"
