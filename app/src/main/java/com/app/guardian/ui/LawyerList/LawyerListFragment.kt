@@ -13,6 +13,7 @@ import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
 import com.app.guardian.ui.LawyerList.LawyerListFragment.Companion.newInstance
 import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
@@ -34,6 +35,9 @@ class LawyerListFragment : BaseFragment() {
 
     override fun initView() {
         mBinding = getBinding()
+        (activity as HomeActivity).bottomTabVisibility(true)
+        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.lawyer_list),true,true)
+
     }
 
     private fun setAdapter() {

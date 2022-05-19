@@ -4,11 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/toast_rounded.xml" value="0.2135" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.234375" />
         <entry key="app/src/main/res/layout/fragment_lawyer_home.xml" value="0.2359375" />
         <entry key="app/src/main/res/layout/fragment_lawyer_list.xml" value="0.2359375" />
+        <entry key="app/src/main/res/layout/fragment_lawyer_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_mediator_home.xml" value="0.2359375" />
+        <entry key="app/src/main/res/layout/fragment_seek_legal_advice_list.xml" value="0.234375" />
         <entry key="app/src/main/res/layout/fragment_user_home.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/headder_layout.xml" value="0.234375" />
         <entry key="app/src/main/res/layout/layout_search_filter.xml" value="0.2359375" />
+        <entry key="app/src/main/res/layout/no_data_layout.xml" value="0.234375" />
         <entry key="app/src/main/res/layout/progress_dialog.xml" value="0.3802083333333333" />
         <entry key="app/src/main/res/layout/toast_hint_layout.xml" value="0.36614583333333334" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2135" />

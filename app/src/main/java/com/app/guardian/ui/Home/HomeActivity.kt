@@ -50,9 +50,12 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
 //        navView.itemIconTintList = null
 //        NavigationUI.setupWithNavController(navView, navController!!)
 
-
+        mBinding.headerToolbar.ivBack.setOnClickListener()
+        {
+            onBackPressed()
+        }
         //bottom navigation click listener
-
+        bottomTabVisibility(true)
         loadHomeScreen()
     }
 
@@ -101,7 +104,9 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
 
     fun headerTextVisible(headerTitle : String, isHeaderVisible : Boolean, isBackButtonVisible : Boolean){
         if(isHeaderVisible){
-            mBinding.headerToolbar.tvHeaderText.text = resources.getString(R.string.select_user_role)
+            mBinding.headerToolbar.clHeadder.visible()
+
+            mBinding.headerToolbar.tvHeaderText.text =headerTitle
 
             if(isBackButtonVisible)
             mBinding.headerToolbar.ivBack.visible()
@@ -112,6 +117,15 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
             mBinding.headerToolbar.clHeadder.gone()
         }
 
+    }
+
+    fun bottomTabVisibility(isBottomVisible: Boolean){
+        if(isBottomVisible){
+            mBinding.bottomNavigationUser.visible()
+        }
+        else{
+            mBinding.bottomNavigationUser.gone()
+        }
     }
 
     override fun onClick(v: View?) {

@@ -17,6 +17,7 @@ import com.app.guardian.model.viewModels.LawyerViewModel
 import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
+import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.SeekLegalAdvice.AddEditSeekLegalAdv.AddSeekLegalAdvice
 import com.app.guardian.ui.SeekLegalAdvice.adapter.SeekLegalAdviceAdapter
@@ -45,6 +46,9 @@ class SeekLegalAdviceListFragment(is_icon_show:Boolean,seekLegalIdParams: Int) :
 //        arguments?.let {
 //            seekLegalId = it.getInt("SeekID")
 //        }
+        (activity as HomeActivity).bottomTabVisibility(false)
+        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.seek_legal_advice),true,true)
+
     }
 
     private fun setAdapter() {
