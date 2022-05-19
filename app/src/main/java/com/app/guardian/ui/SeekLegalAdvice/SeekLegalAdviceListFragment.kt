@@ -40,7 +40,6 @@ class SeekLegalAdviceListFragment(is_icon_show:Boolean,seekLegalIdParams: Int) :
         return R.layout.fragment_seek_legal_advice_list
     }
 
-
     override fun initView() {
         mBinding = getBinding()
 //        arguments?.let {
