@@ -44,6 +44,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
+                    android:id="@+id/txtName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lora_semibold"
@@ -55,6 +56,7 @@
                     android:paddingLeft="@dimen/_8sdp"/>
 
                 <TextView
+                    android:id="@+id/txtExp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lora_regular"
@@ -65,6 +67,7 @@
                     android:textColor="@color/txt_dark"
                     android:textSize="@dimen/_10ssp" />
                 <TextView
+                    android:id="@+id/txtDateTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lora_regular"
@@ -129,6 +132,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/txtSpecialization"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lora_regular"

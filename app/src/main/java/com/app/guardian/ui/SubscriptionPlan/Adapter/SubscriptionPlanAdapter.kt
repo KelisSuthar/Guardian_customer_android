@@ -57,7 +57,7 @@ class SubscriptionPlanAdapter(
             }
             txtTitle!!.text = array.plan_duration
             txtPlanType!!.text = array.plan_type
-            txtPlanPrice!!.text = array.pricing
+            txtPlanPrice!!.text = "$"+array.pricing+"/"+array.plan_duration
             txtIntroOffer!!.text = array.offer_detail
             txtFeature!!.text = array.features
             rv?.adapter = null

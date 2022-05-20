@@ -6,6 +6,7 @@ data class SubscriptionPlanResp(
     val features: String?="",
     val id: Int?=0,
     val offer_detail: String?="",
+    val duration_type: String?="",
     val plan_duration: String?="",
     val plan_type: String?="",
     val pricing: String?="",
