@@ -448,6 +448,8 @@ class ReusedMethod {
 
 
 
+
+
         }
 
         fun autocomplete(
@@ -458,7 +460,7 @@ class ReusedMethod {
               val autocompleteClickListener =
                 AdapterView.OnItemClickListener { adapterView, view, i, l ->
                     try {
-                        val item: AutocompletePrediction? = adapter!!.getItem(i)
+                        val item: AutocompletePrediction? = adapter!!.getItem(0)
                         var placeID: String? = null
                         if (item != null) {
                             placeID = item.placeId
