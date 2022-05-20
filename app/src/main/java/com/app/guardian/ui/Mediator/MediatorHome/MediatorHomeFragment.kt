@@ -75,6 +75,10 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding.noInternetUserHomeFrag.llNointernet.gone()
         mBinding.noDataUserHomeFrag.gone()
         mBinding.cl.visible()
+
+        chnagelayout(0)
+
+
     }
 
     override fun postInit() {
@@ -147,6 +151,7 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.rbDialLawyer -> {
                 chnagelayout(2)
+                mBinding.cvDialLawyer.performClick()
             }
 
         }
@@ -204,6 +209,33 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.white
+                        )
+                    )
+            }
+            0->{
+                mBinding.rlKnowBasicRight.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+
+                mBinding.rlDialLawyer.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+                mBinding.rbKnowBasicRight.isChecked = false
+                mBinding.rbDialLawyer.isChecked = false
+                mBinding.rbKnowBasicRight.buttonTintList =
+                    ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark))
+
+                mBinding.rbDialLawyer.buttonTintList =
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorPrimaryDark
                         )
                     )
             }
