@@ -14,6 +14,7 @@ import com.app.guardian.databinding.FragmentLawyerProfileBinding
 import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
+import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.SeekLegalAdvice.SeekLegalAdviceListFragment
 import com.app.guardian.utils.Config
@@ -36,6 +37,8 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
     override fun initView() {
         mBinding = getBinding()
 
+        (activity as HomeActivity).bottomTabVisibility(false)
+        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.lawyer_profile),true,true)
 
         arguments?.let {
             selectedLawyerListId = it.getInt("LawyerId")
