@@ -59,7 +59,8 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         mBinding.ns.visible()
         setAdaper()
         callGetuserDetailsApi()
-        mBinding.ccp.setCountryForPhoneCode(1)
+        mBinding.ccp1.setCountryForPhoneCode(1)
+        mBinding.ccp2.setCountryForPhoneCode(1)
         locationManager = getSystemService(
             Context.LOCATION_SERVICE
         ) as LocationManager
@@ -82,35 +83,35 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             AppConstants.EXTRA_WRITE_PERMISSION,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
-//        when {
-//            SharedPreferenceManager.getString(
-//                AppConstants.USER_ROLE,
-//                AppConstants.APP_ROLE_USER
-//            ) == AppConstants.APP_ROLE_USER -> {
-//                is_user = true
-//
-//            }
-//            SharedPreferenceManager.getString(
-//                AppConstants.USER_ROLE,
-//                AppConstants.APP_ROLE_USER
-//            ) == AppConstants.APP_ROLE_LAWYER -> {
-//                is_lawyer = true
-//                mBinding.edtSpecializations.visible()
-//                mBinding.fmOficeNum.visible()
-//                mBinding.edtYearsOfExp.visible()
-//                mBinding.edtVehicalNum.gone()
-//            }
-//            SharedPreferenceManager.getString(
-//                AppConstants.USER_ROLE,
-//                AppConstants.APP_ROLE_USER
-//            ) == AppConstants.APP_ROLE_MEDIATOR -> {
-//                is_mediator = true
-//                mBinding.edtSpecializations.visible()
-//                mBinding.edtYearsOfExp.visible()
-//                mBinding.edtVehicalNum.gone()
-//            }
-//        }
-//        //Check ROle
+        when {
+            SharedPreferenceManager.getString(
+                AppConstants.USER_ROLE,
+                AppConstants.APP_ROLE_USER
+            ) == AppConstants.APP_ROLE_USER -> {
+                is_user = true
+
+            }
+            SharedPreferenceManager.getString(
+                AppConstants.USER_ROLE,
+                AppConstants.APP_ROLE_USER
+            ) == AppConstants.APP_ROLE_LAWYER -> {
+                is_lawyer = true
+                mBinding.edtSpecializations.visible()
+                mBinding.clayout1.visible()
+                mBinding.edtYearsOfExp.visible()
+                mBinding.edtVehicalNum.gone()
+            }
+            SharedPreferenceManager.getString(
+                AppConstants.USER_ROLE,
+                AppConstants.APP_ROLE_USER
+            ) == AppConstants.APP_ROLE_MEDIATOR -> {
+                is_mediator = true
+                mBinding.edtSpecializations.visible()
+                mBinding.edtYearsOfExp.visible()
+                mBinding.edtVehicalNum.gone()
+            }
+        }
+        //Check ROle
     }
 
     private fun callGetuserDetailsApi() {
@@ -217,6 +218,11 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
     private fun setApiData(data: UserDetailsResp) {
         mBinding.edtFullname.setText(data.full_name)
         mBinding.edtEmail.setText(data.email)
+        mBinding.edtSpecializations.setText(data.specialization)
+        mBinding.edtYearsOfExp.setText(data.years_of_experience)
+        mBinding.edtOfficeNum.setText(data.office_phone)
+        mBinding.ccp1.setCountryForPhoneCode(data.office_dialing_code!!.toInt())
+        mBinding.ccp2.setCountryForPhoneCode(data.dialing_code!!.toInt())
         mBinding.edtPhone.setText(data.phone)
         mBinding.edtProvience.setText(data.state)
         mBinding.edtPostalCode.setText(data.postal_code)
@@ -225,6 +231,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         if(data.profile_avatar != "null"|| data.profile_avatar!!.isNotEmpty()){
             profile_img = data.profile_avatar.toString()
             mBinding.ivProfileImg.loadImage(data.profile_avatar)
+//            mBinding.ivProfileImg.loadImage("https://wallpaperaccess.com/full/251618.jpg")
         }
 
 
@@ -299,7 +306,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             is_lawyer, is_mediator,
             profile_img, mBinding.edtFullname.text?.trim().toString(),
 
-            mBinding.ccp.selectedCountryCode.toString() + mBinding.edtPhone.text?.trim()
+            mBinding.ccp1.selectedCountryCode.toString() + mBinding.edtPhone.text?.trim()
                 .toString(),
             mBinding.edtProvience.text?.trim().toString(),
             mBinding.edtPostalCode.text?.trim().toString(),

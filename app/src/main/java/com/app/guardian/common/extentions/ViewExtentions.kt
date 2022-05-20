@@ -48,7 +48,7 @@ fun ImageView.loadImage(
     url: String?,
     height: Int? = null,
     width: Int? = null,
-    default: Int = R.mipmap.ic_launcher,
+    default: Int = R.mipmap.ic_launcher_foreground,
     isCircle: Boolean = false
 ) {
     val requestOption: RequestOptions = RequestOptions()

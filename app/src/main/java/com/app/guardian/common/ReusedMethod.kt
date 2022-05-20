@@ -5,12 +5,15 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.View.OnFocusChangeListener
@@ -18,21 +21,24 @@ import android.view.ViewGroup.MarginLayoutParams
 import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
-import com.app.guardian.databinding.PhoneEmailSelectorBinding
+import com.app.guardian.ui.AutoCompleteAdapter
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.AutocompletePrediction
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.FetchPlaceRequest
+import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.rilixtech.widget.countrycodepicker.CountryCodePicker
+import java.util.*
 
 
 class ReusedMethod {
@@ -346,20 +352,26 @@ class ReusedMethod {
             )
             editText.setText("")
             editText.hint = context.resources.getString(R.string.email)
-                editText.inputType =
-                    InputType.TYPE_CLASS_NUMBER
-                editText.hint = context.resources.getString(R.string.phone)
-                ccp.visible()
-                editText.setCompoundDrawablesWithIntrinsicBounds(
-                    0,
-                    0,
-                    0,
-                    0
-                )
+            editText.inputType =
+                InputType.TYPE_CLASS_NUMBER
+            editText.hint = context.resources.getString(R.string.phone)
+            ccp.visible()
+            editText.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                0,
+                0
+            )
 
         }
 
-        fun showKnowRightDialog(context: Context,title: String?="",rightsection:String?="",location:String?="",desc:String?="") {
+        fun showKnowRightDialog(
+            context: Context,
+            title: String? = "",
+            rightsection: String? = "",
+            location: String? = "",
+            desc: String? = ""
+        ) {
             val dialog = Dialog(
                 context,
                 com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
@@ -392,5 +404,96 @@ class ReusedMethod {
 
             dialog.show()
         }
+
+        fun getAddress(context: Context, MyLat: Double, MyLong: Double): List<Address> {
+            val geocoder = Geocoder(context, Locale.getDefault())
+            val addresses: List<Address> = geocoder.getFromLocation(MyLat, MyLong, 100)
+            Log.i("THIS_APP", "ADMIN AREA::::::"+addresses[0].adminArea)
+            Log.i("THIS_APP", "COUNTRY CODE::::::"+addresses[0].countryCode)
+            Log.i("THIS_APP", "COUNTRY NAME::::::"+addresses[0].countryName)
+            Log.i("THIS_APP", "FEATURE NAME::::::"+addresses[0].featureName)
+            Log.i("THIS_APP", "LOCALITY::::::"+addresses[0].locality)
+            Log.i("THIS_APP", "LOCALE::::::"+addresses[0].locale.toString())
+            Log.i("THIS_APP", "POSTAL CODE::::::"+addresses[0].postalCode)
+            return addresses
+        }
+
+
+         fun initializeAutocompleteTextView(
+             context: Context,
+             edtLoginEmail: AutoCompleteTextView,
+             ) {
+
+             var adapter: AutoCompleteAdapter? = null
+             var responseView: TextView? = null
+             var placesClient: PlacesClient? = null
+
+            val apiKey = context.getString(R.string.map_api_key)
+            if (apiKey.isEmpty()) {
+                responseView!!.text = "error"
+                return
+            }
+
+            if (!Places.isInitialized()) {
+                Places.initialize(context, apiKey)
+            }
+
+            placesClient = Places.createClient(context)
+
+             edtLoginEmail.threshold = 1
+
+             edtLoginEmail.onItemClickListener = autocomplete(adapter,responseView,placesClient)
+            adapter = AutoCompleteAdapter(context   , placesClient)
+             edtLoginEmail.setAdapter(adapter)
+
+
+
+        }
+
+        fun autocomplete(
+            adapter: AutoCompleteAdapter?,
+            responseView: TextView?,
+            placesClient: PlacesClient
+        ): AdapterView.OnItemClickListener {
+              val autocompleteClickListener =
+                AdapterView.OnItemClickListener { adapterView, view, i, l ->
+                    try {
+                        val item: AutocompletePrediction? = adapter!!.getItem(i)
+                        var placeID: String? = null
+                        if (item != null) {
+                            placeID = item.placeId
+                        }
+                        val placeFields: List<Place.Field> =
+                            listOf(
+                                Place.Field.ID,
+                                Place.Field.NAME,
+                                Place.Field.ADDRESS,
+                                Place.Field.LAT_LNG,
+
+                                )
+                        var request: FetchPlaceRequest? = null
+                        if (placeID != null) {
+                            request = FetchPlaceRequest.builder(placeID, placeFields).build()
+                        }
+                        if (request != null) {
+                            placesClient!!.fetchPlace(request)
+                                .addOnSuccessListener { task ->
+                                    responseView!!.text =
+                                        """${task.place.name}""".trimIndent() + task.place.address
+                                }.addOnFailureListener { e ->
+                                    e.printStackTrace()
+                                    responseView!!.text = e.message
+                                }
+                        }
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            return autocompleteClickListener
+        }
+
     }
+
+
 }

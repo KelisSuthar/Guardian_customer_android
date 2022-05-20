@@ -96,18 +96,102 @@
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintTop_toBottomOf="@id/edtFullname" />
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtSpecializations"
+                    style="@style/White_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:drawableLeft="@drawable/ic_specialization"
+                    app:layout_constraintTop_toBottomOf="@+id/edtEmail"
+                    android:fontFamily="@font/lora_regular"
+                    android:hint="@string/specialization"
+                    android:inputType="textEmailAddress"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_12ssp"
+                    android:visibility="gone"
+                     />
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtYearsOfExp"
+                    style="@style/White_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:drawableLeft="@drawable/ic_years_exp"
+                    android:fontFamily="@font/lora_regular"
+                    android:hint="@string/years_exp"
+                    app:layout_constraintTop_toBottomOf="@+id/edtSpecializations"
+                    android:inputType="number"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_12ssp"
+                    android:visibility="gone" />
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clayout1"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@drawable/normal_rounded_light_blue"
-                    app:layout_constraintTop_toBottomOf="@id/edtEmail"
+                    app:layout_constraintTop_toBottomOf="@id/edtYearsOfExp"
+                    android:visibility="gone"
                     >
 
                     <com.rilixtech.widget.countrycodepicker.CountryCodePicker
-                        android:id="@+id/ccp"
+                        android:id="@+id/ccp1"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/left_corners_blue_back"
+                        android:padding="@dimen/_10sdp"
+                        android:paddingVertical="@dimen/_10sdp"
+                        app:ccp_defaultCode="1"
+                        app:ccp_dialogTextColor="@color/darkBlue"
+                        app:ccp_hideNameCode="true"
+                        app:ccp_hidePhoneCode="false"
+                        android:gravity="center"
+                        app:ccp_keyboardAutoPopOnSearch="false"
+                        app:ccp_setCountryByTimeZone="true"
+                        app:ccp_showFlag="false"
+                        app:ccp_showFullName="false"
+                        app:ccp_textColor="@color/white"
+                        app:ccp_textSize="@dimen/_9ssp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtOfficeNum"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorTransparent"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:fontFamily="@font/lora_regular"
+                        android:hint="@string/office_num"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:padding="@dimen/_10sdp"
+                        android:paddingHorizontal="@dimen/_10sdp"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textFontWeight="400"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintLeft_toRightOf="@+id/ccp1"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/normal_rounded_light_blue"
+                    app:layout_constraintTop_toBottomOf="@id/clayout1"
+                    >
+
+                    <com.rilixtech.widget.countrycodepicker.CountryCodePicker
+                        android:id="@+id/ccp2"
                         android:layout_width="@dimen/_40sdp"
                         android:layout_height="match_parent"
                         android:background="@drawable/left_corners_blue_back"
@@ -146,11 +230,12 @@
                         android:textColorHint="@color/black"
                         android:textFontWeight="400"
                         android:textSize="@dimen/_12ssp"
-                        app:layout_constraintLeft_toRightOf="@+id/ccp"
+                        app:layout_constraintLeft_toRightOf="@+id/ccp2"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtProvience"
@@ -164,7 +249,7 @@
                     android:inputType="text"
                     android:textFontWeight="400"
                     android:textSize="@dimen/_12ssp"
-                    app:layout_constraintTop_toBottomOf="@id/clayout1" />
+                    app:layout_constraintTop_toBottomOf="@id/clayout2" />
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtPostalCode"

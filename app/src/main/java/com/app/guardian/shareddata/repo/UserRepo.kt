@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
+import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
 import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.LawyerProfileDetails.LawyerProfileDetailsResp
 import com.app.guardian.model.Login.LoginResp
@@ -132,6 +133,11 @@ interface UserRepo {
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<CommonResponse>>
+    )fun getKnowYourRights(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<KnowYourRightsResp>>>
     )
 
 }

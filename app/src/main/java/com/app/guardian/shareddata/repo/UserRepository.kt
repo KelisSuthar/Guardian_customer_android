@@ -5,6 +5,7 @@ import com.app.guardian.model.ApiError
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
+import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
 import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.LawyerProfileDetails.LawyerProfileDetailsResp
 import com.app.guardian.model.Login.LoginResp
@@ -324,6 +325,25 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
             commonResp.value = RequestState(progress = true)
             NetworkManager.requestData(
                 mApiEndPoint.updateSeekLegalAdvice(body),
+                baseView,
+                commonResp
+            )
+        }
+    }
+
+    override fun getKnowYourRights(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<KnowYourRightsResp>>>
+    ) {
+        if (!internetConnected) {
+            commonResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            commonResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.getKnowYourRights(body),
                 baseView,
                 commonResp
             )

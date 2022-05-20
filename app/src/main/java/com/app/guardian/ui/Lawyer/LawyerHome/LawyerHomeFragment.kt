@@ -23,6 +23,7 @@ import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.BannerAds.BannerAdsPager
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.KnowRight.KnowRightFragment
 import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.SeekLegalAdvice.SeekLegalAdviceListFragment
 import com.app.guardian.utils.Config
@@ -137,6 +138,13 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
         when (v?.id) {
             R.id.cvKnowRights -> {
                 chnagelayout(1)
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    KnowRightFragment(),
+                    false,
+                    "",
+                    HomeActivity::class.java.name
+                )
             }
             R.id.cvAskQuestion -> {
                 chnagelayout(2)
@@ -153,6 +161,13 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.btnKnowRights -> {
                 chnagelayout(1)
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    KnowRightFragment(),
+                    false,
+                    "",
+                    HomeActivity::class.java.name
+                )
             }
             R.id.btnAskQuestions -> {
                 chnagelayout(2)

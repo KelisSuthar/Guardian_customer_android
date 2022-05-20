@@ -18,7 +18,9 @@ import com.app.guardian.databinding.ActivityLoginBinding
 import com.app.guardian.databinding.FragmentSettingsBinding
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.termsandcondtions.TermAndConditionsActivity
+import com.app.guardian.ui.BannerAds.BannerAdsPager
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.Lawyer.AddBaner.AddBannerFragment
 import com.app.guardian.ui.Lawyer.LawyerHome.LawyerHomeFragment
 import com.app.guardian.ui.Mediator.MediatorHome.MediatorHomeFragment
 import com.app.guardian.ui.ResetPassword.ResetPasswordActivity
@@ -114,6 +116,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         mBinding.btnEditProfile.setOnClickListener(this)
         mBinding.btnSignOut.setOnClickListener(this)
         mBinding.headderSettitng.ivBack.setOnClickListener(this)
+        mBinding.tvBanneradds.setOnClickListener(this)
     }
 
     override fun initObserver() {
@@ -146,6 +149,9 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                 startActivity(Intent(context, EditProfileActivity::class.java))
                 requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
 
+            }R.id.tvBanneradds -> {
+            ReplaceFragment.replaceFragment(requireActivity(),AddBannerFragment(),false,"",HomeActivity::class.java.name)
+            requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
             }
             R.id.btnSignOut -> {
 

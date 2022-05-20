@@ -4,6 +4,7 @@ import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.CommonResponseModel
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
+import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
 import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.LawyerProfileDetails.LawyerProfileDetailsResp
 import com.app.guardian.model.Login.LoginResp
@@ -75,6 +76,9 @@ interface ApiEndPoint {
 
     @DELETE("deleteSeekLegalAdvice/{id}")
     fun deleteSeekLegalAdvice(@Path("id") id: Int): Call<CommonResponseModel<CommonResponse>>
+
+    @POST("getUserRights")
+    fun getKnowYourRights(@Body body: JsonObject): Call<CommonResponseModel<MutableList<KnowYourRightsResp>>>
 
 
 }

@@ -1,12 +1,22 @@
 package com.app.guardian.ui.Home
 
 
+import android.app.Dialog
+import android.content.Context
+import android.content.Intent
+import android.location.LocationManager
+import android.os.Looper
+import android.provider.Settings
+import android.util.Log
 import android.view.View
+import android.view.Window
+import android.widget.TextView
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
+import com.app.guardian.common.extentions.checkLoationPermission
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityHomeBinding
@@ -17,10 +27,19 @@ import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.Mediator.MediatorHome.MediatorHomeFragment
 import com.app.guardian.ui.User.UserHome.UserHomeFragment
 import com.app.guardian.ui.User.settings.SettingsFragment
+import com.google.android.gms.location.*
+import com.google.android.material.textview.MaterialTextView
 
 
 class HomeActivity : BaseActivity(),View.OnClickListener {
     lateinit var mBinding: ActivityHomeBinding
+
+
+    //get Current Location
+    private var locationManager: LocationManager? = null
+    private var mFusedLocationClient: FusedLocationProviderClient? = null
+    private var locationRequest: LocationRequest? = null
+    private var locationCallback: LocationCallback? = null
 
     override fun getResource(): Int {
         ReusedMethod.updateStatusBarColor(this, R.color.colorPrimaryDark, 4)
@@ -54,8 +73,34 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
         //bottom navigation click listener
 
         loadHomeScreen()
+
+        locationManager = getSystemService(
+            Context.LOCATION_SERVICE
+        ) as LocationManager
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        locationRequest = LocationRequest.create()
+        locationRequest?.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest?.interval = 20 * 1000
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        getLatLong()
+        if (checkLoationPermission(this)) {
+            if (locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER)!!) {
+
+                mFusedLocationClient?.requestLocationUpdates(
+                    locationRequest!!,
+                    locationCallback!!,
+                    Looper.getMainLooper()
+                )
+            } else {
+
+                setDialog()
+            }
+        }
+    }
 
     override fun initObserver() {
     }
@@ -117,4 +162,65 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
     override fun onClick(v: View?) {
 
     }
+
+
+    private fun setDialog() {
+        val dialog = Dialog(
+            this,
+            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+        )
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setContentView(R.layout.dialig_layout)
+        dialog.setCancelable(false)
+
+        val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
+        val TITLE = dialog.findViewById<TextView>(R.id.tvTitle)
+        val MESSAGE = dialog.findViewById<TextView>(R.id.tvMessage)
+        val CANCEL = dialog.findViewById<MaterialTextView>(R.id.tvNegative)
+        MESSAGE.gone()
+        CANCEL.gone()
+        OK.text = "OK"
+
+        TITLE.text = "Please turn on location to continue"
+        OK.setOnClickListener {
+            startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    private fun getLatLong() {
+
+        if (checkLoationPermission(this)) {
+
+            locationCallback = object : LocationCallback() {
+                override fun onLocationResult(p0: LocationResult) {
+                    super.onLocationResult(p0!!)
+
+                    if (p0.equals(null)) {
+
+                        return
+                    }
+                    for (location in p0.locations) {
+                        if (location != null) {
+
+                            Log.i("THIS_APP", location.latitude.toString())
+                            Log.i("THIS_APP", location.longitude.toString())
+
+                            SharedPreferenceManager.putString(AppConstants.EXTRA_LAT,location.latitude.toString())
+                            SharedPreferenceManager.putString(AppConstants.EXTRA_LONG,location.longitude.toString())
+
+
+                            if (mFusedLocationClient != null) {
+                                mFusedLocationClient?.removeLocationUpdates(locationCallback!!)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }

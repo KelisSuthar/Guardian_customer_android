@@ -7,7 +7,8 @@
     <string name="text_error_timeout">Sorry, We lost you. Please retry!!!</string>
     <string name="text_error_connection">Look a like we lost you for a moment. Please retry!!!</string>
     <string name="internet_message_alert">Please Check Your internet connection</string>
-    <string name="map_api_key">AIzaSyCp1fVDgDOgajG2WGXGX2murW0LE4hWzYQ</string>
+<!--    <string name="map_api_key">AIzaSyCp1fVDgDOgajG2WGXGX2murW0LE4hWzYQ</string>-->
+    <string name="map_api_key">AIzaSyAyMrbXh6XrkhpCzXfNZJzu3akbUIbVqcg</string>
 
 
     <!-- TODO: Normal String  -->
@@ -69,7 +70,7 @@
 
     <!-- TODO: Validation Message  -->
 
-<!--    Add Seek Legal Advice-->
+    <!--    Add Seek Legal Advice-->
     <string name="empty_title">Please Enter Title.</string>
     <string name="empty_desc">Please Enter Description.</string>
 
@@ -119,6 +120,9 @@
     <string name="seek_legal_adv">Seek Legal Advice</string>
     <string name="ask_mode_question">Ask Mod A Question</string>
 
+
+    <!--    Add Banner-->
+    <string name="share_link">Share Your link</string>
 
     <!--    Bottom navigation menu -->
     <string name="menu_home">Home</string>

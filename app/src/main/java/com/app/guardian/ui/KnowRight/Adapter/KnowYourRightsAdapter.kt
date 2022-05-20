@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
+import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
 import com.google.android.material.card.MaterialCardView
 
 class KnowYourRightsAdapter(
     var context: Activity,
-    var arrayList: ArrayList<String>,
+    var arrayList: ArrayList<KnowYourRightsResp>,
     var listeners: onItemClicklisteners
 ) : RecyclerView.Adapter<KnowYourRightsAdapter.myViewHolder>() {
 
@@ -30,8 +31,8 @@ class KnowYourRightsAdapter(
     }
 
     override fun getItemCount(): Int {
-//        return arrayList.size
-        return 10
+        return arrayList.size
+//        return 10
     }
 
     inner class myViewHolder(view: View?) : RecyclerView.ViewHolder(view!!) {
@@ -39,8 +40,8 @@ class KnowYourRightsAdapter(
         var txtText1 = view?.findViewById<TextView>(R.id.txtText1)
         var txtText2 = view?.findViewById<TextView>(R.id.txtText2)
         fun bindItem(position: Int) {
-//            txtText1.text = arrayList[position].
-//            txtText2.text = arrayList[position].
+            txtText1!!.text = arrayList[position].title
+            txtText2!!.text = arrayList[position].code
             cvRowSupportGroup?.setOnClickListener {
                 listeners.onItemClick(position)
             }
