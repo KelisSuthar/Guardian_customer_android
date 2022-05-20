@@ -124,8 +124,11 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
 //    }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-        var getCurrentRole = SharedPreferenceManager.getString(AppConstants.USER_ROLE,AppConstants.USER_ROLE)
+      //  super.onBackPressed()
+        val fm: FragmentManager = supportFragmentManager
+        var getCurrentFragment = supportFragmentManager.fragments
+        Log.e("BackStack","Current fragment Name : "+getCurrentFragment.toString())
+        var getFragment= supportFragmentManager.findFragmentById(R.id.flUserContainer)
         when {
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
@@ -146,6 +149,14 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_MEDIATOR -> {
 
+                if(getFragment!=null){
+                    if(getFragment is MediatorHomeFragment){
+                        super.onBackPressed()
+                    }
+                    else if(getFragment is KnowRightFragment){
+                        fm.popBackStack()
+                    }
+                }
             }
         }
     }
@@ -153,10 +164,16 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
     fun clearFragmentBackStack() {
         val fm: FragmentManager = supportFragmentManager
 
+        for (fragment in supportFragmentManager.fragments) {
+            supportFragmentManager.beginTransaction().remove(fragment).commit()
+        }
         if(fm.getBackStackEntryCount() > 0){
-            while (fm.getBackStackEntryCount() > 0) {
-                fm.popBackStackImmediate();
-            }
+//            while (fm.getBackStackEntryCount() > 0) {
+//                fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//
+//            }
+
+
             //fm.popBackStack()
         }
 
