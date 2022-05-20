@@ -1,6 +1,7 @@
 package com.app.guardian.shareddata.repo
 
 import androidx.lifecycle.MutableLiveData
+import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
@@ -14,6 +15,7 @@ import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
+import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
 import com.app.guardian.shareddata.BaseView
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
@@ -134,11 +136,38 @@ interface UserRepo {
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<CommonResponse>>
-    )fun getKnowYourRights(
+    )
+
+    fun getKnowYourRights(
         body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<MutableList<KnowYourRightsResp>>>
+    )
+
+    fun getUserConnectedHistory(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<ConnectedHistoryResp>>>
+    )
+
+    fun getLawyerConnectedHistory(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<ConnectedHistoryResp>>>
+    )
+
+    fun getMediatorConnectedHistory(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<ConnectedHistoryResp>>>
+    )fun checkSubscription(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<CheckSubscriptionResp>>
     )
 
 }

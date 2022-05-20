@@ -16,6 +16,7 @@ class ApiConstant{
      val EXTRAS_SOCIAL_ID="social_id"
      val EXTRAS_LOGIN_TYPE="login_type"
      val EXTRAS_OTP="otp"
+     val EXTRAS_TYPE="type"
      val EXTRAS_NEW_PASS="new_password"
      val EXTRAS_CONFIRM_PASS="confirm_password"
      val EXTRAS_FULL_NAME="full_name"

@@ -1,5 +1,6 @@
 package com.app.guardian.shareddata.endpoint
 
+import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.CommonResponseModel
 import com.app.guardian.model.Editprofile.UserDetailsResp
@@ -13,6 +14,7 @@ import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
+import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.http.Body
@@ -79,6 +81,18 @@ interface ApiEndPoint {
 
     @POST("getUserRights")
     fun getKnowYourRights(@Body body: JsonObject): Call<CommonResponseModel<MutableList<KnowYourRightsResp>>>
+
+    @POST("userContactHistory")
+    fun getuserContactHistory(@Body body: JsonObject): Call<CommonResponseModel<MutableList<ConnectedHistoryResp>>>
+
+    @POST("lawyerContactHistory")
+    fun getlawyerContactHistory(@Body body: JsonObject): Call<CommonResponseModel<MutableList<ConnectedHistoryResp>>>
+
+    @POST("mediatorContactHistory")
+    fun getmediatorContactHistory(@Body body: JsonObject): Call<CommonResponseModel<MutableList<ConnectedHistoryResp>>>
+
+    @POST("checkUserSubscription")
+    fun checkSubscriptions(): Call<CommonResponseModel<CheckSubscriptionResp>>
 
 
 }

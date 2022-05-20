@@ -75,6 +75,12 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding.noInternetUserHomeFrag.llNointernet.gone()
         mBinding.noDataUserHomeFrag.gone()
         mBinding.cl.visible()
+
+        if(mBinding.rbKnowBasicRight.isChecked){
+            chnagelayout(1)
+        }else{
+            chnagelayout(2)
+        }
     }
 
     override fun postInit() {

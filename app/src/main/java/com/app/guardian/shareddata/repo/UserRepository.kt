@@ -2,6 +2,7 @@ package com.studelicious_user.shareddata.repo
 
 import androidx.lifecycle.MutableLiveData
 import com.app.guardian.model.ApiError
+import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
@@ -15,6 +16,7 @@ import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
+import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
 import com.app.guardian.shareddata.BaseView
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.endpoint.ApiEndPoint
@@ -345,6 +347,81 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
             commonResp.value = RequestState(progress = true)
             NetworkManager.requestData(
                 mApiEndPoint.getKnowYourRights(body),
+                baseView,
+                commonResp
+            )
+        }
+    }
+
+    override fun getUserConnectedHistory(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<ConnectedHistoryResp>>>
+    ) {
+        if (!internetConnected) {
+            commonResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            commonResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.getuserContactHistory(body),
+                baseView,
+                commonResp
+            )
+        }
+    }
+
+    override fun getLawyerConnectedHistory(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<ConnectedHistoryResp>>>
+    ) {
+        if (!internetConnected) {
+            commonResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            commonResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.getlawyerContactHistory(body),
+                baseView,
+                commonResp
+            )
+        }
+    }
+
+    override fun getMediatorConnectedHistory(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<ConnectedHistoryResp>>>
+    ) {
+        if (!internetConnected) {
+            commonResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            commonResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.getmediatorContactHistory(body),
+                baseView,
+                commonResp
+            )
+        }
+    }
+
+    override fun checkSubscription(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<CheckSubscriptionResp>>
+    ) {
+        if (!internetConnected) {
+            commonResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            commonResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.checkSubscriptions(),
                 baseView,
                 commonResp
             )

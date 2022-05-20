@@ -33,6 +33,13 @@ fun String.formatTimeInGMT(): String? {
     val sdf1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
     sdf1.timeZone = TimeZone.getTimeZone("GMT")
     return sdf1.format(newDate)
+
+}fun String.formatTimeInGMT2(): String? {
+    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+    val newDate = sdf.parse(this)
+    val sdf1 = SimpleDateFormat("dd MMM, hh:mm a", Locale.getDefault())
+    sdf1.timeZone = TimeZone.getTimeZone("GMT")
+    return sdf1.format(newDate)
 }
 
 fun String.convertIntoAnother(dateFormat: String): String? {

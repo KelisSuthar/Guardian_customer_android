@@ -9,7 +9,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
+import com.app.guardian.common.SharedPreferenceManager
+import com.app.guardian.common.extentions.formatTimeInGMT2
 import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.loadImage
 import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
 import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
@@ -17,7 +21,7 @@ import com.google.android.material.card.MaterialCardView
 import de.hdodenhof.circleimageview.CircleImageView
 
 class ConnectedHistoryAdapter(
-    var isUser: Boolean,
+
     var context: Activity,
     var arrayList: ArrayList<ConnectedHistoryResp>,
     var listeners: ConnectedHistoryAdapter.onItemClicklisteners
@@ -54,13 +58,28 @@ class ConnectedHistoryAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(position: Int) {
             val array = arrayList[position]
-            if (isUser) {
+            if(SharedPreferenceManager.getString(
+                    AppConstants.USER_ROLE,
+                    AppConstants.APP_ROLE_USER
+                ) == AppConstants.APP_ROLE_USER ){
                 imgRowLawyerCall!!.gone()
                 imgRowLawyerChat!!.gone()
-            }
+                }
+
             imgRowLawyerCall?.setOnClickListener { listeners.onCallClick(position) }
             imgRowLawyerChat?.setOnClickListener { listeners.onChatClick(position) }
             itemView.setOnClickListener { listeners.onItemClick(position) }
+
+            txtName!!.text = array.full_name
+//            txtExp!!.text = array.full_name
+            txtSpecialization!!.text = array.specialization
+
+            txtDateTime!!.text =  array.from_time!!.formatTimeInGMT2()
+
+
+            imgRowLawyerPicture!!.loadImage(array.profile_avatar)
+
+
 
         }
 

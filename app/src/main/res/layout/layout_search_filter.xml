@@ -37,7 +37,7 @@
                 android:paddingTop="@dimen/_13sdp"
                 android:paddingBottom="@dimen/_13sdp"
                 android:singleLine="true"
-                android:text="@string/search_here"
+
                 android:textColor="@color/txt_dark"
                 android:textColorHint="@color/txt_dark"
                 android:textFontWeight="400"
