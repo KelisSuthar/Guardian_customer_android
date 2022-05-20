@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
+import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
@@ -22,19 +23,13 @@ import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.BannerAds.BannerAdsPager
+import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.KnowRight.KnowRightFragment
+import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [MediatorHomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
     var array = ArrayList<UserHomeBannerResp>()
@@ -46,6 +41,9 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
 
     override fun initView() {
         mBinding = getBinding()
+        (activity as HomeActivity).bottomTabVisibility(true)
+        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.lawyer_profile),false,false)
+
         setAdapter()
         callApi()
     }
@@ -132,13 +130,20 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
         when (v?.id) {
             R.id.cvKnowBasicRight -> {
                 chnagelayout(1)
+                ReplaceFragment.replaceFragment(requireActivity(),
+                    KnowRightFragment(),true,"",MediatorHomeFragment::class.java.name)
+
             }
             R.id.cvDialLawyer -> {
                 chnagelayout(2)
+                ReplaceFragment.replaceFragment(requireActivity(),
+                    LawyerListFragment(),true,"",MediatorHomeFragment::class.java.name)
+
             }
 
             R.id.rbKnowBasicRight -> {
                 chnagelayout(1)
+               mBinding.cvKnowBasicRight.performClick()
             }
             R.id.rbDialLawyer -> {
                 chnagelayout(2)

@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.TextView
+import androidx.fragment.app.FragmentManager
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
@@ -52,22 +53,23 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
         mBinding.bottomNavigationUser.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.menu_home -> {
+                    clearFragmentBackStack()
                     loadHomeScreen()
 //                    ReplaceFragment.replaceFragment(this,KnowRightFragment(),false,"",HomeActivity::class.java.name)
                 }
-                R.id.menu_lawyer -> {ReplaceFragment.replaceFragment(this,LawyerListFragment(),false,"",HomeActivity::class.java.name)}
-                R.id.menu_radar -> {}
-                R.id.menu_history ->{ReplaceFragment.replaceFragment(this,KnowRightFragment(),false,"",HomeActivity::class.java.name)}
-                R.id.menu_setting ->{ReplaceFragment.replaceFragment(this,SettingsFragment(),false,"",HomeActivity::class.java.name)}
+                R.id.menu_lawyer -> {clearFragmentBackStack()
+                    ReplaceFragment.replaceFragment(this,LawyerListFragment(),false,"",HomeActivity::class.java.name)}
+                R.id.menu_radar -> {
+                    clearFragmentBackStack()
+                }
+                R.id.menu_history ->{clearFragmentBackStack()
+                    ReplaceFragment.replaceFragment(this,KnowRightFragment(),false,"",HomeActivity::class.java.name)}
+                R.id.menu_setting ->{clearFragmentBackStack()
+                    ReplaceFragment.replaceFragment(this,SettingsFragment(),false,"",HomeActivity::class.java.name)}
             }
             true
         }
 
-
-//        navView = findViewById(R.id.bottomNavigationUser)
-//        navController = Navigation.findNavController(this, R.id.flUserContainer)
-//        navView.itemIconTintList = null
-//        NavigationUI.setupWithNavController(navView, navController!!)
 
         mBinding.headerToolbar.ivBack.setOnClickListener()
         {
@@ -120,6 +122,46 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
 //        loadHomeScreen()
 //
 //    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        var getCurrentRole = SharedPreferenceManager.getString(AppConstants.USER_ROLE,AppConstants.USER_ROLE)
+        when {
+            SharedPreferenceManager.getString(
+                AppConstants.USER_ROLE,
+                AppConstants.APP_ROLE_USER
+            ) == AppConstants.APP_ROLE_USER -> {
+
+
+
+            }
+            SharedPreferenceManager.getString(
+                AppConstants.USER_ROLE,
+                AppConstants.APP_ROLE_USER
+            ) == AppConstants.APP_ROLE_LAWYER -> {
+
+            }
+            SharedPreferenceManager.getString(
+                AppConstants.USER_ROLE,
+                AppConstants.APP_ROLE_USER
+            ) == AppConstants.APP_ROLE_MEDIATOR -> {
+
+            }
+        }
+    }
+
+    fun clearFragmentBackStack() {
+        val fm: FragmentManager = supportFragmentManager
+
+        if(fm.getBackStackEntryCount() > 0){
+            while (fm.getBackStackEntryCount() > 0) {
+                fm.popBackStackImmediate();
+            }
+            //fm.popBackStack()
+        }
+
+
+    }
 
     private fun loadHomeScreen() {
         when {
