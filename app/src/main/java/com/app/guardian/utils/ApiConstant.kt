@@ -32,6 +32,7 @@ class ApiConstant{
      val EXTRAS_DIAL_CODE="dialing_code"
      val EXTRAS_TITLE="title"
      val EXTRAS_SEEK_LEGAL_ADV="seek_legal_advice_id"
+     val EXTRAS_SERCH="ser"
 
 
 

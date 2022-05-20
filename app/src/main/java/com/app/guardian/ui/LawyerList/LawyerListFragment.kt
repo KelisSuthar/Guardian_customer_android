@@ -114,7 +114,7 @@ class LawyerListFragment : BaseFragment() {
 
     private fun callAPI() {
         if (ReusedMethod.isNetworkConnected(requireContext())) {
-            mViewModel.lawyerList(true, context as BaseActivity)
+            mViewModel.lawyerList(true, context as BaseActivity,"","","")
         } else {
             mBinding.rvLawyerList.gone()
             mBinding.noLawyer.gone()

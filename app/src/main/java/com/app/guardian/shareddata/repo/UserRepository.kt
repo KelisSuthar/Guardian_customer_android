@@ -219,6 +219,7 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
     }
 
     override fun getLawyerList(
+        body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
         lawyerResp: MutableLiveData<RequestState<MutableList<LawyerListResp>>>
@@ -229,7 +230,7 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
         } else {
             lawyerResp.value = RequestState(progress = true)
             NetworkManager.requestData(
-                mApiEndPoint.getLawyerList(),
+                mApiEndPoint.getLawyerList(body),
                 baseView,
                 lawyerResp
             )

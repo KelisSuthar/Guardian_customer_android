@@ -83,6 +83,7 @@ interface UserRepo {
     )
 
     fun getLawyerList(
+        body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
         lawyerResp: MutableLiveData<RequestState<MutableList<LawyerListResp>>>

@@ -22,10 +22,14 @@ import com.app.guardian.ui.AutoCompleteAdapter
 import com.app.guardian.ui.KnowRight.Adapter.KnowYourRightsAdapter
 import com.app.guardian.utils.Config
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.android.gms.common.api.Status
+import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
@@ -58,6 +62,9 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
             requireActivity(),
             mBinding.searchKnowRight.edtLoginEmail
         )
+//        if (!Places.isInitialized()) {
+//            Places.initialize(requireContext(), getString(R.string.map_api_key))
+//        }
     }
 
     override fun onResume() {
@@ -160,7 +167,7 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.edtLoginEmail -> {
-
+//setGooglePlase()
 //                val fields =
 //                    listOf(
 //                        Place.Field.ID,
@@ -175,6 +182,70 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
             }
         }
     }
+
+//    private fun setGooglePlase() {
+//
+//
+//        // Initialize Autocomplete Fragments
+//        // from the main activity layout file
+//        val autocompleteSupportFragment1 = childFragmentManager.findFragmentById(R.id.autocomplete_fragment1) as AutocompleteSupportFragment?
+//
+//        // Information that we wish to fetch after typing
+//        // the location and clicking on one of the options
+//        autocompleteSupportFragment1!!.setPlaceFields(
+//            listOf(
+//
+//                Place.Field.NAME,
+//                Place.Field.ADDRESS,
+//                Place.Field.PHONE_NUMBER,
+//                Place.Field.LAT_LNG,
+//                Place.Field.OPENING_HOURS,
+//                Place.Field.RATING,
+//                Place.Field.USER_RATINGS_TOTAL
+//
+//            )
+//        )
+//
+//        // Display the fetched information after clicking on one of the options
+//        autocompleteSupportFragment1.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+//            override fun onPlaceSelected(place: Place) {
+//
+//                // Text view where we will
+//                // append the information that we fetch
+//
+//
+//                // Information about the place
+//                val name = place.name
+//                val address = place.address
+//                val phone = place.phoneNumber.toString()
+//                val latlng = place.latLng
+//                val latitude = latlng?.latitude
+//                val longitude = latlng?.longitude
+//
+//                val isOpenStatus : String = if(place.isOpen == true){
+//                    "Open"
+//                } else {
+//                    "Closed"
+//                }
+//
+//                val rating = place.rating
+//                val userRatings = place.userRatingsTotal
+//
+//                Log.i( "THIS_APP", name.toString())
+//                Log.i( "THIS_APP", address.toString())
+//                Log.i( "THIS_APP",phone)
+//                Log.i( "THIS_APP", latlng.toString())
+//                Log.i( "THIS_APP", latitude.toString())
+//                Log.i( "THIS_APP", longitude.toString())
+//            }
+//
+//            override fun onError(p0: Status) {
+//                ReusedMethod.displayMessage(requireActivity(),"Some error occurred")
+//            }
+//
+//
+//        })
+//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

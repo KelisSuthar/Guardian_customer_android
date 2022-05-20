@@ -10,6 +10,8 @@ import com.app.guardian.model.RequestState
 import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.repo.UserRepo
+import com.app.guardian.utils.ApiConstant
+import com.google.gson.JsonObject
 
 class UserViewModel(private val mUserRepository: UserRepo) : ViewModel(){
 
@@ -25,8 +27,16 @@ class UserViewModel(private val mUserRepository: UserRepo) : ViewModel(){
     fun lawyerList(
         isInternetConnected: Boolean,
         baseView: BaseActivity,
+        ser:String,
+        years_of_experience:String,
+        specialization:String,
     ){
+        var body = JsonObject()
+        body.addProperty(ApiConstant.EXTRAS_SERCH,ser)
+        body.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP,years_of_experience)
+        body.addProperty(ApiConstant.EXTRAS_SPECIALIZATION,specialization)
         mUserRepository.getLawyerList(
+            body,
             isInternetConnected,
             baseView,
             lawyerListResp

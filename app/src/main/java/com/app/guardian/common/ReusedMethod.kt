@@ -460,7 +460,7 @@ class ReusedMethod {
               val autocompleteClickListener =
                 AdapterView.OnItemClickListener { adapterView, view, i, l ->
                     try {
-                        val item: AutocompletePrediction? = adapter!!.getItem(0)
+                        val item: AutocompletePrediction? = adapter!!.getItem(i)
                         var placeID: String? = null
                         if (item != null) {
                             placeID = item.placeId
@@ -481,6 +481,7 @@ class ReusedMethod {
                             placesClient!!.fetchPlace(request)
                                 .addOnSuccessListener { task ->
                                     responseView!!.text =
+
                                         """${task.place.name}""".trimIndent() + task.place.address
                                 }.addOnFailureListener { e ->
                                     e.printStackTrace()
