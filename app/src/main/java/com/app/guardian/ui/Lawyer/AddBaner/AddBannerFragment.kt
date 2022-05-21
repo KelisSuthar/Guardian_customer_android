@@ -2,15 +2,21 @@ package com.app.guardian.ui.Lawyer.AddBaner
 
 import android.content.Intent
 import android.net.Uri
+import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.app.guardian.R
+import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentAddBannerBinding
+import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.model.viewModels.LawyerViewModel
+import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
+import com.app.guardian.ui.Login.LoginActivity
+import com.app.guardian.utils.Config
 import com.github.dhaval2404.imagepicker.ImagePicker
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -45,10 +51,40 @@ class AddBannerFragment : BaseFragment(), View.OnClickListener {
     override fun handleListener() {
         mBinding.cvAddImage.setOnClickListener(this)
         mBinding.lladdImg.setOnClickListener(this)
+        mBinding.btnSubmit.setOnClickListener(this)
+        mBinding.noInternetAddBanner.btnTryAgain.setOnClickListener(this)
+
+
     }
 
     override fun initObserver() {
+        mViewModel.getCommonResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                        } else {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                requireActivity(),
+                                getString(R.string.text_error_network)
+                            )
 
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {}
+                    }
+                }
+            }
+        }
     }
 
     override fun onClick(v: View?) {
@@ -73,8 +109,56 @@ class AddBannerFragment : BaseFragment(), View.OnClickListener {
                     )
                     .start(IMAGE_CODE)
             }
+            R.id.btnSubmit -> {
+                validations()
+            }
+            R.id.btnTryAgain -> {
+                validations()
+            }
         }
 
+    }
+
+    private fun validations() {
+        when {
+            TextUtils.isEmpty(bannerImage) -> {
+                ReusedMethod.displayMessageDialog(
+                    requireActivity(),
+                    "",
+                    "Please Select Banner Image.",
+                    false,
+                    "Cancel",
+                    ""
+                )
+            }
+            TextUtils.isEmpty(mBinding.edtShareLink.text?.trim().toString()) -> {
+                ReusedMethod.displayMessageDialog(
+                    requireActivity(),
+                    "",
+                    "Please Add Share Link For Banner.",
+                    false,
+                    "Cancel",
+                    ""
+                )
+                ReusedMethod.ShowRedBorders(requireActivity(), mBinding.edtShareLink)
+            }
+            else -> {
+                callAddBannerApi()
+                ReusedMethod.ShowNoBorders(requireActivity(), mBinding.edtShareLink)
+            }
+        }
+    }
+
+    private fun callAddBannerApi() {
+        mBinding.noInternetAddBanner.llNointernet.gone()
+        mBinding.cl1.visible()
+        if (ReusedMethod.isNetworkConnected(requireActivity())) {
+            mViewModel.addBanners(true, context as BaseActivity,bannerImage,
+                mBinding.edtShareLink.text?.trim().toString(),"2022-05-11 23:00:00","2022-07-11 23:00:00")
+        } else {
+            mBinding.noInternetAddBanner.llNointernet.visible()
+            mBinding.cl1.gone()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

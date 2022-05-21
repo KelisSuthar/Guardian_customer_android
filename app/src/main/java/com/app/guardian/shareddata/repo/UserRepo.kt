@@ -164,10 +164,29 @@ interface UserRepo {
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<MutableList<ConnectedHistoryResp>>>
-    )fun checkSubscription(
+    )
+    fun checkSubscription(
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<CheckSubscriptionResp>>
+    )
+
+    fun getLawyerSubscriptionPlanList(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<SubscriptionPlanResp>>>
+    )
+    fun addBannerSubscription(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<CommonResponse>>
+    )
+    fun addBanner(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<CommonResponse>>
     )
 
 }

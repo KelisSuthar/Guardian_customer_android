@@ -91,8 +91,17 @@ interface ApiEndPoint {
     @POST("mediatorContactHistory")
     fun getmediatorContactHistory(@Body body: JsonObject): Call<CommonResponseModel<MutableList<ConnectedHistoryResp>>>
 
-    @POST("checkUserSubscription")
+    @GET("checkUserSubscription")
     fun checkSubscriptions(): Call<CommonResponseModel<CheckSubscriptionResp>>
+
+    @GET("getBannerSubscriptionPlan")
+    fun getLawyerSubscriptionPlan(): Call<CommonResponseModel<MutableList<SubscriptionPlanResp>>>
+
+    @POST("addBannerSubscription")
+    fun addBannerSubscription(@Body body: JsonObject):  Call<CommonResponseModel<CommonResponse>>
+
+    @POST("addBanner")
+    fun addBanner(@Body body: JsonObject):  Call<CommonResponseModel<CommonResponse>>
 
 
 }

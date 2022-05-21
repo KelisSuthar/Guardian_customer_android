@@ -13,6 +13,7 @@ import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivitySubScriptionPlanScreenBinding
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.viewModels.AuthenticationViewModel
+import com.app.guardian.model.viewModels.LawyerViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.SubscriptionPlan.Adapter.SubscriptionPlanAdapter
@@ -24,6 +25,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUpdatedListener {
     lateinit var mBinding: ActivitySubScriptionPlanScreenBinding
     private val mViewModel: AuthenticationViewModel by viewModel()
+    private val lawyerViewModel: LawyerViewModel by viewModel()
     var subscriptionPlanAdapter: SubscriptionPlanAdapter? = null
     var shared_secret = "ifjsjfkjs;p;'sjflk;jmsw;lfalsw"
     var start_date = ""
@@ -48,7 +50,16 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
     override fun onResume() {
         super.onResume()
         setupBillingClient()
-        callAPI()
+        if (intent.extras != null || intent != null) {
+            if (intent.getBooleanExtra(AppConstants.EXTRA_IS_LAWYER, false)) {
+                callLawyerBannersubScriptionPlan()
+            } else {
+                callAPI()
+            }
+        } else {
+            callAPI()
+        }
+
         setAdapter()
         mBinding.recyclerView.visible()
         mBinding.noDataSubscritpion.gone()
@@ -64,13 +75,22 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
             object : SubscriptionPlanAdapter.onItemClicklisteners {
                 override fun onSubclick(position: Int) {
 //                    loadAllSKUs()
+                    if (intent.extras != null || intent != null) {
+                        if (intent.getBooleanExtra(AppConstants.EXTRA_IS_LAWYER, false)) {
+                            callLawyerBannerplanAPI(array[position].id, array[position].pricing)
+                        }else{
+                            callBuyPlanAPI(array[position].id, array[position].pricing)
+                        }
+                    }else{
+                        callBuyPlanAPI(array[position].id, array[position].pricing)
+                    }
 
-                    callBuyPlanAPI(array[position].id, array[position].pricing)
                 }
 
             })
         mBinding.recyclerView.adapter = subscriptionPlanAdapter
     }
+
 
 
     override fun initObserver() {
@@ -123,8 +143,77 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                             )
                             finish()
                             overridePendingTransition(R.anim.rightto, R.anim.left)
-                        }else{
+                        } else {
                             ReusedMethod.displayMessage(this, it.message.toString())
+                        }
+
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                this,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let { ReusedMethod.displayMessage(this, it) }
+                    }
+                }
+            }
+        }
+//GET LAWYER PLan RESP
+        lawyerViewModel.getSubcriptionPlanResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            array.clear()
+                            array.addAll(data)
+                            subscriptionPlanAdapter?.notifyDataSetChanged()
+                        } else {
+                            mBinding.recyclerView.gone()
+                            mBinding.noDataSubscritpion.visible()
+                            mBinding.noInternetSubscritpion.llNointernet.gone()
+                        }
+
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                this,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let { ReusedMethod.displayMessage(this, it) }
+                    }
+                }
+            }
+        }
+
+        //BUY LAWYER PLan RESP
+        lawyerViewModel.getCommonResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            ReusedMethod.displayMessage(
+                                this,
+                                it.message.toString()
+                            )
+                        } else {
+                            ReusedMethod.displayMessage(
+                                this,
+                                it.message.toString()
+                            )
                         }
 
                     }
@@ -165,14 +254,13 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
     }
 
     private fun callBuyPlanAPI(id: Int?, pricing: String?) {
-        val split: List<String> = pricing!!.split("/")
-        val firstSubString = split[0]
+
         if (ReusedMethod.isNetworkConnected(this)) {
             mViewModel.BuySubscriptionPlanList(
                 true,
                 this,
                 id.toString(),
-                firstSubString,
+                pricing.toString(),
                 shared_secret,
 //                start_date,
 //                end_date
@@ -185,6 +273,26 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
 
     }
 
+    private fun callLawyerBannerplanAPI(id: Int?, pricing: String?) {
+        if (ReusedMethod.isNetworkConnected(this)) {
+            lawyerViewModel.addBannersSubscription(
+                true,
+                this,
+                id.toString(),
+                pricing.toString(),
+                shared_secret,
+//                start_date,
+//                end_date
+            )
+        } else {
+            mBinding.recyclerView.gone()
+            mBinding.noDataSubscritpion.gone()
+            mBinding.noInternetSubscritpion.llNointernet.gone()
+        }
+
+    }
+
+
     private fun callAPI() {
         if (ReusedMethod.isNetworkConnected(this)) {
             mViewModel.SubscriptionPlanList(true, this)
@@ -194,6 +302,17 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
             mBinding.noInternetSubscritpion.llNointernet.gone()
         }
     }
+
+    private fun callLawyerBannersubScriptionPlan() {
+        if (ReusedMethod.isNetworkConnected(this)) {
+            lawyerViewModel.getLawyerSubscriptionList(true, this)
+        } else {
+            mBinding.recyclerView.gone()
+            mBinding.noDataSubscritpion.gone()
+            mBinding.noInternetSubscritpion.llNointernet.gone()
+        }
+    }
+
 
     private fun setupBillingClient() {
         billingClient = BillingClient.newBuilder(this)
@@ -304,6 +423,7 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
     } else {
         println("Billing Client not ready")
     }
+
     override fun onPurchasesUpdated(
         billingResult: BillingResult,
         purchases: MutableList<Purchase>?

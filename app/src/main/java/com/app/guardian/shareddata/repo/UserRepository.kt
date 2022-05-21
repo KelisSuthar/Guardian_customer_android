@@ -427,4 +427,60 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
             )
         }
     }
+
+    override fun getLawyerSubscriptionPlanList(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<SubscriptionPlanResp>>>
+    ) {
+        if (!internetConnected) {
+            commonResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            commonResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.getLawyerSubscriptionPlan(),
+                baseView,
+                commonResp
+            )
+        }
+    }
+
+    override fun addBannerSubscription(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<CommonResponse>>
+    ) {
+        if (!internetConnected) {
+            commonResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            commonResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.addBannerSubscription(body),
+                baseView,
+                commonResp
+            )
+        }
+    }
+
+    override fun addBanner(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<CommonResponse>>
+    ) {
+        if (!internetConnected) {
+            commonResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            commonResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.addBanner(body),
+                baseView,
+                commonResp
+            )
+        }
+    }
 }
