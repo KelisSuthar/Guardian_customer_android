@@ -93,10 +93,10 @@ class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
 
                             )
                             overridePendingTransition(R.anim.rightto, R.anim.left)
-                            ReusedMethod.displayMessage(this, it.message.toString())
-                        } else {
-                            ReusedMethod.displayMessage(this, it.message.toString())
+
                         }
+                            ReusedMethod.displayMessage(this, it.message.toString())
+
                     }
                 }
                 requestState.error?.let { errorObj ->
@@ -126,7 +126,7 @@ class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.btnSubmit -> {
-                valiations()
+                validations()
             }
             R.id.ivBack -> {
                 onBackPressed()
@@ -150,7 +150,7 @@ class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun valiations() {
+    private fun validations() {
         IntegratorImpl.isValidForgotPass(isEmail,
             mBinding.emailphoneSelector.edtLoginEmail.text?.trim().toString(),
             object : ValidationView.ForgotPass {

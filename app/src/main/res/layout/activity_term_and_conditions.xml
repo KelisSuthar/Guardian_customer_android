@@ -1,10 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<layout>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".termsandcondtions.TermAndConditionsActivity">
+
+    <include
+        android:id="@+id/headderTerms"
+        layout="@layout/headder_layout" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/headderTerms"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
 
     <TextView
         android:layout_width="match_parent"
@@ -35,5 +55,6 @@ when an unknown printer took a galley of type and
 scrambled it to make a type specimen book. It has
 survived only five centuries, but also the electronic
 typesetting, remaining essentially unchanged."/>
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

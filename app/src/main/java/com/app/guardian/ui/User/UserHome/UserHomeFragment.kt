@@ -17,6 +17,7 @@ import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.BannerAds.BannerAdsPager
+import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -35,6 +36,12 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding = getBinding()
         setAdapter()
         callApi()
+
+        (activity as HomeActivity).headerTextVisible(
+            requireActivity().resources.getString(R.string.know_your_basic_rights),
+            false,
+            true
+        )
     }
 
     private fun callApi() {
@@ -86,7 +93,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
-                        SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
+
 
                         if (it.status) {
                             array.clear()

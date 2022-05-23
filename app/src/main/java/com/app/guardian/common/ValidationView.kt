@@ -80,6 +80,9 @@ interface ValidationView {
     }
 
     interface RestPass {
+        fun empty_old_pass()
+        fun oldpasswordMinValidation()
+        fun oldpasswordSpecialValidation()
         fun empty_pass()
         fun passwordMinValidation()
         fun passwordSpecialValidation()
@@ -88,6 +91,8 @@ interface ValidationView {
         fun con_passwordSpecialValidation()
         fun comparePass()
         fun success()
+
+
     }
 
     interface AddNewCard {

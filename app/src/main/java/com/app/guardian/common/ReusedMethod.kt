@@ -200,7 +200,7 @@ class ReusedMethod {
             )
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-            dialog.setContentView(R.layout.dialig_layout)
+            dialog.setContentView(R.layout.dialog_layout)
             dialog.setCancelable(false)
 
             val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)

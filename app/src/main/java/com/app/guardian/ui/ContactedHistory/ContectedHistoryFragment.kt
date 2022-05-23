@@ -17,6 +17,7 @@ import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.ContactedHistory.adapter.ConnectedHistoryAdapter
+import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -53,6 +54,8 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
             }
 
         }
+        (activity as HomeActivity).bottomTabVisibility(false)
+        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.contacted_history),true,true)
 
     }
 
@@ -150,6 +153,11 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                                 array.clear()
                                 array.addAll(data)
                                 connectedHistoryAdapter?.notifyDataSetChanged()
+                                if(array.isNullOrEmpty()){
+                                    mBinding.noDataConnectedHistory.visible()
+                                    mBinding.noInternetConnectedhistory.llNointernet.gone()
+                                    mBinding.cl1.gone()
+                                }
                             }else{
                                 mBinding.noDataConnectedHistory.visible()
                                 mBinding.noInternetConnectedhistory.llNointernet.gone()

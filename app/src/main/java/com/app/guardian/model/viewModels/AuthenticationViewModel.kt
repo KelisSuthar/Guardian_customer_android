@@ -22,6 +22,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
 
     //For Common Resp
     private val CommonResponse = MutableLiveData<RequestState<CommonResponse>>()
+    fun getCommonResp(): LiveData<RequestState<CommonResponse>> = CommonResponse
 
     //For Login Resp
     private val LoginResp = MutableLiveData<RequestState<LoginResp>>()
@@ -270,7 +271,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
     }
 
     //SIGN OUT API CALLING
-    fun getSignOTPResp(): LiveData<RequestState<LoginResp>> = LoginResp
+    fun getSignOutResp(): LiveData<RequestState<LoginResp>> = LoginResp
 
     fun signOUT(
         isInternetConnected: Boolean,
@@ -281,6 +282,26 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             isInternetConnected,
             baseView,
             LoginResp
+        )
+    }
+    fun changePassword(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        old_password: String,
+        new_password: String,
+        confirm_new_password: String,
+    ) {
+        val body = JsonObject()
+
+        body.addProperty(ApiConstant.EXTRAS_OLD_PASS, old_password)
+        body.addProperty(ApiConstant.EXTRAS_NEW_PASS, new_password)
+        body.addProperty(ApiConstant.EXTRAS_CON_NEW_PASS, confirm_new_password)
+
+        mUserRepository.changePass(
+            body,
+            isInternetConnected,
+            baseView,
+            CommonResponse
         )
     }
 

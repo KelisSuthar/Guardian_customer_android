@@ -28,6 +28,7 @@ import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivitySignupScreenBinding
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.termsandcondtions.TermAndConditionsActivity
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.signup.adapter.ImageAdapter
 import com.app.guardian.utils.Config
@@ -159,7 +160,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
         )
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.setContentView(R.layout.dialig_layout)
+        dialog.setContentView(R.layout.dialog_layout)
         dialog.setCancelable(false)
 
         val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
@@ -317,11 +318,12 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 }
 
             }
-            R.id.txtTermsAndConditions -> {
-                displayMessageDialog(this, "", "Coming Soon!!", false, "Ok", "")
-            }
             R.id.btnSigUp -> {
                 validations()
+            }
+            R.id.txtTermsAndConditions -> {
+                startActivity(Intent(this@SignupScreen, TermAndConditionsActivity::class.java))
+                overridePendingTransition(R.anim.rightto, R.anim.left)
             }
 
         }
@@ -701,11 +703,13 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 mBinding.edtEmail.text?.trim().toString(),
                 mBinding.edtSpecializations.text?.trim().toString(),
                 mBinding.edtYearsOfExp.text?.trim().toString(),
-                mBinding.ccpOffice.selectedCountryCode.toString() , mBinding.edtOfficeNum.text?.trim()
+                mBinding.ccpOffice.selectedCountryCode.toString(),
+                mBinding.edtOfficeNum.text?.trim()
                     .toString(),
                 mBinding.edtPass.text?.trim().toString(),
                 mBinding.edtConPass.text?.trim().toString(),
-                mBinding.ccp.selectedCountryCode.toString() , mBinding.edtMobileNum.text?.trim()
+                mBinding.ccp.selectedCountryCode.toString(),
+                mBinding.edtMobileNum.text?.trim()
                     .toString(),
                 mBinding.edtProvience.text?.trim().toString(),
                 mBinding.edtPostalCode.text?.trim().toString(),

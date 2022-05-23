@@ -9,7 +9,8 @@
 
         <include
             android:id="@+id/headerKnowYourRight"
-            layout="@layout/headder_layout" />
+            layout="@layout/headder_layout"
+            android:visibility="gone"/>
 
 
         <include

@@ -27,6 +27,8 @@ import com.app.guardian.ui.KnowRight.KnowRightFragment
 import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.SeekLegalAdvice.SeekLegalAdviceListFragment
 import com.app.guardian.utils.Config
+import com.github.angads25.toggle.interfaces.OnToggledListener
+import com.github.angads25.toggle.model.ToggleableView
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -53,6 +55,17 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding = getBinding()
         setAdapter()
         callApi()
+        mBinding.availabilitySwitch.setOnToggledListener(object : OnToggledListener {
+            override fun onSwitched(toggleableView: ToggleableView?, isOn: Boolean) {
+                ReusedMethod.displayMessageDialog(requireActivity(),
+                    "",
+                    "Coming Soon!!",
+                    false,
+                    "Ok",
+                    ""
+                )
+            }
+        })
     }
 
     private fun callApi() {
@@ -103,7 +116,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
-                        SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
+
 
                         if (it.status) {
                             array.clear()

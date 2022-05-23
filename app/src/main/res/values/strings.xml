@@ -24,6 +24,8 @@
     <string name="refresh">Refresh</string>
     <string name="search_here">Search here</string>
     <string name="your_status">Your Status:</string>
+    <string name="contacted_history">Contacted History</string>
+    <string name="want_to_signout">Are You Sure Want to Sign Out?</string>
 
     <!--    SignUp screen -->
     <string name="create_acc">Create Account</string>
@@ -108,7 +110,9 @@
 
     <!--    ResetPAss Screen-->
     <string name="empty_new_pass">Please enter New Password.</string>
+    <string name="empty_old_pass">Please enter Old Password.</string>
     <string name="valid_new_pass">New Password must contain 1 Uppercase Letter, 1 Lowercase Letter, 1 Digit, 1 Special Character and length is 8 or more.</string>
+    <string name="valid_old_pass">Old Password must contain 1 Uppercase Letter, 1 Lowercase Letter, 1 Digit, 1 Special Character and length is 8 or more.</string>
     <string name="same_old_new_new_pass">New Password and Confirm Password does not match.</string>
 
     <!-- TODO: Place Holders  -->

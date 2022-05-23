@@ -8,6 +8,7 @@ import com.app.guardian.model.ForgotPass.ForgotPassResp
 import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
 import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.LawyerProfileDetails.LawyerProfileDetailsResp
+import com.app.guardian.model.ListFilter.FilterResp
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
 import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
@@ -42,6 +43,9 @@ interface ApiEndPoint {
 
     @POST("resetPassword")
     fun resetPass(@Body jsonObject: JsonObject): Call<CommonResponseModel<MutableList<CommonResponse>>>
+
+    @PUT("changePassword")
+    fun changePass(@Body jsonObject: JsonObject): Call<CommonResponseModel<CommonResponse>>
 
     @POST("signOut")
     fun signOut(): Call<CommonResponseModel<LoginResp>>
@@ -102,6 +106,9 @@ interface ApiEndPoint {
 
     @POST("addBanner")
     fun addBanner(@Body body: JsonObject):  Call<CommonResponseModel<CommonResponse>>
+
+    @GET("getFilterData")
+    fun getFilterListData():  Call<CommonResponseModel<FilterResp>>
 
 
 }

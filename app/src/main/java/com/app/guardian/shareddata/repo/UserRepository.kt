@@ -9,6 +9,7 @@ import com.app.guardian.model.ForgotPass.ForgotPassResp
 import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
 import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.LawyerProfileDetails.LawyerProfileDetailsResp
+import com.app.guardian.model.ListFilter.FilterResp
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
 import com.app.guardian.model.RequestState
@@ -478,6 +479,44 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
             commonResp.value = RequestState(progress = true)
             NetworkManager.requestData(
                 mApiEndPoint.addBanner(body),
+                baseView,
+                commonResp
+            )
+        }
+    }
+
+    override fun changePass(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResponse: MutableLiveData<RequestState<CommonResponse>>
+    ) {
+        if (!internetConnected) {
+            commonResponse.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            commonResponse.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.changePass(body),
+                baseView,
+                commonResponse
+            )
+        }
+    }
+
+    override fun getFilterData(
+
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<FilterResp>>
+    ) {
+        if (!internetConnected) {
+            commonResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            commonResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.getFilterListData(),
                 baseView,
                 commonResp
             )

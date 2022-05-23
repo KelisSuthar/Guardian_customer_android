@@ -1,13 +1,10 @@
 package com.app.guardian.ui.User.settings
 
+import android.app.Dialog
 import android.content.Intent
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.view.Window
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatButton
-import androidx.fragment.app.Fragment
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
@@ -16,33 +13,30 @@ import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.loadImage
 import com.app.guardian.common.extentions.visible
-import com.app.guardian.databinding.ActivityLoginBinding
 import com.app.guardian.databinding.FragmentSettingsBinding
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.termsandcondtions.TermAndConditionsActivity
-import com.app.guardian.ui.BannerAds.BannerAdsPager
 import com.app.guardian.ui.ContactedHistory.ContectedHistoryFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Lawyer.AddBaner.AddBannerFragment
-import com.app.guardian.ui.Lawyer.LawyerHome.LawyerHomeFragment
-import com.app.guardian.ui.Login.LoginActivity
-import com.app.guardian.ui.Mediator.MediatorHome.MediatorHomeFragment
 import com.app.guardian.ui.ResetPassword.ResetPasswordActivity
+import com.app.guardian.ui.SelectRole.SelectRoleScreen
 import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
-import com.app.guardian.ui.User.UserHome.UserHomeFragment
 import com.app.guardian.ui.aboutus.AboutUsActivity
 import com.app.guardian.ui.editProfile.EditProfileActivity
 import com.app.guardian.ui.virtualWitness.VirtualWitnessActivity
 import com.app.guardian.utils.Config
+import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class SettingsFragment : BaseFragment(), View.OnClickListener {
     private lateinit var mBinding: FragmentSettingsBinding
     private val mViewModel: CommonScreensViewModel by viewModel()
+    private val authViewModel: AuthenticationViewModel by viewModel()
     override fun getInflateResource(): Int {
         return R.layout.fragment_settings
 
@@ -55,6 +49,14 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         setViews()
         mBinding.imgProfile.loadImage(SharedPreferenceManager.getUser()?.user?.profile_avatar)
         mBinding.txtUName.text = SharedPreferenceManager.getUser()?.user?.full_name
+
+
+        (activity as HomeActivity).headerTextVisible(
+            "",
+            false,
+            false
+        )
+
     }
 
     private fun setViews() {
@@ -144,7 +146,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                                     Intent(
                                         requireActivity(),
                                         SubScriptionPlanScreen::class.java
-                                    ).putExtra(AppConstants.EXTRA_IS_LAWYER,true)
+                                    ).putExtra(AppConstants.EXTRA_IS_LAWYER, true)
                                 )
                                 requireActivity().overridePendingTransition(
                                     R.anim.rightto,
@@ -164,6 +166,44 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                                 )
                             }
 
+                        } else {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                requireActivity(),
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {}
+                    }
+                }
+            }
+        }
+        //Logout Resp
+        authViewModel.getSignOutResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            SharedPreferenceManager.removeAllData()
+
+                            startActivity(
+                                Intent(
+                                    requireActivity(),
+                                    SelectRoleScreen::class.java
+                                )
+                            )
+                            requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
+                            requireActivity().finish()
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                         } else {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                         }
@@ -205,7 +245,10 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                 requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
             }
             R.id.tvChangePwd -> {
-                startActivity(Intent(context, ResetPasswordActivity::class.java))
+                startActivity(
+                    Intent(context, ResetPasswordActivity::class.java)
+                        .putExtra(AppConstants.IS_CHANGE_PASS, true)
+                )
                 requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
             }
             R.id.btnEditProfile -> {
@@ -221,19 +264,58 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                 ReplaceFragment.replaceFragment(
                     requireActivity(),
                     ContectedHistoryFragment(),
-                    false,
-                    "",
+                    true,
+                    HomeActivity::class.java.name,
                     HomeActivity::class.java.name
                 )
                 requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
             }
             R.id.btnSignOut -> {
-
+                logoutDialog()
 
             }
         }
 
 
+    }
+
+    private fun logoutDialog() {
+        val dialog = Dialog(
+            requireActivity(),
+            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+        )
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setContentView(R.layout.dialog_layout)
+        dialog.setCancelable(false)
+
+        val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
+        val TITLE = dialog.findViewById<TextView>(R.id.tvTitle)
+        val MESSAGE = dialog.findViewById<TextView>(R.id.tvMessage)
+        val CANCEL = dialog.findViewById<MaterialTextView>(R.id.tvNegative)
+        TITLE.text = resources.getString(R.string.want_to_signout)
+        MESSAGE.gone()
+
+        OK.text = "Ok"
+
+        CANCEL.text = "Cancel"
+
+        CANCEL.setOnClickListener {
+            dialog.dismiss()
+        }
+        OK.setOnClickListener {
+            callSignoutDialog(dialog)
+        }
+        dialog.show()
+    }
+
+    private fun callSignoutDialog(dialog: Dialog) {
+        if (ReusedMethod.isNetworkConnected(requireActivity())) {
+            authViewModel.signOUT(true, context as BaseActivity)
+            dialog.dismiss()
+        } else {
+            ReusedMethod.displayMessage(requireActivity(), getString(R.string.text_error_network))
+        }
     }
 
     private fun callCheckSubscriptionApi() {

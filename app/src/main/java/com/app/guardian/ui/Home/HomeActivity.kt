@@ -22,17 +22,19 @@ import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityHomeBinding
 import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.ui.ContactedHistory.ContectedHistoryFragment
 import com.app.guardian.ui.KnowRight.KnowRightFragment
 import com.app.guardian.ui.Lawyer.LawyerHome.LawyerHomeFragment
 import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.Mediator.MediatorHome.MediatorHomeFragment
+import com.app.guardian.ui.Radar.RadarFragment
 import com.app.guardian.ui.User.UserHome.UserHomeFragment
 import com.app.guardian.ui.User.settings.SettingsFragment
 import com.google.android.gms.location.*
 import com.google.android.material.textview.MaterialTextView
 
 
-class HomeActivity : BaseActivity(),View.OnClickListener {
+class HomeActivity : BaseActivity(), View.OnClickListener {
     lateinit var mBinding: ActivityHomeBinding
 
 
@@ -57,15 +59,41 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
                     loadHomeScreen()
 //                    ReplaceFragment.replaceFragment(this,KnowRightFragment(),false,"",HomeActivity::class.java.name)
                 }
-                R.id.menu_lawyer -> {clearFragmentBackStack()
-                    ReplaceFragment.replaceFragment(this,LawyerListFragment(),false,"",HomeActivity::class.java.name)}
+                R.id.menu_lawyer -> {
+                    clearFragmentBackStack()
+                    ReplaceFragment.replaceFragment(
+                        this,
+                        LawyerListFragment(),
+                        false,
+                        "",
+                        HomeActivity::class.java.name
+                    )
+                }
                 R.id.menu_radar -> {
                     clearFragmentBackStack()
+                    bottomTabVisibility(true)
+
                 }
-                R.id.menu_history ->{clearFragmentBackStack()
-                    ReplaceFragment.replaceFragment(this,KnowRightFragment(),false,"",HomeActivity::class.java.name)}
-                R.id.menu_setting ->{clearFragmentBackStack()
-                    ReplaceFragment.replaceFragment(this,SettingsFragment(),false,"",HomeActivity::class.java.name)}
+                R.id.menu_history -> {
+                    clearFragmentBackStack()
+                    ReplaceFragment.replaceFragment(
+                        this,
+                        KnowRightFragment(),
+                        false,
+                        "",
+                        HomeActivity::class.java.name
+                    )
+                }
+                R.id.menu_setting -> {
+                    clearFragmentBackStack()
+                    ReplaceFragment.replaceFragment(
+                        this,
+                        SettingsFragment(),
+                        false,
+                        "",
+                        HomeActivity::class.java.name
+                    )
+                }
             }
             true
         }
@@ -86,6 +114,9 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
         locationRequest = LocationRequest.create()
         locationRequest?.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         locationRequest?.interval = 20 * 1000
+
+
+        headerTextVisible(resources.getString(R.string.seek_legal_advice), false, true)
     }
 
     override fun onResume() {
@@ -124,18 +155,21 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
 //    }
 
     override fun onBackPressed() {
-      //  super.onBackPressed()
+        //  super.onBackPressed()
         val fm: FragmentManager = supportFragmentManager
         var getCurrentFragment = supportFragmentManager.fragments
-        Log.e("BackStack","Current fragment Name : "+getCurrentFragment.toString())
-        var getFragment= supportFragmentManager.findFragmentById(R.id.flUserContainer)
+        Log.e("BackStack", "Current fragment Name : " + getCurrentFragment.toString())
+        var getFragment = supportFragmentManager.findFragmentById(R.id.flUserContainer)
         when {
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_USER -> {
-
-
+                if (getFragment is UserHomeFragment || getFragment is LawyerListFragment || getFragment is ContectedHistoryFragment || getFragment is RadarFragment ||getFragment is SettingsFragment) {
+                    super.onBackPressed()
+                } else{
+                    fm.popBackStack()
+                }
 
             }
             SharedPreferenceManager.getString(
@@ -149,11 +183,10 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_MEDIATOR -> {
 
-                if(getFragment!=null){
-                    if(getFragment is MediatorHomeFragment){
+                if (getFragment != null) {
+                    if (getFragment is MediatorHomeFragment) {
                         super.onBackPressed()
-                    }
-                    else if(getFragment is KnowRightFragment){
+                    } else if (getFragment is KnowRightFragment) {
                         fm.popBackStack()
                     }
                 }
@@ -167,7 +200,7 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
         for (fragment in supportFragmentManager.fragments) {
             supportFragmentManager.beginTransaction().remove(fragment).commit()
         }
-        if(fm.getBackStackEntryCount() > 0){
+        if (fm.getBackStackEntryCount() > 0) {
 //            while (fm.getBackStackEntryCount() > 0) {
 //                fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 //
@@ -187,47 +220,67 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_USER -> {
 
-                ReplaceFragment.replaceFragment(this,UserHomeFragment(),false,"",HomeActivity::class.java.name)
+                ReplaceFragment.replaceFragment(
+                    this,
+                    UserHomeFragment(),
+                    false,
+                    "",
+                    HomeActivity::class.java.name
+                )
             }
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_LAWYER -> {
                 mBinding.bottomNavigationUser.menu.getItem(2).isVisible = false
-                ReplaceFragment.replaceFragment(this, LawyerHomeFragment(), false,"",HomeActivity::class.java.name);
+                ReplaceFragment.replaceFragment(
+                    this,
+                    LawyerHomeFragment(),
+                    false,
+                    "",
+                    HomeActivity::class.java.name
+                );
             }
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_MEDIATOR -> {
                 mBinding.bottomNavigationUser.menu.getItem(2).isVisible = false
-                ReplaceFragment.replaceFragment(this, MediatorHomeFragment(), false,"",HomeActivity::class.java.name);
+                ReplaceFragment.replaceFragment(
+                    this,
+                    MediatorHomeFragment(),
+                    false,
+                    "",
+                    HomeActivity::class.java.name
+                );
             }
         }
     }
 
-    fun headerTextVisible(headerTitle : String, isHeaderVisible : Boolean, isBackButtonVisible : Boolean){
-        if(isHeaderVisible){
+    fun headerTextVisible(
+        headerTitle: String,
+        isHeaderVisible: Boolean,
+        isBackButtonVisible: Boolean
+    ) {
+        if (isHeaderVisible) {
             mBinding.headerToolbar.clHeadder.visible()
 
-            mBinding.headerToolbar.tvHeaderText.text =headerTitle
+            mBinding.headerToolbar.tvHeaderText.text = headerTitle
 
-            if(isBackButtonVisible)
-            mBinding.headerToolbar.ivBack.visible()
+            if (isBackButtonVisible)
+                mBinding.headerToolbar.ivBack.visible()
             else
                 mBinding.headerToolbar.ivBack.gone()
-        }
-        else{
+        } else {
             mBinding.headerToolbar.clHeadder.gone()
         }
 
     }
 
-    fun bottomTabVisibility(isBottomVisible: Boolean){
-        if(isBottomVisible){
+    fun bottomTabVisibility(isBottomVisible: Boolean) {
+        if (isBottomVisible) {
             mBinding.bottomNavigationUser.visible()
-        }
-        else{
+        } else {
             mBinding.bottomNavigationUser.gone()
         }
     }
@@ -244,7 +297,7 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
         )
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.setContentView(R.layout.dialig_layout)
+        dialog.setContentView(R.layout.dialog_layout)
         dialog.setCancelable(false)
 
         val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
@@ -282,8 +335,14 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
                             Log.i("THIS_APP", location.latitude.toString())
                             Log.i("THIS_APP", location.longitude.toString())
 
-                            SharedPreferenceManager.putString(AppConstants.EXTRA_LAT,location.latitude.toString())
-                            SharedPreferenceManager.putString(AppConstants.EXTRA_LONG,location.longitude.toString())
+                            SharedPreferenceManager.putString(
+                                AppConstants.EXTRA_LAT,
+                                location.latitude.toString()
+                            )
+                            SharedPreferenceManager.putString(
+                                AppConstants.EXTRA_LONG,
+                                location.longitude.toString()
+                            )
 
 
                             if (mFusedLocationClient != null) {

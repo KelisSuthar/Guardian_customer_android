@@ -8,6 +8,7 @@ import com.app.guardian.model.ForgotPass.ForgotPassResp
 import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
 import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.LawyerProfileDetails.LawyerProfileDetailsResp
+import com.app.guardian.model.ListFilter.FilterResp
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
 import com.app.guardian.model.RequestState
@@ -187,6 +188,18 @@ interface UserRepo {
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<CommonResponse>>
+    )
+
+    fun changePass(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<CommonResponse>>
+    )
+    fun getFilterData(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<FilterResp>>
     )
 
 }

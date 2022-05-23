@@ -10,7 +10,8 @@
 
         <include
             android:id="@+id/headderSettitng"
-            layout="@layout/headder_layout" />
+            layout="@layout/headder_layout"
+            android:visibility="gone"/>
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -31,6 +32,8 @@
                     android:layout_marginStart="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_20sdp"
                     android:src="@drawable/profile"
+                    app:civ_border_width="@dimen/_1sdp"
+                    app:civ_border_color="@color/lightBlue_2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

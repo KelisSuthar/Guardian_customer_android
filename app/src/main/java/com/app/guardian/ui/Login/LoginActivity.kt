@@ -96,8 +96,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                                             )
                                         )
                                         overridePendingTransition(R.anim.rightto, R.anim.left)
-                                        SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
+
                                     }else{
+                                        SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
+                                        SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
                                         openDashBoard()
                                         overridePendingTransition(R.anim.rightto, R.anim.left)
                                     }

@@ -19,6 +19,7 @@ import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.AutoCompleteAdapter
+import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.KnowRight.Adapter.KnowYourRightsAdapter
 import com.app.guardian.utils.Config
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -65,6 +66,12 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
 //        if (!Places.isInitialized()) {
 //            Places.initialize(requireContext(), getString(R.string.map_api_key))
 //        }
+        (activity as HomeActivity).bottomTabVisibility(true)
+        (activity as HomeActivity).headerTextVisible(
+            requireActivity().resources.getString(R.string.know_your_basic_rights),
+            true,
+            true
+        )
     }
 
     override fun onResume() {
@@ -95,7 +102,8 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
 
     private fun callApi() {
         if (ReusedMethod.isNetworkConnected(requireActivity())) {
-            mViewModel.getKnowRights(true, context as BaseActivity, CITY, COUNTRY)
+//            mViewModel.getKnowRights(true, context as BaseActivity, CITY, COUNTRY)
+            mViewModel.getKnowRights(true, context as BaseActivity, "Saskatoon", "Canada")
         } else {
             mBinding.NoInternetKnowYourRight.llNointernet.visible()
             mBinding.noDataKnowYourright.gone()
@@ -142,6 +150,11 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
                             array.clear()
                             array.addAll(data)
                             knowYourRightsAdapter?.notifyDataSetChanged()
+                            if(array.isNullOrEmpty()){
+                                mBinding.noDataKnowYourright.visible()
+                                mBinding.NoInternetKnowYourRight.llNointernet.gone()
+                                mBinding.cl1.gone()
+                            }
                         } else {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                         }

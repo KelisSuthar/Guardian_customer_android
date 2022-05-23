@@ -18,6 +18,7 @@ class ApiConstant{
      val EXTRAS_OTP="otp"
      val EXTRAS_TYPE="type"
      val EXTRAS_NEW_PASS="new_password"
+     val EXTRAS_CON_NEW_PASS="confirm_new_password"
      val EXTRAS_CONFIRM_PASS="confirm_password"
      val EXTRAS_FULL_NAME="full_name"
      val EXTRAS_FULL_UNDERSCORE_NAME="full_name"

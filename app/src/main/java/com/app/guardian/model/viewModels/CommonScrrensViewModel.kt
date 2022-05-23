@@ -7,6 +7,7 @@ import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
+import com.app.guardian.model.ListFilter.FilterResp
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
@@ -157,6 +158,24 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
             isInternetConnected,
             baseView,
             checkSubscriptionResp
+        )
+    }
+
+
+
+    //GET FILTER DATA RESP
+    private val filterResp = MutableLiveData<RequestState<FilterResp>>()
+    fun getFilterResp(): LiveData<RequestState<FilterResp>> = filterResp
+
+    fun getFilterData(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+
+    ) {
+        mUserRepository.getFilterData(
+            isInternetConnected,
+            baseView,
+            filterResp
         )
     }
 }

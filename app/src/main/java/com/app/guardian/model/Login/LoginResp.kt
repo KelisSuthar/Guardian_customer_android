@@ -21,11 +21,17 @@ data class User(
     val is_subscribe: Int?=0,
     val postal_code: String?="",
     val profile_avatar: String?="",
+    val dialing_code: String?="",
+    val office_dialing_code: String?="",
     val specialization: String?="",
     val state: String?="",
     val status: String?="",
     val updated_at: String?="",
     val user_role: String?="",
     val vehicle_no: String?="",
-    val years_of_experience: String?=""
+    val years_of_experience: String?="",
+    val changephone_otp: String?="",
+    val description: String?="",
+    val plan_id: String?="",
+    val plan_expiry_date: String?="",
 )

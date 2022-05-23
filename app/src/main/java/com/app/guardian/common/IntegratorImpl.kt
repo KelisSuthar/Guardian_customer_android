@@ -218,15 +218,17 @@ object IntegratorImpl {
     }
 
     fun isValidResetPass(
+        is_ChangePass: Boolean,
+        oldPass: String,
         password: String,
         conPass: String,
         ValidationView: ValidationView.RestPass
     ) {
 
-        if (TextUtils.isEmpty(password)) {
-            ValidationView.empty_pass()
-        } else
-            if (password.length < 8) {
+        if (is_ChangePass) {
+            if (TextUtils.isEmpty(password)) {
+                ValidationView.empty_pass()
+            } else if (password.length < 8) {
                 ValidationView.passwordMinValidation()
             } else if (!SmartUtils.checkSpecialPasswordValidation(password)) {
                 ValidationView.passwordSpecialValidation()
@@ -241,6 +243,33 @@ object IntegratorImpl {
             } else {
                 ValidationView.success()
             }
+        } else {
+
+            if (TextUtils.isEmpty(oldPass)) {
+                ValidationView.empty_old_pass()
+            } else if (oldPass.length < 8) {
+                ValidationView.oldpasswordMinValidation()
+            } else if (!SmartUtils.checkSpecialPasswordValidation(oldPass)) {
+                ValidationView.oldpasswordSpecialValidation()
+            } else if (TextUtils.isEmpty(password)) {
+                ValidationView.empty_pass()
+            } else if (password.length < 8) {
+                ValidationView.passwordMinValidation()
+            } else if (!SmartUtils.checkSpecialPasswordValidation(password)) {
+                ValidationView.passwordSpecialValidation()
+            } else if (TextUtils.isEmpty(conPass)) {
+                ValidationView.empty_con_Pass()
+            } else if (conPass.length < 8) {
+                ValidationView.con_passwordMinValidation()
+            } else if (!SmartUtils.checkSpecialPasswordValidation(conPass)) {
+                ValidationView.con_passwordSpecialValidation()
+            } else if (password != conPass) {
+                ValidationView.comparePass()
+            } else {
+                ValidationView.success()
+            }
+        }
+
 
     }
 

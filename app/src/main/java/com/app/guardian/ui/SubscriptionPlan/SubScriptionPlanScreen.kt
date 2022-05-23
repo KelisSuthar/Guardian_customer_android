@@ -101,7 +101,6 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
-                            SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
                             array.clear()
                             array.addAll(data)
                             subscriptionPlanAdapter?.notifyDataSetChanged()
@@ -136,6 +135,7 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                     it.data?.let { data ->
                         if (it.status) {
                             SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
+                            SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
                             startActivity(
                                 Intent(
                                     this@SubScriptionPlanScreen,
@@ -238,6 +238,10 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.leftto, R.anim.right)
+    }
 
     override fun handleListener() {
         mBinding.headderSubscritpion.ivBack.setOnClickListener(this)

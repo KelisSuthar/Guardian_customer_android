@@ -22,6 +22,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
     private val mViewModel: AuthenticationViewModel by viewModel()
     lateinit var mBinding: ActivityResetPasswordBinding
+    var is_ChangePass = false
     override fun getResource(): Int {
         ReusedMethod.updateStatusBarColor(this, R.color.colorPrimaryDark, 4)
         return R.layout.activity_reset_password
@@ -31,6 +32,13 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
         mBinding = getBinding()
 //        mBinding.headderResetPass.ivBack.gone()
         mBinding.headderResetPass.tvHeaderText.text = resources.getString(R.string.reset_password)
+
+        if (intent != null && intent.extras != null) {
+            is_ChangePass = intent.getBooleanExtra(AppConstants.IS_CHANGE_PASS, false)
+            if(is_ChangePass){
+                mBinding.textInputLayout3.visible()
+            }
+        }
     }
 
     override fun initObserver() {
@@ -49,7 +57,7 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
                             )
                             overridePendingTransition(R.anim.rightto, R.anim.left)
                             ReusedMethod.displayMessage(this, it.message.toString())
-                        }else{
+                        } else {
                             ReusedMethod.displayMessage(this, it.message.toString())
                         }
                     }
@@ -64,7 +72,38 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let {  }
+                                ?.let { }
+                    }
+                }
+            }
+        }
+
+        //Chnage Pass word resp
+        mViewModel.getCommonResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            onBackPressed()
+                            overridePendingTransition(R.anim.leftto, R.anim.right)
+                            ReusedMethod.displayMessage(this, it.message.toString())
+                        } else {
+                            ReusedMethod.displayMessage(this, it.message.toString())
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                this,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let { }
                     }
                 }
             }
@@ -91,9 +130,47 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
 
     private fun validations() {
         IntegratorImpl.isValidResetPass(
+            is_ChangePass,
+            mBinding.editTextOldPass.text?.trim().toString(),
             mBinding.editTextNewPass.text?.trim().toString(),
             mBinding.editTextConPass.text?.trim().toString(),
             object : ValidationView.RestPass {
+                override fun empty_old_pass() {
+                    ReusedMethod.displayMessageDialog(
+                        this@ResetPasswordActivity,
+                        "",
+                        resources.getString(R.string.empty_old_pass),
+                        false,
+                        "Ok",
+                        ""
+                    )
+                    ShowRedBorders(this@ResetPasswordActivity, mBinding.editTextOldPass)
+                }
+
+                override fun oldpasswordMinValidation() {
+                    ReusedMethod.displayMessageDialog(
+                        this@ResetPasswordActivity,
+                        "",
+                        resources.getString(R.string.valid_old_pass),
+                        false,
+                        "Ok",
+                        ""
+                    )
+                    ShowRedBorders(this@ResetPasswordActivity, mBinding.editTextOldPass)
+                }
+
+                override fun oldpasswordSpecialValidation() {
+                    ReusedMethod.displayMessageDialog(
+                        this@ResetPasswordActivity,
+                        "",
+                        resources.getString(R.string.valid_old_pass),
+                        false,
+                        "Ok",
+                        ""
+                    )
+                    ShowRedBorders(this@ResetPasswordActivity, mBinding.editTextOldPass)
+                }
+
                 override fun empty_pass() {
                     ReusedMethod.displayMessageDialog(
                         this@ResetPasswordActivity,
@@ -182,7 +259,13 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
                 override fun success() {
                     ShowNoBorders(this@ResetPasswordActivity, mBinding.editTextConPass)
                     ShowNoBorders(this@ResetPasswordActivity, mBinding.editTextNewPass)
-                    callApi()
+                    ShowNoBorders(this@ResetPasswordActivity, mBinding.editTextOldPass)
+                    if (is_ChangePass) {
+                        callChangePassAPI()
+                    } else {
+                        callApi()
+                    }
+
                 }
             })
     }
@@ -192,7 +275,7 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
             mViewModel.resetPassword(
                 true,
                 this,
-                mBinding.editTextConPass.text?.trim().toString(),
+                mBinding.editTextNewPass.text?.trim().toString(),
                 mBinding.editTextConPass.text?.trim().toString(),
                 intent.getStringExtra(AppConstants.EXTRA_USER_ID).toString()
             )
@@ -201,6 +284,29 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
             mBinding.noDataoginResetPass.gone()
             mBinding.nsResetPass.gone()
         }
+    }
+
+    private fun callChangePassAPI() {
+        if (isNetworkConnected(this)) {
+            mViewModel.changePassword(
+                true,
+                this,
+                mBinding.editTextOldPass.text?.trim().toString(),
+                mBinding.editTextNewPass.text?.trim().toString(),
+                mBinding.editTextConPass.text?.trim().toString(),
+            )
+        } else {
+            mBinding.noInternetoginResetPass.llNointernet.visible()
+            mBinding.noDataoginResetPass.gone()
+            mBinding.nsResetPass.gone()
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+        overridePendingTransition(R.anim.leftto, R.anim.right)
+
     }
 
 }

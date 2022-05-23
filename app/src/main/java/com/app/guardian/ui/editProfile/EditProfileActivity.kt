@@ -83,6 +83,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             AppConstants.EXTRA_WRITE_PERMISSION,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
+        mBinding.headderEdit.tvHeaderText.text = resources.getString(R.string.edit_profile)
         when {
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
@@ -218,11 +219,16 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
     private fun setApiData(data: UserDetailsResp) {
         mBinding.edtFullname.setText(data.full_name)
         mBinding.edtEmail.setText(data.email)
-        mBinding.edtSpecializations.setText(data.specialization)
-        mBinding.edtYearsOfExp.setText(data.years_of_experience)
-        mBinding.edtOfficeNum.setText(data.office_phone)
-        mBinding.ccp1.setCountryForPhoneCode(data.office_dialing_code!!.toInt())
-        mBinding.ccp2.setCountryForPhoneCode(data.dialing_code!!.toInt())
+        if(is_mediator){
+            mBinding.edtSpecializations.setText(data.specialization)
+            mBinding.edtYearsOfExp.setText(data.years_of_experience)
+        }else if(is_lawyer){
+            mBinding.edtSpecializations.setText(data.specialization)
+            mBinding.edtYearsOfExp.setText(data.years_of_experience)
+            mBinding.edtOfficeNum.setText(data.office_phone)
+            mBinding.ccp1.setCountryForPhoneCode(data.office_dialing_code!!)
+        }
+        mBinding.ccp2.setCountryForPhoneCode(data.dialing_code!!)
         mBinding.edtPhone.setText(data.phone)
         mBinding.edtProvience.setText(data.state)
         mBinding.edtPostalCode.setText(data.postal_code)
@@ -477,7 +483,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         )
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.setContentView(R.layout.dialig_layout)
+        dialog.setContentView(R.layout.dialog_layout)
         dialog.setCancelable(false)
 
         val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
