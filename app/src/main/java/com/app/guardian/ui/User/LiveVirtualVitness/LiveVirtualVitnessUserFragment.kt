@@ -1,20 +1,15 @@
 package com.app.guardian.ui.User.LiveVirtualVitness
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.app.guardian.R
-import com.app.guardian.databinding.FragmentLiveVirtualVitnessMediatorBinding
-import com.app.guardian.databinding.FragmentRecordPoliceInteractionBinding
+import com.app.guardian.databinding.FragmentLiveVirtualVitnessUserBinding
 import com.app.guardian.shareddata.base.BaseFragment
 
 
-class LiveVirtualVitnessMediatorFragment : BaseFragment(), View.OnClickListener {
-    lateinit var mBinding: FragmentLiveVirtualVitnessMediatorBinding
+class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
+    lateinit var mBinding: FragmentLiveVirtualVitnessUserBinding
     override fun getInflateResource(): Int {
-        return R.layout.fragment_live_virtual_vitness_mediator
+        return R.layout.fragment_live_virtual_vitness_user
     }
 
     override fun initView() {

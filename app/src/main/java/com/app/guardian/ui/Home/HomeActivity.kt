@@ -27,6 +27,7 @@ import com.app.guardian.ui.KnowRight.KnowRightFragment
 import com.app.guardian.ui.Lawyer.LawyerHome.LawyerHomeFragment
 import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.Mediator.MediatorHome.MediatorHomeFragment
+import com.app.guardian.ui.Radar.RadarFragment
 import com.app.guardian.ui.User.UserHome.UserHomeFragment
 import com.app.guardian.ui.User.settings.SettingsFragment
 import com.google.android.gms.location.*
@@ -77,7 +78,7 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
                     clearFragmentBackStack()
                     ReplaceFragment.replaceFragment(
                         this,
-                        KnowRightFragment(),
+                        ContectedHistoryFragment(),
                         false,
                         "",
                         HomeActivity::class.java.name
@@ -120,7 +121,7 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
 
     fun historyPageOpen()
     {
-        mBinding.bottomNavigationUser.setSelectedItemId(R.id.menu_history);
+        mBinding.bottomNavigationUser.selectedItemId = R.id.menu_history;
     }
 
 
@@ -171,7 +172,8 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
                 AppConstants.USER_ROLE,
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_USER -> {
-                if (getFragment is UserHomeFragment || getFragment is LawyerListFragment || getFragment is ContectedHistoryFragment || getFragment is RadarFragment ||getFragment is SettingsFragment) {
+                if (getFragment is UserHomeFragment || getFragment is LawyerListFragment || getFragment is ContectedHistoryFragment || getFragment is
+                            RadarFragment ||getFragment is SettingsFragment) {
                     super.onBackPressed()
                 } else{
                     fm.popBackStack()

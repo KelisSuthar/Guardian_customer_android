@@ -365,7 +365,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "Cancel",
                         ""
                     )
-                    ShowRedBorders(this@SignupScreen, mBinding.edtFullname)
+                       ShowRedBorders(this@SignupScreen, mBinding.edtFullname)
                 }
 
                 override fun fulllNameValidation() {

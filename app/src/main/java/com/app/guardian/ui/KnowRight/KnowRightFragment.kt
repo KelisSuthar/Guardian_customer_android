@@ -68,7 +68,7 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
 //        if (!Places.isInitialized()) {
 //            Places.initialize(requireContext(), getString(R.string.map_api_key))
 //        }
-        (activity as HomeActivity).bottomTabVisibility(true)
+        (activity as HomeActivity).bottomTabVisibility(false)
         (activity as HomeActivity).headerTextVisible(
             requireActivity().resources.getString(R.string.know_your_basic_rights),
             true,

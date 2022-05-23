@@ -7,6 +7,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
+import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
@@ -18,6 +19,8 @@ import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.BannerAds.BannerAdsPager
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.Lawyer.LawyerHome.LawyerHomeFragment
+import com.app.guardian.ui.User.RecordPolice.RecordPoliceInteractionFragment
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -36,7 +39,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding = getBinding()
         setAdapter()
         callApi()
-
+        (activity as HomeActivity).bottomTabVisibility(true)
         (activity as HomeActivity).headerTextVisible(
             requireActivity().resources.getString(R.string.know_your_basic_rights),
             false,
@@ -75,6 +78,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding.noInternetUserHomeFrag.llNointernet.gone()
         mBinding.noDataUserHomeFrag.gone()
         mBinding.cl.visible()
+        changeLayout(0)
     }
 
     override fun handleListener() {
@@ -128,8 +132,22 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
         when (v?.id) {
             R.id.cvRecord -> {
                 changeLayout(1)
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    RecordPoliceInteractionFragment(),
+                    true,
+                    HomeActivity::class.java.name,
+                    HomeActivity::class.java.name
+                );
             }
             R.id.cvScheduleVirtualWitness -> {
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    RecordPoliceInteractionFragment(),
+                    true,
+                    HomeActivity::class.java.name,
+                    HomeActivity::class.java.name
+                );
                 changeLayout(2)
             }
             R.id.cvSupportService -> {
@@ -137,12 +155,15 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.rbRecord -> {
                 changeLayout(1)
+                mBinding.cvRecord.performClick()
             }
             R.id.rbScheduleVirtualWitness -> {
                 changeLayout(2)
+                mBinding.cvScheduleVirtualWitness.performClick()
             }
             R.id.rbSupportService -> {
                 changeLayout(3)
+                mBinding.cvSupportService.performClick()
             }
             R.id.btnTryAgain -> {
                 callApi()
@@ -153,6 +174,30 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
     private fun changeLayout(i: Int) {
 
         when (i) {
+            0->{
+                mBinding.rlRecord.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+                mBinding.rlScheduleVirtualWitness.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+                mBinding.rlSupportService.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+                mBinding.rbRecord.isChecked = false
+                mBinding.rbScheduleVirtualWitness.isChecked = false
+                mBinding.rbSupportService.isChecked = false
+
+            }
             1 -> {
                 mBinding.rlRecord.setBackgroundColor(
                     ContextCompat.getColor(

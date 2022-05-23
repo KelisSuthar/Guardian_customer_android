@@ -98,6 +98,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding.noInternetUserHomeFrag.llNointernet.gone()
         mBinding.noDataUserHomeFrag.gone()
         mBinding.cl.visible()
+        chnagelayout(0)
     }
 
     override fun postInit() {
@@ -205,11 +206,49 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
 
     private fun chnagelayout(i: Int) {
         when (i) {
+            0->{   mBinding.rlKnowRights.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.lightBlue_2
+                )
+            )
+                mBinding.rlAskQuestions.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+                mBinding.rlSeekAdv.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+                mBinding.btnKnowRights.isChecked = false
+                mBinding.btnAskQuestions.isChecked = false
+                mBinding.btnSeekAdv.isChecked = false
+                mBinding.btnKnowRights.buttonTintList =
+                    ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
+                mBinding.btnAskQuestions.buttonTintList =
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorPrimaryDark
+                        )
+                    )
+                mBinding.btnSeekAdv.buttonTintList =
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorPrimaryDark
+                        )
+                    )
+            }
             1 -> {
                 mBinding.rlKnowRights.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
-                        R.color.blue
+                        R.color.colorPrimaryDark
                     )
                 )
                 mBinding.rlAskQuestions.setBackgroundColor(
