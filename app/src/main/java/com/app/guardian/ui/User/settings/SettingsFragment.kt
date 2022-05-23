@@ -44,22 +44,15 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 
     override fun initView() {
         mBinding = getBinding()
-        mBinding.headderSettitng.ivBack.visible()
-        mBinding.headderSettitng.tvHeaderText.gone()
         setViews()
         mBinding.imgProfile.loadImage(SharedPreferenceManager.getUser()?.user?.profile_avatar)
         mBinding.txtUName.text = SharedPreferenceManager.getUser()?.user?.full_name
-
-
-        (activity as HomeActivity).headerTextVisible(
-            "",
-            false,
-            false
-        )
-
     }
 
     private fun setViews() {
+        (activity as HomeActivity).bottomTabVisibility(true)
+        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.menu_setting),true,false)
+
         when {
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
@@ -129,7 +122,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         mBinding.tvChangePwd.setOnClickListener(this)
         mBinding.btnEditProfile.setOnClickListener(this)
         mBinding.btnSignOut.setOnClickListener(this)
-        mBinding.headderSettitng.ivBack.setOnClickListener(this)
+//        mBinding.headderSettitng.ivBack.setOnClickListener(this)
         mBinding.tvBanneradds.setOnClickListener(this)
         mBinding.tvContactHistory.setOnClickListener(this)
     }
@@ -261,14 +254,16 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 
             }
             R.id.tvContactHistory -> {
-                ReplaceFragment.replaceFragment(
-                    requireActivity(),
-                    ContectedHistoryFragment(),
-                    true,
-                    HomeActivity::class.java.name,
-                    HomeActivity::class.java.name
-                )
-                requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
+//                ReplaceFragment.replaceFragment(
+//                    requireActivity(),
+//                    ContectedHistoryFragment(),
+//                    false,
+//                    "",
+//                    HomeActivity::class.java.name
+//                )
+//                requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
+                (activity as HomeActivity).historyPageOpen()
+
             }
             R.id.btnSignOut -> {
                 logoutDialog()

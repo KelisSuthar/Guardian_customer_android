@@ -3,39 +3,22 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="../../../../../../../layout/custom_preview.xml" value="0.1734375" />
-        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2135" />
-        <entry key="app/src/main/res/drawable/bottom_navigation_item_background_colors.xml" value="0.2985" />
-        <entry key="app/src/main/res/drawable/button_back_blue_corner.xml" value="0.2135" />
-        <entry key="app/src/main/res/drawable/ic_add.xml" value="0.19" />
-        <entry key="app/src/main/res/drawable/ic_back_arrow.xml" value="0.21" />
-        <entry key="app/src/main/res/drawable/ic_eye.xml" value="0.21" />
-        <entry key="app/src/main/res/drawable/ic_eye_hide.xml" value="0.21" />
-        <entry key="app/src/main/res/drawable/ic_home.xml" value="0.2985" />
-        <entry key="app/src/main/res/drawable/ic_know_rights.xml" value="0.111" />
-        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2135" />
-        <entry key="app/src/main/res/drawable/ic_mail.xml" value="0.187" />
-        <entry key="app/src/main/res/drawable/ic_password.xml" value="0.2685" />
-        <entry key="app/src/main/res/drawable/ic_radio_btn_selected.xml" value="0.2135" />
-        <entry key="app/src/main/res/drawable/ic_record.xml" value="0.184" />
-        <entry key="app/src/main/res/drawable/ic_record_selected.xml" value="0.2985" />
-        <entry key="app/src/main/res/drawable/ic_specialization.xml" value="0.111" />
-        <entry key="app/src/main/res/drawable/ic_support_service.xml" value="0.203" />
-        <entry key="app/src/main/res/drawable/ic_support_service_selected.xml" value="0.2985" />
-        <entry key="app/src/main/res/drawable/ic_virtual_witness.xml" value="0.184" />
-        <entry key="app/src/main/res/drawable/ic_virtual_witness_selected.xml" value="0.2985" />
-        <entry key="app/src/main/res/drawable/normal_rounded_dark_blue.xml" value="0.2725" />
-        <entry key="app/src/main/res/drawable/normal_rounded_light_blue.xml" value="0.209" />
-        <entry key="app/src/main/res/drawable/normal_rounded_light_blue_borders.xml" value="0.209" />
-        <entry key="app/src/main/res/drawable/normal_rounded_light_blue_red_borders.xml" value="0.1" />
-        <entry key="app/src/main/res/drawable/password_show_hide.xml" value="0.2135" />
-        <entry key="app/src/main/res/drawable/radio_button_selector.xml" value="0.2135" />
-        <entry key="app/src/main/res/drawable/record_selector.xml" value="0.2985" />
-        <entry key="app/src/main/res/drawable/rounded_blue_back.xml" value="0.187" />
-        <entry key="app/src/main/res/drawable/rounded_rec_blueback.xml" value="0.19" />
-        <entry key="app/src/main/res/drawable/support_service_selector.xml" value="0.2985" />
-        <entry key="app/src/main/res/drawable/tab_selector.xml" value="0.111" />
         <entry key="app/src/main/res/drawable/toast_rounded.xml" value="0.2135" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.234375" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.234375" />
+        <entry key="app/src/main/res/layout/fragment_add_seek_legal_advice.xml" value="0.234375" />
+        <entry key="app/src/main/res/layout/fragment_contected_history.xml" value="0.234375" />
+        <entry key="app/src/main/res/layout/fragment_know_right.xml" value="0.234375" />
+        <entry key="app/src/main/res/layout/fragment_lawyer_home.xml" value="0.2359375" />
+        <entry key="app/src/main/res/layout/fragment_lawyer_list.xml" value="0.2359375" />
+        <entry key="app/src/main/res/layout/fragment_lawyer_profile.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_mediator_home.xml" value="0.2359375" />
+        <entry key="app/src/main/res/layout/fragment_seek_legal_advice_list.xml" value="0.234375" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.234375" />
+        <entry key="app/src/main/res/layout/fragment_user_home.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/headder_layout.xml" value="0.234375" />
+        <entry key="app/src/main/res/layout/layout_search_filter.xml" value="0.2359375" />
+        <entry key="app/src/main/res/layout/no_data_layout.xml" value="0.234375" />
         <entry key="app/src/main/res/drawable/top_corner_blue_back.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/virtual_witness_selector.xml" value="0.2985" />
         <entry key="app/src/main/res/layout/activity_about_us.xml" value="0.15" />
@@ -76,6 +59,7 @@
         <entry key="app/src/main/res/layout/no_internet_connection_layout.xml" value="0.31209918768704575" />
         <entry key="app/src/main/res/layout/phone_email_selector.xml" value="0.5" />
         <entry key="app/src/main/res/layout/progress_dialog.xml" value="0.3802083333333333" />
+        <entry key="app/src/main/res/layout/row_lawyer_list.xml" value="0.234375" />
         <entry key="app/src/main/res/layout/row_know_right.xml" value="0.16" />
         <entry key="app/src/main/res/layout/row_lawyer_contact.xml" value="0.22" />
         <entry key="app/src/main/res/layout/row_moderator_contact.xml" value="0.3047699451245251" />
@@ -90,17 +74,10 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
-  </component>
-  <component name="VisualizationToolProject">
-    <option name="state">
-      <ProjectState>
-        <option name="scale" value="0.2" />
-      </ProjectState>
-    </option>
   </component>
 </project>

@@ -2,6 +2,7 @@ package com.app.guardian.ui.SeekLegalAdvice
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import com.app.guardian.R
@@ -46,7 +47,16 @@ class SeekLegalAdviceListFragment(is_icon_show:Boolean,seekLegalIdParams: Int) :
 //            seekLegalId = it.getInt("SeekID")
 //        }
         (activity as HomeActivity).bottomTabVisibility(false)
-        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.seek_legal_advice),true,true)
+        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.seek_legal_advice),false,false)
+
+
+        if(isIconShow){
+            mBinding.llAddAdv.visible()
+        }
+        else{
+            mBinding.llAddAdv.gone()
+        }
+        mBinding.ivSeekLegalBack.setOnClickListener(this)
 
     }
 
@@ -202,7 +212,6 @@ class SeekLegalAdviceListFragment(is_icon_show:Boolean,seekLegalIdParams: Int) :
 
     override fun handleListener() {
         mBinding.llAddAdv.setOnClickListener(this)
-        mBinding.ivBack.setOnClickListener(this)
         mBinding.noInternetSeekLegal.btnTryAgain.setOnClickListener(this)
 
     }
@@ -219,8 +228,9 @@ class SeekLegalAdviceListFragment(is_icon_show:Boolean,seekLegalIdParams: Int) :
                 )
                 requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
             }
-            R.id.ivBack -> {
-
+            R.id.ivSeekLegalBack -> {
+                Log.e("seekLegal","Seek legal back click ")
+                    requireActivity().onBackPressed()
             }
             R.id.btnTryAgain -> {
                 onResume()

@@ -95,7 +95,8 @@
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/ic_password"
                             android:hint="@string/password"
-                            android:inputType="textPassword" />
+                            android:inputType="textPassword"
+                            android:maxLines="1"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
