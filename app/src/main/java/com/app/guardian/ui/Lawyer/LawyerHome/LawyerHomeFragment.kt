@@ -53,6 +53,9 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
 
     override fun initView() {
         mBinding = getBinding()
+        (activity as HomeActivity).bottomTabVisibility(true)
+        (activity as HomeActivity).headerTextVisible("",false,false)
+
         setAdapter()
         callApi()
         mBinding.availabilitySwitch.setOnToggledListener(object : OnToggledListener {
@@ -154,8 +157,8 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                 ReplaceFragment.replaceFragment(
                     requireActivity(),
                     KnowRightFragment(),
-                    false,
-                    "",
+                    true,
+                    HomeActivity::class.java.name,
                     HomeActivity::class.java.name
                 )
             }
@@ -167,33 +170,35 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                 ReplaceFragment.replaceFragment(
                     requireActivity(),
                     SeekLegalAdviceListFragment(true,SharedPreferenceManager.getUser()!!.user.id!!),
-                    false,
-                    "",
+                    true,
+                    HomeActivity::class.java.name,
                     HomeActivity::class.java.name
                 )
             }
             R.id.btnKnowRights -> {
-                chnagelayout(1)
-                ReplaceFragment.replaceFragment(
-                    requireActivity(),
-                    KnowRightFragment(),
-                    false,
-                    "",
-                    HomeActivity::class.java.name
-                )
+//                chnagelayout(1)
+//                ReplaceFragment.replaceFragment(
+//                    requireActivity(),
+//                    KnowRightFragment(),
+//                    true,
+//                    "",
+//                    HomeActivity::class.java.name
+//                )
+                mBinding.cvKnowRights.performClick()
             }
             R.id.btnAskQuestions -> {
                 chnagelayout(2)
             }
             R.id.btnSeekAdv -> {
-                ReplaceFragment.replaceFragment(
-                    requireActivity(),
-                    SeekLegalAdviceListFragment(true,SharedPreferenceManager.getUser()!!.user.id!!),
-                    false,
-                    "",
-                    HomeActivity::class.java.name
-                )
-                chnagelayout(3)
+//                ReplaceFragment.replaceFragment(
+//                    requireActivity(),
+//                    SeekLegalAdviceListFragment(true,SharedPreferenceManager.getUser()!!.user.id!!),
+//                    false,
+//                    "",
+//                    HomeActivity::class.java.name
+//                )
+//                chnagelayout(3)
+                mBinding.cvSeekAdv.performClick()
             }
         }
     }

@@ -57,12 +57,14 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
     override fun initView() {
         mBinding = getBinding()
         setAdapter()
-        mBinding.headerKnowYourRight.tvHeaderText.text =
-            requireActivity().getString(R.string.know_your_basic_rights)
+
         ReusedMethod.initializeAutocompleteTextView(
             requireActivity(),
             mBinding.searchKnowRight.edtLoginEmail
         )
+        (activity as HomeActivity).bottomTabVisibility(false)
+        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.know_your_basic_rights),true,true)
+
 //        if (!Places.isInitialized()) {
 //            Places.initialize(requireContext(), getString(R.string.map_api_key))
 //        }

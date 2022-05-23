@@ -14,6 +14,7 @@ import com.app.guardian.databinding.FragmentAddSeekLegalAdviceBinding
 import com.app.guardian.model.viewModels.LawyerViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
+import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -41,8 +42,10 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
 
     override fun initView() {
         mBinding = getBinding()
-        mBinding.headerAddSeekLegal.tvHeaderText.text = "Seek Legal Advice"
-if(is_edit){
+        (activity as HomeActivity).bottomTabVisibility(true)
+        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.seek_legal_advice),true,true)
+
+        if(is_edit){
     mBinding.edtTitle.setText(edit_title)
     mBinding.edtDesc.setText(edit_desc)
 }
@@ -55,7 +58,6 @@ if(is_edit){
     override fun handleListener() {
         mBinding.btnSubmit.setOnClickListener(this)
         mBinding.noInternetAddSeekLegal.btnTryAgain.setOnClickListener(this)
-        mBinding.headerAddSeekLegal.ivBack.setOnClickListener(this)
     }
 
     override fun initObserver() {

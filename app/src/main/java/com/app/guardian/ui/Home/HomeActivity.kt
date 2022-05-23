@@ -27,14 +27,13 @@ import com.app.guardian.ui.KnowRight.KnowRightFragment
 import com.app.guardian.ui.Lawyer.LawyerHome.LawyerHomeFragment
 import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.Mediator.MediatorHome.MediatorHomeFragment
-import com.app.guardian.ui.Radar.RadarFragment
 import com.app.guardian.ui.User.UserHome.UserHomeFragment
 import com.app.guardian.ui.User.settings.SettingsFragment
 import com.google.android.gms.location.*
 import com.google.android.material.textview.MaterialTextView
 
 
-class HomeActivity : BaseActivity(), View.OnClickListener {
+class HomeActivity : BaseActivity(),View.OnClickListener {
     lateinit var mBinding: ActivityHomeBinding
 
 
@@ -119,6 +118,13 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
         headerTextVisible(resources.getString(R.string.seek_legal_advice), false, true)
     }
 
+    fun historyPageOpen()
+    {
+        mBinding.bottomNavigationUser.setSelectedItemId(R.id.menu_history);
+    }
+
+
+
     override fun onResume() {
         super.onResume()
 
@@ -155,11 +161,11 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
 //    }
 
     override fun onBackPressed() {
-        //  super.onBackPressed()
+      //  super.onBackPressed()
         val fm: FragmentManager = supportFragmentManager
         var getCurrentFragment = supportFragmentManager.fragments
-        Log.e("BackStack", "Current fragment Name : " + getCurrentFragment.toString())
-        var getFragment = supportFragmentManager.findFragmentById(R.id.flUserContainer)
+        Log.e("BackStack","Current fragment Name : "+getCurrentFragment.toString())
+        var getFragment= supportFragmentManager.findFragmentById(R.id.flUserContainer)
         when {
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
@@ -176,17 +182,25 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
                 AppConstants.USER_ROLE,
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_LAWYER -> {
-
+                if(getFragment!=null){
+                    if(getFragment is LawyerHomeFragment  || getFragment is LawyerListFragment || getFragment is ContectedHistoryFragment || getFragment is SettingsFragment){
+                        super.onBackPressed()
+                    }
+                    else {
+                        fm.popBackStack()
+                    }
+                }
             }
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_MEDIATOR -> {
 
-                if (getFragment != null) {
-                    if (getFragment is MediatorHomeFragment) {
+                if(getFragment!=null){
+                    if(getFragment is MediatorHomeFragment || getFragment is LawyerListFragment || getFragment is ContectedHistoryFragment || getFragment is SettingsFragment){
                         super.onBackPressed()
-                    } else if (getFragment is KnowRightFragment) {
+                    }
+                    else {
                         fm.popBackStack()
                     }
                 }
@@ -199,15 +213,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
 
         for (fragment in supportFragmentManager.fragments) {
             supportFragmentManager.beginTransaction().remove(fragment).commit()
-        }
-        if (fm.getBackStackEntryCount() > 0) {
-//            while (fm.getBackStackEntryCount() > 0) {
-//                fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//
-//            }
-
-
-            //fm.popBackStack()
         }
 
 

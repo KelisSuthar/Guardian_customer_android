@@ -7,10 +7,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/headerKnowYourRight"
-            layout="@layout/headder_layout"
-            android:visibility="gone"/>
 
 
         <include
@@ -50,7 +46,7 @@
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:layout_marginVertical="@dimen/_15sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/headerKnowYourRight">
+           app:layout_constraintTop_toTopOf="parent">
 
             <include
                 android:id="@+id/searchKnowRight"
