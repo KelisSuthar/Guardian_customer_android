@@ -150,7 +150,6 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.rbDialLawyer -> {
                 chnagelayout(2)
-                mBinding.cvDialLawyer.performClick()
             }
 
         }

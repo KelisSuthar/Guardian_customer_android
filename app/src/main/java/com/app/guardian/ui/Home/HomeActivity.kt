@@ -175,13 +175,6 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
         for (fragment in supportFragmentManager.fragments) {
             supportFragmentManager.beginTransaction().remove(fragment).commit()
         }
-//        if(fm.getBackStackEntryCount() > 0){
-////            while (fm.getBackStackEntryCount() > 0) {
-////                fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-////
-////            }
-//            //fm.popBackStack()
-//        }
 
 
     }
