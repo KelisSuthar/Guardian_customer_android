@@ -76,11 +76,8 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding.noDataUserHomeFrag.gone()
         mBinding.cl.visible()
 
-        if(mBinding.rbKnowBasicRight.isChecked){
-            chnagelayout(1)
-        }else{
-            chnagelayout(2)
-        }
+        chnagelayout(0)
+
     }
 
     override fun postInit() {
