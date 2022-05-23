@@ -18,6 +18,7 @@ data class User(
     val login_otp: String?="",
     val office_phone: String?="",
     val phone: String?="",
+    val is_subscribe: Int?=0,
     val postal_code: String?="",
     val profile_avatar: String?="",
     val specialization: String?="",

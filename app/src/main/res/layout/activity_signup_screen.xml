@@ -135,13 +135,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:drawableLeft="@drawable/ic_specialization"
+                        android:drawableLeft="@drawable/ic_specialization2"
                         android:fontFamily="@font/lora_regular"
                         android:hint="@string/specialization"
                         android:inputType="textEmailAddress"
                         android:textFontWeight="400"
                         android:textSize="@dimen/_12ssp"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtYearsOfExp"
@@ -155,14 +155,14 @@
                         android:inputType="number"
                         android:textFontWeight="400"
                         android:textSize="@dimen/_12ssp"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <FrameLayout
                         android:id="@+id/fmOficeNum"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                         <com.rilixtech.widget.countrycodepicker.CountryCodePicker
                             android:id="@+id/ccpOffice"

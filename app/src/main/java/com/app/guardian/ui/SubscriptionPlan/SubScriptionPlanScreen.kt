@@ -135,6 +135,7 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
+                            SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
                             startActivity(
                                 Intent(
                                     this@SubScriptionPlanScreen,
@@ -143,6 +144,8 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                             )
                             finish()
                             overridePendingTransition(R.anim.rightto, R.anim.left)
+                            ReusedMethod.displayMessage(this, it.message.toString())
+
                         } else {
                             ReusedMethod.displayMessage(this, it.message.toString())
                         }

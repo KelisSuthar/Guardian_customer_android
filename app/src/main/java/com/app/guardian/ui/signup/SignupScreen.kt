@@ -208,6 +208,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                                 )
                             )
                             overridePendingTransition(R.anim.rightto, R.anim.left)
+                            displayMessage(this, it.message.toString())
                         } else {
                             displayMessage(this, it.message.toString())
                         }
@@ -795,7 +796,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     getLatLong()
 
                 } else {
-                    displayMessage(this, "Please accept permission")
+//                    displayMessage(this, "Please accept permission")
                 }
             }
         }

@@ -77,23 +77,30 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     it.data?.let { data ->
                         if (it.status) {
                             SharedPreferenceManager.putString(AppConstants.BEREAR_TOKEN, data.token)
-                            SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
+
                             val gson = Gson()
                             val json = gson.toJson(data)
                             SharedPreferenceManager.putString(AppConstants.USER_DETAIL_LOGIN, json)
+
                             when {
                                 SharedPreferenceManager.getString(
                                     AppConstants.USER_ROLE,
                                     AppConstants.APP_ROLE_USER
                                 ) == AppConstants.APP_ROLE_USER -> {
 
-//                                    startActivity(
-//                                        Intent(
-//                                            this@LoginActivity,
-//                                            SubScriptionPlanScreen::class.java
-//                                        )
-//                                    )
-                                    openDashBoard()
+                                    if(data.user.is_subscribe ==0) {
+                                        startActivity(
+                                            Intent(
+                                                this@LoginActivity,
+                                                SubScriptionPlanScreen::class.java
+                                            )
+                                        )
+                                        overridePendingTransition(R.anim.rightto, R.anim.left)
+                                        SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
+                                    }else{
+                                        openDashBoard()
+                                        overridePendingTransition(R.anim.rightto, R.anim.left)
+                                    }
 
                                 }
                                 SharedPreferenceManager.getString(
@@ -109,7 +116,9 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 //                                        ""
 //                                    )
 //                                    displayMessage(this,it.message.toString())
+                                    SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
                                     openDashBoard()
+
                                 }
                                 SharedPreferenceManager.getString(
                                     AppConstants.USER_ROLE,
@@ -124,9 +133,11 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 //                                        ""
 //                                    )
 //                                    displayMessage(this,it.message.toString())
+                                    SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
                                     openDashBoard()
                                 }
                             }
+                            displayMessage(this,it.message.toString())
 
                         } else {
                             displayMessage(this, it.message.toString())
