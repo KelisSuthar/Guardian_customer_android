@@ -22,6 +22,7 @@ import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityHomeBinding
 import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.ui.ContactedHistory.ContectedHistoryFragment
 import com.app.guardian.ui.KnowRight.KnowRightFragment
 import com.app.guardian.ui.Lawyer.LawyerHome.LawyerHomeFragment
 import com.app.guardian.ui.LawyerList.LawyerListFragment
@@ -63,7 +64,7 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
                     clearFragmentBackStack()
                 }
                 R.id.menu_history ->{clearFragmentBackStack()
-                    ReplaceFragment.replaceFragment(this,KnowRightFragment(),false,"",HomeActivity::class.java.name)}
+                    ReplaceFragment.replaceFragment(this,ContectedHistoryFragment(),false,"",HomeActivity::class.java.name)}
                 R.id.menu_setting ->{clearFragmentBackStack()
                     ReplaceFragment.replaceFragment(this,SettingsFragment(),false,"",HomeActivity::class.java.name)}
             }
@@ -142,7 +143,14 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
                 AppConstants.USER_ROLE,
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_LAWYER -> {
-
+                if(getFragment!=null){
+                    if(getFragment is LawyerHomeFragment){
+                        super.onBackPressed()
+                    }
+                    else {
+                        fm.popBackStack()
+                    }
+                }
             }
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
@@ -150,10 +158,10 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
             ) == AppConstants.APP_ROLE_MEDIATOR -> {
 
                 if(getFragment!=null){
-                    if(getFragment is MediatorHomeFragment){
+                    if(getFragment is MediatorHomeFragment || getFragment is LawyerListFragment || getFragment is ContectedHistoryFragment || getFragment is SettingsFragment){
                         super.onBackPressed()
                     }
-                    else if(getFragment is KnowRightFragment){
+                    else {
                         fm.popBackStack()
                     }
                 }
@@ -167,15 +175,13 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
         for (fragment in supportFragmentManager.fragments) {
             supportFragmentManager.beginTransaction().remove(fragment).commit()
         }
-        if(fm.getBackStackEntryCount() > 0){
-//            while (fm.getBackStackEntryCount() > 0) {
-//                fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//
-//            }
-
-
-            //fm.popBackStack()
-        }
+//        if(fm.getBackStackEntryCount() > 0){
+////            while (fm.getBackStackEntryCount() > 0) {
+////                fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+////
+////            }
+//            //fm.popBackStack()
+//        }
 
 
     }

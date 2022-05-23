@@ -7,9 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/headderConnectedhistory"
-            layout="@layout/headder_layout" />
+
 
         <include
             android:id="@+id/noInternetConnectedhistory"
@@ -27,7 +25,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="@dimen/_15sdp"
-            app:layout_constraintTop_toBottomOf="@+id/headderConnectedhistory">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rb1"

@@ -8,9 +8,6 @@
         android:layout_height="match_parent"
         tools:context=".ui.User.settings.SettingsFragment">
 
-        <include
-            android:id="@+id/headderSettitng"
-            layout="@layout/headder_layout" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -18,7 +15,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/headderSettitng">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

@@ -17,6 +17,7 @@ import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.ContactedHistory.adapter.ConnectedHistoryAdapter
+import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -44,6 +45,8 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
     override fun initView() {
         mBinding = getBinding()
 
+        (activity as HomeActivity).bottomTabVisibility(true)
+        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.menu_history),true,false)
 
         mBinding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
             if (checkedId == R.id.rb1) {

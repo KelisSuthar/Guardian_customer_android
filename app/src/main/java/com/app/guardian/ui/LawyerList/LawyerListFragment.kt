@@ -36,7 +36,7 @@ class LawyerListFragment : BaseFragment() {
     override fun initView() {
         mBinding = getBinding()
         (activity as HomeActivity).bottomTabVisibility(true)
-        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.lawyer_list),true,true)
+        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.lawyer_list),true,false)
 
     }
 
