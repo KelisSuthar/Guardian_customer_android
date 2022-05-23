@@ -27,7 +27,6 @@ import com.app.guardian.ui.KnowRight.KnowRightFragment
 import com.app.guardian.ui.Lawyer.LawyerHome.LawyerHomeFragment
 import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.Mediator.MediatorHome.MediatorHomeFragment
-import com.app.guardian.ui.Radar.RadarFragment
 import com.app.guardian.ui.User.UserHome.UserHomeFragment
 import com.app.guardian.ui.User.settings.SettingsFragment
 import com.google.android.gms.location.*
