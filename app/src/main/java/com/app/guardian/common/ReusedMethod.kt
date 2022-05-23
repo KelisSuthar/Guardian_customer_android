@@ -14,6 +14,7 @@ import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.View.OnFocusChangeListener
@@ -22,6 +23,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.appcompat.content.res.AppCompatResources.getColorStateList
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -34,11 +36,15 @@ import com.google.android.libraries.places.api.model.AutocompletePrediction
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipDrawable
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.rilixtech.widget.countrycodepicker.CountryCodePicker
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ReusedMethod {
@@ -408,25 +414,25 @@ class ReusedMethod {
         fun getAddress(context: Context, MyLat: Double, MyLong: Double): List<Address> {
             val geocoder = Geocoder(context, Locale.getDefault())
             val addresses: List<Address> = geocoder.getFromLocation(MyLat, MyLong, 100)
-            Log.i("THIS_APP", "ADMIN AREA::::::"+addresses[0].adminArea)
-            Log.i("THIS_APP", "COUNTRY CODE::::::"+addresses[0].countryCode)
-            Log.i("THIS_APP", "COUNTRY NAME::::::"+addresses[0].countryName)
-            Log.i("THIS_APP", "FEATURE NAME::::::"+addresses[0].featureName)
-            Log.i("THIS_APP", "LOCALITY::::::"+addresses[0].locality)
-            Log.i("THIS_APP", "LOCALE::::::"+addresses[0].locale.toString())
-            Log.i("THIS_APP", "POSTAL CODE::::::"+addresses[0].postalCode)
+            Log.i("THIS_APP", "ADMIN AREA::::::" + addresses[0].adminArea)
+            Log.i("THIS_APP", "COUNTRY CODE::::::" + addresses[0].countryCode)
+            Log.i("THIS_APP", "COUNTRY NAME::::::" + addresses[0].countryName)
+            Log.i("THIS_APP", "FEATURE NAME::::::" + addresses[0].featureName)
+            Log.i("THIS_APP", "LOCALITY::::::" + addresses[0].locality)
+            Log.i("THIS_APP", "LOCALE::::::" + addresses[0].locale.toString())
+            Log.i("THIS_APP", "POSTAL CODE::::::" + addresses[0].postalCode)
             return addresses
         }
 
 
-         fun initializeAutocompleteTextView(
-             context: Context,
-             edtLoginEmail: AutoCompleteTextView,
-             ) {
+        fun initializeAutocompleteTextView(
+            context: Context,
+            edtLoginEmail: AutoCompleteTextView,
+        ) {
 
-             var adapter: AutoCompleteAdapter? = null
-             var responseView: TextView? = null
-             var placesClient: PlacesClient? = null
+            var adapter: AutoCompleteAdapter? = null
+            var responseView: TextView? = null
+            var placesClient: PlacesClient? = null
 
             val apiKey = context.getString(R.string.map_api_key)
             if (apiKey.isEmpty()) {
@@ -440,14 +446,11 @@ class ReusedMethod {
 
             placesClient = Places.createClient(context)
 
-             edtLoginEmail.threshold = 1
+            edtLoginEmail.threshold = 1
 
-             edtLoginEmail.onItemClickListener = autocomplete(adapter,responseView,placesClient)
-            adapter = AutoCompleteAdapter(context   , placesClient)
-             edtLoginEmail.setAdapter(adapter)
-
-
-
+            edtLoginEmail.onItemClickListener = autocomplete(adapter, responseView, placesClient)
+            adapter = AutoCompleteAdapter(context, placesClient)
+            edtLoginEmail.setAdapter(adapter)
 
 
         }
@@ -457,7 +460,7 @@ class ReusedMethod {
             responseView: TextView?,
             placesClient: PlacesClient
         ): AdapterView.OnItemClickListener {
-              val autocompleteClickListener =
+            val autocompleteClickListener =
                 AdapterView.OnItemClickListener { adapterView, view, i, l ->
                     try {
                         val item: AutocompletePrediction? = adapter!!.getItem(i)
@@ -471,7 +474,6 @@ class ReusedMethod {
                                 Place.Field.NAME,
                                 Place.Field.ADDRESS,
                                 Place.Field.LAT_LNG,
-
                                 )
                         var request: FetchPlaceRequest? = null
                         if (placeID != null) {
@@ -495,6 +497,9 @@ class ReusedMethod {
                 }
             return autocompleteClickListener
         }
+
+
+
 
     }
 

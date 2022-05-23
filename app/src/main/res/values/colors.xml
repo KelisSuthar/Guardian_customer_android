@@ -21,6 +21,10 @@
     <color name="colorTransparent">#00FFFFFF</color>
     <color name="screen_bg">@color/lightBlue</color>
 
+
+    <color name="chip_selector">@color/blue</color>
+    <color name="chip_unselector">@color/white</color>
+
 <!--    text color -->
     <color name="txt_dark">@color/colorPrimaryDark</color>
 </resources>

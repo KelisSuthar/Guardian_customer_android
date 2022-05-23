@@ -1,10 +1,14 @@
 package com.app.guardian.ui.LawyerList
 
+
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
+import android.util.TypedValue
 import android.view.View
 import android.view.Window
-import android.widget.TextView
+import android.widget.Button
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.app.guardian.R
 import com.app.guardian.common.ReplaceFragment
@@ -13,15 +17,19 @@ import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentLawyerListBinding
 import com.app.guardian.model.LawyerLsit.LawyerListResp
+import com.app.guardian.model.ListFilter.FilterResp
+import com.app.guardian.model.ListFilter.Specialization
 import com.app.guardian.model.viewModels.CommonScreensViewModel
-import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
 import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
 import com.app.guardian.utils.Config
-import com.google.android.material.textview.MaterialTextView
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipDrawable
+import com.google.android.material.chip.ChipGroup
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -115,7 +123,7 @@ class LawyerListFragment : BaseFragment(),View.OnClickListener {
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
-
+                        showFilterDialog(data)
 
                     }
                 }
@@ -191,12 +199,12 @@ class LawyerListFragment : BaseFragment(),View.OnClickListener {
             }
             R.id.lySearchFilter ->{
                 callFilterDataAPI()
-                showFilterDialog()
+
             }
         }
     }
 
-    private fun showFilterDialog() {
+    private fun showFilterDialog(data: FilterResp) {
         val dialog = Dialog(
             requireActivity(),
             com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
@@ -205,24 +213,75 @@ class LawyerListFragment : BaseFragment(),View.OnClickListener {
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.setContentView(R.layout.dialog_filter)
         dialog.setCancelable(false)
+        val chipGroup1:ChipGroup = dialog.findViewById(R.id.chip_group1)
+        val chipGroup2:ChipGroup = dialog.findViewById(R.id.chip_group2)
+        val btnDone:Button = dialog.findViewById(R.id.btnDone)
 
-        val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
-        val TITLE = dialog.findViewById<TextView>(R.id.tvTitle)
-        val MESSAGE = dialog.findViewById<TextView>(R.id.tvMessage)
-        val CANCEL = dialog.findViewById<MaterialTextView>(R.id.tvNegative)
-        TITLE.text = resources.getString(R.string.want_to_signout)
-        MESSAGE.gone()
+        AddItemsInChipGroup(requireContext(),chipGroup1,data.specialization)
 
-        OK.text = "Ok"
 
-        CANCEL.text = "Cancel"
-
-        CANCEL.setOnClickListener {
-            dialog.dismiss()
+        val array = ArrayList<String>()
+        array.add(data.age.`0-1`)
+        array.add(data.age.`1-5`)
+        array.add(data.age.`5-7`)
+        array.add(data.age.`7-10`)
+        array.add(data.age.`10-15`)
+        array.add(data.age.`15-100`)
+        for (i in array.indices) {
+            val entryChip2: Chip = getChip(array[i], requireContext())
+            entryChip2.id = i
+            chipGroup2.addView(entryChip2)
         }
-        OK.setOnClickListener {
-
+        btnDone.setOnClickListener {
+            dialog.dismiss()
+            ReusedMethod.displayMessageDialog(
+                requireActivity(),
+                "",
+                "Coming Soon!!",
+                false,
+                "Ok",
+                ""
+            )
         }
         dialog.show()
+    }
+    fun AddItemsInChipGroup(
+        context: Context,
+        chipGroup: ChipGroup,
+        arrayList: List<Specialization>
+    ) {
+        for (i in arrayList.indices) {
+            val entryChip2: Chip = getChip(arrayList[i].title, context)
+            entryChip2.id = i
+            chipGroup.addView(entryChip2)
+        }
+    }
+
+    private fun getChip(text: String, context: Context): Chip {
+        val chip = Chip(context)
+        chip.setChipDrawable(ChipDrawable.createFromResource(context, R.xml.filter_chips))
+        val paddingDp = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 50f,
+            context.resources.displayMetrics
+        ).toInt()
+        chip.setChipBackgroundColorResource(R.color.chip_unselector)
+        chip.setTextColor(ContextCompat.getColor(context, R.color.black))
+        chip.isCloseIconVisible = false
+        chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
+        chip.text = text
+        chip.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                chip.setChipBackgroundColorResource(R.color.chip_selector)
+                chip.setTextColor(ContextCompat.getColor(context, R.color.white))
+                chip.isChecked = true
+
+            } else {
+                chip.setChipBackgroundColorResource(R.color.chip_unselector)
+                chip.setTextColor(ContextCompat.getColor(context, R.color.black))
+                chip.isChecked = false
+
+            }
+        }
+        return chip
     }
 }

@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
             app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivBack"
