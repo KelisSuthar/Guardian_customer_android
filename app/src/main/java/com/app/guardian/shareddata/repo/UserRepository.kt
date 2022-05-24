@@ -490,7 +490,7 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
         body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
-        commonResponse: MutableLiveData<RequestState<CommonResponse>>
+        commonResponse: MutableLiveData<RequestState<MutableList<CommonResponse>>>
     ) {
         if (!internetConnected) {
             commonResponse.value =

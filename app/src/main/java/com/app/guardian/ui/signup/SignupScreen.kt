@@ -53,6 +53,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
     var is_lawyer = false
     var is_mediator = false
     var is_user = false
+    var selectedid = -1
 
     //    var adapter: AutoCompleteAdapter? = null
 //    var responseView: TextView? = null
@@ -349,7 +350,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
     }
 
     private fun specializationDialog() {
-        var selectedid = -1
+
         val dialog = Dialog(
             this,
             com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
@@ -359,15 +360,17 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
         dialog.setContentView(R.layout.dialog_specializatio_list)
         dialog.setCancelable(true)
 
-        val specializationAdapter = SpecializationAdapter(
+        var specializationAdapter : SpecializationAdapter? = null
+        specializationAdapter =    SpecializationAdapter(
             this,
             specializationList,
             selectedid,
             object : SpecializationAdapter.onItemClicklisteners {
-                override fun onItemClick(position: Int) {
+                override fun onItemClick(position: Int, id: Int) {
                     mBinding.edtSpecializations.setText(specializationList[position].title)
-//                    dialog.dismiss()
-                    selectedid = specializationList[position].id
+                    dialog.dismiss()
+                    selectedid = id
+                    specializationAdapter!!.notifyDataSetChanged()
                 }
 
             })

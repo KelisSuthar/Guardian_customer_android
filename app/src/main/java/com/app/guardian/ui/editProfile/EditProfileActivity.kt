@@ -15,14 +15,18 @@ import android.view.View
 import android.view.Window
 import android.widget.TextView
 import androidx.core.content.PermissionChecker
+import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
 import com.app.guardian.common.*
 import com.app.guardian.common.extentions.*
 import com.app.guardian.databinding.ActivityEditProfileBinding
 import com.app.guardian.model.Editprofile.UserDetailsResp
+import com.app.guardian.model.specializationList.SpecializationListResp
+import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.signup.adapter.ImageAdapter
+import com.app.guardian.ui.signup.adapter.SpecializationAdapter
 import com.app.guardian.utils.Config
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.gms.location.*
@@ -33,15 +37,18 @@ import java.util.*
 
 class EditProfileActivity : BaseActivity(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
+    private val authenticationViewModel: AuthenticationViewModel by viewModel()
     lateinit var mBinding: ActivityEditProfileBinding
     var imageAdapter: ImageAdapter? = null
     var images = ArrayList<String>()
+    var specializationList = ArrayList<SpecializationListResp>()
     var PROFILE_IMG_CODE = 101
     var DOCUMENT_CODE = 102
     var profile_img = ""
     var is_lawyer = false
     var is_mediator = false
     var is_user = false
+    var selectedid = -1
 
     private var locationManager: LocationManager? = null
     private var mFusedLocationClient: FusedLocationProviderClient? = null
@@ -128,7 +135,13 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         getLatLong()
-
+        if (SharedPreferenceManager.getString(
+                AppConstants.USER_ROLE,
+                ""
+            ) != AppConstants.APP_ROLE_USER
+        ) {
+            callSpecializationAPI()
+        }
         if (checkLoationPermission(this)) {
 
 
@@ -146,6 +159,14 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         }
 
 
+    }
+
+    private fun callSpecializationAPI() {
+        if (ReusedMethod.isNetworkConnected(this)) {
+            authenticationViewModel.getSpecializationList(true, this)
+        } else {
+            ReusedMethod.displayMessage(this,resources.getString(R.string.text_error_network))
+        }
     }
 
     private fun getLatLong() {
@@ -214,6 +235,35 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 }
             }
         }
+        //SPECIALIZATION LIST RESP
+        authenticationViewModel.getSpecializationListResp().observe(this) { response ->
+            response?.let { requestState ->
+
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        specializationList.clear()
+                        if (it.status) {
+                            specializationList.addAll(data)
+                        } else {
+                            ReusedMethod.displayMessage(this, it.message.toString())
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                this,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {}
+                    }
+                }
+            }
+        }
     }
 
     private fun setApiData(data: UserDetailsResp) {
@@ -253,6 +303,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         mBinding.ll1.setOnClickListener(this)
         mBinding.ivAddImage.setOnClickListener(this)
         mBinding.btnSubmit.setOnClickListener(this)
+        mBinding.edtSpecializations.setOnClickListener(this)
 
         mBinding.headderEdit.ivBack.setOnClickListener(this)
         mBinding.noInternetEdit.btnTryAgain.setOnClickListener(this)
@@ -262,6 +313,9 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         when (v?.id) {
             R.id.btnTryAgain -> {
 //                callApi()
+            }
+            R.id.edtSpecializations -> {
+                specializationDialog()
             }
             R.id.ivBack -> {
                 onBackPressed()
@@ -305,6 +359,37 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 validations()
             }
         }
+    }
+
+    private fun specializationDialog() {
+        val dialog = Dialog(
+            this,
+            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+        )
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setContentView(R.layout.dialog_specializatio_list)
+        dialog.setCancelable(true)
+
+        var specializationAdapter : SpecializationAdapter? = null
+        specializationAdapter =    SpecializationAdapter(
+            this,
+            specializationList,
+            selectedid,
+            object : SpecializationAdapter.onItemClicklisteners {
+                override fun onItemClick(position: Int, id: Int) {
+                    mBinding.edtSpecializations.setText(specializationList[position].title)
+                    dialog.dismiss()
+                    selectedid = id
+                    specializationAdapter!!.notifyDataSetChanged()
+                }
+
+            })
+
+        val recyclerView: RecyclerView = dialog.findViewById(R.id.rv)
+        recyclerView.adapter = specializationAdapter
+
+        dialog.show()
     }
 
     private fun validations() {

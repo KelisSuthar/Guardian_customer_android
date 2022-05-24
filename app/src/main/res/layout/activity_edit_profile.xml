@@ -109,6 +109,7 @@
                     android:inputType="textEmailAddress"
                     android:textFontWeight="400"
                     android:textSize="@dimen/_12ssp"
+                    android:focusable="false"
                     android:visibility="gone"
                      />
 

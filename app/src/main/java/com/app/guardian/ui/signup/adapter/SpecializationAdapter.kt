@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
 import com.app.guardian.model.specializationList.SpecializationListResp
@@ -40,16 +39,26 @@ class SpecializationAdapter(
 
         var rb = view?.findViewById<RadioButton>(R.id.rb)
         fun bindItem(position: Int) {
-            rb!!.isChecked = selectedid == arrayList[position].id
+//            if (arrayList[position].is_Selected == true) {
+//                rb!!.isChecked = true
+//            } else {
+//                rb!!.isChecked = false
+//            }
+            if (selectedid == arrayList[position].id) {
+                rb!!.isChecked = true
+            } else {
+                rb!!.isChecked = false
+            }
+
             rb!!.text = arrayList[position].title
             rb!!.setOnClickListener {
-                listeners.onItemClick(position)
+                listeners.onItemClick(position, arrayList[position].id)
             }
         }
     }
 
     interface onItemClicklisteners {
-        fun onItemClick(position: Int)
+        fun onItemClick(position: Int, id: Int)
     }
 
 

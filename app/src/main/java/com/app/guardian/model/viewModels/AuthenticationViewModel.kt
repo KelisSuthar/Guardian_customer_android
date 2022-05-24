@@ -285,6 +285,9 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             LoginResp
         )
     }
+
+    private val chnagePass = MutableLiveData<RequestState<MutableList<CommonResponse>>>()
+    fun getchangePassResp(): LiveData<RequestState<MutableList<CommonResponse>>> = chnagePass
     fun changePassword(
         isInternetConnected: Boolean,
         baseView: BaseActivity,
@@ -302,7 +305,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             body,
             isInternetConnected,
             baseView,
-            CommonResponse
+            chnagePass
         )
     }
 

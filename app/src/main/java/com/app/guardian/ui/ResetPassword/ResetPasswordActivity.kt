@@ -79,7 +79,7 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
         }
 
         //Chnage Pass word resp
-        mViewModel.getCommonResp().observe(this) { response ->
+        mViewModel.getchangePassResp().observe(this) { response ->
             response?.let { requestState ->
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {

@@ -195,7 +195,7 @@ interface UserRepo {
         body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
-        commonResp: MutableLiveData<RequestState<CommonResponse>>
+        commonResp: MutableLiveData<RequestState<MutableList<CommonResponse>>>
     )
     fun getFilterData(
         internetConnected: Boolean,

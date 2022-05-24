@@ -228,7 +228,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                 mBinding.btnAskQuestions.isChecked = false
                 mBinding.btnSeekAdv.isChecked = false
                 mBinding.btnKnowRights.buttonTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
+                    ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark))
                 mBinding.btnAskQuestions.buttonTintList =
                     ColorStateList.valueOf(
                         ContextCompat.getColor(

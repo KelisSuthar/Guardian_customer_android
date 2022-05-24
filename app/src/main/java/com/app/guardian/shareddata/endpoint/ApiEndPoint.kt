@@ -47,7 +47,7 @@ interface ApiEndPoint {
     fun resetPass(@Body jsonObject: JsonObject): Call<CommonResponseModel<MutableList<CommonResponse>>>
 
     @PUT("changePassword")
-    fun changePass(@Body jsonObject: JsonObject): Call<CommonResponseModel<CommonResponse>>
+    fun changePass(@Body jsonObject: JsonObject): Call<CommonResponseModel<MutableList<CommonResponse>>>
 
     @POST("signOut")
     fun signOut(): Call<CommonResponseModel<LoginResp>>
