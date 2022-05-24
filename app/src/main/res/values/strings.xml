@@ -190,6 +190,7 @@
     <!--    lawyer Profile-->
     <string name="lawyer_profile">Lawyer Profile</string>
     <string name="lawyer_list">Lawyer List</string>
+    <string name="dial_lawyer_list">Dial a Lawyer</string>
     <string name="specialization_title">Specialization :</string>
     <string name="contact_title">Contact :</string>
     <string name="description">Description :</string>
@@ -197,4 +198,5 @@
     <string name="see_legal_advice">See Legal Advice</string>
     <string name="seek_legal_advice">Seek Legal Advice</string>
     <string name="title">Title</string>
+    <string name="banner_ads">Banner Ads</string>
 </resources>

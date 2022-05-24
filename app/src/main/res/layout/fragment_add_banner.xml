@@ -11,7 +11,8 @@
 
         <include
             android:id="@+id/headderAddBanner"
-            layout="@layout/headder_layout" />
+            layout="@layout/headder_layout"
+            android:visibility="gone"/>
 
         <include
             android:id="@+id/noInternetAddBanner"

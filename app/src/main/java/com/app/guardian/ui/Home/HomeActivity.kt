@@ -63,7 +63,7 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
                     clearFragmentBackStack()
                     ReplaceFragment.replaceFragment(
                         this,
-                        LawyerListFragment(),
+                        LawyerListFragment(false),
                         false,
                         "",
                         HomeActivity::class.java.name

@@ -141,7 +141,7 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
             R.id.cvDialLawyer -> {
                 chnagelayout(2)
                 ReplaceFragment.replaceFragment(requireActivity(),
-                    LawyerListFragment(),true,"",MediatorHomeFragment::class.java.name)
+                    LawyerListFragment(true),true,"",MediatorHomeFragment::class.java.name)
 
             }
 

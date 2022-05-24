@@ -149,7 +149,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                                 ReplaceFragment.replaceFragment(
                                     requireActivity(),
                                     AddBannerFragment(),
-                                    false,
+                                    true,
                                     "",
                                     HomeActivity::class.java.name
                                 )

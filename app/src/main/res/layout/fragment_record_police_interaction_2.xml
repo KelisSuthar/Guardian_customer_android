@@ -14,10 +14,7 @@
             android:paddingBottom="@dimen/_10sdp"
             tools:context=".ui.SelectRole.SelectRoleScreen">
 
-            <include
-                android:id="@+id/headder"
-                layout="@layout/headder_layout"
-                android:visibility="gone"/>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl1"
                 android:layout_width="match_parent"
