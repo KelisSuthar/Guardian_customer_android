@@ -54,8 +54,8 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
             }
 
         }
-        (activity as HomeActivity).bottomTabVisibility(false)
-        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.contacted_history),true,true)
+        (activity as HomeActivity).bottomTabVisibility(true)
+        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.contacted_history),true,false)
 
     }
 
