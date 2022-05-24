@@ -49,6 +49,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
         mBinding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
             if (checkedId == R.id.rb1) {
                 callApi("")
+
             } else {
                 callApi("")
             }
@@ -66,7 +67,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
 
-        setAdapter()
+
         callApi("")
 
 
@@ -76,6 +77,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
         mBinding.rvContectedHistory.adapter = null
         connectedHistoryAdapter = ConnectedHistoryAdapter(
             requireActivity(),
+            type,
             array,
             object : ConnectedHistoryAdapter.onItemClicklisteners {
                 override fun onCallClick(position: Int) {
@@ -105,18 +107,20 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
             when (getCurrentRole) {
                 AppConstants.APP_ROLE_USER -> {
                     type = if (mBinding.rb1.isChecked) {
-                        "lawyer"
+                        AppConstants.APP_ROLE_LAWYER
                     } else {
-                        "mediator"
+                        AppConstants.APP_ROLE_MEDIATOR
                     }
+                    setAdapter()
                     mViewModel.getUserConnectedHistory(true, context as BaseActivity, search, type)
                 }
                 AppConstants.APP_ROLE_LAWYER -> {
                     type = if (mBinding.rb1.isChecked) {
-                        "user"
+                        AppConstants.APP_ROLE_USER
                     } else {
-                        "mediator"
+                        AppConstants.APP_ROLE_MEDIATOR
                     }
+                    setAdapter()
                     mViewModel.getLawyerConnectedHistory(
                         true,
                         context as BaseActivity,
@@ -126,6 +130,8 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                 }
                 AppConstants.APP_ROLE_MEDIATOR -> {
                     mBinding.radioGroup.gone()
+                    type =AppConstants.APP_ROLE_MEDIATOR
+                    setAdapter()
                     mViewModel.getMediatorConnectedHistory(true, context as BaseActivity, search)
                 }
             }

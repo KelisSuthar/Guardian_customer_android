@@ -11,6 +11,7 @@ import com.app.guardian.model.Login.User
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
+import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.repo.UserRepo
 import com.app.guardian.utils.ApiConstant
@@ -302,6 +303,21 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             isInternetConnected,
             baseView,
             CommonResponse
+        )
+    }
+
+
+    //CALL SPECIALIZATION LIST
+    private val specializationListResp = MutableLiveData<RequestState<MutableList<SpecializationListResp>>>()
+    fun getSpecializationListResp(): LiveData<RequestState<MutableList<SpecializationListResp>>> = specializationListResp
+    fun getSpecializationList(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+    ) {
+        mUserRepository.getSpecializationList(
+            isInternetConnected,
+            baseView,
+            specializationListResp
         )
     }
 

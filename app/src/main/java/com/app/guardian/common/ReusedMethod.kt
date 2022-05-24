@@ -4,12 +4,14 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.provider.Settings
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
@@ -499,7 +501,32 @@ class ReusedMethod {
         }
 
 
+         fun setLocationDialog(context: Context) {
+            val dialog = Dialog(
+                context,
+                com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+            )
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            dialog.setContentView(R.layout.dialog_layout)
+            dialog.setCancelable(false)
 
+            val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
+            val TITLE = dialog.findViewById<TextView>(R.id.tvTitle)
+            val MESSAGE = dialog.findViewById<TextView>(R.id.tvMessage)
+            val CANCEL = dialog.findViewById<MaterialTextView>(R.id.tvNegative)
+            MESSAGE.gone()
+            CANCEL.gone()
+            OK.text = "OK"
+
+            TITLE.text = "Please turn on location to continue"
+            OK.setOnClickListener {
+                context.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                dialog.dismiss()
+            }
+
+            dialog.show()
+        }
 
     }
 

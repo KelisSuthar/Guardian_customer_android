@@ -11,8 +11,8 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.Window
-import android.widget.TextView
 import androidx.core.content.PermissionChecker
+import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
 import com.app.guardian.common.*
 import com.app.guardian.common.ReusedMethod.Companion.ShowNoBorders
@@ -21,20 +21,22 @@ import com.app.guardian.common.ReusedMethod.Companion.checkInputs
 import com.app.guardian.common.ReusedMethod.Companion.displayMessage
 import com.app.guardian.common.ReusedMethod.Companion.displayMessageDialog
 import com.app.guardian.common.ReusedMethod.Companion.isNetworkConnected
+import com.app.guardian.common.ReusedMethod.Companion.setLocationDialog
 import com.app.guardian.common.extentions.checkLoationPermission
 import com.app.guardian.common.extentions.checkPermissions
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivitySignupScreenBinding
+import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.termsandcondtions.TermAndConditionsActivity
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.signup.adapter.ImageAdapter
+import com.app.guardian.ui.signup.adapter.SpecializationAdapter
 import com.app.guardian.utils.Config
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.gms.location.*
-import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -44,6 +46,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
     lateinit var mBinding: ActivitySignupScreenBinding
     var imageAdapter: ImageAdapter? = null
     var images = ArrayList<String>()
+    var specializationList = ArrayList<SpecializationListResp>()
     var PROFILE_IMG_CODE = 101
     var DOCUMENT_CODE = 102
     var profile_img = ""
@@ -64,6 +67,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
         ReusedMethod.updateStatusBarColor(this, R.color.colorPrimaryDark, 4)
         return R.layout.activity_signup_screen
     }
+
 
     override fun initView() {
         mBinding = getBinding()
@@ -128,10 +132,22 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 mBinding.edtVehicalNum.gone()
             }
         }
+
     }
 
     override fun onResume() {
         super.onResume()
+        mBinding.noDataSignup.gone()
+        mBinding.noInternetSignUp.llNointernet.gone()
+        mBinding.nsSignUp.visible()
+        if (SharedPreferenceManager.getString(
+                AppConstants.USER_ROLE,
+                ""
+            ) != AppConstants.APP_ROLE_USER
+        ) {
+            callSpecializationAPI()
+        }
+
         getLatLong()
 
         if (checkLoationPermission(this)) {
@@ -146,38 +162,11 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 )
             } else {
 
-                setDialog()
+                setLocationDialog(this)
             }
         }
 
 
-    }
-
-    private fun setDialog() {
-        val dialog = Dialog(
-            this@SignupScreen,
-            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
-        )
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.setContentView(R.layout.dialog_layout)
-        dialog.setCancelable(false)
-
-        val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
-        val TITLE = dialog.findViewById<TextView>(R.id.tvTitle)
-        val MESSAGE = dialog.findViewById<TextView>(R.id.tvMessage)
-        val CANCEL = dialog.findViewById<MaterialTextView>(R.id.tvNegative)
-        MESSAGE.gone()
-        CANCEL.gone()
-        OK.text = "OK"
-
-        TITLE.text = "Please turn on location to continue"
-        OK.setOnClickListener {
-            startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-            dialog.dismiss()
-        }
-
-        dialog.show()
     }
 
 
@@ -227,6 +216,32 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 }
             }
         }
+        //SPECIALIZATION LIST RESP
+        mViewModel.getSpecializationListResp().observe(this) { response ->
+            response?.let { requestState ->
+
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        specializationList.clear()
+                        if (it.status) {
+                            specializationList.addAll(data)
+                        } else {
+                            displayMessage(this, it.message.toString())
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            displayMessage(this, getString(R.string.text_error_network))
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {}
+                    }
+                }
+            }
+        }
     }
 
     override fun handleListener() {
@@ -237,6 +252,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
         mBinding.edtProvience.setOnClickListener(this)
         mBinding.edtPostalCode.setOnClickListener(this)
         mBinding.btnSigUp.setOnClickListener(this)
+        mBinding.edtSpecializations.setOnClickListener(this)
 
         mBinding.headderSignUp.ivBack.setOnClickListener(this)
         mBinding.noInternetSignUp.btnTryAgain.setOnClickListener(this)
@@ -245,7 +261,10 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.btnTryAgain -> {
-                callApi()
+                onResume()
+            }
+            R.id.edtSpecializations -> {
+                specializationDialog()
             }
             R.id.txtDoNotHaveAccount -> {
                 finish()
@@ -329,6 +348,36 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
         }
     }
 
+    private fun specializationDialog() {
+        var selectedid = -1
+        val dialog = Dialog(
+            this,
+            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+        )
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setContentView(R.layout.dialog_specializatio_list)
+        dialog.setCancelable(true)
+
+        val specializationAdapter = SpecializationAdapter(
+            this,
+            specializationList,
+            selectedid,
+            object : SpecializationAdapter.onItemClicklisteners {
+                override fun onItemClick(position: Int) {
+                    mBinding.edtSpecializations.setText(specializationList[position].title)
+//                    dialog.dismiss()
+                    selectedid = specializationList[position].id
+                }
+
+            })
+
+        val recyclerView: RecyclerView = dialog.findViewById(R.id.rv)
+        recyclerView.adapter = specializationAdapter
+
+        dialog.show()
+    }
+
     private fun validations() {
         IntegratorImpl.isValidSignUp(
             is_lawyer, is_mediator,
@@ -365,7 +414,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "Cancel",
                         ""
                     )
-                       ShowRedBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowRedBorders(this@SignupScreen, mBinding.edtFullname)
                 }
 
                 override fun fulllNameValidation() {
@@ -690,6 +739,16 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
             }
         )
+    }
+
+    private fun callSpecializationAPI() {
+        if (isNetworkConnected(this)) {
+            mViewModel.getSpecializationList(true, this)
+        } else {
+            mBinding.noInternetSignUp.llNointernet.visible()
+            mBinding.nsSignUp.gone()
+            mBinding.noDataSignup.gone()
+        }
     }
 
     private fun callApi() {

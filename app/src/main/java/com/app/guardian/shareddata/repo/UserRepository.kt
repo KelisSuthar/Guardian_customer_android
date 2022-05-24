@@ -18,6 +18,7 @@ import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
+import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.shareddata.BaseView
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.endpoint.ApiEndPoint
@@ -517,6 +518,24 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
             commonResp.value = RequestState(progress = true)
             NetworkManager.requestData(
                 mApiEndPoint.getFilterListData(),
+                baseView,
+                commonResp
+            )
+        }
+    }
+
+    override fun getSpecializationList(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<SpecializationListResp>>>
+    ) {
+        if (!internetConnected) {
+            commonResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            commonResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.getSpecializationList(),
                 baseView,
                 commonResp
             )

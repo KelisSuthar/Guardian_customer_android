@@ -17,6 +17,7 @@ import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
+import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.shareddata.BaseView
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
@@ -200,6 +201,11 @@ interface UserRepo {
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<FilterResp>>
+    )
+    fun getSpecializationList(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<SpecializationListResp>>>
     )
 
 }

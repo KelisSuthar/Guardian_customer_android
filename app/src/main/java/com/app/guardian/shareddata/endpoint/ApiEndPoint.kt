@@ -9,6 +9,7 @@ import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
 import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.LawyerProfileDetails.LawyerProfileDetailsResp
 import com.app.guardian.model.ListFilter.FilterResp
+import com.app.guardian.model.ListFilter.Specialization
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
 import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
@@ -16,6 +17,7 @@ import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
+import com.app.guardian.model.specializationList.SpecializationListResp
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.http.Body
@@ -109,6 +111,9 @@ interface ApiEndPoint {
 
     @GET("getFilterData")
     fun getFilterListData():  Call<CommonResponseModel<FilterResp>>
+
+    @GET("getSpecializationList")
+    fun getSpecializationList():  Call<CommonResponseModel<MutableList<SpecializationListResp>>>
 
 
 }

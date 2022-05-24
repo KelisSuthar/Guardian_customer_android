@@ -77,7 +77,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     it.data?.let { data ->
                         if (it.status) {
                             SharedPreferenceManager.putString(AppConstants.BEREAR_TOKEN, data.token)
-
+                            displayMessage(this,it.message.toString())
                             val gson = Gson()
                             val json = gson.toJson(data)
                             SharedPreferenceManager.putString(AppConstants.USER_DETAIL_LOGIN, json)

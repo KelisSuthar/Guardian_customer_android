@@ -140,7 +140,7 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
                 )
             } else {
 
-                setDialog()
+                ReusedMethod.setLocationDialog(this)
             }
         }
     }
@@ -294,34 +294,6 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
 
     override fun onClick(v: View?) {
 
-    }
-
-
-    private fun setDialog() {
-        val dialog = Dialog(
-            this,
-            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
-        )
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.setContentView(R.layout.dialog_layout)
-        dialog.setCancelable(false)
-
-        val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
-        val TITLE = dialog.findViewById<TextView>(R.id.tvTitle)
-        val MESSAGE = dialog.findViewById<TextView>(R.id.tvMessage)
-        val CANCEL = dialog.findViewById<MaterialTextView>(R.id.tvNegative)
-        MESSAGE.gone()
-        CANCEL.gone()
-        OK.text = "OK"
-
-        TITLE.text = "Please turn on location to continue"
-        OK.setOnClickListener {
-            startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-            dialog.dismiss()
-        }
-
-        dialog.show()
     }
 
     private fun getLatLong() {
