@@ -15,6 +15,7 @@ import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.model.viewModels.LawyerViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
+import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.utils.Config
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -41,7 +42,12 @@ class AddBannerFragment : BaseFragment(), View.OnClickListener {
 
     override fun initView() {
         mBinding = getBinding()
-
+        (activity as HomeActivity).bottomTabVisibility(false)
+        (activity as HomeActivity).headerTextVisible(
+            requireActivity().resources.getString(R.string.banner_ads),
+            true,
+            true
+        )
     }
 
     override fun postInit() {

@@ -9,16 +9,14 @@
         android:background="@color/lightBlue"
         tools:context=".ui.SelectRole.SelectRoleScreen">
 
-        <include
-            android:id="@+id/headder"
-            layout="@layout/headder_layout" />
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_20sdp"
-            app:layout_constraintTop_toBottomOf="@+id/headder">
+            app:layout_constraintTop_toTopOf="parent">
 
 
             <LinearLayout
@@ -59,8 +57,8 @@
                         android:drawablePadding="@dimen/_15sdp"
                         android:fontFamily="@font/lora_semibold"
                         android:layoutDirection="ltr"
-                        android:textAlignment="center"
                         android:text="@string/access_your_recording"
+                        android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12ssp"
                         tools:ignore="RtlSymmetry" />

@@ -9,12 +9,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
+import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.visible
 import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.google.android.material.card.MaterialCardView
 import de.hdodenhof.circleimageview.CircleImageView
 
 class LawyerListAdapter(
     var context: Activity,
+    var isDialLawyer : Boolean,
     var arrayList: ArrayList<LawyerListResp> ,
     var listeners: onItemClicklisteners
 ) :
@@ -51,6 +54,15 @@ class LawyerListAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(position: Int){
 
+            if(isDialLawyer){
+                imgRowLawyerVideo!!.gone()
+                imgRowLawyerChat!!.gone()
+            }
+            else{
+                imgRowLawyerVideo!!.visible()
+                imgRowLawyerChat!!.visible()
+
+            }
             val lawyerProfileData = arrayList[position]
             cvRowSupportGroup?.setOnClickListener {
                 listeners.onSubclick(lawyerProfileData.id)

@@ -28,7 +28,7 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
     private var selectedLawyerListId: Int? = null
 
     private var storeSelctedId: Int? = null
-
+    private  var isDialLawyerSelected: Boolean = false
 
     override fun getInflateResource(): Int {
         return R.layout.fragment_lawyer_profile
@@ -42,6 +42,7 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
 
         arguments?.let {
             selectedLawyerListId = it.getInt("LawyerId")
+            isDialLawyerSelected = it.getBoolean("isDialLawyer")
             storeSelctedId = selectedLawyerListId
         }
 
@@ -54,6 +55,15 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
                 LawyerProfileFragment::class.java.name,
                 null
             )
+        }
+
+        if(isDialLawyerSelected){
+            mBinding.imgRowLawyerChat.gone()
+            mBinding.imgRowLawyerVideo.gone()
+        }
+        else {
+            mBinding.imgRowLawyerChat.visible()
+            mBinding.imgRowLawyerVideo.visible()
         }
     }
 
@@ -116,10 +126,11 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(selectLawyerListIdParams: Int) =
+        fun newInstance(selectLawyerListIdParams: Int, isDialLawyerOpen: Boolean) =
             LawyerProfileFragment(selectLawyerListIdParams).apply {
                 arguments = Bundle().apply {
                     putInt("LawyerId", selectLawyerListIdParams)
+                    putBoolean("isDialLawyer",isDialLawyerOpen)
                 }
             }
     }

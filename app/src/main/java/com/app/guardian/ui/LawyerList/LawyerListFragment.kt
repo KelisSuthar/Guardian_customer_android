@@ -33,14 +33,14 @@ import com.google.android.material.chip.ChipGroup
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class LawyerListFragment : BaseFragment(),View.OnClickListener {
+class LawyerListFragment(isDialLawyer : Boolean) : BaseFragment(),View.OnClickListener {
 
     private lateinit var mBinding: FragmentLawyerListBinding
     private val mViewModel: UserViewModel by viewModel()
     private val commonViewModel: CommonScreensViewModel by viewModel()
     var lawyerListAdapter: LawyerListAdapter? = null
     var array = ArrayList<LawyerListResp>()
-
+    var isDialLawyerOpen = isDialLawyer
     private var rootView: View? = null
     override fun getInflateResource(): Int {
         return R.layout.fragment_lawyer_list
@@ -49,23 +49,32 @@ class LawyerListFragment : BaseFragment(),View.OnClickListener {
     override fun initView() {
         mBinding = getBinding()
         (activity as HomeActivity).bottomTabVisibility(true)
-        (activity as HomeActivity).headerTextVisible(
-            requireActivity().resources.getString(R.string.lawyer_list),
-            true,
-            false
-        )
-
+        if(isDialLawyerOpen){
+            (activity as HomeActivity).headerTextVisible(
+                requireActivity().resources.getString(R.string.dial_lawyer_list),
+                true,
+                true
+            )
+        }
+        else{
+            (activity as HomeActivity).headerTextVisible(
+                requireActivity().resources.getString(R.string.lawyer_list),
+                true,
+                false
+            )
+        }
     }
 
     private fun setAdapter() {
         lawyerListAdapter = LawyerListAdapter(
             context as Activity,
+            isDialLawyerOpen,
             array,
             object : LawyerListAdapter.onItemClicklisteners {
                 override fun onSubclick(selectedLawyerListId: Int?) {
                     ReplaceFragment.replaceFragment(
                         requireActivity(),
-                        LawyerProfileFragment.newInstance(selectedLawyerListId!!),
+                        LawyerProfileFragment.newInstance(selectedLawyerListId!!,isDialLawyerOpen),
                         true,
                         LawyerListFragment::class.java.name,
                         LawyerListFragment::class.java.name
@@ -181,11 +190,7 @@ class LawyerListFragment : BaseFragment(),View.OnClickListener {
 
     companion object {
 
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LawyerListFragment().apply {
 
-            }
     }
     override fun handleListener() {
         mBinding.noInternetLawyer.btnTryAgain.setOnClickListener(this)
