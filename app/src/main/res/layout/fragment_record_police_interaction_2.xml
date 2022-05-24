@@ -3,153 +3,160 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/lightBlue"
-        tools:context=".ui.SelectRole.SelectRoleScreen">
+        android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/headder"
-            layout="@layout/headder_layout"
-            android:visibility="gone"/>
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/pager"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_170sdp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/indicator"
-                />
+            android:background="@color/lightBlue"
+            android:paddingBottom="@dimen/_10sdp"
+            tools:context=".ui.SelectRole.SelectRoleScreen">
 
-            <com.rd.PageIndicatorView
-                android:id="@+id/indicator"
-                android:layout_width="wrap_content"
+            <include
+                android:id="@+id/headder"
+                layout="@layout/headder_layout"
+                android:visibility="gone"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                app:piv_animationType="scale"
-                app:piv_dynamicCount="true"
-                app:layout_constraintTop_toBottomOf="@+id/pager"
-                app:piv_interactiveAnimation="true"
-                android:layout_marginVertical="@dimen/_10sdp"
-                app:piv_selectedColor="@color/grey"
-                app:piv_unselectedColor="@color/darkBlue"
-                app:piv_viewPager="@id/pager"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="@dimen/_15sdp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            app:layout_constraintTop_toBottomOf="@+id/cl1">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" >
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_170sdp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/indicator"
+                    />
 
-
-            <LinearLayout
-                android:id="@+id/lyCallOptionIcon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                app:layout_constraintTop_toTopOf="parent"
-                android:padding="@dimen/_20sdp">
-
-                <ImageView
+                <com.rd.PageIndicatorView
+                    android:id="@+id/indicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_call"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_video"
-                    android:layout_marginStart="@dimen/_20sdp"/>
-
-            </LinearLayout>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cvKnowBasicRight"
+                    android:layout_centerInParent="true"
+                    app:piv_animationType="scale"
+                    app:piv_dynamicCount="true"
+                    app:layout_constraintTop_toBottomOf="@+id/pager"
+                    app:piv_interactiveAnimation="true"
+                    android:layout_marginVertical="@dimen/_10sdp"
+                    app:piv_selectedColor="@color/grey"
+                    app:piv_unselectedColor="@color/darkBlue"
+                    app:piv_viewPager="@id/pager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="@dimen/_10sdp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-               app:layout_constraintTop_toBottomOf="@+id/lyCallOptionIcon">
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                app:layout_constraintTop_toBottomOf="@+id/cl1">
 
-                <RelativeLayout
-                    android:id="@+id/rlKnowBasicRight"
+
+                <LinearLayout
+                    android:id="@+id/lyCallOptionIcon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/lightBlue_2"
-                    android:paddingVertical="@dimen/_20sdp">
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:padding="@dimen/_10sdp">
 
-                    <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/rbKnowBasicRight"
-                        android:layout_width="match_parent"
+                    <ImageView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/_20sdp"
-                        android:button="@null"
-                        android:drawablePadding="@dimen/_15sdp"
-                        android:fontFamily="@font/lora_semibold"
-                        android:layoutDirection="ltr"
-                        android:text="@string/know_your_basic_rights"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_12ssp"
-                        tools:ignore="RtlSymmetry" />
+                        android:src="@drawable/ic_call"/>
 
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_video"
+                        android:layout_marginStart="@dimen/_20sdp"/>
 
-                </RelativeLayout>
+                </LinearLayout>
 
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cvLiveVirtualWitness"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
-                app:cardCornerRadius="@dimen/_10sdp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cvKnowBasicRight">
-
-                <RelativeLayout
-                    android:id="@+id/rlLiveVirtualWitness"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cvKnowBasicRight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/lightBlue_2"
-                    android:paddingVertical="@dimen/_20sdp">
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lyCallOptionIcon">
 
-                    <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/rbLiveVirtualWitness"
+                    <RelativeLayout
+                        android:id="@+id/rlKnowBasicRight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/_20sdp"
-                        android:button="@null"
-                        android:drawablePadding="@dimen/_15sdp"
-                        android:fontFamily="@font/lora_semibold"
-                        android:layoutDirection="ltr"
-                        android:text="@string/live_virtual_witness_mediator"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_12ssp"
-                        tools:ignore="RtlSymmetry" />
-                </RelativeLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        android:background="@color/lightBlue_2"
+                        android:paddingVertical="@dimen/_20sdp">
+
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/rbKnowBasicRight"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_20sdp"
+                            android:button="@null"
+                            android:drawablePadding="@dimen/_15sdp"
+                            android:fontFamily="@font/lora_semibold"
+                            android:layoutDirection="ltr"
+                            android:text="@string/know_your_basic_rights"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12ssp"
+                            tools:ignore="RtlSymmetry" />
+
+
+                    </RelativeLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cvLiveVirtualWitness"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cvKnowBasicRight">
+
+                    <RelativeLayout
+                        android:id="@+id/rlLiveVirtualWitness"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/lightBlue_2"
+                        android:paddingVertical="@dimen/_20sdp">
+
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/rbLiveVirtualWitness"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_20sdp"
+                            android:button="@null"
+                            android:drawablePadding="@dimen/_15sdp"
+                            android:fontFamily="@font/lora_semibold"
+                            android:layoutDirection="ltr"
+                            android:text="@string/live_virtual_witness_mediator"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12ssp"
+                            tools:ignore="RtlSymmetry" />
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -32,7 +32,7 @@
                 android:src="@drawable/user_sample"
                 app:layout_constraintBottom_toTopOf="@+id/lyRowSpecializationInfo"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/lyRowLawyerContact" />
+                app:layout_constraintTop_toTopOf="@+id/linearLayout" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -119,7 +119,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lyRowLawyerContact"
                 android:padding="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_10sdp">
+                android:layout_marginTop="@dimen/_35sdp">
 
                 <TextView
                     android:layout_width="wrap_content"

@@ -52,7 +52,7 @@ class LawyerListFragment : BaseFragment(),View.OnClickListener {
         (activity as HomeActivity).headerTextVisible(
             requireActivity().resources.getString(R.string.lawyer_list),
             true,
-            true
+            false
         )
 
     }
