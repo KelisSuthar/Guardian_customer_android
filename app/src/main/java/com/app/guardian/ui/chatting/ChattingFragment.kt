@@ -1,11 +1,10 @@
 package com.app.guardian.ui.chatting
 
+import android.app.Dialog
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.widget.TextView
 import com.app.guardian.R
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
@@ -13,6 +12,7 @@ import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentChattingBinding
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.chatting.adapter.ChatMessageAdapter
+import com.google.android.material.textview.MaterialTextView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,7 +78,7 @@ class ChattingFragment : BaseFragment(), View.OnClickListener {
     }
 
     override fun handleListener() {
-
+        mBinding.btnSend.setOnClickListener(this)
     }
 
     override fun initObserver() {
@@ -86,6 +86,37 @@ class ChattingFragment : BaseFragment(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
+        when(v?.id){
+            R.id.btnSend->{
+                val dialog = Dialog(
+                    requireActivity(),
+                    com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+                )
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                dialog.setContentView(R.layout.virtual_witness_request_dialog)
+                dialog.setCancelable(false)
+
+                val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
+                val TITLE = dialog.findViewById<TextView>(R.id.tvTitle)
+                val MESSAGE = dialog.findViewById<TextView>(R.id.tvMessage)
+                val CANCEL = dialog.findViewById<MaterialTextView>(R.id.tvNegative)
+                TITLE.text = resources.getString(R.string.want_to_signout)
+                MESSAGE.gone()
+
+                OK.text = "Ok"
+
+                CANCEL.text = "Cancel"
+
+                CANCEL.setOnClickListener {
+                    dialog.dismiss()
+                }
+                OK.setOnClickListener {
+                    dialog.dismiss()
+                }
+                dialog.show()
+            }
+        }
     }
 
 
