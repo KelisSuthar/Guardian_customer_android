@@ -41,7 +41,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/imgRowLawyerPicture"
+                        android:id="@+id/imgRoimgRowLawyerPicturewLawyerPicture"
                         android:layout_width="@dimen/_70sdp"
                         android:layout_height="@dimen/_70sdp"
                         android:src="@drawable/user_sample"

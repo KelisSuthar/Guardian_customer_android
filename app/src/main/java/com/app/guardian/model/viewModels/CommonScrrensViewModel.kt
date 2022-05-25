@@ -10,6 +10,7 @@ import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
 import com.app.guardian.model.ListFilter.FilterResp
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
+import com.app.guardian.model.cms.CMSResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.repo.UserRepo
@@ -85,6 +86,7 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
     ///Connected History API CALLING
     private val connectedHistoryResp =
         MutableLiveData<RequestState<MutableList<ConnectedHistoryResp>>>()
+
     fun getConenctedHistoryResp(): LiveData<RequestState<MutableList<ConnectedHistoryResp>>> =
         connectedHistoryResp
 
@@ -149,18 +151,18 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
     private val checkSubscriptionResp = MutableLiveData<RequestState<CheckSubscriptionResp>>()
     fun getcheckSubResp(): LiveData<RequestState<CheckSubscriptionResp>> =
         checkSubscriptionResp
+
     fun checkSubscritpion(
         isInternetConnected: Boolean,
         baseView: BaseActivity,
 
-    ) {
+        ) {
         mUserRepository.checkSubscription(
             isInternetConnected,
             baseView,
             checkSubscriptionResp
         )
     }
-
 
 
     //GET FILTER DATA RESP
@@ -171,11 +173,26 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
         isInternetConnected: Boolean,
         baseView: BaseActivity,
 
-    ) {
+        ) {
         mUserRepository.getFilterData(
             isInternetConnected,
             baseView,
             filterResp
+        )
+    }
+
+    //GET CMS DATA
+    private val cmsResp = MutableLiveData<RequestState<MutableList<CMSResp>>>()
+    fun getCMSResp(): LiveData<RequestState<MutableList<CMSResp>>> = cmsResp
+
+    fun getCMSData(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+    ) {
+        mUserRepository.cmsData(
+            isInternetConnected,
+            baseView,
+            cmsResp
         )
     }
 }

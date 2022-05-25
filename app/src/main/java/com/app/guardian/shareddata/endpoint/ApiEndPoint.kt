@@ -16,6 +16,7 @@ import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
+import com.app.guardian.model.cms.CMSResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
 import com.app.guardian.model.specializationList.SpecializationListResp
 import com.google.gson.JsonObject
@@ -114,6 +115,12 @@ interface ApiEndPoint {
 
     @GET("getSpecializationList")
     fun getSpecializationList():  Call<CommonResponseModel<MutableList<SpecializationListResp>>>
+
+    @GET("getCMS")
+    fun getCMSData():  Call<CommonResponseModel<MutableList<CMSResp>>>
+
+    @PUT("updatePhoneOtpVerify")
+    fun updatePhoneOtpVerify(@Body body: JsonObject):  Call<CommonResponseModel<MutableList<CommonResponse>>>//after user change the phone number in edit profile
 
 
 }

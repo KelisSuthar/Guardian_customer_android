@@ -2,6 +2,7 @@ package com.app.guardian.ui.ContactedHistory
 
 import android.text.TextUtils
 import android.view.View
+import android.view.WindowManager
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
@@ -58,6 +59,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
         (activity as HomeActivity).bottomTabVisibility(true)
         (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.contacted_history),true,false)
 
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
     }
 
     override fun postInit() {

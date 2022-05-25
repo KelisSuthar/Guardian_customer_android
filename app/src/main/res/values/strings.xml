@@ -199,4 +199,5 @@
     <string name="seek_legal_advice">Seek Legal Advice</string>
     <string name="title">Title</string>
     <string name="banner_ads">Banner Ads</string>
+    <string name="type_something">Type Something...</string>
 </resources>

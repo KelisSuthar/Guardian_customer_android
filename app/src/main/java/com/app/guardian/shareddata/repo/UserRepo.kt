@@ -16,6 +16,7 @@ import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
+import com.app.guardian.model.cms.CMSResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
 import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.shareddata.BaseView
@@ -167,6 +168,7 @@ interface UserRepo {
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<MutableList<ConnectedHistoryResp>>>
     )
+
     fun checkSubscription(
         internetConnected: Boolean,
         baseView: BaseActivity,
@@ -178,12 +180,14 @@ interface UserRepo {
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<MutableList<SubscriptionPlanResp>>>
     )
+
     fun addBannerSubscription(
         body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<CommonResponse>>
     )
+
     fun addBanner(
         body: JsonObject,
         internetConnected: Boolean,
@@ -197,15 +201,30 @@ interface UserRepo {
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<MutableList<CommonResponse>>>
     )
+
     fun getFilterData(
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<FilterResp>>
     )
+
     fun getSpecializationList(
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<MutableList<SpecializationListResp>>>
+    )
+
+    fun cmsData(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<CMSResp>>>
+    )
+
+    fun updatePhoneOtpVerify(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<CommonResponse>>>
     )
 
 }

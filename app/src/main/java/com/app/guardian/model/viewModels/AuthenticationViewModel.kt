@@ -333,5 +333,32 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         )
     }
 
+    //CALL VERIFY PHONE OTP API AFTER USER UPDATE MOBILE NUMBER IN EDIT PROFILE
+    private val verifyPhoneOTPResp =
+        MutableLiveData<RequestState<MutableList<CommonResponse>>>()
+
+    fun getPhoneOtpVerifyResp(): LiveData<RequestState<MutableList<CommonResponse>>> =
+        verifyPhoneOTPResp
+
+    fun updatePhoneOtpVerify(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        new_phone: String,
+        otp: String,
+    ) {
+
+        val body = JsonObject()
+
+        body.addProperty(ApiConstant.EXTRAS_OLD_PASS, new_phone)
+        body.addProperty(ApiConstant.EXTRAS_NEW_PASS, otp)
+
+        mUserRepository.updatePhoneOtpVerify(
+            body,
+            isInternetConnected,
+            baseView,
+            verifyPhoneOTPResp
+        )
+    }
+
 
 }
