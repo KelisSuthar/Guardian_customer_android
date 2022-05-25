@@ -18,6 +18,7 @@ import androidx.core.content.PermissionChecker
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
 import com.app.guardian.common.*
+import com.app.guardian.common.ReusedMethod.Companion.getAddress
 import com.app.guardian.common.extentions.*
 import com.app.guardian.databinding.ActivityEditProfileBinding
 import com.app.guardian.model.Editprofile.UserDetailsResp
@@ -75,21 +76,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         locationRequest = LocationRequest.create()
         locationRequest?.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         locationRequest?.interval = 20 * 1000
-        checkPermissions(
-            this,
-            AppConstants.EXTRA_CAMERA_PERMISSION,
-            Manifest.permission.CAMERA
-        )
-        checkPermissions(
-            this,
-            AppConstants.EXTRA_READ_PERMISSION,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-        checkPermissions(
-            this,
-            AppConstants.EXTRA_WRITE_PERMISSION,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
+
         mBinding.headderEdit.tvHeaderText.text = resources.getString(R.string.edit_profile)
         when {
             SharedPreferenceManager.getString(
@@ -161,6 +148,8 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
 
     }
 
+
+
     private fun callSpecializationAPI() {
         if (ReusedMethod.isNetworkConnected(this)) {
             authenticationViewModel.getSpecializationList(true, this)
@@ -185,8 +174,14 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
 
                             Log.i("THIS_APP", location.latitude.toString())
                             Log.i("THIS_APP", location.longitude.toString())
-                            getLOC(location.latitude, location.longitude)
 
+                            val data = getAddress(this@EditProfileActivity,location.latitude,location.longitude)
+
+
+
+
+                            mBinding.edtPostalCode.setText(data[0].postalCode)
+                            mBinding.edtProvience.setText(data[0].locality + "/" + data[0].adminArea)
                             if (mFusedLocationClient != null) {
                                 mFusedLocationClient?.removeLocationUpdates(locationCallback!!)
                             }
@@ -196,17 +191,6 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
-
-    private fun getLOC(MyLat: Double, MyLong: Double) {
-        val geocoder = Geocoder(this, Locale.getDefault())
-        val addresses: List<Address> = geocoder.getFromLocation(MyLat, MyLong, 100)
-
-        mBinding.edtPostalCode.setText(addresses[0].postalCode)
-        mBinding.edtProvience.setText(addresses[0].locality + "/" + addresses[0].adminArea)
-
-
-    }
-
     override fun initObserver() {
         mViewModel.getuserDetailsResp().observe(this) { response ->
             response?.let { requestState ->

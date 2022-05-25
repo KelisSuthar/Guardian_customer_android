@@ -74,6 +74,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             response?.let { requestState ->
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
+                    displayMessage(this,it.message.toString())
                     it.data?.let { data ->
                         if (it.status) {
                             SharedPreferenceManager.putString(AppConstants.BEREAR_TOKEN, data.token)

@@ -132,7 +132,7 @@ class LawyerListFragment(isDialLawyer : Boolean) : BaseFragment(),View.OnClickLi
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
-//                        showFilterDialog(data)
+                        showFilterDialog(data)
 
                     }
                 }

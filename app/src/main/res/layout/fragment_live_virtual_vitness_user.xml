@@ -9,28 +9,45 @@
         android:background="@color/lightBlue"
         tools:context=".ui.SelectRole.SelectRoleScreen">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" >
 
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_170sdp"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="SpeakableTextPresentCheck" />
 
+            <com.rd.PageIndicatorView
+                android:id="@+id/indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                app:piv_animationType="scale"
+                app:piv_dynamicCount="true"
+                app:layout_constraintTop_toBottomOf="@+id/pager"
+                app:piv_interactiveAnimation="true"
+                android:layout_marginVertical="@dimen/_10sdp"
+                app:piv_selectedColor="@color/grey"
+                app:piv_unselectedColor="@color/darkBlue"
+                app:piv_viewPager="@id/pager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_20sdp"
-            app:layout_constraintTop_toTopOf="parent">
-
-
-            <LinearLayout
-                android:id="@+id/lyBannerAds4VirtyalWitness"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                app:layout_constraintTop_toTopOf="parent"
-                android:padding="@dimen/_20sdp">
-
-
-
-            </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@+id/cl1">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cvAccessYourRecording"
@@ -39,7 +56,7 @@
                 app:cardCornerRadius="@dimen/_10sdp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lyBannerAds4VirtyalWitness">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <RelativeLayout
                     android:id="@+id/rlAccessYourRecording"

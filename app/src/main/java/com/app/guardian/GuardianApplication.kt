@@ -200,7 +200,7 @@ class GuardianApplication :Application(),Application.ActivityLifecycleCallbacks{
 
         val GPS_CHIP_DEBUG = false
         private val USE_MOCK_LOCATION = false
-        var TAG = "DoggyDateApplication"
+        var TAG = "Guradian"
         lateinit var appContext: Context
         lateinit var currentContext: Context
         var isUIAvailable = false

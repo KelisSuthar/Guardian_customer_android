@@ -41,7 +41,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         pass: String,
         device_token: String,
 
-    ) {
+        ) {
         val signInJson = JsonObject()
         if (isEmail) {
             signInJson.addProperty(ApiConstant.EXTRAS_EMAIL, email_phone)
@@ -77,11 +77,11 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         email: String,
         specialization: String,
         years_of_experience: String,
-        office_dial_code:String,
+        office_dial_code: String,
         office_phone: String,
         password: String,
         confirm_password: String,
-        dial_code:String,
+        dial_code: String,
         phone: String,
         state: String,
         postal_code: String,
@@ -109,7 +109,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             signUpJson.addProperty(ApiConstant.EXTRAS_PHONE, phone)
             signUpJson.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
 
-        }else{
+        } else {
             signUpJson.addProperty(ApiConstant.EXTRAS_PHONE, phone)
             signUpJson.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
             signUpJson.addProperty(ApiConstant.EXTRAS_LICENCE_NO, licence_no)
@@ -135,9 +135,13 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             signupResp
         )
     }
+
     //RESET PASS API CALLING
-    private val CommonRestPassResponse = MutableLiveData<RequestState<MutableList<CommonResponse>>>()
-    fun getResetPAssResp(): LiveData<RequestState<MutableList<CommonResponse>>> = CommonRestPassResponse
+    private val CommonRestPassResponse =
+        MutableLiveData<RequestState<MutableList<CommonResponse>>>()
+
+    fun getResetPAssResp(): LiveData<RequestState<MutableList<CommonResponse>>> =
+        CommonRestPassResponse
 
     fun resetPassword(
         isInternetConnected: Boolean,
@@ -160,6 +164,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             CommonRestPassResponse
         )
     }
+
     //VERIFY OTP API CALLING
     private val UserResp = MutableLiveData<RequestState<User>>()
     fun getVerifyOTPResp(): LiveData<RequestState<User>> = UserResp
@@ -179,8 +184,8 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         if (isEmail) {
             verifyOTPJson.addProperty(ApiConstant.EXTRAS_EMAIL, email_phone)
         } else {
-            verifyOTPJson.addProperty(ApiConstant.EXTRAS_PHONE,  email_phone)
-            verifyOTPJson.addProperty(ApiConstant.EXTRAS_DIAL_CODE,  ccp)
+            verifyOTPJson.addProperty(ApiConstant.EXTRAS_PHONE, email_phone)
+            verifyOTPJson.addProperty(ApiConstant.EXTRAS_DIAL_CODE, ccp)
         }
         verifyOTPJson.addProperty(ApiConstant.EXTRAS_OTP, OTP)
 
@@ -311,8 +316,12 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
 
 
     //CALL SPECIALIZATION LIST
-    private val specializationListResp = MutableLiveData<RequestState<MutableList<SpecializationListResp>>>()
-    fun getSpecializationListResp(): LiveData<RequestState<MutableList<SpecializationListResp>>> = specializationListResp
+    private val specializationListResp =
+        MutableLiveData<RequestState<MutableList<SpecializationListResp>>>()
+
+    fun getSpecializationListResp(): LiveData<RequestState<MutableList<SpecializationListResp>>> =
+        specializationListResp
+
     fun getSpecializationList(
         isInternetConnected: Boolean,
         baseView: BaseActivity,
