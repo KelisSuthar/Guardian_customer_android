@@ -20,7 +20,9 @@ import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.BannerAds.BannerAdsPager
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Lawyer.LawyerHome.LawyerHomeFragment
+import com.app.guardian.ui.User.ContactSupport.ContactSupportFragment
 import com.app.guardian.ui.User.RecordPolice.RecordPoliceInteractionFragment
+import com.app.guardian.ui.User.ScheduleVirtualWitness.ScheduleVirtualWitnessFragment
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -143,7 +145,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
             R.id.cvScheduleVirtualWitness -> {
                 ReplaceFragment.replaceFragment(
                     requireActivity(),
-                    RecordPoliceInteractionFragment(),
+                    ScheduleVirtualWitnessFragment(),
                     true,
                     HomeActivity::class.java.name,
                     HomeActivity::class.java.name
@@ -152,6 +154,13 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.cvSupportService -> {
                 changeLayout(3)
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    ContactSupportFragment(),
+                    true,
+                    HomeActivity::class.java.name,
+                    HomeActivity::class.java.name
+                );
             }
             R.id.rbRecord -> {
                 changeLayout(1)
