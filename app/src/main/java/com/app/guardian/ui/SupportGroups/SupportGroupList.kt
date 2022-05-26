@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.app.guardian.R
+import com.app.guardian.ui.Home.HomeActivity
 
 
 class SupportGroupList : Fragment() {
@@ -22,6 +23,12 @@ class SupportGroupList : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_support_group_list, container, false)
+        (activity as HomeActivity).bottomTabVisibility(false)
+        (activity as HomeActivity).headerTextVisible(
+            requireActivity().resources.getString(R.string.support_services),
+            true,
+            true
+        )
         return  rootView
     }
 
