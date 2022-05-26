@@ -37,6 +37,10 @@ import com.app.guardian.ui.signup.adapter.SpecializationAdapter
 import com.app.guardian.utils.Config
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.gms.location.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -53,7 +57,11 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
     var is_lawyer = false
     var is_mediator = false
     var is_user = false
+    var ROLE = ""
     var selectedid = -1
+
+    private lateinit var auth: FirebaseAuth
+    private lateinit var databaseReference: DatabaseReference
 
     //    var adapter: AutoCompleteAdapter? = null
 //    var responseView: TextView? = null
@@ -71,6 +79,9 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
 
     override fun initView() {
+
+        auth = FirebaseAuth.getInstance()//Firebase
+
         mBinding = getBinding()
         mBinding.noInternetSignUp.llNointernet.gone()
         mBinding.nsSignUp.visible()
@@ -111,13 +122,14 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_USER -> {
                 is_user = true
-
+                ROLE = AppConstants.APP_ROLE_USER
             }
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_LAWYER -> {
                 is_lawyer = true
+                ROLE = AppConstants.APP_ROLE_LAWYER
                 mBinding.edtSpecializations.visible()
                 mBinding.fmOficeNum.visible()
                 mBinding.edtYearsOfExp.visible()
@@ -128,6 +140,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_MEDIATOR -> {
                 is_mediator = true
+                ROLE = AppConstants.APP_ROLE_MEDIATOR
                 mBinding.edtSpecializations.visible()
                 mBinding.edtYearsOfExp.visible()
                 mBinding.edtVehicalNum.gone()
@@ -191,6 +204,8 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
+
+
                             finish()
                             startActivity(
                                 Intent(
@@ -198,7 +213,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                                     LoginActivity::class.java
                                 )
                             )
-                            overridePendingTransition(R.anim.rightto, R.anim.left)
+//                            overridePendingTransition(R.anim.rightto, R.anim.left)
                             displayMessage(this, it.message.toString())
                         } else {
                             displayMessage(this, it.message.toString())
@@ -243,6 +258,47 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 }
             }
         }
+    }
+
+    private fun chatRegistration(email: String, password: String) {
+        showLoadingIndicator(true)
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) {
+                if (it.isSuccessful) {
+                    val user: FirebaseUser? = auth.currentUser
+                    val userId: String = user?.uid ?: ""
+
+                    databaseReference = FirebaseDatabase.getInstance()
+                        .getReference(resources.getString(R.string.userList)).child(userId)
+
+                    // SharedPreferenceManager.putString("userId", userId)
+                    val hashMap: HashMap<String, String> = HashMap()
+                    hashMap[resources.getString(R.string.chat_id)] = userId
+                    hashMap[resources.getString(R.string.chat_full_name)] =
+                        mBinding.edtFullname.text?.trim()
+                            .toString()
+                    hashMap[resources.getString(R.string.chat_email)] = email
+                    hashMap[resources.getString(R.string.chat_lastSeen)] = ""
+                    hashMap[resources.getString(R.string.chat_isOnline)] = "true"
+                    hashMap[resources.getString(R.string.chat_role)] = ROLE
+                    Log.i("GUARDIAN_APP_IT", it.toString())
+
+                    databaseReference.setValue(hashMap).addOnCompleteListener(this) { p ->
+                        Log.i("GUARDIAN_APP_P_SUCCESS", p.isSuccessful.toString())
+                        Log.i("GUARDIAN_APP_P", p.toString())
+                        if (p.isSuccessful) {
+
+                            Log.i("GUARDIAN_APP", p.isSuccessful.toString())
+                            Log.i("GUARDIAN_APP", p.toString())
+                            callApi(userId)
+                        } else {
+                            displayMessageDialog(this, "", p.exception.toString(), false, "OK", "")
+                            showLoadingIndicator(false)
+                        }
+                    }
+                }
+            }
+
     }
 
     override fun handleListener() {
@@ -360,8 +416,8 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
         dialog.setContentView(R.layout.dialog_specializatio_list)
         dialog.setCancelable(true)
 
-        var specializationAdapter : SpecializationAdapter? = null
-        specializationAdapter =    SpecializationAdapter(
+        var specializationAdapter: SpecializationAdapter? = null
+        specializationAdapter = SpecializationAdapter(
             this,
             specializationList,
             selectedid,
@@ -737,7 +793,11 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     ShowNoBorders(this@SignupScreen, mBinding.edtPass)
                     ShowNoBorders(this@SignupScreen, mBinding.edtConPass)
                     ShowNoBorders(this@SignupScreen, mBinding.edtVehicalNum)
-                    callApi()
+
+                    chatRegistration(
+                        mBinding.edtEmail.text?.trim().toString(),
+                        mBinding.edtPass.text?.trim().toString()
+                    )
                 }
 
             }
@@ -754,7 +814,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun callApi() {
+    private fun callApi(firebaseUUID: String) {
         if (isNetworkConnected(this)) {
             mViewModel.signUp(
                 true,
@@ -778,12 +838,14 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 mBinding.edtVehicalNum.text?.trim().toString(),
                 profile_img,
                 images,
-                "DEVICE@123"
+                "DEVICE@123",
+                firebaseUUID
             )
         } else {
             mBinding.noInternetSignUp.llNointernet.visible()
             mBinding.nsSignUp.gone()
             mBinding.noDataSignup.gone()
+            showLoadingIndicator(false)
         }
     }
 

@@ -63,24 +63,30 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
                 }
                 R.id.menu_lawyer -> {
                     clearFragmentBackStack()
-                    ReplaceFragment.replaceFragment(
-                        this,
-                        ChattingFragment(),
-                        false,
-                        "",
-                        HomeActivity::class.java.name
-                    )
-                //                    ReplaceFragment.replaceFragment(
+//                    ReplaceFragment.replaceFragment(
 //                        this,
-//                        LawyerListFragment(false),
+//                        ChattingFragment(),
 //                        false,
 //                        "",
 //                        HomeActivity::class.java.name
 //                    )
+                                    ReplaceFragment.replaceFragment(
+                        this,
+                        LawyerListFragment(false),
+                        false,
+                        "",
+                        HomeActivity::class.java.name
+                    )
                 }
                 R.id.menu_radar -> {
                     clearFragmentBackStack()
-                    bottomTabVisibility(true)
+                    ReplaceFragment.replaceFragment(
+                        this,
+                        RadarFragment(),
+                        false,
+                        "",
+                        HomeActivity::class.java.name
+                    )
 
                 }
                 R.id.menu_history -> {

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:maxHeight="@dimen/_400sdp"
+
     android:background="@color/lightBlue">
 
     <LinearLayout
@@ -58,15 +58,18 @@
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/_9ssp" />
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp">
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chip_group2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/_20sdp"
-
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginHorizontal="@dimen/_20sdp"
             app:singleSelection="true">
 
         </com.google.android.material.chip.ChipGroup>
+        </ScrollView>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -78,15 +81,19 @@
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/_9ssp" />
 
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_100sdp">
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chip_group1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/_20sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_marginHorizontal="@dimen/_20sdp"
             app:singleSelection="true"
 
             />
-
+        </ScrollView>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnDone"

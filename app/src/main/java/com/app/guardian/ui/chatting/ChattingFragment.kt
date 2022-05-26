@@ -1,18 +1,27 @@
 package com.app.guardian.ui.chatting
 
+import android.app.DatePickerDialog
 import android.app.Dialog
-import android.os.Bundle
+import android.app.TimePickerDialog
+import android.app.TimePickerDialog.*
 import android.view.*
+import android.widget.Button
+import android.widget.DatePicker
 import androidx.fragment.app.Fragment
 import android.widget.TextView
+import android.widget.TimePicker
+import androidx.core.content.ContextCompat
 import com.app.guardian.R
-import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.extentions.formatTime12hr
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentChattingBinding
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.chatting.adapter.ChatMessageAdapter
-import com.google.android.material.textview.MaterialTextView
+import com.google.android.material.card.MaterialCardView
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,6 +38,7 @@ class ChattingFragment : BaseFragment(), View.OnClickListener {
     lateinit var mBinding: FragmentChattingBinding
     var chatMessageAdapter: ChatMessageAdapter? = null
     var chatArray = ArrayList<String>()
+
     override fun getInflateResource(): Int {
         return R.layout.fragment_chatting
     }
@@ -86,8 +96,10 @@ class ChattingFragment : BaseFragment(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        when(v?.id){
-            R.id.btnSend->{
+        when (v?.id) {
+            R.id.btnSend -> {
+
+
                 val dialog = Dialog(
                     requireActivity(),
                     com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
@@ -95,29 +107,133 @@ class ChattingFragment : BaseFragment(), View.OnClickListener {
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
                 dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 dialog.setContentView(R.layout.virtual_witness_request_dialog)
-                dialog.setCancelable(false)
+                dialog.setCancelable(true)
 
-                val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
-                val TITLE = dialog.findViewById<TextView>(R.id.tvTitle)
-                val MESSAGE = dialog.findViewById<TextView>(R.id.tvMessage)
-                val CANCEL = dialog.findViewById<MaterialTextView>(R.id.tvNegative)
-                TITLE.text = resources.getString(R.string.want_to_signout)
-                MESSAGE.gone()
+                val cvScheduleDate: MaterialCardView = dialog.findViewById(R.id.cvScheduleDate)
+                val cvScheduleTime: MaterialCardView = dialog.findViewById(R.id.cvScheduleTime)
+                val txtDate: TextView = dialog.findViewById(R.id.txtDate)
+                val txtTime: TextView = dialog.findViewById(R.id.txtTime)
+                val btnImmediateJoin: Button = dialog.findViewById(R.id.btnImmediateJoin)
+                val btnRequestSend: Button = dialog.findViewById(R.id.btnRequestSend)
 
-                OK.text = "Ok"
+                cvScheduleDate.setOnClickListener {
+                    selectDate(txtDate)
 
-                CANCEL.text = "Cancel"
-
-                CANCEL.setOnClickListener {
-                    dialog.dismiss()
                 }
-                OK.setOnClickListener {
-                    dialog.dismiss()
+                cvScheduleTime.setOnClickListener {
+                    selectTime(txtTime)
                 }
+                btnImmediateJoin.setOnClickListener {
+
+                }
+                btnRequestSend.setOnClickListener {
+
+                }
+
                 dialog.show()
             }
         }
     }
 
+    private fun selectTime(txtTime: TextView) {
+        val currentTime = Calendar.getInstance().time
+        val hrsFormatter = SimpleDateFormat("HH", Locale.getDefault())
+        val minFormatter = SimpleDateFormat("mm", Locale.getDefault())
 
+        val timePicker = TimePickerDialog(
+            requireContext(), R.style.DialogTheme,
+            // listener to perform task
+            // when time is picked
+            { view, hourOfDay, minute ->
+                val formattedTime: String = when {
+                    hourOfDay == 0 -> {
+                        if (minute < 10) {
+                            "${hourOfDay + 12}:0${minute} am"
+                        } else {
+                            "${hourOfDay + 12}:${minute} am"
+                        }
+                    }
+                    hourOfDay > 12 -> {
+                        if (minute < 10) {
+                            "${hourOfDay - 12}:0${minute} pm"
+                        } else {
+                            "${hourOfDay - 12}:${minute} pm"
+                        }
+                    }
+                    hourOfDay == 12 -> {
+                        if (minute < 10) {
+                            "${hourOfDay}:0${minute} pm"
+                        } else {
+                            "${hourOfDay}:${minute} pm"
+                        }
+                    }
+                    else -> {
+                        if (minute < 10) {
+                            "${hourOfDay}:${minute} am"
+                        } else {
+                            "${hourOfDay}:${minute} am"
+                        }
+                    }
+                }
+                txtTime.text = formattedTime
+            },
+            // default hour when the time picker
+            // dialog is opened
+            hrsFormatter.format(currentTime).toInt(),
+            // default minute when the time picker
+            // dialog is opened
+            minFormatter.format(currentTime).toInt(),
+            false
+        )
+
+        // then after building the timepicker
+        // dialog show the dialog to user
+        timePicker.show()
+        timePicker.getButton(DatePickerDialog.BUTTON_NEGATIVE)
+            .setTextColor(ContextCompat.getColor(requireActivity(), R.color.colorPrimaryDark))
+        timePicker.getButton(DatePickerDialog.BUTTON_NEUTRAL)
+            .setTextColor(ContextCompat.getColor(requireActivity(), R.color.colorPrimaryDark))
+        timePicker.getButton(DatePickerDialog.BUTTON_POSITIVE)
+            .setTextColor(ContextCompat.getColor(requireActivity(), R.color.colorPrimaryDark))
+    }
+
+    fun selectDate(txtDate: TextView) {
+        var mYear = 0
+        var mMonth = 0
+        var mDay = 0
+
+        val c = Calendar.getInstance()
+        mYear = c[Calendar.YEAR]
+        mMonth = c[Calendar.MONTH]
+        mDay = c[Calendar.DAY_OF_MONTH]
+        val datePickerDialog = DatePickerDialog(
+            requireActivity(), R.style.DialogTheme,
+            { _: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int ->
+                val calendar = Calendar.getInstance()
+                calendar[year, monthOfYear] = dayOfMonth
+                txtDate.text = getDate(year, monthOfYear, dayOfMonth)
+            }, mYear, mMonth, mDay
+        )
+        datePickerDialog.show()
+        datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE)
+            .setTextColor(ContextCompat.getColor(requireActivity(), R.color.colorPrimaryDark))
+        datePickerDialog.getButton(DatePickerDialog.BUTTON_NEUTRAL)
+            .setTextColor(ContextCompat.getColor(requireActivity(), R.color.colorPrimaryDark))
+        datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE)
+            .setTextColor(ContextCompat.getColor(requireActivity(), R.color.colorPrimaryDark))
+
+
+        val calendar2 = Calendar.getInstance();
+        calendar2.add(Calendar.MONTH, 1)
+        datePickerDialog.datePicker.minDate = calendar2.timeInMillis
+
+
+    }
+
+    private fun getDate(year: Int, monthOfYear: Int, dayOfMonth: Int): String {
+        val dateFormatter = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+        val calendar = Calendar.getInstance()
+        calendar[year, monthOfYear] = dayOfMonth
+        return dateFormatter.format(calendar.time)
+    }
 }

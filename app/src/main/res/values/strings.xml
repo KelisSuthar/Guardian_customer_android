@@ -72,6 +72,11 @@
     <string name="sub_plan">Subscription Plan</string>
     <string name="subcription">Subscription</string>
 
+    <!--    RADAR Screen-->
+    <string name="photo_radar">Photo Radar</string>
+    <string name="accident_roadblock">Accident/\nroad block</string>
+    <string name="radar_text">Select below option to add photo radar and accident/road block at your current location</string>
+
     <!-- TODO: Validation Message  -->
 
     <!--    Add Seek Legal Advice-->
@@ -200,4 +205,20 @@
     <string name="title">Title</string>
     <string name="banner_ads">Banner Ads</string>
     <string name="type_something">Type Something...</string>
+
+
+    <!-- TODO: Chatting implementation  -->
+
+<!--    table parameter-->
+    <string name="chat_id">id</string>
+    <string name="chat_full_name">full_name</string>
+<!--    <string name="chat_profile_avatar">profile_avatar</string>-->
+    <string name="chat_email">email</string>
+    <string name="chat_lastSeen">lastSeen</string>
+    <string name="chat_isOnline">isOnline</string>
+    <string name="chat_role">role</string>1
+
+<!--users Table name-->
+    <string name="userList">UserList</string>
+    <string name="chatdata">ChatData</string>
 </resources>

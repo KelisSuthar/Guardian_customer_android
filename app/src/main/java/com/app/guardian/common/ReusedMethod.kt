@@ -47,6 +47,9 @@ import com.google.android.material.textview.MaterialTextView
 import com.rilixtech.widget.countrycodepicker.CountryCodePicker
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.acos
+import kotlin.math.cos
+import kotlin.math.sin
 
 
 class ReusedMethod {
@@ -476,7 +479,7 @@ class ReusedMethod {
                                 Place.Field.NAME,
                                 Place.Field.ADDRESS,
                                 Place.Field.LAT_LNG,
-                                )
+                            )
                         var request: FetchPlaceRequest? = null
                         if (placeID != null) {
                             request = FetchPlaceRequest.builder(placeID, placeFields).build()
@@ -501,7 +504,7 @@ class ReusedMethod {
         }
 
 
-         fun setLocationDialog(context: Context) {
+        fun setLocationDialog(context: Context) {
             val dialog = Dialog(
                 context,
                 com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
@@ -526,6 +529,29 @@ class ReusedMethod {
             }
 
             dialog.show()
+        }
+
+        fun distance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
+            val theta = lon1 - lon2
+            var dist = (sin(deg2rad(lat1))
+                    * sin(deg2rad(lat2))
+                    + (cos(deg2rad(lat1))
+                    * cos(deg2rad(lat2))
+                    * cos(deg2rad(theta))))
+            dist = acos(dist)
+            dist = rad2deg(dist)
+            dist *= 96.5606 * 1.1515// For Km
+//            dist *= 60 * 1.1515// ForMiles
+            return dist
+        }
+
+        private fun deg2rad(deg: Double): Double {
+            return deg * Math.PI / 180.0
+        }
+
+        private fun rad2deg(rad: Double): Double {
+            return rad * 180.0 / Math.PI
+
         }
 
     }

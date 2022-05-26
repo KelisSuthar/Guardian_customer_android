@@ -64,4 +64,10 @@
         <item name="android:background">@drawable/button_back_blue_corner</item>
         <item name="android:fontFamily">@font/lora_semibold</item>
     </style>
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:buttonBarNeutralButtonStyle">@color/colorPrimaryDark</item>
+        <item name="android:colorControlActivated">@color/colorPrimaryDark</item> <!--selected day-->
+    </style>
 </resources>

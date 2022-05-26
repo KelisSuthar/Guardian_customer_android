@@ -89,6 +89,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         profile_avatar: String,
         user_doc: ArrayList<String>,
         device_token: String,
+        firebase_uid: String,
 
 
         ) {
@@ -119,6 +120,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         signUpJson.addProperty(ApiConstant.EXTRAS_CONFIRM_PASS, confirm_password)
         signUpJson.addProperty(ApiConstant.EXTRAS_STATE, state)
         signUpJson.addProperty(ApiConstant.EXTRAS_POSTAL_CODE, postal_code)
+        signUpJson.addProperty(ApiConstant.EXTRAS_FIREBASE_UUID, firebase_uid)
 //        signUpJson.addProperty(ApiConstant.EXTRAS_PROFILE_AVATAR, profile_avatar)
 
 //        for (i in user_doc.indices) {

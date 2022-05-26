@@ -14,6 +14,7 @@ import com.app.guardian.common.ReusedMethod.Companion.isNetworkConnected
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityLoginBinding
+import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.Home.HomeActivity
@@ -21,6 +22,8 @@ import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
 import com.app.guardian.ui.forgot.ForgotPasswordActivity
 import com.app.guardian.ui.signup.SignupScreen
 import com.app.guardian.utils.Config
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.gson.Gson
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -28,6 +31,8 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class LoginActivity : BaseActivity(), View.OnClickListener {
     private val mViewModel: AuthenticationViewModel by viewModel()
     lateinit var mBinding: ActivityLoginBinding
+    private var auth: FirebaseAuth? = null
+
     var is_Email = true
     override fun getResource(): Int {
         ReusedMethod.updateStatusBarColor(this, R.color.colorPrimaryDark, 4)
@@ -74,73 +79,75 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             response?.let { requestState ->
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
-                    displayMessage(this,it.message.toString())
+                    displayMessage(this, it.message.toString())
                     it.data?.let { data ->
                         if (it.status) {
+                            showLoadingIndicator(true)
+                            checkLogin(data)
                             SharedPreferenceManager.putString(AppConstants.BEREAR_TOKEN, data.token)
-                            displayMessage(this,it.message.toString())
+                            displayMessage(this, it.message.toString())
                             val gson = Gson()
                             val json = gson.toJson(data)
                             SharedPreferenceManager.putString(AppConstants.USER_DETAIL_LOGIN, json)
 
-                            when {
-                                SharedPreferenceManager.getString(
-                                    AppConstants.USER_ROLE,
-                                    AppConstants.APP_ROLE_USER
-                                ) == AppConstants.APP_ROLE_USER -> {
-
-                                    if(data.user.is_subscribe ==0) {
-                                        startActivity(
-                                            Intent(
-                                                this@LoginActivity,
-                                                SubScriptionPlanScreen::class.java
-                                            )
-                                        )
-                                        overridePendingTransition(R.anim.rightto, R.anim.left)
-
-                                    }else{
-                                        SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
-                                        SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
-                                        openDashBoard()
-                                        overridePendingTransition(R.anim.rightto, R.anim.left)
-                                    }
-
-                                }
-                                SharedPreferenceManager.getString(
-                                    AppConstants.USER_ROLE,
-                                    AppConstants.APP_ROLE_USER
-                                ) == AppConstants.APP_ROLE_LAWYER -> {
-//                                    displayMessageDialog(
-//                                        this@LoginActivity,
-//                                        "",
-//                                        it.message.toString(),
-//                                        false,
-//                                        "Ok",
-//                                        ""
-//                                    )
-//                                    displayMessage(this,it.message.toString())
-                                    SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
-                                    openDashBoard()
-
-                                }
-                                SharedPreferenceManager.getString(
-                                    AppConstants.USER_ROLE,
-                                    AppConstants.APP_ROLE_USER
-                                ) == AppConstants.APP_ROLE_MEDIATOR -> {
-//                                    displayMessageDialog(
-//                                        this@LoginActivity,
-//                                        "",
-//                                        it.message.toString(),
-//                                        false,
-//                                        "Ok",
-//                                        ""
-//                                    )
-//                                    displayMessage(this,it.message.toString())
-                                    SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
-                                    openDashBoard()
-                                }
-                            }
-                            displayMessage(this,it.message.toString())
+//                            when {
+//                                SharedPreferenceManager.getString(
+//                                    AppConstants.USER_ROLE,
+//                                    AppConstants.APP_ROLE_USER
+//                                ) == AppConstants.APP_ROLE_USER -> {
+//
+//                                    if(data.user.is_subscribe ==0) {
+//                                        startActivity(
+//                                            Intent(
+//                                                this@LoginActivity,
+//                                                SubScriptionPlanScreen::class.java
+//                                            )
+//                                        )
+//                                        overridePendingTransition(R.anim.rightto, R.anim.left)
+//
+//                                    }else{
+//                                        SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
+//                                        SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
+//                                        openDashBoard()
+//                                        overridePendingTransition(R.anim.rightto, R.anim.left)
+//                                    }
+//
+//                                }
+//                                SharedPreferenceManager.getString(
+//                                    AppConstants.USER_ROLE,
+//                                    AppConstants.APP_ROLE_USER
+//                                ) == AppConstants.APP_ROLE_LAWYER -> {
+////                                    displayMessageDialog(
+////                                        this@LoginActivity,
+////                                        "",
+////                                        it.message.toString(),
+////                                        false,
+////                                        "Ok",
+////                                        ""
+////                                    )
+////                                    displayMessage(this,it.message.toString())
+//                                    SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
+//                                    openDashBoard()
+//
+//                                }
+//                                SharedPreferenceManager.getString(
+//                                    AppConstants.USER_ROLE,
+//                                    AppConstants.APP_ROLE_USER
+//                                ) == AppConstants.APP_ROLE_MEDIATOR -> {
+////                                    displayMessageDialog(
+////                                        this@LoginActivity,
+////                                        "",
+////                                        it.message.toString(),
+////                                        false,
+////                                        "Ok",
+////                                        ""
+////                                    )
+////                                    displayMessage(this,it.message.toString())
+//                                    SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
+//                                    openDashBoard()
+//                                }
+//                            }
+                            displayMessage(this, it.message.toString())
 
                         } else {
                             displayMessage(this, it.message.toString())
@@ -161,12 +168,86 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun openDashBoard(){
+    private fun checkLogin(data: LoginResp) {
+//        auth!!.signInWithEmailAndPassword(
+//            data.user.email.toString(), mBinding.editTextLoginPass.text?.trim()
+//                .toString()
+//        )
+//            .addOnCompleteListener(this) {
+//                if (it.isSuccessful) {
+                    showLoadingIndicator(true)
+                    when {
+                        SharedPreferenceManager.getString(
+                            AppConstants.USER_ROLE,
+                            AppConstants.APP_ROLE_USER
+                        ) == AppConstants.APP_ROLE_USER -> {
+
+                            if (data.user.is_subscribe == 0) {
+                                startActivity(
+                                    Intent(
+                                        this@LoginActivity,
+                                        SubScriptionPlanScreen::class.java
+                                    )
+                                )
+                                overridePendingTransition(R.anim.rightto, R.anim.left)
+
+                            } else {
+                                SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
+                                SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
+                                openDashBoard()
+                                overridePendingTransition(R.anim.rightto, R.anim.left)
+                            }
+
+                        }
+                        SharedPreferenceManager.getString(
+                            AppConstants.USER_ROLE,
+                            AppConstants.APP_ROLE_USER
+                        ) == AppConstants.APP_ROLE_LAWYER -> {
+//                                    displayMessageDialog(
+//                                        this@LoginActivity,
+//                                        "",
+//                                        it.message.toString(),
+//                                        false,
+//                                        "Ok",
+//                                        ""
+//                                    )
+//                                    displayMessage(this,it.message.toString())
+                            SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
+                            openDashBoard()
+
+                        }
+                        SharedPreferenceManager.getString(
+                            AppConstants.USER_ROLE,
+                            AppConstants.APP_ROLE_USER
+                        ) == AppConstants.APP_ROLE_MEDIATOR -> {
+//                                    displayMessageDialog(
+//                                        this@LoginActivity,
+//                                        "",
+//                                        it.message.toString(),
+//                                        false,
+//                                        "Ok",
+//                                        ""
+//                                    )
+//                                    displayMessage(this,it.message.toString())
+                            SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
+                            openDashBoard()
+                        }
+                    }
+
+//                } else {
+//                    showLoadingIndicator(false)
+//                }
+
+//            }
+    }
+
+    private fun openDashBoard() {
         startActivity(
             Intent(
                 this@LoginActivity,
                 HomeActivity::class.java
-            ).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            ).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
         )
         finish()
@@ -351,10 +432,14 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private fun callApi(phone_email: String) {
         if (isNetworkConnected(this)) {
             mViewModel.Login(
-                isNetworkConnected(this), this@LoginActivity, is_Email,mBinding.emailphoneSelector.ccp.selectedCountryCode.toString(),
+                isNetworkConnected(this),
+                this@LoginActivity,
+                is_Email,
+                mBinding.emailphoneSelector.ccp.selectedCountryCode.toString(),
                 phone_email,
                 mBinding.editTextLoginPass.text?.trim().toString(),
-            "DEVICETOKEN@123")
+                "DEVICETOKEN@123"
+            )
         } else {
             mBinding.nsLogin.gone()
             mBinding.noDataLogin.gone()

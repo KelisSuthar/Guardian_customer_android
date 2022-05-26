@@ -1,11 +1,18 @@
 package com.app.guardian.ui.Radar
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.app.guardian.R
+import com.app.guardian.databinding.FragmentRadarBinding
+import com.app.guardian.shareddata.base.BaseFragment
+import com.app.guardian.ui.Home.HomeActivity
+import kotlin.math.acos
+import kotlin.math.cos
+import kotlin.math.sin
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,44 +24,59 @@ private const val ARG_PARAM2 = "param2"
  * Use the [RadarFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class RadarFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+class RadarFragment : BaseFragment(), View.OnClickListener {
+    lateinit var mBinding: FragmentRadarBinding
+    override fun getInflateResource(): Int {
+        return R.layout.fragment_radar
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_radar, container, false)
+    override fun initView() {
+        mBinding = getBinding()
+        (activity as HomeActivity).bottomTabVisibility(true)
+        (activity as HomeActivity).headerTextVisible(
+            "",
+            isHeaderVisible = false,
+            isBackButtonVisible = false
+        )
+        Log.i("DISTANCE", distance(23.033863, 72.585022, 22.7788, 73.6143).toString())
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment RadarFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            RadarFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun postInit() {
+
+    }
+
+    override fun handleListener() {
+
+    }
+
+    override fun initObserver() {
+
+    }
+
+    override fun onClick(v: View?) {
+
+    }
+
+    private fun distance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
+        val theta = lon1 - lon2
+        var dist = (sin(deg2rad(lat1))
+                * sin(deg2rad(lat2))
+                + (cos(deg2rad(lat1))
+                * cos(deg2rad(lat2))
+                * cos(deg2rad(theta))))
+        dist = acos(dist)
+        dist = rad2deg(dist)
+        dist *= 96.5606 * 1.1515
+        return dist
+    }
+
+    private fun deg2rad(deg: Double): Double {
+        return deg * Math.PI / 180.0
+    }
+
+    private fun rad2deg(rad: Double): Double {
+        return rad * 180.0 / Math.PI
+
     }
 }
