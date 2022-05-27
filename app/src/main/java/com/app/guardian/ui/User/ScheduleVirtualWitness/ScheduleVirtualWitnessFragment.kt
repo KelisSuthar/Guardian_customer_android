@@ -34,7 +34,6 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
         mBinding.cvLocationWhereCallWillTakePlace.setOnClickListener(this)
         mBinding.cvScheduleMultipleCalls.setOnClickListener(this)
         mBinding.cvContactSupport.setOnClickListener(this)
-
         mBinding.rlContactSupport.setOnClickListener(this)
         mBinding.rlScheduleMultipleCalls.setOnClickListener(this)
         mBinding.rlLocationWhereCallWillTakePlace.setOnClickListener(this)
@@ -67,7 +66,7 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
                     true,
                     ScheduleVirtualWitnessFragment::class.java.name,
                     ScheduleVirtualWitnessFragment::class.java.name
-                );
+                )
             }
             R.id.rlContactSupport->{
                 mBinding.cvContactSupport.performClick()
