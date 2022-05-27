@@ -8,18 +8,19 @@ import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.LawyerProfileDetails.LawyerProfileDetailsResp
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
+import com.app.guardian.model.SupportGroup.SupportGroupResp
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.repo.UserRepo
 import com.app.guardian.utils.ApiConstant
 import com.google.gson.JsonObject
 
-class UserViewModel(private val mUserRepository: UserRepo) : ViewModel(){
+class UserViewModel(private val mUserRepository: UserRepo) : ViewModel() {
 
     //For Common Resp
     private val commonResponse = MutableLiveData<RequestState<CommonResponse>>()
 
     //LawyerList
-    private  val lawyerListResp = MutableLiveData<RequestState<MutableList<LawyerListResp>>>()
+    private val lawyerListResp = MutableLiveData<RequestState<MutableList<LawyerListResp>>>()
 
     fun getLawyerList(): LiveData<RequestState<MutableList<LawyerListResp>>> =
         lawyerListResp
@@ -27,14 +28,14 @@ class UserViewModel(private val mUserRepository: UserRepo) : ViewModel(){
     fun lawyerList(
         isInternetConnected: Boolean,
         baseView: BaseActivity,
-        ser:String,
-        years_of_experience:String,
-        specialization:String,
-    ){
+        ser: String,
+        years_of_experience: String,
+        specialization: String,
+    ) {
         var body = JsonObject()
-        body.addProperty(ApiConstant.EXTRAS_SERCH,ser)
-        body.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP,years_of_experience)
-        body.addProperty(ApiConstant.EXTRAS_SPECIALIZATION,specialization)
+        body.addProperty(ApiConstant.EXTRAS_SERCH, ser)
+        body.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
+        body.addProperty(ApiConstant.EXTRAS_SPECIALIZATION, specialization)
         mUserRepository.getLawyerList(
             body,
             isInternetConnected,
@@ -46,13 +47,14 @@ class UserViewModel(private val mUserRepository: UserRepo) : ViewModel(){
     //LawyerProfileDetails
     private val lawyerProfileDetails = MutableLiveData<RequestState<LawyerProfileDetailsResp>>()
 
-    fun lawyerProfileDetails(): LiveData<RequestState<LawyerProfileDetailsResp>> = lawyerProfileDetails
+    fun lawyerProfileDetails(): LiveData<RequestState<LawyerProfileDetailsResp>> =
+        lawyerProfileDetails
 
     fun getLawyerProfileDetails(
         isInternetConnected: Boolean,
         baseView: BaseActivity,
         id: Int
-    ){
+    ) {
 
         mUserRepository.getLawyerProfileDetails(
             isInternetConnected,
@@ -64,21 +66,38 @@ class UserViewModel(private val mUserRepository: UserRepo) : ViewModel(){
 
     //SeekLegalAdvice
 
-    private  val seekLegalAdvice = MutableLiveData<RequestState<MutableList<SeekLegalAdviceResp>>>()
+    private val seekLegalAdvice = MutableLiveData<RequestState<MutableList<SeekLegalAdviceResp>>>()
 
-    fun seekLegalAdvice(): LiveData<RequestState<MutableList<SeekLegalAdviceResp>>> = seekLegalAdvice
+    fun seekLegalAdvice(): LiveData<RequestState<MutableList<SeekLegalAdviceResp>>> =
+        seekLegalAdvice
 
     fun getSeekLegalAdvice(
         isInternetConnected: Boolean,
         baseView: BaseActivity,
         id: Int
-    )
-    {
+    ) {
         mUserRepository.getSeekLegalAdviceList(
             isInternetConnected,
             baseView,
             seekLegalAdvice,
             id
+        )
+    }
+
+    //SUPPORT GROUP API
+
+    private val supportGroupResp = MutableLiveData<RequestState<MutableList<SupportGroupResp>>>()
+    fun getSupportGroupResp(): LiveData<RequestState<MutableList<SupportGroupResp>>> =
+        supportGroupResp
+
+    fun getSupportGroup(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+    ) {
+        mUserRepository.supportGroup(
+            isInternetConnected,
+            baseView,
+            supportGroupResp,
         )
     }
 }

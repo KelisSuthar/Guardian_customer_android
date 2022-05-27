@@ -15,6 +15,7 @@ import com.app.guardian.model.Login.User
 import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
+import com.app.guardian.model.SupportGroup.SupportGroupResp
 import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
 import com.app.guardian.model.cms.CMSResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
@@ -121,6 +122,9 @@ interface ApiEndPoint {
 
     @PUT("updatePhoneOtpVerify")
     fun updatePhoneOtpVerify(@Body body: JsonObject):  Call<CommonResponseModel<MutableList<CommonResponse>>>//after user change the phone number in edit profile
+
+     @GET("getSupportGroup")
+    fun getSupportGroup():  Call<CommonResponseModel<MutableList<SupportGroupResp>>>//after user change the phone number in edit profile
 
 
 }

@@ -15,6 +15,7 @@ import com.app.guardian.model.RequestState
 import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
+import com.app.guardian.model.SupportGroup.SupportGroupResp
 import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
 import com.app.guardian.model.cms.CMSResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
@@ -225,6 +226,12 @@ interface UserRepo {
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<MutableList<CommonResponse>>>
+    )
+
+    fun supportGroup(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<SupportGroupResp>>>
     )
 
 }
