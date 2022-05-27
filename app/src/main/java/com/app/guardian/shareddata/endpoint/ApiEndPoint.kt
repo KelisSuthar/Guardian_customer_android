@@ -6,12 +6,13 @@ import com.app.guardian.model.CommonResponseModel
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
 import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
+import com.app.guardian.model.LawyerBySpecialization.LawyerBySpecializationResp
 import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.LawyerProfileDetails.LawyerProfileDetailsResp
 import com.app.guardian.model.ListFilter.FilterResp
-import com.app.guardian.model.ListFilter.Specialization
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
+import com.app.guardian.model.Notification.NotificationResp
 import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
@@ -123,8 +124,17 @@ interface ApiEndPoint {
     @PUT("updatePhoneOtpVerify")
     fun updatePhoneOtpVerify(@Body body: JsonObject):  Call<CommonResponseModel<MutableList<CommonResponse>>>//after user change the phone number in edit profile
 
-     @GET("getSupportGroup")
-    fun getSupportGroup():  Call<CommonResponseModel<MutableList<SupportGroupResp>>>//after user change the phone number in edit profile
+    @GET("getSupportGroup")
+    fun getSupportGroup(): Call<CommonResponseModel<MutableList<SupportGroupResp>>>
+
+    @POST("sendRequestVirtualWitness")
+    fun sendRequestVirtualWitness(@Body body: JsonObject): Call<CommonResponseModel<CommonResponse>>
+
+    @GET("getNotificationList")
+    fun getNotifications(): Call<CommonResponseModel<MutableList<NotificationResp>>>
+
+    @GET("lawyerBySpecialization")
+    fun getLawyerBySpecialization(@Body body: JsonObject): Call<CommonResponseModel<MutableList<LawyerBySpecializationResp>>>
 
 
 }

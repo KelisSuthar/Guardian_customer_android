@@ -32,7 +32,7 @@ class UserViewModel(private val mUserRepository: UserRepo) : ViewModel() {
         years_of_experience: String,
         specialization: String,
     ) {
-        var body = JsonObject()
+        val body = JsonObject()
         body.addProperty(ApiConstant.EXTRAS_SERCH, ser)
         body.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
         body.addProperty(ApiConstant.EXTRAS_SPECIALIZATION, specialization)

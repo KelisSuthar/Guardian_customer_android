@@ -7,7 +7,7 @@
     <string name="text_error_timeout">Sorry, We lost you. Please retry!!!</string>
     <string name="text_error_connection">Look a like we lost you for a moment. Please retry!!!</string>
     <string name="internet_message_alert">Please Check Your internet connection</string>
-<!--    GUARDIAN-->
+    <!--    GUARDIAN-->
     <string name="map_api_key">AIzaSyCn23HyRn8zm-9sao4u-2x2jYFX1JZ79jI</string>
 
     <!--    not Working-->
@@ -211,16 +211,16 @@
 
     <!-- TODO: Chatting implementation  -->
 
-<!--    table parameter-->
+    <!--    table parameter-->
     <string name="chat_id">id</string>
     <string name="chat_full_name">full_name</string>
-<!--    <string name="chat_profile_avatar">profile_avatar</string>-->
+    <!--    <string name="chat_profile_avatar">profile_avatar</string>-->
     <string name="chat_email">email</string>
     <string name="chat_lastSeen">lastSeen</string>
     <string name="chat_isOnline">isOnline</string>
     <string name="chat_role">role</string>1
 
-<!--users Table name-->
+    <!--users Table name-->
     <string name="userList">UserList</string>
     <string name="chatdata">ChatData</string>
 </resources>

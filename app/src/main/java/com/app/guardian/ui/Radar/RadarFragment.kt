@@ -2,6 +2,7 @@ package com.app.guardian.ui.Radar
 
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
@@ -9,10 +10,7 @@ import com.app.guardian.databinding.FragmentRadarBinding
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import java.text.DecimalFormat
 import kotlin.math.acos
 import kotlin.math.cos
@@ -30,10 +28,12 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 
-class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback {
+class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
+    GoogleMap.OnMarkerClickListener {
     lateinit var mBinding: FragmentRadarBinding
     var mMarker: MarkerOptions? = null
     private var gMap: GoogleMap? = null
+    var array = ArrayList<LatLng>()
     override fun getInflateResource(): Int {
         return R.layout.fragment_radar
     }
@@ -46,6 +46,13 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback {
             isHeaderVisible = false,
             isBackButtonVisible = false
         )
+        array.add(LatLng(23.033863, 72.585022))
+        array.add(LatLng(12.120000, 76.680000))
+        array.add(LatLng(24.879999, 74.629997))
+        array.add(LatLng(16.994444, 73.300003))
+        array.add(LatLng(19.155001, 72.849998))
+        array.add(LatLng(24.794500, 73.055000))
+        array.add(LatLng(21.250000, 81.629997))
         Log.i("DISTANCE", distance(23.033863, 72.585022, 22.7788, 73.6143).toString())
 
 //        val mSupportMapFragment =
@@ -95,7 +102,6 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback {
     }
 
 
-
     private fun setG_MAP() {
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
@@ -111,19 +117,24 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback {
         AppConstants.longitude = dFormat.format(AppConstants.longitude).toDouble()
 //        itemLatitude = dFormat.format(itemLatitude).toDouble()
 //        itemLongitude = dFormat.format(itemLongitude).toDouble()
-        val latLng = LatLng(
-            23.033863, 72.585022
-        )
-//        val latLng = LatLng(23.0225, 72.5714)
-        mMarker = MarkerOptions()
-        mMarker!!.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
-            .anchor(0.0f, 1.0f)
-            .title("Ahmedabad")
-            .flat(true)
-            .position(latLng)
 
-        gMap!!.addMarker(mMarker!!)
-        setMarkerZoom(23.033863, 72.585022)
+
+
+        for (i in array.indices) {
+            val latLng = array[i]
+
+            mMarker = MarkerOptions()
+            mMarker!!.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
+                .anchor(0.0f, 1.0f)
+                .title("Ahmedabad")
+                .flat(true)
+                .position(latLng)
+
+            gMap!!.addMarker(mMarker!!)
+//            setMarkerZoom(array[i].latitude,array[i].longitude)
+        }
+        setMarkerZoom(array[0].latitude,array[0].longitude)
+
 //        setMarkerZoom(23.0225, 72.5714)
 
     }
@@ -145,8 +156,29 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback {
                 height,
                 padding
             )
-            gMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng!!, 18f))
+            gMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng!!, 10f))
 
         }
+    }
+
+    override fun onMarkerClick(marker: Marker): Boolean {
+        // Retrieve the data from the marker.
+        val clickCount = marker.tag as? Int
+
+        // Check if a click count was set, then display the click count.
+        clickCount?.let {
+            val newClickCount = it + 1
+            marker.tag = newClickCount
+            Toast.makeText(
+                requireContext(),
+                "${marker.title} has been clicked $newClickCount times.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        // Return false to indicate that we have not consumed the event and that we wish
+        // for the default behavior to occur (which is for the camera to move such that the
+        // marker is centered and for the marker's info window to open, if it has one).
+        return false
     }
 }
