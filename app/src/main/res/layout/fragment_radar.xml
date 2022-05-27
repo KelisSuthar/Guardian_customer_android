@@ -2,8 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.Radar.RadarFragment">
@@ -30,9 +29,10 @@
                 app:layout_constraintBottom_toTopOf="@+id/txt"
                 app:layout_constraintTop_toTopOf="parent">
 
+
                 <fragment
                     android:id="@+id/map"
-                    class="com.app.guardian.common.MySupportMapFragment"
+                    class="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
 

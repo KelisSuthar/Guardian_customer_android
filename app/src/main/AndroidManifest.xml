@@ -28,6 +28,11 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup"
         tools:targetApi="q">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/map_api_key" />
+
         <activity
             android:screenOrientation="portrait"
             android:name=".termsandcondtions.TermAndConditionsActivity"

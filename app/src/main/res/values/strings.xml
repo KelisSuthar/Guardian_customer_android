@@ -7,7 +7,9 @@
     <string name="text_error_timeout">Sorry, We lost you. Please retry!!!</string>
     <string name="text_error_connection">Look a like we lost you for a moment. Please retry!!!</string>
     <string name="internet_message_alert">Please Check Your internet connection</string>
-    <string name="map_api_key">AIzaSyCp1fVDgDOgajG2WGXGX2murW0LE4hWzYQ</string>
+<!--    GUARDIAN-->
+    <string name="map_api_key">AIzaSyCn23HyRn8zm-9sao4u-2x2jYFX1JZ79jI</string>
+
     <!--    not Working-->
     <!--    <string name="map_api_key">AIzaSyAyMrbXh6XrkhpCzXfNZJzu3akbUIbVqcg</string>-->
     <!--    working-->
