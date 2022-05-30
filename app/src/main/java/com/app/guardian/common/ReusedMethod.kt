@@ -45,6 +45,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.rilixtech.widget.countrycodepicker.CountryCodePicker
+import de.hdodenhof.circleimageview.CircleImageView
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.acos
@@ -236,6 +237,46 @@ class ReusedMethod {
             CANCEL.setOnClickListener {
                 dialog.dismiss()
             }
+            OK.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialog.show()
+        }
+
+        fun displayLawyerContactDetails(
+            context: Activity,
+            strLawyerName: String?,
+            email: String?,
+            phone: String?,
+            lawyerProfilePic : String?
+        ) {
+            val dialog = Dialog(
+                context,
+                com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+            )
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            dialog.setContentView(R.layout.dialog_lawyer_dial_contact)
+            dialog.setCancelable(true)
+
+            val PROFILEURL = dialog.findViewById<CircleImageView>(R.id.imgDialogLawyerPicture)
+            val OK = dialog.findViewById<MaterialTextView>(R.id.txtLawyerDialogOk)
+            val LAWYERNAME = dialog.findViewById<TextView>(R.id.txtDialogLawyerName)
+            val EMAIL = dialog.findViewById<TextView>(R.id.txtLawyerEmailID)
+            val PHONE = dialog.findViewById<MaterialTextView>(R.id.txtLawyerContact)
+            LAWYERNAME.text = strLawyerName
+            if(email!=null && email != ""){
+                EMAIL.text = email
+            }
+            else{
+                EMAIL.text="contactSupport@gmail.com"
+            }
+            PHONE.text = phone
+
+            if(lawyerProfilePic!=null || lawyerProfilePic!="null"){
+
+            }
+
             OK.setOnClickListener {
                 dialog.dismiss()
             }
