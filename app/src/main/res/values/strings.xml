@@ -223,4 +223,7 @@
     <!--users Table name-->
     <string name="userList">UserList</string>
     <string name="chatdata">ChatData</string>
+
+    <string name="email_dialog">Email : </string>
+    <string name="phone_dialog">Phone : </string>
 </resources>

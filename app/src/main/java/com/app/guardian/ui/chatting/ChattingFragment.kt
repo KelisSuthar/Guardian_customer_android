@@ -17,6 +17,7 @@ import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentChattingBinding
 import com.app.guardian.shareddata.base.BaseFragment
+import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.chatting.adapter.ChatMessageAdapter
 import com.google.android.material.card.MaterialCardView
 import java.text.SimpleDateFormat
@@ -34,7 +35,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 
-class ChattingFragment : BaseFragment(), View.OnClickListener {
+class ChattingFragment(selectUserId: Int,var selectUserFullName: String, profilePicUrl: String) : BaseFragment(), View.OnClickListener {
     lateinit var mBinding: FragmentChattingBinding
     var chatMessageAdapter: ChatMessageAdapter? = null
     var chatArray = ArrayList<String>()
@@ -56,6 +57,19 @@ class ChattingFragment : BaseFragment(), View.OnClickListener {
         chatMessageAdapter?.notifyDataSetChanged()
 
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+
+        mBinding.txtChatUserName.text= selectUserFullName
+
+        (activity as HomeActivity).bottomTabVisibility(false)
+        (activity as HomeActivity).headerTextVisible(
+            requireActivity().resources.getString(R.string.lawyer_list),
+            false,
+            false
+        )
+
+        mBinding.ivBack.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
     }
 
     override fun onResume() {
