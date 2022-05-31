@@ -175,34 +175,34 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 //        )
 //            .addOnCompleteListener(this) {
 //                if (it.isSuccessful) {
-                    showLoadingIndicator(true)
-                    when {
-                        SharedPreferenceManager.getString(
-                            AppConstants.USER_ROLE,
-                            AppConstants.APP_ROLE_USER
-                        ) == AppConstants.APP_ROLE_USER -> {
+        showLoadingIndicator(true)
+        when {
+            SharedPreferenceManager.getString(
+                AppConstants.USER_ROLE,
+                AppConstants.APP_ROLE_USER
+            ) == AppConstants.APP_ROLE_USER -> {
 
-                            if (data.user.is_subscribe == 0) {
-                                startActivity(
-                                    Intent(
-                                        this@LoginActivity,
-                                        SubScriptionPlanScreen::class.java
-                                    )
-                                )
-                                overridePendingTransition(R.anim.rightto, R.anim.left)
+                if (data.user.is_subscribe == 0) {
+                    startActivity(
+                        Intent(
+                            this@LoginActivity,
+                            SubScriptionPlanScreen::class.java
+                        )
+                    )
+                    overridePendingTransition(R.anim.rightto, R.anim.left)
 
-                            } else {
-                                SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
-                                SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
-                                openDashBoard()
-                                overridePendingTransition(R.anim.rightto, R.anim.left)
-                            }
+                } else {
+                    SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
+                    SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
+                    openDashBoard()
+                    overridePendingTransition(R.anim.rightto, R.anim.left)
+                }
 
-                        }
-                        SharedPreferenceManager.getString(
-                            AppConstants.USER_ROLE,
-                            AppConstants.APP_ROLE_USER
-                        ) == AppConstants.APP_ROLE_LAWYER -> {
+            }
+            SharedPreferenceManager.getString(
+                AppConstants.USER_ROLE,
+                AppConstants.APP_ROLE_USER
+            ) == AppConstants.APP_ROLE_LAWYER -> {
 //                                    displayMessageDialog(
 //                                        this@LoginActivity,
 //                                        "",
@@ -212,14 +212,15 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 //                                        ""
 //                                    )
 //                                    displayMessage(this,it.message.toString())
-                            SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
-                            openDashBoard()
+                SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
+                SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
+                openDashBoard()
 
-                        }
-                        SharedPreferenceManager.getString(
-                            AppConstants.USER_ROLE,
-                            AppConstants.APP_ROLE_USER
-                        ) == AppConstants.APP_ROLE_MEDIATOR -> {
+            }
+            SharedPreferenceManager.getString(
+                AppConstants.USER_ROLE,
+                AppConstants.APP_ROLE_USER
+            ) == AppConstants.APP_ROLE_MEDIATOR -> {
 //                                    displayMessageDialog(
 //                                        this@LoginActivity,
 //                                        "",
@@ -229,10 +230,11 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 //                                        ""
 //                                    )
 //                                    displayMessage(this,it.message.toString())
-                            SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
-                            openDashBoard()
-                        }
-                    }
+                SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
+                SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
+                openDashBoard()
+            }
+        }
 
 //                } else {
 //                    showLoadingIndicator(false)
