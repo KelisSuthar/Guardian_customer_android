@@ -63,8 +63,8 @@ class ChattingFragment(selectUserId: Int,var selectUserFullName: String, profile
         (activity as HomeActivity).bottomTabVisibility(false)
         (activity as HomeActivity).headerTextVisible(
             requireActivity().resources.getString(R.string.lawyer_list),
-            isHeaderVisible = false,
-            isBackButtonVisible = false
+            false,
+            false
         )
 
         mBinding.ivBack.setOnClickListener {
