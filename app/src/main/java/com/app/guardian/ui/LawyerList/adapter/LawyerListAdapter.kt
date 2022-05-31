@@ -6,16 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
+import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.visible
 import com.app.guardian.model.LawyerLsit.LawyerListResp
-import com.google.android.material.card.MaterialCardView
+import com.app.guardian.ui.LawyerList.LawyerListFragment
 import de.hdodenhof.circleimageview.CircleImageView
 
 class LawyerListAdapter(
     var context: Activity,
-    var arrayList: ArrayList<LawyerListResp> ,
+    var lawyerListFragment: LawyerListFragment,
+    var isDialLawyer: Boolean,
+    var arrayList: ArrayList<LawyerListResp>,
     var listeners: onItemClicklisteners
 ) :
 
@@ -40,8 +45,9 @@ class LawyerListAdapter(
     inner class myViewHolder(view: View?): RecyclerView.ViewHolder(view!!){
 
         var imgPicture = view?.findViewById<CircleImageView>(R.id.imgRowLawyerPicture)
-        var cvRowSupportGroup = view?.findViewById<MaterialCardView>(R.id.cvRowSupportGroup)
-        var imgRowLawyerCall = view?.findViewById<ImageView>(R.id.imgRowLawyerCall)
+//        var cvRowSupportGroup = view?.findViewById<MaterialCardView>(R.id.cvRowSupportGroup)
+        var lyLawyerDetails = view?.findViewById<LinearLayout>(R.id.lyLawyerDetails)
+        var imgRowLawyerCall = view?.findViewById<ImageView>(R.id.imgRowLawyerCall1)
         var imgRowLawyerVideo = view?.findViewById<ImageView>(R.id.imgRowLawyerVideo)
         var imgRowLawyerChat = view?.findViewById<ImageView>(R.id.imgRowLawyerChat)
         var tvLawyerName = view?.findViewById<TextView>(R.id.tvLawyerName)
@@ -51,9 +57,33 @@ class LawyerListAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(position: Int){
 
-            val lawyerProfileData = arrayList[position]
-            cvRowSupportGroup?.setOnClickListener {
+            if(isDialLawyer){
+                imgRowLawyerVideo!!.gone()
+                imgRowLawyerChat!!.gone()
+            }
+            else{
+                imgRowLawyerVideo!!.visible()
+                imgRowLawyerChat!!.visible()
+
+            }
+            var lawyerProfileData : LawyerListResp ?= null
+             lawyerProfileData = arrayList[position]
+            lyLawyerDetails?.setOnClickListener {
                 listeners.onSubclick(lawyerProfileData.id)
+            }
+
+            imgRowLawyerCall?.setOnClickListener{
+                lawyerListFragment.callShowLawyerContactDetails(lawyerProfileData.full_name!!,lawyerProfileData.email!!,lawyerProfileData.phone!!,"null")
+            }
+
+            imgPicture!!.setOnClickListener {
+                lyLawyerDetails!!.performClick()
+            }
+
+            imgRowLawyerVideo?.setOnClickListener {}
+
+            imgRowLawyerChat?.setOnClickListener {
+                lawyerListFragment.callChatPageOpe(lawyerProfileData.id!!,lawyerProfileData.full_name!!,"")
             }
 
             tvLawyerName?.text = lawyerProfileData.full_name

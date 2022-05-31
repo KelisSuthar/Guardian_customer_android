@@ -23,8 +23,9 @@ import de.hdodenhof.circleimageview.CircleImageView
 class ConnectedHistoryAdapter(
 
     var context: Activity,
+    var type:String,
     var arrayList: ArrayList<ConnectedHistoryResp>,
-    var listeners: ConnectedHistoryAdapter.onItemClicklisteners
+    var listeners: onItemClicklisteners
 ) : RecyclerView.Adapter<ConnectedHistoryAdapter.myViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -58,10 +59,7 @@ class ConnectedHistoryAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(position: Int) {
             val array = arrayList[position]
-            if(SharedPreferenceManager.getString(
-                    AppConstants.USER_ROLE,
-                    AppConstants.APP_ROLE_USER
-                ) == AppConstants.APP_ROLE_USER ){
+            if(type != AppConstants.APP_ROLE_LAWYER){
                 imgRowLawyerCall!!.gone()
                 imgRowLawyerChat!!.gone()
                 }

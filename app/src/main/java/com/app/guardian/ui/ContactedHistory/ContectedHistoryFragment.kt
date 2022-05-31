@@ -2,6 +2,7 @@ package com.app.guardian.ui.ContactedHistory
 
 import android.text.TextUtils
 import android.view.View
+import android.view.WindowManager
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
@@ -49,14 +50,16 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
         mBinding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
             if (checkedId == R.id.rb1) {
                 callApi("")
+
             } else {
                 callApi("")
             }
 
         }
-        (activity as HomeActivity).bottomTabVisibility(false)
-        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.contacted_history),true,true)
+        (activity as HomeActivity).bottomTabVisibility(true)
+        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.contacted_history),true,false)
 
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
     }
 
     override fun postInit() {
@@ -66,7 +69,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
 
-        setAdapter()
+
         callApi("")
 
 
@@ -76,6 +79,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
         mBinding.rvContectedHistory.adapter = null
         connectedHistoryAdapter = ConnectedHistoryAdapter(
             requireActivity(),
+            type,
             array,
             object : ConnectedHistoryAdapter.onItemClicklisteners {
                 override fun onCallClick(position: Int) {
@@ -105,18 +109,20 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
             when (getCurrentRole) {
                 AppConstants.APP_ROLE_USER -> {
                     type = if (mBinding.rb1.isChecked) {
-                        "lawyer"
+                        AppConstants.APP_ROLE_LAWYER
                     } else {
-                        "mediator"
+                        AppConstants.APP_ROLE_MEDIATOR
                     }
+                    setAdapter()
                     mViewModel.getUserConnectedHistory(true, context as BaseActivity, search, type)
                 }
                 AppConstants.APP_ROLE_LAWYER -> {
                     type = if (mBinding.rb1.isChecked) {
-                        "user"
+                        AppConstants.APP_ROLE_USER
                     } else {
-                        "mediator"
+                        AppConstants.APP_ROLE_MEDIATOR
                     }
+                    setAdapter()
                     mViewModel.getLawyerConnectedHistory(
                         true,
                         context as BaseActivity,
@@ -126,6 +132,8 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                 }
                 AppConstants.APP_ROLE_MEDIATOR -> {
                     mBinding.radioGroup.gone()
+                    type =AppConstants.APP_ROLE_MEDIATOR
+                    setAdapter()
                     mViewModel.getMediatorConnectedHistory(true, context as BaseActivity, search)
                 }
             }

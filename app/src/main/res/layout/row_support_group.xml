@@ -22,18 +22,18 @@
             android:background="@color/lightBlue_2"
             android:paddingVertical="@dimen/_20sdp">
 
-            <TextView
-                android:id="@+id/rbRowSupportGroup"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtRowSupportGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_20sdp"
                 android:fontFamily="@font/lora_semibold"
-                android:textAlignment="center"
-                android:text="Crises Lines"
-                android:textColor="@color/txt_dark"
-                android:textSize="@dimen/_12ssp"
                 android:paddingTop="@dimen/_10sdp"
-                android:paddingBottom="@dimen/_10sdp" />
+                android:paddingBottom="@dimen/_10sdp"
+                android:text="Crises Lines"
+                android:textAlignment="center"
+                android:textColor="@color/txt_dark"
+                android:textSize="@dimen/_12ssp" />
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
 

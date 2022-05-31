@@ -34,7 +34,6 @@
                     android:id="@+id/lyLawyerProfilePicName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -42,7 +41,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/imgRowLawyerPicture"
+                        android:id="@+id/imgRoimgRowLawyerPicturewLawyerPicture"
                         android:layout_width="@dimen/_70sdp"
                         android:layout_height="@dimen/_70sdp"
                         android:src="@drawable/user_sample"
@@ -184,26 +183,22 @@
                         android:layout_height="@dimen/_33sdp"
                         android:src="@drawable/ic_call" />
 
-                    <View
-                        android:layout_width="@dimen/_15sdp"
-                        android:layout_height="@dimen/_1ssp" />
 
                     <ImageView
                         android:id="@+id/imgRowLawyerVideo"
                         android:layout_width="@dimen/_33sdp"
                         android:layout_height="@dimen/_33sdp"
-                        android:src="@drawable/ic_video" />
+                        android:src="@drawable/ic_video"
+                        android:layout_marginStart="@dimen/_15sdp"/>
 
-                    <View
-                        android:layout_width="@dimen/_15sdp"
-                        android:layout_height="@dimen/_1ssp" />
+
 
                     <ImageView
                         android:id="@+id/imgRowLawyerChat"
                         android:layout_width="@dimen/_33sdp"
                         android:layout_height="@dimen/_33sdp"
                         android:src="@drawable/ic_chat"
-
+                        android:layout_marginStart="@dimen/_15sdp"
                         />
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>

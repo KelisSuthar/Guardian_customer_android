@@ -4,6 +4,7 @@ package com.app.guardian.ui.LawyerList
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.text.TextUtils
 import android.util.TypedValue
 import android.view.View
 import android.view.Window
@@ -26,6 +27,7 @@ import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
 import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
+import com.app.guardian.ui.chatting.ChattingFragment
 import com.app.guardian.utils.Config
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
@@ -33,14 +35,16 @@ import com.google.android.material.chip.ChipGroup
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class LawyerListFragment : BaseFragment(),View.OnClickListener {
+class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickListener {
 
     private lateinit var mBinding: FragmentLawyerListBinding
     private val mViewModel: UserViewModel by viewModel()
     private val commonViewModel: CommonScreensViewModel by viewModel()
     var lawyerListAdapter: LawyerListAdapter? = null
     var array = ArrayList<LawyerListResp>()
-
+    var isDialLawyerOpen = isDialLawyer
+    var specialization = ""
+    var years_of_exp = ""
     private var rootView: View? = null
     override fun getInflateResource(): Int {
         return R.layout.fragment_lawyer_list
@@ -49,23 +53,32 @@ class LawyerListFragment : BaseFragment(),View.OnClickListener {
     override fun initView() {
         mBinding = getBinding()
         (activity as HomeActivity).bottomTabVisibility(true)
-        (activity as HomeActivity).headerTextVisible(
-            requireActivity().resources.getString(R.string.lawyer_list),
-            true,
-            true
-        )
-
+        if (isDialLawyerOpen) {
+            (activity as HomeActivity).headerTextVisible(
+                requireActivity().resources.getString(R.string.dial_lawyer_list),
+                true,
+                true
+            )
+        } else {
+            (activity as HomeActivity).headerTextVisible(
+                requireActivity().resources.getString(R.string.lawyer_list),
+                true,
+                false
+            )
+        }
     }
 
     private fun setAdapter() {
         lawyerListAdapter = LawyerListAdapter(
             context as Activity,
+            this,
+            isDialLawyerOpen,
             array,
             object : LawyerListAdapter.onItemClicklisteners {
                 override fun onSubclick(selectedLawyerListId: Int?) {
                     ReplaceFragment.replaceFragment(
                         requireActivity(),
-                        LawyerProfileFragment.newInstance(selectedLawyerListId!!),
+                        LawyerProfileFragment.newInstance(selectedLawyerListId!!, isDialLawyerOpen),
                         true,
                         LawyerListFragment::class.java.name,
                         LawyerListFragment::class.java.name
@@ -148,7 +161,7 @@ class LawyerListFragment : BaseFragment(),View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        callAPI()
+        callAPI("", "", "")
         setAdapter()
         mBinding.rvLawyerList.visible()
         mBinding.lyLawyerListFilter.lySearch.visible()
@@ -159,15 +172,39 @@ class LawyerListFragment : BaseFragment(),View.OnClickListener {
     }
 
 
-    private fun callAPI() {
+    fun callShowLawyerContactDetails(lawyerName : String?,lawyerEmail: String?,lawyerPhone : String?, lawyerProfilePicture : String?) {
+        lawyerName?.let {
+            ReusedMethod.displayLawyerContactDetails(requireActivity(),
+                it, lawyerEmail,lawyerPhone,lawyerProfilePicture)
+        }
+    }
+
+    fun callChatPageOpe(selectUserId: Int, selectUserFullName: String, profilePicUrl: String) {
+        ReplaceFragment.replaceFragment(
+            requireActivity(),
+            ChattingFragment(selectUserId,selectUserFullName,profilePicUrl),
+            true,
+            LawyerListFragment::class.java.name,
+            LawyerListFragment::class.java.name
+        );
+    }
+
+    private fun callAPI(search: String, years_of_exp: String, specialization: String) {
         if (ReusedMethod.isNetworkConnected(requireContext())) {
-            mViewModel.lawyerList(true, context as BaseActivity, "", "", "")
+            mViewModel.lawyerList(
+                true,
+                context as BaseActivity,
+                search,
+                years_of_exp,
+                specialization
+            )
         } else {
             mBinding.rvLawyerList.gone()
             mBinding.noLawyer.gone()
             mBinding.noInternetLawyer.llNointernet.visible()
         }
     }
+
     private fun callFilterDataAPI() {
         if (ReusedMethod.isNetworkConnected(requireContext())) {
             commonViewModel.getFilterData(true, context as BaseActivity)
@@ -178,33 +215,31 @@ class LawyerListFragment : BaseFragment(),View.OnClickListener {
         }
     }
 
-
-    companion object {
-
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LawyerListFragment().apply {
-
-            }
-    }
     override fun handleListener() {
         mBinding.noInternetLawyer.btnTryAgain.setOnClickListener(this)
         mBinding.lyLawyerListFilter.lySearchFilter.setOnClickListener(this)
+        mBinding.lyLawyerListFilter.llsearch.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
-        when(v?.id){
-            R.id.btnTryAgain->{
+        when (v?.id) {
+            R.id.btnTryAgain -> {
                 onResume()
             }
-            R.id.lySearchFilter ->{
+            R.id.lySearchFilter -> {
                 callFilterDataAPI()
 
+            }
+            R.id.llsearch -> {
+                if (TextUtils.isEmpty(mBinding.lyLawyerListFilter.edtLoginEmail.text.toString())) {
+                    callAPI(mBinding.lyLawyerListFilter.edtLoginEmail.text.toString(), "", "")
+                }
             }
         }
     }
 
     private fun showFilterDialog(data: FilterResp) {
+
         val dialog = Dialog(
             requireActivity(),
             com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
@@ -213,11 +248,11 @@ class LawyerListFragment : BaseFragment(),View.OnClickListener {
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.setContentView(R.layout.dialog_filter)
         dialog.setCancelable(false)
-        val chipGroup1:ChipGroup = dialog.findViewById(R.id.chip_group1)
-        val chipGroup2:ChipGroup = dialog.findViewById(R.id.chip_group2)
-        val btnDone:Button = dialog.findViewById(R.id.btnDone)
+        val chipGroup1: ChipGroup = dialog.findViewById(R.id.chip_group1)
+        val chipGroup2: ChipGroup = dialog.findViewById(R.id.chip_group2)
+        val btnDone: Button = dialog.findViewById(R.id.btnDone)
 
-        AddItemsInChipGroup(requireContext(),chipGroup1,data.specialization)
+        AddItemsInChipGroup(requireContext(), chipGroup1, data.specialization)
 
 
         val array = ArrayList<String>()
@@ -228,36 +263,30 @@ class LawyerListFragment : BaseFragment(),View.OnClickListener {
         array.add(data.age.`10-15`)
         array.add(data.age.`15-100`)
         for (i in array.indices) {
-            val entryChip2: Chip = getChip(array[i], requireContext())
+            val entryChip2: Chip = getChip(array[i], requireContext(), false)
             entryChip2.id = i
             chipGroup2.addView(entryChip2)
         }
         btnDone.setOnClickListener {
             dialog.dismiss()
-            ReusedMethod.displayMessageDialog(
-                requireActivity(),
-                "",
-                "Coming Soon!!",
-                false,
-                "Ok",
-                ""
-            )
+            callAPI("",years_of_exp,specialization)
         }
         dialog.show()
     }
+
     fun AddItemsInChipGroup(
         context: Context,
         chipGroup: ChipGroup,
         arrayList: List<Specialization>
     ) {
         for (i in arrayList.indices) {
-            val entryChip2: Chip = getChip(arrayList[i].title, context)
+            val entryChip2: Chip = getChip(arrayList[i].title, context, true)
             entryChip2.id = i
             chipGroup.addView(entryChip2)
         }
     }
 
-    private fun getChip(text: String, context: Context): Chip {
+    private fun getChip(text: String, context: Context, b: Boolean): Chip {
         val chip = Chip(context)
         chip.setChipDrawable(ChipDrawable.createFromResource(context, R.xml.filter_chips))
         val paddingDp = TypedValue.applyDimension(
@@ -271,6 +300,12 @@ class LawyerListFragment : BaseFragment(),View.OnClickListener {
         chip.text = text
         chip.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
+
+                if (b) {
+                    specialization = text
+                } else {
+                    years_of_exp = text
+                }
                 chip.setChipBackgroundColorResource(R.color.chip_selector)
                 chip.setTextColor(ContextCompat.getColor(context, R.color.white))
                 chip.isChecked = true

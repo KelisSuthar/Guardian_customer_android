@@ -9,6 +9,7 @@ import android.view.Window
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -55,6 +56,7 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
              }
 
          }*/
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
         setView(getResource(), savedInstanceState)
     }

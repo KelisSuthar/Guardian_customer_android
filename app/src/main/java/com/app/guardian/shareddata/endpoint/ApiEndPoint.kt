@@ -6,16 +6,21 @@ import com.app.guardian.model.CommonResponseModel
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
 import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
+import com.app.guardian.model.LawyerBySpecialization.LawyerBySpecializationResp
 import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.LawyerProfileDetails.LawyerProfileDetailsResp
 import com.app.guardian.model.ListFilter.FilterResp
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
+import com.app.guardian.model.Notification.NotificationResp
 import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
+import com.app.guardian.model.SupportGroup.SupportGroupResp
 import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
+import com.app.guardian.model.cms.CMSResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
+import com.app.guardian.model.specializationList.SpecializationListResp
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.http.Body
@@ -45,7 +50,7 @@ interface ApiEndPoint {
     fun resetPass(@Body jsonObject: JsonObject): Call<CommonResponseModel<MutableList<CommonResponse>>>
 
     @PUT("changePassword")
-    fun changePass(@Body jsonObject: JsonObject): Call<CommonResponseModel<CommonResponse>>
+    fun changePass(@Body jsonObject: JsonObject): Call<CommonResponseModel<MutableList<CommonResponse>>>
 
     @POST("signOut")
     fun signOut(): Call<CommonResponseModel<LoginResp>>
@@ -109,6 +114,27 @@ interface ApiEndPoint {
 
     @GET("getFilterData")
     fun getFilterListData():  Call<CommonResponseModel<FilterResp>>
+
+    @GET("getSpecializationList")
+    fun getSpecializationList():  Call<CommonResponseModel<MutableList<SpecializationListResp>>>
+
+    @GET("getCMS")
+    fun getCMSData():  Call<CommonResponseModel<MutableList<CMSResp>>>
+
+    @PUT("updatePhoneOtpVerify")
+    fun updatePhoneOtpVerify(@Body body: JsonObject):  Call<CommonResponseModel<MutableList<CommonResponse>>>//after user change the phone number in edit profile
+
+    @GET("getSupportGroup")
+    fun getSupportGroup(): Call<CommonResponseModel<MutableList<SupportGroupResp>>>
+
+    @POST("sendRequestVirtualWitness")
+    fun sendRequestVirtualWitness(@Body body: JsonObject): Call<CommonResponseModel<CommonResponse>>
+
+    @GET("getNotificationList")
+    fun getNotifications(): Call<CommonResponseModel<MutableList<NotificationResp>>>
+
+    @GET("lawyerBySpecialization")
+    fun getLawyerBySpecialization(@Body body: JsonObject): Call<CommonResponseModel<MutableList<LawyerBySpecializationResp>>>
 
 
 }

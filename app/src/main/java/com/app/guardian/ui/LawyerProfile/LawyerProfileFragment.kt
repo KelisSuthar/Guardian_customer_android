@@ -17,6 +17,7 @@ import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.SeekLegalAdvice.SeekLegalAdviceListFragment
+import com.app.guardian.ui.chatting.ChattingFragment
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -28,8 +29,11 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
     private var selectedLawyerListId: Int? = null
 
     private var storeSelctedId: Int? = null
-
-
+    private  var isDialLawyerSelected: Boolean = false
+    private var strLawyerName : String ?= null
+    private var strProfilePic : String ?= null
+    private var strPhoneNumber : String ?= null
+    private var strEmail : String ?= null
     override fun getInflateResource(): Int {
         return R.layout.fragment_lawyer_profile
     }
@@ -42,6 +46,7 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
 
         arguments?.let {
             selectedLawyerListId = it.getInt("LawyerId")
+            isDialLawyerSelected = it.getBoolean("isDialLawyer")
             storeSelctedId = selectedLawyerListId
         }
 
@@ -53,6 +58,32 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
                 SeekLegalAdviceListFragment(false,storeSelctedId!!), true,
                 LawyerProfileFragment::class.java.name,
                 null
+            )
+        }
+
+        if(isDialLawyerSelected){
+            mBinding.imgRowLawyerChat.gone()
+            mBinding.imgRowLawyerVideo.gone()
+        }
+        else {
+            mBinding.imgRowLawyerChat.visible()
+            mBinding.imgRowLawyerVideo.visible()
+        }
+
+        mBinding.imgRowLawyerCall.setOnClickListener {
+            strLawyerName?.let {
+                ReusedMethod.displayLawyerContactDetails(requireActivity(),
+                    it, strEmail,strPhoneNumber,"")
+            }
+        }
+
+        mBinding.imgRowLawyerChat.setOnClickListener {
+            ReplaceFragment.replaceFragment(
+                requireActivity(),
+                ChattingFragment(selectedLawyerListId!!,strLawyerName!!,""),
+                true,
+                LawyerProfileFragment::class.java.name,
+                LawyerProfileFragment::class.java.name
             )
         }
     }
@@ -75,7 +106,10 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
                         mBinding.txtSpecializationInfo.text =
                             "Criminal Lawyer\t\t\t" + it.years_of_experience + "+ year Experiance"
                         mBinding.txtContactInfo.text = it.email
-
+                        strLawyerName=it.full_name
+                        //strProfilePic= it.profile_avatar.toString()
+                        strEmail=it.email
+                        strPhoneNumber=it.phone
                         //description data is null from api side
                         //mBinding.txtDescriptionInfo.text = it.
                     }
@@ -116,10 +150,11 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(selectLawyerListIdParams: Int) =
+        fun newInstance(selectLawyerListIdParams: Int, isDialLawyerOpen: Boolean) =
             LawyerProfileFragment(selectLawyerListIdParams).apply {
                 arguments = Bundle().apply {
                     putInt("LawyerId", selectLawyerListIdParams)
+                    putBoolean("isDialLawyer",isDialLawyerOpen)
                 }
             }
     }

@@ -10,6 +10,7 @@ import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.view.Window
+import android.view.WindowManager
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import com.app.guardian.R
@@ -30,11 +31,12 @@ import com.app.guardian.ui.Mediator.MediatorHome.MediatorHomeFragment
 import com.app.guardian.ui.Radar.RadarFragment
 import com.app.guardian.ui.User.UserHome.UserHomeFragment
 import com.app.guardian.ui.User.settings.SettingsFragment
+import com.app.guardian.ui.chatting.ChattingFragment
 import com.google.android.gms.location.*
 import com.google.android.material.textview.MaterialTextView
 
 
-class HomeActivity : BaseActivity(),View.OnClickListener {
+class HomeActivity : BaseActivity(), View.OnClickListener {
     lateinit var mBinding: ActivityHomeBinding
 
 
@@ -61,9 +63,16 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
                 }
                 R.id.menu_lawyer -> {
                     clearFragmentBackStack()
-                    ReplaceFragment.replaceFragment(
+//                    ReplaceFragment.replaceFragment(
+//                        this,
+//                        ChattingFragment(),
+//                        false,
+//                        "",
+//                        HomeActivity::class.java.name
+//                    )
+                                    ReplaceFragment.replaceFragment(
                         this,
-                        LawyerListFragment(),
+                        LawyerListFragment(false),
                         false,
                         "",
                         HomeActivity::class.java.name
@@ -71,14 +80,20 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
                 }
                 R.id.menu_radar -> {
                     clearFragmentBackStack()
-                    bottomTabVisibility(true)
+                    ReplaceFragment.replaceFragment(
+                        this,
+                        RadarFragment(),
+                        false,
+                        "",
+                        HomeActivity::class.java.name
+                    )
 
                 }
                 R.id.menu_history -> {
                     clearFragmentBackStack()
                     ReplaceFragment.replaceFragment(
                         this,
-                        KnowRightFragment(),
+                        ContectedHistoryFragment(),
                         false,
                         "",
                         HomeActivity::class.java.name
@@ -119,11 +134,9 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
         headerTextVisible(resources.getString(R.string.seek_legal_advice), false, true)
     }
 
-    fun historyPageOpen()
-    {
-        mBinding.bottomNavigationUser.setSelectedItemId(R.id.menu_history);
+    fun historyPageOpen() {
+        mBinding.bottomNavigationUser.selectedItemId = R.id.menu_history;
     }
-
 
 
     override fun onResume() {
@@ -140,7 +153,7 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
                 )
             } else {
 
-                setDialog()
+                ReusedMethod.setLocationDialog(this)
             }
         }
     }
@@ -162,19 +175,21 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
 //    }
 
     override fun onBackPressed() {
-      //  super.onBackPressed()
+        //  super.onBackPressed()
         val fm: FragmentManager = supportFragmentManager
         var getCurrentFragment = supportFragmentManager.fragments
-        Log.e("BackStack","Current fragment Name : "+getCurrentFragment.toString())
-        var getFragment= supportFragmentManager.findFragmentById(R.id.flUserContainer)
+        Log.e("BackStack", "Current fragment Name : " + getCurrentFragment.toString())
+        var getFragment = supportFragmentManager.findFragmentById(R.id.flUserContainer)
         when {
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_USER -> {
-                if (getFragment is UserHomeFragment || getFragment is LawyerListFragment || getFragment is ContectedHistoryFragment || getFragment is RadarFragment ||getFragment is SettingsFragment) {
+                if (getFragment is UserHomeFragment || getFragment is LawyerListFragment || getFragment is ContectedHistoryFragment || getFragment is
+                            RadarFragment || getFragment is SettingsFragment
+                ) {
                     super.onBackPressed()
-                } else{
+                } else {
                     fm.popBackStack()
                 }
 
@@ -183,11 +198,10 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
                 AppConstants.USER_ROLE,
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_LAWYER -> {
-                if(getFragment!=null){
-                    if(getFragment is LawyerHomeFragment  || getFragment is LawyerListFragment || getFragment is ContectedHistoryFragment || getFragment is SettingsFragment){
+                if (getFragment != null) {
+                    if (getFragment is LawyerHomeFragment || getFragment is LawyerListFragment || getFragment is ContectedHistoryFragment || getFragment is SettingsFragment) {
                         super.onBackPressed()
-                    }
-                    else {
+                    } else {
                         fm.popBackStack()
                     }
                 }
@@ -197,11 +211,10 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_MEDIATOR -> {
 
-                if(getFragment!=null){
-                    if(getFragment is MediatorHomeFragment || getFragment is LawyerListFragment || getFragment is ContectedHistoryFragment || getFragment is SettingsFragment){
+                if (getFragment != null) {
+                    if (getFragment is MediatorHomeFragment || getFragment is LawyerListFragment || getFragment is ContectedHistoryFragment || getFragment is SettingsFragment) {
                         super.onBackPressed()
-                    }
-                    else {
+                    } else {
                         fm.popBackStack()
                     }
                 }
@@ -286,41 +299,15 @@ class HomeActivity : BaseActivity(),View.OnClickListener {
     fun bottomTabVisibility(isBottomVisible: Boolean) {
         if (isBottomVisible) {
             mBinding.bottomNavigationUser.visible()
+            window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         } else {
+            window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
             mBinding.bottomNavigationUser.gone()
         }
     }
 
     override fun onClick(v: View?) {
 
-    }
-
-
-    private fun setDialog() {
-        val dialog = Dialog(
-            this,
-            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
-        )
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.setContentView(R.layout.dialog_layout)
-        dialog.setCancelable(false)
-
-        val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
-        val TITLE = dialog.findViewById<TextView>(R.id.tvTitle)
-        val MESSAGE = dialog.findViewById<TextView>(R.id.tvMessage)
-        val CANCEL = dialog.findViewById<MaterialTextView>(R.id.tvNegative)
-        MESSAGE.gone()
-        CANCEL.gone()
-        OK.text = "OK"
-
-        TITLE.text = "Please turn on location to continue"
-        OK.setOnClickListener {
-            startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-            dialog.dismiss()
-        }
-
-        dialog.show()
     }
 
     private fun getLatLong() {

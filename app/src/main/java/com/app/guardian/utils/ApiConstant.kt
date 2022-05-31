@@ -86,6 +86,7 @@ class ApiConstant{
      val EXTRAS_CITY="city"
      val EXTRAS_COUNTRY="country"
      val EXTRAS_POSTAL_CODE="postal_code"
+     val EXTRAS_FIREBASE_UUID="firebase_uid"
      val EXTRAS_DOB="date_of_birth"
      val EXTRAS_CULTURAL_BACK="cultural_background"
      val EXTRAS_MATERIAL_STATUS="material_status"

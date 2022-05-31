@@ -51,7 +51,11 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 
     private fun setViews() {
         (activity as HomeActivity).bottomTabVisibility(true)
-        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.menu_setting),true,false)
+        (activity as HomeActivity).headerTextVisible(
+            requireActivity().resources.getString(R.string.menu_setting),
+            true,
+            false
+        )
 
         when {
             SharedPreferenceManager.getString(
@@ -114,6 +118,22 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+//        callCMSAPI()
+    }
+
+    private fun callCMSAPI() {
+        if (ReusedMethod.isNetworkConnected(requireActivity())) {
+            mViewModel.getCMSData(true, context as BaseActivity)
+        } else {
+            ReusedMethod.displayMessage(
+                requireActivity(),
+                resources.getString(R.string.text_error_network)
+            )
+        }
+    }
+
     override fun handleListener() {
         mBinding.tvSubScription.setOnClickListener(this)
         mBinding.tvAbout.setOnClickListener(this)
@@ -149,7 +169,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                                 ReplaceFragment.replaceFragment(
                                     requireActivity(),
                                     AddBannerFragment(),
-                                    false,
+                                    true,
                                     "",
                                     HomeActivity::class.java.name
                                 )
@@ -161,6 +181,35 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 
                         } else {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                requireActivity(),
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {}
+                    }
+                }
+            }
+        }
+
+        //CMS DATA RESP
+        mViewModel.getCommonResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+
+                        } else {
+
                         }
                     }
                 }

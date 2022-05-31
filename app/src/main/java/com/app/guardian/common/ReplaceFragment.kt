@@ -39,10 +39,12 @@ object ReplaceFragment {
                     activity?.supportFragmentManager?.beginTransaction()
                         ?.replace(R.id.flUserContainer, mFragment, tagName)
                         ?.addToBackStack(backStackName)?.commitAllowingStateLoss()
+
                 } else {
                     activity?.supportFragmentManager?.beginTransaction()
                         ?.replace(R.id.flUserContainer, mFragment, tagName)
                         ?.commitAllowingStateLoss()
+
                 }
             }
         } catch (e: Exception) {

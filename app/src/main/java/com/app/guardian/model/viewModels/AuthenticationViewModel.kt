@@ -11,6 +11,7 @@ import com.app.guardian.model.Login.User
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
+import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.repo.UserRepo
 import com.app.guardian.utils.ApiConstant
@@ -40,7 +41,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         pass: String,
         device_token: String,
 
-    ) {
+        ) {
         val signInJson = JsonObject()
         if (isEmail) {
             signInJson.addProperty(ApiConstant.EXTRAS_EMAIL, email_phone)
@@ -76,11 +77,11 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         email: String,
         specialization: String,
         years_of_experience: String,
-        office_dial_code:String,
+        office_dial_code: String,
         office_phone: String,
         password: String,
         confirm_password: String,
-        dial_code:String,
+        dial_code: String,
         phone: String,
         state: String,
         postal_code: String,
@@ -88,6 +89,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         profile_avatar: String,
         user_doc: ArrayList<String>,
         device_token: String,
+        firebase_uid: String,
 
 
         ) {
@@ -108,7 +110,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             signUpJson.addProperty(ApiConstant.EXTRAS_PHONE, phone)
             signUpJson.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
 
-        }else{
+        } else {
             signUpJson.addProperty(ApiConstant.EXTRAS_PHONE, phone)
             signUpJson.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
             signUpJson.addProperty(ApiConstant.EXTRAS_LICENCE_NO, licence_no)
@@ -118,6 +120,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         signUpJson.addProperty(ApiConstant.EXTRAS_CONFIRM_PASS, confirm_password)
         signUpJson.addProperty(ApiConstant.EXTRAS_STATE, state)
         signUpJson.addProperty(ApiConstant.EXTRAS_POSTAL_CODE, postal_code)
+        signUpJson.addProperty(ApiConstant.EXTRAS_FIREBASE_UUID, firebase_uid)
 //        signUpJson.addProperty(ApiConstant.EXTRAS_PROFILE_AVATAR, profile_avatar)
 
 //        for (i in user_doc.indices) {
@@ -134,9 +137,13 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             signupResp
         )
     }
+
     //RESET PASS API CALLING
-    private val CommonRestPassResponse = MutableLiveData<RequestState<MutableList<CommonResponse>>>()
-    fun getResetPAssResp(): LiveData<RequestState<MutableList<CommonResponse>>> = CommonRestPassResponse
+    private val CommonRestPassResponse =
+        MutableLiveData<RequestState<MutableList<CommonResponse>>>()
+
+    fun getResetPAssResp(): LiveData<RequestState<MutableList<CommonResponse>>> =
+        CommonRestPassResponse
 
     fun resetPassword(
         isInternetConnected: Boolean,
@@ -159,6 +166,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             CommonRestPassResponse
         )
     }
+
     //VERIFY OTP API CALLING
     private val UserResp = MutableLiveData<RequestState<User>>()
     fun getVerifyOTPResp(): LiveData<RequestState<User>> = UserResp
@@ -178,8 +186,8 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         if (isEmail) {
             verifyOTPJson.addProperty(ApiConstant.EXTRAS_EMAIL, email_phone)
         } else {
-            verifyOTPJson.addProperty(ApiConstant.EXTRAS_PHONE,  email_phone)
-            verifyOTPJson.addProperty(ApiConstant.EXTRAS_DIAL_CODE,  ccp)
+            verifyOTPJson.addProperty(ApiConstant.EXTRAS_PHONE, email_phone)
+            verifyOTPJson.addProperty(ApiConstant.EXTRAS_DIAL_CODE, ccp)
         }
         verifyOTPJson.addProperty(ApiConstant.EXTRAS_OTP, OTP)
 
@@ -284,6 +292,9 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             LoginResp
         )
     }
+
+    private val chnagePass = MutableLiveData<RequestState<MutableList<CommonResponse>>>()
+    fun getchangePassResp(): LiveData<RequestState<MutableList<CommonResponse>>> = chnagePass
     fun changePassword(
         isInternetConnected: Boolean,
         baseView: BaseActivity,
@@ -301,7 +312,53 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             body,
             isInternetConnected,
             baseView,
-            CommonResponse
+            chnagePass
+        )
+    }
+
+
+    //CALL SPECIALIZATION LIST
+    private val specializationListResp =
+        MutableLiveData<RequestState<MutableList<SpecializationListResp>>>()
+
+    fun getSpecializationListResp(): LiveData<RequestState<MutableList<SpecializationListResp>>> =
+        specializationListResp
+
+    fun getSpecializationList(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+    ) {
+        mUserRepository.getSpecializationList(
+            isInternetConnected,
+            baseView,
+            specializationListResp
+        )
+    }
+
+    //CALL VERIFY PHONE OTP API AFTER USER UPDATE MOBILE NUMBER IN EDIT PROFILE
+    private val verifyPhoneOTPResp =
+        MutableLiveData<RequestState<MutableList<CommonResponse>>>()
+
+    fun getPhoneOtpVerifyResp(): LiveData<RequestState<MutableList<CommonResponse>>> =
+        verifyPhoneOTPResp
+
+    fun updatePhoneOtpVerify(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        new_phone: String,
+        otp: String,
+    ) {
+
+        val body = JsonObject()
+
+        body.addProperty(ApiConstant.EXTRAS_OLD_PASS, new_phone)
+        body.addProperty(ApiConstant.EXTRAS_NEW_PASS, otp)
+
+        mUserRepository.updatePhoneOtpVerify(
+            body,
+            isInternetConnected,
+            baseView,
+            verifyPhoneOTPResp
         )
     }
 

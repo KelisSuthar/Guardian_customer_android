@@ -1,22 +1,28 @@
 package com.app.guardian.shareddata.repo
 
+import android.app.Notification
 import androidx.lifecycle.MutableLiveData
 import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
 import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
+import com.app.guardian.model.LawyerBySpecialization.LawyerBySpecializationResp
 import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.LawyerProfileDetails.LawyerProfileDetailsResp
 import com.app.guardian.model.ListFilter.FilterResp
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
+import com.app.guardian.model.Notification.NotificationResp
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
+import com.app.guardian.model.SupportGroup.SupportGroupResp
 import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
+import com.app.guardian.model.cms.CMSResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
+import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.shareddata.BaseView
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
@@ -166,6 +172,7 @@ interface UserRepo {
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<MutableList<ConnectedHistoryResp>>>
     )
+
     fun checkSubscription(
         internetConnected: Boolean,
         baseView: BaseActivity,
@@ -177,12 +184,14 @@ interface UserRepo {
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<MutableList<SubscriptionPlanResp>>>
     )
+
     fun addBannerSubscription(
         body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<CommonResponse>>
     )
+
     fun addBanner(
         body: JsonObject,
         internetConnected: Boolean,
@@ -194,12 +203,55 @@ interface UserRepo {
         body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
-        commonResp: MutableLiveData<RequestState<CommonResponse>>
+        commonResp: MutableLiveData<RequestState<MutableList<CommonResponse>>>
     )
+
     fun getFilterData(
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<FilterResp>>
+    )
+
+    fun getSpecializationList(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<SpecializationListResp>>>
+    )
+
+    fun cmsData(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<CMSResp>>>
+    )
+
+    fun updatePhoneOtpVerify(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<CommonResponse>>>
+    )
+
+    fun supportGroup(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<SupportGroupResp>>>
+    )
+    fun getNotification(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<NotificationResp>>>
+    )
+    fun sendRequestVirtualWitness(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<CommonResponse>>
+    )
+    fun getLawyerBySpecialization(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<LawyerBySpecializationResp>>>
     )
 
 }

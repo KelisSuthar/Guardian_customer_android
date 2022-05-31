@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+
+    <androidx.appcompat.widget.AppCompatRadioButton
+        android:id="@+id/rb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/specialization"
+        android:fontFamily="@font/lora_semibold"
+        android:textSize="@dimen/_13ssp"
+        android:textColor="@color/black"
+        android:paddingLeft="@dimen/_15sdp"
+        android:button="@drawable/box_selector"
+        android:buttonTint="@color/blue"
+        android:textAlignment="textStart"
+        android:focusable="false"
+        android:layout_alignParentRight="true"/>
+
+</RelativeLayout>
