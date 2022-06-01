@@ -91,13 +91,13 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/appCompatImageView3"
-                        android:layout_width="@dimen/_40sdp"
-                        android:layout_height="@dimen/_40sdp"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_gravity="right"
-                        android:background="@color/white"
                         android:layout_marginEnd="@dimen/_10sdp"
+                        android:src="@drawable/ic_video"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </RelativeLayout>

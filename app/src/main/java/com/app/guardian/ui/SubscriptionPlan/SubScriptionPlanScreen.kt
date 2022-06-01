@@ -50,15 +50,18 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
     override fun onResume() {
         super.onResume()
         setupBillingClient()
-        if (intent.extras != null || intent != null) {
-            if (intent.getBooleanExtra(AppConstants.EXTRA_IS_LAWYER, false)) {
-                callLawyerBannersubScriptionPlan()
-            } else {
-                callAPI()
-            }
+//        if (intent.extras != null || intent != null) {
+//            if (intent.getBooleanExtra(AppConstants.EXTRA_IS_LAWYER, false)) {
+        if (SharedPreferenceManager.getString(
+                AppConstants.USER_ROLE,
+                AppConstants.APP_ROLE_USER
+            ) == AppConstants.APP_ROLE_LAWYER
+        ) {
+            callLawyerBannersubScriptionPlan()
         } else {
             callAPI()
         }
+
 
         setAdapter()
         mBinding.recyclerView.visible()
@@ -75,13 +78,13 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
             object : SubscriptionPlanAdapter.onItemClicklisteners {
                 override fun onSubclick(position: Int) {
 //                    loadAllSKUs()
-                    if (intent.extras != null || intent != null) {
-                        if (intent.getBooleanExtra(AppConstants.EXTRA_IS_LAWYER, false)) {
-                            callLawyerBannerplanAPI(array[position].id, array[position].pricing)
-                        }else{
-                            callBuyPlanAPI(array[position].id, array[position].pricing)
-                        }
-                    }else{
+                    if (SharedPreferenceManager.getString(
+                            AppConstants.USER_ROLE,
+                            AppConstants.APP_ROLE_USER
+                        ) == AppConstants.APP_ROLE_LAWYER
+                    ) {
+                        callLawyerBannerplanAPI(array[position].id, array[position].pricing)
+                    } else {
                         callBuyPlanAPI(array[position].id, array[position].pricing)
                     }
 
@@ -90,7 +93,6 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
             })
         mBinding.recyclerView.adapter = subscriptionPlanAdapter
     }
-
 
 
     override fun initObserver() {
@@ -134,6 +136,7 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
+
                             SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
                             SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
                             startActivity(
@@ -144,6 +147,8 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                             )
                             finish()
                             overridePendingTransition(R.anim.rightto, R.anim.left)
+
+
                             ReusedMethod.displayMessage(this, it.message.toString())
 
                         } else {
@@ -212,6 +217,9 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                                 this,
                                 it.message.toString()
                             )
+                            onBackPressed()
+                            finish()
+                            overridePendingTransition(R.anim.leftto, R.anim.right)
                         } else {
                             ReusedMethod.displayMessage(
                                 this,

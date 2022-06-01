@@ -1,6 +1,7 @@
 package com.app.guardian.ui;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -60,6 +61,8 @@ public class AutoCompleteAdapter extends ArrayAdapter<AutocompletePrediction> im
             textView1.setText(item.getPrimaryText(null));
             textView2.setText(item.getSecondaryText(null));
         }
+
+        Log.i("PLACE_SIZE", String.valueOf(mResultList));
 
         return row;
     }

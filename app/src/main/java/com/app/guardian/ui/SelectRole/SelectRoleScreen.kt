@@ -114,7 +114,7 @@ class SelectRoleScreen : BaseActivity(), View.OnClickListener {
                             "",
                             resources.getString(R.string.empty_role),
                             false,
-                            "Cancel",
+                            "OK",
                             ""
                         )
                     }

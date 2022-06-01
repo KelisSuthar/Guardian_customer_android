@@ -256,7 +256,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         }
         btnDone.setOnClickListener {
             dialog.dismiss()
-            callAPI("",years_of_exp,specialization)
+                callAPI("",years_of_exp,specialization)
         }
         dialog.show()
     }

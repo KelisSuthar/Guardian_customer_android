@@ -290,7 +290,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
                             Log.i("GUARDIAN_APP", p.isSuccessful.toString())
                             Log.i("GUARDIAN_APP", p.toString())
-                            callApi(userId)
+//                            callApi(userId)
                         } else {
                             displayMessageDialog(this, "", p.exception.toString(), false, "OK", "")
                             showLoadingIndicator(false)
@@ -459,7 +459,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.empty_profile_pic),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                 }
@@ -470,7 +470,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.empty_name),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtFullname)
@@ -482,7 +482,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.valid_name),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtFullname)
@@ -494,7 +494,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.empty_email),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtEmail)
@@ -506,7 +506,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.valid_email),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtEmail)
@@ -518,7 +518,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.empty_specialization),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtSpecializations)
@@ -530,7 +530,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.valid_specialization),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtSpecializations)
@@ -542,7 +542,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.empty_exp),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtYearsOfExp)
@@ -554,7 +554,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.valid_exp),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtYearsOfExp)
@@ -566,7 +566,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.empty_office_number),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtOfficeNum)
@@ -578,7 +578,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.valid_office_number),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtOfficeNum)
@@ -590,7 +590,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.empty_number),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtMobileNum)
@@ -602,7 +602,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.valid_number),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtMobileNum)
@@ -614,7 +614,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.empty_pass),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtPass)
@@ -627,7 +627,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.valid_pass),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtPass)
@@ -639,7 +639,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.empty_con_pass),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtConPass)
@@ -651,7 +651,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.same_old_new_pass),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtConPass)
@@ -663,7 +663,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.valid_pass),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtPass)
@@ -676,7 +676,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.same_old_new_pass),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtConPass)
@@ -688,7 +688,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.same_old_new_pass),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtPass)
@@ -701,7 +701,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.empty_state),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtProvience)
@@ -714,7 +714,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.valid_state),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtProvience)
@@ -726,7 +726,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.valid_state),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtProvience)
@@ -738,7 +738,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.valid_state),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtProvience)
@@ -750,7 +750,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.empty_licence),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtVehicalNum)
@@ -762,7 +762,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.valid_licence),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ShowRedBorders(this@SignupScreen, mBinding.edtVehicalNum)
@@ -770,7 +770,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 }
 
 //                override fun licencPlateLength() {
-//                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.empty_licence), false, "Cancel", "")
+//                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.empty_licence), false, "OK", "")
 //                    ShowRedBorders(this@SignupScreen, mBinding.edtVehicalNum)
 //
 //                }
@@ -781,7 +781,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.valid_doc),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                 }
@@ -793,11 +793,12 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     ShowNoBorders(this@SignupScreen, mBinding.edtPass)
                     ShowNoBorders(this@SignupScreen, mBinding.edtConPass)
                     ShowNoBorders(this@SignupScreen, mBinding.edtVehicalNum)
-
-                    chatRegistration(
-                        mBinding.edtEmail.text?.trim().toString(),
-                        mBinding.edtPass.text?.trim().toString()
-                    )
+//
+//                    chatRegistration(
+//                        mBinding.edtEmail.text?.trim().toString(),
+//                        mBinding.edtPass.text?.trim().toString()
+//                    )
+                    callApi("ABEk231daswe5")
                 }
 
             }
@@ -944,8 +945,6 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
                 }
                 DOCUMENT_CODE -> {
-
-
                     images.add(ImagePicker.getFilePath(data).toString())
                     imageAdapter?.notifyDataSetChanged()
 

@@ -82,6 +82,7 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
             true,
             true
         )
+        mBinding.searchKnowRight.lySearchFilter.gone()
 
 //        if (!Places.isInitialized()) {
 //            Places.initialize(requireContext(), getString(R.string.map_api_key))
@@ -135,7 +136,6 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun getLatLong() {
-
         if (checkLoationPermission(requireActivity())) {
             showLoadingIndicator(true)
             locationCallback = object : LocationCallback() {

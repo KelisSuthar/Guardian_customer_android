@@ -45,11 +45,12 @@
             android:fontFamily="@font/lora_regular"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:textCursorDrawable="@drawable/dark_blue_cursor"
             android:paddingHorizontal="@dimen/_10sdp"
             android:singleLine="true"
-            android:maxLines="1"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="@color/colorPrimaryDark"
             android:textFontWeight="400"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -94,7 +95,7 @@
                 android:paddingHorizontal="@dimen/_5sdp"
                 android:paddingVertical="@dimen/_10sdp"
                 android:text="@string/phone"
-                android:textColor="@color/white_blue_color_selector"/>
+                android:textColor="@color/white_blue_color_selector" />
 
         </RadioGroup>
     </androidx.constraintlayout.widget.ConstraintLayout>

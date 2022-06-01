@@ -26,7 +26,7 @@ object NetworkManager {
         callback: MutableLiveData<RequestState<T>>
 
     ) {
-        callback?.postValue(RequestState(progress = true))
+        callback.postValue(RequestState(progress = true))
         call.enqueue(object : Callback<CommonResponseModel<T>> {
             override fun onFailure(call: Call<CommonResponseModel<T>>, t: Throwable) {
                 Timber.d("Retrofit onFailure ${t.localizedMessage}")
@@ -45,7 +45,7 @@ object NetworkManager {
                             baseView.onUnknownError(t.message)
                         }
                     }
-                    callback?.value = RequestState(
+                    callback.value = RequestState(
                             progress = false,
                             error = ApiError(Config.CUSTOM_ERROR, t.message)
                     )
@@ -61,29 +61,29 @@ object NetworkManager {
                      * based on status pass body
                      */
                     if (response.body()?.status == true) {
-                        callback?.postValue(RequestState(apiResponse = response.body()))
+                        callback.postValue(RequestState(apiResponse = response.body()))
                     } else {
                         /**
                          * incase of status is 0 or else ... not 1 will print body message
                          */
-                        callback?.postValue(
-                                RequestState(
-                                        error = ApiError(
-                                                Config.CUSTOM_ERROR, response.body()?.message
-                                        )
+                        callback.postValue(
+                            RequestState(
+                                error = ApiError(
+                                    Config.CUSTOM_ERROR, response.body()?.message
                                 )
+                            )
                         )
                     }
                 } else {
                     /**
                      * pass unsuccessful message at here
                      */
-                    callback?.postValue(
-                            RequestState(
-                                    error = ApiError(
-                                            Config.CUSTOM_ERROR, response.message()
-                                    )
+                    callback.postValue(
+                        RequestState(
+                            error = ApiError(
+                                Config.CUSTOM_ERROR, response.message()
                             )
+                        )
                     )
                 }
             }

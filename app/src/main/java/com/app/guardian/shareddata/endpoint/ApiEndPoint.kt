@@ -22,6 +22,7 @@ import com.app.guardian.model.cms.CMSResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
 import com.app.guardian.model.specializationList.SpecializationListResp
 import com.google.gson.JsonObject
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -35,7 +36,7 @@ interface ApiEndPoint {
 //    fun getKey(): Call<CommonResponseModel<KeyData>>
 
     @POST("signUp")
-    fun doSignUp(@Body jsonObject: JsonObject): Call<CommonResponseModel<SignupResp>>
+    fun doSignUp(@Body body: MultipartBody): Call<CommonResponseModel<SignupResp>>
 
     @POST("signIn")
     fun doLogIn(@Body jsonObject: JsonObject): Call<CommonResponseModel<LoginResp>>
@@ -110,7 +111,7 @@ interface ApiEndPoint {
     fun addBannerSubscription(@Body body: JsonObject):  Call<CommonResponseModel<CommonResponse>>
 
     @POST("addBanner")
-    fun addBanner(@Body body: JsonObject):  Call<CommonResponseModel<CommonResponse>>
+    fun addBanner(@Body body: MultipartBody):  Call<CommonResponseModel<CommonResponse>>
 
     @GET("getFilterData")
     fun getFilterListData():  Call<CommonResponseModel<FilterResp>>

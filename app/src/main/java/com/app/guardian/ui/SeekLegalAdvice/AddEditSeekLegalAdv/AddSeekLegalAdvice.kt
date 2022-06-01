@@ -120,7 +120,7 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
                         "",
                         resources.getString(R.string.empty_title),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ReusedMethod.ShowRedBorders(requireContext(), mBinding.edtTitle)
@@ -133,7 +133,7 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
                         "",
                         resources.getString(R.string.empty_desc),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ReusedMethod.ShowRedBorders(requireContext(), mBinding.edtDesc)

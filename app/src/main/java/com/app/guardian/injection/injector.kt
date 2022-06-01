@@ -1,9 +1,8 @@
 package com.app.guardian.injection
 
 
-
-import com.app.guardian.BuildConfig
 import com.app.guardian.common.AppConstants
+import com.app.guardian.BuildConfig
 import com.app.guardian.common.AppConstants.ACCESS_TOKEN
 import com.app.guardian.common.AppConstants.API_KEY_VALUE
 import com.app.guardian.common.AppConstants.BEREAR_TOKEN
@@ -82,7 +81,8 @@ class AddHeaderInterceptor : Interceptor {
 
         val accessToken: String? = SharedPreferenceManager.getString(ACCESS_TOKEN, "")
         val berearToken: String? = SharedPreferenceManager.getString(BEREAR_TOKEN, "")
-        val userRole: String? = SharedPreferenceManager.getString(USER_ROLE, AppConstants.APP_ROLE_USER)
+        val userRole: String? =
+            SharedPreferenceManager.getString(USER_ROLE, AppConstants.APP_ROLE_USER)
         val userID: String? = SharedPreferenceManager.getString(LOGGED_IN_USER_ID, "-1")!!
 
 //        if (apikey == STATIC_API_KEY) builder.addHeader(
@@ -93,7 +93,7 @@ class AddHeaderInterceptor : Interceptor {
 //        if (!userID.equals("-1")) builder.addHeader("userid", "" + userID)
 //        if (!userID.equals("-1")) builder.addHeader("userID", "" + userID)
         builder.addHeader("user_role", userRole.toString())
-        builder. addHeader("Authorization", "Bearer $berearToken").build()
+        builder.addHeader("Authorization", "Bearer $berearToken").build()
 //        builder.addHeader("role", userRole.toString())
 //        builder.addHeader("Devicetype", "android")
         builder.addHeader("device_type", "android")

@@ -15,10 +15,13 @@ import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.repo.UserRepo
 import com.app.guardian.utils.ApiConstant
-import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 
-//TODO-AuthenticationViewModel(Signup,login,forgotpass,resetpass,logut,subscriptions)
+
 class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel() {
 
     //For Common Resp
@@ -93,45 +96,60 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
 
 
         ) {
-        val signUpJson = JsonObject()
-        val array = JsonArray()
-        signUpJson.addProperty(ApiConstant.EXTRAS_FULL_NAME, full_name)
-        signUpJson.addProperty(ApiConstant.EXTRAS_EMAIL, email)
+        val body = MultipartBody.Builder()
+        body.setType(MultipartBody.FORM)
+        body.addFormDataPart(ApiConstant.EXTRAS_FULL_NAME, full_name)
+        body.addFormDataPart(ApiConstant.EXTRAS_EMAIL, email)
         if (is_lawyer) {
-            signUpJson.addProperty(ApiConstant.EXTRAS_SPECIALIZATION, specialization)
-            signUpJson.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
-            signUpJson.addProperty(ApiConstant.EXTRAS_OFFICE_PHONE, office_phone)
-            signUpJson.addProperty(ApiConstant.EXTRAS_OFFICE_DIAL_CODE, office_dial_code)
-            signUpJson.addProperty(ApiConstant.EXTRAS_PHONE, phone)
-            signUpJson.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
+            body.addFormDataPart(ApiConstant.EXTRAS_SPECIALIZATION, specialization)
+            body.addFormDataPart(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
+            body.addFormDataPart(ApiConstant.EXTRAS_OFFICE_PHONE, office_phone)
+            body.addFormDataPart(ApiConstant.EXTRAS_OFFICE_DIAL_CODE, office_dial_code)
+            body.addFormDataPart(ApiConstant.EXTRAS_PHONE, phone)
+            body.addFormDataPart(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
         } else if (is_mediator) {
-            signUpJson.addProperty(ApiConstant.EXTRAS_SPECIALIZATION, specialization)
-            signUpJson.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
-            signUpJson.addProperty(ApiConstant.EXTRAS_PHONE, phone)
-            signUpJson.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
+            body.addFormDataPart(ApiConstant.EXTRAS_SPECIALIZATION, specialization)
+            body.addFormDataPart(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
+            body.addFormDataPart(ApiConstant.EXTRAS_PHONE, phone)
+            body.addFormDataPart(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
 
         } else {
-            signUpJson.addProperty(ApiConstant.EXTRAS_PHONE, phone)
-            signUpJson.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
-            signUpJson.addProperty(ApiConstant.EXTRAS_LICENCE_NO, licence_no)
+            body.addFormDataPart(ApiConstant.EXTRAS_PHONE, phone)
+            body.addFormDataPart(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
+            body.addFormDataPart(ApiConstant.EXTRAS_LICENCE_NO, licence_no)
         }
 
-        signUpJson.addProperty(ApiConstant.EXTRAS_PASSWORD, password)
-        signUpJson.addProperty(ApiConstant.EXTRAS_CONFIRM_PASS, confirm_password)
-        signUpJson.addProperty(ApiConstant.EXTRAS_STATE, state)
-        signUpJson.addProperty(ApiConstant.EXTRAS_POSTAL_CODE, postal_code)
-        signUpJson.addProperty(ApiConstant.EXTRAS_FIREBASE_UUID, firebase_uid)
-//        signUpJson.addProperty(ApiConstant.EXTRAS_PROFILE_AVATAR, profile_avatar)
+        body.addFormDataPart(ApiConstant.EXTRAS_PASSWORD, password)
+        body.addFormDataPart(ApiConstant.EXTRAS_CONFIRM_PASS, confirm_password)
+        body.addFormDataPart(ApiConstant.EXTRAS_STATE, state)
+        body.addFormDataPart(ApiConstant.EXTRAS_POSTAL_CODE, postal_code)
+        body.addFormDataPart(ApiConstant.EXTRAS_FIREBASE_UUID, firebase_uid)
+        body.addFormDataPart(ApiConstant.EXTRAS_DEVICETOKEN, device_token)
 
-//        for (i in user_doc.indices) {
-//            array.add(user_doc[i])
-//        }
-//        signUpJson.add(ApiConstant.EXTRAS_USER_DOC, array)
-        signUpJson.addProperty(ApiConstant.EXTRAS_DEVICETOKEN, device_token)
-
-
+        if (profile_avatar != "") {
+            val file = File(profile_avatar)
+            file.let {
+                body.addFormDataPart(
+                    ApiConstant.EXTRAS_PROFILE_AVATAR,
+                    it.name,
+                    it.asRequestBody("image/*".toMediaTypeOrNull())
+                )
+            }
+        }
+        user_doc.forEach {
+            if (it != "") {
+                val file = File(it)
+                file.let {
+                    body.addFormDataPart(
+                        ApiConstant.EXTRAS_USER_DOC,
+                        it.name,
+                        it.asRequestBody("image/*".toMediaTypeOrNull())
+                    )
+                }
+            }
+        }
         mUserRepository.doSignUp(
-            signUpJson,
+            body.build(),
             isInternetConnected,
             baseView,
             signupResp

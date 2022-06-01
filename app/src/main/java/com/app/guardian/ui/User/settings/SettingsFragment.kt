@@ -145,6 +145,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 //        mBinding.headderSettitng.ivBack.setOnClickListener(this)
         mBinding.tvBanneradds.setOnClickListener(this)
         mBinding.tvContactHistory.setOnClickListener(this)
+        mBinding.tvSubscription2.setOnClickListener(this)
     }
 
     override fun initObserver() {
@@ -159,7 +160,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                                     Intent(
                                         requireActivity(),
                                         SubScriptionPlanScreen::class.java
-                                    ).putExtra(AppConstants.EXTRA_IS_LAWYER, true)
+                                    )
                                 )
                                 requireActivity().overridePendingTransition(
                                     R.anim.rightto,
@@ -271,6 +272,10 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.tvSubScription -> {
+                startActivity(Intent(context, SubScriptionPlanScreen::class.java))
+                requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
+            }
+            R.id.tvSubscription2 -> {
                 startActivity(Intent(context, SubScriptionPlanScreen::class.java))
                 requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
             }

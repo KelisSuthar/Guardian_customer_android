@@ -3,23 +3,24 @@ package com.app.guardian.ui.Lawyer.AddBaner
 import android.content.Intent
 import android.net.Uri
 import android.text.TextUtils
-import androidx.fragment.app.Fragment
+import android.util.Patterns
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.app.guardian.R
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentAddBannerBinding
-import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.model.viewModels.LawyerViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
-import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.utils.Config
 import com.github.dhaval2404.imagepicker.ImagePicker
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -70,6 +71,7 @@ class AddBannerFragment : BaseFragment(), View.OnClickListener {
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
+                            requireActivity().onBackPressed()
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                         } else {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
@@ -126,41 +128,64 @@ class AddBannerFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun validations() {
-        when {
-            TextUtils.isEmpty(bannerImage) -> {
-                ReusedMethod.displayMessageDialog(
-                    requireActivity(),
-                    "",
-                    "Please Select Banner Image.",
-                    false,
-                    "Cancel",
-                    ""
-                )
-            }
-            TextUtils.isEmpty(mBinding.edtShareLink.text?.trim().toString()) -> {
-                ReusedMethod.displayMessageDialog(
-                    requireActivity(),
-                    "",
-                    "Please Add Share Link For Banner.",
-                    false,
-                    "Cancel",
-                    ""
-                )
-                ReusedMethod.ShowRedBorders(requireActivity(), mBinding.edtShareLink)
-            }
-            else -> {
-                callAddBannerApi()
-                ReusedMethod.ShowNoBorders(requireActivity(), mBinding.edtShareLink)
-            }
+
+        if (TextUtils.isEmpty(bannerImage)) {
+            ReusedMethod.displayMessageDialog(
+                requireActivity(),
+                "",
+                "Please select banner image.",
+                false,
+                "OK",
+                ""
+            )
+        } else if (TextUtils.isEmpty(mBinding.edtShareLink.text?.trim().toString())) {
+            ReusedMethod.displayMessageDialog(
+                requireActivity(),
+                "",
+                "Please add share link for banner.",
+                false,
+                "OK",
+                ""
+            )
+            ReusedMethod.ShowRedBorders(requireActivity(), mBinding.edtShareLink)
+        } else if (!isValidUrl(mBinding.edtShareLink.text?.trim().toString())) {
+            ReusedMethod.displayMessageDialog(
+                requireActivity(),
+                "",
+                "Please add valid link",
+                false,
+                "OK",
+                ""
+            )
+            ReusedMethod.ShowRedBorders(requireActivity(), mBinding.edtShareLink)
+        } else {
+                            callAddBannerApi()
+            ReusedMethod.ShowNoBorders(requireActivity(), mBinding.edtShareLink)
         }
+    }
+
+    fun isValidUrl(linkToCheck: String?): Boolean {
+        if (linkToCheck == null) {
+            return false;
+        }
+        return Pattern.matches(
+            "^(https?://)?([a-zA-Z0-9_-]+\\.[a-zA-Z0-9_-]+)+(/*[A-Za-z0-9/\\-_&:?\\+=//.%]*)*",
+            linkToCheck
+        );
     }
 
     private fun callAddBannerApi() {
         mBinding.noInternetAddBanner.llNointernet.gone()
         mBinding.cl1.visible()
         if (ReusedMethod.isNetworkConnected(requireActivity())) {
-            mViewModel.addBanners(true, context as BaseActivity,bannerImage,
-                mBinding.edtShareLink.text?.trim().toString(),"2022-05-11 23:00:00","2022-07-11 23:00:00")
+            mViewModel.addBanners(
+                true,
+                context as BaseActivity,
+                bannerImage,
+                mBinding.edtShareLink.text?.trim().toString(),
+                "2022-05-11 23:00:00",
+                "2022-07-11 23:00:00"
+            )
         } else {
             mBinding.noInternetAddBanner.llNointernet.visible()
             mBinding.cl1.gone()
@@ -179,9 +204,7 @@ class AddBannerFragment : BaseFragment(), View.OnClickListener {
                     mBinding.lladdImg.gone()
                     mBinding.ivBannerImg.setImageURI(uri)
                     bannerImage = ImagePicker.getFilePath(data).toString()
-
                 }
-
             }
 
         }

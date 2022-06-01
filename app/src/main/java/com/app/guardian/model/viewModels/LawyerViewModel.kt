@@ -10,6 +10,10 @@ import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.repo.UserRepo
 import com.app.guardian.utils.ApiConstant
 import com.google.gson.JsonObject
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 
 class LawyerViewModel(private val mUserRepository: UserRepo) : ViewModel() {
 
@@ -97,14 +101,26 @@ class LawyerViewModel(private val mUserRepository: UserRepo) : ViewModel() {
         end_date: String,
     ) {
 
-        val body = JsonObject()
+        val body = MultipartBody.Builder()
+        body.setType(MultipartBody.FORM)
+        if (banner_avatar != "") {
+            val file = File(banner_avatar)
+            file.let {
+                body.addFormDataPart(
+                    ApiConstant.EXTRAS_BANNER_AVATAR,
+                    it.name,
+                    it.asRequestBody("image/*".toMediaTypeOrNull())
+                )
+            }
+        }
 
-        body.addProperty(ApiConstant.EXTRAS_BANNER_AVATAR, banner_avatar)
-        body.addProperty(ApiConstant.EXTRAS_URL, url)
-        body.addProperty(ApiConstant.EXTRAS_START_DATE, start_date)
-        body.addProperty(ApiConstant.EXTRAS_END_DATE, end_date)
+
+
+        body.addFormDataPart(ApiConstant.EXTRAS_URL, url)
+        body.addFormDataPart(ApiConstant.EXTRAS_START_DATE, start_date)
+        body.addFormDataPart(ApiConstant.EXTRAS_END_DATE, end_date)
         mUserRepository.addBanner(
-            body,
+            body.build(),
             isInternetConnected,
             baseView,
             commonResponse

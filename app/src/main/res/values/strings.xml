@@ -82,45 +82,45 @@
     <!-- TODO: Validation Message  -->
 
     <!--    Add Seek Legal Advice-->
-    <string name="empty_title">Please Enter Title.</string>
-    <string name="empty_desc">Please Enter Description.</string>
+    <string name="empty_title">Please enter title.</string>
+    <string name="empty_desc">Please enter description.</string>
 
     <!--    RoleSelector Screen-->
-    <string name="empty_role">Please Select Role</string>
+    <string name="empty_role">Please select role</string>
 
     <!--    SignUPScreen-->
     <string name="empty_profileImage">Please select your profile image</string>
-    <string name="empty_email">Please enter Email.</string>
-    <string name="empty_pass">Please enter Password.</string>
-    <string name="empty_con_pass">Please enter Confirm Password.</string>
-    <string name="valid_pass">Password must contain 1 Uppercase Letter, 1 Lowercase Letter, 1 Digit, 1 Special Character and length is 8 or more.</string>
-    <string name="valid_con_pass">Confirm Password must contain 1 Uppercase Letter, 1 Lowercase Letter, 1 Digit, 1 Special Character and length is 8 or more.</string>
-    <string name="valid_email">Please enter valid Email.</string>
+    <string name="empty_email">Please enter email.</string>
+    <string name="empty_pass">Please enter password.</string>
+    <string name="empty_con_pass">Please enter confirm password.</string>
+    <string name="valid_pass">Password must contain 1 Uppercase Letter, 1 lowercase letter, 1 digit, 1 special character and length is 8 or more.</string>
+    <string name="valid_con_pass">Confirm password must contain 1 uppercase letter, 1 lowercase letter, 1 digit, 1 special character and length is 8 or more.</string>
+    <string name="valid_email">Please enter valid email.</string>
     <string name="same_old_new_pass">Old password and new password can not be same.</string>
     <string name="empty_name">Please enter Name.</string>
-    <string name="valid_name">Please enter Valid Name.</string>
-    <string name="empty_number">Please enter Phone Number.</string>
+    <string name="valid_name">Please enter valid name.</string>
+    <string name="empty_number">Please enter phone number.</string>
     <string name="valid_number">Phone Number must be less than or equal 10 Digits.</string>
     <string name="empty_state">Please enter Province/State.</string>
     <string name="valid_state">Please enter valid Province/State name.</string>
     <string name="empty_postal_code">Please enter Postal Code/Zip Code.</string>
     <string name="valid_postal_code">Please enter valid Postal Code/Zip Code.</string>
-    <string name="empty_licence">Please enter Licence Plate No. for Car.</string>
-    <string name="valid_licence">Please enter Valid Licence Plate No. for Car.</string>
-    <string name="valid_doc">Please upload at least One Document of yours</string>
-    <string name="empty_specialization">Please enter Specialization.</string>
-    <string name="valid_specialization">Please enter Valid description of Specialization</string>
-    <string name="empty_exp">Please enter Experience.</string>
-    <string name="valid_exp">Your Experience Must Be Greater Than 0 years.</string>
-    <string name="empty_office_number">Please enter Office Phone Number.</string>
-    <string name="valid_office_number">Office Phone Number must be less than or equal 10 Digits.</string>
+    <string name="empty_licence">Please enter licence plate no. for car.</string>
+    <string name="valid_licence">Please enter valid licence plate no. for car.</string>
+    <string name="valid_doc">Please upload at least one document of yours.</string>
+    <string name="empty_specialization">Please enter specialization.</string>
+    <string name="valid_specialization">Please enter valid description of specialization</string>
+    <string name="empty_exp">Please enter experience.</string>
+    <string name="valid_exp">Your experience must be greater than 0 years.</string>
+    <string name="empty_office_number">Please enter office phone number.</string>
+    <string name="valid_office_number">Office phone Number must be less than or equal 10 digits.</string>
 
     <!--    ResetPAss Screen-->
-    <string name="empty_new_pass">Please enter New Password.</string>
-    <string name="empty_old_pass">Please enter Old Password.</string>
-    <string name="valid_new_pass">New Password must contain 1 Uppercase Letter, 1 Lowercase Letter, 1 Digit, 1 Special Character and length is 8 or more.</string>
-    <string name="valid_old_pass">Old Password must contain 1 Uppercase Letter, 1 Lowercase Letter, 1 Digit, 1 Special Character and length is 8 or more.</string>
-    <string name="same_old_new_new_pass">New Password and Confirm Password does not match.</string>
+    <string name="empty_new_pass">Please enter new password.</string>
+    <string name="empty_old_pass">Please enter old password.</string>
+    <string name="valid_new_pass">New password must contain 1 uppercase letter, 1 lowercase letter, 1 digit, 1 special character and length is 8 or more.</string>
+    <string name="valid_old_pass">Old password must contain 1 uppercase letter, 1 lowercase letter, 1 digit, 1 special character and length is 8 or more.</string>
+    <string name="same_old_new_new_pass">New password and confirm password does not match.</string>
 
     <!-- TODO: Place Holders  -->
 
@@ -163,7 +163,7 @@
     <!-- Record (Police Interaction)-->
     <string name="video_and_audio">Video And Audio</string>
     <string name="just_audio">Just Audio</string>
-    <string name="know_your_basic_rights">Know Your basic Rights</string>
+    <string name="know_your_basic_rights">Know Your Basic Rights</string>
     <string name="live_virtual_witness_mediator">Live Virtual Witness/Mediator</string>
 
     <!--    live virtual witness / mediator-->

@@ -27,4 +27,11 @@
 
 <!--    text color -->
     <color name="txt_dark">@color/colorPrimaryDark</color>
+
+<!--Image Picker Color-->
+    <color name="ucrop_color_toolbar">#001B48</color>
+    <color name="ucrop_color_statusbar">#001B48</color>
+    <color name="ucrop_color_widget_active">#02457A</color>
+
+
 </resources>

@@ -394,7 +394,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.empty_profile_pic),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                 }
@@ -405,7 +405,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.empty_name),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtFullname)
@@ -417,7 +417,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.valid_name),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtFullname)
@@ -429,7 +429,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
 //                        "",
 //                        resources.getString(R.string.empty_email),
 //                        false,
-//                        "Cancel",
+//                        "OK",
 //                        ""
 //                    )
 //                    ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtEmail)
@@ -441,7 +441,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.valid_email),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtEmail)
@@ -453,7 +453,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.empty_number),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtPhone)
@@ -465,7 +465,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.valid_number),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtPhone)
@@ -478,7 +478,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.empty_state),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtProvience)
@@ -491,7 +491,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.valid_state),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtProvience)
@@ -503,7 +503,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.valid_state),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtProvience)
@@ -515,7 +515,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.valid_state),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                     ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtProvience)
@@ -528,7 +528,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         "",
                         resources.getString(R.string.valid_doc),
                         false,
-                        "Cancel",
+                        "OK",
                         ""
                     )
                 }

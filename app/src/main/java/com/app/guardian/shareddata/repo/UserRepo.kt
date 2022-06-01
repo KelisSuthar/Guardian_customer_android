@@ -27,6 +27,7 @@ import com.app.guardian.shareddata.BaseView
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.google.gson.JsonObject
+import okhttp3.MultipartBody
 import java.net.IDN
 
 interface UserRepo {
@@ -45,7 +46,7 @@ interface UserRepo {
     )
 
     fun doSignUp(
-        body: JsonObject,
+        body: MultipartBody,
         isInternetConnected: Boolean,
         baseView: BaseView,
         callback: MutableLiveData<RequestState<SignupResp>>
@@ -193,7 +194,7 @@ interface UserRepo {
     )
 
     fun addBanner(
-        body: JsonObject,
+        body: MultipartBody,
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<CommonResponse>>
