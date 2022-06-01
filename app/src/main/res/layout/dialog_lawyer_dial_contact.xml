@@ -148,7 +148,24 @@
                 app:textAllCaps="true"
                 tools:ignore="HardcodedText" />
 
+                <View
+                    android:layout_width="@dimen/_1ssp"
+                    android:layout_height="match_parent"
+                    android:background="@color/black"/>
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txtDialogCallNow"
+                android:fontFamily="@font/lora_bold"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/call_now"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_13ssp"
+                app:textAllCaps="true"
+                tools:ignore="HardcodedText" />
 
         </LinearLayout>
     </LinearLayout>

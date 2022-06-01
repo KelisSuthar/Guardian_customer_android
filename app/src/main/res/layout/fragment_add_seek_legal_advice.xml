@@ -51,6 +51,7 @@
             android:maxLines="1"
             android:textFontWeight="400"
             android:textSize="@dimen/_12ssp"
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
             android:layout_marginTop="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

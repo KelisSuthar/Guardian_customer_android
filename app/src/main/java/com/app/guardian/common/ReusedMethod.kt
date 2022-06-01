@@ -10,13 +10,13 @@ import android.location.Address
 import android.location.Geocoder
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
-import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.View.OnFocusChangeListener
@@ -25,10 +25,10 @@ import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.appcompat.content.res.AppCompatResources.getColorStateList
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import com.app.guardian.R
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
@@ -38,16 +38,12 @@ import com.google.android.libraries.places.api.model.AutocompletePrediction
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipDrawable
-import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.rilixtech.widget.countrycodepicker.CountryCodePicker
 import de.hdodenhof.circleimageview.CircleImageView
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.math.acos
 import kotlin.math.cos
 import kotlin.math.sin
@@ -261,6 +257,7 @@ class ReusedMethod {
 
             val PROFILEURL = dialog.findViewById<CircleImageView>(R.id.imgDialogLawyerPicture)
             val OK = dialog.findViewById<MaterialTextView>(R.id.txtLawyerDialogOk)
+            val CALLNOW = dialog.findViewById<MaterialTextView>(R.id.txtDialogCallNow)
             val LAWYERNAME = dialog.findViewById<TextView>(R.id.txtDialogLawyerName)
             val EMAIL = dialog.findViewById<TextView>(R.id.txtLawyerEmailID)
             val PHONE = dialog.findViewById<MaterialTextView>(R.id.txtLawyerContact)
@@ -279,6 +276,22 @@ class ReusedMethod {
 
             OK.setOnClickListener {
                 dialog.dismiss()
+            }
+            CALLNOW.setOnClickListener {
+                val u: Uri = Uri.parse("tel:" + PHONE.getText().toString())
+
+                val i = Intent(Intent.ACTION_DIAL, u)
+                try {
+                    // Launch the Phone app's dialer with a phone
+                    // number to dial a call.
+                    context.startActivity(i)
+                } catch (s: SecurityException) {
+                    // show() method display the toast with
+                    // exception message.
+                    displayMessage(context, "An error occurred")
+
+                }
+
             }
             dialog.show()
         }

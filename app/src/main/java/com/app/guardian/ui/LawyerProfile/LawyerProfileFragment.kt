@@ -86,6 +86,10 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
                 LawyerProfileFragment::class.java.name
             )
         }
+
+        mBinding.imgRowLawyerVideo.setOnClickListener{
+            ReusedMethod.displayMessage(requireActivity(), requireActivity().resources.getString(R.string.come_soon))
+        }
     }
 
     override fun postInit() {
