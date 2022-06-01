@@ -161,7 +161,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { }
+                                ?.let {
+                                    displayMessage(this, it.toString())
+
+                                }
                     }
                 }
             }

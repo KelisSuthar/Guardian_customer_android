@@ -24,6 +24,7 @@ import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.BannerAds.BannerAdsPager
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.KnowRight.KnowRightFragment
+import com.app.guardian.ui.Lawyer.AskMoreQuestion.AskMoreQuestion
 import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.SeekLegalAdvice.SeekLegalAdviceListFragment
 import com.app.guardian.utils.Config
@@ -32,16 +33,7 @@ import com.github.angads25.toggle.model.ToggleableView
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [LawyerHomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
     var array = ArrayList<UserHomeBannerResp>()
@@ -165,6 +157,13 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.cvAskQuestion -> {
                 chnagelayout(2)
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    AskMoreQuestion(),
+                    true,
+                    LawyerHomeFragment::class.java.name,
+                    LawyerHomeFragment::class.java.name
+                )
             }
             R.id.cvSeekAdv -> {
                 chnagelayout(3)
@@ -189,6 +188,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.btnAskQuestions -> {
                 chnagelayout(2)
+                mBinding.cvAskQuestion.performClick()
             }
             R.id.btnSeekAdv -> {
 //                ReplaceFragment.replaceFragment(
