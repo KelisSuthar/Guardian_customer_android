@@ -69,7 +69,8 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
 
                         if (it.status) {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
-                        } else {
+                            requireActivity().onBackPressed()
+                                } else {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                         }
                     }
@@ -169,6 +170,7 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
                     mBinding.edtDesc.text?.trim().toString(),
                 )
             }
+
 
         } else {
             mBinding.noInternetAddSeekLegal.llNointernet.visible()
