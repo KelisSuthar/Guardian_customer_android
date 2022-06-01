@@ -11,6 +11,7 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.Window
+import android.widget.Toast
 import androidx.core.content.PermissionChecker
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
@@ -27,6 +28,7 @@ import com.app.guardian.common.extentions.checkPermissions
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivitySignupScreenBinding
+import com.app.guardian.model.FirebaseUser.FirebaseUserData
 import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.base.BaseActivity
@@ -39,8 +41,7 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.gms.location.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -58,10 +59,14 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
     var is_mediator = false
     var is_user = false
     var ROLE = ""
+    var keyId = 1
+    var userKeyId = 1
     var selectedid = -1
+    var userId: String = ""
 
     private lateinit var auth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
+    val userList = ArrayList<FirebaseUserData>()
 
     //    var adapter: AutoCompleteAdapter? = null
 //    var responseView: TextView? = null
@@ -81,6 +86,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
     override fun initView() {
 
         auth = FirebaseAuth.getInstance()//Firebase
+
 
         mBinding = getBinding()
         mBinding.noInternetSignUp.llNointernet.gone()
@@ -147,6 +153,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
             }
         }
 
+
     }
 
     override fun onResume() {
@@ -161,7 +168,6 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
         ) {
             callSpecializationAPI()
         }
-
         getLatLong()
 
         if (checkLoationPermission(this)) {
@@ -260,16 +266,83 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun chatRegistration(email: String, password: String) {
+    private fun getUserKeyId() {
         showLoadingIndicator(true)
+        databaseReference = FirebaseDatabase.getInstance().getReference("UserList")
+
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                userList.clear()
+                Log.i("snapshot", snapshot.value.toString())
+                for (dataSnapShot: DataSnapshot in snapshot.children) {
+                    val userData = dataSnapShot.getValue(FirebaseUserData::class.java)
+                    Log.i("user data", userData?.email!!)
+                    // if (user?.userId != firebase?.uid) {
+                    if (userData != null) {
+                        userList.add(userData)
+                        Log.i("userList", userList.toString())
+                    }
+                    keyId = getMax(userList)
+                    Log.i("Max value", keyId.toString())
+                }
+
+                if (userList.isEmpty()) {
+                    keyId = 1
+                } else {
+                    userList.forEach {
+                        if (it.keyId.toInt() == keyId) {
+                            keyId++
+                        }
+                    }
+
+                }
+                Log.i("KeyId:", keyId.toString())
+                chatRegistration(
+                    mBinding.edtEmail.text?.trim().toString(),
+                    mBinding.edtPass.text?.trim().toString(),
+                    keyId
+                )
+                //updateKeyID(keyId)
+                //  }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@SignupScreen, error.message, Toast.LENGTH_SHORT).show()
+            }
+
+        })
+
+    }
+
+    fun updateKeyID(keyId: Int) {
+        databaseReference = FirebaseDatabase.getInstance()
+            .getReference(resources.getString(R.string.userList))
+        databaseReference.child(userId ?: "").child("keyId").setValue(keyId.toString())
+    }
+
+    fun getMax(list: ArrayList<FirebaseUserData>): Int {
+        var max = Int.MIN_VALUE
+        for (i in 0 until list.size) {
+            if (list[i].keyId.toInt() > max) {
+                max = list[i].keyId.toInt()
+            }
+        }
+        return max
+    }
+
+    private fun chatRegistration(email: String, password: String, keyId: Int) {
+        //showLoadingIndicator(true)
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) {
+
+
                 if (it.isSuccessful) {
                     val user: FirebaseUser? = auth.currentUser
-                    val userId: String = user?.uid ?: ""
+                    userId = user?.uid ?: ""
 
                     databaseReference = FirebaseDatabase.getInstance()
                         .getReference(resources.getString(R.string.userList)).child(userId)
+
 
                     // SharedPreferenceManager.putString("userId", userId)
                     val hashMap: HashMap<String, String> = HashMap()
@@ -281,7 +354,9 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     hashMap[resources.getString(R.string.chat_lastSeen)] = ""
                     hashMap[resources.getString(R.string.chat_isOnline)] = "true"
                     hashMap[resources.getString(R.string.chat_role)] = ROLE
+                    hashMap[resources.getString(R.string.key_id)] = keyId.toString()
                     Log.i("GUARDIAN_APP_IT", it.toString())
+
 
                     databaseReference.setValue(hashMap).addOnCompleteListener(this) { p ->
                         Log.i("GUARDIAN_APP_P_SUCCESS", p.isSuccessful.toString())
@@ -395,6 +470,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
             }
             R.id.btnSigUp -> {
+
                 validations()
             }
             R.id.txtTermsAndConditions -> {
@@ -794,10 +870,11 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     ShowNoBorders(this@SignupScreen, mBinding.edtConPass)
                     ShowNoBorders(this@SignupScreen, mBinding.edtVehicalNum)
 
-                    chatRegistration(
-                        mBinding.edtEmail.text?.trim().toString(),
-                        mBinding.edtPass.text?.trim().toString()
-                    )
+                    getUserKeyId()
+                    /* chatRegistration(
+                         mBinding.edtEmail.text?.trim().toString(),
+                         mBinding.edtPass.text?.trim().toString()
+                     )*/
                 }
 
             }

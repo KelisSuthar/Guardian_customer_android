@@ -219,6 +219,7 @@
     <string name="chat_lastSeen">lastSeen</string>
     <string name="chat_isOnline">isOnline</string>
     <string name="chat_role">role</string>1
+    <string name="key_id">keyId</string>
 
     <!--users Table name-->
     <string name="userList">UserList</string>

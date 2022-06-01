@@ -33,6 +33,8 @@ object AppConstants {
     const val IS_EDIT = "IS_EDIT"
     const val IS_WALKTHROUGH_VIEWED = "IS_WALKTHROUGH_VIEWED"
     const val USER_DETAIL_LOGIN = "USER_DETAIL_LOGIN"
+    const val FIREBASE_UID = "FIREBASE_UID"
+    const val USER_KEY_ID= "USER_KEY_ID"
     const val EXTRA_PARAM_PAGE_POSITION = "EXTRA_PARAM_PAGE_POSITION"
     const val STATIC_API_KEY = "335a559c51b88b4752b8325980abb3c14e1c4e61"
     const val EXTRA_OTP = "OTP"

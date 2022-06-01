@@ -1,6 +1,7 @@
 package com.app.guardian.ui.Login
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
@@ -9,12 +10,13 @@ import com.app.guardian.common.ReusedMethod.Companion.ShowNoBorders
 import com.app.guardian.common.ReusedMethod.Companion.ShowRedBorders
 import com.app.guardian.common.ReusedMethod.Companion.changePhoneEmailState
 import com.app.guardian.common.ReusedMethod.Companion.displayMessage
-import com.app.guardian.common.ReusedMethod.Companion.displayMessageDialog
 import com.app.guardian.common.ReusedMethod.Companion.isNetworkConnected
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityLoginBinding
+import com.app.guardian.model.FirebaseUser.FirebaseUserData
 import com.app.guardian.model.Login.LoginResp
+import com.app.guardian.model.cms.Contact
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.Home.HomeActivity
@@ -23,15 +25,17 @@ import com.app.guardian.ui.forgot.ForgotPasswordActivity
 import com.app.guardian.ui.signup.SignupScreen
 import com.app.guardian.utils.Config
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
 import com.google.gson.Gson
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.util.*
 
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
     private val mViewModel: AuthenticationViewModel by viewModel()
     lateinit var mBinding: ActivityLoginBinding
     private var auth: FirebaseAuth? = null
+    private lateinit var databaseReference: DatabaseReference
 
     var is_Email = true
     override fun getResource(): Int {
@@ -73,6 +77,25 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
+    private fun getFirebaseUserKeyId(){
+        val uId= SharedPreferenceManager.getString(AppConstants.FIREBASE_UID,"")
+        Log.i("UserUid", uId!!)
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("UserList").child(uId)
+
+        databaseReference.addListenerForSingleValueEvent(
+            object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val userData = dataSnapshot.getValue(FirebaseUserData::class.java)
+                    val key = userData?.keyId
+                    SharedPreferenceManager.putInt(AppConstants.USER_KEY_ID, key!!.toInt())
+                    Log.i("LoginUserKeyID", key!!)
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
+    }
+
 
     override fun initObserver() {
         mViewModel.getLoginResp().observe(this) { response ->
@@ -89,6 +112,12 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                             val gson = Gson()
                             val json = gson.toJson(data)
                             SharedPreferenceManager.putString(AppConstants.USER_DETAIL_LOGIN, json)
+                            val firebaseUid = data.user.firebase_uid
+                            if (firebaseUid != null) {
+                                SharedPreferenceManager.putString(AppConstants.FIREBASE_UID,firebaseUid)
+                            }
+
+                            getFirebaseUserKeyId()
 
 //                            when {
 //                                SharedPreferenceManager.getString(

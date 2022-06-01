@@ -34,4 +34,5 @@ data class User(
     val description: String?="",
     val plan_id: String?="",
     val plan_expiry_date: String?="",
+    val firebase_uid: String?="",
 )
