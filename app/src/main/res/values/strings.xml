@@ -235,4 +235,5 @@
 
     <string name="email_dialog">Email : </string>
     <string name="phone_dialog">Phone : </string>
+    <string name="do_you_need_mediator">Do you need Mediator?</string>
 </resources>

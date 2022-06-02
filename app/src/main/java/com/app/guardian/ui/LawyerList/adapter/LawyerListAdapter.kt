@@ -80,7 +80,9 @@ class LawyerListAdapter(
                 lyLawyerDetails!!.performClick()
             }
 
-            imgRowLawyerVideo?.setOnClickListener {}
+            imgRowLawyerVideo?.setOnClickListener {
+                lawyerListFragment.displayVideoCallDialog()
+            }
 
             imgRowLawyerChat?.setOnClickListener {
                 lawyerListFragment.callChatPageOpe(lawyerProfileData.id!!,lawyerProfileData.full_name!!,"")

@@ -60,11 +60,12 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp">
+            android:layout_height="@dimen/_75sdp"
+            android:layout_marginVertical="@dimen/_10sdp">
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chip_group2"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_height="@dimen/_75sdp"
             android:layout_marginHorizontal="@dimen/_20sdp"
             app:singleSelection="true">
 
@@ -84,11 +85,12 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_100sdp">
+            android:layout_height="@dimen/_130sdp"
+            android:layout_marginVertical="@dimen/_10sdp">
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chip_group1"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_100sdp"
+            android:layout_height="@dimen/_130sdp"
             android:layout_marginHorizontal="@dimen/_20sdp"
             app:singleSelection="true"
 
