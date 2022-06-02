@@ -141,7 +141,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-
         getLatLong()
         if (checkLoationPermission(this)) {
             if (locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER)!!) {

@@ -168,7 +168,7 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
                         "Cancel",
                         ""
                     )
-                    ReusedMethod.ShowRedBorders(requireContext(), mBinding.edtTitle)
+                    ReusedMethod.ShowRedBorders(requireContext(), mBinding.edtDesc)
                 }
 
                 override fun success() {

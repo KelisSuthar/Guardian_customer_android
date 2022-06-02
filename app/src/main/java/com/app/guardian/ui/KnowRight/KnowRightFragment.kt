@@ -177,7 +177,7 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
                                 LAT!!.toDouble(),
                                 LONG!!.toDouble()
                             )[0].adminArea.toString()
-                            mBinding.txtLocation.text = "$CITY,$COUNTRY"
+                            mBinding.txtLocation.text = "Location :$CITY,$COUNTRY"
                             callApi(CITY, STATE)
                             if (mFusedLocationClient != null) {
                                 mFusedLocationClient?.removeLocationUpdates(locationCallback!!)

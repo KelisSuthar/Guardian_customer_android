@@ -231,7 +231,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
 
             }
             R.id.llsearch -> {
-                if (TextUtils.isEmpty(mBinding.lyLawyerListFilter.edtLoginEmail.text.toString())) {
+                if (!TextUtils.isEmpty(mBinding.lyLawyerListFilter.edtLoginEmail.text.toString())) {
                     callAPI(mBinding.lyLawyerListFilter.edtLoginEmail.text.toString(), "", "")
                 }
             }
