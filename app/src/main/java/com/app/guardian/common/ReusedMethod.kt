@@ -10,6 +10,7 @@ import android.location.Address
 import android.location.Geocoder
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.provider.Settings
@@ -29,6 +30,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
+import androidx.core.content.ContextCompat.startActivity
 import com.app.guardian.R
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
@@ -43,6 +45,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.rilixtech.widget.countrycodepicker.CountryCodePicker
+import de.hdodenhof.circleimageview.CircleImageView
 import java.util.*
 import kotlin.math.acos
 import kotlin.math.cos
@@ -235,6 +238,63 @@ class ReusedMethod {
             }
             OK.setOnClickListener {
                 dialog.dismiss()
+            }
+            dialog.show()
+        }
+
+        fun displayLawyerContactDetails(
+            context: Activity,
+            strLawyerName: String?,
+            email: String?,
+            phone: String?,
+            lawyerProfilePic : String?
+        ) {
+            val dialog = Dialog(
+                context,
+                com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+            )
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            dialog.setContentView(R.layout.dialog_lawyer_dial_contact)
+            dialog.setCancelable(true)
+
+            val PROFILEURL = dialog.findViewById<CircleImageView>(R.id.imgDialogLawyerPicture)
+            val OK = dialog.findViewById<MaterialTextView>(R.id.txtLawyerDialogOk)
+            val CALLNOW = dialog.findViewById<MaterialTextView>(R.id.txtDialogCallNow)
+            val LAWYERNAME = dialog.findViewById<TextView>(R.id.txtDialogLawyerName)
+            val EMAIL = dialog.findViewById<TextView>(R.id.txtLawyerEmailID)
+            val PHONE = dialog.findViewById<MaterialTextView>(R.id.txtLawyerContact)
+            LAWYERNAME.text = strLawyerName
+            if(email!=null && email != ""){
+                EMAIL.text = email
+            }
+            else{
+                EMAIL.text="contactSupport@gmail.com"
+            }
+            PHONE.text = phone
+
+            if(lawyerProfilePic!=null || lawyerProfilePic!="null"){
+
+            }
+
+            OK.setOnClickListener {
+                dialog.dismiss()
+            }
+            CALLNOW.setOnClickListener {
+                val u: Uri = Uri.parse("tel:" + PHONE.getText().toString())
+
+                val i = Intent(Intent.ACTION_DIAL, u)
+                try {
+                    // Launch the Phone app's dialer with a phone
+                    // number to dial a call.
+                    context.startActivity(i)
+                } catch (s: SecurityException) {
+                    // show() method display the toast with
+                    // exception message.
+                    displayMessage(context, "An error occurred")
+
+                }
+
             }
             dialog.show()
         }

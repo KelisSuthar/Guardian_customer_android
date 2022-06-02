@@ -1,9 +1,10 @@
 package com.app.guardian.ui.SeekLegalAdvice
 
 import android.app.Activity
-import android.os.Bundle
+import android.app.Dialog
 import android.util.Log
 import android.view.View
+import android.view.Window
 import androidx.lifecycle.Observer
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
@@ -23,6 +24,8 @@ import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.SeekLegalAdvice.AddEditSeekLegalAdv.AddSeekLegalAdvice
 import com.app.guardian.ui.SeekLegalAdvice.adapter.SeekLegalAdviceAdapter
 import com.app.guardian.utils.Config
+import com.google.android.material.textview.MaterialTextView
+import de.hdodenhof.circleimageview.CircleImageView
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class SeekLegalAdviceListFragment(is_icon_show:Boolean,seekLegalIdParams: Int) : BaseFragment(), View.OnClickListener {
@@ -91,14 +94,17 @@ class SeekLegalAdviceListFragment(is_icon_show:Boolean,seekLegalIdParams: Int) :
                             array[position].description.toString()
                         ),
                         true,
-                        LawyerListFragment::class.java.name,
-                        LawyerListFragment::class.java.name
+                        SeekLegalAdviceListFragment::class.java.name,
+                        SeekLegalAdviceListFragment::class.java.name
                     );
                 }
 
                 override fun onDeleteClick(position: Int) {
-                    seek_legal_adv_delete_id = array[position].id!!
-                    callDeleteAdviceApi(array[position].id)
+                    var dataPositionId = array[position].id!!
+                    seek_legal_adv_delete_id = position
+
+                    //callDeleteAdviceApi(array[position].id)
+                    displayDeleteConfirmDialog(position)
                 }
 
                 override fun onItemClick(position: Int) {
@@ -162,7 +168,7 @@ class SeekLegalAdviceListFragment(is_icon_show:Boolean,seekLegalIdParams: Int) :
         //Delete Seek legal advice
         mViewModel_lawyer.getCommonResp().observe(this, Observer { response ->
             response.let { requestState ->
-                showLoadingIndicator(requestState.progress)
+//                showLoadingIndicator(requestState.progress)
                 requestState.apiResponse.let {
                     it?.data?.let { data ->
 
@@ -199,17 +205,32 @@ class SeekLegalAdviceListFragment(is_icon_show:Boolean,seekLegalIdParams: Int) :
     }
 
 
-//    companion object {
-//
-//        @JvmStatic
-//        fun newInstance(seekLegalIdParams: Int) =
-//            SeekLegalAdviceListFragment(seekLegalIdParams).apply {
-//                arguments = Bundle().apply {
-//                    putInt("SeekID", seekLegalIdParams)
-//                }
-//            }
-//    }
+    fun displayDeleteConfirmDialog(
+        positionId: Int?,
 
+        ) {
+        val dialog = Dialog(
+            requireContext(),
+            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+        )
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setContentView(R.layout.dialog_seek_leagl_delete_confim)
+        dialog.setCancelable(true)
+
+        val CANCEL = dialog.findViewById<MaterialTextView>(R.id.txtDialogCancel)
+        val DELELET = dialog.findViewById<MaterialTextView>(R.id.txtDeleteYes)
+
+        CANCEL.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        DELELET.setOnClickListener {
+            dialog.dismiss()
+            callDeleteAdviceApi(array[positionId!!].id)
+        }
+        dialog.show()
+    }
     override fun handleListener() {
         mBinding.llAddAdv.setOnClickListener(this)
         mBinding.noInternetSeekLegal.btnTryAgain.setOnClickListener(this)

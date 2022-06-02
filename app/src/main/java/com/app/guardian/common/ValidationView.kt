@@ -238,7 +238,9 @@ interface ValidationView {
 
     interface AddSeekLegalAdvice {
         fun emptyTitle()
+        fun length_Title()
         fun emptyTDesc()
+        fun length_desc()
         fun success()
     }
 }

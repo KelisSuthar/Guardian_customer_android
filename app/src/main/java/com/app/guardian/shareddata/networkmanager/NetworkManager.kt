@@ -1,5 +1,6 @@
 package com.app.guardian.shareddata.networkmanager
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.model.ApiError

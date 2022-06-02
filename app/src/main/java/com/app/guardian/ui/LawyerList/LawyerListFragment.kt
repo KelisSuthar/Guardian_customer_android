@@ -27,6 +27,7 @@ import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
 import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
+import com.app.guardian.ui.chatting.ChattingFragment
 import com.app.guardian.utils.Config
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
@@ -70,6 +71,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
     private fun setAdapter() {
         lawyerListAdapter = LawyerListAdapter(
             context as Activity,
+            this,
             isDialLawyerOpen,
             array,
             object : LawyerListAdapter.onItemClicklisteners {
@@ -170,6 +172,23 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
     }
 
 
+    fun callShowLawyerContactDetails(lawyerName : String?,lawyerEmail: String?,lawyerPhone : String?, lawyerProfilePicture : String?) {
+        lawyerName?.let {
+            ReusedMethod.displayLawyerContactDetails(requireActivity(),
+                it, lawyerEmail,lawyerPhone,lawyerProfilePicture)
+        }
+    }
+
+    fun callChatPageOpe(selectUserId: Int, selectUserFullName: String, profilePicUrl: String) {
+        ReplaceFragment.replaceFragment(
+            requireActivity(),
+            ChattingFragment(selectUserId,selectUserFullName,profilePicUrl),
+            true,
+            LawyerListFragment::class.java.name,
+            LawyerListFragment::class.java.name
+        );
+    }
+
     private fun callAPI(search: String, years_of_exp: String, specialization: String) {
         if (ReusedMethod.isNetworkConnected(requireContext())) {
             mViewModel.lawyerList(
@@ -194,12 +213,6 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
             mBinding.noLawyer.gone()
             mBinding.noInternetLawyer.llNointernet.visible()
         }
-    }
-
-
-    companion object {
-
-
     }
 
     override fun handleListener() {

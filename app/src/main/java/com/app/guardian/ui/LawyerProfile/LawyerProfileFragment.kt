@@ -17,6 +17,7 @@ import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.SeekLegalAdvice.SeekLegalAdviceListFragment
+import com.app.guardian.ui.chatting.ChattingFragment
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -29,7 +30,10 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
 
     private var storeSelctedId: Int? = null
     private  var isDialLawyerSelected: Boolean = false
-
+    private var strLawyerName : String ?= null
+    private var strProfilePic : String ?= null
+    private var strPhoneNumber : String ?= null
+    private var strEmail : String ?= null
     override fun getInflateResource(): Int {
         return R.layout.fragment_lawyer_profile
     }
@@ -65,6 +69,27 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
             mBinding.imgRowLawyerChat.visible()
             mBinding.imgRowLawyerVideo.visible()
         }
+
+        mBinding.imgRowLawyerCall.setOnClickListener {
+            strLawyerName?.let {
+                ReusedMethod.displayLawyerContactDetails(requireActivity(),
+                    it, strEmail,strPhoneNumber,"")
+            }
+        }
+
+        mBinding.imgRowLawyerChat.setOnClickListener {
+            ReplaceFragment.replaceFragment(
+                requireActivity(),
+                ChattingFragment(selectedLawyerListId!!,strLawyerName!!,""),
+                true,
+                LawyerProfileFragment::class.java.name,
+                LawyerProfileFragment::class.java.name
+            )
+        }
+
+        mBinding.imgRowLawyerVideo.setOnClickListener{
+            ReusedMethod.displayMessage(requireActivity(), requireActivity().resources.getString(R.string.come_soon))
+        }
     }
 
     override fun postInit() {
@@ -85,7 +110,10 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
                         mBinding.txtSpecializationInfo.text =
                             "Criminal Lawyer\t\t\t" + it.years_of_experience + "+ year Experiance"
                         mBinding.txtContactInfo.text = it.email
-
+                        strLawyerName=it.full_name
+                        //strProfilePic= it.profile_avatar.toString()
+                        strEmail=it.email
+                        strPhoneNumber=it.phone
                         //description data is null from api side
                         //mBinding.txtDescriptionInfo.text = it.
                     }

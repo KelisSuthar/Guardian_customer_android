@@ -35,6 +35,7 @@
                 app:layout_constraintTop_toTopOf="@+id/lyRowLawyerContact" />
 
             <LinearLayout
+                android:id="@+id/lyLawyerDetails"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -101,7 +102,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
                 <ImageView
-                    android:id="@+id/imgRowLawyerCall"
+                    android:id="@+id/imgRowLawyerCall1"
                     android:layout_width="@dimen/_24sdp"
                     android:layout_height="@dimen/_24sdp"
                     android:src="@drawable/ic_call"

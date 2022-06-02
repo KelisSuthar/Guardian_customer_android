@@ -44,7 +44,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/ivProfileImg"
+                        android:id="@+id/imgChatUserProfilePic"
                         android:layout_width="@dimen/_50sdp"
                         android:layout_height="@dimen/_50sdp"
                         android:layout_marginVertical="10dp"
@@ -60,15 +60,14 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
                         android:layout_toStartOf="@+id/appCompatImageView3"
-                        android:layout_toEndOf="@+id/ivProfileImg"
+                        android:layout_toEndOf="@+id/imgChatUserProfilePic"
                         android:orientation="vertical">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tvName"
+                            android:id="@+id/txtChatUserName"
                             style="@style/semi_bold_white_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
                             android:ellipsize="end"
                             android:text="Michael Santa"
                             android:textSize="@dimen/_15ssp"
@@ -78,11 +77,10 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tvtime"
+                            android:id="@+id/txtLastSeen"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
-
                             android:fontFamily="@font/lora_regular"
                             android:text="Michael Santa"
                             android:textColor="@color/white"
