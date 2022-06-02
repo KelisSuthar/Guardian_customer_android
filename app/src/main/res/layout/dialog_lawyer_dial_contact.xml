@@ -142,7 +142,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Ok"
+                android:text="Cancle"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_13ssp"
                 app:textAllCaps="true"
