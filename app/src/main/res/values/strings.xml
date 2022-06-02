@@ -89,6 +89,10 @@
     <!--    Add Seek Legal Advice-->
     <string name="empty_title">Please Enter Title.</string>
     <string name="empty_desc">Please Enter Description.</string>
+    <string name="add_title_hint">Title (allowed only 60 character length)</string>
+    <string name="desc_title_hint">Description (allowed only 700 character length)</string>
+    <string name="error_title">Allowed only minimum 5 and maximum 60 character length  </string>
+    <string name="error_description">Allowed only minimum 5 and maximum 700 character length </string>
 
     <!--    RoleSelector Screen-->
     <string name="empty_role">Please Select Role</string>

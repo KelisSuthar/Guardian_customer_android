@@ -1,7 +1,9 @@
 package com.app.guardian.ui.SeekLegalAdvice.AddEditSeekLegalAdv
 
 import android.app.Activity
+import android.text.InputFilter
 import android.view.View
+import android.view.View.OnFocusChangeListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.app.guardian.R
@@ -17,6 +19,7 @@ import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -48,7 +51,11 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
         if(is_edit){
     mBinding.edtTitle.setText(edit_title)
     mBinding.edtDesc.setText(edit_desc)
-}
+
+        }
+        mBinding.edtDesc.filters = arrayOf(InputFilter.LengthFilter(700))
+        mBinding.edtTitle.filters = arrayOf(InputFilter.LengthFilter(60))
+
     }
 
     override fun postInit() {
@@ -127,6 +134,18 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
                     ReusedMethod.ShowRedBorders(requireContext(), mBinding.edtTitle)
                 }
 
+                override fun length_Title() {
+                    ReusedMethod.displayMessageDialog(
+                        requireActivity(),
+                        "",
+                        resources.getString(R.string.error_title),
+                        false,
+                        "Cancel",
+                        ""
+                    )
+                    ReusedMethod.ShowRedBorders(requireContext(), mBinding.edtTitle)
+                }
+
 
                 override fun emptyTDesc() {
                     ReusedMethod.displayMessageDialog(
@@ -138,6 +157,18 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
                         ""
                     )
                     ReusedMethod.ShowRedBorders(requireContext(), mBinding.edtDesc)
+                }
+
+                override fun length_desc() {
+                    ReusedMethod.displayMessageDialog(
+                        requireActivity(),
+                        "",
+                        resources.getString(R.string.error_description),
+                        false,
+                        "Cancel",
+                        ""
+                    )
+                    ReusedMethod.ShowRedBorders(requireContext(), mBinding.edtTitle)
                 }
 
                 override fun success() {
