@@ -11,12 +11,12 @@ import android.location.Geocoder
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.os.Handler
 import android.provider.Settings
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
-import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.View.OnFocusChangeListener
@@ -25,10 +25,10 @@ import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.appcompat.content.res.AppCompatResources.getColorStateList
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.viewpager.widget.ViewPager
 import com.app.guardian.R
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
@@ -36,17 +36,14 @@ import com.app.guardian.ui.AutoCompleteAdapter
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.AutocompletePrediction
 import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipDrawable
-import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.rilixtech.widget.countrycodepicker.CountryCodePicker
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.math.acos
 import kotlin.math.cos
 import kotlin.math.sin
@@ -439,7 +436,7 @@ class ReusedMethod {
             var responseView: TextView? = null
             var placesClient: PlacesClient? = null
 
-            val apiKey = context.getString(R.string.map_api_key)
+            val apiKey = context.getString(R.string.g_map_api_key_1)+context.getString(R.string.g_map_api_key_2)+context.getString(R.string.g_map_api_key_3)
             if (apiKey.isEmpty()) {
                 responseView!!.text = "error"
                 return
@@ -531,7 +528,7 @@ class ReusedMethod {
             dialog.show()
         }
 
-        fun distance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
+                fun distance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
             val theta = lon1 - lon2
             var dist = (sin(deg2rad(lat1))
                     * sin(deg2rad(lat2))
@@ -552,6 +549,38 @@ class ReusedMethod {
         private fun rad2deg(rad: Double): Double {
             return rad * 180.0 / Math.PI
 
+        }
+
+        fun viewPagerScroll( pager: ViewPager,total_pages:Int) {
+            var currentPage = 0
+            pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                    currentPage = position
+                }
+                override fun onPageSelected(position: Int) {
+
+                }
+                override fun onPageScrollStateChanged(state: Int) {
+
+                }
+            })
+
+            val handler = Handler()
+
+            val NUM_PAGES = total_pages
+            val Update = Runnable {
+                if (currentPage == NUM_PAGES) {
+                    currentPage = 0
+                }
+                pager.setCurrentItem(currentPage++, true)
+            }
+            val timer = Timer()
+            timer.schedule(object : TimerTask() {
+
+                override fun run() {
+                    handler.post(Update)
+                }
+            }, 500, 1500)
         }
 
     }

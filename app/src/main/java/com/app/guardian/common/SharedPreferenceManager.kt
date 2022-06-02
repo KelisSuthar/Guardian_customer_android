@@ -106,6 +106,12 @@ object SharedPreferenceManager {
         putString(AppConstants.CARD_DETAILS, "")
         editor!!.remove(AppConstants.CARD_DETAILS)
     }
+    fun clearCityState() {
+        putString(AppConstants.CITY, "")
+        putString(AppConstants.STATE, "")
+        editor!!.remove(AppConstants.CITY)
+        editor!!.remove(AppConstants.STATE)
+    }
 
     fun removeString(key: String) {
         editor!!.remove(key)

@@ -24,7 +24,7 @@
             android:background="@drawable/search_rounded_light_blue"
             android:orientation="horizontal">
 
-            <AutoCompleteTextView
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtLoginEmail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

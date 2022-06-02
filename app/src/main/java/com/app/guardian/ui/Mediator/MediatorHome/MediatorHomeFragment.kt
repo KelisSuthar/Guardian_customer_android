@@ -105,6 +105,9 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
                             array.clear()
                             array.addAll(data)
                             bannerAdsPager?.notifyDataSetChanged()
+                            if (array.size > 1) {
+                                ReusedMethod.viewPagerScroll(mBinding.pager, array.size)
+                            }
                         } else {
                             mBinding.cl.gone()
                             mBinding.noDataUserHomeFrag.visible()

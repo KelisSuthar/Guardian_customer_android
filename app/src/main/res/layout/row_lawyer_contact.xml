@@ -39,7 +39,7 @@
                     android:layout_height="@dimen/_60sdp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/user_sample"
+                    android:src="@drawable/profile"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/linearLayout" />
 

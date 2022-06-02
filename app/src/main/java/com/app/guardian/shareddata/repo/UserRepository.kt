@@ -30,7 +30,6 @@ import com.app.guardian.shareddata.networkmanager.NetworkManager
 import com.app.guardian.shareddata.repo.UserRepo
 import com.app.guardian.utils.Config
 import com.google.gson.JsonObject
-import okhttp3.MultipartBody
 
 
 class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
@@ -69,7 +68,7 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
     }
 
     override fun doSignUp(
-        body: MultipartBody,
+        body: JsonObject,
         isInternetConnected: Boolean,
         baseView: BaseView,
         callbackKey: MutableLiveData<RequestState<SignupResp>>
@@ -473,7 +472,7 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
     }
 
     override fun addBanner(
-        body: MultipartBody,
+        body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<CommonResponse>>

@@ -57,10 +57,14 @@ public class AutoCompleteAdapter extends ArrayAdapter<AutocompletePrediction> im
 
         TextView textView1 = row.findViewById(android.R.id.text1);
         TextView textView2 = row.findViewById(android.R.id.text2);
-        if (item != null) {
-            textView1.setText(item.getPrimaryText(null));
-            textView2.setText(item.getSecondaryText(null));
-        }
+//        if (item != null) {
+//            textView1.setText(item.getPrimaryText(null));
+//            textView2.setText(item.getSecondaryText(null));
+//        }
+//        if (item != null) {
+            textView1.setText(mResultList.get(position).getPrimaryText(null));
+            textView2.setText(mResultList.get(position).getSecondaryText(null));
+//        }
 
         Log.i("PLACE_SIZE", String.valueOf(mResultList));
 

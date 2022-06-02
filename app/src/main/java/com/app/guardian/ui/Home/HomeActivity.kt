@@ -1,17 +1,16 @@
 package com.app.guardian.ui.Home
 
 
-import android.app.Dialog
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.location.Address
+import android.location.Geocoder
 import android.location.LocationManager
 import android.os.Looper
-import android.provider.Settings
 import android.util.Log
 import android.view.View
-import android.view.Window
 import android.view.WindowManager
-import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
@@ -31,9 +30,10 @@ import com.app.guardian.ui.Mediator.MediatorHome.MediatorHomeFragment
 import com.app.guardian.ui.Radar.RadarFragment
 import com.app.guardian.ui.User.UserHome.UserHomeFragment
 import com.app.guardian.ui.User.settings.SettingsFragment
-import com.app.guardian.ui.chatting.ChattingFragment
 import com.google.android.gms.location.*
-import com.google.android.material.textview.MaterialTextView
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.AutocompleteActivity
+import java.util.*
 
 
 class HomeActivity : BaseActivity(), View.OnClickListener {
@@ -70,7 +70,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
 //                        "",
 //                        HomeActivity::class.java.name
 //                    )
-                                    ReplaceFragment.replaceFragment(
+                    ReplaceFragment.replaceFragment(
                         this,
                         LawyerListFragment(false),
                         false,
@@ -176,6 +176,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
 
     override fun onBackPressed() {
         //  super.onBackPressed()
+        SharedPreferenceManager.clearCityState()
         val fm: FragmentManager = supportFragmentManager
         var getCurrentFragment = supportFragmentManager.fragments
         Log.e("BackStack", "Current fragment Name : " + getCurrentFragment.toString())
@@ -347,5 +348,8 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
+
+
+
 
 }

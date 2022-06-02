@@ -76,7 +76,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:fontFamily="@font/lora_semibold"
-                            android:text="Add Image"
+                            android:text="Upload Banner Image"
                             android:textAlignment="center"
                             android:textColor="@color/txt_dark"
                             android:textSize="@dimen/_15ssp"

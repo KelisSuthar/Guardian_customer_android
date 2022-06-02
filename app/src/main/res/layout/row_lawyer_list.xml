@@ -29,7 +29,7 @@
                 android:id="@+id/imgRowLawyerPicture"
                 android:layout_width="@dimen/_60sdp"
                 android:layout_height="@dimen/_60sdp"
-                android:src="@drawable/user_sample"
+                android:src="@drawable/profile"
                 app:layout_constraintBottom_toBottomOf="@+id/lyRowLawyerContact"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/lyRowLawyerContact" />

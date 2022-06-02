@@ -4,6 +4,8 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.location.Address
+import android.location.Geocoder
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Looper
@@ -13,6 +15,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.PermissionChecker
+import com.app.guardian.GuardianApplication.Companion.TAG
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
@@ -35,6 +38,7 @@ import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.*
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
@@ -72,17 +76,13 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
         setAdapter()
         setFusedLoc()
 
-        ReusedMethod.initializeAutocompleteTextView(
-            requireActivity(),
-            mBinding.searchKnowRight.edtLoginEmail
-        )
+
         (activity as HomeActivity).bottomTabVisibility(false)
         (activity as HomeActivity).headerTextVisible(
             requireActivity().resources.getString(R.string.know_your_basic_rights),
             true,
             true
         )
-        mBinding.searchKnowRight.lySearchFilter.gone()
 
 //        if (!Places.isInitialized()) {
 //            Places.initialize(requireContext(), getString(R.string.map_api_key))
@@ -93,6 +93,7 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
             true,
             true
         )
+
     }
 
     private fun setFusedLoc() {
@@ -109,29 +110,28 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
+        if(!SharedPreferenceManager.getString(AppConstants.STATE,"").isNullOrEmpty()){
+            updatePlaceHolder()
+        }else {
+            getLatLong()
+            if (checkLoationPermission(requireActivity())) {
+                if (locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER)!!) {
 
-        getLatLong()
-        if (checkLoationPermission(requireActivity())) {
-            if (locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER)!!) {
-
-                mFusedLocationClient?.requestLocationUpdates(
-                    locationRequest!!,
-                    locationCallback!!,
-                    Looper.getMainLooper()
-                )
-            } else {
-
-                ReusedMethod.setLocationDialog(requireActivity())
+                    mFusedLocationClient?.requestLocationUpdates(
+                        locationRequest!!,
+                        locationCallback!!,
+                        Looper.getMainLooper()
+                    )
+                } else {
+                    ReusedMethod.setLocationDialog(requireActivity())
+                }
             }
         }
-
-
-
-        setAdapter()
-        mBinding.NoInternetKnowYourRight.llNointernet.gone()
-        mBinding.noDataKnowYourright.gone()
-        mBinding.cl1.visible()
-        mBinding.searchKnowRight.edtLoginEmail.setText("")
+            setAdapter()
+            mBinding.NoInternetKnowYourRight.llNointernet.gone()
+            mBinding.noDataKnowYourright.gone()
+            mBinding.rvLawyerList.visible()
+            mBinding.cl2.visible()
 
     }
 
@@ -177,8 +177,8 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
                                 LAT!!.toDouble(),
                                 LONG!!.toDouble()
                             )[0].adminArea.toString()
-
-                            callApi()
+                            mBinding.txtLocation.text = "$CITY,$COUNTRY"
+                            callApi(CITY, STATE)
                             if (mFusedLocationClient != null) {
                                 mFusedLocationClient?.removeLocationUpdates(locationCallback!!)
                             }
@@ -208,15 +208,16 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
 
     }
 
-    private fun callApi() {
+    private fun callApi(city: String, country: String) {
         if (ReusedMethod.isNetworkConnected(requireActivity())) {
 //            mViewModel.getKnowRights(true, context as BaseActivity, CITY, COUNTRY)
-            mViewModel.getKnowRights(true, context as BaseActivity, "Saskatoon", "Canada")
+            mViewModel.getKnowRights(true, context as BaseActivity, city, country)
         } else {
             mBinding.NoInternetKnowYourRight.llNointernet.visible()
             mBinding.noDataKnowYourright.gone()
-            mBinding.cl1.gone()
-            mBinding.searchKnowRight.edtLoginEmail.setText("")
+            mBinding.rvLawyerList.gone()
+            mBinding.cl2.visible()
+            mBinding.edtSearch.setText("")
         }
     }
 
@@ -245,7 +246,7 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
     }
 
     override fun handleListener() {
-        mBinding.searchKnowRight.edtLoginEmail.setOnClickListener(this)
+        mBinding.edtSearch.setOnClickListener(this)
     }
 
     override fun initObserver() {
@@ -261,7 +262,8 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
                             if (array.isNullOrEmpty()) {
                                 mBinding.noDataKnowYourright.visible()
                                 mBinding.NoInternetKnowYourRight.llNointernet.gone()
-                                mBinding.cl1.gone()
+                                mBinding.rvLawyerList.gone()
+                                mBinding.cl2.visible()
                             }
                         } else {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
@@ -287,105 +289,59 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.edtLoginEmail -> {
-//setGooglePlase()
-//                val fields =
-//                    listOf(
-//                        Place.Field.ID,
-//                        Place.Field.NAME,
-//                        Place.Field.ADDRESS,
-//                        Place.Field.LAT_LNG
-//                    )
-//                val intent =
-//                    Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
-//                        .build(requireActivity())
-//                startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
+            R.id.edtSearch -> {
+                setGooglePlaceFragemnt()
             }
         }
     }
 
-//    private fun setGooglePlase() {
-//
-//
-//        // Initialize Autocomplete Fragments
-//        // from the main activity layout file
-//        val autocompleteSupportFragment1 = childFragmentManager.findFragmentById(R.id.autocomplete_fragment1) as AutocompleteSupportFragment?
-//
-//        // Information that we wish to fetch after typing
-//        // the location and clicking on one of the options
-//        autocompleteSupportFragment1!!.setPlaceFields(
-//            listOf(
-//
-//                Place.Field.NAME,
-//                Place.Field.ADDRESS,
-//                Place.Field.PHONE_NUMBER,
-//                Place.Field.LAT_LNG,
-//                Place.Field.OPENING_HOURS,
-//                Place.Field.RATING,
-//                Place.Field.USER_RATINGS_TOTAL
-//
-//            )
-//        )
-//
-//        // Display the fetched information after clicking on one of the options
-//        autocompleteSupportFragment1.setOnPlaceSelectedListener(object : PlaceSelectionListener {
-//            override fun onPlaceSelected(place: Place) {
-//
-//                // Text view where we will
-//                // append the information that we fetch
-//
-//
-//                // Information about the place
-//                val name = place.name
-//                val address = place.address
-//                val phone = place.phoneNumber.toString()
-//                val latlng = place.latLng
-//                val latitude = latlng?.latitude
-//                val longitude = latlng?.longitude
-//
-//                val isOpenStatus : String = if(place.isOpen == true){
-//                    "Open"
-//                } else {
-//                    "Closed"
-//                }
-//
-//                val rating = place.rating
-//                val userRatings = place.userRatingsTotal
-//
-//                Log.i( "THIS_APP", name.toString())
-//                Log.i( "THIS_APP", address.toString())
-//                Log.i( "THIS_APP",phone)
-//                Log.i( "THIS_APP", latlng.toString())
-//                Log.i( "THIS_APP", latitude.toString())
-//                Log.i( "THIS_APP", longitude.toString())
-//            }
-//
-//            override fun onError(p0: Status) {
-//                ReusedMethod.displayMessage(requireActivity(),"Some error occurred")
-//            }
-//
-//
-//        })
-//    }
+
+
+
+    fun setGooglePlaceFragemnt() {
+        val apiKey =
+            getString(R.string.g_map_api_key_1) + getString(R.string.g_map_api_key_2) + getString(R.string.g_map_api_key_3)
+
+        if (!Places.isInitialized()) {
+            Places.initialize(requireActivity(), apiKey)
+        }
+        // Set the fields to specify which types of place data to
+        // return after the user has made a selection.
+        val fields =
+            listOf(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG)
+
+        // Start the autocomplete intent.
+        val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+            .build(requireActivity())
+        startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
+
+    }
+
+    fun updatePlaceHolder() {
+        callApi(
+            SharedPreferenceManager.getString(AppConstants.CITY, "").toString(),
+            SharedPreferenceManager.getString(AppConstants.STATE, "").toString()
+        )
+        mBinding.edtSearch.setText(
+            SharedPreferenceManager.getString(AppConstants.CITY, "").toString() + " , " +
+                    SharedPreferenceManager.getString(AppConstants.STATE, "").toString()
+        )
+        mBinding.txtLocation.text = "Location : "+mBinding.edtSearch.text
+        Log.i("GUARDIAN", "SUCCESSFULL_CALL")
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
-
+        if (requestCode == 1) {
             when (resultCode) {
                 Activity.RESULT_OK -> {
                     data?.let {
                         val places = Autocomplete.getPlaceFromIntent(data)
                         val lat_long = places.latLng
-                        val city_state = ReusedMethod.getAddress(
-                            requireActivity(),
-                            lat_long!!.latitude, lat_long.longitude
-                        )[0].locality + "," + ReusedMethod.getAddress(
-                            requireActivity(),
-                            lat_long.latitude,
-                            lat_long.longitude
-                        )[0].adminArea
-                        mBinding.searchKnowRight.edtLoginEmail.setText(city_state)
+
+
+                        Log.i("ADDRESS", lat_long.toString())
+                        getLOC(lat_long?.latitude!!, lat_long?.longitude)
                     }
                 }
                 AutocompleteActivity.RESULT_ERROR -> {
@@ -401,6 +357,40 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
             }
             return
         }
+
+    }
+
+    private fun getLOC(MyLat: Double, MyLong: Double) {
+
+        val geocoder = Geocoder(requireContext(), Locale.getDefault())
+        val addresses: List<Address> = geocoder.getFromLocation(MyLat, MyLong, 10)
+        Log.i("ADDRESS", addresses.toString())
+        if (!addresses.isNullOrEmpty()) {
+            if (addresses[0].locality == null) {
+                SharedPreferenceManager.putString(
+                    AppConstants.CITY,
+                    addresses[0].adminArea.toString() + addresses[0].countryName.toString()
+                )
+                SharedPreferenceManager.putString(
+                    AppConstants.STATE, addresses[0].countryName.toString()
+                )
+//                mBinding.edtSearch.setText(addresses[0].adminArea.toString()+","+addresses[0].countryName.toString())
+//                mBinding.txtLocation.setText(addresses[0].adminArea.toString()+","+addresses[0].countryName.toString())
+            } else {
+                SharedPreferenceManager.putString(
+                    AppConstants.CITY,
+                    addresses[0].locality.toString()
+                )
+                SharedPreferenceManager.putString(
+                    AppConstants.STATE, addresses[0].countryName.toString()
+                )
+
+//                mBinding.edtSearch.setText(addresses[0].locality.toString()+","+addresses[0].countryName.toString())
+//                mBinding.txtLocation.setText(addresses[0].locality.toString()+","+addresses[0].countryName.toString())
+            }
+
+        }
+
     }
 }
 

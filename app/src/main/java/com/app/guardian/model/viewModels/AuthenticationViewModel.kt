@@ -15,11 +15,8 @@ import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.repo.UserRepo
 import com.app.guardian.utils.ApiConstant
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.File
 
 
 class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel() {
@@ -96,60 +93,68 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
 
 
         ) {
-        val body = MultipartBody.Builder()
-        body.setType(MultipartBody.FORM)
-        body.addFormDataPart(ApiConstant.EXTRAS_FULL_NAME, full_name)
-        body.addFormDataPart(ApiConstant.EXTRAS_EMAIL, email)
+        val body = JsonObject()
+
+        body.addProperty(ApiConstant.EXTRAS_FULL_NAME, full_name)
+        body.addProperty(ApiConstant.EXTRAS_EMAIL, email)
         if (is_lawyer) {
-            body.addFormDataPart(ApiConstant.EXTRAS_SPECIALIZATION, specialization)
-            body.addFormDataPart(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
-            body.addFormDataPart(ApiConstant.EXTRAS_OFFICE_PHONE, office_phone)
-            body.addFormDataPart(ApiConstant.EXTRAS_OFFICE_DIAL_CODE, office_dial_code)
-            body.addFormDataPart(ApiConstant.EXTRAS_PHONE, phone)
-            body.addFormDataPart(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
+            body.addProperty(ApiConstant.EXTRAS_SPECIALIZATION, specialization)
+            body.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
+            body.addProperty(ApiConstant.EXTRAS_OFFICE_PHONE, office_phone)
+            body.addProperty(ApiConstant.EXTRAS_OFFICE_DIAL_CODE, office_dial_code)
+            body.addProperty(ApiConstant.EXTRAS_PHONE, phone)
+            body.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
         } else if (is_mediator) {
-            body.addFormDataPart(ApiConstant.EXTRAS_SPECIALIZATION, specialization)
-            body.addFormDataPart(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
-            body.addFormDataPart(ApiConstant.EXTRAS_PHONE, phone)
-            body.addFormDataPart(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
+            body.addProperty(ApiConstant.EXTRAS_SPECIALIZATION, specialization)
+            body.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
+            body.addProperty(ApiConstant.EXTRAS_PHONE, phone)
+            body.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
 
         } else {
-            body.addFormDataPart(ApiConstant.EXTRAS_PHONE, phone)
-            body.addFormDataPart(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
-            body.addFormDataPart(ApiConstant.EXTRAS_LICENCE_NO, licence_no)
+            body.addProperty(ApiConstant.EXTRAS_PHONE, phone)
+            body.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
+            body.addProperty(ApiConstant.EXTRAS_LICENCE_NO, licence_no)
         }
 
-        body.addFormDataPart(ApiConstant.EXTRAS_PASSWORD, password)
-        body.addFormDataPart(ApiConstant.EXTRAS_CONFIRM_PASS, confirm_password)
-        body.addFormDataPart(ApiConstant.EXTRAS_STATE, state)
-        body.addFormDataPart(ApiConstant.EXTRAS_POSTAL_CODE, postal_code)
-        body.addFormDataPart(ApiConstant.EXTRAS_FIREBASE_UUID, firebase_uid)
-        body.addFormDataPart(ApiConstant.EXTRAS_DEVICETOKEN, device_token)
+        body.addProperty(ApiConstant.EXTRAS_PASSWORD, password)
+        body.addProperty(ApiConstant.EXTRAS_CONFIRM_PASS, confirm_password)
+        body.addProperty(ApiConstant.EXTRAS_STATE, state)
+        body.addProperty(ApiConstant.EXTRAS_POSTAL_CODE, postal_code)
+        body.addProperty(ApiConstant.EXTRAS_FIREBASE_UUID, firebase_uid)
+        body.addProperty(ApiConstant.EXTRAS_DEVICETOKEN, device_token)
 
-        if (profile_avatar != "") {
-            val file = File(profile_avatar)
-            file.let {
-                body.addFormDataPart(
-                    ApiConstant.EXTRAS_PROFILE_AVATAR,
-                    it.name,
-                    it.asRequestBody("image/*".toMediaTypeOrNull())
-                )
-            }
-        }
-        user_doc.forEach {
-            if (it != "") {
-                val file = File(it)
-                file.let {
-                    body.addFormDataPart(
-                        ApiConstant.EXTRAS_USER_DOC,
-                        it.name,
-                        it.asRequestBody("image/*".toMediaTypeOrNull())
-                    )
-                }
-            }
-        }
+        val img_array = JsonArray()
+//        for (i in user_doc.indices) {
+            img_array.add("https://blog.ipleaders.in/wp-content/uploads/2019/05/documents-158461_1280-696x637.png")
+//        }
+        body.addProperty(ApiConstant.EXTRAS_PROFILE_AVATAR, "https://scontent.famd5-3.fna.fbcdn.net/v/t1.6435-9/69563903_3014898355248679_7611766459034763264_n.png?_nc_cat=108&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=2glt0vXEgjkAX9MMsBk&_nc_ht=scontent.famd5-3.fna&oh=00_AT8e2ecT0ieq5LX81QMOK3Gkc-DACRwoi2nHNVYfUJ-t4A&oe=62BC2AD2")
+        body.add(ApiConstant.EXTRAS_USER_DOC, img_array)
+
+
+//        if (profile_avatar != "") {
+//            val file = File(profile_avatar)
+//            file.let {
+//                body.addFormDataPart(
+//                    ApiConstant.EXTRAS_PROFILE_AVATAR,
+//                    it.name,
+//                    it.asRequestBody("image/*".toMediaTypeOrNull())
+//                )
+//            }
+//        }
+//        user_doc.forEach {
+//            if (it != "") {
+//                val file = File(it)
+//                file.let {
+//                    body.addFormDataPart(
+//                        ApiConstant.EXTRAS_USER_DOC,
+//                        it.name,
+//                        it.asRequestBody("image/*".toMediaTypeOrNull())
+//                    )
+//                }
+//            }
+//        }
         mUserRepository.doSignUp(
-            body.build(),
+            body,
             isInternetConnected,
             baseView,
             signupResp

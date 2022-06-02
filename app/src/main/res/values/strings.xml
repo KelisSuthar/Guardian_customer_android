@@ -8,7 +8,11 @@
     <string name="text_error_connection">Look a like we lost you for a moment. Please retry!!!</string>
     <string name="internet_message_alert">Please Check Your internet connection</string>
     <!--    GUARDIAN-->
-    <string name="map_api_key">AIzaSyCn23HyRn8zm-9sao4u-2x2jYFX1JZ79jI</string>
+    <string name="g_map_api_key_1">AIzaSyCn23HyRn8zm</string>
+    <string name="g_map_api_key_2">-9sao4u-</string>
+    <string name="g_map_api_key_3">2x2jYFX1JZ79jI</string>
+    <string name="g_map_api_key">AIzaSyCn23HyRn8zm-9sao4u-2x2jYFX1JZ79jI</string>
+
 
     <!--    not Working-->
     <!--    <string name="map_api_key">AIzaSyAyMrbXh6XrkhpCzXfNZJzu3akbUIbVqcg</string>-->

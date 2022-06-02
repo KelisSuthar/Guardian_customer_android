@@ -46,7 +46,7 @@ interface UserRepo {
     )
 
     fun doSignUp(
-        body: MultipartBody,
+        body: JsonObject,
         isInternetConnected: Boolean,
         baseView: BaseView,
         callback: MutableLiveData<RequestState<SignupResp>>
@@ -194,7 +194,7 @@ interface UserRepo {
     )
 
     fun addBanner(
-        body: MultipartBody,
+        body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<CommonResponse>>

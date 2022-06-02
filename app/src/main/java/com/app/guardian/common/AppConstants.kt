@@ -40,6 +40,11 @@ object AppConstants {
     const val EXTRA_CCP = "CCP"
     const val EXTRA_USER_ID = "USER_ID"
     const val EXTRA_IS_EMAIL = "IS_EMAIL"
+
+
+    const val CITY_STATE = "CITY_STATE"
+    const val CITY = "CITY"
+    const val STATE = "STATE"
     const val EXTRA_IS_USER = "IS_USER"
     const val EXTRA_IS_LAWYER = "IS_LAWYER"
     const val EXTRA_IS_MEDIATOR = "IS_MEDIAOR"
