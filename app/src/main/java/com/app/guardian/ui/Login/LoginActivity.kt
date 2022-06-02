@@ -1,6 +1,7 @@
 package com.app.guardian.ui.Login
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
@@ -150,6 +151,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                             displayMessage(this, it.message.toString())
 
                         } else {
+                            Log.e("network_message","Display network error form login message : "+it.message)
+
                             displayMessage(this, it.message.toString())
                         }
                     }

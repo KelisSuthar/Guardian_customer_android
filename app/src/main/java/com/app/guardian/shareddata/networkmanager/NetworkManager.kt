@@ -1,5 +1,6 @@
 package com.app.guardian.shareddata.networkmanager
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.app.guardian.model.ApiError
 import com.app.guardian.model.CommonResponseModel
@@ -66,6 +67,8 @@ object NetworkManager {
                         /**
                          * incase of status is 0 or else ... not 1 will print body message
                          */
+//                        Log.e("network_message","Display network error message : "+response.body()!!.message)
+                        Log.e("network_message","Display network error message : "+response.message())
                         callback?.postValue(
                                 RequestState(
                                         error = ApiError(
