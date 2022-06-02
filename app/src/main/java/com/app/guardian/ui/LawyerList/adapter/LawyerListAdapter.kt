@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
+import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.model.LawyerLsit.LawyerListResp
@@ -80,7 +81,9 @@ class LawyerListAdapter(
                 lyLawyerDetails!!.performClick()
             }
 
-            imgRowLawyerVideo?.setOnClickListener {}
+            imgRowLawyerVideo?.setOnClickListener {
+                ReusedMethod.displayMessage(context, context.resources.getString(R.string.come_soon))
+            }
 
             imgRowLawyerChat?.setOnClickListener {
                 lawyerListFragment.callChatPageOpe(lawyerProfileData.id!!,lawyerProfileData.full_name!!,"")
