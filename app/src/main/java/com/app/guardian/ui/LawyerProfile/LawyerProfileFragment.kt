@@ -9,6 +9,7 @@ import com.app.guardian.R
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.loadImage
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentLawyerProfileBinding
 import com.app.guardian.model.viewModels.UserViewModel
@@ -19,6 +20,7 @@ import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.SeekLegalAdvice.SeekLegalAdviceListFragment
 import com.app.guardian.ui.chatting.ChattingFragment
 import com.app.guardian.utils.Config
+import com.bumptech.glide.Glide
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -29,11 +31,11 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
     private var selectedLawyerListId: Int? = null
 
     private var storeSelctedId: Int? = null
-    private  var isDialLawyerSelected: Boolean = false
-    private var strLawyerName : String ?= null
-    private var strProfilePic : String ?= null
-    private var strPhoneNumber : String ?= null
-    private var strEmail : String ?= null
+    private var isDialLawyerSelected: Boolean = false
+    private var strLawyerName: String? = null
+    private var strProfilePic: String? = null
+    private var strPhoneNumber: String? = null
+    private var strEmail: String? = null
     override fun getInflateResource(): Int {
         return R.layout.fragment_lawyer_profile
     }
@@ -42,7 +44,11 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
         mBinding = getBinding()
 
         (activity as HomeActivity).bottomTabVisibility(false)
-        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.lawyer_profile),true,true)
+        (activity as HomeActivity).headerTextVisible(
+            requireActivity().resources.getString(R.string.lawyer_profile),
+            true,
+            true
+        )
 
         arguments?.let {
             selectedLawyerListId = it.getInt("LawyerId")
@@ -55,40 +61,44 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
 
             ReplaceFragment.replaceFragment(
                 requireActivity(),
-                SeekLegalAdviceListFragment(false,storeSelctedId!!), true,
+                SeekLegalAdviceListFragment(false, storeSelctedId!!), true,
                 LawyerProfileFragment::class.java.name,
                 null
             )
         }
 
-        if(isDialLawyerSelected){
+        if (isDialLawyerSelected) {
             mBinding.imgRowLawyerChat.gone()
             mBinding.imgRowLawyerVideo.gone()
-        }
-        else {
+        } else {
             mBinding.imgRowLawyerChat.visible()
             mBinding.imgRowLawyerVideo.visible()
         }
 
         mBinding.imgRowLawyerCall.setOnClickListener {
             strLawyerName?.let {
-                ReusedMethod.displayLawyerContactDetails(requireActivity(),
-                    it, strEmail,strPhoneNumber,"")
+                ReusedMethod.displayLawyerContactDetails(
+                    requireActivity(),
+                    it, strEmail, strPhoneNumber, ""
+                )
             }
         }
 
         mBinding.imgRowLawyerChat.setOnClickListener {
             ReplaceFragment.replaceFragment(
                 requireActivity(),
-                ChattingFragment(selectedLawyerListId!!,strLawyerName!!,""),
+                ChattingFragment(selectedLawyerListId!!, strLawyerName!!, ""),
                 true,
                 LawyerProfileFragment::class.java.name,
                 LawyerProfileFragment::class.java.name
             )
         }
 
-        mBinding.imgRowLawyerVideo.setOnClickListener{
-            ReusedMethod.displayMessage(requireActivity(), requireActivity().resources.getString(R.string.come_soon))
+        mBinding.imgRowLawyerVideo.setOnClickListener {
+            ReusedMethod.displayMessage(
+                requireActivity(),
+                requireActivity().resources.getString(R.string.come_soon)
+            )
         }
     }
 
@@ -108,12 +118,14 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
                         mBinding.tvLawyerName.text = it.full_name
                         mBinding.tvSpecialization.text = it.specialization
                         mBinding.txtSpecializationInfo.text =
-                            "Criminal Lawyer\t\t\t" + it.years_of_experience + "+ year Experiance"
+                            "Criminal Lawyer\t\t\t" + it.years_of_experience + "- year Experience"
                         mBinding.txtContactInfo.text = it.email
-                        strLawyerName=it.full_name
-                        //strProfilePic= it.profile_avatar.toString()
-                        strEmail=it.email
-                        strPhoneNumber=it.phone
+                        strLawyerName = it.full_name
+                        Glide.with(requireActivity())
+                            .load(it.profile_avatar)
+                            .placeholder(R.drawable.profile)
+                            .into(mBinding.imgRoimgRowLawyerPicturewLawyerPicture)
+                        strPhoneNumber = it.phone
                         //description data is null from api side
                         //mBinding.txtDescriptionInfo.text = it.
                     }
@@ -158,7 +170,7 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
             LawyerProfileFragment(selectLawyerListIdParams).apply {
                 arguments = Bundle().apply {
                     putInt("LawyerId", selectLawyerListIdParams)
-                    putBoolean("isDialLawyer",isDialLawyerOpen)
+                    putBoolean("isDialLawyer", isDialLawyerOpen)
                 }
             }
     }

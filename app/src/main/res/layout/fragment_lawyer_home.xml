@@ -105,7 +105,7 @@
                        app:layout_constraintEnd_toEndOf="parent"
                        app:layout_constraintStart_toStartOf="parent"
                        app:layout_constraintTop_toBottomOf="@+id/pager"
-                       app:piv_radius="5dp"
+                       app:piv_radius="4dp"
                        app:piv_dynamicCount="true"
                        app:piv_interactiveAnimation="true"
                        app:piv_selectedColor="@color/grey"

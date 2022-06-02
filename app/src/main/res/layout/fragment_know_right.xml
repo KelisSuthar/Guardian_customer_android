@@ -61,7 +61,7 @@
                         android:background="@color/colorTransparent"
                         android:focusable="false"
                         android:fontFamily="@font/lora_regular"
-                        android:hint="@string/search_here"
+                        android:hint="@string/search_loc"
                         android:inputType="textEmailAddress"
                         android:paddingLeft="@dimen/_13sdp"
                         android:paddingTop="@dimen/_13sdp"

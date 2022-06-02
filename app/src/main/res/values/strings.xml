@@ -29,6 +29,7 @@
     <string name="phone">Phone</string>
     <string name="refresh">Refresh</string>
     <string name="search_here">Search here</string>
+    <string name="search_loc">Search Location</string>
     <string name="your_status">Your Status:</string>
     <string name="contacted_history">Contacted History</string>
     <string name="want_to_signout">Are You Sure Want to Sign Out?</string>
@@ -42,7 +43,7 @@
     <string name="create_acc">Create Account</string>
     <string name="sign_up">Sign Up</string>
     <string name="signup_to_start">Sign Up to Get Started!</string>
-    <string name="upload_doc">Upload Document</string>
+    <string name="upload_doc">Upload Documents</string>
     <string name="upload_max_doc">(Maximum Upload 5 Document)</string>
     <string name="empty_profile_pic">Please select your profile image</string>
     <string name="upload_doc_ex">(Like : Drivers license, Vehicle Registration, Learners Permit)</string>

@@ -133,7 +133,7 @@ class AddBannerFragment : BaseFragment(), View.OnClickListener {
             ReusedMethod.displayMessageDialog(
                 requireActivity(),
                 "",
-                "Please select banner image.",
+                "Please upload banner image.",
                 false,
                 "OK",
                 ""

@@ -29,6 +29,7 @@ import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.signup.adapter.ImageAdapter
 import com.app.guardian.ui.signup.adapter.SpecializationAdapter
 import com.app.guardian.utils.Config
+import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.gms.location.*
 import com.google.android.material.textview.MaterialTextView
@@ -94,7 +95,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 mBinding.edtSpecializations.visible()
                 mBinding.clayout1.visible()
                 mBinding.edtYearsOfExp.visible()
-                mBinding.edtVehicalNum.gone()
+                mBinding.edtVehicalNum.visible()
             }
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
@@ -107,6 +108,8 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             }
         }
         //Check ROle
+
+        mBinding.edtVehicalNum.hint = "Registered Licence No"
     }
 
     private fun callGetuserDetailsApi() {
@@ -149,12 +152,11 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
     }
 
 
-
     private fun callSpecializationAPI() {
         if (ReusedMethod.isNetworkConnected(this)) {
             authenticationViewModel.getSpecializationList(true, this)
         } else {
-            ReusedMethod.displayMessage(this,resources.getString(R.string.text_error_network))
+            ReusedMethod.displayMessage(this, resources.getString(R.string.text_error_network))
         }
     }
 
@@ -175,7 +177,11 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                             Log.i("THIS_APP", location.latitude.toString())
                             Log.i("THIS_APP", location.longitude.toString())
 
-                            val data = getAddress(this@EditProfileActivity,location.latitude,location.longitude)
+                            val data = getAddress(
+                                this@EditProfileActivity,
+                                location.latitude,
+                                location.longitude
+                            )
 
 
 
@@ -191,6 +197,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
+
     override fun initObserver() {
         mViewModel.getuserDetailsResp().observe(this) { response ->
             response?.let { requestState ->
@@ -253,10 +260,10 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
     private fun setApiData(data: UserDetailsResp) {
         mBinding.edtFullname.setText(data.full_name)
         mBinding.edtEmail.setText(data.email)
-        if(is_mediator){
+        if (is_mediator) {
             mBinding.edtSpecializations.setText(data.specialization)
             mBinding.edtYearsOfExp.setText(data.years_of_experience)
-        }else if(is_lawyer){
+        } else if (is_lawyer) {
             mBinding.edtSpecializations.setText(data.specialization)
             mBinding.edtYearsOfExp.setText(data.years_of_experience)
             mBinding.edtOfficeNum.setText(data.office_phone)
@@ -268,15 +275,18 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         mBinding.edtPostalCode.setText(data.postal_code)
         mBinding.edtVehicalNum.setText(data.licence_no)
 
-        if(data.profile_avatar != "null"|| data.profile_avatar!!.isNotEmpty()){
+        if (data.profile_avatar != "null" || data.profile_avatar!!.isNotEmpty()) {
             profile_img = data.profile_avatar.toString()
             mBinding.ivProfileImg.loadImage(data.profile_avatar)
+            Glide.with(this)
+                .load(data.profile_avatar).placeholder(R.drawable.profile)
+                .into(mBinding.ivProfileImg)
 //            mBinding.ivProfileImg.loadImage("https://wallpaperaccess.com/full/251618.jpg")
         }
 
 
-        if(data.user_doc.isNotEmpty()){
-            for(i in data.user_doc.indices){
+        if (data.user_doc.isNotEmpty()) {
+            for (i in data.user_doc.indices) {
                 images.add(data.user_doc[i].document.toString())
             }
 
@@ -355,8 +365,8 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         dialog.setContentView(R.layout.dialog_specializatio_list)
         dialog.setCancelable(true)
 
-        var specializationAdapter : SpecializationAdapter? = null
-        specializationAdapter =    SpecializationAdapter(
+        var specializationAdapter: SpecializationAdapter? = null
+        specializationAdapter = SpecializationAdapter(
             this,
             specializationList,
             selectedid,
