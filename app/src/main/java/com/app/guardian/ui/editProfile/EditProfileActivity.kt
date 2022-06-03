@@ -96,6 +96,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 mBinding.clayout1.visible()
                 mBinding.edtYearsOfExp.visible()
                 mBinding.edtVehicalNum.visible()
+                mBinding.edtVehicalNum.hint = "Registered Licence No"
             }
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
@@ -109,7 +110,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         }
         //Check ROle
 
-        mBinding.edtVehicalNum.hint = "Registered Licence No"
+
     }
 
     private fun callGetuserDetailsApi() {
@@ -288,6 +289,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         if (data.user_doc.isNotEmpty()) {
             for (i in data.user_doc.indices) {
                 images.add(data.user_doc[i].document.toString())
+                imageAdapter?.notifyDataSetChanged()
             }
 
         }
@@ -627,8 +629,6 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
 
                 }
                 DOCUMENT_CODE -> {
-
-
                     images.add(ImagePicker.getFilePath(data).toString())
                     imageAdapter?.notifyDataSetChanged()
 

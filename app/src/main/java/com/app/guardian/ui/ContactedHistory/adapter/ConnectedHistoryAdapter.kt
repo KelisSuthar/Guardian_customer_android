@@ -17,6 +17,7 @@ import com.app.guardian.common.extentions.loadImage
 import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
 import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
+import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -75,7 +76,12 @@ class ConnectedHistoryAdapter(
             txtDateTime!!.text =  array.from_time!!.formatTimeInGMT2()
 
 
-            imgRowLawyerPicture!!.loadImage(array.profile_avatar)
+
+
+            Glide.with(context)
+                .load(array.profile_avatar)
+                .placeholder(R.drawable.profile)
+                .into(imgRowLawyerPicture!!)
 
 
 

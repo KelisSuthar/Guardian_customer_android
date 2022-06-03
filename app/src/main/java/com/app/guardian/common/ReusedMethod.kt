@@ -33,8 +33,11 @@ import androidx.viewpager.widget.ViewPager
 import androidx.core.content.ContextCompat.startActivity
 import com.app.guardian.R
 import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.loadImage
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.ui.AutoCompleteAdapter
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.AutocompletePrediction
 import com.google.android.libraries.places.api.model.Place
@@ -274,7 +277,10 @@ class ReusedMethod {
             PHONE.text = phone
 
             if(lawyerProfilePic!=null || lawyerProfilePic!="null"){
-
+                Glide.with(context)
+                    .load(lawyerProfilePic)
+                    .placeholder(R.drawable.profile)
+                    .into(PROFILEURL)
             }
 
             OK.setOnClickListener {

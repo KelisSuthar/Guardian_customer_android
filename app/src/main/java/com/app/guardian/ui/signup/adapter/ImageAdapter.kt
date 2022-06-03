@@ -38,7 +38,7 @@ class ImageAdapter(
 //
 //            img?.setImageBitmap(arrayList[position])
             Glide.with(context)
-                .load(arrayList[position])
+                .load(arrayList[position]).placeholder(R.mipmap.ic_launcher_foreground)
                 .into(img!!)
             cancel?.setOnClickListener { listeners.onCancelCick(position) }
         }

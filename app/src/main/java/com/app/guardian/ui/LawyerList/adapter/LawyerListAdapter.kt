@@ -78,7 +78,7 @@ class LawyerListAdapter(
                     lawyerProfileData.full_name!!,
                     lawyerProfileData.email!!,
                     lawyerProfileData.phone!!,
-                    "null"
+                    lawyerProfileData.profile_avatar,
                 )
             }
 

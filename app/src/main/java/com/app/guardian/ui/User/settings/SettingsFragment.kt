@@ -30,6 +30,7 @@ import com.app.guardian.ui.editProfile.EditProfileActivity
 import com.app.guardian.ui.notification.NotificationListFragment
 import com.app.guardian.ui.virtualWitness.VirtualWitnessActivity
 import com.app.guardian.utils.Config
+import com.bumptech.glide.Glide
 import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -46,7 +47,11 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
     override fun initView() {
         mBinding = getBinding()
         setViews()
-        mBinding.imgProfile.loadImage(SharedPreferenceManager.getUser()?.user?.profile_avatar)
+
+        Glide.with(requireActivity())
+            .load(SharedPreferenceManager.getUser()?.user?.profile_avatar)
+            .placeholder(R.drawable.profile)
+            .into(mBinding.imgProfile)
         mBinding.txtUName.text = SharedPreferenceManager.getUser()?.user?.full_name
     }
 

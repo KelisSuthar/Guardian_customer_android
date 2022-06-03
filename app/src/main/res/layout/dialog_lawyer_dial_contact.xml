@@ -23,7 +23,7 @@
                 android:id="@+id/imgDialogLawyerPicture"
                 android:layout_width="@dimen/_60sdp"
                 android:layout_height="@dimen/_60sdp"
-                android:src="@drawable/user_sample"
+                android:src="@drawable/profile"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_gravity="center_vertical"/>
 
@@ -38,7 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lora_bold"
-                    android:layout_gravity="center"
+                    android:paddingLeft="8dp"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_15sdp"
                     android:layout_marginEnd="@dimen/_10sdp"

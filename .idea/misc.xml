@@ -15,6 +15,7 @@
         <entry key="app/src/main/res/drawable/dark_blue_cursor.xml" value="0.202" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.19" />
         <entry key="app/src/main/res/drawable/ic_back_arrow.xml" value="0.21" />
+        <entry key="app/src/main/res/drawable/ic_circuler_cross.xml" value="0.111" />
         <entry key="app/src/main/res/drawable/ic_eye.xml" value="0.21" />
         <entry key="app/src/main/res/drawable/ic_eye_hide.xml" value="0.21" />
         <entry key="app/src/main/res/drawable/ic_home.xml" value="0.2985" />
@@ -92,7 +93,7 @@
         <entry key="app/src/main/res/layout/fragment_support_group_list.xml" value="0.30867892261650276" />
         <entry key="app/src/main/res/layout/fragment_user_home.xml" value="0.33" />
         <entry key="app/src/main/res/layout/headder_layout.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/image_layout.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/image_layout.xml" value="0.75" />
         <entry key="app/src/main/res/layout/know_right_dialog.xml" value="0.14" />
         <entry key="app/src/main/res/layout/layout_search_filter.xml" value="0.18" />
         <entry key="app/src/main/res/layout/no_data_layout.xml" value="0.21" />
