@@ -141,7 +141,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Cancle"
-                android:textColor="@color/black"
+                android:textColor="@color/blue"
                 android:textSize="@dimen/_13ssp"
                 app:textAllCaps="true"
                 tools:ignore="HardcodedText" />
@@ -160,7 +160,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/call_now"
-                android:textColor="@color/black"
+                android:textColor="@color/blue"
                 android:textSize="@dimen/_13ssp"
                 app:textAllCaps="true"
                 tools:ignore="HardcodedText" />

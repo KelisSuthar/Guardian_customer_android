@@ -41,7 +41,6 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
 
     override fun initView() {
         mBinding = getBinding()
-        chnagelayout(0)
         (activity as HomeActivity).bottomTabVisibility(true)
         (activity as HomeActivity).headerTextVisible(
             requireActivity().resources.getString(R.string.lawyer_profile),

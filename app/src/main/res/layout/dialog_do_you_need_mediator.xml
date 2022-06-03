@@ -100,7 +100,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Yes"
-                android:textColor="@color/black"
+
+
                 android:textSize="@dimen/_13ssp"
                 app:textAllCaps="true"
                 tools:ignore="HardcodedText" />
@@ -119,7 +120,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="No"
-                android:textColor="@color/black"
+                android:textColor="@color/blue"
                 android:textSize="@dimen/_13ssp"
                 app:textAllCaps="true"
                 tools:ignore="HardcodedText" />

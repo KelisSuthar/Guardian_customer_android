@@ -11,6 +11,7 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.Window
+import android.widget.Toast
 import androidx.core.content.PermissionChecker
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
@@ -41,6 +42,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.rilixtech.widget.countrycodepicker.CountryCodePicker.OnCountryChangeListener
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -79,7 +81,6 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
 
     override fun initView() {
-
         auth = FirebaseAuth.getInstance()//Firebase
 
         mBinding = getBinding()
@@ -146,6 +147,15 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 mBinding.edtVehicalNum.gone()
             }
         }
+
+       mBinding.ccp.setOnCountryChangeListener {
+        Log.i("THIS_APP",mBinding.ccp.selectedCountryCode)
+        Log.i("THIS_APP",mBinding.ccpOffice.selectedCountryCode)
+       }
+        mBinding.ccpOffice.setOnCountryChangeListener {
+        Log.i("THIS_APP",mBinding.ccp.selectedCountryCode)
+        Log.i("THIS_APP",mBinding.ccpOffice.selectedCountryCode)
+       }
 
     }
 
