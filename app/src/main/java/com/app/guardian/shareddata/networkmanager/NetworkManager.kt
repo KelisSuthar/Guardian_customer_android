@@ -61,6 +61,8 @@ object NetworkManager {
                     /**
                      * based on status pass body
                      */
+
+                    9
                     if (response.body()?.status == true) {
                         callback?.postValue(RequestState(apiResponse = response.body()))
                     } else {
@@ -72,7 +74,7 @@ object NetworkManager {
                         callback?.postValue(
                                 RequestState(
                                         error = ApiError(
-                                                Config.CUSTOM_ERROR, response.body()?.message
+                                                Config.CUSTOM_ERROR, response.body()?.message,response.code()
                                         )
                                 )
                         )
@@ -82,12 +84,14 @@ object NetworkManager {
                      * pass unsuccessful message at here
                      */
                     callback?.postValue(
-                            RequestState(
-                                    error = ApiError(
-                                            Config.CUSTOM_ERROR, response.message()
-                                    )
+                        RequestState(
+                            error = ApiError(
+                                Config.CUSTOM_ERROR, response.message()
                             )
+                        )
                     )
+
+
                 }
             }
         })

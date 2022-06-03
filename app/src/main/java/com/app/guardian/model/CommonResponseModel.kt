@@ -23,4 +23,4 @@ data class RequestState<T>(
  * you can set CUSTOM_ERROR, NETWORK_ERROR
  * In case of CUSTOM_ERROR, you have to set customMessage also
  */
-data class ApiError(val errorState: String, val customMessage: String?)
+data class ApiError(val errorState: String, val customMessage: String?,val code: Int =404)

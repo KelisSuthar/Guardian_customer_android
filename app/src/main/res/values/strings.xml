@@ -89,10 +89,10 @@
     <!--    Add Seek Legal Advice-->
     <string name="empty_title">Please Enter Title.</string>
     <string name="empty_desc">Please Enter Description.</string>
-    <string name="add_title_hint">Title (allowed only 60 character length)</string>
-    <string name="desc_title_hint">Description (allowed only 700 character length)</string>
-    <string name="error_title">Allowed only minimum 5 and maximum 60 character length  </string>
-    <string name="error_description">Allowed only minimum 5 and maximum 700 character length </string>
+    <string name="add_title_hint">Title</string>
+    <string name="desc_title_hint">Description </string>
+    <string name="error_title">ATitle must be minimum 5 characters are allowed  </string>
+    <string name="error_description">Description must be minimum 5 characters are allowed. </string>
 
     <!--    RoleSelector Screen-->
     <string name="empty_role">Please Select Role</string>
@@ -235,4 +235,7 @@
 
     <string name="email_dialog">Email : </string>
     <string name="phone_dialog">Phone : </string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="do_you_wish_to_add_more_info">DO YOU WISH TO ADD MORE INFO?</string>
 </resources>
