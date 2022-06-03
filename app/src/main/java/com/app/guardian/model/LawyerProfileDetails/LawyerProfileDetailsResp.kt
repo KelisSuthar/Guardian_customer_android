@@ -2,12 +2,14 @@ package com.app.guardian.model.LawyerProfileDetails
 
 data class LawyerProfileDetailsResp(
     val created_at: String,
+    val plan_id:Int,
     val deleted_at: Any,
     val email: String,
     val fp_status: String,
     val full_name: String,
     val id: Int,
     val licence_no: Any,
+    val changephone_otp :String,
     val office_phone: Any,
     val phone: String,
     val plan_expiry_date: Any,
@@ -19,5 +21,9 @@ data class LawyerProfileDetailsResp(
     val updated_at: String,
     val user_role: String,
     val vehicle_no: Any,
-    val years_of_experience: String
+    val years_of_experience: String,
+    val description: String,
+    val is_subscribe: Int,
+    val firebase_uid: Int,
+    val firebase_chatid: Int,
 )

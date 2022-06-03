@@ -127,7 +127,7 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
                             .into(mBinding.imgRoimgRowLawyerPicturewLawyerPicture)
                         strPhoneNumber = it.phone
                         //description data is null from api side
-                        //mBinding.txtDescriptionInfo.text = it.
+                        mBinding.txtDescriptionInfo.text = it.description
                     }
                 }
 
