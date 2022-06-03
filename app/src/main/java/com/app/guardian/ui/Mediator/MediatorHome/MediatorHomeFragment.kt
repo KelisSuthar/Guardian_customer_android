@@ -76,7 +76,7 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding.noDataUserHomeFrag.gone()
         mBinding.cl.visible()
 
-        chnagelayout(0)
+        chnagelayout(1)
 
 
     }
