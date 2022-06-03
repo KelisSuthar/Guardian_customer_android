@@ -90,7 +90,7 @@ class LawyerListAdapter(
             }
 
             tvLawyerName?.text = lawyerProfileData.full_name
-            tvLawyerExp?.text ="Experience - "+ lawyerProfileData.years_of_experience
+            tvLawyerExp?.text ="Experience - "+ lawyerProfileData.years_of_experience + " " + context.resources.getString(R.string.years)
             tvLawyerSpecialization?.text = lawyerProfileData.specialization
 
         }
