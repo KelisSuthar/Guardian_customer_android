@@ -133,9 +133,12 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.rbAccessYourRecording -> {
                 changeLayout(1)
+                ReusedMethod.displayMessage(requireActivity(), requireContext().resources.getString(R.string.come_soon))
             }
             R.id.rbDrivingOffenceList -> {
                 changeLayout(2)
+                ReusedMethod.displayMessage(requireActivity(), requireContext().resources.getString(R.string.come_soon))
+
             }
             R.id.rbDialLawyer -> {
                 changeLayout(3)

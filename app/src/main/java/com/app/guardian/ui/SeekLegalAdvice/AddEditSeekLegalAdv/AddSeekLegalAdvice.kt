@@ -1,9 +1,11 @@
 package com.app.guardian.ui.SeekLegalAdvice.AddEditSeekLegalAdv
 
 import android.app.Activity
+import android.app.Dialog
 import android.text.InputFilter
 import android.view.View
 import android.view.View.OnFocusChangeListener
+import android.view.Window
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.app.guardian.R
@@ -18,6 +20,7 @@ import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.utils.Config
+import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -75,9 +78,14 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
                     it?.data?.let { data ->
 
                         if (it.status) {
+
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
-                            requireActivity().onBackPressed()
-                                } else {
+
+                            displayDeleteConfirmDialog()
+
+
+                        }
+                        else {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                         }
                     }
@@ -101,6 +109,33 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
         })
     }
 
+    fun displayDeleteConfirmDialog(
+
+        ) {
+        val dialog = Dialog(
+            requireContext(),
+            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+        )
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setContentView(R.layout.dialog_seek_legal_advice_add_more)
+        dialog.setCancelable(true)
+
+        val Yes = dialog.findViewById<MaterialTextView>(R.id.txtDialogYes)
+        val NO = dialog.findViewById<MaterialTextView>(R.id.txtDeleteNo)
+
+        Yes.setOnClickListener {
+            dialog.dismiss()
+            mBinding.edtDesc.text!!.clear()
+             mBinding.edtTitle.text!!.clear()
+        }
+
+        NO.setOnClickListener {
+            dialog.dismiss()
+            requireActivity().onBackPressed()
+        }
+        dialog.show()
+    }
 
     override fun onClick(v: View?) {
         when (v?.id) {

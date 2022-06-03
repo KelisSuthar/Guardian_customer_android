@@ -14,6 +14,7 @@ object AppConstants {
     const val Poppins_Bold = 5
 
     const val LOG_DEBUG = true
+    val USER= "User"
     val APP_NAME = "Tajmeel"
     val APP_ROLE_USER = "user"
     val APP_ROLE_LAWYER = "lawyer"

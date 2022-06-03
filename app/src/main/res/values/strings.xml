@@ -37,7 +37,7 @@
     <string name="delete_message">Are you sure you want to delete this item?</string>
     <string name="delete">Delete</string>
     <string name="call_now">Call Now</string>
-
+    <string name="years">Years</string>
 
     <!--    SignUp screen -->
     <string name="create_acc">Create Account</string>
@@ -92,12 +92,12 @@
     <!-- TODO: Validation Message  -->
 
     <!--    Add Seek Legal Advice-->
-    <string name="empty_title">Please enter title.</string>
-    <string name="empty_desc">Please enter description.</string>
-    <string name="add_title_hint">Title (allowed only 60 character length)</string>
-    <string name="desc_title_hint">Description (allowed only 700 character length)</string>
-    <string name="error_title">Allowed only minimum 5 and maximum 60 character length  </string>
-    <string name="error_description">Allowed only minimum 5 and maximum 700 character length </string>
+    <string name="empty_title">Please Enter Title.</string>
+    <string name="empty_desc">Please Enter Description.</string>
+    <string name="add_title_hint">Title</string>
+    <string name="desc_title_hint">Description </string>
+    <string name="error_title">A Title must be minimum 5 characters are allowed  </string>
+    <string name="error_description">Description must be minimum 5 characters are allowed. </string>
 
     <!--    RoleSelector Screen-->
     <string name="empty_role">Please select role</string>
@@ -199,7 +199,7 @@
 
     <!--    Contact Support groups-->
     <string name="support_groups">Support Groups</string>
-    <string name="find_a_counsellors">Find a counsellors</string>
+    <string name="find_a_counsellors">Find a counsellor</string>
     <string name="support_groups_example">(crises Lines, women Shelters Children Shelters, Domestic Violence)</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="subscription_plan">Subscription Plan</string>
@@ -246,5 +246,8 @@
 
     <string name="email_dialog">Email : </string>
     <string name="phone_dialog">Phone : </string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="do_you_wish_to_add_more_info">DO YOU WISH TO ADD MORE INFO?</string>
     <string name="do_you_need_mediator">Do you need Mediator?</string>
 </resources>

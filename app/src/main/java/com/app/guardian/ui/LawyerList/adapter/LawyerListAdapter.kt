@@ -108,9 +108,11 @@ class LawyerListAdapter(
                     "Experience - " + lawyerProfileData.years_of_experience + " Years"
             }
 
+            tvLawyerExp?.text ="Experience - "+ lawyerProfileData.years_of_experience + " " + context.resources.getString(R.string.years)
             tvLawyerSpecialization?.text = lawyerProfileData.specialization
 
         }
+
 
     }
 

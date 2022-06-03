@@ -41,6 +41,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
 
     override fun initView() {
         mBinding = getBinding()
+        changeLayout(0)
         setAdapter()
         callApi()
         (activity as HomeActivity).bottomTabVisibility(true)
@@ -195,7 +196,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
                 mBinding.rlRecord.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
-                        R.color.lightBlue_2
+                        R.color.blue
                     )
                 )
                 mBinding.rlScheduleVirtualWitness.setBackgroundColor(
@@ -210,7 +211,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
                         R.color.lightBlue_2
                     )
                 )
-                mBinding.rbRecord.isChecked = false
+                mBinding.rbRecord.isChecked = true
                 mBinding.rbScheduleVirtualWitness.isChecked = false
                 mBinding.rbSupportService.isChecked = false
 

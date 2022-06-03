@@ -38,7 +38,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/white"
                             android:fontFamily="@font/lora_regular"
-                            android:text="Your Status:"
+                            android:text="Your Status :"
                             android:layout_gravity="center"
                             android:layout_marginRight="@dimen/_10sdp"/>
 

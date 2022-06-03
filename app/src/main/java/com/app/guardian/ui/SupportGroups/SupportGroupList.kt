@@ -39,7 +39,7 @@ class SupportGroupList : BaseFragment(), View.OnClickListener {
         mBinding = getBinding()
         (activity as HomeActivity).bottomTabVisibility(false)
         (activity as HomeActivity).headerTextVisible(
-            requireActivity().resources.getString(R.string.support_services),
+            requireActivity().resources.getString(R.string.support_groups),
             true,
             true
         )
