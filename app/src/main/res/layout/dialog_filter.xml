@@ -75,10 +75,9 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_15sdp"
-
+            android:layout_marginStart="@dimen/_15sdp"
             android:fontFamily="@font/lora_semibold"
-            android:text="Speialization : "
+            android:text="@string/specialization_title"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/_9ssp" />
 
