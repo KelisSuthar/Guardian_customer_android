@@ -33,7 +33,6 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
     private lateinit var mBinding: FragmentUserHomeBinding
     var array = ArrayList<UserHomeBannerResp>()
     var bannerAdsPager: BannerAdsPager? = null
-    var currentPage = 0
 
     override fun getInflateResource(): Int {
         return R.layout.fragment_user_home

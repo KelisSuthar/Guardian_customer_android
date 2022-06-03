@@ -140,7 +140,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Cancle"
+                android:text="Cancel"
                 android:textColor="@color/blue"
                 android:textSize="@dimen/_13ssp"
                 app:textAllCaps="true"
@@ -162,7 +162,7 @@
                 android:text="@string/call_now"
                 android:textColor="@color/blue"
                 android:textSize="@dimen/_13ssp"
-                app:textAllCaps="true"
+
                 tools:ignore="HardcodedText" />
 
         </LinearLayout>

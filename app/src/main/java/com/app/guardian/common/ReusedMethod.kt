@@ -274,7 +274,7 @@ class ReusedMethod {
             else{
                 EMAIL.text="contactSupport@gmail.com"
             }
-            PHONE.text = phone
+            PHONE.text = "+$phone"
 
             if(lawyerProfilePic!=null || lawyerProfilePic!="null"){
                 Glide.with(context)
