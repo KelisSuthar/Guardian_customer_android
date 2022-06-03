@@ -1,0 +1,25 @@
+-- Merging decision tree log ---
+manifest
+ADDED from D:\Hardik Workspace\android\GuardianProject\Guardian_customer_android\slidingitemmenu-recyclerview\src\main\AndroidManifest.xml:2:1-44
+INJECTED from D:\Hardik Workspace\android\GuardianProject\Guardian_customer_android\slidingitemmenu-recyclerview\src\main\AndroidManifest.xml:2:1-44
+INJECTED from D:\Hardik Workspace\android\GuardianProject\Guardian_customer_android\slidingitemmenu-recyclerview\src\main\AndroidManifest.xml:2:1-44
+	package
+		ADDED from D:\Hardik Workspace\android\GuardianProject\Guardian_customer_android\slidingitemmenu-recyclerview\src\main\AndroidManifest.xml:2:11-41
+		INJECTED from D:\Hardik Workspace\android\GuardianProject\Guardian_customer_android\slidingitemmenu-recyclerview\src\main\AndroidManifest.xml
+		INJECTED from D:\Hardik Workspace\android\GuardianProject\Guardian_customer_android\slidingitemmenu-recyclerview\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from D:\Hardik Workspace\android\GuardianProject\Guardian_customer_android\slidingitemmenu-recyclerview\src\main\AndroidManifest.xml:2:1-44
+uses-sdk
+INJECTED from D:\Hardik Workspace\android\GuardianProject\Guardian_customer_android\slidingitemmenu-recyclerview\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\Hardik Workspace\android\GuardianProject\Guardian_customer_android\slidingitemmenu-recyclerview\src\main\AndroidManifest.xml
+INJECTED from D:\Hardik Workspace\android\GuardianProject\Guardian_customer_android\slidingitemmenu-recyclerview\src\main\AndroidManifest.xml
+INJECTED from D:\Hardik Workspace\android\GuardianProject\Guardian_customer_android\slidingitemmenu-recyclerview\src\main\AndroidManifest.xml
+INJECTED from D:\Hardik Workspace\android\GuardianProject\Guardian_customer_android\slidingitemmenu-recyclerview\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from D:\Hardik Workspace\android\GuardianProject\Guardian_customer_android\slidingitemmenu-recyclerview\src\main\AndroidManifest.xml
+		ADDED from D:\Hardik Workspace\android\GuardianProject\Guardian_customer_android\slidingitemmenu-recyclerview\src\main\AndroidManifest.xml
+		INJECTED from D:\Hardik Workspace\android\GuardianProject\Guardian_customer_android\slidingitemmenu-recyclerview\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from D:\Hardik Workspace\android\GuardianProject\Guardian_customer_android\slidingitemmenu-recyclerview\src\main\AndroidManifest.xml
+		ADDED from D:\Hardik Workspace\android\GuardianProject\Guardian_customer_android\slidingitemmenu-recyclerview\src\main\AndroidManifest.xml
+		INJECTED from D:\Hardik Workspace\android\GuardianProject\Guardian_customer_android\slidingitemmenu-recyclerview\src\main\AndroidManifest.xml

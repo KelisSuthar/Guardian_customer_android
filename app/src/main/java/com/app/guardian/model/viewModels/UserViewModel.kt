@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.LawyerProfileDetails.LawyerProfileDetailsResp
+import com.app.guardian.model.Notification.NotificationResp
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 import com.app.guardian.model.SupportGroup.SupportGroupResp
@@ -98,6 +99,23 @@ class UserViewModel(private val mUserRepository: UserRepo) : ViewModel() {
             isInternetConnected,
             baseView,
             supportGroupResp,
+        )
+    }
+
+
+    //Notification API
+
+    private val notificationResp = MutableLiveData<RequestState<MutableList<NotificationResp>>>()
+    fun getNotificationResp(): LiveData<RequestState<MutableList<NotificationResp>>> = notificationResp
+
+    fun getNotification(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+    ){
+        mUserRepository.getNotification(
+            isInternetConnected,
+            baseView,
+            notificationResp
         )
     }
 }

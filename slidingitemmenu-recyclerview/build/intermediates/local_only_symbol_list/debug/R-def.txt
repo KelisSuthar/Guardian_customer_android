@@ -1,0 +1,13 @@
+R_DEF: Internal format may change without notice
+local
+attr? itemDraggable
+attr? itemScrollDuration
+attr? itemScrollingEnabled
+color color_ripple
+color color_rippleSelector
+color color_selector
+drawable default_selector_recycler_item
+id tag_itemAnimator
+id tag_itemMenuWidth
+id tag_menuItemWidths
+styleable SlidingItemMenuRecyclerView itemScrollingEnabled itemDraggable itemScrollDuration

@@ -27,6 +27,7 @@ import com.app.guardian.ui.SelectRole.SelectRoleScreen
 import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
 import com.app.guardian.ui.aboutus.AboutUsActivity
 import com.app.guardian.ui.editProfile.EditProfileActivity
+import com.app.guardian.ui.notification.NotificationListFragment
 import com.app.guardian.ui.virtualWitness.VirtualWitnessActivity
 import com.app.guardian.utils.Config
 import com.google.android.material.textview.MaterialTextView
@@ -145,6 +146,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 //        mBinding.headderSettitng.ivBack.setOnClickListener(this)
         mBinding.tvBanneradds.setOnClickListener(this)
         mBinding.tvContactHistory.setOnClickListener(this)
+        mBinding.tvNotification.setOnClickListener(this)
         mBinding.tvSubscription2.setOnClickListener(this)
     }
 
@@ -321,6 +323,17 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.btnSignOut -> {
                 logoutDialog()
+
+            }
+            R.id.tvNotification -> {
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    NotificationListFragment(),
+                    true,
+                    "",
+                    HomeActivity::class.java.name
+                )
+                requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
 
             }
         }

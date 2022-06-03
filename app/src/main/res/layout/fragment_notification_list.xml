@@ -9,12 +9,29 @@
         android:layout_height="match_parent">
 
 
-        <RelativeLayout
+        <include
+            android:id="@+id/noDataNotification"
+            layout="@layout/no_data_layout"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/noInternetNotification"
+            layout="@layout/no_internet_connection_layout"
+            android:visibility="gone" />
+
+        <com.liuzhenlin.simrv.SlidingItemMenuRecyclerView
+            android:id="@+id/rcyNotification"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            app:itemScrollDuration="600"
             app:layout_constraintTop_toTopOf="parent"
-           app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="parent"
+            android:layout_marginTop="@dimen/_15sdp"
+            tools:listitem="@layout/row_notification_layout"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_marginBottom="@dimen/_15sdp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

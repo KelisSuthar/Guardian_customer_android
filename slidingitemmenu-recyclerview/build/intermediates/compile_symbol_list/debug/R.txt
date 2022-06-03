@@ -1,0 +1,14 @@
+int attr itemDraggable 0x0
+int attr itemScrollDuration 0x0
+int attr itemScrollingEnabled 0x0
+int color color_ripple 0x0
+int color color_rippleSelector 0x0
+int color color_selector 0x0
+int drawable default_selector_recycler_item 0x0
+int id tag_itemAnimator 0x0
+int id tag_itemMenuWidth 0x0
+int id tag_menuItemWidths 0x0
+int[] styleable SlidingItemMenuRecyclerView { 0x0, 0x0, 0x0 }
+int styleable SlidingItemMenuRecyclerView_itemDraggable 0
+int styleable SlidingItemMenuRecyclerView_itemScrollDuration 1
+int styleable SlidingItemMenuRecyclerView_itemScrollingEnabled 2

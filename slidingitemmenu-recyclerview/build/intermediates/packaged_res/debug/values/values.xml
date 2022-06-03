@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_ripple">#C9C9C9</color>
+    <color name="color_rippleSelector">#E6E6E6</color>
+    <color name="color_selector">#E0E0E0</color>
+    <item name="tag_itemAnimator" type="id"/>
+    <item name="tag_itemMenuWidth" type="id"/>
+    <item name="tag_menuItemWidths" type="id"/>
+    <declare-styleable name="SlidingItemMenuRecyclerView">
+        <!-- Deprecated! Use itemDraggable instead (if both itemScrollingEnabled and itemDraggable
+             are supplied, the value of the latter always wins). -->
+        <attr format="boolean" name="itemScrollingEnabled"/>
+        <attr format="boolean" name="itemDraggable"/>
+        <attr format="integer" name="itemScrollDuration"/>
+    </declare-styleable>
+</resources>

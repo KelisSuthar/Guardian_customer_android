@@ -81,8 +81,9 @@ class LawyerListAdapter(
                 lyLawyerDetails!!.performClick()
             }
 
+
             imgRowLawyerVideo?.setOnClickListener {
-                ReusedMethod.displayMessage(context, context.resources.getString(R.string.come_soon))
+                lawyerListFragment.displayVideoCallDialog()
             }
 
             imgRowLawyerChat?.setOnClickListener {

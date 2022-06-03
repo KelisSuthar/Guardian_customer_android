@@ -32,6 +32,7 @@ import com.app.guardian.utils.Config
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -171,6 +172,31 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         mBinding.noInternetLawyer.llNointernet.gone()
     }
 
+    fun displayVideoCallDialog() {
+        val dialog = Dialog(
+            requireContext(),
+            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+        )
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setContentView(R.layout.dialog_do_you_need_mediator)
+        dialog.setCancelable(true)
+
+        val YES = dialog.findViewById<MaterialTextView>(R.id.txtDialogYes)
+        val NO = dialog.findViewById<MaterialTextView>(R.id.txtDialogNo)
+
+        YES.setOnClickListener {
+            dialog.dismiss()
+            ReusedMethod.displayMessage(context as Activity, (context as Activity).resources.getString(R.string.come_soon))
+        }
+
+        NO.setOnClickListener {
+            dialog.dismiss()
+            ReusedMethod.displayMessage(context as Activity, (context as Activity).resources.getString(R.string.come_soon))
+        }
+        dialog.show()
+    }
+
 
     fun callShowLawyerContactDetails(lawyerName : String?,lawyerEmail: String?,lawyerPhone : String?, lawyerProfilePicture : String?) {
         lawyerName?.let {
@@ -269,7 +295,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         }
         btnDone.setOnClickListener {
             dialog.dismiss()
-                callAPI("",years_of_exp,specialization)
+            callAPI("",years_of_exp.replace(" to ","-"),specialization)
         }
         dialog.show()
     }

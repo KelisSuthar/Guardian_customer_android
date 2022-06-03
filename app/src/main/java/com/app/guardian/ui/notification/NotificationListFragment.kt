@@ -1,12 +1,32 @@
 package com.app.guardian.ui.notification
 
+import android.app.Activity
+import android.util.Log
+import android.view.View
+import android.widget.Toast
 import com.app.guardian.R
+import com.app.guardian.common.ReplaceFragment
+import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentNotificationListBinding
+import com.app.guardian.model.Notification.NotificationResp
+import com.app.guardian.model.viewModels.UserViewModel
+import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
+import com.app.guardian.ui.LawyerList.LawyerListFragment
+import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
+import com.app.guardian.ui.notification.adapter.NotificationListAdapter
+import com.app.guardian.utils.Config
+import org.koin.android.viewmodel.ext.android.viewModel
 
-class NotificationListFragment : BaseFragment() {
+class NotificationListFragment : BaseFragment(), View.OnClickListener {
     lateinit var mBinding: FragmentNotificationListBinding
+    private val mViewModel: UserViewModel by viewModel()
+    var notificationListAdapter: NotificationListAdapter? = null
+    var array = ArrayList<NotificationResp>()
 
     override fun getInflateResource(): Int {
         return R.layout.fragment_notification_list
@@ -22,13 +42,90 @@ class NotificationListFragment : BaseFragment() {
         )
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        callAPI()
+        setAdapter()
+        mBinding.rcyNotification.visible()
+        mBinding.noDataNotification.gone()
+        mBinding.noInternetNotification.llNointernet.gone()
+    }
+
+    private fun setAdapter() {
+        mBinding.rcyNotification.adapter = null
+        notificationListAdapter = NotificationListAdapter(context as Activity, array,
+            object : NotificationListAdapter.onItemClicklisteners {
+                override fun onDelectclick(selectedNotificationId: Int?) {
+                    Log.i("selectedNotificationId:", selectedNotificationId.toString())
+                    ReusedMethod.displayMessage(context as Activity, (context as Activity).resources.getString(R.string.come_soon))
+                }
+            })
+        mBinding.rcyNotification.adapter = notificationListAdapter
+    }
+
     override fun postInit() {
     }
 
     override fun handleListener() {
+        mBinding.noInternetNotification.btnTryAgain.setOnClickListener(this)
     }
 
     override fun initObserver() {
+
+        mViewModel.getNotificationResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data.let { data ->
+                        if (it.status) {
+                            array.clear()
+                            if (data != null) {
+                                array.addAll(data)
+                            }
+                            notificationListAdapter?.notifyDataSetChanged()
+                        } else {
+                            mBinding.rcyNotification.gone()
+                            mBinding.noDataNotification.visible()
+                            mBinding.noInternetNotification.llNointernet.gone()
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                context as Activity,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {
+                                    ReusedMethod.displayMessage(context as Activity, it)
+                                }
+                    }
+                }
+            }
+        }
+
     }
 
+    private fun callAPI(){
+        if (ReusedMethod.isNetworkConnected(requireContext())){
+            mViewModel.getNotification(true, context as BaseActivity)
+        } else {
+            mBinding.rcyNotification.gone()
+            mBinding.noDataNotification.gone()
+            mBinding.noInternetNotification.llNointernet.gone()
+        }
+    }
+
+    override fun onClick(v: View?) {
+        when(v?.id){
+            R.id.btnTryAgain ->{
+                onResume()
+            }
+        }
+    }
 }
