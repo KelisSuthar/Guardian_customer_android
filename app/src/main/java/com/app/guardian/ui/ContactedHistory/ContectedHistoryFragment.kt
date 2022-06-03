@@ -155,6 +155,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
             response?.let { requestState ->
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
+
                     it.data?.let { data ->
                         if (it.status) {
                             if(!data.isNullOrEmpty()){

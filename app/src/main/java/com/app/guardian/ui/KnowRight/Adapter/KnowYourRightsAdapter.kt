@@ -49,7 +49,7 @@ class KnowYourRightsAdapter(
             txtText1!!.text = arrayList[position].title
             txtText2!!.text = arrayList[position].code
 
-//            cvRowSupportGroup?.setOnTouchListener { v, event ->
+//            itemView?.setOnTouchListener { v, event ->
 //                if (event!!.actionMasked == MotionEvent.ACTION_DOWN) {
 //                    rlRowKnowRight!!.setBackgroundColor(ContextCompat.getColor(context, R.color.blue))
 //                    txtText1!!.setTextColor(ContextCompat.getColor(context,R.color.white))
@@ -62,9 +62,25 @@ class KnowYourRightsAdapter(
 //                }
 //                true
 //            }
+            if (arrayList[position].is_selected == true) {
+                rlRowKnowRight!!.setBackgroundColor(ContextCompat.getColor(context, R.color.blue))
+                txtText1!!.setTextColor(ContextCompat.getColor(context, R.color.white))
+                txtText2!!.setTextColor(ContextCompat.getColor(context, R.color.white))
+            } else {
+                rlRowKnowRight!!.setBackgroundColor(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.lightBlue_2
+                    )
+                )
+                txtText1!!.setTextColor(ContextCompat.getColor(context, R.color.txt_dark))
+                txtText2!!.setTextColor(ContextCompat.getColor(context, R.color.txt_dark))
+            }
 
-            cvRowSupportGroup?.setOnClickListener {
+            itemView?.setOnClickListener {
                 listeners.onItemClick(position)
+
+
             }
         }
     }

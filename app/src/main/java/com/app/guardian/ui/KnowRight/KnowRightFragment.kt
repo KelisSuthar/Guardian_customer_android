@@ -235,12 +235,15 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
                         "Location: " + array[position].city + "," + array[position].state,
                         array[position].description
                     )
+
+                    for(i in array.indices){
+                        array[i].is_selected = i == position
+                    }
+                    knowYourRightsAdapter?.notifyDataSetChanged()
                 }
             })
         mBinding.rvLawyerList.adapter = knowYourRightsAdapter
     }
-
-
     override fun postInit() {
 
     }

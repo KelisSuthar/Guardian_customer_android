@@ -136,6 +136,12 @@
     <string name="valid_old_pass">Old password must contain 1 uppercase letter, 1 lowercase letter, 1 digit, 1 special character and length is 8 or more.</string>
     <string name="same_old_new_new_pass">New password and confirm password does not match.</string>
 
+
+<!--    Add Banner-->
+    <string name="valid_banner_link">Please enter valid banner link.</string>
+    <string name="empty_banner_link">Please add share link for banner.</string>
+    <string name="valid_banner_photo">Please upload banner image.</string>
+
     <!-- TODO: Place Holders  -->
 
     <!-- user home-->

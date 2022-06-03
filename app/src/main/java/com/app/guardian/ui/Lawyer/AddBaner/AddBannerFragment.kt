@@ -133,7 +133,7 @@ class AddBannerFragment : BaseFragment(), View.OnClickListener {
             ReusedMethod.displayMessageDialog(
                 requireActivity(),
                 "",
-                "Please upload banner image.",
+                getString(R.string.valid_banner_photo),
                 false,
                 "OK",
                 ""
@@ -142,7 +142,7 @@ class AddBannerFragment : BaseFragment(), View.OnClickListener {
             ReusedMethod.displayMessageDialog(
                 requireActivity(),
                 "",
-                "Please add share link for banner.",
+                getString(R.string.empty_banner_link),
                 false,
                 "OK",
                 ""
@@ -152,7 +152,7 @@ class AddBannerFragment : BaseFragment(), View.OnClickListener {
             ReusedMethod.displayMessageDialog(
                 requireActivity(),
                 "",
-                "Please add valid link",
+                getString(R.string.valid_banner_link),
                 false,
                 "OK",
                 ""
