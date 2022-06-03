@@ -55,6 +55,7 @@
                     android:layout_marginEnd="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/_6sdp">
 
+                    
 
                     <com.google.android.material.textview.MaterialTextView
                         android:fontFamily="@font/lora_semibold"
