@@ -55,7 +55,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         (activity as HomeActivity).bottomTabVisibility(true)
         if (isDialLawyerOpen) {
             (activity as HomeActivity).headerTextVisible(
-                requireActivity().resources.getString(R.string.dial_lawyer_list),
+                requireActivity().resources.getString(R.string.lawyer_list),
                 true,
                 true
             )

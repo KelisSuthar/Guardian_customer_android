@@ -122,6 +122,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                     } else {
                         AppConstants.APP_ROLE_MEDIATOR
                     }
+                    mBinding.rb1.text = AppConstants.USER
                     setAdapter()
                     mViewModel.getLawyerConnectedHistory(
                         true,
