@@ -43,38 +43,43 @@ class LawyerListAdapter(
         return arrayList.size
     }
 
-    inner class myViewHolder(view: View?): RecyclerView.ViewHolder(view!!){
+    inner class myViewHolder(view: View?) : RecyclerView.ViewHolder(view!!) {
 
         var imgPicture = view?.findViewById<CircleImageView>(R.id.imgRowLawyerPicture)
-//        var cvRowSupportGroup = view?.findViewById<MaterialCardView>(R.id.cvRowSupportGroup)
+
+        //        var cvRowSupportGroup = view?.findViewById<MaterialCardView>(R.id.cvRowSupportGroup)
         var lyLawyerDetails = view?.findViewById<LinearLayout>(R.id.lyLawyerDetails)
         var imgRowLawyerCall = view?.findViewById<ImageView>(R.id.imgRowLawyerCall1)
         var imgRowLawyerVideo = view?.findViewById<ImageView>(R.id.imgRowLawyerVideo)
         var imgRowLawyerChat = view?.findViewById<ImageView>(R.id.imgRowLawyerChat)
         var tvLawyerName = view?.findViewById<TextView>(R.id.tvLawyerName)
         var tvLawyerExp = view?.findViewById<TextView>(R.id.tvLawyerExp)
-        var tvLawyerSpecialization= view?.findViewById<TextView>(R.id.tvSpecialization)
+        var tvLawyerSpecialization = view?.findViewById<TextView>(R.id.tvSpecialization)
 
         @SuppressLint("SetTextI18n")
-        fun bind(position: Int){
+        fun bind(position: Int) {
 
-            if(isDialLawyer){
+            if (isDialLawyer) {
                 imgRowLawyerVideo!!.gone()
                 imgRowLawyerChat!!.gone()
-            }
-            else{
+            } else {
                 imgRowLawyerVideo!!.visible()
                 imgRowLawyerChat!!.visible()
 
             }
-            var lawyerProfileData : LawyerListResp ?= null
-             lawyerProfileData = arrayList[position]
+            var lawyerProfileData: LawyerListResp? = null
+            lawyerProfileData = arrayList[position]
             lyLawyerDetails?.setOnClickListener {
                 listeners.onSubclick(lawyerProfileData.id)
             }
 
-            imgRowLawyerCall?.setOnClickListener{
-                lawyerListFragment.callShowLawyerContactDetails(lawyerProfileData.full_name!!,lawyerProfileData.email!!,lawyerProfileData.phone!!,"null")
+            imgRowLawyerCall?.setOnClickListener {
+                lawyerListFragment.callShowLawyerContactDetails(
+                    lawyerProfileData.full_name!!,
+                    lawyerProfileData.email!!,
+                    lawyerProfileData.phone!!,
+                    "null"
+                )
             }
 
             imgPicture!!.setOnClickListener {
@@ -87,11 +92,22 @@ class LawyerListAdapter(
             }
 
             imgRowLawyerChat?.setOnClickListener {
-                lawyerListFragment.callChatPageOpe(lawyerProfileData.id!!,lawyerProfileData.full_name!!,"")
+                lawyerListFragment.callChatPageOpe(
+                    lawyerProfileData.id!!,
+                    lawyerProfileData.full_name!!,
+                    ""
+                )
             }
 
             tvLawyerName?.text = lawyerProfileData.full_name
-            tvLawyerExp?.text ="Experience - "+ lawyerProfileData.years_of_experience
+            if (lawyerProfileData.years_of_experience!!.toInt() == 1) {
+                tvLawyerExp?.text =
+                    "Experience - " + lawyerProfileData.years_of_experience + " Year"
+            } else {
+                tvLawyerExp?.text =
+                    "Experience - " + lawyerProfileData.years_of_experience + " Years"
+            }
+
             tvLawyerSpecialization?.text = lawyerProfileData.specialization
 
         }

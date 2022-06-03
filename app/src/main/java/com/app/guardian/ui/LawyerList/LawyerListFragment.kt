@@ -9,6 +9,7 @@ import android.util.TypedValue
 import android.view.View
 import android.view.Window
 import android.widget.Button
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.app.guardian.R
@@ -277,6 +278,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         val chipGroup1: ChipGroup = dialog.findViewById(R.id.chip_group1)
         val chipGroup2: ChipGroup = dialog.findViewById(R.id.chip_group2)
         val btnDone: Button = dialog.findViewById(R.id.btnDone)
+        val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
 
         AddItemsInChipGroup(requireContext(), chipGroup1, data.specialization)
 
@@ -292,6 +294,9 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
             val entryChip2: Chip = getChip(array[i], requireContext(), false)
             entryChip2.id = i
             chipGroup2.addView(entryChip2)
+        }
+        ivClose.setOnClickListener{
+            dialog.dismiss()
         }
         btnDone.setOnClickListener {
             dialog.dismiss()

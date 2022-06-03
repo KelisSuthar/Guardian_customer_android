@@ -3,24 +3,119 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Hardik Workspace/android/GuardianProject/Guardian_customer_android/app/src/main/res/drawable-v24/ic_notification_delete.xml" value="0.1995" />
-        <entry key="..\:/Hardik Workspace/android/GuardianProject/Guardian_customer_android/app/src/main/res/drawable/ic_delete.xml" value="0.1995" />
-        <entry key="..\:/Hardik Workspace/android/GuardianProject/Guardian_customer_android/app/src/main/res/drawable/ic_delte.xml" value="0.1995" />
-        <entry key="..\:/Hardik Workspace/android/GuardianProject/Guardian_customer_android/app/src/main/res/drawable/ic_notification_delete.xml" value="0.1995" />
-        <entry key="..\:/Hardik Workspace/android/GuardianProject/Guardian_customer_android/app/src/main/res/layout/dialog_do_you_need_mediator.xml" value="0.3359375" />
-        <entry key="..\:/Hardik Workspace/android/GuardianProject/Guardian_customer_android/app/src/main/res/layout/dialog_filter.xml" value="0.3359375" />
-        <entry key="..\:/Hardik Workspace/android/GuardianProject/Guardian_customer_android/app/src/main/res/layout/dialog_lawyer_dial_contact.xml" value="0.3359375" />
-        <entry key="..\:/Hardik Workspace/android/GuardianProject/Guardian_customer_android/app/src/main/res/layout/dialog_layout.xml" value="0.3359375" />
-        <entry key="..\:/Hardik Workspace/android/GuardianProject/Guardian_customer_android/app/src/main/res/layout/dialog_seek_leagl_delete_confim.xml" value="0.3359375" />
-        <entry key="..\:/Hardik Workspace/android/GuardianProject/Guardian_customer_android/app/src/main/res/layout/dialog_specializatio_list.xml" value="0.3359375" />
-        <entry key="..\:/Hardik Workspace/android/GuardianProject/Guardian_customer_android/app/src/main/res/layout/fragment_add_seek_legal_advice.xml" value="0.3359375" />
-        <entry key="..\:/Hardik Workspace/android/GuardianProject/Guardian_customer_android/app/src/main/res/layout/fragment_notification_list.xml" value="0.3175925925925926" />
-        <entry key="..\:/Hardik Workspace/android/GuardianProject/Guardian_customer_android/app/src/main/res/layout/row_lawyer_list.xml" value="0.3359375" />
-        <entry key="..\:/Hardik Workspace/android/GuardianProject/Guardian_customer_android/app/src/main/res/layout/row_notification_layout.xml" value="0.22" />
+        <entry key="../../../../../../../layout/custom_preview.xml" value="0.1734375" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2135" />
+        <entry key="app/src/main/res/drawable/active_dot.xml" value="0.111" />
+        <entry key="app/src/main/res/drawable/blue_rounded_border.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/bottom_navigation_item_background_colors.xml" value="0.2985" />
+        <entry key="app/src/main/res/drawable/box_selector.xml" value="0.19" />
+        <entry key="app/src/main/res/drawable/button_back_blue_corner.xml" value="0.2135" />
+        <entry key="app/src/main/res/drawable/chatting_recieve_message_layout.xml" value="0.19" />
+        <entry key="app/src/main/res/drawable/chatting_send_message_layout.xml" value="0.19" />
+        <entry key="app/src/main/res/drawable/dark_blue_cursor.xml" value="0.202" />
+        <entry key="app/src/main/res/drawable/ic_add.xml" value="0.19" />
+        <entry key="app/src/main/res/drawable/ic_back_arrow.xml" value="0.21" />
+        <entry key="app/src/main/res/drawable/ic_eye.xml" value="0.21" />
+        <entry key="app/src/main/res/drawable/ic_eye_hide.xml" value="0.21" />
+        <entry key="app/src/main/res/drawable/ic_home.xml" value="0.2985" />
+        <entry key="app/src/main/res/drawable/ic_know_rights.xml" value="0.111" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2135" />
+        <entry key="app/src/main/res/drawable/ic_mail.xml" value="0.187" />
+        <entry key="app/src/main/res/drawable/ic_password.xml" value="0.2685" />
+        <entry key="app/src/main/res/drawable/ic_radio_btn_selected.xml" value="0.2135" />
+        <entry key="app/src/main/res/drawable/ic_record.xml" value="0.184" />
+        <entry key="app/src/main/res/drawable/ic_record_selected.xml" value="0.2985" />
+        <entry key="app/src/main/res/drawable/ic_specialization.xml" value="0.111" />
+        <entry key="app/src/main/res/drawable/ic_support_service.xml" value="0.203" />
+        <entry key="app/src/main/res/drawable/ic_support_service_selected.xml" value="0.2985" />
+        <entry key="app/src/main/res/drawable/ic_virtual_witness.xml" value="0.184" />
+        <entry key="app/src/main/res/drawable/ic_virtual_witness_selected.xml" value="0.2985" />
+        <entry key="app/src/main/res/drawable/left_corner_email_selector.xml" value="0.19" />
+        <entry key="app/src/main/res/drawable/light_blue_corner.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/normal_rounded_dark_blue.xml" value="0.2725" />
+        <entry key="app/src/main/res/drawable/normal_rounded_light_blue.xml" value="0.209" />
+        <entry key="app/src/main/res/drawable/normal_rounded_light_blue_borders.xml" value="0.209" />
+        <entry key="app/src/main/res/drawable/normal_rounded_light_blue_red_borders.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/password_show_hide.xml" value="0.2135" />
+        <entry key="app/src/main/res/drawable/radio_button_selector.xml" value="0.2135" />
+        <entry key="app/src/main/res/drawable/record_selector.xml" value="0.2985" />
+        <entry key="app/src/main/res/drawable/rounded_blue_back.xml" value="0.187" />
+        <entry key="app/src/main/res/drawable/rounded_rec_blueback.xml" value="0.19" />
+        <entry key="app/src/main/res/drawable/support_service_selector.xml" value="0.2985" />
+        <entry key="app/src/main/res/drawable/tab_selector.xml" value="0.111" />
         <entry key="app/src/main/res/drawable/toast_rounded.xml" value="0.2135" />
+        <entry key="app/src/main/res/drawable/top_corner_blue_back.xml" value="0.187" />
+        <entry key="app/src/main/res/drawable/virtual_witness_selector.xml" value="0.2985" />
+        <entry key="app/src/main/res/drawable/white_rounded_corners.xml" value="0.19" />
+        <entry key="app/src/main/res/layout/activity_about_us.xml" value="0.15" />
+        <entry key="app/src/main/res/layout/activity_edit_profile.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.2653061224489796" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/activity_otpscreen.xml" value="0.31209918768704575" />
+        <entry key="app/src/main/res/layout/activity_reset_password.xml" value="0.32037037037037036" />
+        <entry key="app/src/main/res/layout/activity_select_role_screen.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/layout/activity_signup_screen.xml" value="0.2820919175911252" />
+        <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.20260416666666667" />
+        <entry key="app/src/main/res/layout/activity_sub_scription_plan_screen.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/activity_term_and_conditions.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/banner_row_layout.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/chat_layout.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/dialig_filter.xml" value="0.3039257070493879" />
+        <entry key="app/src/main/res/layout/dialig_layout.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/dialog_filter.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/dialog_lawyer_dial_contact.xml" value="0.30867892261650276" />
+        <entry key="app/src/main/res/layout/dialog_layout.xml" value="1.026639344262295" />
+        <entry key="app/src/main/res/layout/dialog_specializatio_list.xml" value="0.3039257070493879" />
+        <entry key="app/src/main/res/layout/fragment_add_banner.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/fragment_add_seek_legal_advice.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_chatting.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_contact_support.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/layout/fragment_contacted_history.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_contected_history.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_know_right.xml" value="0.32051282051282054" />
+        <entry key="app/src/main/res/layout/fragment_know_your_basic_right.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/fragment_lawyer_home.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_lawyer_list.xml" value="0.30867892261650276" />
+        <entry key="app/src/main/res/layout/fragment_lawyer_profile.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_live_virtual_vitness_mediator.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/layout/fragment_live_virtual_vitness_user.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/fragment_mediator_home.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_notification.xml" value="0.3047699451245251" />
+        <entry key="app/src/main/res/layout/fragment_radar.xml" value="0.12" />
+        <entry key="app/src/main/res/layout/fragment_radarfragment.xml" value="0.3047699451245251" />
+        <entry key="app/src/main/res/layout/fragment_record_police_interaction.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_record_police_interaction_2.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_schedule_virtual_witness.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/layout/fragment_seek_legal_advice_list.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.14180206794682423" />
+        <entry key="app/src/main/res/layout/fragment_support_group_list.xml" value="0.30867892261650276" />
+        <entry key="app/src/main/res/layout/fragment_user_home.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/headder_layout.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/image_layout.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/know_right_dialog.xml" value="0.14" />
+        <entry key="app/src/main/res/layout/layout_search_filter.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/no_data_layout.xml" value="0.21" />
+        <entry key="app/src/main/res/layout/no_internet_connection_layout.xml" value="0.31209918768704575" />
+        <entry key="app/src/main/res/layout/notification_layout.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/phone_email_selector.xml" value="0.2" />
         <entry key="app/src/main/res/layout/progress_dialog.xml" value="0.3802083333333333" />
+        <entry key="app/src/main/res/layout/row_know_right.xml" value="0.14" />
+        <entry key="app/src/main/res/layout/row_lawyer_contact.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/row_lawyer_list.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/row_moderator_contact.xml" value="0.3047699451245251" />
+        <entry key="app/src/main/res/layout/row_seek_legal_advice.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/row_support_group.xml" value="0.3047699451245251" />
+        <entry key="app/src/main/res/layout/specializatio_list_layout.xml" value="0.3113994439295644" />
+        <entry key="app/src/main/res/layout/subcription_list_layout.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/subscription_list_layout.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/subscription_plan_detail_list_layout.xml" value="0.5" />
         <entry key="app/src/main/res/layout/toast_hint_layout.xml" value="0.36614583333333334" />
+        <entry key="app/src/main/res/layout/top_corner_blue_back.xml" value="0.31209918768704575" />
+        <entry key="app/src/main/res/layout/virtual_witness_request_dialog.xml" value="0.2" />
+        <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2135" />
+        <entry key="app/src/main/res/xml/filter_chips.xml" value="0.30867892261650276" />
       </map>
     </option>
   </component>
@@ -29,5 +124,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.2" />
+      </ProjectState>
+    </option>
   </component>
 </project>

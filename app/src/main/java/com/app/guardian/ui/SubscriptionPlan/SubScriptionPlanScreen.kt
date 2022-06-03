@@ -27,7 +27,7 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
     private val mViewModel: AuthenticationViewModel by viewModel()
     private val lawyerViewModel: LawyerViewModel by viewModel()
     var subscriptionPlanAdapter: SubscriptionPlanAdapter? = null
-    var shared_secret = "ifjsjfkjs;p;'sjflk;jmsw;lfalsw"
+    var shared_secret = "ifjsjfkjs;p;sjflk;jmsw;lfalsw"
     var start_date = ""
     var end_date = ""
     var array = ArrayList<SubscriptionPlanResp>()
