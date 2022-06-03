@@ -85,7 +85,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding.noInternetUserHomeFrag.llNointernet.gone()
         mBinding.noDataUserHomeFrag.gone()
         mBinding.cl.visible()
-        changeLayout(0)
+        changeLayout(1)
     }
 
     override fun handleListener() {
@@ -196,7 +196,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
                 mBinding.rlRecord.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
-                        R.color.blue
+                        R.color.lightBlue_2
                     )
                 )
                 mBinding.rlScheduleVirtualWitness.setBackgroundColor(
@@ -211,7 +211,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
                         R.color.lightBlue_2
                     )
                 )
-                mBinding.rbRecord.isChecked = true
+                mBinding.rbRecord.isChecked = false
                 mBinding.rbScheduleVirtualWitness.isChecked = false
                 mBinding.rbSupportService.isChecked = false
 

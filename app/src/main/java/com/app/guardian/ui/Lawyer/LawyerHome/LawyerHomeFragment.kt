@@ -91,7 +91,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding.noInternetUserHomeFrag.llNointernet.gone()
         mBinding.noDataUserHomeFrag.gone()
         mBinding.cl.visible()
-        chnagelayout(0)
+        chnagelayout(1)
     }
 
     override fun postInit() {
@@ -213,7 +213,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
             0->{   mBinding.rlKnowRights.setBackgroundColor(
                 ContextCompat.getColor(
                     requireContext(),
-                    R.color.blue
+                    R.color.lightBlue_2
                 )
             )
                 mBinding.rlAskQuestions.setBackgroundColor(
@@ -228,7 +228,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                         R.color.lightBlue_2
                     )
                 )
-                mBinding.btnKnowRights.isChecked = true
+                mBinding.btnKnowRights.isChecked = false
                 mBinding.btnAskQuestions.isChecked = false
                 mBinding.btnSeekAdv.isChecked = false
                 mBinding.btnKnowRights.buttonTintList =
@@ -252,7 +252,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                 mBinding.rlKnowRights.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
-                        R.color.colorPrimaryDark
+                        R.color.blue
                     )
                 )
                 mBinding.rlAskQuestions.setBackgroundColor(

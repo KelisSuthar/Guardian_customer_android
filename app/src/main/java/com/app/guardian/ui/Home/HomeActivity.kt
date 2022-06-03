@@ -253,6 +253,8 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_LAWYER -> {
                 mBinding.bottomNavigationUser.menu.getItem(2).isVisible = false
+                mBinding.bottomNavigationUser.menu.getItem(3).setIcon(R.drawable.ic_history_2)
+                mBinding.bottomNavigationUser.menu.getItem(3).title = "Contact history"
                 ReplaceFragment.replaceFragment(
                     this,
                     LawyerHomeFragment(),
@@ -266,6 +268,8 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
                 AppConstants.APP_ROLE_USER
             ) == AppConstants.APP_ROLE_MEDIATOR -> {
                 mBinding.bottomNavigationUser.menu.getItem(2).isVisible = false
+                mBinding.bottomNavigationUser.menu.getItem(3).setIcon(R.drawable.ic_history_2)
+                mBinding.bottomNavigationUser.menu.getItem(3).title = "Contact history"
                 ReplaceFragment.replaceFragment(
                     this,
                     MediatorHomeFragment(),

@@ -43,7 +43,11 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding = getBinding()
         chnagelayout(0)
         (activity as HomeActivity).bottomTabVisibility(true)
-        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.lawyer_profile),false,false)
+        (activity as HomeActivity).headerTextVisible(
+            requireActivity().resources.getString(R.string.lawyer_profile),
+            false,
+            false
+        )
 
         setAdapter()
         callApi()
@@ -77,7 +81,7 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding.noDataUserHomeFrag.gone()
         mBinding.cl.visible()
 
-        chnagelayout(0)
+        chnagelayout(1)
 
 
     }
@@ -138,20 +142,24 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
         when (v?.id) {
             R.id.cvKnowBasicRight -> {
                 chnagelayout(1)
-                ReplaceFragment.replaceFragment(requireActivity(),
-                    KnowRightFragment(),true,"",MediatorHomeFragment::class.java.name)
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    KnowRightFragment(), true, "", MediatorHomeFragment::class.java.name
+                )
 
             }
             R.id.cvDialLawyer -> {
                 chnagelayout(2)
-                ReplaceFragment.replaceFragment(requireActivity(),
-                    LawyerListFragment(true),true,"",MediatorHomeFragment::class.java.name)
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    LawyerListFragment(true), true, "", MediatorHomeFragment::class.java.name
+                )
 
             }
 
             R.id.rbKnowBasicRight -> {
                 chnagelayout(1)
-               mBinding.cvKnowBasicRight.performClick()
+                mBinding.cvKnowBasicRight.performClick()
             }
             R.id.rbDialLawyer -> {
                 chnagelayout(2)
@@ -160,6 +168,7 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
 
         }
     }
+
     private fun chnagelayout(i: Int) {
         when (i) {
             1 -> {
@@ -206,7 +215,12 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
                 mBinding.rbKnowBasicRight.isChecked = false
                 mBinding.rbDialLawyer.isChecked = true
                 mBinding.rbKnowBasicRight.buttonTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark))
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorPrimaryDark
+                        )
+                    )
 
                 mBinding.rbDialLawyer.buttonTintList =
                     ColorStateList.valueOf(
@@ -216,11 +230,11 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
                         )
                     )
             }
-            0->{
+            0 -> {
                 mBinding.rlKnowBasicRight.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
-                        R.color.blue
+                        R.color.lightBlue_2
                     )
                 )
 
@@ -230,10 +244,15 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
                         R.color.lightBlue_2
                     )
                 )
-                mBinding.rbKnowBasicRight.isChecked = true
+                mBinding.rbKnowBasicRight.isChecked = false
                 mBinding.rbDialLawyer.isChecked = false
                 mBinding.rbKnowBasicRight.buttonTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark))
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorPrimaryDark
+                        )
+                    )
 
                 mBinding.rbDialLawyer.buttonTintList =
                     ColorStateList.valueOf(
