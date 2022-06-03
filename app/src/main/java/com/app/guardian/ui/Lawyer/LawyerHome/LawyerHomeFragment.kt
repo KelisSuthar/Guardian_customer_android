@@ -45,6 +45,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
 
     override fun initView() {
         mBinding = getBinding()
+        chnagelayout(0)
         (activity as HomeActivity).bottomTabVisibility(true)
         (activity as HomeActivity).headerTextVisible("",false,false)
 
@@ -212,7 +213,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
             0->{   mBinding.rlKnowRights.setBackgroundColor(
                 ContextCompat.getColor(
                     requireContext(),
-                    R.color.lightBlue_2
+                    R.color.blue
                 )
             )
                 mBinding.rlAskQuestions.setBackgroundColor(
@@ -227,7 +228,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                         R.color.lightBlue_2
                     )
                 )
-                mBinding.btnKnowRights.isChecked = false
+                mBinding.btnKnowRights.isChecked = true
                 mBinding.btnAskQuestions.isChecked = false
                 mBinding.btnSeekAdv.isChecked = false
                 mBinding.btnKnowRights.buttonTintList =

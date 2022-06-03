@@ -3,160 +3,165 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/lightBlue"
-        tools:context=".ui.SelectRole.SelectRoleScreen">
-
+        android:layout_height="match_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
+            android:background="@color/lightBlue"
+            android:paddingBottom="@dimen/_20sdp"
+            tools:context=".ui.SelectRole.SelectRoleScreen">
 
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/pager"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl1"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_170sdp"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="SpeakableTextPresentCheck" />
-
-            <com.rd.PageIndicatorView
-                android:id="@+id/indicator"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginVertical="@dimen/_10sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="@dimen/_15sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pager"
-                app:piv_animationType="none"
-                app:piv_dynamicCount="true"
-                app:piv_interactiveAnimation="true"
-                app:piv_radius="5dp"
-                app:piv_selectedColor="@color/grey"
-                app:piv_unselectedColor="@color/darkBlue"
-                app:piv_viewPager="@id/pager" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            app:layout_constraintTop_toBottomOf="@+id/cl1">
+                app:layout_constraintTop_toTopOf="parent" >
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cvAccessYourRecording"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="@dimen/_10sdp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <RelativeLayout
-                    android:id="@+id/rlAccessYourRecording"
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/pager"
                     android:layout_width="match_parent"
+                    android:layout_height="@dimen/_170sdp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+                <com.rd.PageIndicatorView
+                    android:id="@+id/indicator"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/lightBlue_2"
-                    android:paddingVertical="@dimen/_20sdp">
-
-                    <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/rbAccessYourRecording"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/_20sdp"
-                        android:button="@null"
-                        android:drawablePadding="@dimen/_15sdp"
-                        android:fontFamily="@font/lora_semibold"
-                        android:layoutDirection="ltr"
-                        android:text="@string/access_your_recording"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_12ssp"
-                        tools:ignore="RtlSymmetry" />
-
-
-                </RelativeLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cvDrivingOffenceList"
+                    android:layout_centerInParent="true"
+                    app:piv_animationType="scale"
+                    app:piv_dynamicCount="true"
+                    app:layout_constraintTop_toBottomOf="@+id/pager"
+                    app:piv_interactiveAnimation="true"
+                    android:layout_marginVertical="@dimen/_10sdp"
+                    app:piv_selectedColor="@color/grey"
+                    app:piv_unselectedColor="@color/darkBlue"
+                    app:piv_viewPager="@id/pager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_20sdp"
-                app:cardCornerRadius="@dimen/_10sdp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cvAccessYourRecording">
+                app:layout_constraintTop_toBottomOf="@+id/cl1">
 
-                <RelativeLayout
-                    android:id="@+id/rlDrivingOffenceList"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cvAccessYourRecording"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/lightBlue_2"
-                    android:paddingVertical="@dimen/_20sdp">
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/rbDrivingOffenceList"
+                    <RelativeLayout
+                        android:id="@+id/rlAccessYourRecording"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/_20sdp"
-                        android:button="@null"
-                        android:drawablePadding="@dimen/_15sdp"
-                        android:fontFamily="@font/lora_semibold"
-                        android:layoutDirection="ltr"
-                        android:textAlignment="center"
-                        android:text="@string/driving_offence_list"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_12ssp"
-                        tools:ignore="RtlSymmetry" />
-                </RelativeLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        android:background="@color/lightBlue_2"
+                        android:paddingVertical="@dimen/_20sdp">
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cvDialLawyer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
-                app:cardCornerRadius="@dimen/_10sdp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cvDrivingOffenceList">
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/rbAccessYourRecording"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_20sdp"
+                            android:button="@null"
+                            android:drawablePadding="@dimen/_15sdp"
+                            android:fontFamily="@font/lora_semibold"
+                            android:layoutDirection="ltr"
+                            android:text="@string/access_your_recording"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12ssp"
+                            tools:ignore="RtlSymmetry" />
 
-                <RelativeLayout
-                    android:id="@+id/rlDialLawyer"
+
+                    </RelativeLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cvDrivingOffenceList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/lightBlue_2"
-                    android:paddingVertical="@dimen/_20sdp">
+                    android:layout_marginTop="@dimen/_20sdp"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cvAccessYourRecording">
 
-                    <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/rbDialLawyer"
+                    <RelativeLayout
+                        android:id="@+id/rlDrivingOffenceList"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/_20sdp"
-                        android:button="@null"
-                        android:drawablePadding="@dimen/_15sdp"
-                        android:fontFamily="@font/lora_semibold"
-                        android:layoutDirection="ltr"
-                        android:textAlignment="center"
-                        android:text="@string/dial_a_lawyer"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_12ssp"
-                        tools:ignore="RtlSymmetry" />
-                </RelativeLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        android:background="@color/lightBlue_2"
+                        android:paddingVertical="@dimen/_20sdp">
+
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/rbDrivingOffenceList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_20sdp"
+                            android:button="@null"
+                            android:drawablePadding="@dimen/_15sdp"
+                            android:fontFamily="@font/lora_semibold"
+                            android:layoutDirection="ltr"
+                            android:textAlignment="center"
+                            android:text="@string/driving_offence_list"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12ssp"
+                            tools:ignore="RtlSymmetry" />
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cvDialLawyer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cvDrivingOffenceList">
+
+                    <RelativeLayout
+                        android:id="@+id/rlDialLawyer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/lightBlue_2"
+                        android:paddingVertical="@dimen/_20sdp">
+
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/rbDialLawyer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_20sdp"
+                            android:button="@null"
+                            android:drawablePadding="@dimen/_15sdp"
+                            android:fontFamily="@font/lora_semibold"
+                            android:layoutDirection="ltr"
+                            android:textAlignment="center"
+                            android:text="@string/dial_a_lawyer"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12ssp"
+                            tools:ignore="RtlSymmetry" />
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

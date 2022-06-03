@@ -538,6 +538,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                     ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFullname)
                     ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtEmail)
                     ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtVehicalNum)
+                    ReusedMethod.displayMessage(this@EditProfileActivity, resources.getString(R.string.come_soon))
 //                    callApi()
                 }
 

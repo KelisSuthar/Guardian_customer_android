@@ -122,6 +122,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                     } else {
                         AppConstants.APP_ROLE_MEDIATOR
                     }
+                    mBinding.rb1.text = AppConstants.USER
                     setAdapter()
                     mViewModel.getLawyerConnectedHistory(
                         true,
@@ -141,6 +142,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
             mBinding.noDataConnectedHistory.gone()
             mBinding.noInternetConnectedhistory.llNointernet.visible()
             mBinding.cl1.gone()
+            mBinding.radioGroup.gone()
         }
     }
 
@@ -165,12 +167,13 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                                     mBinding.noDataConnectedHistory.visible()
                                     mBinding.noInternetConnectedhistory.llNointernet.gone()
                                     mBinding.cl1.gone()
+                                    mBinding.radioGroup.gone()
                                 }
                             }else{
                                 mBinding.noDataConnectedHistory.visible()
                                 mBinding.noInternetConnectedhistory.llNointernet.gone()
                                 mBinding.cl1.gone()
-
+                                mBinding.radioGroup.gone()
                             }
 
                         } else {
@@ -182,17 +185,27 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                     }
                 }
                 requestState.error?.let { errorObj ->
-                    when (errorObj.errorState) {
-                        Config.NETWORK_ERROR ->
-                            ReusedMethod.displayMessage(
-                                requireActivity(),
-                                getString(R.string.text_error_network)
-                            )
 
-                        Config.CUSTOM_ERROR ->
-                            errorObj.customMessage
-                                ?.let {}
+                    if(errorObj.customMessage.equals("No record.")){
+                        mBinding.noDataConnectedHistory.visible()
+                        mBinding.noInternetConnectedhistory.llNointernet.gone()
+                        mBinding.cl1.gone()
+                        mBinding.radioGroup.gone()
                     }
+                    else {
+                        when (errorObj.errorState) {
+                            Config.NETWORK_ERROR ->
+                                ReusedMethod.displayMessage(
+                                    requireActivity(),
+                                    getString(R.string.text_error_network)
+                                )
+
+                            Config.CUSTOM_ERROR ->
+                                errorObj.customMessage
+                                    ?.let {}
+                        }
+                    }
+
                 }
             }
         }

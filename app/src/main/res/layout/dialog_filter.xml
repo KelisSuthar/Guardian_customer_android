@@ -77,7 +77,7 @@
             android:layout_marginLeft="@dimen/_15sdp"
 
             android:fontFamily="@font/lora_semibold"
-            android:text="Speialization:"
+            android:text="Speialization : "
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/_9ssp" />
 
