@@ -3,11 +3,7 @@ package com.app.guardian.ui.Mediator.MediatorHome
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.net.Uri
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
@@ -16,7 +12,6 @@ import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
-import com.app.guardian.databinding.FragmentLawyerHomeBinding
 import com.app.guardian.databinding.FragmentMediatorHomeBinding
 import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
 import com.app.guardian.model.viewModels.CommonScreensViewModel
@@ -50,6 +45,7 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
 
         setAdapter()
         callApi()
+        
     }
 
     private fun callApi() {

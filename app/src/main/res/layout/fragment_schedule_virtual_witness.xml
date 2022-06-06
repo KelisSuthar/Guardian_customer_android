@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/lightBlue"
-        tools:context=".ui.SelectRole.SelectRoleScreen">
-
-<!--        <include-->
-<!--            android:id="@+id/headder"-->
-<!--            layout="@layout/headder_layout" />-->
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -31,7 +22,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" >
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/pager"
@@ -71,16 +62,15 @@
                     android:id="@+id/cvScheduleDateTime"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    app:cardCornerRadius="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
                     android:layout_weight="1"
-                    android:layout_marginRight="@dimen/_10sdp">
+                    app:cardCornerRadius="@dimen/_10sdp">
 
                     <RelativeLayout
                         android:id="@+id/rlScheduleDateTime"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/lightBlue_2"
-                        >
+                        android:background="@color/lightBlue_2">
 
                         <androidx.appcompat.widget.AppCompatRadioButton
                             android:id="@+id/rbScheduleDateTime"
@@ -106,9 +96,9 @@
                     android:id="@+id/cvLocationWhereCallWillTakePlace"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_weight="1"
-                    app:cardCornerRadius="@dimen/_10sdp"
-                    android:layout_marginLeft="@dimen/_10sdp">
+                    app:cardCornerRadius="@dimen/_10sdp">
 
                     <RelativeLayout
                         android:id="@+id/rlLocationWhereCallWillTakePlace"
@@ -126,8 +116,8 @@
                             android:drawablePadding="@dimen/_15sdp"
                             android:fontFamily="@font/lora_semibold"
                             android:layoutDirection="ltr"
-                            android:textAlignment="center"
                             android:text="@string/location_where_call_will_take_place"
+                            android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12ssp"
                             tools:ignore="RtlSymmetry" />
@@ -166,8 +156,8 @@
                         android:drawablePadding="@dimen/_15sdp"
                         android:fontFamily="@font/lora_semibold"
                         android:layoutDirection="ltr"
-                        android:textAlignment="center"
                         android:text="@string/schedule_multiple_calls"
+                        android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12ssp"
                         tools:ignore="RtlSymmetry" />
@@ -200,8 +190,8 @@
                         android:drawablePadding="@dimen/_15sdp"
                         android:fontFamily="@font/lora_semibold"
                         android:layoutDirection="ltr"
-                        android:textAlignment="center"
                         android:text="@string/contact_support"
+                        android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12ssp"
                         tools:ignore="RtlSymmetry" />
@@ -210,7 +200,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </ScrollView>
+    </ScrollView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

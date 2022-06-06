@@ -52,9 +52,10 @@
                             app:colorBorder="@color/transparent"
                             app:colorOff="@color/white"
                             app:colorOn="@color/blue"
-                            app:on="false"
+                            app:on="true"
                             app:textOff=""
-                            app:textOn="" />
+                            app:textOn=""
+                            />
                     </LinearLayout>
 
                 </androidx.appcompat.widget.Toolbar>
