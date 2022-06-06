@@ -29,6 +29,7 @@ import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
 import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
 import com.app.guardian.ui.chatting.ChattingFragment
+import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
@@ -125,7 +126,14 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { ReusedMethod.displayMessage(context as Activity, it) }
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        (activity as HomeActivity).unAuthorizedNavigation()
+                                    } else {
+                                        ReusedMethod.displayMessage(context as Activity, it)
+                                    }
+                                }
                     }
                 }
             }
@@ -153,7 +161,12 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { ReusedMethod.displayMessage(context as Activity, it) }
+                                ?.let {  if (errorObj.code == ApiConstant.API_401) {
+                                    ReusedMethod.displayMessage(requireActivity(), it)
+                                    (activity as HomeActivity).unAuthorizedNavigation()
+                                } else {
+                                    ReusedMethod.displayMessage(context as Activity, it)
+                                } }
                     }
                 }
             }
@@ -188,28 +201,41 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
 
         YES.setOnClickListener {
             dialog.dismiss()
-            ReusedMethod.displayMessage(context as Activity, (context as Activity).resources.getString(R.string.come_soon))
+            ReusedMethod.displayMessage(
+                context as Activity,
+                (context as Activity).resources.getString(R.string.come_soon)
+            )
         }
 
         NO.setOnClickListener {
             dialog.dismiss()
-            ReusedMethod.displayMessage(context as Activity, (context as Activity).resources.getString(R.string.come_soon))
+            ReusedMethod.displayMessage(
+                context as Activity,
+                (context as Activity).resources.getString(R.string.come_soon)
+            )
         }
         dialog.show()
     }
 
 
-    fun callShowLawyerContactDetails(lawyerName : String?,lawyerEmail: String?,lawyerPhone : String?, lawyerProfilePicture : String?) {
+    fun callShowLawyerContactDetails(
+        lawyerName: String?,
+        lawyerEmail: String?,
+        lawyerPhone: String?,
+        lawyerProfilePicture: String?
+    ) {
         lawyerName?.let {
-            ReusedMethod.displayLawyerContactDetails(requireActivity(),
-                it, lawyerEmail,lawyerPhone,lawyerProfilePicture)
+            ReusedMethod.displayLawyerContactDetails(
+                requireActivity(),
+                it, lawyerEmail, lawyerPhone, lawyerProfilePicture
+            )
         }
     }
 
     fun callChatPageOpe(selectUserId: Int, selectUserFullName: String, profilePicUrl: String) {
         ReplaceFragment.replaceFragment(
             requireActivity(),
-            ChattingFragment(selectUserId,selectUserFullName,profilePicUrl),
+            ChattingFragment(selectUserId, selectUserFullName, profilePicUrl),
             true,
             LawyerListFragment::class.java.name,
             LawyerListFragment::class.java.name
@@ -295,12 +321,12 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
             entryChip2.id = i
             chipGroup2.addView(entryChip2)
         }
-        ivClose.setOnClickListener{
+        ivClose.setOnClickListener {
             dialog.dismiss()
         }
         btnDone.setOnClickListener {
             dialog.dismiss()
-            callAPI("",years_of_exp.replace(" to ","-"),specialization)
+            callAPI("", years_of_exp.replace(" to ", "-"), specialization)
         }
         dialog.show()
     }

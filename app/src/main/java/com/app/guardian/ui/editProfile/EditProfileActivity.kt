@@ -1,6 +1,7 @@
 package com.app.guardian.ui.editProfile
 
 import android.Manifest
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -26,8 +27,11 @@ import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.signup.adapter.ImageAdapter
 import com.app.guardian.ui.signup.adapter.SpecializationAdapter
+import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -40,6 +44,8 @@ import java.util.*
 class EditProfileActivity : BaseActivity(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
     private val authenticationViewModel: AuthenticationViewModel by viewModel()
+    private val authViewModel: AuthenticationViewModel by viewModel()
+
     lateinit var mBinding: ActivityEditProfileBinding
     var imageAdapter: ImageAdapter? = null
     var images = ArrayList<String>()
@@ -222,7 +228,21 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { }
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        authViewModel.signOUT(true, this as BaseActivity)
+                                        startActivity(
+                                            Intent(
+                                                this@EditProfileActivity,
+                                                LoginActivity::class.java
+                                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        )
+                                        overridePendingTransition(R.anim.rightto, R.anim.left)
+                                    }
+                                    else{
+                                        ReusedMethod.displayMessage(this as Activity, it)
+                                    }
+                                }
                     }
                 }
             }
@@ -251,7 +271,21 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let {}
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        authViewModel.signOUT(true, this as BaseActivity)
+                                        startActivity(
+                                            Intent(
+                                                this@EditProfileActivity,
+                                                LoginActivity::class.java
+                                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        )
+                                        overridePendingTransition(R.anim.rightto, R.anim.left)
+                                    }
+                                    else{
+                                        ReusedMethod.displayMessage(this as Activity, it)
+                                    }
+                                }
                     }
                 }
             }

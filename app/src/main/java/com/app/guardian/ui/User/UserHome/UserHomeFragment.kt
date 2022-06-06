@@ -23,6 +23,7 @@ import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.User.ContactSupport.ContactSupportFragment
 import com.app.guardian.ui.User.RecordPolice.RecordPoliceInteractionFragment
 import com.app.guardian.ui.User.ScheduleVirtualWitness.ScheduleVirtualWitnessFragment
+import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
@@ -104,7 +105,6 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
 
-
                         if (it.status) {
                             array.clear()
                             array.addAll(data)
@@ -130,7 +130,15 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { ReusedMethod.displayMessage(requireActivity(), it) }
+                                ?.let {
+                                    if(errorObj.code==ApiConstant.API_401){
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        (activity as HomeActivity).unAuthorizedNavigation()
+                                    }
+                                    else{
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                    }
+                                }
                     }
                 }
             }

@@ -1,11 +1,8 @@
 package com.app.guardian.ui.Home
 
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.location.Address
-import android.location.Geocoder
 import android.location.LocationManager
 import android.os.Looper
 import android.util.Log
@@ -21,23 +18,28 @@ import com.app.guardian.common.extentions.checkLoationPermission
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityHomeBinding
+import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.ContactedHistory.ContectedHistoryFragment
 import com.app.guardian.ui.KnowRight.KnowRightFragment
 import com.app.guardian.ui.Lawyer.LawyerHome.LawyerHomeFragment
 import com.app.guardian.ui.LawyerList.LawyerListFragment
+import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.Mediator.MediatorHome.MediatorHomeFragment
 import com.app.guardian.ui.Radar.RadarFragment
+import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
 import com.app.guardian.ui.User.UserHome.UserHomeFragment
 import com.app.guardian.ui.User.settings.SettingsFragment
 import com.google.android.gms.location.*
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
 
 class HomeActivity : BaseActivity(), View.OnClickListener {
     lateinit var mBinding: ActivityHomeBinding
+    private val authViewModel: AuthenticationViewModel by viewModel()
 
 
     //get Current Location
@@ -230,7 +232,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
             supportFragmentManager.beginTransaction().remove(fragment).commit()
         }
 
-
     }
 
     private fun loadHomeScreen() {
@@ -330,9 +331,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
                     for (location in p0.locations) {
                         if (location != null) {
 
-                            Log.i("THIS_APP", location.latitude.toString())
-                            Log.i("THIS_APP", location.longitude.toString())
-
                             SharedPreferenceManager.putString(
                                 AppConstants.EXTRA_LAT,
                                 location.latitude.toString()
@@ -341,7 +339,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
                                 AppConstants.EXTRA_LONG,
                                 location.longitude.toString()
                             )
-
 
                             if (mFusedLocationClient != null) {
                                 mFusedLocationClient?.removeLocationUpdates(locationCallback!!)
@@ -353,7 +350,16 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-
+    fun unAuthorizedNavigation(){
+        authViewModel.signOUT(true, this as BaseActivity)
+        startActivity(
+            Intent(
+                this@HomeActivity,
+                LoginActivity::class.java
+            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        )
+        overridePendingTransition(R.anim.rightto, R.anim.left)
+    }
 
 
 }

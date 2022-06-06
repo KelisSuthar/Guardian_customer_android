@@ -1,5 +1,6 @@
 package com.app.guardian.ui.ContactedHistory
 
+import android.app.Activity
 import android.text.TextUtils
 import android.view.View
 import android.view.WindowManager
@@ -19,6 +20,7 @@ import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.ContactedHistory.adapter.ConnectedHistoryAdapter
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -203,7 +205,14 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
 
                             Config.CUSTOM_ERROR ->
                                 errorObj.customMessage
-                                    ?.let {}
+                                    ?.let {
+                                        if (errorObj.code == ApiConstant.API_401) {
+                                            ReusedMethod.displayMessage(requireActivity(), it)
+                                            (activity as HomeActivity).unAuthorizedNavigation()
+                                        } else {
+                                            ReusedMethod.displayMessage(context as Activity, it)
+                                        }
+                                    }
                         }
                     }
 

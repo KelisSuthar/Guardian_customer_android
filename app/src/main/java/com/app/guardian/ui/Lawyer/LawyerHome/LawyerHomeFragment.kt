@@ -1,5 +1,6 @@
 package com.app.guardian.ui.Lawyer.LawyerHome
 
+import android.app.Activity
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
@@ -27,6 +28,7 @@ import com.app.guardian.ui.KnowRight.KnowRightFragment
 import com.app.guardian.ui.Lawyer.AskMoreQuestion.AskMoreQuestion
 import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.SeekLegalAdvice.SeekLegalAdviceListFragment
+import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.github.angads25.toggle.interfaces.OnToggledListener
 import com.github.angads25.toggle.model.ToggleableView
@@ -140,7 +142,14 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { ReusedMethod.displayMessage(requireActivity(), it) }
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                    ReusedMethod.displayMessage(requireActivity(), it)
+                                    (activity as HomeActivity).unAuthorizedNavigation()
+                                } else {
+                                    ReusedMethod.displayMessage(context as Activity, it)
+                                }
+                                }
                     }
                 }
             }
