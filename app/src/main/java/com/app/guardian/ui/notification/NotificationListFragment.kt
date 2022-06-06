@@ -58,7 +58,10 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
             object : NotificationListAdapter.onItemClicklisteners {
                 override fun onDelectclick(selectedNotificationId: Int?) {
                     Log.i("selectedNotificationId:", selectedNotificationId.toString())
-                    ReusedMethod.displayMessage(context as Activity, (context as Activity).resources.getString(R.string.come_soon))
+                    ReusedMethod.displayMessage(
+                        context as Activity,
+                        (context as Activity).resources.getString(R.string.come_soon)
+                    )
                 }
             })
         mBinding.rcyNotification.adapter = notificationListAdapter
@@ -72,7 +75,6 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
     }
 
     override fun initObserver() {
-
         mViewModel.getNotificationResp().observe(this) { response ->
             response?.let { requestState ->
                 showLoadingIndicator(requestState.progress)
@@ -82,6 +84,11 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                             array.clear()
                             if (data != null) {
                                 array.addAll(data)
+                                if (array.isNullOrEmpty()) {
+                                    mBinding.rcyNotification.gone()
+                                    mBinding.noDataNotification.visible()
+                                    mBinding.noInternetNotification.llNointernet.gone()
+                                }
                             }
                             notificationListAdapter?.notifyDataSetChanged()
                         } else {
@@ -111,19 +118,19 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
 
     }
 
-    private fun callAPI(){
-        if (ReusedMethod.isNetworkConnected(requireContext())){
+    private fun callAPI() {
+        if (ReusedMethod.isNetworkConnected(requireContext())) {
             mViewModel.getNotification(true, context as BaseActivity)
         } else {
             mBinding.rcyNotification.gone()
             mBinding.noDataNotification.gone()
-            mBinding.noInternetNotification.llNointernet.gone()
+            mBinding.noInternetNotification.llNointernet.visible()
         }
     }
 
     override fun onClick(v: View?) {
-        when(v?.id){
-            R.id.btnTryAgain ->{
+        when (v?.id) {
+            R.id.btnTryAgain -> {
                 onResume()
             }
         }

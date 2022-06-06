@@ -28,12 +28,12 @@ class NotificationListAdapter(
     }
 
     override fun onBindViewHolder(holder: myViewHolder, position: Int) {
-      //  holder.bindItem(position)
+        holder.bindItem(position)
     }
 
     override fun getItemCount(): Int {
-        //return  arrayList.size
-        return  3
+        return  arrayList.size
+//        return  3
     }
 
     inner class myViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -51,8 +51,8 @@ class NotificationListAdapter(
                 listeners.onDelectclick(array.id)
             }
 
-          //  notifactionTxt.text = array.title
-           // notifactionTime.text = array.
+            notifactionTxt.text = array.title
+            notifactionTime.text = array.created_at
         }
     }
 

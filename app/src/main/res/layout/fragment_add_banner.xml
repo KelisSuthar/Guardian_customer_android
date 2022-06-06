@@ -81,7 +81,6 @@
                             android:textAllCaps="false"
                             android:backgroundTint="@color/blue"
                             android:textColor="@color/white"
-
                             android:textSize="@dimen/_15ssp"
                             app:layout_constraintTop_toTopOf="parent" />
 
