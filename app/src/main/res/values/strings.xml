@@ -189,18 +189,18 @@
     <!--    live virtual witness / mediator-->
     <string name="access_your_recording">Access Your Recording</string>
     <string name="driving_offence_list">Driving Offence List</string>
-    <string name="dial_a_lawyer">Dial a Lawyer</string>
+    <string name="dial_a_lawyer">Dial A Lawyer</string>
 
     <!--    Schedule Virtual witness-->
-    <string name="schedule_a_call_date_and_time">Schedule a call date &amp; time</string>
-    <string name="location_where_call_will_take_place">Location/Where call will take place</string>
+    <string name="schedule_a_call_date_and_time">Schedule A Call Date &amp; Time</string>
+    <string name="location_where_call_will_take_place">Location/Where Call Will Take Place</string>
     <string name="schedule_multiple_calls">Schedule Multiple Calls</string>
     <string name="contact_support">Contact Support</string>
 
     <!--    Contact Support groups-->
     <string name="support_groups">Support Groups</string>
-    <string name="find_a_counsellors">Find a counsellor</string>
-    <string name="support_groups_example">(crises Lines, women Shelters Children Shelters, Domestic Violence)</string>
+    <string name="find_a_counsellors">Find A Counsellor</string>
+    <string name="support_groups_example">(Crises Lines, Women Shelters Children Shelters, Domestic Violence)</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="subscription_plan">Subscription Plan</string>
     <string name="contact_history">Contact History</string>

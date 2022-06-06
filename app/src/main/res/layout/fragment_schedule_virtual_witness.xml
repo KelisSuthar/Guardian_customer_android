@@ -3,6 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lightBlue"
+        android:paddingBottom="@dimen/_20sdp"
+        tools:context=".ui.SelectRole.SelectRoleScreen">
+
+<!--        <include-->
+<!--            android:id="@+id/headder"-->
+<!--            layout="@layout/headder_layout" />-->
 
     <ScrollView
         android:layout_width="match_parent"
@@ -62,15 +76,16 @@
                     android:id="@+id/cvScheduleDateTime"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/_10sdp"
+                    app:cardCornerRadius="@dimen/_10sdp"
                     android:layout_weight="1"
-                    app:cardCornerRadius="@dimen/_10sdp">
+                    android:layout_marginRight="@dimen/_10sdp">
 
                     <RelativeLayout
                         android:id="@+id/rlScheduleDateTime"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/lightBlue_2">
+                        android:background="@color/lightBlue_2"
+                        >
 
                         <androidx.appcompat.widget.AppCompatRadioButton
                             android:id="@+id/rbScheduleDateTime"
@@ -202,5 +217,7 @@
 
     </ScrollView>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </layout>
