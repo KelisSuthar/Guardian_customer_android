@@ -50,6 +50,8 @@ object AppConstants {
     const val EXTRA_IS_LAWYER = "IS_LAWYER"
     const val EXTRA_IS_MEDIATOR = "IS_MEDIAOR"
     const val IS_FROM_SETTINGS: Boolean = false
+    const val EXTRA_PHOTO_RADAR = "photo_radar"
+    const val EXTRA_ROAD_BLOCK = "road_block"
     const val EXTRA_ORDER_PENDING = "Pending"
     const val EXTRA_ORDER_CANCELED = "Cancelled"
     const val EXTRA_ORDER_PREPARING = "Preparing"

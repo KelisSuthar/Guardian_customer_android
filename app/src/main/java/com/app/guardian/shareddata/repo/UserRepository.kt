@@ -14,6 +14,7 @@ import com.app.guardian.model.ListFilter.FilterResp
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
 import com.app.guardian.model.Notification.NotificationResp
+import com.app.guardian.model.Radar.RadarListResp
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 import com.app.guardian.model.SignUp.SignupResp
@@ -653,6 +654,64 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
                 mApiEndPoint.getLawyerBySpecialization(body),
                 baseView,
                 commonResp
+            )
+        }
+    }
+
+    override fun addRadarMapPoint(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<RadarListResp>>
+    ) {
+        if (!internetConnected) {
+            commonResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            commonResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.addRadarMapPoint(body),
+                baseView,
+                commonResp
+            )
+        }
+    }
+
+    override fun deleteRadarMapPoint(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<RadarListResp>>
+    ) {
+        if (!internetConnected) {
+            commonResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            commonResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.deleteRadarMapPoint(body),
+                baseView,
+                commonResp
+            )
+        }
+    }
+
+    override fun getRadarMapList(
+        LAT: String,
+        LONG: String,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        radarResp: MutableLiveData<RequestState<MutableList<RadarListResp>>>
+    ) {
+        if (!internetConnected) {
+            radarResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            radarResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.getRadarMapList(LAT, LONG),
+                baseView,
+                radarResp
             )
         }
     }

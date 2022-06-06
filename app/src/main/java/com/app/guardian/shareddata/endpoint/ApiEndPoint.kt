@@ -13,6 +13,7 @@ import com.app.guardian.model.ListFilter.FilterResp
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
 import com.app.guardian.model.Notification.NotificationResp
+import com.app.guardian.model.Radar.RadarListResp
 import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
@@ -103,22 +104,22 @@ interface ApiEndPoint {
     fun getLawyerSubscriptionPlan(): Call<CommonResponseModel<MutableList<SubscriptionPlanResp>>>
 
     @POST("addBannerSubscription")
-    fun addBannerSubscription(@Body body: JsonObject):  Call<CommonResponseModel<CommonResponse>>
+    fun addBannerSubscription(@Body body: JsonObject): Call<CommonResponseModel<CommonResponse>>
 
     @POST("addBanner")
-    fun addBanner(@Body body: JsonObject):  Call<CommonResponseModel<CommonResponse>>
+    fun addBanner(@Body body: JsonObject): Call<CommonResponseModel<CommonResponse>>
 
     @GET("getFilterData")
-    fun getFilterListData():  Call<CommonResponseModel<FilterResp>>
+    fun getFilterListData(): Call<CommonResponseModel<FilterResp>>
 
     @GET("getSpecializationList")
-    fun getSpecializationList():  Call<CommonResponseModel<MutableList<SpecializationListResp>>>
+    fun getSpecializationList(): Call<CommonResponseModel<MutableList<SpecializationListResp>>>
 
     @GET("getCMS")
-    fun getCMSData():  Call<CommonResponseModel<MutableList<CMSResp>>>
+    fun getCMSData(): Call<CommonResponseModel<MutableList<CMSResp>>>
 
     @PUT("updatePhoneOtpVerify")
-    fun updatePhoneOtpVerify(@Body body: JsonObject):  Call<CommonResponseModel<MutableList<CommonResponse>>>//after user change the phone number in edit profile
+    fun updatePhoneOtpVerify(@Body body: JsonObject): Call<CommonResponseModel<MutableList<CommonResponse>>>//after user change the phone number in edit profile
 
     @GET("getSupportGroup")
     fun getSupportGroup(): Call<CommonResponseModel<MutableList<SupportGroupResp>>>
@@ -131,6 +132,18 @@ interface ApiEndPoint {
 
     @GET("lawyerBySpecialization")
     fun getLawyerBySpecialization(@Body body: JsonObject): Call<CommonResponseModel<MutableList<LawyerBySpecializationResp>>>
+
+    @GET("listRadarMap")
+    fun getRadarMapList(
+        @Query("lat") lat: String,
+        @Query("lng") lng: String,
+    ): Call<CommonResponseModel<MutableList<RadarListResp>>>
+
+    @POST("deleteRadarMap")
+    fun deleteRadarMapPoint(@Body body: JsonObject): Call<CommonResponseModel<RadarListResp>>
+
+    @POST("addRadarMap")
+    fun addRadarMapPoint(@Body body: JsonObject): Call<CommonResponseModel<RadarListResp>>
 
 
 }

@@ -1,16 +1,34 @@
 package com.app.guardian.ui.Radar
 
+import android.content.Context
+import android.content.Intent
+import android.location.LocationManager
+import android.os.Looper
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
+import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.extentions.checkLoationPermission
+import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentRadarBinding
+import com.app.guardian.model.Radar.RadarListResp
+import com.app.guardian.model.viewModels.UserViewModel
+import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.utils.Config
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener
 import com.google.android.gms.maps.model.*
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.DecimalFormat
 import kotlin.math.acos
 import kotlin.math.cos
@@ -30,10 +48,19 @@ private const val ARG_PARAM2 = "param2"
 
 class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
     GoogleMap.OnMarkerClickListener {
+    private val mViewModel: UserViewModel by viewModel()
     lateinit var mBinding: FragmentRadarBinding
     var mMarker: MarkerOptions? = null
     private var gMap: GoogleMap? = null
-    var array = ArrayList<LatLng>()
+    var array = ArrayList<RadarListResp>()
+
+    var CURRENT_LAT = 0.0
+    var CURRENT_LONG = 0.0
+
+    private var locationManager: LocationManager? = null
+    private var mFusedLocationClient: FusedLocationProviderClient? = null
+    private var locationRequest: LocationRequest? = null
+    private var locationCallback: LocationCallback? = null
     override fun getInflateResource(): Int {
         return R.layout.fragment_radar
     }
@@ -46,21 +73,70 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
             isHeaderVisible = false,
             isBackButtonVisible = false
         )
-        array.add(LatLng(23.033863, 72.585022))
-        array.add(LatLng(12.120000, 76.680000))
-        array.add(LatLng(24.879999, 74.629997))
-        array.add(LatLng(16.994444, 73.300003))
-        array.add(LatLng(19.155001, 72.849998))
-        array.add(LatLng(24.794500, 73.055000))
-        array.add(LatLng(21.250000, 81.629997))
         Log.i("DISTANCE", distance(23.033863, 72.585022, 22.7788, 73.6143).toString())
 
-//        val mSupportMapFragment =
-//            childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-//        mSupportMapFragment?.setListener {
-//            mBinding.ns.requestDisallowInterceptTouchEvent(true)
-//        }
-        setG_MAP()
+        locationManager = requireContext().getSystemService(
+            Context.LOCATION_SERVICE
+        ) as LocationManager
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        locationRequest = LocationRequest.create()
+        locationRequest?.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest?.interval = 20 * 1000
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        mBinding.cl1.visible()
+        mBinding.noInternetRadar.llNointernet.gone()
+        getLatLong()
+
+        if (checkLoationPermission(requireActivity())) {
+            if (locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER)!!) {
+
+                mFusedLocationClient?.requestLocationUpdates(
+                    locationRequest!!,
+                    locationCallback!!,
+                    Looper.getMainLooper()
+                )
+            } else {
+
+                ReusedMethod.setLocationDialog(requireActivity())
+            }
+        }
+    }
+
+    private fun deletePointApi() {
+        if (ReusedMethod.isNetworkConnected(requireActivity())) {
+            mViewModel.deleteRadarPoint(true, context as BaseActivity, "", "", "")
+        } else {
+            mBinding.cl1.gone()
+            mBinding.noInternetRadar.llNointernet.visible()
+        }
+    }
+
+    private fun addPointAPI(type: String) {
+        if (ReusedMethod.isNetworkConnected(requireActivity())) {
+            mViewModel.addRadarPoint(
+                true, context as BaseActivity, CURRENT_LAT.toString(),
+                CURRENT_LONG.toString(), type
+            )
+        } else {
+            mBinding.cl1.gone()
+            mBinding.noInternetRadar.llNointernet.visible()
+        }
+    }
+
+    private fun CallMapListAPI() {
+        if (ReusedMethod.isNetworkConnected(requireActivity())) {
+            mViewModel.getRadarList(
+                true, context as BaseActivity,
+                CURRENT_LAT.toString(), CURRENT_LONG.toString()
+            )
+        } else {
+            mBinding.cl1.gone()
+            mBinding.noInternetRadar.llNointernet.visible()
+        }
     }
 
     override fun postInit() {
@@ -68,15 +144,116 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
     }
 
     override fun handleListener() {
-
+        mBinding.noInternetRadar.btnTryAgain.setOnClickListener(this)
+        mBinding.cvPhotoRadar.setOnClickListener(this)
+        mBinding.cvAccident.setOnClickListener(this)
     }
 
     override fun initObserver() {
+        //GET RADAR LIST RESP
+        mViewModel.getRadarListResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            if (data != null) {
+                                array.addAll(data)
+                                setG_MAP()
+                            } else {
+                                setG_MAP()
+                            }
 
+                        } else {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                        }
+                    }
+                    requestState.error?.let { errorObj ->
+                        when (errorObj.errorState) {
+                            Config.NETWORK_ERROR ->
+                                ReusedMethod.displayMessage(
+                                    requireActivity(),
+                                    getString(R.string.text_error_network)
+                                )
+
+                            Config.CUSTOM_ERROR ->
+                                errorObj.customMessage
+                                    ?.let {}
+                        }
+                    }
+                }
+            }
+        }
+        //DELETE POINT RESP
+        mViewModel.deleteRadarPointResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                        } else {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                        }
+                    }
+                    requestState.error?.let { errorObj ->
+                        when (errorObj.errorState) {
+                            Config.NETWORK_ERROR ->
+                                ReusedMethod.displayMessage(
+                                    requireActivity(),
+                                    getString(R.string.text_error_network)
+                                )
+
+                            Config.CUSTOM_ERROR ->
+                                errorObj.customMessage
+                                    ?.let {}
+                        }
+                    }
+                }
+            }
+        }
+        //ADD POINT RESP
+        mViewModel.addRadarPointResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                        } else {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                        }
+                    }
+                    requestState.error?.let { errorObj ->
+                        when (errorObj.errorState) {
+                            Config.NETWORK_ERROR ->
+                                ReusedMethod.displayMessage(
+                                    requireActivity(),
+                                    getString(R.string.text_error_network)
+                                )
+
+                            Config.CUSTOM_ERROR ->
+                                errorObj.customMessage
+                                    ?.let {}
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onClick(v: View?) {
-
+        when (v?.id) {
+            R.id.btnTryAgain -> {
+                onResume()
+            }
+            R.id.cvPhotoRadar -> {
+                addPointAPI(AppConstants.EXTRA_PHOTO_RADAR)
+            }
+            R.id.cvAccident -> {
+                addPointAPI(AppConstants.EXTRA_ROAD_BLOCK)
+            }
+        }
     }
 
     private fun distance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
@@ -118,24 +295,61 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
 //        itemLatitude = dFormat.format(itemLatitude).toDouble()
 //        itemLongitude = dFormat.format(itemLongitude).toDouble()
 
+        if (array.isNullOrEmpty()) {
 
 
-        for (i in array.indices) {
-            val latLng = array[i]
+            for (i in array.indices) {
+                mMarker = MarkerOptions()
+                mMarker!!.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
+                    .anchor(0.0f, 1.0f)
+                    .title(array[i].place)
+                    .flat(true)
+                    .position(
+                        LatLng(
+                            array[i].lat?.toDouble() ?: 0.0,
+                            array[i].lng?.toDouble() ?: 0.0
+                        )
+                    )
 
-            mMarker = MarkerOptions()
-            mMarker!!.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
-                .anchor(0.0f, 1.0f)
-                .title("Ahmedabad")
-                .flat(true)
-                .position(latLng)
-
-            gMap!!.addMarker(mMarker!!)
-//            setMarkerZoom(array[i].latitude,array[i].longitude)
+                gMap!!.addMarker(mMarker!!)
+            }
         }
-        setMarkerZoom(array[0].latitude,array[0].longitude)
+//        gMap!!.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
+//            override fun getInfoContents(p0: Marker): View? {
+//                val view =
+//                    LayoutInflater.from(requireContext()).inflate(R.layout.custom_g_marker, null)
+//
+//                val close = view.findViewById<ImageView>(R.id.ivClose)
+//                val TITLE = view.findViewById<TextView>(R.id.txtLoc)
+//
+//                TITLE.text = p0.title
+//                close.setOnClickListener {
+//                    ReusedMethod.displayMessage(requireActivity(), p0.title.toString())
+//                }
+//                return view
+//            }
+//
+//            override fun getInfoWindow(p0: Marker): View? {
+//                return null
+//            }
+//
+//        })
 
-//        setMarkerZoom(23.0225, 72.5714)
+        mMarker = MarkerOptions()
+        mMarker!!.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
+            .anchor(0.0f, 1.0f)
+            .title("Current Location")
+            .flat(true)
+            .position(LatLng(CURRENT_LAT, CURRENT_LONG))
+
+        gMap!!.addMarker(mMarker!!)
+        setMarkerZoom(CURRENT_LAT, CURRENT_LONG)
+
+        gMap!!.setOnInfoWindowClickListener { marker ->
+//            ReusedMethod.displayMessage(requireActivity(), marker.title.toString())
+        }
+
+        gMap!!.setOnMarkerClickListener(this)
 
     }
 
@@ -156,29 +370,51 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
                 height,
                 padding
             )
-            gMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng!!, 10f))
+            gMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng!!, 14f))
 
         }
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        // Retrieve the data from the marker.
-        val clickCount = marker.tag as? Int
-
-        // Check if a click count was set, then display the click count.
-        clickCount?.let {
-            val newClickCount = it + 1
-            marker.tag = newClickCount
-            Toast.makeText(
-                requireContext(),
-                "${marker.title} has been clicked $newClickCount times.",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+        // Retrieve the data from the marker.r
+//        ReusedMethod.displayMessage(requireActivity(), marker.title.toString())
 
         // Return false to indicate that we have not consumed the event and that we wish
         // for the default behavior to occur (which is for the camera to move such that the
         // marker is centered and for the marker's info window to open, if it has one).
         return false
+    }
+
+    private fun getLatLong() {
+        showLoadingIndicator(true)
+        if (checkLoationPermission(requireActivity())) {
+
+            locationCallback = object : LocationCallback() {
+                override fun onLocationResult(p0: LocationResult) {
+                    super.onLocationResult(p0!!)
+
+                    if (p0.equals(null)) {
+
+                        return
+                    }
+                    for (location in p0.locations) {
+                        if (location != null) {
+
+                            Log.i("THIS_APP", location.latitude.toString())
+                            Log.i("THIS_APP", location.longitude.toString())
+                            CURRENT_LAT = location.latitude
+                            CURRENT_LONG = location.longitude
+                            setG_MAP()
+                            CallMapListAPI()
+                            if (mFusedLocationClient != null) {
+                                mFusedLocationClient?.removeLocationUpdates(locationCallback!!)
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            showLoadingIndicator(false)
+        }
     }
 }

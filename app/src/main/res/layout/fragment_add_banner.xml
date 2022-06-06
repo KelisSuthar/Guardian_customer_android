@@ -34,7 +34,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_170sdp"
                 app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardCornerRadius="20dp"
                 app:cardElevation="@dimen/_15sdp"
                 android:layout_marginHorizontal="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_20sdp"
@@ -44,7 +44,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:background="#F0F0F0">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivBannerImg"

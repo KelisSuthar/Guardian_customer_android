@@ -3,10 +3,12 @@ package com.app.guardian.model.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.app.guardian.common.ReusedMethod
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.LawyerProfileDetails.LawyerProfileDetailsResp
 import com.app.guardian.model.Notification.NotificationResp
+import com.app.guardian.model.Radar.RadarListResp
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 import com.app.guardian.model.SupportGroup.SupportGroupResp
@@ -104,18 +106,86 @@ class UserViewModel(private val mUserRepository: UserRepo) : ViewModel() {
 
 
     //Notification API
-
     private val notificationResp = MutableLiveData<RequestState<MutableList<NotificationResp>>>()
-    fun getNotificationResp(): LiveData<RequestState<MutableList<NotificationResp>>> = notificationResp
+    fun getNotificationResp(): LiveData<RequestState<MutableList<NotificationResp>>> =
+        notificationResp
 
     fun getNotification(
         isInternetConnected: Boolean,
         baseView: BaseActivity,
-    ){
+    ) {
         mUserRepository.getNotification(
             isInternetConnected,
             baseView,
             notificationResp
+        )
+    }
+
+    //GET RADAR LIST API
+    private val radarListResp = MutableLiveData<RequestState<MutableList<RadarListResp>>>()
+    fun getRadarListResp(): LiveData<RequestState<MutableList<RadarListResp>>> = radarListResp
+
+    fun getRadarList(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        lat: String,
+        long: String,
+    ) {
+        val body = JsonObject()
+        body.addProperty(ApiConstant.EXTRAS_LAT, lat)
+        body.addProperty(ApiConstant.EXTRAS_LNG, long)
+        mUserRepository.getRadarMapList(
+            lat, long,
+            isInternetConnected,
+            baseView,
+            radarListResp
+        )
+    }
+
+    //ADD RADAR MAP POINT API
+    private val addradarListResp = MutableLiveData<RequestState<RadarListResp>>()
+    fun addRadarPointResp(): LiveData<RequestState<RadarListResp>> = addradarListResp
+    fun addRadarPoint(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        lat: String,
+        long: String,
+        type: String,
+    ) {
+
+        val body = JsonObject()
+        body.addProperty(ApiConstant.EXTRAS_LAT, lat)
+        body.addProperty(ApiConstant.EXTRAS_LNG, long)
+        body.addProperty(ApiConstant.EXTRAS_PLACE, ReusedMethod.getAddress(baseView,lat.toDouble(),long.toDouble())[0].adminArea)
+        body.addProperty(ApiConstant.EXTRAS_TYPE, type)
+
+        mUserRepository.addRadarMapPoint(
+            body,
+            isInternetConnected,
+            baseView,
+            addradarListResp
+        )
+    }
+
+    //ADD RADAR MAP POINT API
+    private val deleteradarListResp = MutableLiveData<RequestState<RadarListResp>>()
+    fun deleteRadarPointResp(): LiveData<RequestState<RadarListResp>> = deleteradarListResp
+    fun deleteRadarPoint(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        lat: String,
+        long: String,
+        type: String,
+    ) {
+        val body = JsonObject()
+        body.addProperty(ApiConstant.EXTRAS_LAT, lat)
+        body.addProperty(ApiConstant.EXTRAS_LNG, long)
+        body.addProperty(ApiConstant.EXTRAS_TYPE, type)
+        mUserRepository.deleteRadarMapPoint(
+            body,
+            isInternetConnected,
+            baseView,
+            deleteradarListResp
         )
     }
 }

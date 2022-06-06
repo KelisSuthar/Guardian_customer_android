@@ -250,7 +250,7 @@ class ReusedMethod {
             strLawyerName: String?,
             email: String?,
             phone: String?,
-            lawyerProfilePic : String?
+            lawyerProfilePic: String?
         ) {
             val dialog = Dialog(
                 context,
@@ -268,15 +268,14 @@ class ReusedMethod {
             val EMAIL = dialog.findViewById<TextView>(R.id.txtLawyerEmailID)
             val PHONE = dialog.findViewById<MaterialTextView>(R.id.txtLawyerContact)
             LAWYERNAME.text = strLawyerName
-            if(email!=null && email != ""){
+            if (email != null && email != "") {
                 EMAIL.text = email
-            }
-            else{
-                EMAIL.text="contactSupport@gmail.com"
+            } else {
+                EMAIL.text = "contactSupport@gmail.com"
             }
             PHONE.text = "+$phone"
 
-            if(lawyerProfilePic!=null || lawyerProfilePic!="null"){
+            if (lawyerProfilePic != null || lawyerProfilePic != "null") {
                 Glide.with(context)
                     .load(lawyerProfilePic)
                     .placeholder(R.drawable.profile)
@@ -502,7 +501,10 @@ class ReusedMethod {
             var responseView: TextView? = null
             var placesClient: PlacesClient? = null
 
-            val apiKey = context.getString(R.string.g_map_api_key_1)+context.getString(R.string.g_map_api_key_2)+context.getString(R.string.g_map_api_key_3)
+            val apiKey =
+                context.getString(R.string.g_map_api_key_1) + context.getString(R.string.g_map_api_key_2) + context.getString(
+                    R.string.g_map_api_key_3
+                )
             if (apiKey.isEmpty()) {
                 responseView!!.text = "error"
                 return
@@ -594,7 +596,7 @@ class ReusedMethod {
             dialog.show()
         }
 
-                fun distance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
+        fun distance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
             val theta = lon1 - lon2
             var dist = (sin(deg2rad(lat1))
                     * sin(deg2rad(lat2))
@@ -617,15 +619,21 @@ class ReusedMethod {
 
         }
 
-        fun viewPagerScroll( pager: ViewPager,total_pages:Int) {
+        fun viewPagerScroll(pager: ViewPager, total_pages: Int) {
             var currentPage = 0
             pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
                     currentPage = position
                 }
+
                 override fun onPageSelected(position: Int) {
 
                 }
+
                 override fun onPageScrollStateChanged(state: Int) {
 
                 }
