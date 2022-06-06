@@ -1,5 +1,7 @@
 package com.app.guardian.shareddata.endpoint
 
+import com.app.guardian.model.Chat.ChatListResp
+import com.app.guardian.model.Chat.SendMessageResp
 import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.CommonResponseModel
@@ -144,6 +146,12 @@ interface ApiEndPoint {
 
     @POST("addRadarMap")
     fun addRadarMapPoint(@Body body: JsonObject): Call<CommonResponseModel<RadarListResp>>
+
+    @POST("listUserChat")
+    fun getChatList(@Body body: JsonObject): Call<CommonResponseModel<MutableList<ChatListResp>>>
+
+    @POST("addUserChat")
+    fun sendMessageChat(@Body body: JsonObject): Call<CommonResponseModel<SendMessageResp>>
 
 
 }

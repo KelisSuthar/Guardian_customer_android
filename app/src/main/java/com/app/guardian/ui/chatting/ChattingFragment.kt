@@ -36,14 +36,6 @@ class ChattingFragment(selectUserId: Int,var selectUserFullName: String, profile
 
     override fun initView() {
         mBinding = getBinding()
-        chatArray.add("Lorem Ipsum is simply dummy the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s")
-        chatArray.add("Lorem Ipsum is simply dummy ")
-        chatArray.add("Lorem Ipsum is simply dummy the printing and typesetting industry.")
-        chatArray.add("Lorem Ipsum is simply printing and typesetting")
-        chatArray.add("Lorem Ipsum is simply printing and typesetting")
-        chatArray.add("Lorem Ipsum is simply dummy ")
-        chatArray.add("Lorem Ipsum is simply dummy the printing and typesetting industry.")
-        chatArray.add("Lorem Ipsum is simply dummy the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s")
         chatMessageAdapter?.notifyDataSetChanged()
 
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)

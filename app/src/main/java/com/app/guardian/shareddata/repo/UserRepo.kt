@@ -2,6 +2,8 @@ package com.app.guardian.shareddata.repo
 
 import android.app.Notification
 import androidx.lifecycle.MutableLiveData
+import com.app.guardian.model.Chat.ChatListResp
+import com.app.guardian.model.Chat.SendMessageResp
 import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.Editprofile.UserDetailsResp
@@ -238,29 +240,34 @@ interface UserRepo {
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<MutableList<SupportGroupResp>>>
     )
+
     fun getNotification(
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<MutableList<NotificationResp>>>
     )
+
     fun sendRequestVirtualWitness(
         body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<CommonResponse>>
     )
+
     fun getLawyerBySpecialization(
         body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<MutableList<LawyerBySpecializationResp>>>
     )
+
     fun addRadarMapPoint(
         body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<RadarListResp>>
     )
+
     fun deleteRadarMapPoint(
         body: JsonObject,
         internetConnected: Boolean,
@@ -269,11 +276,25 @@ interface UserRepo {
     )
 
     fun getRadarMapList(
-        LAT:String,
-        LONG:String,
+        LAT: String,
+        LONG: String,
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<MutableList<RadarListResp>>>
+    )
+
+    fun sendMessage(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<SendMessageResp>>
+    )
+
+    fun getChatList(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<MutableList<ChatListResp>>>
     )
 
 }

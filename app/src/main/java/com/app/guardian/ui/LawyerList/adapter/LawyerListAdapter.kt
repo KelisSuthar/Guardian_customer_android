@@ -95,7 +95,7 @@ class LawyerListAdapter(
                 lawyerListFragment.callChatPageOpe(
                     lawyerProfileData.id!!,
                     lawyerProfileData.full_name!!,
-                    ""
+                    lawyerProfileData.profile_avatar!!
                 )
             }
 

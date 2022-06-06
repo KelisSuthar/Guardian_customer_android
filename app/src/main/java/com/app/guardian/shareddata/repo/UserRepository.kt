@@ -2,6 +2,8 @@ package com.studelicious_user.shareddata.repo
 
 import androidx.lifecycle.MutableLiveData
 import com.app.guardian.model.ApiError
+import com.app.guardian.model.Chat.ChatListResp
+import com.app.guardian.model.Chat.SendMessageResp
 import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.Editprofile.UserDetailsResp
@@ -712,6 +714,44 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
                 mApiEndPoint.getRadarMapList(LAT, LONG),
                 baseView,
                 radarResp
+            )
+        }
+    }
+
+    override fun sendMessage(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        sendMessageResp: MutableLiveData<RequestState<SendMessageResp>>
+    ) {
+        if (!internetConnected) {
+            sendMessageResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            sendMessageResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.sendMessageChat(body),
+                baseView,
+                sendMessageResp
+            )
+        }
+    }
+
+    override fun getChatList(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        chatListResp: MutableLiveData<RequestState<MutableList<ChatListResp>>>
+    ) {
+        if (!internetConnected) {
+            chatListResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            chatListResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.getChatList(body),
+                baseView,
+                chatListResp
             )
         }
     }
