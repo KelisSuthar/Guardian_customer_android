@@ -283,12 +283,7 @@ interface UserRepo {
         commonResp: MutableLiveData<RequestState<MutableList<RadarListResp>>>
     )
 
-    fun sendMessage(
-        body: JsonObject,
-        internetConnected: Boolean,
-        baseView: BaseActivity,
-        commonResp: MutableLiveData<RequestState<SendMessageResp>>
-    )
+
 
     fun getChatList(
         body: JsonObject,
@@ -296,6 +291,14 @@ interface UserRepo {
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<MutableList<ChatListResp>>>
     )
+
+    fun sendMessage(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        sendMessageResp: MutableLiveData<RequestState<SendMessageResp>>
+    )
+
 
 }
 

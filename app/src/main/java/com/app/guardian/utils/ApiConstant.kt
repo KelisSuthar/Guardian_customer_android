@@ -39,6 +39,10 @@ class ApiConstant{
      val EXTRAS_BANNER_AVATAR="banner_avatar"
      val EXTRAS_URL="url"
      val EXTRAS_PLAN_ID="plan_id"
+     val EXTRAS_TO_ID="to_id"
+     val EXTRAS_MESSAGE="message"
+     val EXTRAS_MESSAGE_TIME="message_time"
+     val EXTRAS_TO_ROLE="to_role"
 
 
 

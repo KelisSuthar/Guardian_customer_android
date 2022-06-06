@@ -49,6 +49,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.rilixtech.widget.countrycodepicker.CountryCodePicker
 import de.hdodenhof.circleimageview.CircleImageView
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.acos
 import kotlin.math.cos
@@ -655,6 +656,12 @@ class ReusedMethod {
                     handler.post(Update)
                 }
             }, 500, 1500)
+        }
+        fun getCurrentDate(): String {
+            val fmt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            val currentTime: Date = Calendar.getInstance().time
+            val date = fmt.format(currentTime)
+            return date
         }
 
     }

@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
+import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
+import com.app.guardian.model.Chat.ChatListResp
 
-class ChatMessageAdapter(var context: Context, var array: ArrayList<String>) :
+class ChatMessageAdapter(var context: Context, var array: ArrayList<ChatListResp>) :
     RecyclerView.Adapter<ChatMessageAdapter.myViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -34,15 +36,15 @@ class ChatMessageAdapter(var context: Context, var array: ArrayList<String>) :
         var txtSendMsg: TextView = view!!.findViewById(R.id.txtSendMsg)
 
         fun bindItem(position: Int) {
-            txtRecieveMsg.text = array[position]
-            txtSendMsg.text = array[position]
+            txtRecieveMsg.text = array[position].message
+            txtSendMsg.text = array[position].message
 
-            if (position % 2 == 0) {
-                txtRecieveMsg.visible()
-                txtSendMsg.gone()
-            } else {
-                txtRecieveMsg.gone()
+            if (array[position].from_id == (SharedPreferenceManager.getUser()?.user?.id ?: 0)) {
                 txtSendMsg.visible()
+                txtRecieveMsg.gone()
+            } else {
+                txtSendMsg.visible()
+                txtRecieveMsg.gone()
             }
         }
 

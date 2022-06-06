@@ -9,6 +9,7 @@ import com.app.guardian.common.AppConstants.BEREAR_TOKEN
 import com.app.guardian.common.AppConstants.LOGGED_IN_USER_ID
 import com.app.guardian.common.AppConstants.STATIC_API_KEY
 import com.app.guardian.common.AppConstants.USER_ROLE
+import com.app.guardian.common.ReusedMethod.Companion.getCurrentDate
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.ShowLogToast
 import com.app.guardian.model.viewModels.AuthenticationViewModel
@@ -73,9 +74,7 @@ fun provideRetrofit(client: OkHttpClient): Retrofit {
 class AddHeaderInterceptor : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
-        val fmt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        val currentTime: Date = Calendar.getInstance().time
-        val date = fmt.format(currentTime)
+
         val builder = chain.request().newBuilder()
         val apikey: String? = SharedPreferenceManager.getString(API_KEY_VALUE, STATIC_API_KEY)
 
@@ -97,7 +96,7 @@ class AddHeaderInterceptor : Interceptor {
 //        builder.addHeader("role", userRole.toString())
 //        builder.addHeader("Devicetype", "android")
         builder.addHeader("device_type", "android")
-        builder.addHeader("local_datetime", date)
+        builder.addHeader("local_datetime", getCurrentDate())
 
 
 

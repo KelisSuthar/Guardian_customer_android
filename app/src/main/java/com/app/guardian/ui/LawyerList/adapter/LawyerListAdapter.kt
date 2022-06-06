@@ -78,7 +78,7 @@ class LawyerListAdapter(
                     lawyerProfileData.full_name!!,
                     lawyerProfileData.email!!,
                     lawyerProfileData.phone!!,
-                    lawyerProfileData.profile_avatar,
+                    lawyerProfileData.profile_avatar!!,
                 )
             }
 
@@ -92,11 +92,20 @@ class LawyerListAdapter(
             }
 
             imgRowLawyerChat?.setOnClickListener {
-                lawyerListFragment.callChatPageOpe(
-                    lawyerProfileData.id!!,
-                    lawyerProfileData.full_name!!,
-                    lawyerProfileData.profile_avatar!!
-                )
+                if (lawyerProfileData.profile_avatar.isNullOrEmpty()) {
+                    lawyerListFragment.callChatPageOpe(
+                        lawyerProfileData.id!!,
+                        lawyerProfileData.full_name!!,
+                        ""
+                    )
+                } else {
+                    lawyerListFragment.callChatPageOpe(
+                        lawyerProfileData.id!!,
+                        lawyerProfileData.full_name!!,
+                        lawyerProfileData.profile_avatar!!
+                    )
+                }
+
             }
 
             tvLawyerName?.text = lawyerProfileData.full_name
@@ -108,7 +117,10 @@ class LawyerListAdapter(
                     "Experience - " + lawyerProfileData.years_of_experience + " Years"
             }
 
-            tvLawyerExp?.text ="Experience - "+ lawyerProfileData.years_of_experience + " " + context.resources.getString(R.string.years)
+            tvLawyerExp?.text =
+                "Experience - " + lawyerProfileData.years_of_experience + " " + context.resources.getString(
+                    R.string.years
+                )
             tvLawyerSpecialization?.text = lawyerProfileData.specialization
 
         }

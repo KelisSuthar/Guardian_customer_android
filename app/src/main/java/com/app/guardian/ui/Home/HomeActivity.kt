@@ -30,6 +30,7 @@ import com.app.guardian.ui.Mediator.MediatorHome.MediatorHomeFragment
 import com.app.guardian.ui.Radar.RadarFragment
 import com.app.guardian.ui.User.UserHome.UserHomeFragment
 import com.app.guardian.ui.User.settings.SettingsFragment
+import com.app.guardian.ui.chatting.ChattingFragment
 import com.google.android.gms.location.*
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
@@ -181,6 +182,11 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
         var getCurrentFragment = supportFragmentManager.fragments
         Log.e("BackStack", "Current fragment Name : " + getCurrentFragment.toString())
         var getFragment = supportFragmentManager.findFragmentById(R.id.flUserContainer)
+        if(getFragment !=null ){
+            if(getFragment is ChattingFragment){
+                ChattingFragment().stopTimers()
+            }
+        }
         when {
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
@@ -219,8 +225,10 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
                         fm.popBackStack()
                     }
                 }
+
             }
         }
+
     }
 
     fun clearFragmentBackStack() {

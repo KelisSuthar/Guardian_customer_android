@@ -3,6 +3,8 @@ package com.app.guardian.model.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.app.guardian.model.Chat.ChatListResp
+import com.app.guardian.model.Chat.SendMessageResp
 import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.Editprofile.UserDetailsResp
@@ -193,6 +195,49 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
             isInternetConnected,
             baseView,
             cmsResp
+        )
+    }
+
+    //GET CHAT LIST
+    private val chatListResp = MutableLiveData<RequestState<MutableList<ChatListResp>>>()
+    fun getChatListResp(): LiveData<RequestState<MutableList<ChatListResp>>> = chatListResp
+
+    fun getChatData(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        to_id:String
+    ) {
+        val body = JsonObject()
+        body.addProperty(ApiConstant.EXTRAS_TO_ID, to_id)
+        mUserRepository.getChatList(
+            body,
+            isInternetConnected,
+            baseView,
+            chatListResp
+        )
+    }
+    //SEND CHAT MESSAGE
+    private val sendMessageResp = MutableLiveData<RequestState<SendMessageResp>>()
+    fun getSendChatResp(): LiveData<RequestState<SendMessageResp>> = sendMessageResp
+
+    fun sendChatMessage(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        to_id:String,
+        message:String,
+        message_time:String,
+        to_role:String,
+    ) {
+        val body = JsonObject()
+        body.addProperty(ApiConstant.EXTRAS_TO_ID, to_id)
+        body.addProperty(ApiConstant.EXTRAS_MESSAGE, message)
+        body.addProperty(ApiConstant.EXTRAS_MESSAGE_TIME, message_time)
+        body.addProperty(ApiConstant.EXTRAS_TO_ROLE, to_role)
+        mUserRepository.sendMessage(
+            body,
+            isInternetConnected,
+            baseView,
+            sendMessageResp
         )
     }
 }

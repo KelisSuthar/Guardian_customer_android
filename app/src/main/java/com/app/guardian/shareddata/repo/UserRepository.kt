@@ -718,25 +718,6 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
         }
     }
 
-    override fun sendMessage(
-        body: JsonObject,
-        internetConnected: Boolean,
-        baseView: BaseActivity,
-        sendMessageResp: MutableLiveData<RequestState<SendMessageResp>>
-    ) {
-        if (!internetConnected) {
-            sendMessageResp.value =
-                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
-        } else {
-            sendMessageResp.value = RequestState(progress = true)
-            NetworkManager.requestData(
-                mApiEndPoint.sendMessageChat(body),
-                baseView,
-                sendMessageResp
-            )
-        }
-    }
-
     override fun getChatList(
         body: JsonObject,
         internetConnected: Boolean,
@@ -752,6 +733,25 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
                 mApiEndPoint.getChatList(body),
                 baseView,
                 chatListResp
+            )
+        }
+    }
+
+    override fun sendMessage(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        sendMessageResp: MutableLiveData<RequestState<SendMessageResp>>
+    ) {
+        if (!internetConnected) {
+            sendMessageResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            sendMessageResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.sendMessageChat(body),
+                baseView,
+                sendMessageResp
             )
         }
     }

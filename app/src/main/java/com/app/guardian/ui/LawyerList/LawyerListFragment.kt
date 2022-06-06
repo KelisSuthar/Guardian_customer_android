@@ -13,6 +13,7 @@ import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
@@ -209,7 +210,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
     fun callChatPageOpe(selectUserId: Int, selectUserFullName: String, profilePicUrl: String) {
         ReplaceFragment.replaceFragment(
             requireActivity(),
-            ChattingFragment(selectUserId,selectUserFullName,profilePicUrl),
+            ChattingFragment(selectUserId,selectUserFullName,profilePicUrl,AppConstants.APP_ROLE_LAWYER),
             true,
             LawyerListFragment::class.java.name,
             LawyerListFragment::class.java.name

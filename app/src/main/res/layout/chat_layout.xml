@@ -3,39 +3,61 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/transparent"
-    android:layout_marginVertical="@dimen/_20sdp">
+    android:layout_marginVertical="@dimen/_20sdp"
+    android:background="@color/transparent">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/txtRecieveMsg"
-        android:layout_width="@dimen/_200sdp"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/chatting_recieve_message_layout"
-        android:paddingHorizontal="@dimen/_20sdp"
-        android:paddingVertical="@dimen/_10sdp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/lora_regular"
-        android:textFontWeight="400"
-
-        android:text="Lorem Ipsum is simply dummy the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
+        android:layout_marginEnd="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        />
+        android:gravity="left"
+        >
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/txtSendMsg"
-        android:layout_width="@dimen/_200sdp"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtRecieveMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/chatting_recieve_message_layout"
+            android:fontFamily="@font/lora_regular"
+            android:paddingHorizontal="@dimen/_20sdp"
+            android:paddingVertical="@dimen/_10sdp"
+            android:text="Lorem Ipsum is simply dummy the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
+            android:textColor="@color/black"
+            android:textFontWeight="400"
+
+            />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/chatting_send_message_layout"
-        android:paddingHorizontal="@dimen/_20sdp"
-        android:paddingVertical="@dimen/_10sdp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/lora_regular"
-        android:textFontWeight="400"
-        android:text="Lorem Ipsum is simply dummy the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
+        android:layout_marginStart="50dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        />
+        android:gravity="right">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtSendMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/chatting_send_message_layout"
+            android:fontFamily="@font/lora_regular"
+            android:paddingHorizontal="@dimen/_20sdp"
+            android:paddingVertical="@dimen/_10sdp"
+            android:text="Lorem Ipsum is simply dummy the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
+            android:textColor="@color/black"
+            android:textFontWeight="400"
+
+            />
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

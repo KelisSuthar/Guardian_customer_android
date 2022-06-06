@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
@@ -87,7 +88,7 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
         mBinding.imgRowLawyerChat.setOnClickListener {
             ReplaceFragment.replaceFragment(
                 requireActivity(),
-                ChattingFragment(selectedLawyerListId!!, strLawyerName!!, ""),
+                ChattingFragment(selectedLawyerListId!!, strLawyerName!!, strProfilePic!!,AppConstants.APP_ROLE_LAWYER),
                 true,
                 LawyerProfileFragment::class.java.name,
                 LawyerProfileFragment::class.java.name
@@ -121,6 +122,7 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
                             "Criminal Lawyer\t\t\t" + it.years_of_experience + "- year Experience"
                         mBinding.txtContactInfo.text = it.email
                         strLawyerName = it.full_name
+                        strProfilePic = it.profile_avatar
                         Glide.with(requireActivity())
                             .load(it.profile_avatar)
                             .placeholder(R.drawable.profile)
