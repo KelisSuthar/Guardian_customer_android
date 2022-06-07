@@ -9,6 +9,7 @@ import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
+import com.app.guardian.model.LawyerBySpecialization.LawyerBySpecializationResp
 import com.app.guardian.model.ListFilter.FilterResp
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
@@ -205,7 +206,7 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
     fun getChatData(
         isInternetConnected: Boolean,
         baseView: BaseActivity,
-        to_id:String
+        to_id: String
     ) {
         val body = JsonObject()
         body.addProperty(ApiConstant.EXTRAS_TO_ID, to_id)
@@ -216,6 +217,7 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
             chatListResp
         )
     }
+
     //SEND CHAT MESSAGE
     private val sendMessageResp = MutableLiveData<RequestState<SendMessageResp>>()
     fun getSendChatResp(): LiveData<RequestState<SendMessageResp>> = sendMessageResp
@@ -223,10 +225,10 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
     fun sendChatMessage(
         isInternetConnected: Boolean,
         baseView: BaseActivity,
-        to_id:String,
-        message:String,
-        message_time:String,
-        to_role:String,
+        to_id: String,
+        message: String,
+        message_time: String,
+        to_role: String,
     ) {
         val body = JsonObject()
         body.addProperty(ApiConstant.EXTRAS_TO_ID, to_id)
@@ -238,6 +240,32 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
             isInternetConnected,
             baseView,
             sendMessageResp
+        )
+    }
+
+    //GET LAWYER BY SPECIALIZATION LIST API
+    private val lawyerBySpecializationResp =
+        MutableLiveData<RequestState<MutableList<LawyerBySpecializationResp>>>()
+
+    fun getLawyerBySpecializationListResp(): LiveData<RequestState<MutableList<LawyerBySpecializationResp>>> =
+        lawyerBySpecializationResp
+
+    fun getLawyerbySpecializationlist(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        ser: String,
+        years_of_experience: String,
+        specialization: String,
+    ) {
+        val body = JsonObject()
+//        body.addProperty(ApiConstant.EXTRAS_SERCH, ser)
+//        body.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
+        body.addProperty(ApiConstant.EXTRAS_SPECIALIZATION, specialization)
+        mUserRepository.getLawyerBySpecialization(
+            body,
+            isInternetConnected,
+            baseView,
+            lawyerBySpecializationResp
         )
     }
 }

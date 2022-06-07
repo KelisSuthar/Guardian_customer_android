@@ -25,7 +25,6 @@ import com.app.guardian.ui.SeekLegalAdvice.AddEditSeekLegalAdv.AddSeekLegalAdvic
 import com.app.guardian.ui.SeekLegalAdvice.adapter.SeekLegalAdviceAdapter
 import com.app.guardian.utils.Config
 import com.google.android.material.textview.MaterialTextView
-import de.hdodenhof.circleimageview.CircleImageView
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class SeekLegalAdviceListFragment(is_icon_show:Boolean,seekLegalIdParams: Int) : BaseFragment(), View.OnClickListener {

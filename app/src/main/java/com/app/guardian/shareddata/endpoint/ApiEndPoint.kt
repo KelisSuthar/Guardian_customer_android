@@ -132,7 +132,7 @@ interface ApiEndPoint {
     @GET("getNotificationList")
     fun getNotifications(): Call<CommonResponseModel<MutableList<NotificationResp>>>
 
-    @GET("lawyerBySpecialization")
+    @POST("lawyerBySpecialization")
     fun getLawyerBySpecialization(@Body body: JsonObject): Call<CommonResponseModel<MutableList<LawyerBySpecializationResp>>>
 
     @GET("listRadarMap")

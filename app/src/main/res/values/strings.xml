@@ -137,7 +137,7 @@
     <string name="same_old_new_new_pass">New password and confirm password does not match.</string>
 
 
-<!--    Add Banner-->
+    <!--    Add Banner-->
     <string name="valid_banner_link">Please enter valid banner link.</string>
     <string name="empty_banner_link">Please add share link for banner.</string>
     <string name="valid_banner_photo">Please upload banner image.</string>
@@ -227,6 +227,9 @@
     <string name="title">Title</string>
     <string name="banner_ads">Banner Ads</string>
     <string name="type_something">Type Something...</string>
+
+<!--    Lawyer By Specialization-->
+    <string name="specialization_list">Specialization List</string>
 
 
     <!-- TODO: Chatting implementation  -->

@@ -26,6 +26,7 @@ import com.app.guardian.ui.ContactedHistory.ContectedHistoryFragment
 import com.app.guardian.ui.KnowRight.KnowRightFragment
 import com.app.guardian.ui.Lawyer.LawyerHome.LawyerHomeFragment
 import com.app.guardian.ui.LawyerList.LawyerListFragment
+import com.app.guardian.ui.LawyerSpecialization.LawyerSpecializationFragment
 import com.app.guardian.ui.Mediator.MediatorHome.MediatorHomeFragment
 import com.app.guardian.ui.Radar.RadarFragment
 import com.app.guardian.ui.User.UserHome.UserHomeFragment
@@ -66,7 +67,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
                     clearFragmentBackStack()
 //                    ReplaceFragment.replaceFragment(
 //                        this,
-//                        ChattingFragment(),
+//                        LawyerSpecializationFragment(false),
 //                        false,
 //                        "",
 //                        HomeActivity::class.java.name
@@ -182,8 +183,8 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
         var getCurrentFragment = supportFragmentManager.fragments
         Log.e("BackStack", "Current fragment Name : " + getCurrentFragment.toString())
         var getFragment = supportFragmentManager.findFragmentById(R.id.flUserContainer)
-        if(getFragment !=null ){
-            if(getFragment is ChattingFragment){
+        if (getFragment != null) {
+            if (getFragment is ChattingFragment) {
                 ChattingFragment().stopTimers()
             }
         }
@@ -360,8 +361,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
-
-
 
 
 }

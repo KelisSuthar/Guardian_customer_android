@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.LawyerSpecialization.LawyerSpecializationFragment"
+    android:layout_marginHorizontal="@dimen/_15sdp"
+    android:paddingTop="@dimen/_15sdp">
+
+    <include
+        layout="@layout/layout_search_filter"
+        android:id="@+id/lyLawyerSpListFilter"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <include
+        android:id="@+id/noLawyerSp"
+        layout="@layout/no_data_layout"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/noInternetLawyerSp"
+        layout="@layout/no_internet_connection_layout"
+        android:visibility="gone" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvLawyerSpList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        tools:listitem="@layout/row_lawyer_list"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/lyLawyerSpListFilter" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

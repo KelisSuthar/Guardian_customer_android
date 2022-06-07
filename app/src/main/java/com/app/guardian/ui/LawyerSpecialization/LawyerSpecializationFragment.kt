@@ -1,5 +1,4 @@
-package com.app.guardian.ui.LawyerList
-
+package com.app.guardian.ui.LawyerSpecialization
 
 import android.app.Activity
 import android.app.Dialog
@@ -11,24 +10,22 @@ import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
-import com.app.guardian.databinding.FragmentLawyerListBinding
-import com.app.guardian.model.LawyerLsit.LawyerListResp
+import com.app.guardian.databinding.FragmentLawyerSpecializationBinding
+import com.app.guardian.model.LawyerBySpecialization.LawyerBySpecializationResp
 import com.app.guardian.model.ListFilter.FilterResp
 import com.app.guardian.model.ListFilter.Specialization
 import com.app.guardian.model.viewModels.CommonScreensViewModel
-import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
-import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
 import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
+import com.app.guardian.ui.LawyerSpecialization.adapter.LawyerBySpecializationAdapter
 import com.app.guardian.ui.chatting.ChattingFragment
 import com.app.guardian.utils.Config
 import com.google.android.material.chip.Chip
@@ -37,69 +34,88 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
 
-
-class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickListener {
-
-    private lateinit var mBinding: FragmentLawyerListBinding
-    private val mViewModel: UserViewModel by viewModel()
+class LawyerSpecializationFragment(isDialLawyer: Boolean, specialization: String) : BaseFragment(),
+    View.OnClickListener {
     private val commonViewModel: CommonScreensViewModel by viewModel()
-    var lawyerListAdapter: LawyerListAdapter? = null
-    var array = ArrayList<LawyerListResp>()
+    private lateinit var mBinding: FragmentLawyerSpecializationBinding
+    var lawyerBySpecializationAdapter: LawyerBySpecializationAdapter? = null
     var isDialLawyerOpen = isDialLawyer
-    var specialization = ""
+    var specialization = specialization
     var years_of_exp = ""
-    private var rootView: View? = null
+    var array = ArrayList<LawyerBySpecializationResp>()
     override fun getInflateResource(): Int {
-        return R.layout.fragment_lawyer_list
+        return R.layout.fragment_lawyer_specialization
     }
 
     override fun initView() {
         mBinding = getBinding()
-        (activity as HomeActivity).bottomTabVisibility(true)
+        mBinding = getBinding()
+        (activity as HomeActivity).bottomTabVisibility(false)
         if (isDialLawyerOpen) {
             (activity as HomeActivity).headerTextVisible(
-                requireActivity().resources.getString(R.string.lawyer_list),
+                requireActivity().resources.getString(R.string.specialization_list),
                 true,
                 true
             )
         } else {
             (activity as HomeActivity).headerTextVisible(
-                requireActivity().resources.getString(R.string.lawyer_list),
+                requireActivity().resources.getString(R.string.specialization_list),
                 true,
                 false
             )
         }
+//        mBinding.lyLawyerSpListFilter.lySearchFilter.gone()
+
     }
 
     private fun setAdapter() {
-        lawyerListAdapter = LawyerListAdapter(
+        lawyerBySpecializationAdapter = LawyerBySpecializationAdapter(
             context as Activity,
             this,
             isDialLawyerOpen,
             array,
-            object : LawyerListAdapter.onItemClicklisteners {
+            object : LawyerBySpecializationAdapter.onItemClicklisteners {
                 override fun onSubclick(selectedLawyerListId: Int?) {
                     ReplaceFragment.replaceFragment(
                         requireActivity(),
                         LawyerProfileFragment.newInstance(selectedLawyerListId!!, isDialLawyerOpen),
                         true,
-                        LawyerListFragment::class.java.name,
-                        LawyerListFragment::class.java.name
+                        LawyerSpecializationFragment::class.java.name,
+                        LawyerSpecializationFragment::class.java.name
                     );
                     //  callLawyerProfileDetails(array[position].id)
                 }
 
             }
         )
-        mBinding.rvLawyerList.adapter = lawyerListAdapter
+        mBinding.rvLawyerSpList.adapter = lawyerBySpecializationAdapter
+    }
+
+    override fun onResume() {
+        super.onResume()
+        callAPI("", "", specialization)
+        setAdapter()
+        mBinding.rvLawyerSpList.visible()
+        mBinding.lyLawyerSpListFilter.lySearch.visible()
+        mBinding.lyLawyerSpListFilter.lySearchFilter.visible()
+        //  mBinding.lyLawyerListFilter.edtLoginEmail.gone()
+        mBinding.noLawyerSp.gone()
+        mBinding.noInternetLawyerSp.llNointernet.gone()
     }
 
     override fun postInit() {
+
     }
 
+    override fun handleListener() {
+        mBinding.noInternetLawyerSp.btnTryAgain.setOnClickListener(this)
+        mBinding.lyLawyerSpListFilter.lySearchFilter.setOnClickListener(this)
+        mBinding.lyLawyerSpListFilter.llsearch.setOnClickListener(this)
+    }
 
     override fun initObserver() {
-        mViewModel.getLawyerList().observe(this, Observer { response ->
+//        GET LIST RESP
+        commonViewModel.getLawyerBySpecializationListResp().observe(this) { response ->
             response.let { requestState ->
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
@@ -108,10 +124,11 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                         array.clear()
                         array.addAll(data)
                         if (array.size != 0) {
-                            lawyerListAdapter?.notifyDataSetChanged()
+                            lawyerBySpecializationAdapter?.notifyDataSetChanged()
                         } else {
-                            mBinding.rvLawyerList.gone()
-                            mBinding.noLawyer.visible()
+                            mBinding.rvLawyerSpList.gone()
+                            mBinding.noLawyerSp.visible()
+                            mBinding.noInternetLawyerSp.llNointernet.gone()
                         }
                     }
                 }
@@ -131,10 +148,9 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                 }
             }
 
-        })
-
+        }
         //GET FILTER RESP
-        commonViewModel.getFilterResp().observe(this, Observer { response ->
+        commonViewModel.getFilterResp().observe(this) { response ->
             response.let { requestState ->
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
@@ -159,19 +175,24 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                 }
             }
 
-        })
+        }
     }
 
-    override fun onResume() {
-        super.onResume()
-        callAPI("", "", "")
-        setAdapter()
-        mBinding.rvLawyerList.visible()
-        mBinding.lyLawyerListFilter.lySearch.visible()
-        mBinding.lyLawyerListFilter.lySearchFilter.visible()
-        //  mBinding.lyLawyerListFilter.edtLoginEmail.gone()
-        mBinding.noLawyer.gone()
-        mBinding.noInternetLawyer.llNointernet.gone()
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.btnTryAgain -> {
+                onResume()
+            }
+            R.id.lySearchFilter -> {
+                callFilterDataAPI()
+
+            }
+            R.id.llsearch -> {
+                if (!TextUtils.isEmpty(mBinding.lyLawyerSpListFilter.edtLoginEmail.text.toString())) {
+                    callAPI(mBinding.lyLawyerSpListFilter.edtLoginEmail.text.toString(), "", "")
+                }
+            }
+        }
     }
 
     fun displayVideoCallDialog() {
@@ -189,37 +210,53 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
 
         YES.setOnClickListener {
             dialog.dismiss()
-            ReusedMethod.displayMessage(context as Activity, (context as Activity).resources.getString(R.string.come_soon))
+            ReusedMethod.displayMessage(
+                context as Activity,
+                (context as Activity).resources.getString(R.string.come_soon)
+            )
         }
 
         NO.setOnClickListener {
             dialog.dismiss()
-            ReusedMethod.displayMessage(context as Activity, (context as Activity).resources.getString(R.string.come_soon))
+            ReusedMethod.displayMessage(
+                context as Activity,
+                (context as Activity).resources.getString(R.string.come_soon)
+            )
         }
         dialog.show()
     }
 
 
-    fun callShowLawyerContactDetails(lawyerName : String?,lawyerEmail: String?,lawyerPhone : String?, lawyerProfilePicture : String?) {
+    fun callShowLawyerContactDetails(
+        lawyerName: String?,
+        lawyerEmail: String?,
+        lawyerPhone: String?,
+        lawyerProfilePicture: String?
+    ) {
         lawyerName?.let {
-            ReusedMethod.displayLawyerContactDetails(requireActivity(),
-                it, lawyerEmail,lawyerPhone,lawyerProfilePicture)
+            ReusedMethod.displayLawyerContactDetails(
+                requireActivity(),
+                it, lawyerEmail, lawyerPhone, lawyerProfilePicture
+            )
         }
     }
 
     fun callChatPageOpe(selectUserId: Int, selectUserFullName: String, profilePicUrl: String) {
         ReplaceFragment.replaceFragment(
             requireActivity(),
-            ChattingFragment(selectUserId,selectUserFullName,profilePicUrl,AppConstants.APP_ROLE_LAWYER),
+            ChattingFragment(
+                selectUserId, selectUserFullName, profilePicUrl,
+                AppConstants.APP_ROLE_LAWYER
+            ),
             false,
-            LawyerListFragment::class.java.name,
-            LawyerListFragment::class.java.name
+            LawyerSpecializationFragment::class.java.name,
+            LawyerSpecializationFragment::class.java.name
         );
     }
 
     private fun callAPI(search: String, years_of_exp: String, specialization: String) {
         if (ReusedMethod.isNetworkConnected(requireContext())) {
-            mViewModel.lawyerList(
+            commonViewModel.getLawyerbySpecializationlist(
                 true,
                 context as BaseActivity,
                 search,
@@ -227,9 +264,9 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                 specialization
             )
         } else {
-            mBinding.rvLawyerList.gone()
-            mBinding.noLawyer.gone()
-            mBinding.noInternetLawyer.llNointernet.visible()
+            mBinding.rvLawyerSpList.gone()
+            mBinding.noLawyerSp.gone()
+            mBinding.noInternetLawyerSp.llNointernet.visible()
         }
     }
 
@@ -237,32 +274,9 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         if (ReusedMethod.isNetworkConnected(requireContext())) {
             commonViewModel.getFilterData(true, context as BaseActivity)
         } else {
-            mBinding.rvLawyerList.gone()
-            mBinding.noLawyer.gone()
-            mBinding.noInternetLawyer.llNointernet.visible()
-        }
-    }
-
-    override fun handleListener() {
-        mBinding.noInternetLawyer.btnTryAgain.setOnClickListener(this)
-        mBinding.lyLawyerListFilter.lySearchFilter.setOnClickListener(this)
-        mBinding.lyLawyerListFilter.llsearch.setOnClickListener(this)
-    }
-
-    override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.btnTryAgain -> {
-                onResume()
-            }
-            R.id.lySearchFilter -> {
-                callFilterDataAPI()
-
-            }
-            R.id.llsearch -> {
-                if (!TextUtils.isEmpty(mBinding.lyLawyerListFilter.edtLoginEmail.text.toString())) {
-                    callAPI(mBinding.lyLawyerListFilter.edtLoginEmail.text.toString(), "", "")
-                }
-            }
+            mBinding.rvLawyerSpList.gone()
+            mBinding.noLawyerSp.gone()
+            mBinding.noInternetLawyerSp.llNointernet.visible()
         }
     }
 
@@ -296,15 +310,15 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
             entryChip2.id = i
             chipGroup2.addView(entryChip2)
         }
-        ivClose.setOnClickListener{
+        ivClose.setOnClickListener {
             dialog.dismiss()
         }
         btnDone.setOnClickListener {
             dialog.dismiss()
-            if(years_of_exp =="Above 15"){
-                callAPI("","15-100",specialization)
-            }else{
-                callAPI("",years_of_exp.replace(" to ","-"),specialization)
+            if (years_of_exp == "Above 15") {
+                callAPI("", "15-100", specialization)
+            } else {
+                callAPI("", years_of_exp.replace(" to ", "-"), specialization)
 
             }
         }

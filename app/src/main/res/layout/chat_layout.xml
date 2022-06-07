@@ -27,7 +27,6 @@
             android:text="Lorem Ipsum is simply dummy the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
             android:textColor="@color/black"
             android:textFontWeight="400"
-
             />
 
 

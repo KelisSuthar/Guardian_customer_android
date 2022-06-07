@@ -38,13 +38,14 @@ class ChatMessageAdapter(var context: Context, var array: ArrayList<ChatListResp
         fun bindItem(position: Int) {
             txtRecieveMsg.text = array[position].message
             txtSendMsg.text = array[position].message
-
-            if (array[position].from_id == (SharedPreferenceManager.getUser()?.user?.id ?: 0)) {
+            txtSendMsg.gone()
+            txtRecieveMsg.gone()
+            if (array[position].from_id == (SharedPreferenceManager.getUser()!!.user.id)) {
                 txtSendMsg.visible()
                 txtRecieveMsg.gone()
             } else {
-                txtSendMsg.visible()
-                txtRecieveMsg.gone()
+                txtSendMsg.gone()
+                txtRecieveMsg.visible()
             }
         }
 
