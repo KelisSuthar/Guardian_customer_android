@@ -2,12 +2,23 @@ package com.app.guardian.ui.Lawyer.AddBaner
 
 import android.content.Intent
 import android.net.Uri
+import android.os.NetworkOnMainThreadException
 import android.text.TextUtils
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.amazonaws.ClientConfiguration
+import com.amazonaws.Protocol
+import com.amazonaws.auth.BasicAWSCredentials
+import com.amazonaws.regions.Region
+import com.amazonaws.regions.Regions
+import com.amazonaws.services.s3.AmazonS3Client
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.storage.options.StorageUploadFileOptions
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
@@ -19,6 +30,7 @@ import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.utils.Config
 import com.github.dhaval2404.imagepicker.ImagePicker
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.io.File
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -37,6 +49,9 @@ class AddBannerFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: LawyerViewModel by viewModel()
     var IMAGE_CODE = 1002
     var bannerImage = ""
+    var selectedFile: File? = null
+    var attachmentUrl = ""
+
     override fun getInflateResource(): Int {
         return R.layout.fragment_add_banner
     }
@@ -159,8 +174,8 @@ class AddBannerFragment : BaseFragment(), View.OnClickListener {
             )
             ReusedMethod.ShowRedBorders(requireActivity(), mBinding.edtShareLink)
         } else {
-                            callAddBannerApi()
-            ReusedMethod.ShowNoBorders(requireActivity(), mBinding.edtShareLink)
+            uploadFile(selectedFile)
+
         }
     }
 
@@ -181,7 +196,7 @@ class AddBannerFragment : BaseFragment(), View.OnClickListener {
             mViewModel.addBanners(
                 true,
                 context as BaseActivity,
-                bannerImage,
+                attachmentUrl,
                 mBinding.edtShareLink.text?.trim().toString(),
                 "2022-05-11 23:00:00",
                 "2022-07-11 23:00:00"
@@ -204,9 +219,49 @@ class AddBannerFragment : BaseFragment(), View.OnClickListener {
                     mBinding.lladdImg.gone()
                     mBinding.ivBannerImg.setImageURI(uri)
                     bannerImage = ImagePicker.getFilePath(data).toString()
+                    selectedFile = ImagePicker.getFile(data)!!
                 }
             }
 
+        }
+    }
+
+    private fun uploadFile(selectedFile: File?) {
+        showLoadingIndicator(true)
+        try {
+            val options = StorageUploadFileOptions.defaultInstance()
+            val clientConfig = ClientConfiguration()
+            clientConfig.socketTimeout = 120000
+            clientConfig.connectionTimeout = 10000
+            clientConfig.maxErrorRetry = 2
+            clientConfig.protocol = Protocol.HTTP
+
+            val credentials = BasicAWSCredentials(
+                AppConstants.AWS_ACCESS_KEY,
+                AppConstants.AWS_SECRET_KEY
+            )
+            val s3 = AmazonS3Client(credentials, clientConfig)
+            s3.setRegion(Region.getRegion(Regions.US_EAST_2))
+            Amplify.Storage.uploadFile(selectedFile?.name.toString(), selectedFile!!, options, {
+                Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}")
+            },
+                {
+                    Log.i("MyAmplifyApp", "Successfully uploaded: ${it.key}")
+                    attachmentUrl = "${AppConstants.AWS_BASE_URL}${selectedFile?.name}"
+                    Log.i("attachmentUrl", attachmentUrl)
+                    callAddBannerApi()
+                    ReusedMethod.ShowNoBorders(requireActivity(), mBinding.edtShareLink)
+                },
+                {
+                    showLoadingIndicator(false)
+                    Log.i("MyAmplifyApp", "Upload failed", it)
+                }
+            )
+        } catch (exception: Exception) {
+            showLoadingIndicator(false)
+            Log.i("MyAmplifyApp", "Upload failed", exception)
+        } catch (e: NetworkOnMainThreadException) {
+            Log.i("MyAmplifyApp", "Upload failed$e.message")
         }
     }
 

@@ -15,6 +15,7 @@ import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.repo.UserRepo
 import com.app.guardian.utils.ApiConstant
+import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 
@@ -123,11 +124,8 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         body.addProperty(ApiConstant.EXTRAS_FIREBASE_UUID, firebase_uid)
         body.addProperty(ApiConstant.EXTRAS_DEVICETOKEN, device_token)
 
-        val img_array = JsonArray()
-//        for (i in user_doc.indices) {
-            img_array.add("https://blog.ipleaders.in/wp-content/uploads/2019/05/documents-158461_1280-696x637.png")
-//        }
-        body.addProperty(ApiConstant.EXTRAS_PROFILE_AVATAR, "https://scontent.famd5-3.fna.fbcdn.net/v/t1.6435-9/69563903_3014898355248679_7611766459034763264_n.png?_nc_cat=108&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=2glt0vXEgjkAX9MMsBk&_nc_ht=scontent.famd5-3.fna&oh=00_AT8e2ecT0ieq5LX81QMOK3Gkc-DACRwoi2nHNVYfUJ-t4A&oe=62BC2AD2")
+        val img_array:JsonArray = Gson().toJsonTree(user_doc).asJsonArray
+        body.addProperty(ApiConstant.EXTRAS_PROFILE_AVATAR, profile_avatar)
         body.add(ApiConstant.EXTRAS_USER_DOC, img_array)
 
 

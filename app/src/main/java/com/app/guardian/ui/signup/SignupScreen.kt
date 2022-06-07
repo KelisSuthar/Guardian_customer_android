@@ -8,12 +8,20 @@ import android.location.Geocoder
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Looper
+import android.os.NetworkOnMainThreadException
 import android.util.Log
 import android.view.View
 import android.view.Window
-import android.widget.Toast
 import androidx.core.content.PermissionChecker
 import androidx.recyclerview.widget.RecyclerView
+import com.amazonaws.ClientConfiguration
+import com.amazonaws.Protocol
+import com.amazonaws.auth.BasicAWSCredentials
+import com.amazonaws.regions.Region
+import com.amazonaws.regions.Regions
+import com.amazonaws.services.s3.AmazonS3Client
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.storage.options.StorageUploadFileOptions
 import com.app.guardian.R
 import com.app.guardian.common.*
 import com.app.guardian.common.ReusedMethod.Companion.ShowNoBorders
@@ -42,9 +50,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.rilixtech.widget.countrycodepicker.CountryCodePicker.OnCountryChangeListener
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.io.File
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class SignupScreen : BaseActivity(), View.OnClickListener {
@@ -61,6 +70,9 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
     var is_user = false
     var ROLE = ""
     var selectedid = -1
+    var selectedFile: File? = null
+    var attachmentUrl = ""
+    private var uploadedImageList: java.util.ArrayList<String>? = arrayListOf()
 
     private lateinit var auth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
@@ -148,14 +160,14 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
             }
         }
 
-       mBinding.ccp.setOnCountryChangeListener {
-        Log.i("THIS_APP",mBinding.ccp.selectedCountryCode)
-        Log.i("THIS_APP",mBinding.ccpOffice.selectedCountryCode)
-       }
+        mBinding.ccp.setOnCountryChangeListener {
+            Log.i("THIS_APP", mBinding.ccp.selectedCountryCode)
+            Log.i("THIS_APP", mBinding.ccpOffice.selectedCountryCode)
+        }
         mBinding.ccpOffice.setOnCountryChangeListener {
-        Log.i("THIS_APP",mBinding.ccp.selectedCountryCode)
-        Log.i("THIS_APP",mBinding.ccpOffice.selectedCountryCode)
-       }
+            Log.i("THIS_APP", mBinding.ccp.selectedCountryCode)
+            Log.i("THIS_APP", mBinding.ccpOffice.selectedCountryCode)
+        }
 
     }
 
@@ -808,7 +820,8 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 //                        mBinding.edtEmail.text?.trim().toString(),
 //                        mBinding.edtPass.text?.trim().toString()
 //                    )
-                    callApi("ABEk231daswe5")
+                    //  callApi("ABEk231daswe5")
+                    uploadFile(selectedFile, images)
                 }
 
             }
@@ -847,8 +860,8 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 mBinding.edtProvience.text?.trim().toString(),
                 mBinding.edtPostalCode.text?.trim().toString(),
                 mBinding.edtVehicalNum.text?.trim().toString(),
-                profile_img,
-                images,
+                attachmentUrl,
+                uploadedImageList!!,
                 "DEVICE@123",
                 firebaseUUID
             )
@@ -952,6 +965,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     val uri: Uri = data?.data!!
                     mBinding.ivProfileImg.setImageURI(uri)
                     profile_img = ImagePicker.getFilePath(data).toString()
+                    selectedFile = ImagePicker.getFile(data)!!
 
                 }
                 DOCUMENT_CODE -> {
@@ -1030,5 +1044,85 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 }
             }
         }
+    }
+
+    private fun uploadFile(selectedFile: File?, imageList: ArrayList<String>) {
+        showLoadingIndicator(true)
+        try {
+            val options = StorageUploadFileOptions.defaultInstance()
+            val clientConfig = ClientConfiguration()
+            clientConfig.socketTimeout = 120000
+            clientConfig.connectionTimeout = 10000
+            clientConfig.maxErrorRetry = 2
+            clientConfig.protocol = Protocol.HTTP
+
+            val credentials = BasicAWSCredentials(
+                AppConstants.AWS_ACCESS_KEY,
+                AppConstants.AWS_SECRET_KEY
+            )
+            val s3 = AmazonS3Client(credentials, clientConfig)
+            s3.setRegion(Region.getRegion(Regions.US_EAST_2))
+            Amplify.Storage.uploadFile(selectedFile?.name.toString(), selectedFile!!, options, {
+                Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}")
+            },
+                {
+                    Log.i("MyAmplifyApp", "Successfully uploaded: ${it.key}")
+                    attachmentUrl = "${AppConstants.AWS_BASE_URL}${selectedFile?.name}"
+                    Log.i("attachmentUrl", attachmentUrl)
+                },
+                {
+                    showLoadingIndicator(false)
+                    Log.i("MyAmplifyApp", "Upload failed", it)
+                }
+            )
+            uploadMultipleImageFile(imageList)
+
+
+        } catch (exception: Exception) {
+            showLoadingIndicator(false)
+            Log.i("MyAmplifyApp", "Upload failed", exception)
+        } catch (e: NetworkOnMainThreadException) {
+            Log.i("MyAmplifyApp", "Upload failed$e.message")
+        }
+    }
+
+    private fun uploadMultipleImageFile(imageList: ArrayList<String>) {
+
+        var counter = 0
+        val imageListSize = imageList.size
+        uploadedImageList?.clear()
+        imageList.forEachIndexed { index, s ->
+
+            var image1 = File(s)
+            try {
+
+                val options = StorageUploadFileOptions.defaultInstance()
+                Amplify.Storage.uploadFile(image1.name.toString(), image1, options,
+                    {
+                        Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}")
+                    },
+                    {
+                        counter += 1
+                        Log.i("MyAmplifyApp", "Successfully uploaded: ${it.key}")
+                        uploadedImageList?.add("${AppConstants.AWS_BASE_URL}${image1.name}")
+                        if (imageListSize == counter) {
+                            Log.i("uploadedImageList", uploadedImageList.toString())
+                            callApi("ABEk231daswe5")
+                        }
+                    },
+                    {
+                        showLoadingIndicator(false)
+                        Log.i("MyAmplifyApp", "Upload failed", it)
+                    }
+                )
+            } catch (exception: java.lang.Exception) {
+                showLoadingIndicator(false)
+                   Log.i("MyAmplifyApp", "Upload failed", exception)
+            } catch (e: NetworkOnMainThreadException) {
+                showLoadingIndicator(false)
+                  Log.i("MyAmplifyApp", "Upload failed$e.message")
+            }
+        }
+
     }
 }
