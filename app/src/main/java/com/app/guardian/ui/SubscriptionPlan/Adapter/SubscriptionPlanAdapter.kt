@@ -29,6 +29,7 @@ class SubscriptionPlanAdapter(
     }
 
     override fun onBindViewHolder(holder: SubscriptionPlanAdapter.myViewHolder, position: Int) {
+
         holder.bindItem(position)
     }
 
@@ -45,9 +46,11 @@ class SubscriptionPlanAdapter(
         var txtPlanPrice = view?.findViewById<TextView>(R.id.txtPlanPrice)
         var txtIntroOffer = view?.findViewById<TextView>(R.id.txtIntroOffer)
         var txtFeature = view?.findViewById<TextView>(R.id.txtFeature)
+
+
         fun bindItem(position: Int) {
-            var array = arrayList[position]
-            rv?.gone()
+            val array = arrayList[position]
+
 
             btn?.setOnClickListener {
                 listeners.onSubclick(position)
@@ -59,10 +62,10 @@ class SubscriptionPlanAdapter(
             txtPlanType!!.text = array.plan_type
             txtPlanPrice!!.text = "$"+array.pricing+"/"+array.plan_type
             txtIntroOffer!!.text = array.offer_detail
-            txtFeature!!.text = array.features
-            rv?.adapter = null
-            subscriptionPlanDetailsAdapter = SubscriptionPlanDetailsAdapter(context, arrayList)
-            rv?.adapter = subscriptionPlanDetailsAdapter
+
+            subscriptionPlanDetailsAdapter = SubscriptionPlanDetailsAdapter(context, arrayList[position].features)
+            rv!!.adapter = subscriptionPlanDetailsAdapter
+            subscriptionPlanDetailsAdapter!!.notifyDataSetChanged()
         }
     }
 

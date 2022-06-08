@@ -5,13 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 
 class SubscriptionPlanDetailsAdapter(
     var context: Activity,
-    var arrayList: ArrayList<SubscriptionPlanResp>,
+    var arrayList: ArrayList<String>,
 
     ) :
     RecyclerView.Adapter<SubscriptionPlanDetailsAdapter.myViewHolder>() {
@@ -27,14 +28,15 @@ class SubscriptionPlanDetailsAdapter(
 
 
     override fun getItemCount(): Int {
-        //        return arrayList.size
-        return 3
+        return arrayList.size
+
     }
 
     inner class myViewHolder(view: View?) : RecyclerView.ViewHolder(view!!) {
-
+        var tv = view?.findViewById<AppCompatTextView>(R.id.txtData)
         fun bindItem(position: Int) {
 
+            tv!!.text = arrayList[position]
         }
 
     }

@@ -85,7 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/subscription_plan_detail_list_layout" />
 
@@ -96,6 +96,7 @@
                     android:drawablePadding="@dimen/_20sdp"
                     android:fontFamily="@font/lora_regular"
                     android:text="Dummy Text"
+                    android:visibility="gone"
                     android:textColor="@color/txt_dark"
                     android:textSize="@dimen/_10ssp" />
 
