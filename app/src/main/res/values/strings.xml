@@ -250,4 +250,5 @@
     <string name="yes">Yes</string>
     <string name="do_you_wish_to_add_more_info">DO YOU WISH TO ADD MORE INFO?</string>
     <string name="do_you_need_mediator">Do you need Mediator?</string>
+    <string name="view_more"><u>View More</u></string>
 </resources>

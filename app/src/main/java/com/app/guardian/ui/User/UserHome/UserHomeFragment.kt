@@ -4,6 +4,7 @@ package com.app.guardian.ui.User.UserHome
 import android.content.Intent
 import android.net.Uri
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
@@ -33,6 +34,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
     private lateinit var mBinding: FragmentUserHomeBinding
     var array = ArrayList<UserHomeBannerResp>()
+    var bannerArray = ArrayList<UserHomeBannerResp>()
     var bannerAdsPager: BannerAdsPager? = null
 
     override fun getInflateResource(): Int {
@@ -107,7 +109,19 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
 
                         if (it.status) {
                             array.clear()
+//                            bannerArray.addAll(data)
                             array.addAll(data)
+
+//                            if(bannerArray.size>8){
+//                                for(n in 0..7){
+//                                   array.add(data[n])
+//                                }
+//                            }
+//                            else{
+//                                array.addAll(data)
+//                            }
+                            Log.e("bannerSize","banner add siz"+array.size.toString())
+
                             bannerAdsPager?.notifyDataSetChanged()
                             if (array.size > 1) {
                                 viewPagerScroll(mBinding.pager, array.size)
