@@ -89,6 +89,9 @@
     <string name="accident_roadblock">Accident/\nroad block</string>
     <string name="radar_text">Select below option to add photo radar and accident/road block at your current location</string>
 
+<!--    My Video-->
+    <string name="my_video">My Video</string>
+
     <!-- TODO: Validation Message  -->
 
     <!--    Add Seek Legal Advice-->
@@ -228,7 +231,7 @@
     <string name="banner_ads">Banner Ads</string>
     <string name="type_something">Type Something...</string>
 
-<!--    Lawyer By Specialization-->
+    <!--    Lawyer By Specialization-->
     <string name="specialization_list">Specialization List</string>
 
 
@@ -253,4 +256,5 @@
     <string name="yes">Yes</string>
     <string name="do_you_wish_to_add_more_info">DO YOU WISH TO ADD MORE INFO?</string>
     <string name="do_you_need_mediator">Do you need Mediator?</string>
+
 </resources>

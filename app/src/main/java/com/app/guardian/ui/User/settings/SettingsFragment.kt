@@ -22,6 +22,7 @@ import com.app.guardian.termsandcondtions.TermAndConditionsActivity
 import com.app.guardian.ui.ContactedHistory.ContectedHistoryFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Lawyer.AddBaner.AddBannerFragment
+import com.app.guardian.ui.LawyerSpecialization.LawyerSpecializationFragment
 import com.app.guardian.ui.ResetPassword.ResetPasswordActivity
 import com.app.guardian.ui.SelectRole.SelectRoleScreen
 import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
@@ -153,6 +154,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         mBinding.tvContactHistory.setOnClickListener(this)
         mBinding.tvNotification.setOnClickListener(this)
         mBinding.tvSubscription2.setOnClickListener(this)
+        mBinding.tvSpecialization.setOnClickListener(this)
     }
 
     override fun initObserver() {
@@ -334,6 +336,17 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                 ReplaceFragment.replaceFragment(
                     requireActivity(),
                     NotificationListFragment(),
+                    true,
+                    "",
+                    HomeActivity::class.java.name
+                )
+                requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
+
+            }
+            R.id.tvSpecialization -> {
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    LawyerSpecializationFragment(),
                     true,
                     "",
                     HomeActivity::class.java.name

@@ -3,18 +3,17 @@ package com.app.guardian.ui.User.UserHome
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Handler
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.app.guardian.R
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.ReusedMethod.Companion.displayMessage
 import com.app.guardian.common.ReusedMethod.Companion.viewPagerScroll
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentUserHomeBinding
-import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
+import com.app.guardian.model.HomeBanners.BannerCollection
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
@@ -25,13 +24,12 @@ import com.app.guardian.ui.User.RecordPolice.RecordPoliceInteractionFragment
 import com.app.guardian.ui.User.ScheduleVirtualWitness.ScheduleVirtualWitnessFragment
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.util.*
 
 
 class UserHomeFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
     private lateinit var mBinding: FragmentUserHomeBinding
-    var array = ArrayList<UserHomeBannerResp>()
+    var array = ArrayList<BannerCollection>()
     var bannerAdsPager: BannerAdsPager? = null
 
     override fun getInflateResource(): Int {
@@ -107,7 +105,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
 
                         if (it.status) {
                             array.clear()
-                            array.addAll(data)
+                            array.addAll(data.bannerCollection)
                             bannerAdsPager?.notifyDataSetChanged()
                             if (array.size > 1) {
                                 viewPagerScroll(mBinding.pager, array.size)
@@ -123,18 +121,19 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
                 requestState.error?.let { errorObj ->
                     when (errorObj.errorState) {
                         Config.NETWORK_ERROR ->
-                            ReusedMethod.displayMessage(
+                            displayMessage(
                                 requireActivity(),
                                 getString(R.string.text_error_network)
                             )
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { ReusedMethod.displayMessage(requireActivity(), it) }
+                                ?.let { displayMessage(requireActivity(), it) }
                     }
                 }
             }
         }
+
     }
 
 

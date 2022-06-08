@@ -12,9 +12,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.loadImage
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.ui.LawyerList.LawyerListFragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import de.hdodenhof.circleimageview.CircleImageView
 
 class LawyerListAdapter(
@@ -72,6 +75,11 @@ class LawyerListAdapter(
             lyLawyerDetails?.setOnClickListener {
                 listeners.onSubclick(lawyerProfileData.id)
             }
+            Glide.with(context)
+                .load(lawyerProfileData.profile_avatar)
+                .placeholder(R.drawable.profile)
+                .into(imgPicture!!)
+
 
             imgRowLawyerCall?.setOnClickListener {
                 lawyerListFragment.callShowLawyerContactDetails(

@@ -43,6 +43,8 @@ class ApiConstant{
      val EXTRAS_MESSAGE="message"
      val EXTRAS_MESSAGE_TIME="message_time"
      val EXTRAS_TO_ROLE="to_role"
+     val EXTRAS_LAST_SEEN="last_seen"
+     val EXTRAS_IS_ONLINE="is_online"
 
 
 

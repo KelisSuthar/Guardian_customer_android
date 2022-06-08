@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.viewpager.widget.PagerAdapter
 import com.app.guardian.R
-import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
-import com.app.guardian.ui.signup.adapter.ImageAdapter
+import com.app.guardian.model.HomeBanners.BannerCollection
 import com.bumptech.glide.Glide
 
-class BannerAdsPager(var activity: Activity, var arrayList: ArrayList<UserHomeBannerResp>,var listener: BannerAdsPager.onItemClicklisteners) : PagerAdapter() {
+class BannerAdsPager(var activity: Activity, var arrayList: ArrayList<BannerCollection>, var listener: onItemClicklisteners) : PagerAdapter() {
 
 
     override fun getCount(): Int {

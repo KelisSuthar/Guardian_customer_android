@@ -1,6 +1,5 @@
 package com.app.guardian.shareddata.repo
 
-import android.app.Notification
 import androidx.lifecycle.MutableLiveData
 import com.app.guardian.model.Chat.ChatListResp
 import com.app.guardian.model.Chat.SendMessageResp
@@ -8,6 +7,7 @@ import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
+import com.app.guardian.model.HomeBanners.UserHomeBannerResp
 import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
 import com.app.guardian.model.LawyerBySpecialization.LawyerBySpecializationResp
 import com.app.guardian.model.LawyerLsit.LawyerListResp
@@ -22,16 +22,12 @@ import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.SupportGroup.SupportGroupResp
-import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
 import com.app.guardian.model.cms.CMSResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
 import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.shareddata.BaseView
 import com.app.guardian.shareddata.base.BaseActivity
-import com.app.guardian.shareddata.base.BaseFragment
 import com.google.gson.JsonObject
-import okhttp3.MultipartBody
-import java.net.IDN
 
 interface UserRepo {
 //    fun getKey(
@@ -105,7 +101,7 @@ interface UserRepo {
     fun getuserHomeBanners(
         internetConnected: Boolean,
         baseView: BaseActivity,
-        commonResp: MutableLiveData<RequestState<MutableList<UserHomeBannerResp>>>
+        commonResp: MutableLiveData<RequestState<UserHomeBannerResp>>
     )
 
     fun getUserDetails(
@@ -297,6 +293,13 @@ interface UserRepo {
         internetConnected: Boolean,
         baseView: BaseActivity,
         sendMessageResp: MutableLiveData<RequestState<SendMessageResp>>
+    )
+
+    fun setUserStatus(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<CommonResponse>>
     )
 
 

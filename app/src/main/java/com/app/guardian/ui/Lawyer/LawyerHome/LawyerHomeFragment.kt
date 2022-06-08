@@ -12,7 +12,7 @@ import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentLawyerHomeBinding
-import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
+import com.app.guardian.model.HomeBanners.BannerCollection
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
@@ -22,14 +22,12 @@ import com.app.guardian.ui.KnowRight.KnowRightFragment
 import com.app.guardian.ui.Lawyer.AskMoreQuestion.AskMoreQuestion
 import com.app.guardian.ui.SeekLegalAdvice.SeekLegalAdviceListFragment
 import com.app.guardian.utils.Config
-import com.github.angads25.toggle.interfaces.OnToggledListener
-import com.github.angads25.toggle.model.ToggleableView
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
-    var array = ArrayList<UserHomeBannerResp>()
+    var array = ArrayList<BannerCollection>()
     var bannerAdsPager: BannerAdsPager? = null
     lateinit var mBinding: FragmentLawyerHomeBinding
     override fun getInflateResource(): Int {
@@ -44,17 +42,24 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
 
         setAdapter()
         callApi()
-        mBinding.availabilitySwitch.setOnToggledListener(object : OnToggledListener {
-            override fun onSwitched(toggleableView: ToggleableView?, isOn: Boolean) {
-                ReusedMethod.displayMessageDialog(requireActivity(),
-                    "",
-                    "Coming Soon!!",
-                    false,
-                    "Ok",
-                    ""
-                )
+
+        mBinding.availabilitySwitch .setOnToggledListener { _, isOn ->
+            if (isOn) {
+                callChangeStatusAPI(0)
+            } else {
+                callChangeStatusAPI(1)
             }
-        })
+        }
+    }
+
+    private fun callChangeStatusAPI(i: Int) {
+        if (ReusedMethod.isNetworkConnected(requireActivity())) {
+            mViewModel.setAppUserStatus(true, requireActivity() as BaseActivity, i.toString())
+        } else {
+            mBinding.noInternetUserHomeFrag.llNointernet.visible()
+            mBinding.noDataUserHomeFrag.gone()
+            mBinding.cl.gone()
+        }
     }
 
     private fun callApi() {
@@ -109,13 +114,48 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
 
 
                         if (it.status) {
+                            mBinding.availabilitySwitch.isOn = data.is_online == 1
                             array.clear()
-                            array.addAll(data)
+                            array.addAll(data.bannerCollection)
                             bannerAdsPager?.notifyDataSetChanged()
                             if (array.size > 1) {
                                 ReusedMethod.viewPagerScroll(mBinding.pager, array.size)
                             }
                         } else {
+                            mBinding.cl.gone()
+                            mBinding.noDataUserHomeFrag.visible()
+                            mBinding.noInternetUserHomeFrag.llNointernet.gone()
+                        }
+
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                requireActivity(),
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let { ReusedMethod.displayMessage(requireActivity(), it) }
+                    }
+                }
+            }
+        }
+        //SET USER STATUS
+        mViewModel.getCommonResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+
+
+                        if (it.status) {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                        } else {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                             mBinding.cl.gone()
                             mBinding.noDataUserHomeFrag.visible()
                             mBinding.noInternetUserHomeFrag.llNointernet.gone()

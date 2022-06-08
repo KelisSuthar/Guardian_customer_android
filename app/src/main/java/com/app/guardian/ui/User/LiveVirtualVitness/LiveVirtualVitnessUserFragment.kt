@@ -7,17 +7,14 @@ import androidx.core.content.ContextCompat
 import com.app.guardian.R
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
-import com.app.guardian.common.extentions.gone
-import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentLiveVirtualVitnessUserBinding
-import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
+import com.app.guardian.model.HomeBanners.BannerCollection
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.BannerAds.BannerAdsPager
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.LawyerList.LawyerListFragment
-import com.app.guardian.ui.Mediator.MediatorHome.MediatorHomeFragment
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -25,7 +22,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
     lateinit var mBinding: FragmentLiveVirtualVitnessUserBinding
     private val mViewModel: CommonScreensViewModel by viewModel()
-    var array = ArrayList<UserHomeBannerResp>()
+    var array = ArrayList<BannerCollection>()
     var bannerAdsPager: BannerAdsPager? = null
     override fun getInflateResource(): Int {
         return R.layout.fragment_live_virtual_vitness_user
@@ -94,7 +91,7 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
 
                         if (it.status) {
                             array.clear()
-                            array.addAll(data)
+                            array.addAll(data.bannerCollection)
                             bannerAdsPager?.notifyDataSetChanged()
                             if (array.size > 1) {
                                 ReusedMethod.viewPagerScroll(mBinding.pager, array.size)

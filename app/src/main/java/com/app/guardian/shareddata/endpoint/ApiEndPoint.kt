@@ -7,6 +7,7 @@ import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.CommonResponseModel
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
+import com.app.guardian.model.HomeBanners.UserHomeBannerResp
 import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
 import com.app.guardian.model.LawyerBySpecialization.LawyerBySpecializationResp
 import com.app.guardian.model.LawyerLsit.LawyerListResp
@@ -20,7 +21,6 @@ import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.SupportGroup.SupportGroupResp
-import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
 import com.app.guardian.model.cms.CMSResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
 import com.app.guardian.model.specializationList.SpecializationListResp
@@ -61,7 +61,7 @@ interface ApiEndPoint {
     fun buysubscribePlan(@Body jsonObject: JsonObject): Call<CommonResponseModel<CommonResponse>>
 
     @GET("getUserHomeBanner")
-    fun getUserHomeBanners(): Call<CommonResponseModel<MutableList<UserHomeBannerResp>>>
+    fun getUserHomeBanners(): Call<CommonResponseModel<UserHomeBannerResp>>
 
     @GET("getUserDetail")
     fun getUserDetails(): Call<CommonResponseModel<UserDetailsResp>>
@@ -152,6 +152,9 @@ interface ApiEndPoint {
 
     @POST("addUserChat")
     fun sendMessageChat(@Body body: JsonObject): Call<CommonResponseModel<SendMessageResp>>
+
+    @POST("updateOnlineStatus")
+    fun setAppUserStatus(@Body body: JsonObject): Call<CommonResponseModel<CommonResponse>>
 
 
 }

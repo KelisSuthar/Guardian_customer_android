@@ -3,16 +3,17 @@ package com.app.guardian.model.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.app.guardian.common.ReusedMethod.Companion.getCurrentDate
 import com.app.guardian.model.Chat.ChatListResp
 import com.app.guardian.model.Chat.SendMessageResp
 import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.Editprofile.UserDetailsResp
+import com.app.guardian.model.HomeBanners.UserHomeBannerResp
 import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
 import com.app.guardian.model.LawyerBySpecialization.LawyerBySpecializationResp
 import com.app.guardian.model.ListFilter.FilterResp
 import com.app.guardian.model.RequestState
-import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
 import com.app.guardian.model.cms.CMSResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
 import com.app.guardian.shareddata.base.BaseActivity
@@ -28,8 +29,8 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
         commonResp
 
     //USER HOME BANNERS
-    private val userBannerResp = MutableLiveData<RequestState<MutableList<UserHomeBannerResp>>>()
-    fun getuserHomeBannerResp(): LiveData<RequestState<MutableList<UserHomeBannerResp>>> =
+    private val userBannerResp = MutableLiveData<RequestState<UserHomeBannerResp>>()
+    fun getuserHomeBannerResp(): LiveData<RequestState<UserHomeBannerResp>> =
         userBannerResp
 
     fun getuserHomeBanners(
@@ -266,6 +267,26 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
             isInternetConnected,
             baseView,
             lawyerBySpecializationResp
+        )
+    }
+
+
+    //SET USER STATUS API
+    fun setAppUserStatus(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        is_online: String,
+    ) {
+        val body = JsonObject()
+
+        body.addProperty(ApiConstant.EXTRAS_IS_ONLINE, is_online)
+        body.addProperty(ApiConstant.EXTRAS_LAST_SEEN, getCurrentDate())
+
+        mUserRepository.setUserStatus(
+            body,
+            isInternetConnected,
+            baseView,
+            commonResp
         )
     }
 }

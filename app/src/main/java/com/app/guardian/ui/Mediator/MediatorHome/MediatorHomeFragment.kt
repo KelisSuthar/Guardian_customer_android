@@ -13,7 +13,7 @@ import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentMediatorHomeBinding
-import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
+import com.app.guardian.model.HomeBanners.BannerCollection
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
@@ -27,7 +27,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
-    var array = ArrayList<UserHomeBannerResp>()
+    var array = ArrayList<BannerCollection>()
     var bannerAdsPager: BannerAdsPager? = null
     lateinit var mBinding: FragmentMediatorHomeBinding
     override fun getInflateResource(): Int {
@@ -45,9 +45,23 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
 
         setAdapter()
         callApi()
-        
+        mBinding.availabilitySwitch .setOnToggledListener { _, isOn ->
+            if (isOn) {
+                callChangeStatusAPI(1)
+            } else {
+                callChangeStatusAPI(0)
+            }
+        }
     }
-
+    private fun callChangeStatusAPI(i: Int) {
+        if (ReusedMethod.isNetworkConnected(requireActivity())) {
+            mViewModel.setAppUserStatus(true, requireActivity() as BaseActivity, i.toString())
+        } else {
+            mBinding.noInternetUserHomeFrag.llNointernet.visible()
+            mBinding.noDataUserHomeFrag.gone()
+            mBinding.cl.gone()
+        }
+    }
     private fun callApi() {
         if (ReusedMethod.isNetworkConnected(requireActivity())) {
             mViewModel.getuserHomeBanners(true, requireActivity() as BaseActivity)
@@ -102,13 +116,49 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
                         SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
 
                         if (it.status) {
+                            mBinding.availabilitySwitch.isOn = data.is_online == 1
                             array.clear()
-                            array.addAll(data)
+                            array.addAll(data.bannerCollection)
                             bannerAdsPager?.notifyDataSetChanged()
                             if (array.size > 1) {
                                 ReusedMethod.viewPagerScroll(mBinding.pager, array.size)
                             }
                         } else {
+                            mBinding.cl.gone()
+                            mBinding.noDataUserHomeFrag.visible()
+                            mBinding.noInternetUserHomeFrag.llNointernet.gone()
+                        }
+
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                requireActivity(),
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let { ReusedMethod.displayMessage(requireActivity(), it) }
+                    }
+                }
+            }
+        }
+        //SET USER STATUS
+        mViewModel.getCommonResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+
+
+                        if (it.status) {
+
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                        } else {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                             mBinding.cl.gone()
                             mBinding.noDataUserHomeFrag.visible()
                             mBinding.noInternetUserHomeFrag.llNointernet.gone()

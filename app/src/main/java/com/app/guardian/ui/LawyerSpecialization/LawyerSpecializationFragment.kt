@@ -34,7 +34,8 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class LawyerSpecializationFragment(isDialLawyer: Boolean, specialization: String) : BaseFragment(),
+class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specialization: String? = "") :
+    BaseFragment(),
     View.OnClickListener {
     private val commonViewModel: CommonScreensViewModel by viewModel()
     private lateinit var mBinding: FragmentLawyerSpecializationBinding
@@ -51,7 +52,7 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean, specialization: String
         mBinding = getBinding()
         mBinding = getBinding()
         (activity as HomeActivity).bottomTabVisibility(false)
-        if (isDialLawyerOpen) {
+        if (isDialLawyerOpen == true) {
             (activity as HomeActivity).headerTextVisible(
                 requireActivity().resources.getString(R.string.specialization_list),
                 true,
@@ -72,13 +73,18 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean, specialization: String
         lawyerBySpecializationAdapter = LawyerBySpecializationAdapter(
             context as Activity,
             this,
-            isDialLawyerOpen,
+            isDialLawyerOpen == true,
             array,
             object : LawyerBySpecializationAdapter.onItemClicklisteners {
                 override fun onSubclick(selectedLawyerListId: Int?) {
                     ReplaceFragment.replaceFragment(
                         requireActivity(),
-                        LawyerProfileFragment.newInstance(selectedLawyerListId!!, isDialLawyerOpen),
+                        isDialLawyerOpen?.let {
+                            LawyerProfileFragment.newInstance(
+                                selectedLawyerListId!!,
+                                it
+                            )
+                        },
                         true,
                         LawyerSpecializationFragment::class.java.name,
                         LawyerSpecializationFragment::class.java.name
@@ -93,7 +99,7 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean, specialization: String
 
     override fun onResume() {
         super.onResume()
-        callAPI("", "", specialization)
+        callAPI("", "", specialization.toString())
         setAdapter()
         mBinding.rvLawyerSpList.visible()
         mBinding.lyLawyerSpListFilter.lySearch.visible()
@@ -316,9 +322,9 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean, specialization: String
         btnDone.setOnClickListener {
             dialog.dismiss()
             if (years_of_exp == "Above 15") {
-                callAPI("", "15-100", specialization)
+                callAPI("", "15-100", specialization.toString())
             } else {
-                callAPI("", years_of_exp.replace(" to ", "-"), specialization)
+                callAPI("", years_of_exp.replace(" to ", "-"), specialization.toString())
 
             }
         }

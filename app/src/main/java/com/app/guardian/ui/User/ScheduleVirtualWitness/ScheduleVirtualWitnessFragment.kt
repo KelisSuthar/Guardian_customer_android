@@ -7,10 +7,8 @@ import com.app.guardian.R
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.ReusedMethod.Companion.displayMessage
-import com.app.guardian.common.extentions.gone
-import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentScheduleVirtualWitnessBinding
-import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
+import com.app.guardian.model.HomeBanners.BannerCollection
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
@@ -19,13 +17,12 @@ import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.User.ContactSupport.ContactSupportFragment
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.util.ArrayList
 
 
 class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
     lateinit var mBinding: FragmentScheduleVirtualWitnessBinding
-    var array = ArrayList<UserHomeBannerResp>()
+    var array = ArrayList<BannerCollection>()
     var bannerAdsPager: BannerAdsPager? = null
     override fun getInflateResource(): Int {
         return R.layout.fragment_schedule_virtual_witness
@@ -93,7 +90,7 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
 
                         if (it.status) {
                             array.clear()
-                            array.addAll(data)
+                            array.addAll(data.bannerCollection)
                             bannerAdsPager?.notifyDataSetChanged()
                             if (array.size > 1) {
                                 ReusedMethod.viewPagerScroll(mBinding.pager, array.size)

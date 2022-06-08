@@ -2,19 +2,13 @@ package com.app.guardian.ui.User.RecordPolice
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
-import com.app.guardian.common.extentions.gone
-import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentRecordPoliceInteractionBinding
-import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
+import com.app.guardian.model.HomeBanners.BannerCollection
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
@@ -28,7 +22,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class RecordPoliceInteractionFragment : BaseFragment(), View.OnClickListener {
     lateinit var mBinding: FragmentRecordPoliceInteractionBinding
     private val mViewModel: CommonScreensViewModel by viewModel()
-    var array = ArrayList<UserHomeBannerResp>()
+    var array = ArrayList<BannerCollection>()
     var bannerAdsPager: BannerAdsPager? = null
     override fun getInflateResource(): Int {
         return R.layout.fragment_record_police_interaction
@@ -156,7 +150,7 @@ class RecordPoliceInteractionFragment : BaseFragment(), View.OnClickListener {
 
                         if (it.status) {
                             array.clear()
-                            array.addAll(data)
+                            array.addAll(data.bannerCollection)
                             bannerAdsPager?.notifyDataSetChanged()
                             if (array.size > 1) {
                                 ReusedMethod.viewPagerScroll(mBinding.pager, array.size)

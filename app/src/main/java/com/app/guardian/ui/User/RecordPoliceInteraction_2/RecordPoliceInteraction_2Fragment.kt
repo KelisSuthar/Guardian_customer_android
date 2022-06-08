@@ -8,7 +8,7 @@ import com.app.guardian.R
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.databinding.FragmentRecordPoliceInteraction2Binding
-import com.app.guardian.model.UserModels.HomeFrag.UserHomeBannerResp
+import com.app.guardian.model.HomeBanners.BannerCollection
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
@@ -23,7 +23,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class RecordPoliceInteraction_2Fragment : BaseFragment(), View.OnClickListener {
     lateinit var mBinding: FragmentRecordPoliceInteraction2Binding
     private val mViewModel: CommonScreensViewModel by viewModel()
-    var array = ArrayList<UserHomeBannerResp>()
+    var array = ArrayList<BannerCollection>()
     var bannerAdsPager: BannerAdsPager? = null
     override fun getInflateResource(): Int {
         return R.layout.fragment_record_police_interaction_2
@@ -151,7 +151,7 @@ class RecordPoliceInteraction_2Fragment : BaseFragment(), View.OnClickListener {
 
                         if (it.status) {
                             array.clear()
-                            array.addAll(data)
+                            array.addAll(data.bannerCollection)
                             bannerAdsPager?.notifyDataSetChanged()
                             if (array.size > 1) {
                                 ReusedMethod.viewPagerScroll(mBinding.pager, array.size)
