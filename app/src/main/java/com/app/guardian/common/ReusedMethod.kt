@@ -49,6 +49,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.rilixtech.widget.countrycodepicker.CountryCodePicker
 import de.hdodenhof.circleimageview.CircleImageView
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.acos
@@ -657,12 +658,35 @@ class ReusedMethod {
                 }
             }, 500, 1500)
         }
+
         fun getCurrentDate(): String {
             val fmt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
             val currentTime: Date = Calendar.getInstance().time
             val date = fmt.format(currentTime)
             return date
         }
+
+        fun getCurrentDay(): String {
+            val fmt = SimpleDateFormat("dd")
+            val currentTime: Date = Calendar.getInstance().time
+            val date = fmt.format(currentTime)
+            return date
+        }
+
+        fun changeToDay(str_date: String): String {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            val outputFormat = SimpleDateFormat("dd")
+            var date: Date? = null
+            var str: String? = null
+            try {
+                date = inputFormat.parse(str_date)
+                str = outputFormat.format(date)
+            } catch (e: ParseException) {
+                e.printStackTrace()
+            }
+            return str!!
+        }
+
 
     }
 

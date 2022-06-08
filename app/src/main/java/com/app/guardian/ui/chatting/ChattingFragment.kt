@@ -4,6 +4,9 @@ import android.os.Handler
 import android.view.*
 import com.app.guardian.R
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.ReusedMethod.Companion.changeToDay
+import com.app.guardian.common.ReusedMethod.Companion.getCurrentDay
+import com.app.guardian.common.extentions.changeDateFormat
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentChattingBinding
@@ -17,14 +20,13 @@ import com.app.guardian.utils.Config
 import com.bumptech.glide.Glide
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class ChattingFragment(
-    var selectUserId: Int?=0,
-    var selectUserFullName: String?="",
-    var profilePicUrl: String?="",
-    var to_role: String?=""
+    var selectUserId: Int? = 0,
+    var selectUserFullName: String? = "",
+    var profilePicUrl: String? = "",
+    var to_role: String? = ""
 ) : BaseFragment(), View.OnClickListener {
     lateinit var mBinding: FragmentChattingBinding
     private val mViewModel: CommonScreensViewModel by viewModel()
@@ -62,7 +64,6 @@ class ChattingFragment(
         super.onResume()
         setAdapter()
         callChatListApi()
-        mBinding.nodataChat.gone()
         mBinding.noInternetChat.llNointernet.gone()
         mBinding.rvChat.visible()
     }
@@ -94,11 +95,28 @@ class ChattingFragment(
                             chatArray.clear()
                             if (!data.isNullOrEmpty()) {
                                 chatArray.addAll(data)
-                                chatMessageAdapter?.notifyDataSetChanged()
+
+                                getHeadderTime(data)
+//                                for (i in data.indices) {
+//                                    if (changeDateFormat(
+//                                            "yyyy-MM-dd HH:mm:ss",
+//                                            "yyyy-MM-dd",
+//                                            data[i].message_time!!
+//                                        ) == changeDateFormat(
+//                                            "yyyy-MM-dd HH:mm:ss",
+//                                            "yyyy-MM-dd",
+//                                            ReusedMethod.getCurrentDate()
+//                                        )
+//                                    ) {
+//                                        chatArray[i].header_time = "Today"
+//                                        chatArray[i].is_header_show = true
+//                                    }
+//                                }
+
+
                             } else {
                                 stopTimers()
                                 mBinding.noInternetChat.llNointernet.gone()
-                                mBinding.nodataChat.visible()
                                 mBinding.rvChat.gone()
                             }
                         } else {
@@ -152,6 +170,51 @@ class ChattingFragment(
 
     }
 
+    private fun getHeadderTime(data: MutableList<ChatListResp>) {
+        for (i in data.size - 1 downTo 0) {
+            if (changeDateFormat(
+                    "yyyy-MM-dd HH:mm:ss",
+                    "yyyy-MM-dd",
+                    data[i].message_time!!
+                ) == changeDateFormat(
+                    "yyyy-MM-dd HH:mm:ss",
+                    "yyyy-MM-dd",
+                    ReusedMethod.getCurrentDate()
+                )
+            ) {
+                chatArray[i].header_time = "Today"
+                chatArray[i].is_header_show = true
+                chatMessageAdapter?.notifyDataSetChanged()
+                break
+
+            } else if ((getCurrentDay().toInt() - 1) == (changeToDay(data[i].message_time!!).toInt())) {
+                chatArray[i].header_time = "Yesterday"
+                chatArray[i].is_header_show = true
+                chatMessageAdapter?.notifyDataSetChanged()
+                break
+            } else if ((getCurrentDay()
+                    .toInt() - 1) == 0 && (changeToDay(
+                    data[i].message_time!!
+                ) == "31") || (changeToDay(
+                    data[i].message_time!!
+                ) == "30")
+                || (changeToDay(
+                    data[i].message_time!!
+                ) == "28")
+                || (changeToDay(
+                    data[i].message_time!!
+                ) == "29")
+            ) {
+                chatArray[i].header_time = "Yesterday"
+                chatArray[i].is_header_show = true
+                chatMessageAdapter?.notifyDataSetChanged()
+            }
+
+
+        }
+
+    }
+
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btnSend -> {
@@ -172,11 +235,9 @@ class ChattingFragment(
             )
         } else {
             mBinding.noInternetChat.llNointernet.visible()
-            mBinding.nodataChat.gone()
             mBinding.rvChat.gone()
         }
     }
-
 
 
     private fun callChatListApi() {
@@ -198,7 +259,6 @@ class ChattingFragment(
 
         } else {
             mBinding.noInternetChat.llNointernet.visible()
-            mBinding.nodataChat.gone()
             mBinding.rvChat.gone()
         }
     }
@@ -207,6 +267,7 @@ class ChattingFragment(
         timer.cancel()
         handler.removeCallbacksAndMessages(null);
     }
+
     fun resumeTimers() {
         timer.cancel()
         handler.removeCallbacksAndMessages(null);

@@ -102,10 +102,6 @@
 
         </LinearLayout>
 
-        <include
-            android:id="@+id/nodataChat"
-            layout="@layout/no_data_layout"
-            android:visibility="gone" />
 
         <include
             android:id="@+id/noInternetChat"
@@ -137,7 +133,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clHeadder"
-            tools:listitem="@layout/chat_layout" />
+            tools:listitem="@layout/chat_layout_left" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
