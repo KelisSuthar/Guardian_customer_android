@@ -221,7 +221,7 @@ interface UserRepo {
     fun cmsData(
         internetConnected: Boolean,
         baseView: BaseActivity,
-        commonResp: MutableLiveData<RequestState<MutableList<CMSResp>>>
+        commonResp: MutableLiveData<RequestState<CMSResp>>
     )
 
     fun updatePhoneOtpVerify(

@@ -186,8 +186,8 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
     }
 
     //GET CMS DATA
-    private val cmsResp = MutableLiveData<RequestState<MutableList<CMSResp>>>()
-    fun getCMSResp(): LiveData<RequestState<MutableList<CMSResp>>> = cmsResp
+    private val cmsResp = MutableLiveData<RequestState<CMSResp>>()
+    fun getCMSResp(): LiveData<RequestState<CMSResp>> = cmsResp
 
     fun getCMSData(
         isInternetConnected: Boolean,

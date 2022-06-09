@@ -118,7 +118,7 @@ interface ApiEndPoint {
     fun getSpecializationList(): Call<CommonResponseModel<MutableList<SpecializationListResp>>>
 
     @GET("getCMS")
-    fun getCMSData(): Call<CommonResponseModel<MutableList<CMSResp>>>
+    fun getCMSData(): Call<CommonResponseModel<CMSResp>>
 
     @PUT("updatePhoneOtpVerify")
     fun updatePhoneOtpVerify(@Body body: JsonObject): Call<CommonResponseModel<MutableList<CommonResponse>>>//after user change the phone number in edit profile
