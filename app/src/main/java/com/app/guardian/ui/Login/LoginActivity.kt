@@ -88,8 +88,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                                     AppConstants.APP_ROLE_USER
                                 )
                             ) {
-
-
                                 showLoadingIndicator(true)
                                 checkLogin(data)
                                 SharedPreferenceManager.putString(

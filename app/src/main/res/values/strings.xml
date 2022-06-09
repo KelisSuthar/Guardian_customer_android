@@ -89,7 +89,7 @@
     <string name="accident_roadblock">Accident/\nroad block</string>
     <string name="radar_text">Select below option to add photo radar and accident/road block at your current location</string>
 
-<!--    My Video-->
+    <!--    My Video-->
     <string name="my_video">My Video</string>
 
     <!-- TODO: Validation Message  -->

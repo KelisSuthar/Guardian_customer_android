@@ -120,7 +120,7 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:2.3.0'
 
     //firebase
-    implementation 'com.google.firebase:firebase-messaging:22.0.0'
+
     implementation platform('com.google.firebase:firebase-bom:28.3.1')
     implementation 'com.google.firebase:firebase-analytics-ktx'
 //    implementation 'com.google.firebase:firebase-crashlytics:17.1.1'
@@ -128,7 +128,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.3.2'
     implementation 'com.google.firebase:firebase-database:19.4.0'
     implementation 'com.google.firebase:firebase-storage:19.2.0'
-    implementation 'com.google.firebase:firebase-messaging:21.0.1'
+    implementation 'com.google.firebase:firebase-messaging:23.0.5'
     implementation 'com.google.firebase:firebase-core:17.5.0'
 
     //OTP View

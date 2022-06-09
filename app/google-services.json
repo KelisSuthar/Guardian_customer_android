@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "384290626697",
+    "firebase_url": "https://guardian-d0b75-default-rtdb.firebaseio.com",
     "project_id": "guardian-d0b75",
     "storage_bucket": "guardian-d0b75.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "384290626697-91f6luu01s629ccft1s5sl2cuaogvqgi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.guardian",
+            "certificate_hash": "f357cff8fd557d3cdf0ba5e5e9bd115db8c677fc"
+          }
+        },
         {
           "client_id": "384290626697-ja1ke4f4e6j5g34r3vfivn3bsdt1o8a3.apps.googleusercontent.com",
           "client_type": 3
@@ -29,6 +38,13 @@
             {
               "client_id": "384290626697-ja1ke4f4e6j5g34r3vfivn3bsdt1o8a3.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "384290626697-9g6uj3mtihecaraskllqesesk0nii03u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.app.stablehub"
+              }
             }
           ]
         }
