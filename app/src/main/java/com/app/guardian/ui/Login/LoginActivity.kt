@@ -1,5 +1,6 @@
 package com.app.guardian.ui.Login
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.util.Log
 import android.view.View
@@ -10,6 +11,7 @@ import com.app.guardian.common.ReusedMethod.Companion.ShowNoBorders
 import com.app.guardian.common.ReusedMethod.Companion.ShowRedBorders
 import com.app.guardian.common.ReusedMethod.Companion.changePhoneEmailState
 import com.app.guardian.common.ReusedMethod.Companion.displayMessage
+import com.app.guardian.common.ReusedMethod.Companion.displayMessageDialog
 import com.app.guardian.common.ReusedMethod.Companion.isNetworkConnected
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
@@ -73,6 +75,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
 
+    @SuppressLint("LogNotTimber")
     override fun initObserver() {
         mViewModel.getLoginResp().observe(this) { response ->
             response?.let { requestState ->
@@ -80,16 +83,42 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
-                            showLoadingIndicator(true)
-                            checkLogin(data)
-                            SharedPreferenceManager.putString(AppConstants.BEREAR_TOKEN, data.token)
-                            displayMessage(this, it.message.toString())
-                            val gson = Gson()
-                            val json = gson.toJson(data)
-                            SharedPreferenceManager.putString(AppConstants.USER_DETAIL_LOGIN, json)
-                            displayMessage(this, it.message.toString())
+                            if (data.user.user_role == SharedPreferenceManager.getString(
+                                    AppConstants.USER_ROLE,
+                                    AppConstants.APP_ROLE_USER
+                                )
+                            ) {
+
+
+                                showLoadingIndicator(true)
+                                checkLogin(data)
+                                SharedPreferenceManager.putString(
+                                    AppConstants.BEREAR_TOKEN,
+                                    data.token
+                                )
+                                displayMessage(this, it.message.toString())
+                                val gson = Gson()
+                                val json = gson.toJson(data)
+                                SharedPreferenceManager.putString(
+                                    AppConstants.USER_DETAIL_LOGIN,
+                                    json
+                                )
+                                displayMessage(this, it.message.toString())
+                            } else {
+                                displayMessageDialog(
+                                    this@LoginActivity,
+                                    "",
+                                    resources.getString(R.string.valid_role_selections),
+                                    false,
+                                    "OK",
+                                    ""
+                                )
+                            }
                         } else {
-                            Log.e("network_message","Display network error form login message : "+it.message)
+                            Log.e(
+                                "network_message",
+                                "Display network error form login message : " + it.message
+                            )
 
                             displayMessage(this, it.message.toString())
                         }

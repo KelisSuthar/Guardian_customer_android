@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.User.MyVideos.MyVideosFragment">
@@ -41,21 +42,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textSize="@dimen/_15ssp"
                     android:text="@string/my_video"
+                    android:textSize="@dimen/_15ssp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/appCompatImageView3"
                     app:layout_constraintStart_toEndOf="@+id/ivBack"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/appCompatImageView3"
+                    android:id="@+id/ivVideo"
                     android:layout_width="@dimen/_25sdp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="right"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:visibility="visible"
                     android:src="@drawable/ic_shoot_video"
+                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -95,7 +96,7 @@
                 android:button="@null"
                 android:checked="true"
                 android:fontFamily="@font/lora_semibold"
-                android:text="Lawyer"
+                android:text="@string/offline_video"
                 android:textAlignment="center"
                 android:textColor="@color/blue_white_color_selector"
                 android:textSize="@dimen/_14ssp" />
@@ -109,21 +110,106 @@
                 android:button="@null"
                 android:checked="false"
                 android:fontFamily="@font/lora_semibold"
-                android:text="Mediator"
+                android:text="@string/uploaded"
                 android:textAlignment="center"
                 android:textColor="@color/blue_white_color_selector"
                 android:textSize="@dimen/_14ssp" />
         </RadioGroup>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clOfflineVideos"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="visible">
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/appCompatTextView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/medium_rounded_light_blue"
+                    android:fontFamily="@font/lora_regular"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="5dp"
+                    android:text="Upload"
+                    android:textColor="@color/txt_dark"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/lora_regular"
+                        android:gravity="center"
+                        android:paddingRight="15dp"
+                        android:text="Auto Upload:"
+                        android:textColor="@color/txt_dark"
+                        android:textSize="@dimen/_8ssp" />
+
+                    <com.github.angads25.toggle.widget.LabeledSwitch
+                        android:id="@+id/switchAutoUploadVideo"
+                        android:layout_width="@dimen/_45sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_gravity="center"
+                        app:colorBorder="@color/transparent"
+                        app:colorOff="@color/white"
+                        app:colorOn="@color/blue"
+                        app:on="true"
+                        app:textOff=""
+                        app:textOn="" />
+
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvUploadVideos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/lora_regular"
+                android:gravity="center"
+                android:text="My Videos"
+                app:fontFamily="@font/lora_semibold"
+                android:textFontWeight="600"
+                android:visibility="gone"
+                android:textSize="@dimen/_17ssp"
+                android:textColor="@color/txt_dark"
+                 />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/radioGroup"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl2"
             app:spanCount="2"
-            tools:listitem="@layout/row_videos_layout"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            tools:listitem="@layout/row_videos_layout" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package com.app.guardian.ui.User.settings
 
 import android.app.Dialog
 import android.content.Intent
+import android.net.Uri
 import android.view.View
 import android.view.Window
 import android.widget.TextView
@@ -289,8 +290,9 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                 requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
             }
             R.id.tvAbout -> {
-                startActivity(Intent(context, AboutUsActivity::class.java))
-                requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://54.183.62.44/GuardianWeb/about-us")))
+//                startActivity(Intent(context, AboutUsActivity::class.java))
+//                requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
             }
             R.id.tvTerms -> {
                 startActivity(Intent(context, TermAndConditionsActivity::class.java))

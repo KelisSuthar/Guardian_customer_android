@@ -101,7 +101,6 @@
     <string name="desc_title_hint">Description </string>
     <string name="error_title">A Title must be minimum 5 characters are allowed  </string>
     <string name="error_description">Description must be minimum 5 characters are allowed. </string>
-
     <!--    RoleSelector Screen-->
     <string name="empty_role">Please select role</string>
 
@@ -131,6 +130,8 @@
     <string name="valid_exp">Your experience must be greater than 0 years.</string>
     <string name="empty_office_number">Please enter office phone number.</string>
     <string name="valid_office_number">Office phone Number must be less than or equal 10 digits.</string>
+    <string name="valid_role_selections">Please select proper role.</string>
+
 
     <!--    ResetPAss Screen-->
     <string name="empty_new_pass">Please enter new password.</string>
@@ -233,6 +234,8 @@
 
     <!--    Lawyer By Specialization-->
     <string name="specialization_list">Specialization List</string>
+    <string name="uploaded">Uploaded</string>
+    <string name="offline_video">Offline Video</string>
 
 
     <!-- TODO: Chatting implementation  -->
@@ -256,5 +259,6 @@
     <string name="yes">Yes</string>
     <string name="do_you_wish_to_add_more_info">DO YOU WISH TO ADD MORE INFO?</string>
     <string name="do_you_need_mediator">Do you need Mediator?</string>
+
 
 </resources>

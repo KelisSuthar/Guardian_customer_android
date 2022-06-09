@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.app.guardian.R
+import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentMyVideosBinding
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
@@ -37,14 +39,32 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
             false
         )
 
+        mBinding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            if (checkedId == R.id.rb1) {
+                mBinding.clOfflineVideos.visible()
+                mBinding.tvUploadVideos.gone()
+                mBinding.ivVideo.gone()
+            } else {
+                mBinding.clOfflineVideos.gone()
+                mBinding.tvUploadVideos.visible()
+                mBinding.ivVideo.visible()
+            }
+
+        }
+
     }
 
     override fun onResume() {
         super.onResume()
         if (mBinding.rb1.isChecked) {
+            mBinding.clOfflineVideos.visible()
+            mBinding.tvUploadVideos.gone()
+            mBinding.ivVideo.gone()
 
         } else {
-
+            mBinding.clOfflineVideos.gone()
+            mBinding.tvUploadVideos.visible()
+            mBinding.ivVideo.visible()
         }
         setAdapter()
     }
