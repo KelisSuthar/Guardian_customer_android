@@ -16,6 +16,7 @@ import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentUserHomeBinding
 import com.app.guardian.model.HomeBanners.BannerCollection
+import com.app.guardian.model.HomeBanners.UserHomeBannerResp
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
@@ -32,7 +33,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class UserHomeFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
     private lateinit var mBinding: FragmentUserHomeBinding
-    var array = ArrayList<UserHomeBannerResp>()
+    var array = ArrayList<BannerCollection>()
     var bannerAdsPager: BannerAdsPager? = null
 
     override fun getInflateResource(): Int {
@@ -65,7 +66,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun setAdapter() {
-        bannerAdsPager = BannerAdsPager(requireActivity(), array, object
+        bannerAdsPager = BannerAdsPager(requireActivity(), array!!, object
             : BannerAdsPager.onItemClicklisteners {
             override fun onItemClick(position: Int) {
                 val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(array[position].url))

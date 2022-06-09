@@ -136,6 +136,10 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
             dialog.dismiss()
             mBinding.edtDesc.text!!.clear()
              mBinding.edtTitle.text!!.clear()
+            if (is_edit){
+                seek_legal_adv_id=0
+                is_edit=false
+            }
         }
 
         NO.setOnClickListener {

@@ -130,6 +130,9 @@
     <string name="valid_exp">Your experience must be greater than 0 years.</string>
     <string name="empty_office_number">Please enter office phone number.</string>
     <string name="valid_office_number">Office phone Number must be less than or equal 10 digits.</string>
+    <string name="valid_role_selections">Please select proper role.</string>
+
+
 
     <!--    ResetPAss Screen-->
     <string name="empty_new_pass">Please enter new password.</string>
@@ -256,6 +259,8 @@
     <string name="do_you_wish_to_add_more_info">DO YOU WISH TO ADD MORE INFO?</string>
     <string name="do_you_need_mediator">Do you need Mediator?</string>
 
+    <string name="uploaded">Uploaded</string>
+    <string name="offline_video">Offline Video</string>
 
     <string name="view_more"><u>View More</u></string>
 </resources>

@@ -117,7 +117,7 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
                                         ReusedMethod.displayMessage(requireActivity(), it)
                                         (activity as HomeActivity).unAuthorizedNavigation()
                                     } else {
-                                        ReusedMethod.displayMessage(context as Activity, it)
+                                        ReusedMethod.displayMessage(requireActivity(), it)
                                     }
                                 }
                     }

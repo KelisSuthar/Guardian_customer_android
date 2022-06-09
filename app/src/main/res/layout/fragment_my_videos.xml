@@ -197,7 +197,7 @@
                 android:visibility="gone"
                 android:textSize="@dimen/_17ssp"
                 android:textColor="@color/txt_dark"
-                 />
+                tools:ignore="MissingConstraints" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

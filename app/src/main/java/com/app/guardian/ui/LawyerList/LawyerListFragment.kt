@@ -28,7 +28,6 @@ import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
-import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
 import com.app.guardian.ui.chatting.ChattingFragment
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
@@ -37,6 +36,10 @@ import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
+import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
+
+
+
 
 
 class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickListener {
