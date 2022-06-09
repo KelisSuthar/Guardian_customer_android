@@ -41,6 +41,8 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
     private lateinit var mBinding: FragmentSettingsBinding
     private val mViewModel: CommonScreensViewModel by viewModel()
     private val authViewModel: AuthenticationViewModel by viewModel()
+    var ABOUT_US = ""
+    var T_C = ""
     override fun getInflateResource(): Int {
         return R.layout.fragment_settings
 
@@ -128,7 +130,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-//        callCMSAPI()
+        callCMSAPI()
     }
 
     private fun callCMSAPI() {
@@ -212,15 +214,18 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         }
 
         //CMS DATA RESP
-        mViewModel.getCommonResp().observe(this) { response ->
+        mViewModel.getCMSResp().observe(this) { response ->
             response?.let { requestState ->
-                showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
-
+ABOUT_US = data.about_us
+T_C = data.terms_conditions
                         } else {
-
+                            ReusedMethod.displayMessage(
+                                requireActivity(),
+                                it.message.toString()
+                            )
                         }
                     }
                 }
@@ -290,13 +295,24 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                 requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
             }
             R.id.tvAbout -> {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://54.183.62.44/GuardianWeb/about-us")))
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(ABOUT_US)
+                    )
+                )
 //                startActivity(Intent(context, AboutUsActivity::class.java))
 //                requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
             }
             R.id.tvTerms -> {
-                startActivity(Intent(context, TermAndConditionsActivity::class.java))
-                requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(T_C)
+                    )
+                )
+//                startActivity(Intent(context, TermAndConditionsActivity::class.java))
+//                requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
             }
             R.id.tvVirtualWitness -> {
                 startActivity(Intent(context, VirtualWitnessActivity::class.java))

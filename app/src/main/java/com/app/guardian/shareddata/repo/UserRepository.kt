@@ -552,7 +552,7 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
     override fun cmsData(
         internetConnected: Boolean,
         baseView: BaseActivity,
-        commonResp: MutableLiveData<RequestState<MutableList<CMSResp>>>
+        commonResp: MutableLiveData<RequestState<CMSResp>>
     ) {
         if (!internetConnected) {
             commonResp.value =
