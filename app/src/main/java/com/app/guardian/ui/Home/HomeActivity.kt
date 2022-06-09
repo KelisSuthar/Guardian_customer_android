@@ -170,49 +170,49 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
     override fun initObserver() {
 
         //Logout Resp
-        authViewModel.getSignOutResp().observe(this) { response ->
-            response?.let { requestState ->
-                showLoadingIndicator(requestState.progress)
-                requestState.apiResponse?.let {
-                    it.data?.let { data ->
-                        if (it.status) {
-                            SharedPreferenceManager.removeAllData()
-//        authViewModel.signOUT(true, this as BaseActivity)
-                            startActivity(
-                                Intent(
-                                    this@HomeActivity,
-                                    LoginActivity::class.java
-                                ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            )
-                            overridePendingTransition(R.anim.rightto, R.anim.left)
-                            finish()
-                        } else {
-                            ReusedMethod.displayMessage(this, it.message.toString())
-                        }
-                    }
-                }
-                requestState.error?.let { errorObj ->
-                    when (errorObj.errorState) {
-                        Config.NETWORK_ERROR ->
-                            ReusedMethod.displayMessage(
-                               this,
-                                getString(R.string.text_error_network)
-                            )
-
-                        Config.CUSTOM_ERROR ->
-                            errorObj.customMessage
-                                ?.let {
-                                    if (errorObj.code == ApiConstant.API_401) {
-                                        ReusedMethod.displayMessage(this, it)
-                                        HomeActivity().unAuthorizedNavigation()
-                                    } else {
-                                        ReusedMethod.displayMessage(this as Activity, it)
-                                    }
-                                }
-                    }
-                }
-            }
-        }
+//        authViewModel.getSignOutResp().observe(this) { response ->
+//            response?.let { requestState ->
+//                showLoadingIndicator(requestState.progress)
+//                requestState.apiResponse?.let {
+//                    it.data?.let { data ->
+//                        if (it.status) {
+//                            SharedPreferenceManager.removeAllData()
+////        authViewModel.signOUT(true, this as BaseActivity)
+//                            startActivity(
+//                                Intent(
+//                                    this@HomeActivity,
+//                                    LoginActivity::class.java
+//                                ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                            )
+//                            overridePendingTransition(R.anim.rightto, R.anim.left)
+//                            finish()
+//                        } else {
+//                            ReusedMethod.displayMessage(this, it.message.toString())
+//                        }
+//                    }
+//                }
+//                requestState.error?.let { errorObj ->
+//                    when (errorObj.errorState) {
+//                        Config.NETWORK_ERROR ->
+//                            ReusedMethod.displayMessage(
+//                               this,
+//                                getString(R.string.text_error_network)
+//                            )
+//
+//                        Config.CUSTOM_ERROR ->
+//                            errorObj.customMessage
+//                                ?.let {
+//                                    if (errorObj.code == ApiConstant.API_401) {
+//                                        ReusedMethod.displayMessage(this, it)
+//                                        HomeActivity().unAuthorizedNavigation()
+//                                    } else {
+//                                        ReusedMethod.displayMessage(this as Activity, it)
+//                                    }
+//                                }
+//                    }
+//                }
+//            }
+//        }
     }
 
 
@@ -412,18 +412,17 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
     }
 
     fun unAuthorizedNavigation(){
-//        SharedPreferenceManager.removeAllData()
-////        authViewModel.signOUT(true, this as BaseActivity)
-//        startActivity(
-//            Intent(
-//                this@HomeActivity,
-//                LoginActivity::class.java
-//            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//        )
-//        overridePendingTransition(R.anim.rightto, R.anim.left)
-//        finish()
+        SharedPreferenceManager.removeAllData()
+//        authViewModel.signOUT(true, this as BaseActivity)
+        startActivity(
+            Intent(
+                this@HomeActivity,
+                LoginActivity::class.java
+            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        )
+        overridePendingTransition(R.anim.rightto, R.anim.left)
+        finish()
 
-        authViewModel.signOUT(true, this as BaseActivity)
     }
 
 
