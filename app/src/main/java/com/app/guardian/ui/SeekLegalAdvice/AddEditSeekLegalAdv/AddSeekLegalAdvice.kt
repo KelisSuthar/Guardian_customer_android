@@ -82,7 +82,14 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
 
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
 
-                            displayDeleteConfirmDialog()
+                            if (is_edit){
+                                requireActivity().onBackPressed()
+                            }
+                           else{
+                                displayDeleteConfirmDialog()
+                           }
+
+
 
 
                         }
