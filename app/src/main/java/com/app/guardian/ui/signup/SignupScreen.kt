@@ -1,5 +1,6 @@
 package com.app.guardian.ui.signup
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -35,6 +36,7 @@ import com.app.guardian.termsandcondtions.TermAndConditionsActivity
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.signup.adapter.ImageAdapter
 import com.app.guardian.ui.signup.adapter.SpecializationAdapter
+import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.gms.location.*
@@ -49,6 +51,8 @@ import java.util.*
 
 class SignupScreen : BaseActivity(), View.OnClickListener {
     private val mViewModel: AuthenticationViewModel by viewModel()
+    private val authViewModel: AuthenticationViewModel by viewModel()
+
     lateinit var mBinding: ActivitySignupScreenBinding
     var imageAdapter: ImageAdapter? = null
     var images = ArrayList<String>()
@@ -237,7 +241,21 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let {}
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        authViewModel.signOUT(true, this as BaseActivity)
+                                        startActivity(
+                                            Intent(
+                                                this@SignupScreen,
+                                                LoginActivity::class.java
+                                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        )
+                                        overridePendingTransition(R.anim.rightto, R.anim.left)
+                                    }
+                                    else{
+                                        ReusedMethod.displayMessage(this as Activity, it)
+                                    }
+                                }
                     }
                 }
             }
@@ -263,7 +281,21 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let {}
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        authViewModel.signOUT(true, this as BaseActivity)
+                                        startActivity(
+                                            Intent(
+                                                this@SignupScreen,
+                                                LoginActivity::class.java
+                                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        )
+                                        overridePendingTransition(R.anim.rightto, R.anim.left)
+                                    }
+                                    else{
+                                        ReusedMethod.displayMessage(this as Activity, it)
+                                    }
+                                }
                     }
                 }
             }

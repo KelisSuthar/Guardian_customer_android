@@ -3,6 +3,8 @@ package com.app.guardian.ui.User.UserHome
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Handler
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
@@ -22,6 +24,7 @@ import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.User.ContactSupport.ContactSupportFragment
 import com.app.guardian.ui.User.RecordPolice.RecordPoliceInteractionFragment
 import com.app.guardian.ui.User.ScheduleVirtualWitness.ScheduleVirtualWitnessFragment
+import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -29,7 +32,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class UserHomeFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
     private lateinit var mBinding: FragmentUserHomeBinding
-    var array = ArrayList<BannerCollection>()
+    var array = ArrayList<UserHomeBannerResp>()
     var bannerAdsPager: BannerAdsPager? = null
 
     override fun getInflateResource(): Int {
@@ -102,7 +105,6 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
 
-
                         if (it.status) {
                             array.clear()
                             array.addAll(data.bannerCollection)
@@ -121,19 +123,26 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
                 requestState.error?.let { errorObj ->
                     when (errorObj.errorState) {
                         Config.NETWORK_ERROR ->
-                            displayMessage(
+                            ReusedMethod.displayMessage(
                                 requireActivity(),
                                 getString(R.string.text_error_network)
                             )
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { displayMessage(requireActivity(), it) }
+                                ?.let {
+                                    if(errorObj.code==ApiConstant.API_401){
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        (activity as HomeActivity).unAuthorizedNavigation()
+                                    }
+                                    else{
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                    }
+                                }
                     }
                 }
             }
         }
-
     }
 
 

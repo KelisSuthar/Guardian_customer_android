@@ -1,5 +1,6 @@
 package com.app.guardian.ui.User.RecordPoliceInteraction_2
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.view.View
@@ -16,6 +17,7 @@ import com.app.guardian.ui.BannerAds.BannerAdsPager
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.KnowRight.KnowRightFragment
 import com.app.guardian.ui.User.LiveVirtualVitness.LiveVirtualVitnessUserFragment
+import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -170,7 +172,12 @@ class RecordPoliceInteraction_2Fragment : BaseFragment(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { ReusedMethod.displayMessage(requireActivity(), it) }
+                                ?.let {    if (errorObj.code == ApiConstant.API_401) {
+                                    ReusedMethod.displayMessage(requireActivity(), it)
+                                    (activity as HomeActivity).unAuthorizedNavigation()
+                                } else {
+                                    ReusedMethod.displayMessage(context as Activity, it)
+                                } }
                     }
                 }
             }

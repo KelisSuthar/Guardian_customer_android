@@ -1,6 +1,7 @@
 package com.app.guardian.ui.OTP
 
 import `in`.aabhasjindal.otptextview.OTPListener
+import android.app.Activity
 import android.content.Intent
 import android.view.View
 import com.app.guardian.R
@@ -11,7 +12,10 @@ import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityOtpscreenBinding
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.ResetPassword.ResetPasswordActivity
+import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -78,7 +82,20 @@ class OTPScreen : BaseActivity(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { }
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        ReusedMethod.displayMessage(this, it)
+                                        startActivity(
+                                            Intent(
+                                                this@OTPScreen,
+                                                LoginActivity::class.java
+                                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        )
+                                        overridePendingTransition(R.anim.rightto, R.anim.left)
+                                    } else {
+                                        ReusedMethod.displayMessage(this as Activity, it)
+                                    }
+                                }
                     }
                 }
             }
@@ -106,7 +123,14 @@ class OTPScreen : BaseActivity(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { ReusedMethod.displayMessage(this, it) }
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        ReusedMethod.displayMessage(this, it)
+                                        HomeActivity().unAuthorizedNavigation()
+                                    } else {
+                                        ReusedMethod.displayMessage(this as Activity, it)
+                                    }
+                                }
                     }
                 }
             }

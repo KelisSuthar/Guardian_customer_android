@@ -1,5 +1,6 @@
 package com.app.guardian.ui.Lawyer.AddBaner
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.text.TextUtils
@@ -16,6 +17,7 @@ import com.app.guardian.model.viewModels.LawyerViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.github.dhaval2404.imagepicker.ImagePicker
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -88,7 +90,14 @@ class AddBannerFragment : BaseFragment(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let {}
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        (activity as HomeActivity).unAuthorizedNavigation()
+                                    } else {
+                                        ReusedMethod.displayMessage(context as Activity, it)
+                                    }
+                                }
                     }
                 }
             }

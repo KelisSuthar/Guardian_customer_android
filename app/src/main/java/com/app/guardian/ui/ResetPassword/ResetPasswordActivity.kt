@@ -1,5 +1,6 @@
 package com.app.guardian.ui.ResetPassword
 
+import android.app.Activity
 import android.content.Intent
 import android.view.View
 import com.app.guardian.R
@@ -15,12 +16,16 @@ import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityResetPasswordBinding
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Login.LoginActivity
+import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
     private val mViewModel: AuthenticationViewModel by viewModel()
+    private val authViewModel: AuthenticationViewModel by viewModel()
+
     lateinit var mBinding: ActivityResetPasswordBinding
     var is_ChangePass = false
     override fun getResource(): Int {
@@ -72,7 +77,22 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { }
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        authViewModel.signOUT(true, this as BaseActivity)
+
+                                        ReusedMethod.displayMessage(this, it)
+                                        startActivity(
+                                            Intent(
+                                                this@ResetPasswordActivity,
+                                                LoginActivity::class.java
+                                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        )
+                                        overridePendingTransition(R.anim.rightto, R.anim.left)
+                                    } else {
+                                        ReusedMethod.displayMessage(this as Activity, it)
+                                    }
+                                }
                     }
                 }
             }
@@ -103,7 +123,23 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { }
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        authViewModel.signOUT(true, this as BaseActivity)
+                                        startActivity(
+                                            Intent(
+                                                this@ResetPasswordActivity,
+                                                LoginActivity::class.java
+                                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        )
+                                        overridePendingTransition(R.anim.rightto, R.anim.left)
+                                    }
+                                    else{
+                                        ReusedMethod.displayMessage(this as Activity, it)
+
+                                    }
+
+                                }
                     }
                 }
             }

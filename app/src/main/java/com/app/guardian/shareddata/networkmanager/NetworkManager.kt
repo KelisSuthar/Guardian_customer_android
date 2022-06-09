@@ -68,7 +68,6 @@ object NetworkManager {
                         /**
                          * incase of status is 0 or else ... not 1 will print body message
                          */
-//                        Log.e("network_message","Display network error message : "+response.body()!!.message)
                         Log.e("network_message","Display network error message : "+response.message())
                         callback?.postValue(
                                 RequestState(
@@ -92,7 +91,7 @@ object NetworkManager {
 
                         RequestState(
                             error = ApiError(
-                                Config.CUSTOM_ERROR, response.message()
+                                Config.CUSTOM_ERROR, response.message(), code = response.code()
                             )
                         )
 //                    callback.postValue(

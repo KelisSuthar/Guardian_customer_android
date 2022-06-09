@@ -646,7 +646,7 @@ class ReusedMethod {
             val NUM_PAGES = total_pages
             val Update = Runnable {
                 if (currentPage == NUM_PAGES) {
-                    currentPage = 0
+//                    currentPage = 0
                 }
                 pager.setCurrentItem(currentPage++, true)
             }

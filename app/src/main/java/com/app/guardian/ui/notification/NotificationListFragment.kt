@@ -19,6 +19,7 @@ import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
 import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
 import com.app.guardian.ui.notification.adapter.NotificationListAdapter
+import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -109,7 +110,12 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
                                 ?.let {
-                                    ReusedMethod.displayMessage(context as Activity, it)
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        (activity as HomeActivity).unAuthorizedNavigation()
+                                    } else {
+                                        ReusedMethod.displayMessage(context as Activity, it)
+                                    }
                                 }
                     }
                 }

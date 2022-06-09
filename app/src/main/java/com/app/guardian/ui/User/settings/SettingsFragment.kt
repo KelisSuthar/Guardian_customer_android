@@ -1,5 +1,6 @@
 package com.app.guardian.ui.User.settings
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.view.View
@@ -30,6 +31,7 @@ import com.app.guardian.ui.aboutus.AboutUsActivity
 import com.app.guardian.ui.editProfile.EditProfileActivity
 import com.app.guardian.ui.notification.NotificationListFragment
 import com.app.guardian.ui.virtualWitness.VirtualWitnessActivity
+import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.bumptech.glide.Glide
 import com.google.android.material.textview.MaterialTextView
@@ -233,7 +235,14 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let {}
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        (activity as HomeActivity).unAuthorizedNavigation()
+                                    } else {
+                                        ReusedMethod.displayMessage(context as Activity, it)
+                                    }
+                                }
                     }
                 }
             }
@@ -271,7 +280,14 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let {}
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        (activity as HomeActivity).unAuthorizedNavigation()
+                                    } else {
+                                        ReusedMethod.displayMessage(context as Activity, it)
+                                    }
+                                }
                     }
                 }
             }

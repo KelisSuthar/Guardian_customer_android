@@ -1,5 +1,6 @@
 package com.app.guardian.ui.SubscriptionPlan
 
+import android.app.Activity
 import android.content.Intent
 import android.util.Log
 import android.view.View
@@ -17,6 +18,7 @@ import com.app.guardian.model.viewModels.LawyerViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.SubscriptionPlan.Adapter.SubscriptionPlanAdapter
+import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.google.android.gms.common.util.CollectionUtils
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -124,7 +126,13 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { ReusedMethod.displayMessage(this, it) }
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        ReusedMethod.displayMessage(this, it)
+                                        HomeActivity().unAuthorizedNavigation()
+                                    } else {
+                                        ReusedMethod.displayMessage(this as Activity, it)
+                                    } }
                     }
                 }
             }
@@ -167,7 +175,14 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { ReusedMethod.displayMessage(this, it) }
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        ReusedMethod.displayMessage(this, it)
+                                        HomeActivity().unAuthorizedNavigation()
+                                    } else {
+                                        ReusedMethod.displayMessage(this as Activity, it)
+                                    }
+                                }
                     }
                 }
             }
@@ -200,7 +215,14 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { ReusedMethod.displayMessage(this, it) }
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        ReusedMethod.displayMessage(this, it)
+                                        HomeActivity().unAuthorizedNavigation()
+                                    } else {
+                                        ReusedMethod.displayMessage(this as Activity, it)
+                                    }
+                                }
                     }
                 }
             }
@@ -239,7 +261,14 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { ReusedMethod.displayMessage(this, it) }
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        ReusedMethod.displayMessage(this, it)
+                                        HomeActivity().unAuthorizedNavigation()
+                                    } else {
+                                        ReusedMethod.displayMessage(this as Activity, it)
+                                    }
+                                }
                     }
                 }
             }
