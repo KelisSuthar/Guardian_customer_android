@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Intent
 import android.os.Build
 import android.util.Log
@@ -35,12 +34,18 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         val data = JSONObject(Objects.requireNonNull(remoteMessage.data) as Map<*, *>)
-        sendNotification(data)
-        sendBroadcastData(data)
+        sendNotification(data,remoteMessage)
+        sendBroadcastData(data,remoteMessage)
     }
 
-    fun sendBroadcastData(data: JSONObject) {
-        body = data.optString("body")
+    fun sendBroadcastData(data: JSONObject, remoteMessage: RemoteMessage) {
+        if(data.length() !=0){
+            title = data.getString("title")
+            body = data.optString("body")
+        }else{
+            body = remoteMessage.notification?.body
+            title = remoteMessage.notification?.title
+        }
         val sound = data.optString("sound")
         val color = data.optString("color")
         val type = data.optString("type")
@@ -56,29 +61,28 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     @SuppressLint("WrongConstant", "InvalidWakeLockTag")
-    private fun sendNotification(data: JSONObject) {
-        println("||||||||||||||||||||||||||||||||||||$data")
+    private fun sendNotification(data: JSONObject, remoteMessage: RemoteMessage) {
 
 
-        val pendingIntent = PendingIntent.getActivity(
-            this,
-            0 /* Request code */,
-            intent,
-            PendingIntent.FLAG_ONE_SHOT
-        )
-        body = data.optString("body")
-        title = data.optString("title")
+//
+//        val pendingIntent = PendingIntent.getActivity(
+//            this,
+//            0 /* Request code */,
+//            intent,
+//            PendingIntent.FLAG_ONE_SHOT
+//        )
+//        body = data.optString("body")
+//        title = data.optString("title")
         val channelId = getString(R.string.app_name)
         //val uriObjectofYourAudioFile = Uri.parse("android.resource://" + baseContext.packageName + "/" + R.raw.ccp_afrikaans)
-
+        if(data.length() !=0){
+            title = data.getString("title")
+            body = data.optString("body")
+        }else{
+            body = remoteMessage.notification?.body
+            title = remoteMessage.notification?.title
+        }
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-//            .setSmallIcon(R.mipmap.ic_launcher)
-//            .setContentTitle(title)
-//            .setContentText(body)
-//            .setAutoCancel(true)
-//            .setSound(uriObjectofYourAudioFile)
-//            .setContentIntent(pendingIntent)
-//            .setColor(ContextCompat.getColor(this,R.color.colorPrimary))
             .setPriority(Notification.PRIORITY_HIGH)
             .setDefaults(Notification.DEFAULT_ALL)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -87,8 +91,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setContentText(body)
             .setAutoCancel(true)
             // .setSound(uriObjectofYourAudioFile)
-            .setContentIntent(pendingIntent)
-            .setOngoing(true)
+//            .setContentIntent(pendingIntent)
+
 
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
