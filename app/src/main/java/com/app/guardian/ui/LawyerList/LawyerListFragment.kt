@@ -38,10 +38,6 @@ import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
 import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
 
-
-
-
-
 class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickListener {
 
     private lateinit var mBinding: FragmentLawyerListBinding
@@ -165,12 +161,14 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let {  if (errorObj.code == ApiConstant.API_401) {
-                                    ReusedMethod.displayMessage(requireActivity(), it)
-                                    (activity as HomeActivity).unAuthorizedNavigation()
-                                } else {
-                                    ReusedMethod.displayMessage(context as Activity, it)
-                                } }
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        (activity as HomeActivity).unAuthorizedNavigation()
+                                    } else {
+                                        ReusedMethod.displayMessage(context as Activity, it)
+                                    }
+                                }
                     }
                 }
             }
@@ -239,7 +237,12 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
     fun callChatPageOpe(selectUserId: Int, selectUserFullName: String, profilePicUrl: String) {
         ReplaceFragment.replaceFragment(
             requireActivity(),
-            ChattingFragment(selectUserId,selectUserFullName,profilePicUrl,AppConstants.APP_ROLE_LAWYER),
+            ChattingFragment(
+                selectUserId,
+                selectUserFullName,
+                profilePicUrl,
+                AppConstants.APP_ROLE_LAWYER
+            ),
             false,
             LawyerListFragment::class.java.name,
             LawyerListFragment::class.java.name
@@ -330,10 +333,10 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         }
         btnDone.setOnClickListener {
             dialog.dismiss()
-            if(years_of_exp =="Above 15"){
-                callAPI("","15-100",specialization)
-            }else{
-                callAPI("",years_of_exp.replace(" to ","-"),specialization)
+            if (years_of_exp == "Above 15") {
+                callAPI("", "15-100", specialization)
+            } else {
+                callAPI("", years_of_exp.replace(" to ", "-"), specialization)
 
             }
         }

@@ -6,6 +6,10 @@ import android.view.View
 import androidx.databinding.DataBindingUtil.getBinding
 import com.app.guardian.R
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.SharedPreferenceManager
+import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.loadWebViewData
+import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityAboutUsBinding
 import com.app.guardian.databinding.ActivityTermAndConditionsBinding
 import com.app.guardian.shareddata.base.BaseActivity
@@ -32,8 +36,23 @@ class TermAndConditionsActivity : BaseActivity(), View.OnClickListener {
         overridePendingTransition(R.anim.leftto, R.anim.right)
     }
 
+    override fun onResume() {
+        super.onResume()
+        mBinding.cl.gone()
+        mBinding.noInternetTerms.llNointernet.gone()
+        if(ReusedMethod.isNetworkConnected(this))
+        {
+            mBinding.webview.loadWebViewData(SharedPreferenceManager.getCMS()!!.terms_conditions)
+            mBinding.cl.visible()
+        }else{
+            mBinding.noInternetTerms.llNointernet.visible()
+            mBinding.cl.gone()
+        }
+    }
+
     override fun handleListener() {
         mBinding.headderTerms.ivBack.setOnClickListener(this)
+        mBinding.noInternetTerms.btnTryAgain.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -41,6 +60,9 @@ class TermAndConditionsActivity : BaseActivity(), View.OnClickListener {
             R.id.ivBack -> {
                 onBackPressed()
                 overridePendingTransition(R.anim.leftto, R.anim.right)
+            }
+            R.id.btnTryAgain -> {
+                onResume()
             }
         }
     }
