@@ -118,7 +118,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                         if (it.status) {
                             mBinding.availabilitySwitch.isOn = data.is_online == 1
                             array.clear()
-                            array.addAll(data.bannerCollection)
+                            array.addAll(data.top5)
                             bannerAdsPager?.notifyDataSetChanged()
                             if (array.size > 1) {
                                 ReusedMethod.viewPagerScroll(mBinding.pager, array.size)

@@ -91,26 +91,49 @@
                        android:id="@+id/pager"
                        android:layout_width="match_parent"
                        android:layout_height="@dimen/_170sdp"
-                       app:layout_constraintBottom_toTopOf="@+id/indicator"
+                       app:layout_constraintBottom_toTopOf="@+id/cl2"
                        app:layout_constraintTop_toTopOf="parent" />
 
-                   <com.rd.PageIndicatorView
-                       android:id="@+id/indicator"
-                       android:layout_width="wrap_content"
+                   <androidx.constraintlayout.widget.ConstraintLayout
+                       android:id="@+id/cl2"
+                       android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       app:piv_animationType="none"
-                       android:layout_centerInParent="true"
-                       android:layout_marginVertical="@dimen/_10sdp"
                        app:layout_constraintBottom_toBottomOf="parent"
                        app:layout_constraintEnd_toEndOf="parent"
                        app:layout_constraintStart_toStartOf="parent"
-                       app:layout_constraintTop_toBottomOf="@+id/pager"
-                       app:piv_radius="4dp"
-                       app:piv_dynamicCount="true"
-                       app:piv_interactiveAnimation="true"
-                       app:piv_selectedColor="@color/grey"
-                       app:piv_unselectedColor="@color/darkBlue"
-                       app:piv_viewPager="@id/pager" />
+                       app:layout_constraintTop_toBottomOf="@+id/pager">
+
+
+                       <com.rd.PageIndicatorView
+                           android:id="@+id/indicator"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_centerInParent="true"
+                           android:layout_marginVertical="@dimen/_10sdp"
+                           app:layout_constraintBottom_toBottomOf="parent"
+                           app:layout_constraintEnd_toEndOf="parent"
+                           app:layout_constraintStart_toStartOf="parent"
+                           app:layout_constraintTop_toTopOf="parent"
+                           app:piv_animationType="none"
+                           app:piv_dynamicCount="true"
+                           app:piv_interactiveAnimation="true"
+                           app:piv_radius="4dp"
+                           app:piv_selectedColor="@color/grey"
+                           app:piv_unselectedColor="@color/darkBlue"
+                           app:piv_viewPager="@id/pager" />
+
+                       <androidx.appcompat.widget.AppCompatTextView
+                           android:id="@+id/txtViewMore"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:text="@string/view_more"
+                           app:layout_constraintBottom_toBottomOf="parent"
+                           android:textColor="@color/txt_dark"
+                           android:layout_marginRight="@dimen/_10sdp"
+                           android:fontFamily="@font/lora_semibold"
+                           app:layout_constraintEnd_toEndOf="parent"
+                           app:layout_constraintTop_toTopOf="parent" />
+                   </androidx.constraintlayout.widget.ConstraintLayout>
                </androidx.constraintlayout.widget.ConstraintLayout>
 
                <LinearLayout

@@ -16,16 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivClose"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:src="@drawable/ic_round_close"
-            android:visibility="visible" />
-
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_15sdp">
@@ -37,10 +28,23 @@
                 android:fontFamily="@font/lora_semibold"
                 android:text="Filter"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/_13ssp" />
+                android:textSize="@dimen/_13ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivClose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_round_close"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
 
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:layout_width="match_parent"
@@ -62,14 +66,15 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_75sdp"
             android:layout_marginVertical="@dimen/_10sdp">
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group2"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_75sdp"
-            android:layout_marginHorizontal="@dimen/_20sdp"
-            app:singleSelection="true">
 
-        </com.google.android.material.chip.ChipGroup>
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_75sdp"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                app:singleSelection="true">
+
+            </com.google.android.material.chip.ChipGroup>
         </ScrollView>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -86,14 +91,15 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_130sdp"
             android:layout_marginVertical="@dimen/_10sdp">
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group1"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_130sdp"
-            android:layout_marginHorizontal="@dimen/_20sdp"
-            app:singleSelection="true"
 
-            />
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group1"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_130sdp"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                app:singleSelection="true"
+
+                />
         </ScrollView>
 
         <androidx.appcompat.widget.AppCompatButton

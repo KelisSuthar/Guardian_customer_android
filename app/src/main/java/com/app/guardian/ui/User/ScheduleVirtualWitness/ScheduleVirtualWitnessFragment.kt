@@ -3,7 +3,9 @@ package com.app.guardian.ui.User.ScheduleVirtualWitness
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.view.MotionEvent
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.app.guardian.R
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
@@ -38,8 +40,7 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
             true,
             true
         )
-        setAdapter()
-        callApi()
+
     }
 
     private fun callApi() {
@@ -66,12 +67,18 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        changeLayout(0)
+        setAdapter()
+        callApi()
+    }
+
     override fun handleListener() {
         mBinding.cvScheduleDateTime.setOnClickListener(this)
         mBinding.cvLocationWhereCallWillTakePlace.setOnClickListener(this)
         mBinding.cvScheduleMultipleCalls.setOnClickListener(this)
         mBinding.cvContactSupport.setOnClickListener(this)
-
         mBinding.rlContactSupport.setOnClickListener(this)
         mBinding.rlScheduleMultipleCalls.setOnClickListener(this)
         mBinding.rlLocationWhereCallWillTakePlace.setOnClickListener(this)
@@ -92,7 +99,7 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
 
                         if (it.status) {
                             array.clear()
-                            array.addAll(data.bannerCollection)
+                            array.addAll(data.top5)
                             bannerAdsPager?.notifyDataSetChanged()
                             if (array.size > 1) {
                                 ReusedMethod.viewPagerScroll(mBinding.pager, array.size)
@@ -129,15 +136,19 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.cvScheduleDateTime -> {
-
+                changeLayout(1)
+                ReusedMethod.displayMessage(requireActivity(), "Coming Soon!")
             }
             R.id.cvLocationWhereCallWillTakePlace -> {
-
+                changeLayout(2)
+                ReusedMethod.displayMessage(requireActivity(), "Coming Soon!")
             }
             R.id.cvScheduleMultipleCalls -> {
-
+                changeLayout(3)
+                ReusedMethod.displayMessage(requireActivity(), "Coming Soon!")
             }
             R.id.cvContactSupport -> {
+                changeLayout(4)
                 ReplaceFragment.replaceFragment(
                     requireActivity(),
                     ContactSupportFragment(),
@@ -147,19 +158,205 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
                 );
             }
             R.id.rlContactSupport -> {
-                mBinding.cvContactSupport.performClick()
+                changeLayout(4)
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    ContactSupportFragment(),
+                    true,
+                    ScheduleVirtualWitnessFragment::class.java.name,
+                    ScheduleVirtualWitnessFragment::class.java.name
+                );
             }
-            R.id.rlScheduleMultipleCalls -> {}
-            R.id.rlLocationWhereCallWillTakePlace -> {}
-            R.id.rlScheduleDateTime -> {}
+            R.id.rlScheduleMultipleCalls -> {
+                changeLayout(3)
+                ReusedMethod.displayMessage(requireActivity(), "Coming Soon!")
+            }
+            R.id.rlLocationWhereCallWillTakePlace -> {
+                changeLayout(2)
+                ReusedMethod.displayMessage(requireActivity(), "Coming Soon!")
+            }
+            R.id.rlScheduleDateTime -> {
+                changeLayout(1)
+                ReusedMethod.displayMessage(requireActivity(), "Coming Soon!")
+            }
             R.id.rbContactSupport -> {
-                mBinding.cvContactSupport.performClick()
+                changeLayout(4)
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    ContactSupportFragment(),
+                    true,
+                    ScheduleVirtualWitnessFragment::class.java.name,
+                    ScheduleVirtualWitnessFragment::class.java.name
+                );
             }
-            R.id.rbScheduleDateTime -> {}
-            R.id.rbLocationWhereCallWillTakePlace -> {}
-            R.id.rbScheduleMultipleCalls -> {}
+            R.id.rbScheduleDateTime -> {
+                changeLayout(1)
+                ReusedMethod.displayMessage(requireActivity(), "Coming Soon!")
+            }
+            R.id.rbLocationWhereCallWillTakePlace -> {
+                changeLayout(2)
+                ReusedMethod.displayMessage(requireActivity(), "Coming Soon!")
+            }
+            R.id.rbScheduleMultipleCalls -> {
+                changeLayout(3)
+                ReusedMethod.displayMessage(requireActivity(), "Coming Soon!")
+            }
         }
     }
 
+    private fun changeLayout(i: Int) {
+        when (i) {
+            0 -> {
+                mBinding.rlScheduleDateTime.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+                mBinding.rlLocationWhereCallWillTakePlace.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+                mBinding.rlScheduleMultipleCalls.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+                mBinding.rlContactSupport.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+                mBinding.rbScheduleDateTime.isChecked = false
+                mBinding.rbLocationWhereCallWillTakePlace.isChecked = false
+                mBinding.rbScheduleMultipleCalls.isChecked = false
+                mBinding.rbContactSupport.isChecked = false
+            }
+            1 -> {
+                mBinding.rlScheduleDateTime.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.blue
+                    )
+                )
+                mBinding.rlLocationWhereCallWillTakePlace.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+                mBinding.rlScheduleMultipleCalls.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+                mBinding.rlContactSupport.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+                mBinding.rbScheduleDateTime.isChecked = true
+                mBinding.rbLocationWhereCallWillTakePlace.isChecked = false
+                mBinding.rbScheduleMultipleCalls.isChecked = false
+                mBinding.rbContactSupport.isChecked = false
+            }
+            2 -> {
+                mBinding.rlScheduleDateTime.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+                mBinding.rlLocationWhereCallWillTakePlace.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.blue
+                    )
+                )
+                mBinding.rlScheduleMultipleCalls.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+                mBinding.rlContactSupport.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+                mBinding.rbScheduleDateTime.isChecked = false
+                mBinding.rbLocationWhereCallWillTakePlace.isChecked = true
+                mBinding.rbScheduleMultipleCalls.isChecked = false
+                mBinding.rbContactSupport.isChecked = false
+            }
+            3 -> {
+                mBinding.rlScheduleDateTime.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+                mBinding.rlLocationWhereCallWillTakePlace.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+                mBinding.rlScheduleMultipleCalls.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.blue
+                    )
+                )
+                mBinding.rlContactSupport.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+                mBinding.rbScheduleDateTime.isChecked = false
+                mBinding.rbLocationWhereCallWillTakePlace.isChecked = false
+                mBinding.rbScheduleMultipleCalls.isChecked = true
+                mBinding.rbContactSupport.isChecked = false
+            }
+            4 -> {
+                mBinding.rlScheduleDateTime.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+                mBinding.rlLocationWhereCallWillTakePlace.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+                mBinding.rlScheduleMultipleCalls.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
+                )
+                mBinding.rlContactSupport.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.blue
+                    )
+                )
+                mBinding.rbScheduleDateTime.isChecked = false
+                mBinding.rbLocationWhereCallWillTakePlace.isChecked = false
+                mBinding.rbScheduleMultipleCalls.isChecked = false
+                mBinding.rbContactSupport.isChecked = true
+            }
+        }
+    }
 
 }

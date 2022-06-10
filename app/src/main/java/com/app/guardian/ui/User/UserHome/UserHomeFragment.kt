@@ -3,25 +3,22 @@ package com.app.guardian.ui.User.UserHome
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Handler
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
-import com.app.guardian.common.ReusedMethod.Companion.displayMessage
 import com.app.guardian.common.ReusedMethod.Companion.viewPagerScroll
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentUserHomeBinding
 import com.app.guardian.model.HomeBanners.BannerCollection
-import com.app.guardian.model.HomeBanners.UserHomeBannerResp
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.BannerAds.BannerAdsPager
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.HomeBanners.HomeBannersFragment
 import com.app.guardian.ui.User.ContactSupport.ContactSupportFragment
 import com.app.guardian.ui.User.RecordPolice.RecordPoliceInteractionFragment
 import com.app.guardian.ui.User.ScheduleVirtualWitness.ScheduleVirtualWitnessFragment
@@ -34,6 +31,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
     private lateinit var mBinding: FragmentUserHomeBinding
     var array = ArrayList<BannerCollection>()
+    var bannerArray = ArrayList<BannerCollection>()
     var bannerAdsPager: BannerAdsPager? = null
 
     override fun getInflateResource(): Int {
@@ -97,6 +95,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding.rbScheduleVirtualWitness.setOnClickListener(this)
         mBinding.rbSupportService.setOnClickListener(this)
         mBinding.noInternetUserHomeFrag.btnTryAgain.setOnClickListener(this)
+        mBinding.txtViewMore.setOnClickListener(this)
     }
 
     override fun initObserver() {
@@ -108,7 +107,9 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
 
                         if (it.status) {
                             array.clear()
-                            array.addAll(data.bannerCollection)
+                            bannerArray.clear()
+                            array.addAll(data.top5)
+                            bannerArray.addAll(data.bannerCollection)
                             bannerAdsPager?.notifyDataSetChanged()
                             if (array.size > 1) {
                                 viewPagerScroll(mBinding.pager, array.size)
@@ -132,11 +133,10 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
                                 ?.let {
-                                    if(errorObj.code==ApiConstant.API_401){
+                                    if (errorObj.code == ApiConstant.API_401) {
                                         ReusedMethod.displayMessage(requireActivity(), it)
                                         (activity as HomeActivity).unAuthorizedNavigation()
-                                    }
-                                    else{
+                                    } else {
                                         ReusedMethod.displayMessage(requireActivity(), it)
                                     }
                                 }
@@ -193,6 +193,15 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.btnTryAgain -> {
                 callApi()
+            }
+            R.id.txtViewMore -> {
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    HomeBannersFragment(bannerArray),
+                    true,
+                    HomeActivity::class.java.name,
+                    HomeActivity::class.java.name
+                );
             }
         }
     }

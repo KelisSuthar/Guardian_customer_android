@@ -37,8 +37,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
-    val getCurrentRole =
-        SharedPreferenceManager.getString(AppConstants.USER_ROLE, AppConstants.USER_ROLE)
+
     lateinit var mBinding: FragmentContectedHistoryBinding
     var connectedHistoryAdapter: ConnectedHistoryAdapter? = null
     var array = ArrayList<ConnectedHistoryResp>()
@@ -109,8 +108,14 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
         mBinding.noDataConnectedHistory.gone()
         mBinding.noInternetConnectedhistory.llNointernet.gone()
         mBinding.cl1.visible()
+        mBinding.searchConnectedHistory.lySearch.gone()
         mBinding.radioGroup.visible()
+        mBinding.rvContectedHistory.gone()
+        val getCurrentRole =
+            SharedPreferenceManager.getString(AppConstants.USER_ROLE, AppConstants.USER_ROLE)
         if (ReusedMethod.isNetworkConnected(requireContext())) {
+
+
             when (getCurrentRole) {
                 AppConstants.APP_ROLE_USER -> {
                     type = if (mBinding.rb1.isChecked) {
@@ -144,6 +149,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                     mViewModel.getMediatorConnectedHistory(true, context as BaseActivity, search)
                 }
             }
+
         } else {
             mBinding.noDataConnectedHistory.gone()
             mBinding.noInternetConnectedhistory.llNointernet.visible()
@@ -168,6 +174,8 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                     it.data?.let { data ->
                         if (it.status) {
                             if (!data.isNullOrEmpty()) {
+                                mBinding.searchConnectedHistory.lySearch.visible()
+                                mBinding.rvContectedHistory.visible()
                                 array.clear()
                                 array.addAll(data)
                                 connectedHistoryAdapter?.notifyDataSetChanged()
@@ -233,7 +241,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                 onResume()
             }
             R.id.lySearchFilter -> {
-                ReusedMethod.displayMessage(requireActivity(),"Coming Soon!")
+                ReusedMethod.displayMessage(requireActivity(), "Coming Soon!")
             }
             R.id.llsearch -> {
                 if (TextUtils.isEmpty(mBinding.searchConnectedHistory.edtLoginEmail.text.toString())) {

@@ -77,14 +77,6 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
         setAdapter()
         setFusedLoc()
 
-
-        (activity as HomeActivity).bottomTabVisibility(false)
-        (activity as HomeActivity).headerTextVisible(
-            requireActivity().resources.getString(R.string.know_your_basic_rights),
-            true,
-            true
-        )
-
 //        if (!Places.isInitialized()) {
 //            Places.initialize(requireContext(), getString(R.string.map_api_key))
 //        }
@@ -111,9 +103,9 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        if(!SharedPreferenceManager.getString(AppConstants.STATE,"").isNullOrEmpty()){
+        if (!SharedPreferenceManager.getString(AppConstants.STATE, "").isNullOrEmpty()) {
             updatePlaceHolder()
-        }else {
+        } else {
             getLatLong()
             if (checkLoationPermission(requireActivity())) {
                 if (locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER)!!) {
@@ -128,11 +120,11 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
                 }
             }
         }
-            setAdapter()
-            mBinding.NoInternetKnowYourRight.llNointernet.gone()
-            mBinding.noDataKnowYourright.gone()
-            mBinding.rvLawyerList.visible()
-            mBinding.cl2.visible()
+        setAdapter()
+        mBinding.NoInternetKnowYourRight.llNointernet.gone()
+        mBinding.noDataKnowYourright.gone()
+        mBinding.rvLawyerList.visible()
+        mBinding.cl2.visible()
 
     }
 
@@ -237,7 +229,7 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
                         array[position].description
                     )
 
-                    for(i in array.indices){
+                    for (i in array.indices) {
                         array[i].is_selected = i == position
                     }
                     knowYourRightsAdapter?.notifyDataSetChanged()
@@ -245,12 +237,14 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
             })
         mBinding.rvLawyerList.adapter = knowYourRightsAdapter
     }
+
     override fun postInit() {
 
     }
 
     override fun handleListener() {
         mBinding.edtSearch.setOnClickListener(this)
+        mBinding.ivCancel.setOnClickListener(this)
     }
 
     override fun initObserver() {
@@ -303,10 +297,14 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
             R.id.edtSearch -> {
                 setGooglePlaceFragemnt()
             }
+            R.id.ivCancel -> {
+                setGooglePlaceFragemnt()
+                mBinding.ivCancel.gone()
+                mBinding.edtSearch.setText("")
+                SharedPreferenceManager.clearCityState()
+            }
         }
     }
-
-
 
 
     fun setGooglePlaceFragemnt() {
@@ -337,7 +335,7 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
             SharedPreferenceManager.getString(AppConstants.CITY, "").toString() + " , " +
                     SharedPreferenceManager.getString(AppConstants.STATE, "").toString()
         )
-        mBinding.txtLocation.text = "Location : "+mBinding.edtSearch.text
+        mBinding.txtLocation.text = "Location : " + mBinding.edtSearch.text
         Log.i("GUARDIAN", "SUCCESSFULL_CALL")
     }
 
@@ -388,6 +386,7 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
 //                mBinding.edtSearch.setText(addresses[0].adminArea.toString()+","+addresses[0].countryName.toString())
 //                mBinding.txtLocation.setText(addresses[0].adminArea.toString()+","+addresses[0].countryName.toString())
             } else {
+                mBinding.ivCancel.visible()
                 SharedPreferenceManager.putString(
                     AppConstants.CITY,
                     addresses[0].locality.toString()

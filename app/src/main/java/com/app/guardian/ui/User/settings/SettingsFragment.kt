@@ -398,9 +398,9 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         TITLE.text = resources.getString(R.string.want_to_signout)
         MESSAGE.gone()
 
-        OK.text = "Ok"
+        OK.text = "Yes"
 
-        CANCEL.text = "Cancel"
+        CANCEL.text = "No"
 
         CANCEL.setOnClickListener {
             dialog.dismiss()

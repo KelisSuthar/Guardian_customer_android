@@ -15,7 +15,7 @@ class SeekLegalAdviceAdapter(
     var context: Activity,
     var isIconShow: Boolean,
     var arrayList: ArrayList<SeekLegalAdviceResp>,
-    var listener: SeekLegalAdviceAdapter.onClickListeners
+    var listener: onClickListeners
 ) :
     RecyclerView.Adapter<SeekLegalAdviceAdapter.myViewHolder>() {
 

@@ -3,6 +3,7 @@ package com.app.guardian.ui.SeekLegalAdvice
 import android.app.Activity
 import android.app.Dialog
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.view.Window
 import androidx.lifecycle.Observer
@@ -27,6 +28,7 @@ import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
+
 
 class SeekLegalAdviceListFragment(is_icon_show:Boolean,seekLegalIdParams: Int) : BaseFragment(), View.OnClickListener {
 
@@ -60,6 +62,8 @@ class SeekLegalAdviceListFragment(is_icon_show:Boolean,seekLegalIdParams: Int) :
             mBinding.llAddAdv.gone()
         }
         mBinding.ivSeekLegalBack.setOnClickListener(this)
+
+
 
     }
 

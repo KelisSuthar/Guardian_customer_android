@@ -57,7 +57,7 @@
                         android:id="@+id/edtSearch"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/_13sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
                         android:background="@color/colorTransparent"
                         android:focusable="false"
                         android:fontFamily="@font/lora_regular"
@@ -73,9 +73,22 @@
                         android:textSize="@dimen/_12ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toLeftOf="@+id/llsearch"
+                        app:layout_constraintRight_toLeftOf="@+id/ivCancel"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="UnusedAttribute" />
+
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivCancel"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/ic_round_close"
+                        android:visibility="gone"
+                        android:layout_marginHorizontal="@dimen/_10sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/llsearch"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <LinearLayout
                         android:id="@+id/llsearch"

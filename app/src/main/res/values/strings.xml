@@ -133,7 +133,6 @@
     <string name="valid_role_selections">Please select proper role.</string>
 
 
-
     <!--    ResetPAss Screen-->
     <string name="empty_new_pass">Please enter new password.</string>
     <string name="empty_old_pass">Please enter old password.</string>

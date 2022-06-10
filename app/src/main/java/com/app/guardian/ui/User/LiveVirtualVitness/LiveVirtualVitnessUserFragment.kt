@@ -93,7 +93,7 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
 
                         if (it.status) {
                             array.clear()
-                            array.addAll(data.bannerCollection)
+                            array.addAll(data.top5)
                             bannerAdsPager?.notifyDataSetChanged()
                             if (array.size > 1) {
                                 ReusedMethod.viewPagerScroll(mBinding.pager, array.size)
