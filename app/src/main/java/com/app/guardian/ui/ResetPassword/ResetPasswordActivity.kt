@@ -2,24 +2,22 @@ package com.app.guardian.ui.ResetPassword
 
 import android.app.Activity
 import android.content.Intent
+import android.text.TextUtils
 import android.view.View
 import com.app.guardian.R
-import com.app.guardian.common.AppConstants
-import com.app.guardian.common.IntegratorImpl
-import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.*
 import com.app.guardian.common.ReusedMethod.Companion.ShowNoBorders
 import com.app.guardian.common.ReusedMethod.Companion.ShowRedBorders
 import com.app.guardian.common.ReusedMethod.Companion.isNetworkConnected
-import com.app.guardian.common.ValidationView
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityResetPasswordBinding
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.base.BaseActivity
-import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
+import com.google.android.material.textfield.TextInputEditText
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
@@ -40,10 +38,30 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
 
         if (intent != null && intent.extras != null) {
             is_ChangePass = intent.getBooleanExtra(AppConstants.IS_CHANGE_PASS, false)
-            if(is_ChangePass){
+            if (is_ChangePass) {
                 mBinding.textInputLayout3.visible()
             }
         }
+        setFocus(mBinding.editTextOldPass)
+        setFocus(mBinding.editTextNewPass)
+        setFocus(mBinding.editTextConPass)
+    }
+
+    private fun setFocus(editText: TextInputEditText) {
+        editText.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = editText.text?.trim().toString()
+                if (!hasFocus) {
+
+                    if (value.length >= 8 && !TextUtils.isEmpty(value) && SmartUtils.checkSpecialPasswordValidation(
+                            value
+                        )
+                    ) {
+                        ShowNoBorders(this@ResetPasswordActivity, editText)
+                    }
+                }
+            }
+
     }
 
     override fun initObserver() {
@@ -216,6 +234,7 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
                         "Ok",
                         ""
                     )
+                    ShowNoBorders(this@ResetPasswordActivity, mBinding.editTextOldPass)
                     ShowRedBorders(this@ResetPasswordActivity, mBinding.editTextNewPass)
                 }
 
@@ -228,6 +247,7 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
                         "Ok",
                         ""
                     )
+                    ShowNoBorders(this@ResetPasswordActivity, mBinding.editTextOldPass)
                     ShowRedBorders(this@ResetPasswordActivity, mBinding.editTextNewPass)
                 }
 
@@ -240,6 +260,7 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
                         "Ok",
                         ""
                     )
+                    ShowNoBorders(this@ResetPasswordActivity, mBinding.editTextOldPass)
                     ShowRedBorders(this@ResetPasswordActivity, mBinding.editTextNewPass)
                 }
 
@@ -252,6 +273,8 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
                         "Ok",
                         ""
                     )
+                    ShowNoBorders(this@ResetPasswordActivity, mBinding.editTextOldPass)
+                    ShowNoBorders(this@ResetPasswordActivity, mBinding.editTextNewPass)
                     ShowRedBorders(this@ResetPasswordActivity, mBinding.editTextConPass)
                 }
 
@@ -264,6 +287,8 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
                         "Ok",
                         ""
                     )
+                    ShowNoBorders(this@ResetPasswordActivity, mBinding.editTextOldPass)
+                    ShowNoBorders(this@ResetPasswordActivity, mBinding.editTextNewPass)
                     ShowRedBorders(this@ResetPasswordActivity, mBinding.editTextConPass)
                 }
 
@@ -276,6 +301,8 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
                         "Ok",
                         ""
                     )
+                    ShowNoBorders(this@ResetPasswordActivity, mBinding.editTextOldPass)
+                    ShowNoBorders(this@ResetPasswordActivity, mBinding.editTextNewPass)
                     ShowRedBorders(this@ResetPasswordActivity, mBinding.editTextConPass)
                 }
 

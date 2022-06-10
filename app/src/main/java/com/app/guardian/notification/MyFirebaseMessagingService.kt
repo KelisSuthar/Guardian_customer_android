@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Intent
 import android.os.Build
 import android.util.Log
+import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.app.guardian.R
@@ -34,15 +36,15 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         val data = JSONObject(Objects.requireNonNull(remoteMessage.data) as Map<*, *>)
-        sendNotification(data,remoteMessage)
-        sendBroadcastData(data,remoteMessage)
+        sendNotification(data, remoteMessage)
+        sendBroadcastData(data, remoteMessage)
     }
 
     fun sendBroadcastData(data: JSONObject, remoteMessage: RemoteMessage) {
-        if(data.length() !=0){
+        if (data.length() != 0) {
             title = data.getString("title")
             body = data.optString("body")
-        }else{
+        } else {
             body = remoteMessage.notification?.body
             title = remoteMessage.notification?.title
         }
@@ -60,7 +62,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
 
-    @SuppressLint("WrongConstant", "InvalidWakeLockTag")
+    @SuppressLint("WrongConstant", "InvalidWakeLockTag", "RemoteViewLayout")
     private fun sendNotification(data: JSONObject, remoteMessage: RemoteMessage) {
 
 
@@ -75,26 +77,27 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 //        title = data.optString("title")
         val channelId = getString(R.string.app_name)
         //val uriObjectofYourAudioFile = Uri.parse("android.resource://" + baseContext.packageName + "/" + R.raw.ccp_afrikaans)
-        if(data.length() !=0){
+        if (data.length() != 0) {
             title = data.getString("title")
             body = data.optString("body")
-        }else{
+        } else {
             body = remoteMessage.notification?.body
             title = remoteMessage.notification?.title
         }
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setPriority(Notification.PRIORITY_HIGH)
+            .setPriority(Notification.PRIORITY_MAX)
             .setDefaults(Notification.DEFAULT_ALL)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setSmallIcon(R.mipmap.ic_launcher)
+//            .setCustomContentView(notificationLayout)
             .setContentTitle(title)
             .setContentText(body)
             .setAutoCancel(true)
-            // .setSound(uriObjectofYourAudioFile)
+        // .setSound(uriObjectofYourAudioFile)
 //            .setContentIntent(pendingIntent)
-
-
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+//
+//
+//        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
 //        val pm:PowerManager = this.getSystemService(POWER_SERVICE) as PowerManager
 //        val isScreenOn = pm.isScreenOn
@@ -109,11 +112,19 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 //        }
 
         // Since android Oreo notification channel is needed.
+
+        // Get the layouts to use in the custom notification
+
+
+// Apply the layouts to the notification
+
+
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 channelId,
                 "Channel human readable title",
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_HIGH
             )
             channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
             notificationManager.createNotificationChannel(channel)

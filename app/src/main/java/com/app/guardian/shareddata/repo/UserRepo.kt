@@ -243,6 +243,13 @@ interface UserRepo {
         commonResp: MutableLiveData<RequestState<MutableList<NotificationResp>>>
     )
 
+    fun deleteNotification(
+        id: Int,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<CommonResponse>>
+    )
+
     fun sendRequestVirtualWitness(
         body: JsonObject,
         internetConnected: Boolean,
@@ -278,7 +285,6 @@ interface UserRepo {
         baseView: BaseActivity,
         commonResp: MutableLiveData<RequestState<MutableList<RadarListResp>>>
     )
-
 
 
     fun getChatList(

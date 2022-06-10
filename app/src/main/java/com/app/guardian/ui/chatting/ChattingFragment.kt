@@ -96,7 +96,8 @@ class ChattingFragment(
                             if (!data.isNullOrEmpty()) {
                                 chatArray.addAll(data)
 
-                                getHeadderTime(data)
+//                                getHeadderTime(data)
+                                chatMessageAdapter!!.notifyDataSetChanged()
 //                                for (i in data.indices) {
 //                                    if (changeDateFormat(
 //                                            "yyyy-MM-dd HH:mm:ss",

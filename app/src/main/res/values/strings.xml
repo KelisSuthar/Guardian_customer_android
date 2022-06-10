@@ -205,6 +205,7 @@
     <!--    Contact Support groups-->
     <string name="support_groups">Support Groups</string>
     <string name="find_a_counsellors">Find A Counsellor</string>
+    <string name="find_a_counsellors_2">Find a counsellor</string>
     <string name="support_groups_example">(Crises Lines, Women Shelters Children Shelters, Domestic Violence)</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="subscription_plan">Subscription Plan</string>
@@ -214,7 +215,7 @@
     <string name="notification">Notification</string>
     <string name="virtual_witness">Virtual Witness</string>
     <string name="terms_amp_conditions"><![CDATA[Terms & Conditions]]></string>
-    <string name="sign_out">Sign out</string>
+    <string name="sign_out">Sign Out</string>
     <string name="old_password">Old Password</string>
     <string name="contact_us">Contact Us</string>
     <string name="request">Request</string>
@@ -227,7 +228,7 @@
     <string name="contact_title">Contact :</string>
     <string name="description">Description :</string>
     <string name="sample_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry &amp; s standard dummy text ever since the 1500s,when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived only five centuries, but also the electronic typesetting, remaining essentially unchanged.</string>
-    <string name="see_legal_advice">See Legal Advice</string>
+    <string name="see_legal_advice">Seek Legal Advice</string>
     <string name="seek_legal_advice">Seek Legal Advice</string>
     <string name="title">Title</string>
     <string name="banner_ads">Banner Ads</string>
@@ -256,7 +257,7 @@
     <string name="phone_dialog">Phone : </string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
-    <string name="do_you_wish_to_add_more_info">DO YOU WISH TO ADD MORE INFO?</string>
+    <string name="do_you_wish_to_add_new_adv">DO YOU WISH TO ADD NEW SEEK LEGAL ADVICE?</string>
     <string name="do_you_need_mediator">Do you need Mediator?</string>
 
     <string name="uploaded">Uploaded</string>

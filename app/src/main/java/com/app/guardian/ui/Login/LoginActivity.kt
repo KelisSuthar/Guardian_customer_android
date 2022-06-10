@@ -2,8 +2,11 @@ package com.app.guardian.ui.Login
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.view.View.OnFocusChangeListener
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
 import com.app.guardian.common.*
@@ -45,6 +48,48 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         setPhoneEmailSelector()
         mBinding.emailphoneSelector.ccp.setCountryForPhoneCode(1)
 
+
+        setFocus()
+
+
+    }
+
+    private fun setFocus() {
+        mBinding.emailphoneSelector.edtLoginEmail.onFocusChangeListener =
+            OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.emailphoneSelector.edtLoginEmail.text?.trim().toString()
+                if (!hasFocus) {
+                    if (is_Email) {
+                        if (SmartUtils.emailValidator(value) && !TextUtils.isEmpty(value)) {
+                            mBinding.emailphoneSelector.cl1.background = ContextCompat.getDrawable(
+                                this@LoginActivity,
+                                R.drawable.normal_rounded_light_blue
+                            )
+                        }
+                    } else {
+                        if (!TextUtils.isEmpty(value) && value.length == 10) {
+                            mBinding.emailphoneSelector.cl1.background = ContextCompat.getDrawable(
+                                this@LoginActivity,
+                                R.drawable.normal_rounded_light_blue
+                            )
+                        }
+
+                    }
+                }
+            }
+        mBinding.editTextLoginPass.onFocusChangeListener =
+            OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.editTextLoginPass.text?.trim().toString()
+                if (!hasFocus) {
+
+                    if (value.length >= 8 && !TextUtils.isEmpty(value) && SmartUtils.checkSpecialPasswordValidation(
+                            value
+                        )
+                    ) {
+                        ShowNoBorders(this@LoginActivity, mBinding.editTextLoginPass)
+                    }
+                }
+            }
     }
 
     private fun setPhoneEmailSelector() {
@@ -327,6 +372,12 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                         "Ok",
                         ""
                     )
+                    mBinding.emailphoneSelector.cl1.background = ContextCompat.getDrawable(
+                        this@LoginActivity,
+                        R.drawable.normal_rounded_light_blue
+                    )
+                    ShowRedBorders(this@LoginActivity, mBinding.editTextLoginPass)
+
                 }
 
                 override fun empty_number() {
@@ -368,6 +419,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                         "Ok",
                         ""
                     )
+                    mBinding.emailphoneSelector.cl1.background = ContextCompat.getDrawable(
+                        this@LoginActivity,
+                        R.drawable.normal_rounded_light_blue
+                    )
                     ShowRedBorders(this@LoginActivity, mBinding.editTextLoginPass)
                 }
 
@@ -380,6 +435,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                         "Ok",
                         ""
                     )
+                    mBinding.emailphoneSelector.cl1.background = ContextCompat.getDrawable(
+                        this@LoginActivity,
+                        R.drawable.normal_rounded_light_blue
+                    )
                     ShowRedBorders(this@LoginActivity, mBinding.editTextLoginPass)
                 }
 
@@ -390,7 +449,9 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     )
                     ShowNoBorders(this@LoginActivity, mBinding.editTextLoginPass)
                     if (is_Email) {
-                        callApi(mBinding.emailphoneSelector.edtLoginEmail.text?.trim().toString())
+                        callApi(
+                            mBinding.emailphoneSelector.edtLoginEmail.text?.trim().toString()
+                        )
                     } else {
                         callApi(
                             mBinding.emailphoneSelector.ccp.selectedCountryCode.toString() + mBinding.emailphoneSelector.edtLoginEmail.text?.trim()

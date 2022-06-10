@@ -37,6 +37,8 @@ private const val ARG_PARAM2 = "param2"
  */
 class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
+    val getCurrentRole =
+        SharedPreferenceManager.getString(AppConstants.USER_ROLE, AppConstants.USER_ROLE)
     lateinit var mBinding: FragmentContectedHistoryBinding
     var connectedHistoryAdapter: ConnectedHistoryAdapter? = null
     var array = ArrayList<ConnectedHistoryResp>()
@@ -59,7 +61,11 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
 
         }
         (activity as HomeActivity).bottomTabVisibility(true)
-        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.contacted_history),true,false)
+        (activity as HomeActivity).headerTextVisible(
+            requireActivity().resources.getString(R.string.contacted_history),
+            true,
+            false
+        )
 
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
     }
@@ -70,8 +76,6 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-
-
         callApi("")
 
 
@@ -105,8 +109,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
         mBinding.noDataConnectedHistory.gone()
         mBinding.noInternetConnectedhistory.llNointernet.gone()
         mBinding.cl1.visible()
-        val getCurrentRole =
-            SharedPreferenceManager.getString(AppConstants.USER_ROLE, AppConstants.USER_ROLE)
+        mBinding.radioGroup.visible()
         if (ReusedMethod.isNetworkConnected(requireContext())) {
             when (getCurrentRole) {
                 AppConstants.APP_ROLE_USER -> {
@@ -120,11 +123,12 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                 }
                 AppConstants.APP_ROLE_LAWYER -> {
                     type = if (mBinding.rb1.isChecked) {
-                        AppConstants.APP_ROLE_USER
-                    } else {
                         AppConstants.APP_ROLE_MEDIATOR
+                    } else {
+                        AppConstants.APP_ROLE_USER
                     }
-                    mBinding.rb1.text = AppConstants.USER
+                    mBinding.rb1.text = AppConstants.MEDIATOR
+                    mBinding.rb2.text = AppConstants.USER
                     setAdapter()
                     mViewModel.getLawyerConnectedHistory(
                         true,
@@ -135,7 +139,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                 }
                 AppConstants.APP_ROLE_MEDIATOR -> {
                     mBinding.radioGroup.gone()
-                    type =AppConstants.APP_ROLE_MEDIATOR
+                    type = AppConstants.APP_ROLE_MEDIATOR
                     setAdapter()
                     mViewModel.getMediatorConnectedHistory(true, context as BaseActivity, search)
                 }
@@ -152,6 +156,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
 
         mBinding.noInternetConnectedhistory.btnTryAgain.setOnClickListener(this)
         mBinding.searchConnectedHistory.llsearch.setOnClickListener(this)
+        mBinding.searchConnectedHistory.lySearchFilter.setOnClickListener(this)
     }
 
     override fun initObserver() {
@@ -162,40 +167,40 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
 
                     it.data?.let { data ->
                         if (it.status) {
-                            if(!data.isNullOrEmpty()){
+                            if (!data.isNullOrEmpty()) {
                                 array.clear()
                                 array.addAll(data)
                                 connectedHistoryAdapter?.notifyDataSetChanged()
-                                if(array.isNullOrEmpty()){
+                                if (array.isNullOrEmpty()) {
                                     mBinding.noDataConnectedHistory.visible()
                                     mBinding.noInternetConnectedhistory.llNointernet.gone()
                                     mBinding.cl1.gone()
-                                    mBinding.radioGroup.gone()
+                                    mBinding.radioGroup.visible()
                                 }
-                            }else{
+                            } else {
                                 mBinding.noDataConnectedHistory.visible()
                                 mBinding.noInternetConnectedhistory.llNointernet.gone()
                                 mBinding.cl1.gone()
-                                mBinding.radioGroup.gone()
+                                mBinding.radioGroup.visible()
                             }
 
                         } else {
                             mBinding.noDataConnectedHistory.visible()
                             mBinding.noInternetConnectedhistory.llNointernet.gone()
                             mBinding.cl1.gone()
+                            mBinding.radioGroup.visible()
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                         }
                     }
                 }
                 requestState.error?.let { errorObj ->
 
-                    if(errorObj.customMessage.equals("No record.")){
+                    if (errorObj.customMessage.equals("No record.")) {
                         mBinding.noDataConnectedHistory.visible()
                         mBinding.noInternetConnectedhistory.llNointernet.gone()
                         mBinding.cl1.gone()
-                        mBinding.radioGroup.gone()
-                    }
-                    else {
+                        mBinding.radioGroup.visible()
+                    } else {
                         when (errorObj.errorState) {
                             Config.NETWORK_ERROR ->
                                 ReusedMethod.displayMessage(
@@ -227,8 +232,11 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
             R.id.btnTryAgain -> {
                 onResume()
             }
+            R.id.lySearchFilter -> {
+                ReusedMethod.displayMessage(requireActivity(),"Coming Soon!")
+            }
             R.id.llsearch -> {
-                if(TextUtils.isEmpty(mBinding.searchConnectedHistory.edtLoginEmail.text.toString())) {
+                if (TextUtils.isEmpty(mBinding.searchConnectedHistory.edtLoginEmail.text.toString())) {
                     callApi(mBinding.searchConnectedHistory.edtLoginEmail.text.toString())
                 }
             }

@@ -26,7 +26,7 @@ import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class SupportGroupList : BaseFragment(), View.OnClickListener {
+class SupportGroupList(val header: String?) : BaseFragment(), View.OnClickListener {
     lateinit var mBinding: FragmentSupportGroupListBinding
     private val mViewModel: UserViewModel by viewModel()
     var supportGroupListAdapter: SupportGroupListAdapter? = null
@@ -40,11 +40,20 @@ class SupportGroupList : BaseFragment(), View.OnClickListener {
     override fun initView() {
         mBinding = getBinding()
         (activity as HomeActivity).bottomTabVisibility(false)
-        (activity as HomeActivity).headerTextVisible(
-            requireActivity().resources.getString(R.string.support_groups),
-            true,
-            true
-        )
+        if (header != null) {
+            (activity as HomeActivity).headerTextVisible(
+                header!!,
+                true,
+                true
+            )
+        } else {
+            (activity as HomeActivity).headerTextVisible(
+                resources.getString(R.string.support_groups),
+                true,
+                true
+            )
+        }
+
     }
 
     override fun onResume() {
@@ -138,12 +147,12 @@ class SupportGroupList : BaseFragment(), View.OnClickListener {
     }
 
 
-    companion object {
-
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SupportGroupList().apply {
-
-            }
-    }
+//    companion object {
+//
+//        @JvmStatic
+//        fun newInstance(param1: String, param2: String) =
+//            SupportGroupList().apply {
+//
+//            }
+//    }
 }

@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import com.app.guardian.common.AppConstants.APP_NAME
 import com.app.guardian.common.AppConstants.SKIP_INTRO
 import com.app.guardian.model.Login.LoginResp
+import com.app.guardian.model.cms.CMSResp
 import com.app.guardian.utils.ApiConstant
 import com.google.gson.Gson
 
@@ -37,6 +38,19 @@ object SharedPreferenceManager {
         return null
     }
 
+    fun getCMS(): CMSResp? {
+        val userJson = getString(AppConstants.CMS_DETAIL, "")
+        if (userJson?.isEmpty()!!) {
+            return null
+        }
+        try {
+            return Gson().fromJson(userJson, CMSResp::class.java)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return null
+    }
 
     fun putBoolean(key: String, value: Boolean) {
         editor!!.putBoolean(key, value)
@@ -106,6 +120,7 @@ object SharedPreferenceManager {
         putString(AppConstants.CARD_DETAILS, "")
         editor!!.remove(AppConstants.CARD_DETAILS)
     }
+
     fun clearCityState() {
         putString(AppConstants.CITY, "")
         putString(AppConstants.STATE, "")

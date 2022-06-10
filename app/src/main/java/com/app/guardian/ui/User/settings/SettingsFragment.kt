@@ -36,6 +36,7 @@ import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.bumptech.glide.Glide
 import com.google.android.material.textview.MaterialTextView
+import com.google.gson.Gson
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -43,8 +44,6 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
     private lateinit var mBinding: FragmentSettingsBinding
     private val mViewModel: CommonScreensViewModel by viewModel()
     private val authViewModel: AuthenticationViewModel by viewModel()
-    var ABOUT_US = ""
-    var T_C = ""
     override fun getInflateResource(): Int {
         return R.layout.fragment_settings
 
@@ -221,8 +220,9 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
-ABOUT_US = data.about_us
-T_C = data.terms_conditions
+                            val gson = Gson()
+                            val json = gson.toJson(data)
+                            SharedPreferenceManager.putString(AppConstants.CMS_DETAIL, json)
                         } else {
                             ReusedMethod.displayMessage(
                                 requireActivity(),
@@ -311,24 +311,12 @@ T_C = data.terms_conditions
                 requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
             }
             R.id.tvAbout -> {
-                startActivity(
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse(ABOUT_US)
-                    )
-                )
-//                startActivity(Intent(context, AboutUsActivity::class.java))
-//                requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
+                startActivity(Intent(context, AboutUsActivity::class.java))
+                requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
             }
             R.id.tvTerms -> {
-                startActivity(
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse(T_C)
-                    )
-                )
-//                startActivity(Intent(context, TermAndConditionsActivity::class.java))
-//                requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
+                startActivity(Intent(context, TermAndConditionsActivity::class.java))
+                requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
             }
             R.id.tvVirtualWitness -> {
                 startActivity(Intent(context, VirtualWitnessActivity::class.java))

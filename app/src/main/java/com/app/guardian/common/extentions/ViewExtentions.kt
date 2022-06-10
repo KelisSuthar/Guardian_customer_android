@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
+import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.annotation.DrawableRes
@@ -167,4 +168,12 @@ fun ImageView.loadImage(file: File, height: Int? = null, width: Int? = null) {
             .into(this)
     }
 }
+
+fun WebView.loadWebViewData(url: String) {
+    this.settings.loadsImagesAutomatically = true
+    this.settings.javaScriptEnabled = true
+    this.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
+    this.loadUrl(url)
+}
+
 

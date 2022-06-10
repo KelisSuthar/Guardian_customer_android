@@ -132,6 +132,9 @@ interface ApiEndPoint {
     @GET("getNotificationList")
     fun getNotifications(): Call<CommonResponseModel<MutableList<NotificationResp>>>
 
+    @DELETE("deleteNotification/{id}")
+    fun deleteNotification(@Path("id") id: Int): Call<CommonResponseModel<CommonResponse>>
+
     @POST("lawyerBySpecialization")
     fun getLawyerBySpecialization(@Body body: JsonObject): Call<CommonResponseModel<MutableList<LawyerBySpecializationResp>>>
 

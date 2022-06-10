@@ -53,26 +53,33 @@ class ContactSupportFragment : BaseFragment(), View.OnClickListener {
             R.id.cvFindCounsellors -> {
                 ReplaceFragment.replaceFragment(
                     requireActivity(),
-                    SupportGroupList(),
+                    SupportGroupList(resources.getString(R.string.find_a_counsellors_2)),
                     true,
                     ContactSupportFragment::class.java.name,
                     ContactSupportFragment::class.java.name
                 )
             }
+
+            R.id.rlFindCounsellors -> {
+                mBinding.cvFindCounsellors.performClick()
+            }
+            R.id.rbFindCounsellors -> {
+                mBinding.cvFindCounsellors.performClick()
+            }
             R.id.cvSupportGroups -> {
-                mBinding.cvFindCounsellors.performClick()
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    SupportGroupList(resources.getString(R.string.support_groups)),
+                    true,
+                    ContactSupportFragment::class.java.name,
+                    ContactSupportFragment::class.java.name
+                )
             }
-            R.id.rlFindCounsellors->{
-                mBinding.cvFindCounsellors.performClick()
+            R.id.rlSupportGroups -> {
+                mBinding.cvSupportGroups.performClick()
             }
-            R.id.rbFindCounsellors->{
-                mBinding.cvFindCounsellors.performClick()
-            }
-            R.id.rlSupportGroups->{
-                mBinding.cvFindCounsellors.performClick()
-            }
-            R.id.rbSupportGroups->{
-                mBinding.cvFindCounsellors.performClick()
+            R.id.rbSupportGroups -> {
+                mBinding.cvSupportGroups.performClick()
             }
         }
     }

@@ -15,6 +15,8 @@ object AppConstants {
 
     const val LOG_DEBUG = true
     val USER= "User"
+    val MEDIATOR= "Mediator"
+    val LAWYEER= "Lawyer"
     val APP_NAME = "Tajmeel"
     val APP_ROLE_USER = "user"
     val APP_ROLE_LAWYER = "lawyer"
@@ -40,7 +42,10 @@ object AppConstants {
     const val EXTRA_EMAIL_PHONE = "EMAIL_PHONE"
     const val EXTRA_CCP = "CCP"
     const val EXTRA_USER_ID = "USER_ID"
+    const val CMS_DETAIL = "CMS_DETAILS"
     const val EXTRA_IS_EMAIL = "IS_EMAIL"
+    const val EXTRA_PHONE = "phone"
+    const val EXTRA_EMAIL = "email"
 
 
     const val CITY_STATE = "CITY_STATE"

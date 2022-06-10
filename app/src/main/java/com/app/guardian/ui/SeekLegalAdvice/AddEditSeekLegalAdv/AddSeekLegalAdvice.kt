@@ -2,7 +2,9 @@ package com.app.guardian.ui.SeekLegalAdvice.AddEditSeekLegalAdv
 
 import android.app.Activity
 import android.app.Dialog
+import android.os.Handler
 import android.text.InputFilter
+import android.text.TextUtils
 import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.Window
@@ -21,6 +23,7 @@ import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -50,7 +53,11 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
     override fun initView() {
         mBinding = getBinding()
         (activity as HomeActivity).bottomTabVisibility(true)
-        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.seek_legal_advice),true,true)
+        (activity as HomeActivity).headerTextVisible(
+            requireActivity().resources.getString(R.string.seek_legal_advice),
+            true,
+            true
+        )
 
         if(is_edit){
     mBinding.edtTitle.setText(edit_title)
@@ -60,6 +67,22 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
         mBinding.edtDesc.filters = arrayOf(InputFilter.LengthFilter(700))
         mBinding.edtTitle.filters = arrayOf(InputFilter.LengthFilter(60))
 
+
+        setFocus(mBinding.edtTitle)
+        setFocus(mBinding.edtDesc)
+    }
+
+    private fun setFocus(edtText: TextInputEditText) {
+        edtText.onFocusChangeListener =
+            OnFocusChangeListener { _, hasFocus ->
+                val value = edtText.text?.trim().toString()
+                if (!hasFocus) {
+
+                    if (!TextUtils.isEmpty(value) && value.length > 5) {
+                        ReusedMethod.ShowNoBorders(requireContext(), edtText)
+                    }
+                }
+            }
     }
 
     override fun postInit() {
@@ -81,19 +104,16 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
                         if (it.status) {
 
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
-
-                            if (is_edit){
-                                requireActivity().onBackPressed()
-                            }
-                           else{
+                            if (!is_edit) {
                                 displayDeleteConfirmDialog()
-                           }
 
+                            } else {
+                                Handler().postDelayed({
+                                    requireActivity().onBackPressed()
+                                }, 500)
 
-
-
-                        }
-                        else {
+                            }
+                        } else {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                         }
                     }
@@ -126,7 +146,7 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
 
     fun displayDeleteConfirmDialog(
 
-        ) {
+    ) {
         val dialog = Dialog(
             requireContext(),
             com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
@@ -142,10 +162,10 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
         Yes.setOnClickListener {
             dialog.dismiss()
             mBinding.edtDesc.text!!.clear()
-             mBinding.edtTitle.text!!.clear()
-            if (is_edit){
-                seek_legal_adv_id=0
-                is_edit=false
+            mBinding.edtTitle.text!!.clear()
+            if (is_edit) {
+                seek_legal_adv_id = 0
+                is_edit = false
             }
         }
 
@@ -210,6 +230,7 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
                         "OK",
                         ""
                     )
+                    ReusedMethod.ShowNoBorders(requireContext(), mBinding.edtTitle)
                     ReusedMethod.ShowRedBorders(requireContext(), mBinding.edtDesc)
                 }
 
@@ -222,6 +243,7 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
                         "Cancel",
                         ""
                     )
+                    ReusedMethod.ShowNoBorders(requireContext(), mBinding.edtTitle)
                     ReusedMethod.ShowRedBorders(requireContext(), mBinding.edtDesc)
                 }
 

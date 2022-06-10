@@ -622,6 +622,25 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
         }
     }
 
+    override fun deleteNotification(
+        id: Int,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResp: MutableLiveData<RequestState<CommonResponse>>
+    ) {
+        if (!internetConnected) {
+            commonResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            commonResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.deleteNotification(id),
+                baseView,
+                commonResp
+            )
+        }
+    }
+
     override fun sendRequestVirtualWitness(
         body: JsonObject,
         internetConnected: Boolean,

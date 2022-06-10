@@ -9,6 +9,7 @@ import android.location.Geocoder
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Looper
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.Window
@@ -161,6 +162,133 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
         Log.i("THIS_APP",mBinding.ccpOffice.selectedCountryCode)
        }
 
+        setFocus()
+
+    }
+
+    private fun setFocus() {
+        mBinding.edtFullname.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtFullname.text?.trim().toString()
+
+                if (!hasFocus) {
+                    if (value.length > 3 && !TextUtils.isEmpty(value)) {
+                        ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    }
+                }
+            }
+
+        mBinding.edtEmail.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtEmail.text?.trim().toString()
+
+                if (!hasFocus) {
+                    if (SmartUtils.emailValidator(value) && !TextUtils.isEmpty(value)) {
+                        ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    }
+                }
+            }
+
+        mBinding.edtMobileNum.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtMobileNum.text?.trim().toString()
+
+                if (!hasFocus) {
+                    if (value.length >= 10 && !TextUtils.isEmpty(value)) {
+                        ShowNoBorders(this@SignupScreen, mBinding.edtMobileNum)
+                    }
+                }
+            }
+
+        mBinding.edtPass.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtPass.text?.trim().toString()
+                if (!hasFocus) {
+
+                    if (value.length >= 8 && !TextUtils.isEmpty(value) && SmartUtils.checkSpecialPasswordValidation(
+                            value
+                        )
+                    ) {
+                        ShowNoBorders(this@SignupScreen, mBinding.edtPass)
+                    }
+                }
+            }
+
+        mBinding.edtConPass.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtConPass.text?.trim().toString()
+                if (!hasFocus) {
+
+                    if (value.length >= 8 && !TextUtils.isEmpty(value) && SmartUtils.checkSpecialPasswordValidation(
+                            value
+                        )
+                    ) {
+                        ShowNoBorders(this@SignupScreen, mBinding.edtConPass)
+                    }
+                }
+            }
+
+        mBinding.edtProvience.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtProvience.text?.trim().toString()
+                if (!hasFocus) {
+
+                    if (!TextUtils.isEmpty(value)) {
+                        ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
+                    }
+                }
+            }
+
+        mBinding.edtPostalCode.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtPostalCode.text?.trim().toString()
+                if (!hasFocus) {
+
+                    if (!TextUtils.isEmpty(value) && (value.length > 3 || value.length < 9)) {
+                        ShowNoBorders(this@SignupScreen, mBinding.edtPostalCode)
+                    }
+                }
+            }
+        mBinding.edtVehicalNum.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtVehicalNum.text?.trim().toString()
+                if (!hasFocus) {
+
+                    if (!TextUtils.isEmpty(value)) {
+                        ShowNoBorders(this@SignupScreen, mBinding.edtVehicalNum)
+                    }
+                }
+            }
+
+        mBinding.edtSpecializations.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtSpecializations.text?.trim().toString()
+                if (!hasFocus) {
+                    if (!TextUtils.isEmpty(value)) {
+                        ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    }
+                }
+            }
+
+        mBinding.edtYearsOfExp.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtYearsOfExp.text?.trim().toString()
+                if (!hasFocus) {
+                    if (!TextUtils.isEmpty(value) && value != "0") {
+                        ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                    }
+                }
+            }
+
+        mBinding.edtOfficeNum.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtOfficeNum.text?.trim().toString()
+                if (!hasFocus) {
+                    if (!TextUtils.isEmpty(value) && value.length == 10) {
+                        ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
+                    }
+                }
+            }
     }
 
     override fun onResume() {
@@ -241,21 +369,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let {
-                                    if (errorObj.code == ApiConstant.API_401) {
-                                        authViewModel.signOUT(true, this as BaseActivity)
-                                        startActivity(
-                                            Intent(
-                                                this@SignupScreen,
-                                                LoginActivity::class.java
-                                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                        )
-                                        overridePendingTransition(R.anim.rightto, R.anim.left)
-                                    }
-                                    else{
-                                        ReusedMethod.displayMessage(this as Activity, it)
-                                    }
-                                }
+                                ?.let {}
                     }
                 }
             }
@@ -281,21 +395,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let {
-                                    if (errorObj.code == ApiConstant.API_401) {
-                                        authViewModel.signOUT(true, this as BaseActivity)
-                                        startActivity(
-                                            Intent(
-                                                this@SignupScreen,
-                                                LoginActivity::class.java
-                                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                        )
-                                        overridePendingTransition(R.anim.rightto, R.anim.left)
-                                    }
-                                    else{
-                                        ReusedMethod.displayMessage(this as Activity, it)
-                                    }
-                                }
+                                ?.let {}
                     }
                 }
             }
@@ -587,6 +687,9 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
                     ShowRedBorders(this@SignupScreen, mBinding.edtYearsOfExp)
                 }
 
@@ -599,6 +702,9 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
                     ShowRedBorders(this@SignupScreen, mBinding.edtYearsOfExp)
                 }
 
@@ -611,6 +717,10 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
                     ShowRedBorders(this@SignupScreen, mBinding.edtOfficeNum)
                 }
 
@@ -623,6 +733,10 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
                     ShowRedBorders(this@SignupScreen, mBinding.edtOfficeNum)
                 }
 
@@ -635,6 +749,11 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
                     ShowRedBorders(this@SignupScreen, mBinding.edtMobileNum)
                 }
 
@@ -647,6 +766,11 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
                     ShowRedBorders(this@SignupScreen, mBinding.edtMobileNum)
                 }
 
@@ -659,6 +783,12 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtMobileNum)
                     ShowRedBorders(this@SignupScreen, mBinding.edtPass)
 
                 }
@@ -672,6 +802,12 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtMobileNum)
                     ShowRedBorders(this@SignupScreen, mBinding.edtPass)
                 }
 
@@ -684,6 +820,13 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtMobileNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtPass)
                     ShowRedBorders(this@SignupScreen, mBinding.edtConPass)
                 }
 
@@ -696,6 +839,13 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtMobileNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtPass)
                     ShowRedBorders(this@SignupScreen, mBinding.edtConPass)
                 }
 
@@ -708,6 +858,13 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtMobileNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtConPass)
                     ShowRedBorders(this@SignupScreen, mBinding.edtPass)
 
                 }
@@ -721,6 +878,13 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtMobileNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtPass)
                     ShowRedBorders(this@SignupScreen, mBinding.edtConPass)
                 }
 
@@ -733,6 +897,12 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtMobileNum)
                     ShowRedBorders(this@SignupScreen, mBinding.edtPass)
                     ShowRedBorders(this@SignupScreen, mBinding.edtConPass)
                 }
@@ -746,6 +916,14 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtMobileNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtPass)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtConPass)
                     ShowRedBorders(this@SignupScreen, mBinding.edtProvience)
 
                 }
@@ -759,6 +937,14 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtMobileNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtPass)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtConPass)
                     ShowRedBorders(this@SignupScreen, mBinding.edtProvience)
                 }
 
@@ -771,6 +957,15 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtMobileNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtPass)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtConPass)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
                     ShowRedBorders(this@SignupScreen, mBinding.edtProvience)
                 }
 
@@ -783,6 +978,15 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtMobileNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtPass)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtConPass)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
                     ShowRedBorders(this@SignupScreen, mBinding.edtProvience)
                 }
 
@@ -795,6 +999,16 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtMobileNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtPass)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtConPass)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
                     ShowRedBorders(this@SignupScreen, mBinding.edtVehicalNum)
                 }
 
@@ -807,6 +1021,16 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtMobileNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtPass)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtConPass)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
                     ShowRedBorders(this@SignupScreen, mBinding.edtVehicalNum)
 
                 }
@@ -831,10 +1055,15 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 override fun success() {
                     ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
                     ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
                     ShowNoBorders(this@SignupScreen, mBinding.edtMobileNum)
                     ShowNoBorders(this@SignupScreen, mBinding.edtPass)
                     ShowNoBorders(this@SignupScreen, mBinding.edtConPass)
-                    ShowNoBorders(this@SignupScreen, mBinding.edtVehicalNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
+                    ShowRedBorders(this@SignupScreen, mBinding.edtVehicalNum)
 //
 //                    chatRegistration(
 //                        mBinding.edtEmail.text?.trim().toString(),
