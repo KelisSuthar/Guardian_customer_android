@@ -142,19 +142,20 @@ class HomeBannersFragment(var bannerarray: ArrayList<BannerCollection>) : BaseFr
                 if (bannerarray[apiData].user != null) {
 
                     if (hashMapBannerColloection.containsKey(bannerarray[apiData].user.specialization)) {
-                        hashMapBannerColloection.get(bannerarray[apiData].user.specialization)?.add(bannerarray[apiData])
+                        hashMapBannerColloection[bannerarray[apiData].user.specialization]?.add(bannerarray[apiData])
                     } else
                     {
                         val listBannerData : ArrayList<BannerCollection> = arrayListOf()
 
                         val getHasMapKey = hashMapBannerColloection.keys
-                        if(!getHasMapKey.isEmpty()){
+                        if(getHasMapKey.isNotEmpty()){
                                 listBannerData.clear()
                             Log.e("HashBanner_collection","${apiData.toString()}")
 
                         }
                         listBannerData.add(bannerarray[apiData])
-                        hashMapBannerColloection.put(bannerarray[apiData].user.specialization,listBannerData)
+                        hashMapBannerColloection[bannerarray[apiData].user.specialization] =
+                            listBannerData
 
                     }
                 }

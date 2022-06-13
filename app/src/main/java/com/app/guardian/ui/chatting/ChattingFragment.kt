@@ -1,7 +1,6 @@
 package com.app.guardian.ui.chatting
 
 import android.os.Handler
-import android.util.Log
 import android.view.*
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
@@ -23,6 +22,7 @@ import com.app.guardian.utils.Config
 import com.bumptech.glide.Glide
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ChattingFragment(
@@ -35,7 +35,7 @@ class ChattingFragment(
     private val mViewModel: CommonScreensViewModel by viewModel()
     var chatMessageAdapter: ChatMessageAdapter? = null
     var chatArray = ArrayList<ChatListResp>()
-    var hasMap = HashMap<String, ChatListResp>()
+    var hasMap = HashMap<String, ArrayList<ChatListResp>>()
     val timer = Timer()
     val handler = Handler()
     override fun getInflateResource(): Int {
@@ -75,7 +75,7 @@ class ChattingFragment(
 
     private fun setAdapter() {
         mBinding.rvChat.adapter = null
-        chatMessageAdapter = ChatMessageAdapter(requireActivity(), hasMap)
+        chatMessageAdapter = ChatMessageAdapter(requireActivity(), chatArray)
         mBinding.rvChat.adapter = chatMessageAdapter
     }
 
@@ -99,9 +99,9 @@ class ChattingFragment(
                         if (it.status) {
                             chatArray.clear()
                             if (!data.isNullOrEmpty()) {
-                                chatArray.addAll(data)
 
 //                                getHeadderTime(data)
+                                chatArray.addAll(data)
                                 setData(data)
                                 chatMessageAdapter!!.notifyDataSetChanged()
 //                                for (i in data.indices) {
@@ -178,6 +178,7 @@ class ChattingFragment(
     }
 
     private fun setData(data: MutableList<ChatListResp>) {
+        var date = ""
         for (i in data.indices) {
             if (changeDateFormat(
                     "yyyy-MM-dd HH:mm:ss",
@@ -189,10 +190,16 @@ class ChattingFragment(
                     ReusedMethod.getCurrentDate()
                 )
             ) {
-                hasMap[AppConstants.EXTRA_TODAY] = data[i]
+                chatArray.clear()
+                chatArray.add(data[i])
+                hasMap[AppConstants.EXTRA_TODAY] = chatArray
+
 
             } else if ((getCurrentDay().toInt() - 1) == (changeToDay(data[i].message_time!!).toInt())) {
-                hasMap[AppConstants.EXTRA_YESTERDAY] = data[i]
+                chatArray.clear()
+                chatArray.add(data[i])
+                hasMap[AppConstants.EXTRA_TODAY] = chatArray
+
             } else if ((getCurrentDay()
                     .toInt() - 1) == 0 && (changeToDay(
                     data[i].message_time!!
@@ -206,13 +213,20 @@ class ChattingFragment(
                     data[i].message_time!!
                 ) == "29")
             ) {
-                hasMap[AppConstants.EXTRA_YESTERDAY] = data[i]
-            } else {
-                hasMap[data[i].message_time.toString()] = data[i]
+                chatArray.clear()
+                chatArray.add(data[i])
+                hasMap[AppConstants.EXTRA_TODAY] = chatArray
+
+            }else{
+                chatArray.clear()
+                chatArray.add(data[i])
+                hasMap[AppConstants.EXTRA_TODAY] = chatArray
             }
+            chatMessageAdapter!!.notifyDataSetChanged()
+
         }
-        Log.i("THIS_APP", hasMap[AppConstants.EXTRA_TODAY].toString())
     }
+
 
     private fun getHeadderTime(data: MutableList<ChatListResp>) {
         for (i in data.size - 1 downTo 0) {
