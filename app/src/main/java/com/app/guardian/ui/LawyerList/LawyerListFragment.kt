@@ -103,15 +103,20 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
-
-                        array.clear()
-                        array.addAll(data)
-                        if (array.size != 0) {
-                            lawyerListAdapter?.notifyDataSetChanged()
+                        if (it.status) {
+                            array.clear()
+                            array.addAll(data)
+                            if (array.size != 0) {
+                                lawyerListAdapter?.notifyDataSetChanged()
+                            } else {
+                                mBinding.rvLawyerList.gone()
+                                mBinding.noLawyer.visible()
+                            }
                         } else {
                             mBinding.rvLawyerList.gone()
                             mBinding.noLawyer.visible()
                         }
+
                     }
                 }
 
@@ -130,6 +135,8 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                                         ReusedMethod.displayMessage(requireActivity(), it)
                                         (activity as HomeActivity).unAuthorizedNavigation()
                                     } else {
+                                        mBinding.rvLawyerList.gone()
+                                        mBinding.noLawyer.visible()
                                         ReusedMethod.displayMessage(context as Activity, it)
                                     }
                                 }
@@ -331,6 +338,12 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
             dialog.dismiss()
         }
         btnDone.setOnClickListener {
+            mBinding.rvLawyerList.visible()
+            mBinding.lyLawyerListFilter.lySearch.visible()
+            mBinding.lyLawyerListFilter.lySearchFilter.visible()
+            //  mBinding.lyLawyerListFilter.edtLoginEmail.gone()
+            mBinding.noLawyer.gone()
+            mBinding.noInternetLawyer.llNointernet.gone()
             dialog.dismiss()
             if (years_of_exp == "Above 15") {
                 callAPI("", "15-100", specialization)

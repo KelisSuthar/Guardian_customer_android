@@ -3,7 +3,6 @@ package com.app.guardian.ui.User.settings
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
-import android.net.Uri
 import android.view.View
 import android.view.Window
 import android.widget.TextView
@@ -13,26 +12,23 @@ import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
-import com.app.guardian.common.extentions.loadImage
-import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentSettingsBinding
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.termsandcondtions.TermAndConditionsActivity
-import com.app.guardian.ui.ContactedHistory.ContectedHistoryFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Lawyer.AddBaner.AddBannerFragment
 import com.app.guardian.ui.LawyerSpecialization.LawyerSpecializationFragment
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.ResetPassword.ResetPasswordActivity
-import com.app.guardian.ui.SelectRole.SelectRoleScreen
 import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
+import com.app.guardian.ui.SupportGroups.SupportGroupList
 import com.app.guardian.ui.aboutus.AboutUsActivity
 import com.app.guardian.ui.editProfile.EditProfileActivity
 import com.app.guardian.ui.notification.NotificationListFragment
-import com.app.guardian.ui.virtualWitness.VirtualWitnessActivity
+import com.app.guardian.ui.virtualWitness.VirtualWitnessFragment
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.bumptech.glide.Glide
@@ -320,8 +316,13 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                 requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
             }
             R.id.tvVirtualWitness -> {
-                startActivity(Intent(context, VirtualWitnessActivity::class.java))
-                requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    VirtualWitnessFragment(),
+                    true,
+                    SettingsFragment::class.java.name,
+                    SettingsFragment::class.java.name
+                );
             }
             R.id.tvChangePwd -> {
                 startActivity(

@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
+import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
@@ -19,8 +21,11 @@ import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.SupportGroups.adapter.SupportGroupListAdapter
+import com.app.guardian.ui.chatting.ChattingFragment
+import com.app.guardian.ui.virtualWitness.VirtualWitnessFragment
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -72,7 +77,13 @@ class SupportGroupList(val header: String?) : BaseFragment(), View.OnClickListen
             array,
             object : SupportGroupListAdapter.onItemClicklisteners {
                 override fun onClick(position: Int) {
-
+                    ReplaceFragment.replaceFragment(
+                        requireActivity(),
+                        VirtualWitnessFragment(array[position].title),
+                        true,
+                        SupportGroupList::class.java.name,
+                        SupportGroupList::class.java.name
+                    );
                 }
 
             })

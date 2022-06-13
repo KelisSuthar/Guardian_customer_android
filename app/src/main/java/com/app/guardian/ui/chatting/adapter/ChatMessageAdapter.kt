@@ -56,10 +56,10 @@ class ChatMessageAdapter(var context: Context, var array: ArrayList<ChatListResp
 
         fun bindItem(position: Int) {
             if(!array[position].message.isNullOrEmpty()){
-                txtRecieveMsg.text = array[position].message
+//                txtRecieveMsg.text = array[position].message
             }
             if(!array[position].message.isNullOrEmpty()){
-                txtSendMsg.text = array[position].message
+//                txtSendMsg.text = array[position].message
             }
         }
 
@@ -72,5 +72,6 @@ class ChatMessageAdapter(var context: Context, var array: ArrayList<ChatListResp
         } else {
             RECIEVER
         }
+
     }
 }

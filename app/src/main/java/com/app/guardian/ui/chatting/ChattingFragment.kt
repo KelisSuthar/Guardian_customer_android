@@ -1,8 +1,10 @@
 package com.app.guardian.ui.chatting
 
 import android.os.Handler
+import android.util.Log
 import android.view.*
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.ReusedMethod.Companion.changeToDay
 import com.app.guardian.common.ReusedMethod.Companion.displayMessage
@@ -12,6 +14,7 @@ import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentChattingBinding
 import com.app.guardian.model.Chat.ChatListResp
+import com.app.guardian.model.HomeBanners.BannerCollection
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
@@ -33,6 +36,7 @@ class ChattingFragment(
     private val mViewModel: CommonScreensViewModel by viewModel()
     var chatMessageAdapter: ChatMessageAdapter? = null
     var chatArray = ArrayList<ChatListResp>()
+    var hasMap = HashMap<String, ChatListResp>()
     val timer = Timer()
     val handler = Handler()
     override fun getInflateResource(): Int {
@@ -99,6 +103,7 @@ class ChattingFragment(
                                 chatArray.addAll(data)
 
 //                                getHeadderTime(data)
+                                setData(data)
                                 chatMessageAdapter!!.notifyDataSetChanged()
 //                                for (i in data.indices) {
 //                                    if (changeDateFormat(
@@ -173,6 +178,43 @@ class ChattingFragment(
 
     }
 
+    private fun setData(data: MutableList<ChatListResp>) {
+        for (i in data.indices) {
+            if (changeDateFormat(
+                    "yyyy-MM-dd HH:mm:ss",
+                    "yyyy-MM-dd",
+                    data[i].message_time!!
+                ) == changeDateFormat(
+                    "yyyy-MM-dd HH:mm:ss",
+                    "yyyy-MM-dd",
+                    ReusedMethod.getCurrentDate()
+                )
+            ) {
+                hasMap[AppConstants.EXTRA_TODAY] = data[i]
+
+            } else if ((getCurrentDay().toInt() - 1) == (changeToDay(data[i].message_time!!).toInt())) {
+                hasMap[AppConstants.EXTRA_YESTERDAY] = data[i]
+            } else if ((getCurrentDay()
+                    .toInt() - 1) == 0 && (changeToDay(
+                    data[i].message_time!!
+                ) == "31") || (changeToDay(
+                    data[i].message_time!!
+                ) == "30")
+                || (changeToDay(
+                    data[i].message_time!!
+                ) == "28")
+                || (changeToDay(
+                    data[i].message_time!!
+                ) == "29")
+            ) {
+                hasMap[AppConstants.EXTRA_YESTERDAY] = data[i]
+            } else {
+                hasMap[data[i].message_time.toString()] = data[i]
+            }
+        }
+        Log.i("THIS_APP", hasMap[AppConstants.EXTRA_TODAY].toString())
+    }
+
     private fun getHeadderTime(data: MutableList<ChatListResp>) {
         for (i in data.size - 1 downTo 0) {
             if (changeDateFormat(
@@ -224,7 +266,7 @@ class ChattingFragment(
                 CallSendMessageAPI()
             }
             R.id.appCompatImageView3 -> {
-                displayMessage(requireActivity(),resources.getString(R.string.come_soon))
+                displayMessage(requireActivity(), resources.getString(R.string.come_soon))
             }
         }
     }

@@ -21,6 +21,8 @@ object AppConstants {
     val APP_ROLE_USER = "user"
     val APP_ROLE_LAWYER = "lawyer"
     val APP_ROLE_MEDIATOR = "mediator"
+    val EXTRA_TODAY = "Today"
+    val EXTRA_YESTERDAY = "Yesterday"
     const val ONLINE = "ONLINE"
     const val OFFLINE = "OFFLINE"
     const val SKIP_INTRO = "SKIP_INTRO"
