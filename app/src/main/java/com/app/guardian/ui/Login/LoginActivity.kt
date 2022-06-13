@@ -301,8 +301,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        finish()
-        overridePendingTransition(R.anim.leftto, R.anim.right)
+        finishAffinity()
     }
 
     override fun handleListener() {
