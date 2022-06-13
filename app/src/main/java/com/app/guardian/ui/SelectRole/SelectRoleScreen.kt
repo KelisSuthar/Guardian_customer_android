@@ -12,6 +12,7 @@ import com.app.guardian.common.extentions.gone
 import com.app.guardian.databinding.ActivitySelectRoleScreenBinding
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.Login.LoginActivity
+import com.app.guardian.ui.signup.SignupScreen
 
 class SelectRoleScreen : BaseActivity(), View.OnClickListener {
     lateinit var mBinding: ActivitySelectRoleScreenBinding
@@ -73,7 +74,7 @@ class SelectRoleScreen : BaseActivity(), View.OnClickListener {
                         startActivity(
                             Intent(
                                 this@SelectRoleScreen,
-                                LoginActivity::class.java
+                                SignupScreen::class.java
                             )
 
                         )
@@ -88,7 +89,7 @@ class SelectRoleScreen : BaseActivity(), View.OnClickListener {
                         startActivity(
                             Intent(
                                 this@SelectRoleScreen,
-                                LoginActivity::class.java
+                                SignupScreen::class.java
                             )
 
                         )
@@ -102,7 +103,7 @@ class SelectRoleScreen : BaseActivity(), View.OnClickListener {
                                 startActivity(
                                     Intent(
                                         this@SelectRoleScreen,
-                                        LoginActivity::class.java
+                                        SignupScreen::class.java
                                     )
 
                                 )

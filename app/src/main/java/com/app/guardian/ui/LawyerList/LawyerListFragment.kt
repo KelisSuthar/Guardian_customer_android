@@ -242,7 +242,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                 profilePicUrl,
                 AppConstants.APP_ROLE_LAWYER
             ),
-            false,
+            true,
             LawyerListFragment::class.java.name,
             LawyerListFragment::class.java.name
         );

@@ -23,6 +23,7 @@ import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.SelectRole.SelectRoleScreen
 import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
 import com.app.guardian.ui.forgot.ForgotPasswordActivity
 import com.app.guardian.ui.signup.SignupScreen
@@ -47,11 +48,9 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         mBinding = getBinding()
         setPhoneEmailSelector()
         mBinding.emailphoneSelector.ccp.setCountryForPhoneCode(1)
-
+        mBinding.headderLogin.ivBack.gone()
 
         setFocus()
-
-
     }
 
     private fun setFocus() {
@@ -73,7 +72,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                                 R.drawable.normal_rounded_light_blue
                             )
                         }
-
                     }
                 }
             }
@@ -127,44 +125,72 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
-                        if (it.status) {
-                            if (data.user.user_role == SharedPreferenceManager.getString(
-                                    AppConstants.USER_ROLE,
-                                    AppConstants.APP_ROLE_USER
-                                )
-                            ) {
-                                showLoadingIndicator(true)
-                                checkLogin(data)
-                                SharedPreferenceManager.putString(
-                                    AppConstants.BEREAR_TOKEN,
-                                    data.token
-                                )
-                                displayMessage(this, it.message.toString())
-                                val gson = Gson()
-                                val json = gson.toJson(data)
-                                SharedPreferenceManager.putString(
-                                    AppConstants.USER_DETAIL_LOGIN,
-                                    json
-                                )
-                                displayMessage(this, it.message.toString())
-                            } else {
-                                displayMessageDialog(
-                                    this@LoginActivity,
-                                    "",
-                                    resources.getString(R.string.valid_role_selections),
-                                    false,
-                                    "OK",
-                                    ""
-                                )
-                            }
-                        } else {
-                            Log.e(
-                                "network_message",
-                                "Display network error form login message : " + it.message
-                            )
+//                        if (it.status) {
+//                            if (data.user.user_role == SharedPreferenceManager.getString(
+//                                    AppConstants.USER_ROLE,
+//                                    AppConstants.APP_ROLE_USER
+//                                )
+//                            ) {
+//                                showLoadingIndicator(true)
+//                                checkLogin(data)
+//                                SharedPreferenceManager.putString(
+//                                    AppConstants.BEREAR_TOKEN,
+//                                    data.token
+//                                )
+//                                displayMessage(this, it.message.toString())
+//                                val gson = Gson()
+//                                val json = gson.toJson(data)
+//                                SharedPreferenceManager.putString(
+//                                    AppConstants.USER_DETAIL_LOGIN,
+//                                    json
+//                                )
+//                                displayMessage(this, it.message.toString())
+//                            } else {
+//                                displayMessageDialog(
+//                                    this@LoginActivity,
+//                                    "",
+//                                    resources.getString(R.string.valid_role_selections),
+//                                    false,
+//                                    "OK",
+//                                    ""
+//                                )
+//                            }
+//                        } else {
+//                            Log.e(
+//                                "network_message",
+//                                "Display network error form login message : " + it.message
+//                            )
+//
+//                            displayMessage(this, it.message.toString())
+//                        }
 
-                            displayMessage(this, it.message.toString())
-                        }
+                        showLoadingIndicator(true)
+                        checkLogin(data)
+                        SharedPreferenceManager.putString(
+                            AppConstants.BEREAR_TOKEN,
+                            data.token
+                        )
+                        displayMessage(this, it.message.toString())
+                        val gson = Gson()
+                        val json = gson.toJson(data)
+                        SharedPreferenceManager.putString(
+                            AppConstants.USER_DETAIL_LOGIN,
+                            json
+                        )
+                        val getUserRole = SharedPreferenceManager.getUser()!!.user.user_role
+                        var setConstantRole =""
+                        if(getUserRole.equals(AppConstants.APP_ROLE_USER))
+                            setConstantRole=AppConstants.APP_ROLE_USER
+                        else if(getUserRole.equals(AppConstants.APP_ROLE_LAWYER))
+                            setConstantRole=AppConstants.APP_ROLE_LAWYER
+                        else if(getUserRole.equals(AppConstants.APP_ROLE_MEDIATOR))
+                            setConstantRole=AppConstants.APP_ROLE_MEDIATOR
+
+                        SharedPreferenceManager.putString(
+                            AppConstants.USER_ROLE,
+                            setConstantRole
+                        )
+                        displayMessage(this, it.message.toString())
                     }
                 }
                 requestState.error?.let { errorObj ->
@@ -275,8 +301,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        finish()
-        overridePendingTransition(R.anim.leftto, R.anim.right)
+        finishAffinity()
     }
 
     override fun handleListener() {
@@ -290,11 +315,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.txtDoNotHaveAccount -> {
-                finish()
                 startActivity(
                     Intent(
                         this@LoginActivity,
-                        SignupScreen::class.java
+                        SelectRoleScreen::class.java
                     )
                 )
                 overridePendingTransition(R.anim.rightto, R.anim.left)

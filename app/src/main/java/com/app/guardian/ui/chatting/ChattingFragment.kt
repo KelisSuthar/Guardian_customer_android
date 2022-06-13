@@ -5,6 +5,7 @@ import android.view.*
 import com.app.guardian.R
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.ReusedMethod.Companion.changeToDay
+import com.app.guardian.common.ReusedMethod.Companion.displayMessage
 import com.app.guardian.common.ReusedMethod.Companion.getCurrentDay
 import com.app.guardian.common.extentions.changeDateFormat
 import com.app.guardian.common.extentions.gone
@@ -81,6 +82,7 @@ class ChattingFragment(
 
     override fun handleListener() {
         mBinding.btnSend.setOnClickListener(this)
+        mBinding.appCompatImageView3.setOnClickListener(this)
         mBinding.noInternetChat.llNointernet.setOnClickListener(this)
     }
 
@@ -220,6 +222,9 @@ class ChattingFragment(
         when (v?.id) {
             R.id.btnSend -> {
                 CallSendMessageAPI()
+            }
+            R.id.appCompatImageView3 -> {
+                displayMessage(requireActivity(),resources.getString(R.string.come_soon))
             }
         }
     }

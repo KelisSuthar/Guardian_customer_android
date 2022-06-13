@@ -254,7 +254,7 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
                 selectUserId, selectUserFullName, profilePicUrl,
                 AppConstants.APP_ROLE_LAWYER
             ),
-            false,
+            true,
             LawyerSpecializationFragment::class.java.name,
             LawyerSpecializationFragment::class.java.name
         );

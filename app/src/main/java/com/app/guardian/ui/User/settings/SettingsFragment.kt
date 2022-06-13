@@ -25,6 +25,7 @@ import com.app.guardian.ui.ContactedHistory.ContectedHistoryFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Lawyer.AddBaner.AddBannerFragment
 import com.app.guardian.ui.LawyerSpecialization.LawyerSpecializationFragment
+import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.ResetPassword.ResetPasswordActivity
 import com.app.guardian.ui.SelectRole.SelectRoleScreen
 import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
@@ -265,7 +266,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                             startActivity(
                                 Intent(
                                     requireActivity(),
-                                    SelectRoleScreen::class.java
+                                    LoginActivity::class.java
                                 )
                             )
                             requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
