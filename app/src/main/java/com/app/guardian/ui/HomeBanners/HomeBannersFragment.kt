@@ -1,5 +1,7 @@
 package com.app.guardian.ui.HomeBanners
 
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -63,8 +65,8 @@ class HomeBannersFragment(var bannerarray: ArrayList<BannerCollection>) : BaseFr
                 requireContext(),
                 hashMapBannerColloection,
                 object : HomeBannersAdapter.onItemClicklisteners {
-                    override fun onClick(position: Int) {
-
+                    override fun onClick(position: Int, url: String) {
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
                     }
 
                 })

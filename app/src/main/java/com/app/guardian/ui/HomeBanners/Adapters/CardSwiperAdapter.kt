@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +15,11 @@ import com.bumptech.glide.Glide
 import com.github.islamkhsh.CardSliderAdapter
 
 
-class CardSwiperAdapter(val context: Context, private val array: ArrayList<BannerCollection>) :
+class CardSwiperAdapter(
+    val context: Context,
+    private val array: ArrayList<BannerCollection>,
+    val listener: CardSwiperAdapter.OnItemClickListener
+) :
     CardSliderAdapter<CardSwiperAdapter.viewHolder>() {
 
     override fun getItemCount() = array.size
@@ -37,7 +42,15 @@ class CardSwiperAdapter(val context: Context, private val array: ArrayList<Banne
                 .placeholder(R.drawable.sample_banner)
                 .into(ivBannerImg)
 
+            itemView.setOnClickListener {
+                listener.onClick(position, array[position].url)
+            }
 
         }
+    }
+
+    interface OnItemClickListener {
+        fun onClick(position: Int, url: String)
+
     }
 }

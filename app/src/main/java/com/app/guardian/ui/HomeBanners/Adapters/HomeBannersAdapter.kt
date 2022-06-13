@@ -17,14 +17,18 @@ class HomeBannersAdapter(
 ) : RecyclerView.Adapter<HomeBannersAdapter.myViewHolder>() {
 
     var cardSwiperAdapter: CardSwiperAdapter? = null
-var bannerarray = ArrayList<BannerCollection>()
 
 
     open inner class myViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var txt = view.findViewById<AppCompatTextView>(R.id.txtSpecialization)
         var cardSwiper = view.findViewById<CardSliderViewPager>(R.id.cardSwiper)
         open fun bindItem(position: Int) {
-            cardSwiperAdapter = CardSwiperAdapter(context, bannerarray)
+            cardSwiperAdapter = CardSwiperAdapter(context, map[map.keys.toList()[position]]!!,object :CardSwiperAdapter.OnItemClickListener{
+                override fun onClick(position: Int, url: String) {
+                    listener.onClick(position,url)
+                }
+
+            })
             cardSwiper.adapter = cardSwiperAdapter
             cardSwiperAdapter!!.notifyDataSetChanged()
             txt.text = map.keys.toList()[position]
@@ -33,7 +37,7 @@ var bannerarray = ArrayList<BannerCollection>()
 
 
     interface onItemClicklisteners {
-        fun onClick(position: Int)
+        fun onClick(position: Int, url: String)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): myViewHolder {

@@ -14,7 +14,6 @@ import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentChattingBinding
 import com.app.guardian.model.Chat.ChatListResp
-import com.app.guardian.model.HomeBanners.BannerCollection
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
@@ -76,7 +75,7 @@ class ChattingFragment(
 
     private fun setAdapter() {
         mBinding.rvChat.adapter = null
-        chatMessageAdapter = ChatMessageAdapter(requireActivity(), chatArray)
+        chatMessageAdapter = ChatMessageAdapter(requireActivity(), hasMap)
         mBinding.rvChat.adapter = chatMessageAdapter
     }
 

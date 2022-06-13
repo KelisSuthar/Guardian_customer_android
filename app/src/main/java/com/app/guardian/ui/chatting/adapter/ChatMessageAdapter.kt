@@ -12,8 +12,9 @@ import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.model.Chat.ChatListResp
+import java.util.HashMap
 
-class ChatMessageAdapter(var context: Context, var array: ArrayList<ChatListResp>) :
+class ChatMessageAdapter(var context: Context, var map: HashMap<String, ChatListResp>) :
     RecyclerView.Adapter<ChatMessageAdapter.myViewHolder>() {
     var isShow = true
     var SENDER = 0
@@ -46,7 +47,7 @@ class ChatMessageAdapter(var context: Context, var array: ArrayList<ChatListResp
     }
 
     override fun getItemCount(): Int {
-        return array.size
+        return map.size
     }
 
     inner class myViewHolder(view: View?) : RecyclerView.ViewHolder(view!!) {
@@ -55,23 +56,24 @@ class ChatMessageAdapter(var context: Context, var array: ArrayList<ChatListResp
         val headderTime= view!!.findViewById<AppCompatTextView>(R.id.appCompatTextView)
 
         fun bindItem(position: Int) {
-            if(!array[position].message.isNullOrEmpty()){
+            if(!map.isNullOrEmpty()){
 //                txtRecieveMsg.text = array[position].message
             }
-            if(!array[position].message.isNullOrEmpty()){
-//                txtSendMsg.text = array[position].message
-            }
+//            if(!array[position].message.isNullOrEmpty()){
+////                txtSendMsg.text = array[position].message
+//            }
         }
 
 
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (array[position].from_id == (SharedPreferenceManager.getUser()!!.user.id)) {
-            SENDER
-        } else {
-            RECIEVER
-        }
+//        return if (array. from_id == (SharedPreferenceManager.getUser()!!.user.id)) {
+//            SENDER
+//        } else {
+//            RECIEVER
+//        }
+        return  SENDER
 
     }
 }
