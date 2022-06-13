@@ -13,10 +13,11 @@
         app:cardCornerRadius="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="13dp">
+        tools:layout_editor_absoluteX="13dp"
+        android:elevation="@dimen/_10sdp">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivPropertyImg"
+            android:id="@+id/ivBannerImg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"

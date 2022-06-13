@@ -20,6 +20,7 @@ import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.BannerAds.BannerAdsPager
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.HomeBanners.HomeBannersFragment
 import com.app.guardian.ui.KnowRight.KnowRightFragment
 import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.utils.ApiConstant
@@ -30,6 +31,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
     var array = ArrayList<BannerCollection>()
+    var bannerArray = ArrayList<BannerCollection>()
     var bannerAdsPager: BannerAdsPager? = null
     lateinit var mBinding: FragmentMediatorHomeBinding
     override fun getInflateResource(): Int {
@@ -47,7 +49,7 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
 
         setAdapter()
         callApi()
-        mBinding.availabilitySwitch .setOnToggledListener { _, isOn ->
+        mBinding.availabilitySwitch.setOnToggledListener { _, isOn ->
             if (isOn) {
                 callChangeStatusAPI(1)
             } else {
@@ -55,6 +57,7 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
             }
         }
     }
+
     private fun callChangeStatusAPI(i: Int) {
         if (ReusedMethod.isNetworkConnected(requireActivity())) {
             mViewModel.setAppUserStatus(true, requireActivity() as BaseActivity, i.toString())
@@ -64,6 +67,7 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
             mBinding.cl.gone()
         }
     }
+
     private fun callApi() {
         if (ReusedMethod.isNetworkConnected(requireActivity())) {
             mViewModel.getuserHomeBanners(true, requireActivity() as BaseActivity)
@@ -106,7 +110,7 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding.cvKnowBasicRight.setOnClickListener(this)
         mBinding.rbDialLawyer.setOnClickListener(this)
         mBinding.rbKnowBasicRight.setOnClickListener(this)
-
+        mBinding.txtViewMore.setOnClickListener(this)
     }
 
     override fun initObserver() {
@@ -122,6 +126,11 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
                             array.clear()
                             array.addAll(data.top5)
                             bannerAdsPager?.notifyDataSetChanged()
+                            bannerArray.clear()
+                            bannerArray.addAll(data.bannerCollection)
+                            if (data.bannerCollection.isNullOrEmpty()) {
+                                mBinding.txtViewMore.gone()
+                            }
                             if (array.size > 1) {
                                 ReusedMethod.viewPagerScroll(mBinding.pager, array.size)
                             }
@@ -219,7 +228,15 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
                 chnagelayout(2)
                 mBinding.cvDialLawyer.performClick()
             }
-
+            R.id.txtViewMore -> {
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    HomeBannersFragment(bannerArray),
+                    true,
+                    HomeActivity::class.java.name,
+                    HomeActivity::class.java.name
+                );
+            }
         }
     }
 

@@ -12,23 +12,22 @@ import com.github.islamkhsh.CardSliderViewPager
 
 class HomeBannersAdapter(
     val context: Context,
-    val arrayList: ArrayList<BannerCollection>,
+    val map: HashMap<String, ArrayList<BannerCollection>>,
     val listener: onItemClicklisteners
 ) : RecyclerView.Adapter<HomeBannersAdapter.myViewHolder>() {
 
     var cardSwiperAdapter: CardSwiperAdapter? = null
+var bannerarray = ArrayList<BannerCollection>()
 
 
     open inner class myViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var txt = view.findViewById<AppCompatTextView>(R.id.txtSpecialization)
         var cardSwiper = view.findViewById<CardSliderViewPager>(R.id.cardSwiper)
-        var positions: Int? = 0
         open fun bindItem(position: Int) {
-            val array = arrayList[position]
-            cardSwiperAdapter = CardSwiperAdapter(arrayList)
+            cardSwiperAdapter = CardSwiperAdapter(context, bannerarray)
             cardSwiper.adapter = cardSwiperAdapter
             cardSwiperAdapter!!.notifyDataSetChanged()
-            txt.text = array.user.specialization
+            txt.text = map.keys.toList()[position]
         }
     }
 
@@ -48,7 +47,7 @@ class HomeBannersAdapter(
     }
 
     override fun getItemCount(): Int {
-        return arrayList.size
+        return map.size
     }
 
 

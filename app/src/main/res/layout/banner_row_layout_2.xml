@@ -21,7 +21,7 @@
     <com.github.islamkhsh.CardSliderViewPager
         android:id="@+id/cardSwiper"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_170sdp"
+        android:layout_height="@dimen/_150sdp"
         app:cardSlider_otherPagesWidth="24dp"
         app:cardSlider_pageMargin="12dp"
         app:cardSlider_smallScaleFactor="0.8"

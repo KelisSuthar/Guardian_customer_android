@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import com.app.guardian.R
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.extentions.gone
 import com.app.guardian.databinding.FragmentLiveVirtualVitnessUserBinding
 import com.app.guardian.model.HomeBanners.BannerCollection
 import com.app.guardian.model.viewModels.CommonScreensViewModel
@@ -14,6 +15,7 @@ import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.BannerAds.BannerAdsPager
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.HomeBanners.HomeBannersFragment
 import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.Mediator.MediatorHome.MediatorHomeFragment
 import com.app.guardian.utils.ApiConstant
@@ -25,6 +27,7 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
     lateinit var mBinding: FragmentLiveVirtualVitnessUserBinding
     private val mViewModel: CommonScreensViewModel by viewModel()
     var array = ArrayList<BannerCollection>()
+    var bannerArray = ArrayList<BannerCollection>()
     var bannerAdsPager: BannerAdsPager? = null
     override fun getInflateResource(): Int {
         return R.layout.fragment_live_virtual_vitness_user
@@ -81,6 +84,7 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
         mBinding.rbDialLawyer.setOnClickListener(this)
         mBinding.rbDrivingOffenceList.setOnClickListener(this)
         mBinding.rbAccessYourRecording.setOnClickListener(this)
+        mBinding.txtViewMore.setOnClickListener(this)
     }
 
     override fun initObserver() {
@@ -92,9 +96,16 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
 
 
                         if (it.status) {
+                            bannerArray.clear()
+                            bannerArray.addAll(data.bannerCollection)
                             array.clear()
                             array.addAll(data.top5)
                             bannerAdsPager?.notifyDataSetChanged()
+                            bannerArray.clear()
+                            bannerArray.addAll(data.bannerCollection)
+                            if (data.bannerCollection.isNullOrEmpty()) {
+                                mBinding.txtViewMore.gone()
+                            }
                             if (array.size > 1) {
                                 ReusedMethod.viewPagerScroll(mBinding.pager, array.size)
                             }
@@ -156,6 +167,15 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
                     LiveVirtualVitnessUserFragment::class.java.name
                 )
 
+            }
+            R.id.txtViewMore -> {
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    HomeBannersFragment(bannerArray),
+                    true,
+                    HomeActivity::class.java.name,
+                    HomeActivity::class.java.name
+                );
             }
         }
     }

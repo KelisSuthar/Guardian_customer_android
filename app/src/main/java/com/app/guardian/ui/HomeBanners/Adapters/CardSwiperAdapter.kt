@@ -1,15 +1,20 @@
 package com.app.guardian.ui.HomeBanners.Adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
+import com.app.guardian.common.extentions.loadImage
 import com.app.guardian.model.HomeBanners.BannerCollection
+import com.bumptech.glide.Glide
 import com.github.islamkhsh.CardSliderAdapter
 
 
-class CardSwiperAdapter(private val array: ArrayList<BannerCollection>) :
+class CardSwiperAdapter(val context: Context, private val array: ArrayList<BannerCollection>) :
     CardSliderAdapter<CardSwiperAdapter.viewHolder>() {
 
     override fun getItemCount() = array.size
@@ -24,8 +29,14 @@ class CardSwiperAdapter(private val array: ArrayList<BannerCollection>) :
         holder.bind(position)
     }
 
-    class viewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class viewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var ivBannerImg = view.findViewById<AppCompatImageView>(R.id.ivBannerImg)
         fun bind(position: Int) {
+            Glide.with(context)
+                .load(array[position].banner_avatar)
+                .placeholder(R.drawable.sample_banner)
+                .into(ivBannerImg)
+
 
         }
     }

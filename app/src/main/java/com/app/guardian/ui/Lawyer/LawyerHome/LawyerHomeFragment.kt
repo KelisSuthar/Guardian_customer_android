@@ -19,6 +19,7 @@ import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.BannerAds.BannerAdsPager
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.HomeBanners.HomeBannersFragment
 import com.app.guardian.ui.KnowRight.KnowRightFragment
 import com.app.guardian.ui.Lawyer.AskMoreQuestion.AskMoreQuestion
 import com.app.guardian.ui.SeekLegalAdvice.SeekLegalAdviceListFragment
@@ -30,6 +31,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
     var array = ArrayList<BannerCollection>()
+    var bannerArray = ArrayList<BannerCollection>()
     var bannerAdsPager: BannerAdsPager? = null
     lateinit var mBinding: FragmentLawyerHomeBinding
     override fun getInflateResource(): Int {
@@ -105,6 +107,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding.btnKnowRights.setOnClickListener(this)
         mBinding.btnAskQuestions.setOnClickListener(this)
         mBinding.btnSeekAdv.setOnClickListener(this)
+        mBinding.txtViewMore.setOnClickListener(this)
     }
 
     override fun initObserver() {
@@ -120,8 +123,10 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                             array.clear()
                             array.addAll(data.top5)
                             bannerAdsPager?.notifyDataSetChanged()
-                            if (array.size > 1) {
-                                ReusedMethod.viewPagerScroll(mBinding.pager, array.size)
+                            bannerArray.clear()
+                            bannerArray.addAll(data.bannerCollection)
+                            if (data.bannerCollection.isNullOrEmpty()) {
+                                mBinding.txtViewMore.gone()
                             }
                         } else {
                             mBinding.cl.gone()
@@ -246,6 +251,15 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
 //                )
 //                chnagelayout(3)
                 mBinding.cvSeekAdv.performClick()
+            }
+            R.id.txtViewMore -> {
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    HomeBannersFragment(bannerArray),
+                    true,
+                    HomeActivity::class.java.name,
+                    HomeActivity::class.java.name
+                );
             }
         }
     }

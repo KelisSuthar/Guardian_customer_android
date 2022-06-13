@@ -110,6 +110,9 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
                             bannerArray.clear()
                             array.addAll(data.top5)
                             bannerArray.addAll(data.bannerCollection)
+                            if (data.bannerCollection.isNullOrEmpty()) {
+                                mBinding.txtViewMore.gone()
+                            }
                             bannerAdsPager?.notifyDataSetChanged()
                             if (array.size > 1) {
                                 viewPagerScroll(mBinding.pager, array.size)

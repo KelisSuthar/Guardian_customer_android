@@ -1,21 +1,18 @@
 package com.app.guardian.ui.HomeBanners
 
-import androidx.fragment.app.Fragment
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.app.guardian.R
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
-import com.app.guardian.databinding.ActivitySignupScreenBinding
 import com.app.guardian.databinding.FragmentHomeBannersBinding
 import com.app.guardian.model.HomeBanners.BannerCollection
-import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
+import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.HomeBanners.Adapters.HomeBannersAdapter
-import com.app.guardian.ui.User.MyVideos.adapter.MyVideoListAdapter
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -34,12 +31,19 @@ class HomeBannersFragment(var bannerarray: ArrayList<BannerCollection>) : BaseFr
     lateinit var mBinding: FragmentHomeBannersBinding
     var homeBannersAdapter: HomeBannersAdapter? = null
     var array = ArrayList<BannerCollection>()
+    val hashMapBannerColloection = HashMap<String, ArrayList<BannerCollection>>()
     override fun getInflateResource(): Int {
         return R.layout.fragment_home_banners
     }
 
     override fun initView() {
         mBinding = getBinding()
+        (activity as HomeActivity).bottomTabVisibility(false)
+        (activity as HomeActivity).headerTextVisible(
+            requireActivity().resources.getString(R.string.home_banners),
+            isBackButtonVisible = true,
+            isHeaderVisible = true
+        )
     }
 
     override fun onResume() {
@@ -55,7 +59,7 @@ class HomeBannersFragment(var bannerarray: ArrayList<BannerCollection>) : BaseFr
         homeBannersAdapter =
             HomeBannersAdapter(
                 requireContext(),
-                array,
+                hashMapBannerColloection,
                 object : HomeBannersAdapter.onItemClicklisteners {
                     override fun onClick(position: Int) {
 
@@ -92,7 +96,7 @@ class HomeBannersFragment(var bannerarray: ArrayList<BannerCollection>) : BaseFr
                     it.data?.let { data ->
 
                         if (it.status) {
-                            setData(data)
+//                            setData(data)
                         } else {
 
                         }
@@ -115,18 +119,40 @@ class HomeBannersFragment(var bannerarray: ArrayList<BannerCollection>) : BaseFr
         }
     }
 
-    private fun setData(data: MutableList<SpecializationListResp>) {
-        for (i in data.indices) {
-            for (j in bannerarray.indices) {
-                if (bannerarray[j].user != null) {
-                    if (data[i].title.toString() == bannerarray[j].user.specialization.toString()) {
-                        array.add(bannerarray[j])
-                    }
-                }
-            }
-            homeBannersAdapter?.notifyDataSetChanged()
-        }
-    }
+//    private fun setData(data: MutableList<SpecializationListResp>) {
+//
+//
+//        for (i in data.indices) {
+//            for (j in bannerarray.indices) {
+//                if (bannerarray[j].user != null) {
+//                    if (data[i].title.toString() == bannerarray[j].user.specialization.toString()) {
+//                        array.add(bannerarray[j])
+//                        hashMapBannerColloection[data[i].title] = bannerarray[j]
+//                    }
+//                }
+//
+//            }
+//
+//            hashMapBannerColloection.clear()
+//
+//            for (apiData in bannerarray.indices) {
+//                if (bannerarray[apiData].user != null) {
+//                    if (hashMapBannerColloection.keys.equals(bannerarray[apiData].user.specialization)) {
+//
+//                    } else {
+//                        hashMapBannerColloection[bannerarray[apiData].user.specialization]=arr
+//                    }
+//                }
+//            }
+//
+//            homeBannersAdapter?.notifyDataSetChanged()
+//        }
+//
+//
+//        println("THIS_APP${hashMapBannerColloection["Constitutional Law"]}")
+////        Log.i("THIS_APP",HashMap.toString())
+//    }
+
 
     override fun onClick(v: View?) {
         when (v?.id) {

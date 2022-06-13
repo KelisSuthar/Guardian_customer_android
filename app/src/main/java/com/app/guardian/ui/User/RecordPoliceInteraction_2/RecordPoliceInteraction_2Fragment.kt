@@ -141,6 +141,7 @@ class RecordPoliceInteraction_2Fragment : BaseFragment(), View.OnClickListener {
         mBinding.cvLiveVirtualWitness.setOnClickListener(this)
         mBinding.rlLiveVirtualWitness.setOnClickListener(this)
         mBinding.rbLiveVirtualWitness.setOnClickListener(this)
+
     }
 
     override fun initObserver() {
