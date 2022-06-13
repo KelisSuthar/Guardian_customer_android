@@ -31,11 +31,18 @@ class SplashScreen : BaseActivity(), View.OnClickListener {
         Handler().postDelayed({
             finish()
             if (!SharedPreferenceManager.getBoolean(AppConstants.IS_LOGIN, false)) {
+//                startActivity(
+//                    Intent(
+//                        this@SplashScreen,
+//
+//                        SelectRoleScreen::class.java
+//                    )
+//                )
                 startActivity(
                     Intent(
                         this@SplashScreen,
 
-                        SelectRoleScreen::class.java
+                        LoginActivity::class.java
                     )
                 )
             } else if (!SharedPreferenceManager.getBoolean(AppConstants.IS_SUBSCRIBE, false)) {

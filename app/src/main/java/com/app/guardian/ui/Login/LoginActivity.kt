@@ -23,6 +23,7 @@ import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.SelectRole.SelectRoleScreen
 import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
 import com.app.guardian.ui.forgot.ForgotPasswordActivity
 import com.app.guardian.ui.signup.SignupScreen
@@ -47,11 +48,9 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         mBinding = getBinding()
         setPhoneEmailSelector()
         mBinding.emailphoneSelector.ccp.setCountryForPhoneCode(1)
-
+        mBinding.headderLogin.ivBack.gone()
 
         setFocus()
-
-
     }
 
     private fun setFocus() {
@@ -73,7 +72,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                                 R.drawable.normal_rounded_light_blue
                             )
                         }
-
                     }
                 }
             }
@@ -290,11 +288,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.txtDoNotHaveAccount -> {
-                finish()
                 startActivity(
                     Intent(
                         this@LoginActivity,
-                        SignupScreen::class.java
+                        SelectRoleScreen::class.java
                     )
                 )
                 overridePendingTransition(R.anim.rightto, R.anim.left)
