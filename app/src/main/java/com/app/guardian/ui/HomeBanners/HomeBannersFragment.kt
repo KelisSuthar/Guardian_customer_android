@@ -1,5 +1,6 @@
 package com.app.guardian.ui.HomeBanners
 
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.app.guardian.R
@@ -8,6 +9,7 @@ import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentHomeBannersBinding
 import com.app.guardian.model.HomeBanners.BannerCollection
+import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
@@ -96,7 +98,7 @@ class HomeBannersFragment(var bannerarray: ArrayList<BannerCollection>) : BaseFr
                     it.data?.let { data ->
 
                         if (it.status) {
-//                            setData(data)
+                            setData(data)
                         } else {
 
                         }
@@ -119,9 +121,8 @@ class HomeBannersFragment(var bannerarray: ArrayList<BannerCollection>) : BaseFr
         }
     }
 
-//    private fun setData(data: MutableList<SpecializationListResp>) {
-//
-//
+    private fun setData(data: MutableList<SpecializationListResp>) {
+
 //        for (i in data.indices) {
 //            for (j in bannerarray.indices) {
 //                if (bannerarray[j].user != null) {
@@ -132,26 +133,41 @@ class HomeBannersFragment(var bannerarray: ArrayList<BannerCollection>) : BaseFr
 //                }
 //
 //            }
-//
-//            hashMapBannerColloection.clear()
-//
-//            for (apiData in bannerarray.indices) {
-//                if (bannerarray[apiData].user != null) {
-//                    if (hashMapBannerColloection.keys.equals(bannerarray[apiData].user.specialization)) {
-//
-//                    } else {
-//                        hashMapBannerColloection[bannerarray[apiData].user.specialization]=arr
-//                    }
-//                }
-//            }
-//
-//            homeBannersAdapter?.notifyDataSetChanged()
-//        }
-//
-//
+
+            hashMapBannerColloection.clear()
+
+            for (apiData in bannerarray.indices) {
+                if (bannerarray[apiData].user != null) {
+
+                    if (hashMapBannerColloection.containsKey(bannerarray[apiData].user.specialization)) {
+                        hashMapBannerColloection.get(bannerarray[apiData].user.specialization)?.add(bannerarray[apiData])
+                    } else
+                    {
+                        val listBannerData : ArrayList<BannerCollection> = arrayListOf()
+
+                        val getHasMapKey = hashMapBannerColloection.keys
+                        if(!getHasMapKey.isEmpty()){
+                                listBannerData.clear()
+                            Log.e("HashBanner_collection","${apiData.toString()}")
+
+                        }
+                        listBannerData.add(bannerarray[apiData])
+                        hashMapBannerColloection.put(bannerarray[apiData].user.specialization,listBannerData)
+
+                    }
+                }
+            }
+
+        Log.e("HashBanner_collection","${hashMapBannerColloection.size}")
+        Log.e("HashBanner_collection","${hashMapBannerColloection.keys.toString()}")
+//        println("HashBanner_collection $hashMapBannerColloection")
+            homeBannersAdapter?.notifyDataSetChanged()
+        }
+
+
 //        println("THIS_APP${hashMapBannerColloection["Constitutional Law"]}")
-////        Log.i("THIS_APP",HashMap.toString())
-//    }
+//        Log.i("THIS_APP",HashMap.toString())
+
 
 
     override fun onClick(v: View?) {
