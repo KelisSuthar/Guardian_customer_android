@@ -48,7 +48,6 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
     var isDialLawyerOpen = isDialLawyer
     var specialization = ""
     var years_of_exp = ""
-    private var rootView: View? = null
     override fun getInflateResource(): Int {
         return R.layout.fragment_lawyer_list
     }
