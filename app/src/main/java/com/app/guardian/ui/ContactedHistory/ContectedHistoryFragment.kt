@@ -6,8 +6,10 @@ import android.net.Uri
 import android.text.TextUtils
 import android.view.View
 import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
@@ -64,6 +66,15 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
             }
 
         }
+        mBinding.searchConnectedHistory.edtLoginEmail.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                callApi(
+                    mBinding.searchConnectedHistory.edtLoginEmail.text.toString(),
+                )
+                return@OnEditorActionListener true
+            }
+            false
+        })
         (activity as HomeActivity).bottomTabVisibility(true)
         (activity as HomeActivity).headerTextVisible(
             requireActivity().resources.getString(R.string.contacted_history),
@@ -106,24 +117,26 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
 
                 override fun onChatClick(position: Int?) {
 //                    if (array[position!!].user_role == AppConstants.APP_ROLE_LAWYER) {
-                        ReplaceFragment.replaceFragment(
-                            requireActivity(),
-                            ChattingFragment(
-                                array[position!!].id,
-                                array[position!!].full_name,
-                                array[position!!].profile_avatar,
-                                array[position!!].user_role,
-                                false
-                            ),
-                            true,
-                            ContectedHistoryFragment::class.java.name,
-                            ContectedHistoryFragment::class.java.name
-                        )
+                    ReplaceFragment.replaceFragment(
+                        requireActivity(),
+                        ChattingFragment(
+                            array[position!!].id,
+                            array[position!!].full_name,
+                            array[position!!].profile_avatar,
+                            array[position!!].user_role,
+                        ),
+                        true,
+                        ContectedHistoryFragment::class.java.name,
+                        ContectedHistoryFragment::class.java.name
+                    )
 //                    }
                 }
 
                 override fun onNotesClick(position: Int?) {
-                    ReusedMethod.displayMessage(requireActivity(),resources.getString(R.string.come_soon))
+                    ReusedMethod.displayMessage(
+                        requireActivity(),
+                        resources.getString(R.string.come_soon)
+                    )
                 }
 
                 override fun onItemClick(position: Int?) {

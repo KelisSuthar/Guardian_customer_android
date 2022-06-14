@@ -8,8 +8,10 @@ import android.text.TextUtils
 import android.util.TypedValue
 import android.view.View
 import android.view.Window
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView.OnEditorActionListener
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.app.guardian.R
@@ -28,6 +30,7 @@ import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
+import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
 import com.app.guardian.ui.chatting.ChattingFragment
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
@@ -36,7 +39,7 @@ import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
-import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
+
 
 class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickListener {
 
@@ -68,6 +71,13 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                 false
             )
         }
+        mBinding.lyLawyerListFilter.edtLoginEmail .setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                callAPI(mBinding.lyLawyerListFilter.edtLoginEmail.text.toString(), years_of_exp, specialization)
+                return@OnEditorActionListener true
+            }
+            false
+        })
     }
 
     private fun setAdapter() {
@@ -107,6 +117,8 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                             array.clear()
                             array.addAll(data)
                             if (array.size != 0) {
+                                mBinding.rvLawyerList.visible()
+                                mBinding.noLawyer.gone()
                                 lawyerListAdapter?.notifyDataSetChanged()
                             } else {
                                 mBinding.rvLawyerList.gone()

@@ -99,12 +99,13 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent">
+
                     <ImageView
                         android:id="@+id/imgRowLawyerCall"
                         android:layout_width="@dimen/_24sdp"
-                        android:layout_height="@dimen/_24sdp"
-                        android:src="@drawable/ic_call"
-                        android:layout_marginBottom="@dimen/_3sdp"/>
+                        android:layout_height="27dp"
+                        android:layout_marginBottom="@dimen/_3sdp"
+                        android:src="@drawable/ic_call" />
 
                     <ImageView
                         android:id="@+id/imgRowLawyerNotes"
@@ -125,41 +126,43 @@
                         />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/lyRowSpecializationInfo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_8sdp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+                    <TextView
+                        android:id="@+id/txtSpTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lora_semibold"
+                        android:gravity="center_vertical"
+                        android:text="@string/specialization_title"
+                        android:textColor="@color/txt_dark"
+                        android:textSize="@dimen/_10ssp" />
+
+                    <TextView
+                        android:id="@+id/txtSpecialization"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:fontFamily="@font/lora_regular"
+                        android:gravity="center_vertical"
+                        android:text="Criminal Lawyer"
+                        android:textColor="@color/txt_dark"
+                        android:textSize="@dimen/_8ssp" />
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <LinearLayout
-                android:id="@+id/lyRowSpecializationInfo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/_8sdp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rl1">
 
-                <TextView
-                    android:id="@+id/txtSpTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/lora_semibold"
-                    android:gravity="center_vertical"
-                    android:text="@string/specialization_title"
-                    android:textColor="@color/txt_dark"
-                    android:textSize="@dimen/_10ssp" />
-
-                <TextView
-                    android:id="@+id/txtSpecialization"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_3sdp"
-                    android:fontFamily="@font/lora_regular"
-                    android:gravity="center_vertical"
-                    android:text="Criminal Lawyer"
-                    android:textColor="@color/txt_dark"
-                    android:textSize="@dimen/_8ssp" />
-            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
 
 

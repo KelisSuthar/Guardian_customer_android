@@ -21,42 +21,19 @@ import java.util.*
 @SuppressLint("NewApi")
 class ChatConversationAdapter(
     var context: Context?,
-    var listMessages: ArrayList<ChatListResp>,
+    listMessages: ArrayList<ChatListResp>,
     var fragment: ChattingFragment?,
-): RecyclerView.Adapter<RecyclerView.ViewHolder>(), KmStickyListener {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), KmStickyListener {
     private var listNewMessages: ArrayList<Any>? = null
-    private var mIsMessageListLoading: Boolean = false
 
-    private var listGroupImgUrls: HashMap<String, ArrayList<ChatListResp>>? = null
 
     init {
-
-        listGroupImgUrls = HashMap()
         listNewMessages = ArrayList<Any>()
-
-
         try {
-
-            val listKeyDateTime: ArrayList<String> = ArrayList()
-
-
             for (baseMessage in listMessages) {
-
                 val createdAt = baseMessage.message_time
-
-//                val  sdate: Date =Date(createdAt/10000L)
-// api side getTime : 2022-06-13 16:03:11
-
-                val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                //val dateTime1  = formatter.parse(createdAt)
-//                val  sdate: Date =Date(dateTime1/10000L)
-               val date =  changeDateFormat("yyyy-MM-dd HH:mm:ss","dd MMM yyyy", createdAt!!)
+                val date = changeDateFormat("yyyy-MM-dd HH:mm:ss", "dd MMM yyyy", createdAt!!)
                 Log.e("ChatConversationAd ", "date formerter:From: $createdAt TO $date")
-//                val dateTImeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
-//                val dateTime = dateTImeFormat.format(dateTime1)
-
-//                val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.US)
-//                val date = dateFormat.format(dateTime1)
 
                 if (!listNewMessages?.contains(date)!!) {
                     listNewMessages?.add(date)
@@ -68,16 +45,14 @@ class ChatConversationAdapter(
 
             }
 
-            Log.e("ChatConversationAd ", "data listGroupImgUrls" + listGroupImgUrls)
             Log.e("ChatConversationAd ", "data listNewMessages" + listNewMessages)
 
 
-            if(fragment is ChattingFragment)
-            {
+            if (fragment is ChattingFragment) {
                 (fragment as ChattingFragment).chatRecyListDisplay(listNewMessages!!)
             }
 
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
@@ -101,7 +76,7 @@ class ChatConversationAdapter(
             ChattingFragment.TYPE_HEADER -> {
                 val view = LayoutInflater.from(context)
                     .inflate(R.layout.row_chat_header, parent, false)
-               MyHeaderHolder(
+                MyHeaderHolder(
                     view
                 )
             }
@@ -133,16 +108,16 @@ class ChatConversationAdapter(
 
         val message = listNewMessages?.get(position)
 
-        when(holder.itemViewType){
-            ChattingFragment.TYPE_HEADER->{
+        when (holder.itemViewType) {
+            ChattingFragment.TYPE_HEADER -> {
 
                 val messageHolder = holder as? MyHeaderHolder
-                if(message is String) {
+                if (message is String) {
 
-                    val todayDate:Date=Date()
+                    val todayDate: Date = Date()
 
                     val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.US)
-                    val today_date=dateFormat.format(todayDate)
+                    val today_date = dateFormat.format(todayDate)
 
                     val mydate = Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24)
                     val previous_date = dateFormat.format(mydate)
@@ -150,143 +125,39 @@ class ChatConversationAdapter(
                     Log.e("date", "Previous date :" + previous_date)
 
 
-                    if(today_date.equals(message)){
-                        messageHolder?.txtHeader?.setText("Today")
+                    if (today_date.equals(message)) {
+                        messageHolder?.txtHeader?.text = "Today"
 
-                    }else{
-
-                        // val previous_date = todayDate.date - 1
-                        //   Log.e("date", "Previous date :" + previous_date)
+                    } else {
 
                         if (message.equals(previous_date)) {
-                            messageHolder?.txtHeader?.setText("Yesterday")
+                            messageHolder?.txtHeader?.text = "Yesterday"
                         } else {
-                            messageHolder?.txtHeader?.setText(message)
+                            messageHolder?.txtHeader?.text = message
                         }
-
-//                        messageHolder?.txtHeader?.setText(message)
-
-
                     }
 
-                }
-                else{
+                } else {
 
-                    messageHolder?.txtHeader?.setText(message.toString())
+                    messageHolder?.txtHeader?.text = message.toString()
 
                 }
 
             }
-            ChattingFragment.TYPE_SENDER->{
+            ChattingFragment.TYPE_SENDER -> {
 
 
-
-                if (message is ChatListResp){
-
-
+                if (message is ChatListResp) {
                     val messageHolder = holder as? MySenderHolder
-
-
-
-
-//                    messageHolder?.txtSenderMessage?.visibility = View.VISIBLE
-//                    messageHolder?.txtSenderDate?.visibility = View.VISIBLE
-//                    messageHolder?.imgArrowSender?.visibility = View.VISIBLE
-
-
-                    val txtmessageLenth = message.message!!.length
                     messageHolder?.txtSendMsg?.text = message.message
-
-//                    val senderDate = message.timesteap
-//                    val  sdate: Date=Date(senderDate/10000L)
-//
-//
-//                    if (message.isMarkRead) {
-//                        messageHolder!!.img_mark.visibility = View.VISIBLE
-//                    } else {
-//                        messageHolder!!.img_mark.visibility = View.GONE
-//                    }
-
-
-                    //  val date :String= DateFormat.format("dd-MM-yyyy hh:mm a", cal).toString()
-                    val format = SimpleDateFormat("HH:mm", Locale.US)
-
-                    //    val date :String= DateFormat.format("hh:mm a", cal).toString()
-//                    val date = format.format(sdate)
-
-                    //  Log.e("Sender date:","date :"+senderDate.toString())
-
-
-                    //text date code update according to the message size
-//                    if (txtmessageLenth < 6) {
-//
-//                        val txtparms: ViewGroup.LayoutParams? = messageHolder?.txtSendMsg?.layoutParams
-//                        txtparms?.width = 180
-//
-//                        messageHolder?.txtSendMsg?.layoutParams = txtparms
-//                        messageHolder?.txtSendMsg?.gravity = Gravity.CENTER
-//                    } else {
-//
-//                        val txtparms: ViewGroup.LayoutParams? = messageHolder?.txtSendMsg?.layoutParams
-//                        txtparms?.width = ViewGroup.LayoutParams.WRAP_CONTENT
-//                        messageHolder?.txtSendMsg?.gravity = Gravity.CENTER_VERTICAL
-//                        messageHolder?.txtSendMsg?.layoutParams = txtparms
-//
-//                    }
-
-//                    messageHolder?.txtSenderDate?.text = date
                 }
-
-//                }
             }
-            ChattingFragment.TYPE_RECEIVER->{
+            ChattingFragment.TYPE_RECEIVER -> {
 
-                if(message is ChatListResp){
-
-                    //  val usermessage:UserMessage = message as UserMessage
-
-
+                if (message is ChatListResp) {
                     val receiverHolder = holder as MyReceiverHolder
-//                    receiverHolder.txtReceiverMessage.visibility = View.VISIBLE
-//                    receiverHolder.txtReceiverDate.visibility = View.VISIBLE
-//                    receiverHolder.imgArrowReceiver.visibility = View.VISIBLE
-//
-//
-//                    val receiverDate = message.timesteap
-//                    val  sdate: Date=Date(receiverDate/10000L)
-//
-//                    val format = SimpleDateFormat("HH:mm", Locale.US)
-//                    //    val date :String= DateFormat.format("hh:mm a", cal).toString()
-//
-//                    val date = format.format(sdate)
-//
-////                Log.e("Sender date:","date :"+receiverDate.toString())
-
-
                     receiverHolder.txtReciver.text = message.message
-
-                    val txtmessageLenth =message.message!!.length
-
-                    //text date code update according to the message size
-//                    if (txtmessageLenth < 6) {
-//
-//                        val txtparms: ViewGroup.LayoutParams? = receiverHolder.txtReciver.layoutParams
-//
-//                        txtparms?.width = 180
-//
-//                        receiverHolder.txtReciver.layoutParams = txtparms
-//                        receiverHolder.txtReciver.gravity = Gravity.CENTER
-//                    } else {
-//                        val txtparms: ViewGroup.LayoutParams? = receiverHolder.txtReciver.layoutParams
-//                        txtparms?.width = ViewGroup.LayoutParams.WRAP_CONTENT
-//                        receiverHolder.txtReciver.gravity= Gravity.CENTER_VERTICAL
-//
-//                        receiverHolder.txtReciver.layoutParams = txtparms
-//                    }
-
-//                    receiverHolder.txtReceiverDate.text = date
                 }
-
 
 
             }
@@ -297,23 +168,23 @@ class ChatConversationAdapter(
     override fun getItemViewType(position: Int): Int {
         //val item: ConversationDO = listMessages.get(position)
         val message = listNewMessages?.get(position)
-        var retunViewType: Int ?= 20
+        var retunViewType: Int? = 20
 
-        try{
-            if(message is ChatListResp){
+        try {
+            if (message is ChatListResp) {
 
-                if(message.message!=null)
-                {
-                    if(message.from_id!!.equals(SharedPreferenceManager.getUser()!!.user.id)){
-                        retunViewType = ChattingFragment.TYPE_SENDER
-                    }else{
-                        retunViewType = ChattingFragment.TYPE_RECEIVER
-                    }
+                if (message.message != null) {
+                    retunViewType =
+                        if (message.from_id!! == SharedPreferenceManager.getUser()!!.user.id) {
+                            ChattingFragment.TYPE_SENDER
+                        } else {
+                            ChattingFragment.TYPE_RECEIVER
+                        }
                 }
-            }else{
+            } else {
                 retunViewType = ChattingFragment.TYPE_HEADER
             }
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 
@@ -343,10 +214,10 @@ class ChatConversationAdapter(
         try {
             val txtHeader = header?.findViewById(R.id.txt_header_chat_header_row) as TextView
 
-            if(listNewMessages?.get(headerPosition!!) is String) {
+            if (listNewMessages?.get(headerPosition!!) is String) {
                 val strHeader = listNewMessages?.get(headerPosition!!) as String
 
-                val todayDate: Date = Date()
+                val todayDate = Date()
 
                 val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.US)
                 val today_date = dateFormat.format(todayDate)
@@ -357,38 +228,29 @@ class ChatConversationAdapter(
                 //    Log.e("date", "Previous date :" + previous_date)
 
                 if (today_date.equals(strHeader)) {
-                    txtHeader.setText("Today")
+                    txtHeader.text = "Today"
 
                 } else {
 
-                    if (strHeader.equals(previous_date)) {
-                        txtHeader.setText("Yesterday")
+                    if (strHeader == previous_date) {
+                        txtHeader.text = "Yesterday"
                     } else {
-                        txtHeader.setText(strHeader)
+                        txtHeader.text = strHeader
 
                     }
-
-//                    txtHeader.setText(strHeader)
                 }
-
-                //  txtHeader.setText(strHeader)
-
-
             }
-            else{
-//            Log.e("chat","Chat update Header "+)
-            }
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
     override fun isHeader(itemPosition: Int?): Boolean {
-        var isretrun : Boolean =true
+        var isretrun = true
         try {
             val message = listNewMessages?.get(itemPosition!!)
-            isretrun= (!(message is ChatListResp))
-        }catch (e:java.lang.Exception){
+            isretrun = (message !is ChatListResp)
+        } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
 

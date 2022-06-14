@@ -7,8 +7,10 @@ import android.text.TextUtils
 import android.util.TypedValue
 import android.view.View
 import android.view.Window
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
@@ -66,6 +68,17 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
             )
         }
 //        mBinding.lyLawyerSpListFilter.lySearchFilter.gone()
+
+        mBinding.lyLawyerSpListFilter.edtLoginEmail.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                callAPI(
+                    mBinding.lyLawyerSpListFilter.edtLoginEmail.text.toString(),
+                    years_of_exp, specialization!!
+                )
+                return@OnEditorActionListener true
+            }
+            false
+        })
 
     }
 

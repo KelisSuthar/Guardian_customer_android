@@ -1,14 +1,17 @@
 package com.app.guardian.ui.chatting
 
 import android.os.Handler
+import android.util.Log
 import android.view.*
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.ReusedMethod.Companion.changeToDay
 import com.app.guardian.common.ReusedMethod.Companion.displayMessage
+import com.app.guardian.common.ReusedMethod.Companion.getCurrentDate
 import com.app.guardian.common.ReusedMethod.Companion.getCurrentDay
 import com.app.guardian.common.extentions.changeDateFormat
+import com.app.guardian.common.extentions.currentDateFormat
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentChattingBinding
@@ -20,8 +23,10 @@ import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.utils.Config
 import com.bumptech.glide.Glide
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.log
 
 
 class ChattingFragment(
@@ -29,11 +34,11 @@ class ChattingFragment(
     var selectUserFullName: String? = "",
     var profilePicUrl: String? = "",
     var to_role: String? = "",
-    var isShow: Boolean? = false
 ) : BaseFragment(), View.OnClickListener {
     lateinit var mBinding: FragmentChattingBinding
     private val mViewModel: CommonScreensViewModel by viewModel()
-//    var chatMessageAdapter: ChatMessageAdapter? = null
+
+    //    var chatMessageAdapter: ChatMessageAdapter? = null
     var chatMessageAdapter: ChatConversationAdapter? = null
     var chatArray = ArrayList<ChatListResp>()
     var hasMap = HashMap<String, ArrayList<ChatListResp>>()
@@ -41,13 +46,14 @@ class ChattingFragment(
     val handler = Handler()
 
 
-    companion object{
+    companion object {
         const val TYPE_HEADER = 0
         const val TYPE_SENDER = 1
         const val TYPE_RECEIVER = 2
         const val TYPE_SENDER_IMAGE = 3
         const val TYPE_RECEIVER_IMAGE = 4
     }
+
     override fun getInflateResource(): Int {
         return R.layout.fragment_chatting
     }
@@ -71,9 +77,6 @@ class ChattingFragment(
         mBinding.ivBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
-        if (isShow == false) {
-            mBinding.clSendMSGLayout.gone()
-        }
     }
 
 
@@ -88,13 +91,13 @@ class ChattingFragment(
 
     private fun setAdapter() {
         mBinding.rvChat.adapter = null
-        chatMessageAdapter = ChatConversationAdapter(requireActivity(), chatArray,ChattingFragment())
+        chatMessageAdapter =
+            ChatConversationAdapter(requireActivity(), chatArray, ChattingFragment())
         mBinding.rvChat.adapter = chatMessageAdapter
     }
 
-    fun chatRecyListDisplay(listmessages : ArrayList<Any>)
-    {
-        mBinding.rvChat.scrollToPosition(listmessages.size -1)
+    fun chatRecyListDisplay(listmessages: ArrayList<Any>) {
+        mBinding.rvChat.scrollToPosition(listmessages.size - 1)
     }
 
     override fun postInit() {
@@ -120,10 +123,9 @@ class ChattingFragment(
 
 //                                getHeadderTime(data)
                                 chatArray.addAll(data)
-//                                setData(data)
-                                setAdapter()
-                             //   chatMessageAdapter!!.notifyDataSetChanged()
-
+                                setData()
+//                                setAdapter()
+                                //   chatMessageAdapter!!.notifyDataSetChanged()
 
 
                             } else {
@@ -181,54 +183,84 @@ class ChattingFragment(
 
     }
 
-    private fun setData(data: MutableList<ChatListResp>) {
-        var date = ""
-        for (i in data.indices) {
-            if (changeDateFormat(
+    private fun setData() {
+        var isToday = true
+        var yesterday = true
+        var other_day = true
+
+        val fmt = SimpleDateFormat("dd MMM yyyy")
+        val currentTime: Date = Calendar.getInstance().time
+        val curant_date = fmt.format(currentTime)
+        var other_date = curant_date
+        val dateFormat = SimpleDateFormat("dd MMM yyyy")
+        val mydate = Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24)
+        val previous_date = dateFormat.format(mydate)
+
+        Log.i("THIS_APP", "PREV DATE   $previous_date")
+        Log.i("THIS_APP", "CURRENT DATE   $curant_date")
+//        for (i in chatArray.indices) {
+        for (i in chatArray.size - 1 downTo 0) {
+            Log.i(
+                "THIS_APP", "MESSAGE DATE   " + changeDateFormat(
                     "yyyy-MM-dd HH:mm:ss",
-                    "yyyy-MM-dd",
-                    data[i].message_time!!
-                ) == changeDateFormat(
-                    "yyyy-MM-dd HH:mm:ss",
-                    "yyyy-MM-dd",
-                    ReusedMethod.getCurrentDate()
+                    "dd MMM yyyy",
+                    chatArray[i].message_time.toString()
                 )
+            )
+            val chat_date =changeDateFormat(
+                "yyyy-MM-dd HH:mm:ss",
+                "dd MMM yyyy",
+                chatArray[i].message_time.toString()
+            )
+            if ( chat_date== curant_date
             ) {
-                chatArray.clear()
-                chatArray.add(data[i])
-                hasMap[AppConstants.EXTRA_TODAY] = chatArray
+                if (isToday) {
+                    isToday = false
+                    chatArray[i].is_header_show = true
+                    chatArray[i].header_time = AppConstants.EXTRA_TODAY
+                    continue
 
+                }
 
-            } else if ((getCurrentDay().toInt() - 1) == (changeToDay(data[i].message_time!!).toInt())) {
-                chatArray.clear()
-                chatArray.add(data[i])
-                hasMap[AppConstants.EXTRA_TODAY] = chatArray
-
-            } else if ((getCurrentDay()
-                    .toInt() - 1) == 0 && (changeToDay(
-                    data[i].message_time!!
-                ) == "31") || (changeToDay(
-                    data[i].message_time!!
-                ) == "30")
-                || (changeToDay(
-                    data[i].message_time!!
-                ) == "28")
-                || (changeToDay(
-                    data[i].message_time!!
-                ) == "29")
+            } else if (chat_date == previous_date
             ) {
-                chatArray.clear()
-                chatArray.add(data[i])
-                hasMap[AppConstants.EXTRA_TODAY] = chatArray
+                if (yesterday) {
+                    yesterday = false
+                    chatArray[i].is_header_show = true
+                    chatArray[i].header_time = AppConstants.EXTRA_YESTERDAY
+                    continue
+                }
+
 
             } else {
-                chatArray.clear()
-                chatArray.add(data[i])
-                hasMap[AppConstants.EXTRA_TODAY] = chatArray
-            }
-            chatMessageAdapter!!.notifyDataSetChanged()
+//                if (other_date == chat_date){
+//                    if(other_day){
+//                        other_day = false
+//                        chatArray[i].is_header_show = true
+//                        chatArray[i].header_time = chat_date
+//                    }
+//
+//                }else{
+//                    other_day = true
+//                    other_date = chat_date
+//                }
 
+                if(other_date == chat_date)
+                {
+                    other_day = false
+                }else{
+                    other_day = true
+                    other_date = chat_date
+                }
+                if(other_day){
+                        other_day = false
+                        chatArray[i].is_header_show = true
+                        chatArray[i].header_time = chat_date
+                    }
+
+            }
         }
+        Log.i("THIS_APP_CHAT_ARRAY", chatArray.toString())
     }
 
 
