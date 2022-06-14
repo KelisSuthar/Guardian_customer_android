@@ -122,7 +122,7 @@
         <!--                >-->
 
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.kodmap.library.kmrecyclerviewstickyheader.KmRecyclerView
             android:id="@+id/rvChat"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -133,7 +133,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clHeadder"
-            tools:listitem="@layout/chat_layout_left" />
+            tools:listitem="@layout/chat_receiver_row"
+           />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"

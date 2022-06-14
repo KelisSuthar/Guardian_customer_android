@@ -1,20 +1,14 @@
 package com.app.guardian.ui.chatting.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.lifecycle.Transformations.map
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
 import com.app.guardian.common.SharedPreferenceManager
-import com.app.guardian.common.extentions.gone
-import com.app.guardian.common.extentions.visible
 import com.app.guardian.model.Chat.ChatListResp
-import java.util.HashMap
 
 class ChatMessageAdapter(var context: Context, var array: ArrayList<ChatListResp>) :
     RecyclerView.Adapter<ChatMessageAdapter.myViewHolder>() {
@@ -30,12 +24,12 @@ class ChatMessageAdapter(var context: Context, var array: ArrayList<ChatListResp
         return when (viewType) {
             SENDER -> {
                 myViewHolder(
-                    LayoutInflater.from(context).inflate(R.layout.chat_layout_right, parent, false)
+                    LayoutInflater.from(context).inflate(R.layout.chat_sender_row, parent, false)
                 )
             }
             RECIEVER -> {
                 myViewHolder(
-                    LayoutInflater.from(context).inflate(R.layout.chat_layout_left, parent, false)
+                    LayoutInflater.from(context).inflate(R.layout.chat_receiver_row, parent, false)
                 )
             }
             else -> {

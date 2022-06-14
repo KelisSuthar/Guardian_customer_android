@@ -17,7 +17,6 @@ import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
-import com.app.guardian.ui.chatting.adapter.ChatMessageAdapter
 import com.app.guardian.utils.Config
 import com.bumptech.glide.Glide
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -34,11 +33,21 @@ class ChattingFragment(
 ) : BaseFragment(), View.OnClickListener {
     lateinit var mBinding: FragmentChattingBinding
     private val mViewModel: CommonScreensViewModel by viewModel()
-    var chatMessageAdapter: ChatMessageAdapter? = null
+//    var chatMessageAdapter: ChatMessageAdapter? = null
+    var chatMessageAdapter: ChatConversationAdapter? = null
     var chatArray = ArrayList<ChatListResp>()
     var hasMap = HashMap<String, ArrayList<ChatListResp>>()
     val timer = Timer()
     val handler = Handler()
+
+
+    companion object{
+        const val TYPE_HEADER = 0
+        const val TYPE_SENDER = 1
+        const val TYPE_RECEIVER = 2
+        const val TYPE_SENDER_IMAGE = 3
+        const val TYPE_RECEIVER_IMAGE = 4
+    }
     override fun getInflateResource(): Int {
         return R.layout.fragment_chatting
     }
@@ -70,7 +79,7 @@ class ChattingFragment(
 
     override fun onResume() {
         super.onResume()
-        setAdapter()
+//        setAdapter()
         callChatListApi()
         mBinding.noInternetChat.llNointernet.gone()
         mBinding.rvChat.visible()
@@ -79,8 +88,13 @@ class ChattingFragment(
 
     private fun setAdapter() {
         mBinding.rvChat.adapter = null
-        chatMessageAdapter = ChatMessageAdapter(requireActivity(), chatArray)
+        chatMessageAdapter = ChatConversationAdapter(requireActivity(), chatArray,ChattingFragment())
         mBinding.rvChat.adapter = chatMessageAdapter
+    }
+
+    fun chatRecyListDisplay(listmessages : ArrayList<Any>)
+    {
+        mBinding.rvChat.scrollToPosition(listmessages.size -1)
     }
 
     override fun postInit() {
@@ -106,23 +120,10 @@ class ChattingFragment(
 
 //                                getHeadderTime(data)
                                 chatArray.addAll(data)
-                                setData(data)
-                                chatMessageAdapter!!.notifyDataSetChanged()
-//                                for (i in data.indices) {
-//                                    if (changeDateFormat(
-//                                            "yyyy-MM-dd HH:mm:ss",
-//                                            "yyyy-MM-dd",
-//                                            data[i].message_time!!
-//                                        ) == changeDateFormat(
-//                                            "yyyy-MM-dd HH:mm:ss",
-//                                            "yyyy-MM-dd",
-//                                            ReusedMethod.getCurrentDate()
-//                                        )
-//                                    ) {
-//                                        chatArray[i].header_time = "Today"
-//                                        chatArray[i].is_header_show = true
-//                                    }
-//                                }
+//                                setData(data)
+                                setAdapter()
+                             //   chatMessageAdapter!!.notifyDataSetChanged()
+
 
 
                             } else {
@@ -307,19 +308,24 @@ class ChattingFragment(
     private fun callChatListApi() {
         if (ReusedMethod.isNetworkConnected(requireActivity())) {
 
-            timer.schedule(object : TimerTask() {
-                override fun run() {
-                    handler.post {
-                        mViewModel.getChatData(
-                            true,
-                            requireActivity() as BaseActivity,
-                            selectUserId.toString()
-                        )
-                    }
-                }
-            }, 0, 1000)
+//            timer.schedule(object : TimerTask() {
+//
+//                override fun run() {
+//                    handler.post {
+//                        mViewModel.getChatData(
+//                            true,
+//                            requireActivity() as HomeActivity,
+//                            selectUserId.toString()
+//                        )
+//                    }
+//                }
+//            }, 0, 1000)
 
-
+            mViewModel.getChatData(
+                true,
+                requireActivity() as HomeActivity,
+                selectUserId.toString()
+            )
         } else {
             mBinding.noInternetChat.llNointernet.visible()
             mBinding.rvChat.gone()
