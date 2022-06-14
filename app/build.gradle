@@ -155,4 +155,7 @@ dependencies {
     implementation 'com.github.angads25:toggle:1.1.0'
     //CardSwiper
     implementation 'com.github.IslamKhSh:CardSlider:1.0.1'
+    //chat
+    implementation 'com.github.smhdk:KM-Recyclerview-Sticky-Header:v1.0.0'
+
 }
