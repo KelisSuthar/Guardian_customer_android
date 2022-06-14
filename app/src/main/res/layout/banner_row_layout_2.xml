@@ -13,7 +13,8 @@
         android:maxLines="1"
         android:text="@string/specialization"
         android:textColor="@color/txt_dark"
-        android:textSize="@dimen/_13ssp"
+        android:textSize="@dimen/_15ssp"
+        android:padding="@dimen/_10sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
