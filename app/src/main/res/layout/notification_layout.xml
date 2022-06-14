@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<RelativeLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="10dp"
-    android:elevation="10dp">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imgRowLawyerPicture"
+        <ImageView
+                android:id="@+id/imgRowLawyerPicture"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
             android:src="@drawable/profile"
@@ -21,16 +15,16 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imgChat"
-            app:layout_constraintStart_toEndOf="@+id/imgRowLawyerPicture"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/imgRowLawyerPicture"
+            android:layout_toLeftOf="@+id/imgChat"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginHorizontal="@dimen/_10sdp"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_centerVertical="true">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Notification"
@@ -38,7 +32,7 @@
                 android:textColor="@color/txt_dark"
                 style="@style/TextAppearance.Compat.Notification.Title"
                 />
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -54,11 +48,11 @@
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp"
             android:src="@drawable/ic_chat"
-
+                android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+    </RelativeLayout>

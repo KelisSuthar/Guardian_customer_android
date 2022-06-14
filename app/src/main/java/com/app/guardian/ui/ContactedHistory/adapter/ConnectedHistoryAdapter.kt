@@ -105,7 +105,7 @@ class ConnectedHistoryAdapter(
 
             imgRowLawyerCall?.setOnClickListener { listeners.onCallClick(position) }
             imgRowLawyerChat?.setOnClickListener { listeners.onChatClick(position) }
-            itemView.setOnClickListener { listeners.onChatClick(position) }
+            itemView.setOnClickListener { listeners.onNotesClick(position) }
 
             txtName!!.text = array.full_name
             if (!array.years_of_experience.isNullOrEmpty()) {

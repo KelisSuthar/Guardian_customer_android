@@ -98,12 +98,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setContentText(body)
             .setAutoCancel(true)
 //            .setFullScreenIntent(pendingIntent,true)
-        if (isAppIsInBackground(this)) {
-            notificationBuilder.setCustomHeadsUpContentView(notificationLayout)
-        }
 
-//
-//
+            notificationBuilder.setCustomHeadsUpContentView(notificationLayout)
+
 //        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
 //        val pm:PowerManager = this.getSystemService(POWER_SERVICE) as PowerManager
