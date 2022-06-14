@@ -99,13 +99,12 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent">
-
                     <ImageView
                         android:id="@+id/imgRowLawyerCall"
-                        android:layout_width="match_parent"
+                        android:layout_width="@dimen/_24sdp"
                         android:layout_height="@dimen/_24sdp"
-                        android:layout_marginBottom="@dimen/_3sdp"
-                        android:src="@drawable/ic_call" />
+                        android:src="@drawable/ic_call"
+                        android:layout_marginBottom="@dimen/_3sdp"/>
 
                     <ImageView
                         android:id="@+id/imgRowLawyerNotes"

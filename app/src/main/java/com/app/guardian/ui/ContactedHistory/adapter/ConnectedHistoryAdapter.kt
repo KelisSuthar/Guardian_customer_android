@@ -63,20 +63,49 @@ class ConnectedHistoryAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(position: Int) {
             val array = arrayList[position]
-            if(SharedPreferenceManager.getString(AppConstants.USER_ROLE,"") == AppConstants.APP_ROLE_MEDIATOR)
-            {
-                imgRowLawyerCall!!.gone()
-                imgRowLawyerChat!!.gone()
-                imgRowLawyerNote!!.gone()
+            if (SharedPreferenceManager.getString(
+                    AppConstants.USER_ROLE,
+                    ""
+                ) == AppConstants.APP_ROLE_MEDIATOR
+            ) {
+
+            } else if (SharedPreferenceManager.getString(
+                    AppConstants.USER_ROLE,
+                    ""
+                ) == AppConstants.APP_ROLE_USER
+            ) {
+
+            } else if (SharedPreferenceManager.getString(
+                    AppConstants.USER_ROLE,
+                    ""
+                ) == AppConstants.APP_ROLE_LAWYER
+            ) {
+                if (type == AppConstants.APP_ROLE_USER) {
+                    imgRowLawyerNote!!.gone()
+                    imgRowLawyerChat!!.visible()
+                    imgRowLawyerCall!!.gone()
+                } else {
+                    imgRowLawyerNote!!.visible()
+                    imgRowLawyerChat!!.visible()
+                    imgRowLawyerCall!!.visible()
+                }
             }
-            if (type != AppConstants.APP_ROLE_LAWYER) {
-                imgRowLawyerCall!!.gone()
-                imgRowLawyerChat!!.gone()
+
+            if (type == AppConstants.APP_ROLE_LAWYER) {
+                if (!array.years_of_experience.isNullOrEmpty()) {
+                    if (array.years_of_experience!!.toInt() == 1) {
+                        txtExp?.text =
+                            "Experience - " + array.years_of_experience + " Year"
+                    } else {
+                        txtExp?.text =
+                            "Experience - " + array.years_of_experience + " Years"
+                    }
+                }
             }
 
             imgRowLawyerCall?.setOnClickListener { listeners.onCallClick(position) }
             imgRowLawyerChat?.setOnClickListener { listeners.onChatClick(position) }
-            itemView.setOnClickListener { listeners.onItemClick(position) }
+            itemView.setOnClickListener { listeners.onChatClick(position) }
 
             txtName!!.text = array.full_name
             if (!array.years_of_experience.isNullOrEmpty()) {
@@ -87,7 +116,6 @@ class ConnectedHistoryAdapter(
                     txtExp?.text =
                         "Experience - " + array.years_of_experience + " Years"
                 }
-
             }
             txtSpecialization!!.text = array.specialization
 

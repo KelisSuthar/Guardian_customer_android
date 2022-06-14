@@ -105,7 +105,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                 }
 
                 override fun onChatClick(position: Int?) {
-                    if (array[position!!].user_role == AppConstants.APP_ROLE_LAWYER) {
+//                    if (array[position!!].user_role == AppConstants.APP_ROLE_LAWYER) {
                         ReplaceFragment.replaceFragment(
                             requireActivity(),
                             ChattingFragment(
@@ -119,11 +119,11 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                             ContectedHistoryFragment::class.java.name,
                             ContectedHistoryFragment::class.java.name
                         )
-                    }
+//                    }
                 }
 
                 override fun onNotesClick(position: Int?) {
-                    TODO("Not yet implemented")
+                    ReusedMethod.displayMessage(requireActivity(),resources.getString(R.string.come_soon))
                 }
 
                 override fun onItemClick(position: Int?) {

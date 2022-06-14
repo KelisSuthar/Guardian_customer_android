@@ -1,10 +1,8 @@
 package com.app.guardian.notification
 
 import android.annotation.SuppressLint
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
@@ -12,7 +10,6 @@ import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.app.guardian.R
-
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.utils.ApiConstant
@@ -97,17 +94,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setDefaults(Notification.DEFAULT_ALL)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setSmallIcon(R.mipmap.ic_launcher)
-            .setCustomHeadsUpContentView(
-                RemoteViews(
-                    applicationContext.packageName,
-                    R.layout.notification_layout
-                )
-            )
             .setContentTitle(title)
             .setContentText(body)
             .setAutoCancel(true)
+//            .setFullScreenIntent(pendingIntent,true)
+        if (isAppIsInBackground(this)) {
+            notificationBuilder.setCustomHeadsUpContentView(notificationLayout)
+        }
 
-//            .setContentIntent(pendingIntent)
 //
 //
 //        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -146,5 +140,29 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         notificationManager.notify(notifId, notificationBuilder.build())
     }
 
-
+    fun isAppIsInBackground(context: Context): Boolean {
+        var isInBackground = true
+        val am =
+            context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
+            val runningProcesses =
+                am.runningAppProcesses
+            for (processInfo in runningProcesses) {
+                if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                    for (activeProcess in processInfo.pkgList) {
+                        if (activeProcess == context.packageName) {
+                            isInBackground = false
+                        }
+                    }
+                }
+            }
+        } else {
+            val taskInfo = am.getRunningTasks(1)
+            val componentInfo = taskInfo[0].topActivity
+            if (componentInfo!!.packageName == context.packageName) {
+                isInBackground = false
+            }
+        }
+        return isInBackground
+    }
 }
