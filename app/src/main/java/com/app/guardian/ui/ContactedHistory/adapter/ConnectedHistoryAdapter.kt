@@ -14,6 +14,7 @@ import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.formatTimeInGMT2
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.loadImage
+import com.app.guardian.common.extentions.visible
 import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
 import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
@@ -24,7 +25,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 class ConnectedHistoryAdapter(
 
     var context: Activity,
-    var type:String,
+    var type: String,
     var arrayList: ArrayList<ConnectedHistoryResp>,
     var listeners: onItemClicklisteners
 ) : RecyclerView.Adapter<ConnectedHistoryAdapter.myViewHolder>() {
@@ -55,34 +56,58 @@ class ConnectedHistoryAdapter(
         var imgRowLawyerPicture = view?.findViewById<CircleImageView>(R.id.imgRowLawyerPicture)
         var imgRowLawyerCall = view?.findViewById<ImageView>(R.id.imgRowLawyerCall)
         var imgRowLawyerChat = view?.findViewById<ImageView>(R.id.imgRowLawyerChat)
+        var imgRowLawyerNote = view?.findViewById<ImageView>(R.id.imgRowLawyerNotes)
+        var txtSpTitle = view?.findViewById<TextView>(R.id.txtSpTitle)
 
 
         @SuppressLint("SetTextI18n")
         fun bind(position: Int) {
             val array = arrayList[position]
-            if(type != AppConstants.APP_ROLE_LAWYER){
+            if(SharedPreferenceManager.getString(AppConstants.USER_ROLE,"") == AppConstants.APP_ROLE_MEDIATOR)
+            {
                 imgRowLawyerCall!!.gone()
                 imgRowLawyerChat!!.gone()
-                }
+                imgRowLawyerNote!!.gone()
+            }
+            if (type != AppConstants.APP_ROLE_LAWYER) {
+                imgRowLawyerCall!!.gone()
+                imgRowLawyerChat!!.gone()
+            }
 
             imgRowLawyerCall?.setOnClickListener { listeners.onCallClick(position) }
             imgRowLawyerChat?.setOnClickListener { listeners.onChatClick(position) }
             itemView.setOnClickListener { listeners.onItemClick(position) }
 
             txtName!!.text = array.full_name
-//            txtExp!!.text = array.full_name
+            if (!array.years_of_experience.isNullOrEmpty()) {
+                if (array.years_of_experience!!.toInt() == 1) {
+                    txtExp?.text =
+                        "Experience - " + array.years_of_experience + " Year"
+                } else {
+                    txtExp?.text =
+                        "Experience - " + array.years_of_experience + " Years"
+                }
+
+            }
             txtSpecialization!!.text = array.specialization
 
-            txtDateTime!!.text =  array.from_time!!.formatTimeInGMT2()
+            txtDateTime!!.text = array.from_time!!.formatTimeInGMT2()
 
 
+
+            if (array.user_role == AppConstants.APP_ROLE_USER) {
+                imgRowLawyerChat!!.visible()
+                imgRowLawyerCall!!.gone()
+                txtExp?.text = "User"
+                txtSpTitle?.text = "Location :"
+                txtSpecialization!!.text = array.state
+            }
 
 
             Glide.with(context)
                 .load(array.profile_avatar)
                 .placeholder(R.drawable.profile)
                 .into(imgRowLawyerPicture!!)
-
 
 
         }
@@ -92,6 +117,7 @@ class ConnectedHistoryAdapter(
     interface onItemClicklisteners {
         fun onCallClick(position: Int)
         fun onChatClick(position: Int?)
+        fun onNotesClick(position: Int?)
         fun onItemClick(position: Int?)
     }
 }

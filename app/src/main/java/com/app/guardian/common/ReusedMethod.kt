@@ -1,5 +1,6 @@
 package com.app.guardian.common
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
@@ -35,7 +36,11 @@ import com.app.guardian.R
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.loadImage
 import com.app.guardian.common.extentions.visible
+import com.app.guardian.model.HomeBanners.UserHomeBannerResp
 import com.app.guardian.ui.AutoCompleteAdapter
+import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
+import com.app.guardian.ui.User.RecordPolice.RecordPoliceInteractionFragment
+import com.app.guardian.ui.User.RecordPoliceInteraction_2.RecordPoliceInteraction_2Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.libraries.places.api.Places
@@ -299,7 +304,6 @@ class ReusedMethod {
                     // show() method display the toast with
                     // exception message.
                     displayMessage(context, "An error occurred")
-
                 }
 
             }
@@ -687,7 +691,55 @@ class ReusedMethod {
             return str!!
         }
 
+        @SuppressLint("SetTextI18n")
+        fun showSubscriptionDialog(context: Context, data: UserHomeBannerResp) {
+            if (SharedPreferenceManager.getString(
+                    AppConstants.USER_ROLE,
+                    ""
+                ) != AppConstants.APP_ROLE_MEDIATOR
+            ) {
+                if (data.is_subscribe == 1) {
+                    val dialog = Dialog(
+                        context,
+                        com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+                    )
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                    dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                    dialog.setContentView(R.layout.dialog_layout)
+                    dialog.setCancelable(false)
 
+                    val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
+                    val TITLE = dialog.findViewById<TextView>(R.id.tvTitle)
+                    val MESSAGE = dialog.findViewById<TextView>(R.id.tvMessage)
+                    val CANCEL = dialog.findViewById<MaterialTextView>(R.id.tvNegative)
+                    OK.text = context.resources.getString(R.string.subscribe_now)
+                    CANCEL.text = "Cancel"
+                    TITLE.gone()
+                    MESSAGE.text =
+                        "Hello " +
+                                SharedPreferenceManager.getUser()!!.user.full_name + "," +
+                                context.resources.getString(R.string.suscription_validation_1) +
+                                context.resources.getString(R.string.suscription_validation_2)
+                    OK.isAllCaps = false
+                    CANCEL.isAllCaps = false
+
+                    CANCEL.setOnClickListener {
+                        dialog.dismiss()
+                    }
+                    OK.setOnClickListener {
+                        context.startActivity(
+                            Intent(
+                                context,
+                                SubScriptionPlanScreen::class.java
+                            )
+                        )
+                        dialog.dismiss()
+                    }
+                    dialog.show()
+                }
+            }
+
+        }
     }
 
 

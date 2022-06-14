@@ -233,16 +233,18 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
 
     override fun onBackPressed() {
         //  super.onBackPressed()
-        SharedPreferenceManager.clearCityState()
-        val fm: FragmentManager = supportFragmentManager
-        val getCurrentFragment = supportFragmentManager.fragments
-        Log.e("BackStack", "Current fragment Name : " + getCurrentFragment.toString())
         var getFragment = supportFragmentManager.findFragmentById(R.id.flUserContainer)
         if (getFragment != null) {
             if (getFragment is ChattingFragment) {
                 ChattingFragment().stopTimers()
             }
         }
+        SharedPreferenceManager.clearCityState()
+        val fm: FragmentManager = supportFragmentManager
+        val getCurrentFragment = supportFragmentManager.fragments
+        Log.e("BackStack", "Current fragment Name : " + getCurrentFragment.toString())
+
+
         when {
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
@@ -413,14 +415,15 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    fun unAuthorizedNavigation(){
+    fun unAuthorizedNavigation() {
         SharedPreferenceManager.removeAllData()
 //        authViewModel.signOUT(true, this as BaseActivity)
         startActivity(
             Intent(
                 this@HomeActivity,
                 LoginActivity::class.java
-            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         )
         overridePendingTransition(R.anim.rightto, R.anim.left)
         finish()

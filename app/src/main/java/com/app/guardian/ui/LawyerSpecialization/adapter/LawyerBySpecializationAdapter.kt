@@ -17,6 +17,7 @@ import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
 import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.LawyerSpecialization.LawyerSpecializationFragment
+import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 
 class LawyerBySpecializationAdapter(
@@ -25,7 +26,7 @@ class LawyerBySpecializationAdapter(
     var isDialLawyer: Boolean,
     var arrayList: ArrayList<LawyerBySpecializationResp>,
     var listeners: onItemClicklisteners
-) :  RecyclerView.Adapter<LawyerBySpecializationAdapter.myViewHolder>() {
+) : RecyclerView.Adapter<LawyerBySpecializationAdapter.myViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -45,6 +46,7 @@ class LawyerBySpecializationAdapter(
     override fun getItemCount(): Int {
         return arrayList.size
     }
+
     inner class myViewHolder(view: View?) : RecyclerView.ViewHolder(view!!) {
 
         var imgPicture = view?.findViewById<CircleImageView>(R.id.imgRowLawyerPicture)
@@ -73,6 +75,9 @@ class LawyerBySpecializationAdapter(
                 listeners.onSubclick(array.id)
             }
 
+            Glide.with(context).load(array.profile_avatar).placeholder(R.drawable.profile).into(
+                imgPicture!!
+            )
             imgRowLawyerCall?.setOnClickListener {
                 fragment.callShowLawyerContactDetails(
                     array.full_name!!,

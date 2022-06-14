@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import com.app.guardian.R
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.ReusedMethod.Companion.showSubscriptionDialog
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
@@ -119,6 +120,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
 
 
                         if (it.status) {
+                            showSubscriptionDialog(requireActivity(),data)
                             mBinding.availabilitySwitch.isOn = data.is_online == 1
                             array.clear()
                             array.addAll(data.top5)

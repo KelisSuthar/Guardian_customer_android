@@ -1,6 +1,8 @@
 package com.app.guardian.ui.ContactedHistory
 
 import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.text.TextUtils
 import android.view.View
 import android.view.WindowManager
@@ -9,6 +11,7 @@ import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
+import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
@@ -20,6 +23,8 @@ import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.ContactedHistory.adapter.ConnectedHistoryAdapter
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.LawyerList.LawyerListFragment
+import com.app.guardian.ui.chatting.ChattingFragment
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -88,11 +93,37 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
             array,
             object : ConnectedHistoryAdapter.onItemClicklisteners {
                 override fun onCallClick(position: Int) {
-
+                    val i = Intent(
+                        Intent.ACTION_DIAL,
+                        Uri.parse("tel:" + "+" + array[position].dialing_code + " " + array[position].phone)
+                    )
+                    try {
+                        context?.startActivity(i)
+                    } catch (s: SecurityException) {
+                        ReusedMethod.displayMessage(context as Activity, "An error occurred")
+                    }
                 }
 
                 override fun onChatClick(position: Int?) {
+                    if (array[position!!].user_role == AppConstants.APP_ROLE_LAWYER) {
+                        ReplaceFragment.replaceFragment(
+                            requireActivity(),
+                            ChattingFragment(
+                                array[position!!].id,
+                                array[position!!].full_name,
+                                array[position!!].profile_avatar,
+                                array[position!!].user_role,
+                                false
+                            ),
+                            true,
+                            ContectedHistoryFragment::class.java.name,
+                            ContectedHistoryFragment::class.java.name
+                        )
+                    }
+                }
 
+                override fun onNotesClick(position: Int?) {
+                    TODO("Not yet implemented")
                 }
 
                 override fun onItemClick(position: Int?) {

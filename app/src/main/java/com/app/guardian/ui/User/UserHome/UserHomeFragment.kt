@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import com.app.guardian.R
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.ReusedMethod.Companion.showSubscriptionDialog
 import com.app.guardian.common.ReusedMethod.Companion.viewPagerScroll
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
@@ -104,8 +105,8 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
-
                         if (it.status) {
+                            showSubscriptionDialog(requireActivity(),data)
                             array.clear()
                             bannerArray.clear()
                             array.addAll(data.top5)

@@ -24,7 +24,7 @@
             android:paddingLeft="@dimen/_15sdp"
             android:paddingRight="@dimen/_15sdp">
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/rl1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -45,11 +45,12 @@
 
                 <LinearLayout
                     android:id="@+id/linearLayout"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_toRightOf="@+id/imgRowLawyerPicture"
-                    android:layout_toLeftOf="@+id/lyRowLawyerContact">
+                    app:layout_constraintLeft_toRightOf="@+id/imgRowLawyerPicture"
+                    app:layout_constraintRight_toLeftOf="@+id/lyRowLawyerContact"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:id="@+id/txtName"
@@ -95,35 +96,43 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_alignParentRight="true">
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
 
                     <ImageView
                         android:id="@+id/imgRowLawyerCall"
-                        android:layout_width="@dimen/_24sdp"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/_24sdp"
                         android:layout_marginBottom="@dimen/_3sdp"
-                        android:src="@drawable/ic_call"
-                        tools:ignore="ImageContrastCheck" />
+                        android:src="@drawable/ic_call" />
 
+                    <ImageView
+                        android:id="@+id/imgRowLawyerNotes"
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:src="@drawable/ic_notes"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_marginBottom="@dimen/_3sdp"
+                        />
 
                     <ImageView
                         android:id="@+id/imgRowLawyerChat"
                         android:layout_width="@dimen/_24sdp"
                         android:layout_height="@dimen/_24sdp"
+                        android:src="@drawable/ic_chat"
                         android:layout_marginTop="@dimen/_3sdp"
                         android:layout_marginBottom="@dimen/_3sdp"
-                        android:src="@drawable/ic_notes"
-                        tools:ignore="ImageContrastCheck" />
+                        />
                 </LinearLayout>
 
-            </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <LinearLayout
                 android:id="@+id/lyRowSpecializationInfo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="vertical"
                 android:padding="@dimen/_8sdp"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -131,6 +140,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/rl1">
 
                 <TextView
+                    android:id="@+id/txtSpTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lora_semibold"

@@ -12,10 +12,10 @@ import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.app.guardian.R
+
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.utils.ApiConstant
-
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import org.json.JSONObject
@@ -36,6 +36,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         val data = JSONObject(Objects.requireNonNull(remoteMessage.data) as Map<*, *>)
+
+        Log.e("FireBase", remoteMessage.notification!!.title.toString())
         sendNotification(data, remoteMessage)
         sendBroadcastData(data, remoteMessage)
     }
@@ -75,8 +77,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 //        )
 //        body = data.optString("body")
 //        title = data.optString("title")
-        val channelId = getString(R.string.app_name)
+        val channelId = getString(com.app.guardian.R.string.app_name)
         //val uriObjectofYourAudioFile = Uri.parse("android.resource://" + baseContext.packageName + "/" + R.raw.ccp_afrikaans)
+
+        val notificationLayout = RemoteViews(
+            applicationContext.packageName,
+            R.layout.notification_layout
+        )
+
         if (data.length() != 0) {
             title = data.getString("title")
             body = data.optString("body")
@@ -89,11 +97,16 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setDefaults(Notification.DEFAULT_ALL)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setSmallIcon(R.mipmap.ic_launcher)
-//            .setCustomContentView(notificationLayout)
+            .setCustomHeadsUpContentView(
+                RemoteViews(
+                    applicationContext.packageName,
+                    R.layout.notification_layout
+                )
+            )
             .setContentTitle(title)
             .setContentText(body)
             .setAutoCancel(true)
-        // .setSound(uriObjectofYourAudioFile)
+
 //            .setContentIntent(pendingIntent)
 //
 //

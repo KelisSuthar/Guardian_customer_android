@@ -38,10 +38,7 @@
             android:screenOrientation="portrait"
             android:name=".termsandcondtions.TermAndConditionsActivity"
             android:exported="false" />
-        <activity
-            android:screenOrientation="portrait"
-            android:name=".ui.virtualWitness.VirtualWitnessActivity"
-            android:exported="false" />
+
         <activity
             android:screenOrientation="portrait"
             android:name=".ui.aboutus.AboutUsActivity"

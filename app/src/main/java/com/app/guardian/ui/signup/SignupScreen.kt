@@ -834,7 +834,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     displayMessageDialog(
                         this@SignupScreen,
                         "",
-                        resources.getString(R.string.same_old_new_pass),
+                        resources.getString(R.string.not_match_con_pass),
                         false,
                         "OK",
                         ""
@@ -853,7 +853,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     displayMessageDialog(
                         this@SignupScreen,
                         "",
-                        resources.getString(R.string.valid_pass),
+                        resources.getString(R.string.not_match_con_pass),
                         false,
                         "OK",
                         ""
@@ -873,7 +873,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     displayMessageDialog(
                         this@SignupScreen,
                         "",
-                        resources.getString(R.string.same_old_new_pass),
+                        resources.getString(R.string.not_match_con_pass),
                         false,
                         "OK",
                         ""
@@ -892,7 +892,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     displayMessageDialog(
                         this@SignupScreen,
                         "",
-                        resources.getString(R.string.same_old_new_pass),
+                        resources.getString(R.string.not_match_con_pass),
                         false,
                         "OK",
                         ""

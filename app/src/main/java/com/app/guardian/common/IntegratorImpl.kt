@@ -93,10 +93,14 @@ object IntegratorImpl {
                         ValidationView.moNumber_empty()
                     } else if (mobile.length < 10) {
                         ValidationView.moNumberValidation()
+                    } else if (TextUtils.isEmpty(newpassword)) {
+                        ValidationView.password_empty()
                     } else if (newpassword.length < 8) {
                         ValidationView.newpasswordMinValidation()
                     } else if (!SmartUtils.checkSpecialPasswordValidation(newpassword)) {
                         ValidationView.passwordSpecialValidation()
+                    } else if (TextUtils.isEmpty(conpassword)) {
+                        ValidationView.con_password_empty()
                     } else if (conpassword.length < 8) {
                         ValidationView.conpasswordMinValidation()
                     } else if (!SmartUtils.checkSpecialPasswordValidation(conpassword)) {
@@ -129,10 +133,14 @@ object IntegratorImpl {
                         ValidationView.moNumber_empty()
                     } else if (mobile.length < 10) {
                         ValidationView.moNumberValidation()
+                    } else if (TextUtils.isEmpty(newpassword)) {
+                        ValidationView.password_empty()
                     } else if (newpassword.length < 8) {
                         ValidationView.newpasswordMinValidation()
                     } else if (!SmartUtils.checkSpecialPasswordValidation(newpassword)) {
                         ValidationView.passwordSpecialValidation()
+                    } else if (TextUtils.isEmpty(conpassword)) {
+                        ValidationView.con_password_empty()
                     } else if (conpassword.length < 8) {
                         ValidationView.conpasswordMinValidation()
                     } else if (!SmartUtils.checkSpecialPasswordValidation(conpassword)) {
@@ -158,10 +166,14 @@ object IntegratorImpl {
                         ValidationView.moNumber_empty()
                     } else if (mobile.length < 10) {
                         ValidationView.moNumberValidation()
+                    } else if (TextUtils.isEmpty(newpassword)) {
+                        ValidationView.password_empty()
                     } else if (newpassword.length < 8) {
                         ValidationView.newpasswordMinValidation()
                     } else if (!SmartUtils.checkSpecialPasswordValidation(newpassword)) {
                         ValidationView.passwordSpecialValidation()
+                    } else if (TextUtils.isEmpty(conpassword)) {
+                        ValidationView.con_password_empty()
                     } else if (conpassword.length < 8) {
                         ValidationView.conpasswordMinValidation()
                     } else if (!SmartUtils.checkSpecialPasswordValidation(conpassword)) {
@@ -191,16 +203,13 @@ object IntegratorImpl {
     ) {
         if (TextUtils.isEmpty(title)) {
             validationView.emptyTitle()
-        }
-        else if(!(title.length>5 && title.length<60)){
+        } else if (!(title.length > 5 && title.length < 60)) {
             validationView.length_Title()
-        }
-        else if (TextUtils.isEmpty(desc)) {
+        } else if (TextUtils.isEmpty(desc)) {
             validationView.emptyTDesc()
-        }  else if(!(desc.length>5 && desc.length<700)){
+        } else if (!(desc.length > 5 && desc.length < 700)) {
             validationView.length_desc()
-        }
-        else {
+        } else {
             validationView.success()
         }
     }

@@ -149,7 +149,7 @@
             app:layout_constraintRight_toRightOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/btnSigUp"
+                android:id="@+id/clSendMSGLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

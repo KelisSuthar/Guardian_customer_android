@@ -29,7 +29,8 @@ class ChattingFragment(
     var selectUserId: Int? = 0,
     var selectUserFullName: String? = "",
     var profilePicUrl: String? = "",
-    var to_role: String? = ""
+    var to_role: String? = "",
+    var isShow: Boolean? = false
 ) : BaseFragment(), View.OnClickListener {
     lateinit var mBinding: FragmentChattingBinding
     private val mViewModel: CommonScreensViewModel by viewModel()
@@ -60,6 +61,9 @@ class ChattingFragment(
 
         mBinding.ivBack.setOnClickListener {
             requireActivity().onBackPressed()
+        }
+        if (isShow == false) {
+            mBinding.clSendMSGLayout.gone()
         }
     }
 
@@ -122,7 +126,6 @@ class ChattingFragment(
 
 
                             } else {
-                                stopTimers()
                                 mBinding.noInternetChat.llNointernet.gone()
                                 mBinding.rvChat.gone()
                             }
@@ -217,7 +220,7 @@ class ChattingFragment(
                 chatArray.add(data[i])
                 hasMap[AppConstants.EXTRA_TODAY] = chatArray
 
-            }else{
+            } else {
                 chatArray.clear()
                 chatArray.add(data[i])
                 hasMap[AppConstants.EXTRA_TODAY] = chatArray
@@ -305,7 +308,6 @@ class ChattingFragment(
         if (ReusedMethod.isNetworkConnected(requireActivity())) {
 
             timer.schedule(object : TimerTask() {
-
                 override fun run() {
                     handler.post {
                         mViewModel.getChatData(

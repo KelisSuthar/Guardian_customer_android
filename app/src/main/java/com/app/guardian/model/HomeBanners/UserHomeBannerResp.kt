@@ -4,6 +4,8 @@ data class UserHomeBannerResp(
     val bannerCollection: List<BannerCollection>,
     val is_online: Int,
     val last_seen: String,
+    val plan_expiry_date: String? = "",
+    val is_subscribe: Int? = 0,
     val top5: List<BannerCollection>
 )
 
