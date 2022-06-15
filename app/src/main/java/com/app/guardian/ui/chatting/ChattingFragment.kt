@@ -1,17 +1,17 @@
 package com.app.guardian.ui.chatting
 
+import android.R.attr.delay
 import android.os.Handler
 import android.util.Log
-import android.view.*
+import android.view.View
+import android.view.WindowManager
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.ReusedMethod.Companion.changeToDay
 import com.app.guardian.common.ReusedMethod.Companion.displayMessage
-import com.app.guardian.common.ReusedMethod.Companion.getCurrentDate
 import com.app.guardian.common.ReusedMethod.Companion.getCurrentDay
 import com.app.guardian.common.extentions.changeDateFormat
-import com.app.guardian.common.extentions.currentDateFormat
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentChattingBinding
@@ -20,13 +20,12 @@ import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.chatting.adapter.ChatMessageAdapter
 import com.app.guardian.utils.Config
 import com.bumptech.glide.Glide
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.math.log
 
 
 class ChattingFragment(
@@ -38,12 +37,13 @@ class ChattingFragment(
     lateinit var mBinding: FragmentChattingBinding
     private val mViewModel: CommonScreensViewModel by viewModel()
 
-    //    var chatMessageAdapter: ChatMessageAdapter? = null
-    var chatMessageAdapter: ChatConversationAdapter? = null
+    var chatMessageAdapter: ChatMessageAdapter? = null
+
+    //    var chatMessageAdapter: ChatConversationAdapter? = null
     var chatArray = ArrayList<ChatListResp>()
     var hasMap = HashMap<String, ArrayList<ChatListResp>>()
-    val timer = Timer()
-    val handler = Handler()
+    var handler = Handler()
+    var runnable: Runnable? = null
 
 
     companion object {
@@ -82,7 +82,7 @@ class ChattingFragment(
 
     override fun onResume() {
         super.onResume()
-//        setAdapter()
+        setAdapter()
         callChatListApi()
         mBinding.noInternetChat.llNointernet.gone()
         mBinding.rvChat.visible()
@@ -92,7 +92,7 @@ class ChattingFragment(
     private fun setAdapter() {
         mBinding.rvChat.adapter = null
         chatMessageAdapter =
-            ChatConversationAdapter(requireActivity(), chatArray, ChattingFragment())
+            ChatMessageAdapter(requireActivity(), chatArray)
         mBinding.rvChat.adapter = chatMessageAdapter
     }
 
@@ -124,23 +124,20 @@ class ChattingFragment(
 //                                getHeadderTime(data)
                                 chatArray.addAll(data)
                                 setData()
-//                                setAdapter()
-                                //   chatMessageAdapter!!.notifyDataSetChanged()
-
-
+                                chatMessageAdapter!!.notifyDataSetChanged()
                             } else {
                                 mBinding.noInternetChat.llNointernet.gone()
                                 mBinding.rvChat.gone()
                             }
                         } else {
-                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                            displayMessage(requireActivity(), it.message.toString())
                         }
                     }
                 }
                 requestState.error?.let { errorObj ->
                     when (errorObj.errorState) {
                         Config.NETWORK_ERROR ->
-                            ReusedMethod.displayMessage(
+                            displayMessage(
                                 requireActivity(),
                                 getString(R.string.text_error_network)
                             )
@@ -161,14 +158,14 @@ class ChattingFragment(
                         if (it.status) {
                             mBinding.txtMessage.setText("")
                         } else {
-                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                            displayMessage(requireActivity(), it.message.toString())
                         }
                     }
                 }
                 requestState.error?.let { errorObj ->
                     when (errorObj.errorState) {
                         Config.NETWORK_ERROR ->
-                            ReusedMethod.displayMessage(
+                            displayMessage(
                                 requireActivity(),
                                 getString(R.string.text_error_network)
                             )
@@ -207,12 +204,12 @@ class ChattingFragment(
                     chatArray[i].message_time.toString()
                 )
             )
-            val chat_date =changeDateFormat(
+            val chat_date = changeDateFormat(
                 "yyyy-MM-dd HH:mm:ss",
                 "dd MMM yyyy",
                 chatArray[i].message_time.toString()
             )
-            if ( chat_date== curant_date
+            if (chat_date == curant_date
             ) {
                 if (isToday) {
                     isToday = false
@@ -233,34 +230,22 @@ class ChattingFragment(
 
 
             } else {
-//                if (other_date == chat_date){
-//                    if(other_day){
-//                        other_day = false
-//                        chatArray[i].is_header_show = true
-//                        chatArray[i].header_time = chat_date
-//                    }
-//
-//                }else{
-//                    other_day = true
-//                    other_date = chat_date
-//                }
-
-                if(other_date == chat_date)
-                {
+                if (other_date == chat_date) {
                     other_day = false
-                }else{
+                } else {
                     other_day = true
                     other_date = chat_date
                 }
-                if(other_day){
-                        other_day = false
-                        chatArray[i].is_header_show = true
-                        chatArray[i].header_time = chat_date
-                    }
+                if (other_day) {
+                    other_day = false
+                    chatArray[i].is_header_show = true
+                    chatArray[i].header_time = chat_date
+                }
 
             }
         }
         Log.i("THIS_APP_CHAT_ARRAY", chatArray.toString())
+        chatMessageAdapter?.notifyDataSetChanged()
     }
 
 
@@ -336,41 +321,57 @@ class ChattingFragment(
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        try {
+            handler.removeCallbacksAndMessages(null)
+        }catch (e:Exception)
+        {
+            displayMessage(requireActivity(), e.toString())
+        }
+
+    }
+
 
     private fun callChatListApi() {
-        if (ReusedMethod.isNetworkConnected(requireActivity())) {
+            if (ReusedMethod.isNetworkConnected(requireActivity())) {
+                handler.postDelayed(Runnable {
+                    handler.postDelayed(runnable!!, 2000)
+                    mViewModel.getChatData(
+                        true,
+                        requireActivity() as BaseActivity,
+                        selectUserId.toString()
+                    )
+                }.also { runnable = it }, 0)
 
-//            timer.schedule(object : TimerTask() {
-//
-//                override fun run() {
-//                    handler.post {
-//                        mViewModel.getChatData(
-//                            true,
-//                            requireActivity() as HomeActivity,
-//                            selectUserId.toString()
-//                        )
-//                    }
-//                }
-//            }, 0, 1000)
 
-            mViewModel.getChatData(
-                true,
-                requireActivity() as HomeActivity,
-                selectUserId.toString()
-            )
-        } else {
-            mBinding.noInternetChat.llNointernet.visible()
-            mBinding.rvChat.gone()
-        }
+
+
+
+//            mViewModel.getChatData(
+//                true,
+//                requireActivity() as HomeActivity,
+//                selectUserId.toString()
+//            )
+            } else {
+                mBinding.noInternetChat.llNointernet.visible()
+                mBinding.rvChat.gone()
+            }
+
     }
 
     fun stopTimers() {
-        timer.cancel()
-        handler.removeCallbacksAndMessages(null);
+        handler.removeCallbacksAndMessages(runnable);
+
+
     }
 
     fun resumeTimers() {
-        timer.cancel()
         handler.removeCallbacksAndMessages(null);
     }
 

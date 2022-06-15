@@ -1,5 +1,6 @@
 package com.app.guardian.model.viewModels
 
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

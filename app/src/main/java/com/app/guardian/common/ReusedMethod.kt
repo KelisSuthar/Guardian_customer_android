@@ -698,28 +698,29 @@ class ReusedMethod {
                     ""
                 ) != AppConstants.APP_ROLE_MEDIATOR
             ) {
-                if (data.is_subscribe == 1) {
+                if (data.is_subscribe == 0) {
                     val dialog = Dialog(
                         context,
                         com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
                     )
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
                     dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-                    dialog.setContentView(R.layout.dialog_layout)
+                    dialog.setContentView(R.layout.home_info_dialog_layout)
                     dialog.setCancelable(false)
 
                     val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
-                    val TITLE = dialog.findViewById<TextView>(R.id.tvTitle)
+                    val TITLE = dialog.findViewById<TextView>(R.id.txtTitle)
                     val MESSAGE = dialog.findViewById<TextView>(R.id.tvMessage)
+                    val MESSAGE2 = dialog.findViewById<TextView>(R.id.tvMessage2)
                     val CANCEL = dialog.findViewById<MaterialTextView>(R.id.tvNegative)
                     OK.text = context.resources.getString(R.string.subscribe_now)
                     CANCEL.text = "Cancel"
-                    TITLE.gone()
+                    TITLE.text = "Hello," + SharedPreferenceManager.getUser()!!.user.full_name
                     MESSAGE.text =
-                        "Hello " +
-                                SharedPreferenceManager.getUser()!!.user.full_name + "," +
-                                context.resources.getString(R.string.suscription_validation_1) +
-                                context.resources.getString(R.string.suscription_validation_2)
+                        context.resources.getString(R.string.suscription_validation_1)
+                    MESSAGE2.text =
+                        context.resources.getString(R.string.suscription_validation_2)
+
                     OK.isAllCaps = false
                     CANCEL.isAllCaps = false
 

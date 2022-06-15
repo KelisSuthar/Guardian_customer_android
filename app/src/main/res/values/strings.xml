@@ -147,8 +147,8 @@
     <string name="empty_banner_link">Please add share link for banner.</string>
     <string name="valid_banner_photo">Please upload banner image.</string>
 
-    <string name="suscription_validation_1">\nYour subscription plan is expired.</string>
-    <string name="suscription_validation_2">\nDo you need to update your subscription plan?</string>
+    <string name="suscription_validation_1">Your subscription plan is expired.</string>
+    <string name="suscription_validation_2">Do you need to update your subscription plan?</string>
     <string name="subscribe_now">Subscribe Now</string>
 
     <!-- TODO: Place Holders  -->
