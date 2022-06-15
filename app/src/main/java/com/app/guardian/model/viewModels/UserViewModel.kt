@@ -159,7 +159,7 @@ class UserViewModel(private val mUserRepository: UserRepo) : ViewModel() {
         body.addProperty(ApiConstant.EXTRAS_LNG, long)
         body.addProperty(
             ApiConstant.EXTRAS_PLACE,
-            ReusedMethod.getAddress(baseView, lat.toDouble(), long.toDouble())[0].adminArea
+            ReusedMethod.getAddress(baseView, lat.toDouble(), long.toDouble())[0].thoroughfare +","+ReusedMethod.getAddress(baseView, lat.toDouble(), long.toDouble())[0].adminArea
         )
         body.addProperty(ApiConstant.EXTRAS_TYPE, type)
 

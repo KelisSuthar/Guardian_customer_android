@@ -1,12 +1,15 @@
 package com.app.guardian.ui.Radar
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.location.LocationManager
 import android.os.Looper
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -28,6 +31,7 @@ import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener
 import com.google.android.gms.maps.model.*
+import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.DecimalFormat
 import kotlin.math.acos
@@ -106,9 +110,9 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
         }
     }
 
-    private fun deletePointApi() {
+    private fun deletePointApi(lat: String, long: String, type: String) {
         if (ReusedMethod.isNetworkConnected(requireActivity())) {
-            mViewModel.deleteRadarPoint(true, context as BaseActivity, "", "", "")
+            mViewModel.deleteRadarPoint(true, context as BaseActivity, lat, long, type)
         } else {
             mBinding.cl1.gone()
             mBinding.noInternetRadar.llNointernet.visible()
@@ -163,7 +167,6 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
                             } else {
                                 setG_MAP()
                             }
-
                         } else {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                         }
@@ -178,7 +181,7 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
 
                             Config.CUSTOM_ERROR ->
                                 errorObj.customMessage
-                                    ?.let {}
+                                    ?.let { ReusedMethod.displayMessage(requireActivity(), it) }
                         }
                     }
                 }
@@ -295,7 +298,7 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
 //        itemLatitude = dFormat.format(itemLatitude).toDouble()
 //        itemLongitude = dFormat.format(itemLongitude).toDouble()
 
-        if (array.isNullOrEmpty()) {
+        if (!array.isNullOrEmpty()) {
 
 
             for (i in array.indices) {
@@ -338,7 +341,7 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
         mMarker = MarkerOptions()
         mMarker!!.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
             .anchor(0.0f, 1.0f)
-            .title("Current Location")
+            .title(resources.getString(R.string.current_loc))
             .flat(true)
             .position(LatLng(CURRENT_LAT, CURRENT_LONG))
 
@@ -376,13 +379,52 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        // Retrieve the data from the marker.r
-//        ReusedMethod.displayMessage(requireActivity(), marker.title.toString())
-
-        // Return false to indicate that we have not consumed the event and that we wish
-        // for the default behavior to occur (which is for the camera to move such that the
-        // marker is centered and for the marker's info window to open, if it has one).
+        var type: String = ""
+        for (i in array.indices) {
+            if (marker.position.latitude.toString() == array[i].lat && marker.position.longitude.toString() == array[i].lng) {
+                type = array[i].type.toString()
+                break
+            }
+        }
+        showInfoDialog(
+            marker.title.toString(),
+            marker.position.latitude.toString(),
+            marker.position.longitude.toString(),
+            type
+        )
         return false
+    }
+
+    private fun showInfoDialog(title: String, lat: String, long: String, type: String) {
+        val dialog = Dialog(
+            requireActivity(),
+            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+        )
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setContentView(R.layout.dialog_layout)
+        dialog.setCancelable(false)
+
+        val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
+        val TITLE = dialog.findViewById<TextView>(R.id.tvTitle)
+        val MESSAGE = dialog.findViewById<TextView>(R.id.tvMessage)
+        val APPNAME = dialog.findViewById<TextView>(R.id.txtAppname)
+        val CANCEL = dialog.findViewById<MaterialTextView>(R.id.tvNegative)
+        MESSAGE.gone()
+        OK.text = "Yes"
+        CANCEL.text = "No"
+
+        APPNAME.text = title
+        TITLE.text = "Are you sure want to delete this pin?"
+        OK.setOnClickListener {
+            deletePointApi(lat, long, type)
+            dialog.dismiss()
+        }
+        CANCEL.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     private fun getLatLong() {

@@ -271,5 +271,6 @@
     <string name="offline_video">Offline Video</string>
 
     <string name="view_more"><u>View More</u></string>
+    <string name="current_loc">Current Location</string>
 
 </resources>
