@@ -330,8 +330,7 @@ class ChattingFragment(
         super.onDestroy()
         try {
             handler.removeCallbacksAndMessages(null)
-        }catch (e:Exception)
-        {
+        } catch (e: Exception) {
             displayMessage(requireActivity(), e.toString())
         }
 
@@ -339,18 +338,15 @@ class ChattingFragment(
 
 
     private fun callChatListApi() {
-            if (ReusedMethod.isNetworkConnected(requireActivity())) {
-                handler.postDelayed(Runnable {
-                    handler.postDelayed(runnable!!, 2000)
-                    mViewModel.getChatData(
-                        true,
-                        requireActivity() as BaseActivity,
-                        selectUserId.toString()
-                    )
-                }.also { runnable = it }, 0)
-
-
-
+        if (ReusedMethod.isNetworkConnected(requireActivity())) {
+            handler.postDelayed(Runnable {
+                handler.postDelayed(runnable!!, 2000)
+                mViewModel.getChatData(
+                    true,
+                    requireActivity() as BaseActivity,
+                    selectUserId.toString()
+                )
+            }.also { runnable = it }, 0)
 
 
 //            mViewModel.getChatData(
@@ -358,10 +354,10 @@ class ChattingFragment(
 //                requireActivity() as HomeActivity,
 //                selectUserId.toString()
 //            )
-            } else {
-                mBinding.noInternetChat.llNointernet.visible()
-                mBinding.rvChat.gone()
-            }
+        } else {
+            mBinding.noInternetChat.llNointernet.visible()
+            mBinding.rvChat.gone()
+        }
 
     }
 

@@ -7,6 +7,7 @@ import com.app.guardian.common.ReusedMethod
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.LawyerProfileDetails.LawyerProfileDetailsResp
+import com.app.guardian.model.MediatorCallReq.MediatorCallReqResp
 import com.app.guardian.model.Notification.NotificationResp
 import com.app.guardian.model.Radar.RadarListResp
 import com.app.guardian.model.RequestState
@@ -156,7 +157,10 @@ class UserViewModel(private val mUserRepository: UserRepo) : ViewModel() {
         val body = JsonObject()
         body.addProperty(ApiConstant.EXTRAS_LAT, lat)
         body.addProperty(ApiConstant.EXTRAS_LNG, long)
-        body.addProperty(ApiConstant.EXTRAS_PLACE, ReusedMethod.getAddress(baseView,lat.toDouble(),long.toDouble())[0].adminArea)
+        body.addProperty(
+            ApiConstant.EXTRAS_PLACE,
+            ReusedMethod.getAddress(baseView, lat.toDouble(), long.toDouble())[0].adminArea
+        )
         body.addProperty(ApiConstant.EXTRAS_TYPE, type)
 
         mUserRepository.addRadarMapPoint(
@@ -186,6 +190,28 @@ class UserViewModel(private val mUserRepository: UserRepo) : ViewModel() {
             isInternetConnected,
             baseView,
             deleteradarListResp
+        )
+    }
+
+    //SEND CALING REQ TO MEDIATOR
+    private val mediatorCallReqResp = MutableLiveData<RequestState<MediatorCallReqResp>>()
+    fun getCallMediatorReqResp(): LiveData<RequestState<MediatorCallReqResp>> = mediatorCallReqResp
+    fun sendCallingReqtoMediator(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        is_immediate_joining: Int,
+        schedule_datetime: String,
+    ) {
+        val body = JsonObject()
+        body.addProperty(ApiConstant.EXTRAS_IS_IMMEDIATE_ONLINE, is_immediate_joining)
+        body.addProperty(ApiConstant.EXTRAS_SCHEDUAL_DATE_TIME, schedule_datetime)
+        body.addProperty(ApiConstant.EXTRAS_REQUEST_DATE_TIME, ReusedMethod.getCurrentDate())
+        mUserRepository.sendCallingRequestToMediator(
+            body,
+            isInternetConnected,
+            baseView,
+            mediatorCallReqResp
+
         )
     }
 }

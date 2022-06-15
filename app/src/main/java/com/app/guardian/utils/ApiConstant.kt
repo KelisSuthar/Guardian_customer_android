@@ -45,6 +45,9 @@ class ApiConstant{
      val EXTRAS_TO_ROLE="to_role"
      val EXTRAS_LAST_SEEN="last_seen"
      val EXTRAS_IS_ONLINE="is_online"
+     val EXTRAS_IS_IMMEDIATE_ONLINE="is_immediate_joining"
+     val EXTRAS_SCHEDUAL_DATE_TIME="schedule_datetime"
+     val EXTRAS_REQUEST_DATE_TIME="request_datetime"
 
 
 

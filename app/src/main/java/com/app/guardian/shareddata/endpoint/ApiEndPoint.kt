@@ -15,6 +15,7 @@ import com.app.guardian.model.LawyerProfileDetails.LawyerProfileDetailsResp
 import com.app.guardian.model.ListFilter.FilterResp
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
+import com.app.guardian.model.MediatorCallReq.MediatorCallReqResp
 import com.app.guardian.model.Notification.NotificationResp
 import com.app.guardian.model.Radar.RadarListResp
 import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
@@ -158,6 +159,9 @@ interface ApiEndPoint {
 
     @POST("updateOnlineStatus")
     fun setAppUserStatus(@Body body: JsonObject): Call<CommonResponseModel<CommonResponse>>
+
+    @POST("sendCallingRequestToMediator")
+    fun sendCallingRequestToMediator(@Body body: JsonObject): Call<CommonResponseModel<MediatorCallReqResp>>
 
 
 }

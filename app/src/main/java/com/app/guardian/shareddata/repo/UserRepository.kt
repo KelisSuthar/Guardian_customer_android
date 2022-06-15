@@ -16,6 +16,7 @@ import com.app.guardian.model.LawyerProfileDetails.LawyerProfileDetailsResp
 import com.app.guardian.model.ListFilter.FilterResp
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
+import com.app.guardian.model.MediatorCallReq.MediatorCallReqResp
 import com.app.guardian.model.Notification.NotificationResp
 import com.app.guardian.model.Radar.RadarListResp
 import com.app.guardian.model.RequestState
@@ -790,6 +791,25 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
                 mApiEndPoint.setAppUserStatus(body),
                 baseView,
                 commonResp
+            )
+        }
+    }
+
+    override fun sendCallingRequestToMediator(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResponse: MutableLiveData<RequestState<MediatorCallReqResp>>
+    ) {
+        if (!internetConnected) {
+            commonResponse.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            commonResponse.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.sendCallingRequestToMediator(body),
+                baseView,
+                commonResponse
             )
         }
     }
