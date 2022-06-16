@@ -3,10 +3,8 @@ package com.app.guardian.ui.Login
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.view.View.OnFocusChangeListener
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
 import com.app.guardian.common.*
@@ -14,7 +12,6 @@ import com.app.guardian.common.ReusedMethod.Companion.ShowNoBorders
 import com.app.guardian.common.ReusedMethod.Companion.ShowRedBorders
 import com.app.guardian.common.ReusedMethod.Companion.changePhoneEmailState
 import com.app.guardian.common.ReusedMethod.Companion.displayMessage
-import com.app.guardian.common.ReusedMethod.Companion.displayMessageDialog
 import com.app.guardian.common.ReusedMethod.Companion.isNetworkConnected
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
@@ -26,7 +23,6 @@ import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.SelectRole.SelectRoleScreen
 import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
 import com.app.guardian.ui.forgot.ForgotPasswordActivity
-import com.app.guardian.ui.signup.SignupScreen
 import com.app.guardian.utils.Config
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson

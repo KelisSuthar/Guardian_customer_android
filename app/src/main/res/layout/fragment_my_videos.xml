@@ -174,7 +174,7 @@
                         android:layout_height="@dimen/_20sdp"
                         android:layout_gravity="center"
                         app:colorBorder="@color/transparent"
-                        app:colorOff="@color/white"
+                        app:colorOff="@color/lightBlue_2"
                         app:colorOn="@color/blue"
                         app:on="true"
                         app:textOff=""

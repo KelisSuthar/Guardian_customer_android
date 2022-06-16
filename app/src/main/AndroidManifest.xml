@@ -14,7 +14,7 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".GuardianApplication"
@@ -29,24 +29,27 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup"
         tools:targetApi="q">
+        <activity
+            android:name=".ui.VideoPlayer.VideoPlayerActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/g_map_api_key" />
 
         <activity
-            android:screenOrientation="portrait"
             android:name=".termsandcondtions.TermAndConditionsActivity"
-            android:exported="false" />
-
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".ui.aboutus.AboutUsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".ui.editProfile.EditProfileActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.signup.SignupScreen"
             android:exported="false"
@@ -66,8 +69,6 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|adjustPan" />
-
-
         <activity
             android:name=".ui.OTP.OTPScreen"
             android:exported="true" />
@@ -105,6 +106,7 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@mipmap/ic_launcher" />
@@ -116,6 +118,15 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorPrimaryDark" />
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.video.record.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
     </application>
 
 </manifest>

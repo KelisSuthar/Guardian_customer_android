@@ -3,7 +3,6 @@ package com.app.guardian.ui.SeekLegalAdvice
 import android.app.Activity
 import android.app.Dialog
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
 import android.view.Window
 import androidx.lifecycle.Observer

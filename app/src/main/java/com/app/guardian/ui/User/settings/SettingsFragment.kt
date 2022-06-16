@@ -24,7 +24,6 @@ import com.app.guardian.ui.LawyerSpecialization.LawyerSpecializationFragment
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.ResetPassword.ResetPasswordActivity
 import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
-import com.app.guardian.ui.SupportGroups.SupportGroupList
 import com.app.guardian.ui.aboutus.AboutUsActivity
 import com.app.guardian.ui.editProfile.EditProfileActivity
 import com.app.guardian.ui.notification.NotificationListFragment

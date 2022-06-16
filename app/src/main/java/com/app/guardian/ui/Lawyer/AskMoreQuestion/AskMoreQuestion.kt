@@ -1,14 +1,8 @@
 package com.app.guardian.ui.Lawyer.AskMoreQuestion
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.app.guardian.R
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
-import com.app.guardian.databinding.FragmentAddSeekLegalAdviceBinding
 import com.app.guardian.databinding.FragmentAskMoreQuestionBinding
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity

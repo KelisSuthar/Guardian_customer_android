@@ -2,22 +2,18 @@ package com.app.guardian.ui.LawyerProfile
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import androidx.lifecycle.Observer
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
-import com.app.guardian.common.extentions.loadImage
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentLawyerProfileBinding
 import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
-import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.SeekLegalAdvice.SeekLegalAdviceListFragment
 import com.app.guardian.ui.chatting.ChattingFragment
 import com.app.guardian.utils.ApiConstant

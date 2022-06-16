@@ -17,7 +17,7 @@ import com.app.guardian.ui.BannerAds.BannerAdsPager
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.HomeBanners.HomeBannersFragment
 import com.app.guardian.ui.LawyerList.LawyerListFragment
-import com.app.guardian.ui.Mediator.MediatorHome.MediatorHomeFragment
+import com.app.guardian.ui.User.MyVideos.MyVideosFragment
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -140,7 +140,14 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.cvAccessYourRecording -> {
-                mBinding.rlDialLawyer.performClick()
+                changeLayout(1)
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    MyVideosFragment(),
+                    true,
+                    LiveVirtualVitnessUserFragment::class.java.name,
+                    LiveVirtualVitnessUserFragment::class.java.name
+                )
             }
             R.id.cvDrivingOffenceList -> {
                 mBinding.rlDrivingOffenceList.performClick()
@@ -150,7 +157,13 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.rbAccessYourRecording -> {
                 changeLayout(1)
-                ReusedMethod.displayMessage(requireActivity(), requireContext().resources.getString(R.string.come_soon))
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    MyVideosFragment(),
+                    true,
+                    LiveVirtualVitnessUserFragment::class.java.name,
+                    LiveVirtualVitnessUserFragment::class.java.name
+                )
             }
             R.id.rbDrivingOffenceList -> {
                 changeLayout(2)

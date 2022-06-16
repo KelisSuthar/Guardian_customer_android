@@ -15,7 +15,6 @@ import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityForgotPasswordBinding
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.shareddata.base.BaseActivity
-import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.OTP.OTPScreen
 import com.app.guardian.utils.ApiConstant

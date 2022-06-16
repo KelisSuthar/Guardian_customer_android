@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.text.TextUtils
-import android.util.Patterns
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -21,7 +20,6 @@ import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.github.dhaval2404.imagepicker.ImagePicker
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 // TODO: Rename parameter arguments, choose names that match

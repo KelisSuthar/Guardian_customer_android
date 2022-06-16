@@ -2,12 +2,15 @@ package com.app.guardian.ui.User.MyVideos.adapter
 
 import android.content.Context
 import android.view.View
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
 import com.app.guardian.common.BaseRecyclerViewAdapter
+import com.app.guardian.model.Video.VideoResp
+import com.bumptech.glide.Glide
 
 class MyVideoListAdapter(val context: Context, val listener: onItemClicklisteners) :
-    BaseRecyclerViewAdapter<String>(context) {
+    BaseRecyclerViewAdapter<VideoResp>(context) {
     override fun getViewHolder(view: View): RecyclerView.ViewHolder {
         return CustomViewHolder(view)
     }
@@ -16,19 +19,26 @@ class MyVideoListAdapter(val context: Context, val listener: onItemClicklistener
         return R.layout.row_videos_layout
     }
 
-    override fun setData(holder: RecyclerView.ViewHolder, data: String, position: Int) {
+    override fun setData(holder: RecyclerView.ViewHolder, data: VideoResp, position: Int) {
         val customViewHolder = holder as CustomViewHolder
         customViewHolder.bindData(data, position)
     }
 
     open inner class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var positions: Int? = 0
-        open fun bindData(data: String, position: Int) {
+        var appCompatImageView = view.findViewById<AppCompatImageView>(R.id.appCompatImageView)
+        open fun bindData(data: VideoResp, position: Int) {
             positions = position
+            Glide.with(context).load(data.path).placeholder(R.drawable.ic_video_placeholder)
+                .into(appCompatImageView)
+
+            itemView.setOnClickListener { listener.onItemClick(position) }
         }
     }
 
     interface onItemClicklisteners {
         fun onItemClick(position: Int?)
     }
+
+
 }

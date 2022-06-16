@@ -3,9 +3,7 @@ package com.app.guardian.ui.notification
 import android.app.Activity
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import com.app.guardian.R
-import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
@@ -15,9 +13,6 @@ import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
-import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
-import com.app.guardian.ui.LawyerList.LawyerListFragment
-import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
 import com.app.guardian.ui.notification.adapter.NotificationListAdapter
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config

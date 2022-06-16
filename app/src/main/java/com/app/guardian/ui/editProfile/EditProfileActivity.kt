@@ -1,12 +1,9 @@
 package com.app.guardian.ui.editProfile
 
-import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.location.Address
-import android.location.Geocoder
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Looper
@@ -27,7 +24,6 @@ import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
-import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.signup.adapter.ImageAdapter
 import com.app.guardian.ui.signup.adapter.SpecializationAdapter

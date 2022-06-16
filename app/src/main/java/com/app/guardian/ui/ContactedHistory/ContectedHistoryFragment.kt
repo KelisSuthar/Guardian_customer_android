@@ -7,8 +7,6 @@ import android.text.TextUtils
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
-import android.widget.RadioButton
-import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.app.guardian.R
@@ -25,7 +23,6 @@ import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.ContactedHistory.adapter.ConnectedHistoryAdapter
 import com.app.guardian.ui.Home.HomeActivity
-import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.chatting.ChattingFragment
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config

@@ -2,17 +2,12 @@ package com.app.guardian.ui.Radar
 
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.location.LocationManager
 import android.os.Looper
-import android.provider.Settings
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
-import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
@@ -29,7 +24,6 @@ import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.utils.Config
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
-import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener
 import com.google.android.gms.maps.model.*
 import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel

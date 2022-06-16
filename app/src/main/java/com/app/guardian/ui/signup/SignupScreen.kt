@@ -1,6 +1,5 @@
 package com.app.guardian.ui.signup
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -13,7 +12,6 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.Window
-import android.widget.Toast
 import androidx.core.content.PermissionChecker
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
@@ -37,7 +35,6 @@ import com.app.guardian.termsandcondtions.TermAndConditionsActivity
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.signup.adapter.ImageAdapter
 import com.app.guardian.ui.signup.adapter.SpecializationAdapter
-import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.gms.location.*
@@ -45,7 +42,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.rilixtech.widget.countrycodepicker.CountryCodePicker.OnCountryChangeListener
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 

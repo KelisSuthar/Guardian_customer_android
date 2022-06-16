@@ -1,6 +1,5 @@
 package com.app.guardian.ui.chatting
 
-import android.R.attr.delay
 import android.os.Handler
 import android.util.Log
 import android.view.View

@@ -3,7 +3,6 @@ package com.app.guardian.common
 object AppConstants {
 
 
-
     val BROADCAST_REC_INTENT = "PUSH"
     var latitude = 0.0
     var longitude = 0.0
@@ -14,9 +13,9 @@ object AppConstants {
     const val Poppins_Bold = 5
 
     const val LOG_DEBUG = true
-    val USER= "User"
-    val MEDIATOR= "Mediator"
-    val LAWYEER= "Lawyer"
+    val USER = "User"
+    val MEDIATOR = "Mediator"
+    val LAWYEER = "Lawyer"
     val APP_NAME = "Tajmeel"
     val APP_ROLE_USER = "user"
     val APP_ROLE_LAWYER = "lawyer"
@@ -48,6 +47,7 @@ object AppConstants {
     const val EXTRA_IS_EMAIL = "IS_EMAIL"
     const val EXTRA_PHONE = "phone"
     const val EXTRA_EMAIL = "email"
+    const val EXTRA_PATH = "PATH"
 
 
     const val CITY_STATE = "CITY_STATE"
@@ -88,6 +88,8 @@ object AppConstants {
     const val EXTRA_WRITE_PERMISSION = 106
     const val EXTRA_CORSE_LOC_PERMISSION = 107
     const val EXTRA_FINE_LOC_PERMISSION = 108
+    const val EXTRA_READ_STORAGE_PERMISSION = 109
+    const val EXTRA_WRITE_STORAGE_PERMISSION = 110
     const val EXTRA_TOTAL_CART_ITEM_COUNT = "TOTAL_ITEM_COUNT"
     const val EXTRA_ASCENDING = "asc"
     const val EXTRA_DESCENDING = "desc"
