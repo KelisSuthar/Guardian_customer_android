@@ -164,6 +164,8 @@
                     android:hint="@string/type_something"
                     android:textColorHint="@color/colorPrimaryDark"
                     android:textSize="@dimen/_12ssp"
+                    android:imeOptions="actionSend"
+                    android:inputType="text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btnSend"
                     app:layout_constraintLeft_toLeftOf="parent"

@@ -1,14 +1,19 @@
 package com.app.guardian.ui.chatting
 
+import android.annotation.SuppressLint
 import android.os.Handler
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.ReusedMethod.Companion.changeToDay
 import com.app.guardian.common.ReusedMethod.Companion.displayMessage
+import com.app.guardian.common.ReusedMethod.Companion.getCurrentDate
 import com.app.guardian.common.ReusedMethod.Companion.getCurrentDay
 import com.app.guardian.common.extentions.changeDateFormat
 import com.app.guardian.common.extentions.gone
@@ -32,7 +37,7 @@ class ChattingFragment(
     var selectUserFullName: String? = "",
     var profilePicUrl: String? = "",
     var to_role: String? = "",
-    var lastSeen: String?= "",
+    var lastSeen: String? = "",
 ) : BaseFragment(), View.OnClickListener {
     lateinit var mBinding: FragmentChattingBinding
     private val mViewModel: CommonScreensViewModel by viewModel()
@@ -76,6 +81,38 @@ class ChattingFragment(
 
         mBinding.ivBack.setOnClickListener {
             requireActivity().onBackPressed()
+        }
+        lastSeenChecker()
+        mBinding.txtMessage.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                CallSendMessageAPI()
+                return@OnEditorActionListener true
+            }
+            false
+        })
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun lastSeenChecker() {
+
+        if (lastSeen != "") {
+            var days = 0
+            var hrs = 0
+            var min = 0
+            val simpleDateFormat = SimpleDateFormat("hh:mm a")
+            val current_date = getCurrentDate()
+            val date2 :Date = simpleDateFormat.parse(current_date)
+
+            val date1: Date = simpleDateFormat.parse(lastSeen)
+            val difference: Long = date2.time - date1.time
+
+
+            days =  ((difference / (1000*60*60*24)).toInt());
+            hrs =  (((difference - (1000*60*60*24*days)) / (1000*60*60)).toInt());
+            min = ((difference - (1000*60*60*24*days) - (1000*60*60*hrs)) / (1000*60)).toInt();
+            Log.i("THIS_APP","DAY:"+days)
+            Log.i("THIS_APP","HRS:"+hrs)
+            Log.i("THIS_APP","MIN:"+min)
         }
     }
 
@@ -307,14 +344,18 @@ class ChattingFragment(
 
     private fun CallSendMessageAPI() {
         if (ReusedMethod.isNetworkConnected(requireActivity())) {
-            mViewModel.sendChatMessage(
-                true,
-                context as BaseActivity,
-                selectUserId.toString(),
-                mBinding.txtMessage.text?.trim().toString(),
-                ReusedMethod.getCurrentDate(),
-                to_role.toString()
-            )
+            if (!TextUtils.isEmpty(mBinding.txtMessage.text?.trim().toString())) {
+
+
+                mViewModel.sendChatMessage(
+                    true,
+                    context as BaseActivity,
+                    selectUserId.toString(),
+                    mBinding.txtMessage.text?.trim().toString(),
+                    ReusedMethod.getCurrentDate(),
+                    to_role.toString()
+                )
+            }
         } else {
             mBinding.noInternetChat.llNointernet.visible()
             mBinding.rvChat.gone()

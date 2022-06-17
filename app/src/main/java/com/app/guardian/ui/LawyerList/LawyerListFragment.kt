@@ -71,9 +71,13 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                 false
             )
         }
-        mBinding.lyLawyerListFilter.edtLoginEmail .setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+        mBinding.lyLawyerListFilter.edtLoginEmail.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                callAPI(mBinding.lyLawyerListFilter.edtLoginEmail.text.toString(), years_of_exp, specialization)
+                callAPI(
+                    mBinding.lyLawyerListFilter.edtLoginEmail.text.toString(),
+                    years_of_exp,
+                    specialization
+                )
                 return@OnEditorActionListener true
             }
             false
@@ -108,7 +112,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
 
 
     override fun initObserver() {
-        mViewModel.getLawyerList().observe(this, Observer { response ->
+        mViewModel.getLawyerList().observe(this) { response ->
             response.let { requestState ->
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
@@ -156,7 +160,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                 }
             }
 
-        })
+        }
 
         //GET FILTER RESP
         commonViewModel.getFilterResp().observe(this, Observer { response ->
@@ -252,7 +256,12 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         }
     }
 
-    fun callChatPageOpe(selectUserId: Int, selectUserFullName: String, profilePicUrl: String,lastSeen: String) {
+    fun callChatPageOpe(
+        selectUserId: Int,
+        selectUserFullName: String,
+        profilePicUrl: String,
+        lastSeen: String
+    ) {
         ReplaceFragment.replaceFragment(
             requireActivity(),
             ChattingFragment(
