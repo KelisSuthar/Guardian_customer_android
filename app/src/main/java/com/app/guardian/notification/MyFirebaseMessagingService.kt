@@ -12,6 +12,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.SharedPreferenceManager
+import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.utils.ApiConstant
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -35,6 +36,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val data = JSONObject(Objects.requireNonNull(remoteMessage.data) as Map<*, *>)
 
         Log.e("FireBase", remoteMessage.notification!!.title.toString())
+        var getDataSize = remoteMessage.data.size
+        HomeActivity.bage_counter_notification= HomeActivity.bage_counter_notification+1
+        Log.e("bage counter","Bage Counter count :"+ HomeActivity.bage_counter_notification.toString())
+        triggerBroadcastToActivity(this, HomeActivity.bage_counter_notification)
+
         sendNotification(data, remoteMessage)
         sendBroadcastData(data, remoteMessage)
     }
@@ -161,5 +167,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             }
         }
         return isInBackground
+    }
+
+    private fun triggerBroadcastToActivity(context: Context, datavalue: Int) {
+        val intent = Intent(HomeActivity.intentAction)
+        intent.putExtra("data", datavalue)
+        intent.putExtra("code","000")
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
     }
 }

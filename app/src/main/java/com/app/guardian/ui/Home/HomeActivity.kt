@@ -2,6 +2,7 @@ package com.app.guardian.ui.Home
 
 
 import android.app.Activity
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.location.Address
@@ -64,6 +65,32 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
     private var notificationBadge: View? = null
     var txtBagecount: TextView? = null
 
+
+    companion object{
+        var bage_counter_notification: Int = 0
+        val intentAction = "com.parse.push.intent.RECEIVE"
+    }
+
+    //todo : broadcast for chat notification
+    private val mBroadcastReceiver = object : BroadcastReceiver() {
+
+        override fun onReceive(context: Context, intent: Intent) {
+
+            val extras  = intent.getExtras()
+
+            if(extras!= null){
+                if(extras.containsKey("data")){
+                    onVisibleBageCounterCounter(extras.getInt("data") )
+
+                }
+                else if(extras.containsKey("code")){
+
+                }
+            }
+
+        }
+    }
+
     override fun getResource(): Int {
         ReusedMethod.updateStatusBarColor(this, R.color.colorPrimaryDark, 4)
         return R.layout.activity_home
@@ -118,6 +145,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
                     )
                 }
                 R.id.menu_setting -> {
+                    onHideBadgeCounter()
                     clearFragmentBackStack()
                     ReplaceFragment.replaceFragment(
                         this,
@@ -152,6 +180,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
         headerTextVisible(resources.getString(R.string.seek_legal_advice), false, true)
 
         applybadgeview()
+
     }
 
     //todo : other function
@@ -170,8 +199,8 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
             main_layoutBageCounter = notificationBadge?.findViewById(R.id.ly_badge_counter)
             txtBagecount = notificationBadge?.findViewById(R.id.txt_badge_count)
 
-//            main_layoutBageCounter?.visibility=View.INVISIBLE
-//            txtBagecount?.visibility=View.INVISIBLE
+            main_layoutBageCounter?.visibility=View.INVISIBLE
+            txtBagecount?.visibility=View.INVISIBLE
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -463,11 +492,28 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
     }
 
     override fun onVisibleBageCounterCounter(i: Int) {
-        TODO("Not yet implemented")
+        try {
+            Log.e("Brodcast value ", "Notification Counter visible :" + i.toString())
+            main_layoutBageCounter?.visibility = View.VISIBLE
+            txtBagecount?.visibility = View.VISIBLE
+            txtBagecount?.text = i.toString()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e("Bage count", "Bage count e:" + e.printStackTrace())
+        }
     }
 
     override fun onHideBadgeCounter() {
-        TODO("Not yet implemented")
+        try {
+
+            bage_counter_notification = 0
+            main_layoutBageCounter?.visibility = View.INVISIBLE
+            txtBagecount?.visibility = View.INVISIBLE
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e("Bage count", "Bage count e:" + e.printStackTrace())
+        }
     }
 
 

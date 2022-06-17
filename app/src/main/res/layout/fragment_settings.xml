@@ -248,9 +248,6 @@
                         </RelativeLayout>
                     </RelativeLayout>
 
-
-
-
                     <ImageView
                         android:id="@+id/imgNotification"
                         android:layout_width="@dimen/_17sdp"
