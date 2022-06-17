@@ -97,12 +97,12 @@ class LawyerBySpecializationAdapter(
             }
 
             imgRowLawyerChat?.setOnClickListener {
-                if (array.profile_avatar.isNullOrEmpty()) {
+                if (array.profile_avatar.isNullOrEmpty()||array.last_seen.isNullOrEmpty()) {
                     fragment.callChatPageOpe(
                         array.id!!,
                         array.full_name!!,
                         "",
-                        array.last_seen!!
+                        ""
                     )
                 } else {
                     fragment.callChatPageOpe(

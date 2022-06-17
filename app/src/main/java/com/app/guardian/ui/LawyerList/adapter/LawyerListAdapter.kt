@@ -100,12 +100,12 @@ class LawyerListAdapter(
             }
 
             imgRowLawyerChat?.setOnClickListener {
-                if (lawyerProfileData.profile_avatar.isNullOrEmpty()) {
+                if (lawyerProfileData.profile_avatar.isNullOrEmpty() ||lawyerProfileData.last_seen.isNullOrEmpty()) {
                     lawyerListFragment.callChatPageOpe(
                         lawyerProfileData.id!!,
                         lawyerProfileData.full_name!!,
                         "",
-                        lawyerProfileData.last_seen!!,
+                        "",
                     )
                 } else {
                     lawyerListFragment.callChatPageOpe(
