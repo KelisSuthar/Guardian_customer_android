@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.location.Address
 import android.location.Geocoder
 import android.location.LocationManager
@@ -16,6 +17,7 @@ import android.view.WindowManager
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.app.guardian.R
 import com.app.guardian.common.*
 import com.app.guardian.common.extentions.checkLoationPermission
@@ -183,6 +185,12 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
 
     }
 
+    override fun onPause() {
+        super.onPause()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
+
+    }
+
     //todo : other function
     //use for notification badge counter display ( only sendbird chat notification get in this fun )
     fun applybadgeview() {
@@ -213,7 +221,10 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
 
     override fun onResume() {
         super.onResume()
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver,  IntentFilter(
+            intentAction
+        )
+        )
         getLatLong()
         if (checkLoationPermission(this)) {
             if (locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER)!!) {
