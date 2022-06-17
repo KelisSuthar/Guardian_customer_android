@@ -237,8 +237,8 @@
 
                             <TextView
                                 android:id="@+id/txtSettingNotificationCoout"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
                                 android:fontFamily="@font/lora_semibold"
                                 android:gravity="center_horizontal|center_vertical"
                                 android:padding="@dimen/_2sdp"
