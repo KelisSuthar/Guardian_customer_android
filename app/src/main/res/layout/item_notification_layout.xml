@@ -10,7 +10,7 @@
     <RelativeLayout android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/bage_rect_background"
-        android:layout_marginRight="28dp"
+        android:layout_marginRight="25dp"
         android:gravity="center"
         android:layout_marginTop="8dp">
 

@@ -216,23 +216,15 @@
                         app:layout_constraintTop_toBottomOf="@id/imgAbout" />
 
                     <RelativeLayout
-                        android:id="@+id/imgNotification"
+                        android:id="@+id/imgNotifiactionCount"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/view4"
                         app:layout_constraintBottom_toTopOf="@+id/view5"
-                        >
-
-                        <ImageView
-                            android:id="@+id/ivNot"
-                            android:layout_width="@dimen/_17sdp"
-                            android:layout_height="@dimen/_17sdp"
-                            android:layout_centerInParent="true"
-                            android:layout_marginStart="@dimen/_20sdp"
-                            android:layout_marginTop="@dimen/_20sdp"
-                            android:src="@drawable/ic_bell"
-                            android:visibility="visible" />
+                        android:layout_toRightOf="@+id/imgNotification"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="35dp" >
 
                         <RelativeLayout
                             android:id="@+id/lyNotificationCount"
@@ -244,7 +236,7 @@
                             >
 
                             <TextView
-                                android:id="@+id/txt_badge_count"
+                                android:id="@+id/txtSettingNotificationCoout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/lora_semibold"
@@ -259,16 +251,16 @@
 
 
 
-<!--                    <ImageView-->
-<!--                        android:id="@+id/imgNotification"-->
-<!--                        android:layout_width="@dimen/_17sdp"-->
-<!--                        android:layout_height="@dimen/_17sdp"-->
-<!--                        android:layout_marginStart="@dimen/_20sdp"-->
-<!--                        android:layout_marginTop="@dimen/_20sdp"-->
-<!--                        android:src="@drawable/ic_bell"-->
-<!--                        android:visibility="gone"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toBottomOf="@id/view4" />-->
+                    <ImageView
+                        android:id="@+id/imgNotification"
+                        android:layout_width="@dimen/_17sdp"
+                        android:layout_height="@dimen/_17sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:src="@drawable/ic_bell"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/view4" />
 
                     <TextView
                         android:id="@+id/tvNotification"
