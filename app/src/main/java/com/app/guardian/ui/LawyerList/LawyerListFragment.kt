@@ -252,14 +252,15 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         }
     }
 
-    fun callChatPageOpe(selectUserId: Int, selectUserFullName: String, profilePicUrl: String) {
+    fun callChatPageOpe(selectUserId: Int, selectUserFullName: String, profilePicUrl: String,lastSeen: String) {
         ReplaceFragment.replaceFragment(
             requireActivity(),
             ChattingFragment(
                 selectUserId,
                 selectUserFullName,
                 profilePicUrl,
-                AppConstants.APP_ROLE_LAWYER
+                AppConstants.APP_ROLE_LAWYER,
+                lastSeen
             ),
             true,
             LawyerListFragment::class.java.name,

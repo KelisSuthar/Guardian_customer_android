@@ -260,8 +260,8 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
         specialization: String,
     ) {
         val body = JsonObject()
-//        body.addProperty(ApiConstant.EXTRAS_SERCH, ser)
-//        body.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
+        body.addProperty(ApiConstant.EXTRAS_SERCH, ser)
+        body.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
         body.addProperty(ApiConstant.EXTRAS_SPECIALIZATION, specialization)
         mUserRepository.getLawyerBySpecialization(
             body,

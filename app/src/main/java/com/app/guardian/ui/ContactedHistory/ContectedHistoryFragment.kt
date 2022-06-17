@@ -121,6 +121,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                             array[position!!].full_name,
                             array[position!!].profile_avatar,
                             array[position!!].user_role,
+                            array[position!!].last_seen,
                         ),
                         true,
                         ContectedHistoryFragment::class.java.name,

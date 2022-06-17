@@ -22,7 +22,6 @@
             android:layout_height="wrap_content"
             android:background="@color/lightBlue_2"
             android:paddingVertical="@dimen/_10sdp">
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtRowSupportGroup"
                 android:layout_width="match_parent"
@@ -34,7 +33,7 @@
                 android:text="Crises Lines"
                 android:textAlignment="center"
                 android:textColor="@color/txt_dark"
-                android:textSize="@dimen/_12ssp" />
+                android:textSize="@dimen/_15ssp" />
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
 

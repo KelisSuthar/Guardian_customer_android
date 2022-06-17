@@ -104,9 +104,8 @@ object SharedPreferenceManager {
 
     fun removeAllData() {
         val device_token = getString(ApiConstant.EXTRAS_DEVICETOKEN, "")
-        putString(AppConstants.API_KEY_VALUE, "")
-        putString(ApiConstant.EXTRAS_DEVICETOKEN, device_token.toString())
         editor!!.clear().commit()
+        putString(ApiConstant.EXTRAS_DEVICETOKEN, device_token.toString())
         putBoolean(SKIP_INTRO, true)
         putBoolean(AppConstants.IS_WALKTHROUGH_VIEWED, true)
     }

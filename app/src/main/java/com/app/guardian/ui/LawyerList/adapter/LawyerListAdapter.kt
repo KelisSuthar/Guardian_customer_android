@@ -104,13 +104,15 @@ class LawyerListAdapter(
                     lawyerListFragment.callChatPageOpe(
                         lawyerProfileData.id!!,
                         lawyerProfileData.full_name!!,
-                        ""
+                        "",
+                        lawyerProfileData.last_seen!!,
                     )
                 } else {
                     lawyerListFragment.callChatPageOpe(
                         lawyerProfileData.id!!,
                         lawyerProfileData.full_name!!,
-                        lawyerProfileData.profile_avatar!!
+                        lawyerProfileData.profile_avatar!!,
+                        lawyerProfileData.last_seen!!,
                     )
                 }
 

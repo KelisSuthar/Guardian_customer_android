@@ -32,6 +32,7 @@ class ChattingFragment(
     var selectUserFullName: String? = "",
     var profilePicUrl: String? = "",
     var to_role: String? = "",
+    var lastSeen: String?= "",
 ) : BaseFragment(), View.OnClickListener {
     lateinit var mBinding: FragmentChattingBinding
     private val mViewModel: CommonScreensViewModel by viewModel()

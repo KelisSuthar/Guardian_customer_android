@@ -5,6 +5,7 @@ data class LawyerBySpecializationResp(
     val dialing_code: String?="",
     val firebase_uid: String?="",
     val full_name: String?="",
+    val last_seen: String?="",
     val id: Int?=0,
     val phone: String?="",
     val profile_avatar: String?="",

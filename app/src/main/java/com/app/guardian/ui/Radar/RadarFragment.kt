@@ -2,6 +2,7 @@ package com.app.guardian.ui.Radar
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.location.LocationManager
 import android.os.Looper
 import android.util.Log
@@ -285,6 +286,7 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+        var mapIcon: BitmapDescriptor
         gMap = googleMap
         val dFormat = DecimalFormat("#.####")
         AppConstants.latitude = dFormat.format(AppConstants.latitude).toDouble()
@@ -292,12 +294,17 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
 //        itemLatitude = dFormat.format(itemLatitude).toDouble()
 //        itemLongitude = dFormat.format(itemLongitude).toDouble()
 
+
         if (!array.isNullOrEmpty()) {
 
-
             for (i in array.indices) {
+                mapIcon = if(array[i].type == AppConstants.EXTRA_PHOTO_RADAR) {
+                    BitmapDescriptorFactory.fromResource(R.drawable.ic_map_pin_photoradar)
+                }else{
+                    BitmapDescriptorFactory.fromResource(R.drawable.ic_map_pin_roadblock)
+                }
                 mMarker = MarkerOptions()
-                mMarker!!.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
+                mMarker!!.icon(mapIcon)
                     .anchor(0.0f, 1.0f)
                     .title(array[i].place)
                     .flat(true)

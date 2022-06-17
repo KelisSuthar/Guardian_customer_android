@@ -1,15 +1,18 @@
 package com.app.guardian.ui.VideoPlayer
 
+
 import android.net.Uri
+import android.os.Environment
 import android.util.Log
+import android.view.View
 import android.widget.MediaController
-import androidx.core.content.FileProvider
+import android.widget.VideoView
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.databinding.ActivityVideoPlayerBinding
 import com.app.guardian.shareddata.base.BaseActivity
-import java.io.File
+
 
 class VideoPlayerActivity : BaseActivity() {
     lateinit var mBinding: ActivityVideoPlayerBinding
@@ -21,16 +24,12 @@ class VideoPlayerActivity : BaseActivity() {
     override fun initView() {
         mBinding = getBinding()
         if (intent != null && intent.extras != null) {
-            Log.i("THIS_APP", intent.getStringExtra(AppConstants.EXTRA_PATH).toString())
-
-
-//            mBinding.videoView.setVideoURI(
-//                Uri.fromFile(
-//                    File(
-//                        intent.getStringArrayExtra(AppConstants.EXTRA_PATH).toString()
-//                    )
-//                )
-//            )
+            Log.i("THIS_APP_PATH", intent.getStringExtra(AppConstants.EXTRA_PATH).toString())
+            mBinding.videoView.setVideoURI(
+                Uri.parse(
+                    intent.getStringExtra(AppConstants.EXTRA_PATH).toString()
+                )
+            )
             mBinding.videoView.setMediaController(MediaController(this));
             mBinding.videoView.requestFocus()
 

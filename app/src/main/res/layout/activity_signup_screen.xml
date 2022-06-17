@@ -156,7 +156,8 @@
                         android:inputType="number"
                         android:textFontWeight="400"
                         android:textSize="@dimen/_12ssp"
-                        android:visibility="gone" />
+                        android:visibility="gone"
+                        android:maxLength="2"/>
 
                     <FrameLayout
                         android:id="@+id/fmOficeNum"

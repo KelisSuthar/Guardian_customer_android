@@ -116,7 +116,8 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
             do {
                 arrayList.add(
                     VideoResp(
-                        videocursor!!.getString(videocursor.getColumnIndex(MediaStore.Video.Media._ID)).toInt(),
+                        videocursor!!.getString(videocursor.getColumnIndex(MediaStore.Video.Media._ID))
+                            .toInt(),
                         videocursor!!.getString(videocursor.getColumnIndex(MediaStore.Video.Media.TITLE))
                             .toString(),
                         videocursor!!.getString(videocursor.getColumnIndex(MediaStore.Video.Media.DATA))
@@ -152,7 +153,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                         Intent(
                             requireActivity(),
                             VideoPlayerActivity::class.java
-                        ).putExtra(AppConstants.EXTRA_PATH, arrayList[position!!].title)
+                        ).putExtra(AppConstants.EXTRA_PATH, arrayList[position!!].path)
                     )
                     requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
                     Log.i("THIS_STRING", arrayList[position].title)

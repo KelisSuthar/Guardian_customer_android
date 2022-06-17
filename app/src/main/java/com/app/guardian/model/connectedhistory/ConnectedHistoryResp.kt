@@ -12,6 +12,7 @@ data class ConnectedHistoryResp(
     val user_role: String? = "",
     val office_phone: String? = "",
     val state: String? = "",
+    val last_seen: String? = "",
     val postal_code: String? = "",
     val licence_no: String? = "",
     val description: String? = "",

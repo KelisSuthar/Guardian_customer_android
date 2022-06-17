@@ -33,6 +33,7 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
     private var strLawyerName: String? = null
     private var strProfilePic: String? = null
     private var strPhoneNumber: String? = null
+    private var lastSeen: String? = null
     private var strEmail: String? = null
     override fun getInflateResource(): Int {
         return R.layout.fragment_lawyer_profile
@@ -85,7 +86,13 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
         mBinding.imgRowLawyerChat.setOnClickListener {
             ReplaceFragment.replaceFragment(
                 requireActivity(),
-                ChattingFragment(selectedLawyerListId!!, strLawyerName!!, strProfilePic!!,AppConstants.APP_ROLE_LAWYER),
+                ChattingFragment(
+                    selectedLawyerListId!!,
+                    strLawyerName!!,
+                    strProfilePic!!,
+                    AppConstants.APP_ROLE_LAWYER,
+
+                ),
                 true,
                 LawyerProfileFragment::class.java.name,
                 LawyerProfileFragment::class.java.name
@@ -120,6 +127,7 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
                         mBinding.txtContactInfo.text = it.email
                         strLawyerName = it.full_name
                         strProfilePic = it.profile_avatar
+                        lastSeen = it.last_seen
                         Glide.with(requireActivity())
                             .load(it.profile_avatar)
                             .placeholder(R.drawable.profile)

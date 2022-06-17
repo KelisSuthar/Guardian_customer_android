@@ -81,11 +81,13 @@ object IntegratorImpl {
                 } else if (is_lawyer) {
                     if (TextUtils.isEmpty(specialization)) {
                         ValidationView.empty_specialization()
-                    } else if (specialization.length < 3) {
-                        ValidationView.valid_specialization()
+//                    }
+//                    else if (specialization.length < 3) {
+//                        ValidationView.valid_specialization()
+
                     } else if (TextUtils.isEmpty(years_exp)) {
                         ValidationView.empty_years_exp()
-                    } else if (specialization == "0") {
+                    } else if (years_exp == "0") {
                         ValidationView.valid_years_exp()
                     } else if (office_num.length in 2..9) {
                         ValidationView.valid_office_num()
@@ -123,11 +125,12 @@ object IntegratorImpl {
                 } else if (is_mediator) {
                     if (TextUtils.isEmpty(specialization)) {
                         ValidationView.empty_specialization()
-                    } else if (specialization.length < 3) {
-                        ValidationView.valid_specialization()
+//                    }
+//                    else if (specialization.length < 3) {
+//                        ValidationView.valid_specialization()
                     } else if (TextUtils.isEmpty(years_exp)) {
                         ValidationView.empty_years_exp()
-                    } else if (specialization == "0") {
+                    } else if (years_exp == "0") {
                         ValidationView.valid_years_exp()
                     } else if (TextUtils.isEmpty(mobile)) {
                         ValidationView.moNumber_empty()

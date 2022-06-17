@@ -1,9 +1,7 @@
 package com.app.guardian.common
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.app.AlertDialog
-import android.app.Dialog
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -27,6 +25,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -486,6 +485,7 @@ class ReusedMethod {
             Log.i("THIS_APP", "COUNTRY NAME::::::" + addresses[0].countryName)
             Log.i("THIS_APP", "FEATURE NAME::::::" + addresses[0].featureName)
             Log.i("THIS_APP", "LOCALITY::::::" + addresses[0].locality)
+            Log.i("THIS_APP", "SUBLOCALITY::::::" + addresses[0].subLocality)
             Log.i("THIS_APP", "LOCALE::::::" + addresses[0].locale.toString())
             Log.i("THIS_APP", "POSTAL CODE::::::" + addresses[0].postalCode)
             return addresses
@@ -735,6 +735,140 @@ class ReusedMethod {
             }
 
         }
+
+        fun selectTime(context: Context, txtTime: TextView, isMultiple: Boolean?=false) {
+            val currentTime = Calendar.getInstance().time
+            val hrsFormatter = SimpleDateFormat("HH", Locale.getDefault())
+            val minFormatter = SimpleDateFormat("mm", Locale.getDefault())
+
+            val timePicker = TimePickerDialog(
+                context, R.style.DialogTheme,
+                // listener to perform task
+                // when time is picked
+                { view, hourOfDay, minute ->
+                    val formattedTime: String = when {
+                        hourOfDay == 0 -> {
+                            if (minute < 10) {
+                                "${hourOfDay + 12}:0${minute} am"
+                            } else {
+                                "${hourOfDay + 12}:${minute} am"
+                            }
+                        }
+                        hourOfDay > 12 -> {
+                            if (minute < 10) {
+                                "${hourOfDay - 12}:0${minute} pm"
+                            } else {
+                                "${hourOfDay - 12}:${minute} pm"
+                            }
+                        }
+                        hourOfDay == 12 -> {
+                            if (minute < 10) {
+                                "${hourOfDay}:0${minute} pm"
+                            } else {
+                                "${hourOfDay}:${minute} pm"
+                            }
+                        }
+                        else -> {
+                            if (minute < 10) {
+                                "${hourOfDay}:${minute} am"
+                            } else {
+                                "${hourOfDay}:${minute} am"
+                            }
+                        }
+                    }
+                    txtTime.text = formattedTime
+                },
+                // default hour when the time picker
+                // dialog is opened
+                hrsFormatter.format(currentTime).toInt(),
+                // default minute when the time picker
+                // dialog is opened
+                minFormatter.format(currentTime).toInt(),
+                false
+            )
+
+            // then after building the timepicker
+            // dialog show the dialog to user
+            timePicker.show()
+            timePicker.getButton(DatePickerDialog.BUTTON_NEGATIVE)
+                .setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+            timePicker.getButton(DatePickerDialog.BUTTON_NEUTRAL)
+                .setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+            timePicker.getButton(DatePickerDialog.BUTTON_POSITIVE)
+                .setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+        }
+
+        fun selectDate(context: Context, txtDate: TextView) {
+            var mYear = 0
+            var mMonth = 0
+            var mDay = 0
+
+            val c = Calendar.getInstance()
+            mYear = c[Calendar.YEAR]
+            mMonth = c[Calendar.MONTH]
+            mDay = c[Calendar.DAY_OF_MONTH]
+            val datePickerDialog = DatePickerDialog(
+                context, R.style.DialogTheme,
+                { _: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int ->
+                    val calendar = Calendar.getInstance()
+                    calendar[year, monthOfYear] = dayOfMonth
+                    txtDate.text = getDate(year, monthOfYear, dayOfMonth)
+                }, mYear, mMonth, mDay
+            )
+            datePickerDialog.show()
+            datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE)
+                .setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+            datePickerDialog.getButton(DatePickerDialog.BUTTON_NEUTRAL)
+                .setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+            datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE)
+                .setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+
+
+            val calendar2 = Calendar.getInstance();
+            calendar2.add(Calendar.MONTH, 1)
+            datePickerDialog.datePicker.minDate = calendar2.timeInMillis
+
+
+        }
+
+        fun getDate(year: Int, monthOfYear: Int, dayOfMonth: Int): String {
+            val dateFormatter = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+            val calendar = Calendar.getInstance()
+            calendar[year, monthOfYear] = dayOfMonth
+            return dateFormatter.format(calendar.time)
+        }
+
+        fun callConformationDialog(context: Context, date: String, time: String, headder: String?,isMultiple: Boolean?=false) {
+            val dialog = Dialog(
+                context,
+                com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+            )
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            dialog.setContentView(R.layout.virtual_witness_request_confirmation_dialog)
+            dialog.setCancelable(true)
+
+            val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
+            val txtDate: TextView = dialog.findViewById(R.id.txtDate)
+            val txtTime: TextView = dialog.findViewById(R.id.txtTime)
+            val txtDesc: TextView = dialog.findViewById(R.id.txtDesc)
+            val txtTitle: TextView = dialog.findViewById(R.id.txtTitle)
+            val sub: AppCompatButton = dialog.findViewById(R.id.txtTitle)
+
+            txtDate.text = date
+            txtTime.text = time
+            txtTitle.text = headder
+            ivClose.setOnClickListener {
+                dialog.dismiss()
+            }
+            sub.setOnClickListener{
+                dialog.dismiss()
+            }
+            dialog.show()
+        }
+
+
+
     }
 
 

@@ -1,14 +1,33 @@
 package com.app.guardian.ui.User.ScheduleVirtualWitness
 
+import android.Manifest
 import android.app.Activity
+import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.net.Uri
+import android.os.Looper
+import android.util.Log
+import android.view.Gravity
 import android.view.View
+import android.view.Window
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.PermissionChecker
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.ReusedMethod.Companion.displayMessage
+import com.app.guardian.common.ReusedMethod.Companion.getAddress
+import com.app.guardian.common.SharedPreferenceManager
+import com.app.guardian.common.extentions.checkLoationPermission
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.databinding.FragmentScheduleVirtualWitnessBinding
 import com.app.guardian.model.HomeBanners.BannerCollection
@@ -21,6 +40,9 @@ import com.app.guardian.ui.HomeBanners.HomeBannersFragment
 import com.app.guardian.ui.User.ContactSupport.ContactSupportFragment
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
+import com.google.android.gms.location.*
+import com.google.android.material.card.MaterialCardView
+import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -30,18 +52,45 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
     var array = ArrayList<BannerCollection>()
     var bannerArray = ArrayList<BannerCollection>()
     var bannerAdsPager: BannerAdsPager? = null
+    var isMultiple: Boolean = false
+    var current_add = ""
+    private var locationManager: LocationManager? = null
+    private var mFusedLocationClient: FusedLocationProviderClient? = null
+    private var locationRequest: LocationRequest? = null
+    private var locationCallback: LocationCallback? = null
     override fun getInflateResource(): Int {
         return R.layout.fragment_schedule_virtual_witness
     }
 
     override fun initView() {
         mBinding = getBinding()
+        setFusedLoc()
         (activity as HomeActivity).bottomTabVisibility(false)
         (activity as HomeActivity).headerTextVisible(
             requireActivity().resources.getString(R.string.schedule_virtual_witness),
             true,
             true
         )
+        checkPermissions(
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            AppConstants.EXTRA_COURSE_PERMISSION
+        )
+        checkPermissions(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            AppConstants.EXTRA_FINE_PERMISSION
+        )
+
+    }
+
+    private fun setFusedLoc() {
+        locationManager = requireActivity().getSystemService(
+            Context.LOCATION_SERVICE
+        ) as LocationManager
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        locationRequest = LocationRequest.create()
+        locationRequest?.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest?.interval = 20 * 1000
+
 
     }
 
@@ -74,6 +123,19 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
         changeLayout(0)
         setAdapter()
         callApi()
+        getLatLong()
+        if (checkLoationPermission(requireActivity())) {
+            if (locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER)!!) {
+
+                mFusedLocationClient?.requestLocationUpdates(
+                    locationRequest!!,
+                    locationCallback!!,
+                    Looper.getMainLooper()
+                )
+            } else {
+                ReusedMethod.setLocationDialog(requireActivity())
+            }
+        }
     }
 
     override fun handleListener() {
@@ -120,7 +182,7 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
                 requestState.error?.let { errorObj ->
                     when (errorObj.errorState) {
                         Config.NETWORK_ERROR ->
-                            ReusedMethod.displayMessage(
+                            displayMessage(
                                 requireActivity(),
                                 getString(R.string.text_error_network)
                             )
@@ -129,10 +191,10 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
                             errorObj.customMessage
                                 ?.let {
                                     if (errorObj.code == ApiConstant.API_401) {
-                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        displayMessage(requireActivity(), it)
                                         (activity as HomeActivity).unAuthorizedNavigation()
                                     } else {
-                                        ReusedMethod.displayMessage(context as Activity, it)
+                                        displayMessage(context as Activity, it)
                                     }
                                 }
                     }
@@ -145,15 +207,16 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
         when (v?.id) {
             R.id.cvScheduleDateTime -> {
                 changeLayout(1)
-                ReusedMethod.displayMessage(requireActivity(), "Coming Soon!")
+                callScedualDialog()
+
             }
             R.id.cvLocationWhereCallWillTakePlace -> {
                 changeLayout(2)
-                ReusedMethod.displayMessage(requireActivity(), "Coming Soon!")
+                locationCall(requireActivity())
             }
             R.id.cvScheduleMultipleCalls -> {
                 changeLayout(3)
-                ReusedMethod.displayMessage(requireActivity(), "Coming Soon!")
+                callScedualDialog()
             }
             R.id.cvContactSupport -> {
                 changeLayout(4)
@@ -177,15 +240,17 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.rlScheduleMultipleCalls -> {
                 changeLayout(3)
-                ReusedMethod.displayMessage(requireActivity(), "Coming Soon!")
+                callScedualDialog()
+                displayMessage(requireActivity(), "Coming Soon!")
             }
             R.id.rlLocationWhereCallWillTakePlace -> {
                 changeLayout(2)
-                ReusedMethod.displayMessage(requireActivity(), "Coming Soon!")
+                locationCall(requireActivity())
             }
             R.id.rlScheduleDateTime -> {
                 changeLayout(1)
-                ReusedMethod.displayMessage(requireActivity(), "Coming Soon!")
+                callScedualDialog()
+
             }
             R.id.rbContactSupport -> {
                 changeLayout(4)
@@ -199,15 +264,19 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.rbScheduleDateTime -> {
                 changeLayout(1)
-                ReusedMethod.displayMessage(requireActivity(), "Coming Soon!")
+                callScedualDialog()
+
             }
             R.id.rbLocationWhereCallWillTakePlace -> {
                 changeLayout(2)
-                ReusedMethod.displayMessage(requireActivity(), "Coming Soon!")
+                locationCall(requireActivity())
+
             }
             R.id.rbScheduleMultipleCalls -> {
                 changeLayout(3)
-                ReusedMethod.displayMessage(requireActivity(), "Coming Soon!")
+
+                callScedualDialog()
+
             }
             R.id.txtViewMore -> {
                 ReplaceFragment.replaceFragment(
@@ -254,6 +323,7 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
                 mBinding.rbContactSupport.isChecked = false
             }
             1 -> {
+                isMultiple = false
                 mBinding.rlScheduleDateTime.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
@@ -314,6 +384,7 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
                 mBinding.rbContactSupport.isChecked = false
             }
             3 -> {
+                isMultiple = true
                 mBinding.rlScheduleDateTime.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
@@ -373,6 +444,220 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
                 mBinding.rbScheduleMultipleCalls.isChecked = false
                 mBinding.rbContactSupport.isChecked = true
             }
+        }
+    }
+
+    fun callScedualDialog() {
+        val dialog = Dialog(
+            requireActivity(),
+            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+        )
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setContentView(R.layout.virtual_witness_request_dialog)
+        dialog.setCancelable(true)
+
+        val cvScheduleDate: MaterialCardView = dialog.findViewById(R.id.cvScheduleDate)
+        val cvScheduleTime: MaterialCardView = dialog.findViewById(R.id.cvScheduleTime)
+        val txtDate: TextView = dialog.findViewById(R.id.txtDate)
+        val txtTime: TextView = dialog.findViewById(R.id.txtTime)
+        val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
+        val btnImmediateJoin: Button = dialog.findViewById(R.id.btnImmediateJoin)
+        val btnRequestSend: Button = dialog.findViewById(R.id.btnRequestSend)
+
+        cvScheduleDate.setOnClickListener {
+            ReusedMethod.selectDate(requireActivity(), txtDate)
+        }
+
+        ivClose.setOnClickListener {
+            dialog.dismiss()
+        }
+        cvScheduleTime.setOnClickListener {
+            ReusedMethod.selectTime(requireActivity(), txtTime)
+        }
+        btnImmediateJoin.setOnClickListener {
+            dialog.dismiss()
+            if (isMultiple) {
+                displayMultipleCallConfirmationDialog(requireContext())
+            } else {
+                displayMessage(requireActivity(), resources.getString(R.string.come_soon))
+            }
+
+        }
+        btnRequestSend.setOnClickListener {
+            dialog.dismiss()
+            callConformationDialog(
+                requireActivity(),
+                txtDate.text.toString(),
+                txtTime.text.toString(),
+                resources.getString(R.string.virtual_witness)
+
+            )
+
+        }
+        dialog.show()
+    }
+
+    fun callConformationDialog(context: Context, date: String, time: String, headder: String?) {
+        val dialog = Dialog(
+            context,
+            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+        )
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setContentView(R.layout.virtual_witness_request_confirmation_dialog)
+        dialog.setCancelable(true)
+
+        val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
+        val txtDate: TextView = dialog.findViewById(R.id.txtDate)
+        val txtTime: TextView = dialog.findViewById(R.id.txtTime)
+        val txtDesc: TextView = dialog.findViewById(R.id.txtDesc)
+        val txtTitle: TextView = dialog.findViewById(R.id.txtTitle)
+        val sub: AppCompatButton = dialog.findViewById(R.id.btnRequestSend)
+
+        txtDate.text = date
+        txtTime.text = time
+        txtTitle.text = headder
+        ivClose.setOnClickListener {
+            dialog.dismiss()
+        }
+        sub.setOnClickListener {
+            dialog.dismiss()
+            if (isMultiple) {
+                displayMultipleCallConfirmationDialog(context)
+            }
+        }
+        dialog.show()
+    }
+
+    private fun displayMultipleCallConfirmationDialog(context: Context) {
+        val dialog = Dialog(
+            context,
+            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+        )
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setContentView(R.layout.dialog_layout)
+        dialog.setCancelable(false)
+
+        val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
+        val HEADDER = dialog.findViewById<MaterialTextView>(R.id.txtAppname)
+        val TITLE = dialog.findViewById<TextView>(R.id.tvTitle)
+        val MESSAGE = dialog.findViewById<TextView>(R.id.tvMessage)
+        val CANCEL = dialog.findViewById<MaterialTextView>(R.id.tvNegative)
+        TITLE.gone()
+        MESSAGE.gone()
+        HEADDER.text = resources.getString(R.string.want_to_add_call)
+        CANCEL.setOnClickListener {
+            dialog.dismiss()
+        }
+        OK.setOnClickListener {
+            dialog.dismiss()
+            if (isMultiple) {
+                callScedualDialog()
+            }
+
+        }
+        dialog.show()
+    }
+
+    private fun locationCall(context: Context) {
+
+
+        val dialog = Dialog(
+            context,
+            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+        )
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setContentView(R.layout.dialog_layout)
+        dialog.setCancelable(false)
+
+        val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
+        val TITLE = dialog.findViewById<TextView>(R.id.tvTitle)
+        val MESSAGE = dialog.findViewById<TextView>(R.id.tvMessage)
+        val HEADDER = dialog.findViewById<TextView>(R.id.txtAppname)
+        val CANCEL = dialog.findViewById<MaterialTextView>(R.id.tvNegative)
+        HEADDER.gone()
+        OK.text = "YES"
+        CANCEL.text = "NO"
+        MESSAGE.text = "Do you want to make call at this place ?"
+        TITLE.text = current_add
+
+        CANCEL.setOnClickListener {
+            dialog.dismiss()
+        }
+        OK.setOnClickListener {
+            dialog.dismiss()
+            displayMessage(requireActivity(), resources.getString(R.string.come_soon))
+        }
+        dialog.show()
+    }
+
+    private fun getLatLong() {
+        if (checkLoationPermission(requireActivity())) {
+            showLoadingIndicator(true)
+            locationCallback = object : LocationCallback() {
+                override fun onLocationResult(p0: LocationResult) {
+                    super.onLocationResult(p0!!)
+
+                    if (p0.equals(null)) {
+
+                        return
+                    }
+                    for (location in p0.locations) {
+                        if (location != null) {
+                            current_add =
+                                getAddress(
+                                    requireContext(),
+                                    location.latitude,
+                                    location.longitude
+                                )[0].featureName + " ," + getAddress(
+                                    requireContext(),
+                                    location.latitude,
+                                    location.longitude
+                                )[0].locality
+                            Log.i("THIS_APP", current_add)
+
+
+                            if (mFusedLocationClient != null) {
+                                mFusedLocationClient?.removeLocationUpdates(locationCallback!!)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode ==
+            AppConstants.EXTRA_FINE_PERMISSION || requestCode == AppConstants.EXTRA_COURSE_PERMISSION
+        ) {
+            getLatLong()
+        } else {
+            displayMessage(
+                requireActivity(),
+                " You have denied permission\nPlease accept permission"
+            )
+        }
+    }
+
+    private fun checkPermissions(permissions: String, reqcode: Int): Boolean {
+        return if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                permissions
+            ) == PackageManager.PERMISSION_DENIED
+        ) {
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(permissions), reqcode)
+            false
+        } else {
+            true
         }
     }
 

@@ -15,6 +15,7 @@ data class LawyerProfileDetailsResp(
     val plan_expiry_date: String?="",
     val postal_code: String?="",
     val profile_avatar: String?="",
+    val last_seen: String?="",
     val specialization: String?="",
     val state: String?="",
     val status: String?="",

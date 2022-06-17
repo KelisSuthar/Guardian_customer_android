@@ -23,6 +23,7 @@ import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.SelectRole.SelectRoleScreen
 import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
 import com.app.guardian.ui.forgot.ForgotPasswordActivity
+import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
@@ -32,7 +33,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class LoginActivity : BaseActivity(), View.OnClickListener {
     private val mViewModel: AuthenticationViewModel by viewModel()
     lateinit var mBinding: ActivityLoginBinding
-    private var auth: FirebaseAuth? = null
+    var DEVICE_TOKEN = SharedPreferenceManager.getString(ApiConstant.EXTRAS_DEVICETOKEN, "")
 
     var is_Email = true
     override fun getResource(): Int {
@@ -493,7 +494,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 mBinding.emailphoneSelector.ccp.selectedCountryCode.toString(),
                 phone_email,
                 mBinding.editTextLoginPass.text?.trim().toString(),
-                "DEVICETOKEN@123"
+                DEVICE_TOKEN.toString()
             )
         } else {
             mBinding.nsLogin.gone()

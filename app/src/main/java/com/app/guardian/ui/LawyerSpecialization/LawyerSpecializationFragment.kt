@@ -208,7 +208,9 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
             }
             R.id.llsearch -> {
                 if (!TextUtils.isEmpty(mBinding.lyLawyerSpListFilter.edtLoginEmail.text.toString())) {
-                    callAPI(mBinding.lyLawyerSpListFilter.edtLoginEmail.text.toString(), "", "")
+                    callAPI(mBinding.lyLawyerSpListFilter.edtLoginEmail.text.toString(), years_of_exp,
+                        specialization.toString()
+                    )
                 }
             }
         }
@@ -260,12 +262,13 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
         }
     }
 
-    fun callChatPageOpe(selectUserId: Int, selectUserFullName: String, profilePicUrl: String) {
+    fun callChatPageOpe(selectUserId: Int, selectUserFullName: String, profilePicUrl: String,lastseen: String) {
         ReplaceFragment.replaceFragment(
             requireActivity(),
             ChattingFragment(
                 selectUserId, selectUserFullName, profilePicUrl,
-                AppConstants.APP_ROLE_LAWYER
+                AppConstants.APP_ROLE_LAWYER,
+                lastseen
             ),
             true,
             LawyerSpecializationFragment::class.java.name,

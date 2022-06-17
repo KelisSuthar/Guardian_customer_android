@@ -101,13 +101,15 @@ class LawyerBySpecializationAdapter(
                     fragment.callChatPageOpe(
                         array.id!!,
                         array.full_name!!,
-                        ""
+                        "",
+                        array.last_seen!!
                     )
                 } else {
                     fragment.callChatPageOpe(
                         array.id!!,
                         array.full_name!!,
-                        array.profile_avatar!!
+                        array.profile_avatar!!,
+                        array.last_seen!!
                     )
                 }
 

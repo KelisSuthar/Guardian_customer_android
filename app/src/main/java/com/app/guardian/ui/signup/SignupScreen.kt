@@ -35,6 +35,7 @@ import com.app.guardian.termsandcondtions.TermAndConditionsActivity
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.signup.adapter.ImageAdapter
 import com.app.guardian.ui.signup.adapter.SpecializationAdapter
+import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.gms.location.*
@@ -49,6 +50,7 @@ import java.util.*
 class SignupScreen : BaseActivity(), View.OnClickListener {
     private val mViewModel: AuthenticationViewModel by viewModel()
     private val authViewModel: AuthenticationViewModel by viewModel()
+    var DEVICE_TOKEN = SharedPreferenceManager.getString(ApiConstant.EXTRAS_DEVICETOKEN, "")
 
     lateinit var mBinding: ActivitySignupScreenBinding
     var imageAdapter: ImageAdapter? = null
@@ -1106,7 +1108,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 mBinding.edtVehicalNum.text?.trim().toString(),
                 profile_img,
                 images,
-                "DEVICE@123",
+                DEVICE_TOKEN.toString(),
                 firebaseUUID
             )
         } else {
