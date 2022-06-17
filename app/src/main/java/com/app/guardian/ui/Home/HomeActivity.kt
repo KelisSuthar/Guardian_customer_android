@@ -9,14 +9,14 @@ import android.location.Geocoder
 import android.location.LocationManager
 import android.os.Looper
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import com.app.guardian.R
-import com.app.guardian.common.AppConstants
-import com.app.guardian.common.ReplaceFragment
-import com.app.guardian.common.ReusedMethod
-import com.app.guardian.common.SharedPreferenceManager
+import com.app.guardian.common.*
 import com.app.guardian.common.extentions.checkLoationPermission
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
@@ -42,11 +42,14 @@ import com.app.guardian.ui.chatting.ChattingFragment
 import com.google.android.gms.location.*
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
 
-class HomeActivity : BaseActivity(), View.OnClickListener {
+class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegration
+{
     lateinit var mBinding: ActivityHomeBinding
     private val authViewModel: AuthenticationViewModel by viewModel()
 
@@ -56,6 +59,10 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
     private var mFusedLocationClient: FusedLocationProviderClient? = null
     private var locationRequest: LocationRequest? = null
     private var locationCallback: LocationCallback? = null
+
+    var main_layoutBageCounter: RelativeLayout? = null
+    private var notificationBadge: View? = null
+    var txtBagecount: TextView? = null
 
     override fun getResource(): Int {
         ReusedMethod.updateStatusBarColor(this, R.color.colorPrimaryDark, 4)
@@ -143,6 +150,31 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
 
 
         headerTextVisible(resources.getString(R.string.seek_legal_advice), false, true)
+
+        applybadgeview()
+    }
+
+    //todo : other function
+    //use for notification badge counter display ( only sendbird chat notification get in this fun )
+    fun applybadgeview() {
+        try {
+            var menuView : BottomNavigationMenuView? = null
+            var itemView : BottomNavigationItemView?= null
+            menuView = mBinding.bottomNavigationUser.getChildAt(0) as BottomNavigationMenuView
+            itemView= menuView.getChildAt(4) as BottomNavigationItemView
+
+            Log.e("menuItem","Update menu item : $menuView   :  $itemView")
+            notificationBadge = LayoutInflater.from(this).inflate(R.layout.item_notification_layout, menuView, false)
+            itemView.addView(notificationBadge)
+
+            main_layoutBageCounter = notificationBadge?.findViewById(R.id.ly_badge_counter)
+            txtBagecount = notificationBadge?.findViewById(R.id.txt_badge_count)
+
+//            main_layoutBageCounter?.visibility=View.INVISIBLE
+//            txtBagecount?.visibility=View.INVISIBLE
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     fun historyPageOpen() {
@@ -428,6 +460,14 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
         overridePendingTransition(R.anim.rightto, R.anim.left)
         finish()
 
+    }
+
+    override fun onVisibleBageCounterCounter(i: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onHideBadgeCounter() {
+        TODO("Not yet implemented")
     }
 
 

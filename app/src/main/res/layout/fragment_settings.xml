@@ -215,15 +215,60 @@
                         android:background="@color/lightBlue"
                         app:layout_constraintTop_toBottomOf="@id/imgAbout" />
 
-                    <ImageView
+                    <RelativeLayout
                         android:id="@+id/imgNotification"
-                        android:layout_width="@dimen/_17sdp"
-                        android:layout_height="@dimen/_17sdp"
-                        android:layout_marginStart="@dimen/_20sdp"
-                        android:layout_marginTop="@dimen/_20sdp"
-                        android:src="@drawable/ic_bell"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/view4" />
+                        app:layout_constraintTop_toBottomOf="@id/view4"
+                        app:layout_constraintBottom_toTopOf="@+id/view5"
+                        >
+
+                        <ImageView
+                            android:id="@+id/ivNot"
+                            android:layout_width="@dimen/_17sdp"
+                            android:layout_height="@dimen/_17sdp"
+                            android:layout_centerInParent="true"
+                            android:layout_marginStart="@dimen/_20sdp"
+                            android:layout_marginTop="@dimen/_20sdp"
+                            android:src="@drawable/ic_bell"
+                            android:visibility="visible" />
+
+                        <RelativeLayout
+                            android:id="@+id/lyNotificationCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bage_rect_background"
+                            android:gravity="center"
+
+                            >
+
+                            <TextView
+                                android:id="@+id/txt_badge_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/lora_semibold"
+                                android:gravity="center_horizontal|center_vertical"
+                                android:padding="@dimen/_2sdp"
+                                android:text="114"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_7ssp" />
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+
+
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/imgNotification"-->
+<!--                        android:layout_width="@dimen/_17sdp"-->
+<!--                        android:layout_height="@dimen/_17sdp"-->
+<!--                        android:layout_marginStart="@dimen/_20sdp"-->
+<!--                        android:layout_marginTop="@dimen/_20sdp"-->
+<!--                        android:src="@drawable/ic_bell"-->
+<!--                        android:visibility="gone"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toBottomOf="@id/view4" />-->
 
                     <TextView
                         android:id="@+id/tvNotification"
@@ -235,7 +280,6 @@
                         android:text="@string/notification"
                         android:textColor="@color/lightblack"
                         android:textSize="@dimen/_14ssp"
-
                         app:layout_constraintBottom_toBottomOf="@id/imgNotification"
                         app:layout_constraintStart_toEndOf="@id/imgNotification"
                         app:layout_constraintTop_toTopOf="@id/imgNotification" />
