@@ -44,6 +44,9 @@ import com.google.android.gms.location.*
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
@@ -464,7 +467,8 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
         val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
         val btnImmediateJoin: Button = dialog.findViewById(R.id.btnImmediateJoin)
         val btnRequestSend: Button = dialog.findViewById(R.id.btnRequestSend)
-
+        txtDate.text = SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().time)
+        txtTime.text = SimpleDateFormat("hh:mm a").format(Calendar.getInstance().time)
         cvScheduleDate.setOnClickListener {
             ReusedMethod.selectDate(requireActivity(), txtDate)
         }

@@ -18,6 +18,7 @@ import com.app.guardian.databinding.FragmentVirtualWitnessBinding
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.google.android.material.card.MaterialCardView
+import java.text.SimpleDateFormat
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -30,6 +31,7 @@ import java.util.*
  */
 class VirtualWitnessFragment(val headder: String? = "") : BaseFragment(), View.OnClickListener {
     private lateinit var mBinding: FragmentVirtualWitnessBinding
+
     override fun getInflateResource(): Int {
         return R.layout.fragment_virtual_witness
     }
@@ -84,6 +86,8 @@ class VirtualWitnessFragment(val headder: String? = "") : BaseFragment(), View.O
     }
 
     private fun callScedualDialog() {
+
+
         val dialog = Dialog(
             requireActivity(),
             com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
@@ -101,8 +105,11 @@ class VirtualWitnessFragment(val headder: String? = "") : BaseFragment(), View.O
         val btnImmediateJoin: Button = dialog.findViewById(R.id.btnImmediateJoin)
         val btnRequestSend: Button = dialog.findViewById(R.id.btnRequestSend)
 
+        txtDate.text = SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().time)
+        txtTime.text = SimpleDateFormat("hh:mm a").format(Calendar.getInstance().time)
+
         cvScheduleDate.setOnClickListener {
-            selectDate(requireActivity(),txtDate)
+            selectDate(requireActivity(), txtDate)
         }
 
         ivClose.setOnClickListener {
@@ -125,14 +132,18 @@ class VirtualWitnessFragment(val headder: String? = "") : BaseFragment(), View.O
                     resources.getString(R.string.virtual_witness)
                 )
             } else {
-                callConformationDialog(requireActivity(),txtDate.text.toString(), txtTime.text.toString(), headder)
+                callConformationDialog(
+                    requireActivity(),
+                    txtDate.text.toString(),
+                    txtTime.text.toString(),
+                    headder
+                )
             }
 
         }
 
         dialog.show()
     }
-
 
 
 //

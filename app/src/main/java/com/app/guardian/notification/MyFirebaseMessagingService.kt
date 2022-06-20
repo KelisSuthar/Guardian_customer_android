@@ -37,8 +37,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         Log.e("FireBase", remoteMessage.notification!!.title.toString())
         var getDataSize = remoteMessage.data.size
-        HomeActivity.bage_counter_notification= HomeActivity.bage_counter_notification+1
-        Log.e("bage counter","Bage Counter count :"+ HomeActivity.bage_counter_notification.toString())
+        HomeActivity.bage_counter_notification = HomeActivity.bage_counter_notification + 1
+        Log.e(
+            "bage counter",
+            "Bage Counter count :" + HomeActivity.bage_counter_notification.toString()
+        )
         triggerBroadcastToActivity(this, HomeActivity.bage_counter_notification)
 
         sendNotification(data, remoteMessage)
@@ -69,7 +72,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     @SuppressLint("WrongConstant", "InvalidWakeLockTag", "RemoteViewLayout")
     private fun sendNotification(data: JSONObject, remoteMessage: RemoteMessage) {
-
+        Log.i("FIREBASE_DATA", data.toString())
 
 //
 //        val pendingIntent = PendingIntent.getActivity(
@@ -105,7 +108,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setAutoCancel(true)
 //            .setFullScreenIntent(pendingIntent,true)
 
-            notificationBuilder.setCustomHeadsUpContentView(notificationLayout)
+        notificationBuilder.setCustomHeadsUpContentView(notificationLayout)
 
 //        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
@@ -172,7 +175,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private fun triggerBroadcastToActivity(context: Context, datavalue: Int) {
         val intent = Intent(HomeActivity.intentAction)
         intent.putExtra("data", datavalue)
-        intent.putExtra("code","000")
+        intent.putExtra("code", "000")
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
     }
 }

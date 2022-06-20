@@ -749,30 +749,30 @@ class ReusedMethod {
                     val formattedTime: String = when {
                         hourOfDay == 0 -> {
                             if (minute < 10) {
-                                "${hourOfDay + 12}:0${minute} am"
+                                "${hourOfDay + 12}:0${minute} AM"
                             } else {
-                                "${hourOfDay + 12}:${minute} am"
+                                "${hourOfDay + 12}:${minute} AM"
                             }
                         }
                         hourOfDay > 12 -> {
                             if (minute < 10) {
-                                "${hourOfDay - 12}:0${minute} pm"
+                                "${hourOfDay - 12}:0${minute} PM"
                             } else {
-                                "${hourOfDay - 12}:${minute} pm"
+                                "${hourOfDay - 12}:${minute} PM"
                             }
                         }
                         hourOfDay == 12 -> {
                             if (minute < 10) {
-                                "${hourOfDay}:0${minute} pm"
+                                "${hourOfDay}:0${minute} PM"
                             } else {
-                                "${hourOfDay}:${minute} pm"
+                                "${hourOfDay}:${minute} PM"
                             }
                         }
                         else -> {
                             if (minute < 10) {
-                                "${hourOfDay}:${minute} am"
+                                "${hourOfDay}:${minute} AM"
                             } else {
-                                "${hourOfDay}:${minute} am"
+                                "${hourOfDay}:${minute} AM"
                             }
                         }
                     }

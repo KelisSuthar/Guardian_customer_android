@@ -91,7 +91,7 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
                     strLawyerName!!,
                     strProfilePic!!,
                     AppConstants.APP_ROLE_LAWYER,
-
+                    lastSeen
                 ),
                 true,
                 LawyerProfileFragment::class.java.name,

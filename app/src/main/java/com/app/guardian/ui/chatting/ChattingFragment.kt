@@ -94,25 +94,38 @@ class ChattingFragment(
 
     @SuppressLint("SimpleDateFormat")
     private fun lastSeenChecker() {
+        Log.i("THIS_APP", "LAST_SEEN_DATE: " + lastSeen.toString())
 
         if (lastSeen != "") {
             var days = 0
             var hrs = 0
             var min = 0
-            val simpleDateFormat = SimpleDateFormat("hh:mm a")
-            val current_date = getCurrentDate()
-            val date2 :Date = simpleDateFormat.parse(current_date)
 
-            val date1: Date = simpleDateFormat.parse(lastSeen)
+            val date2: Date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(getCurrentDate())
+            val date1: Date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(lastSeen.toString())
             val difference: Long = date2.time - date1.time
 
+            days = ((difference / (1000 * 60 * 60 * 24)).toInt());
+            hrs = (((difference - (1000 * 60 * 60 * 24 * days)) / (1000 * 60 * 60)).toInt());
+            min =
+                ((difference - (1000 * 60 * 60 * 24 * days) - (1000 * 60 * 60 * hrs)) / (1000 * 60)).toInt();
 
-            days =  ((difference / (1000*60*60*24)).toInt());
-            hrs =  (((difference - (1000*60*60*24*days)) / (1000*60*60)).toInt());
-            min = ((difference - (1000*60*60*24*days) - (1000*60*60*hrs)) / (1000*60)).toInt();
-            Log.i("THIS_APP","DAY:"+days)
-            Log.i("THIS_APP","HRS:"+hrs)
-            Log.i("THIS_APP","MIN:"+min)
+            if (days == 0) {
+                if (hrs == 0) {
+                    mBinding.txtLastSeen.text = "Active $min Min Ago"
+                } else if (hrs >= 1) {
+                    mBinding.txtLastSeen.text = "Active $hrs Hrs Ago"
+                }
+            } else if (days == 1) {
+
+                mBinding.txtLastSeen.text = "Active 1 Day Ago"
+
+            } else if (days > 1) {
+
+                mBinding.txtLastSeen.text = "Active " +
+                        SimpleDateFormat("yyyy-MM-dd").format(date1)
+                            .toString()
+            }
         }
     }
 
