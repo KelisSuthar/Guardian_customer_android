@@ -13,6 +13,8 @@ import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.Login.LoginActivity
+import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
 import com.app.guardian.utils.ApiConstant
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -71,13 +73,34 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private fun sendNotification(data: JSONObject, remoteMessage: RemoteMessage) {
         Log.i("FIREBASE_DATA", data.toString())
 
-        intent =
-            Intent(this, HomeActivity::class.java).putExtra(
-                AppConstants.IS_NOTIFICATION, true
-            ).putExtra(
-                AppConstants.EXTRA_NOTIFICATION_DATA, data.getString("type")
+        if (!SharedPreferenceManager.getBoolean(AppConstants.IS_LOGIN, false)) {
+
+            startActivity(
+                Intent(
+                    this,
+
+                    LoginActivity::class.java
+                )
             )
-        startActivity(intent)
+        } else if (!SharedPreferenceManager.getBoolean(AppConstants.IS_SUBSCRIBE, false)) {
+            startActivity(
+                Intent(
+                    this,
+
+                    SubScriptionPlanScreen::class.java
+                )
+            )
+        } else {
+            intent =
+                Intent(this, HomeActivity::class.java).putExtra(
+                    AppConstants.IS_NOTIFICATION, true
+                ).putExtra(
+                    AppConstants.EXTRA_NOTIFICATION_DATA, data.getString("type")
+                )
+            startActivity(intent)
+        }
+
+
 
 
         val channelId = getString(com.app.guardian.R.string.app_name)
