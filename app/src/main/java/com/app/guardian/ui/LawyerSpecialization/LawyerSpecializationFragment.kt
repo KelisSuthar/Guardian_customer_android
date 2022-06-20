@@ -377,7 +377,7 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
             context.resources.displayMetrics
         ).toInt()
         chip.setChipBackgroundColorResource(R.color.chip_unselector)
-        chip.setTextColor(ContextCompat.getColor(context, R.color.black))
+        chip.setTextColor(ContextCompat.getColor(context, R.color.txt_dark))
         chip.isCloseIconVisible = false
         chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
         chip.text = text
@@ -395,7 +395,7 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
 
             } else {
                 chip.setChipBackgroundColorResource(R.color.chip_unselector)
-                chip.setTextColor(ContextCompat.getColor(context, R.color.black))
+                chip.setTextColor(ContextCompat.getColor(context, R.color.txt_dark))
                 chip.isChecked = false
 
             }

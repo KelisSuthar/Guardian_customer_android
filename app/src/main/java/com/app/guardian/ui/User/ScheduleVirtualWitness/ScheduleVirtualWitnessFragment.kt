@@ -56,6 +56,7 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
     var bannerArray = ArrayList<BannerCollection>()
     var bannerAdsPager: BannerAdsPager? = null
     var isMultiple: Boolean = false
+    var isStopped: Boolean = false
     var current_add = ""
     private var locationManager: LocationManager? = null
     private var mFusedLocationClient: FusedLocationProviderClient? = null
@@ -610,28 +611,35 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
                         return
                     }
                     for (location in p0.locations) {
-                        if (location != null) {
-                            current_add =
-                                getAddress(
-                                    requireContext(),
-                                    location.latitude,
-                                    location.longitude
-                                )[0].featureName + " ," + getAddress(
-                                    requireContext(),
-                                    location.latitude,
-                                    location.longitude
-                                )[0].locality
-                            Log.i("THIS_APP", current_add)
+                        if (!isStopped) {
+                            if (location != null) {
+                                current_add =
+                                    getAddress(
+                                        requireContext(),
+                                        location.latitude,
+                                        location.longitude
+                                    )[0].featureName + " ," + getAddress(
+                                        requireContext(),
+                                        location.latitude,
+                                        location.longitude
+                                    )[0].locality
+                                Log.i("THIS_APP", current_add)
 
 
-                            if (mFusedLocationClient != null) {
-                                mFusedLocationClient?.removeLocationUpdates(locationCallback!!)
+                                if (mFusedLocationClient != null) {
+                                    mFusedLocationClient?.removeLocationUpdates(locationCallback!!)
+                                }
                             }
                         }
                     }
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        isStopped = true
     }
 
     override fun onRequestPermissionsResult(

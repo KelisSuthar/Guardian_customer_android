@@ -397,7 +397,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
             context.resources.displayMetrics
         ).toInt()
         chip.setChipBackgroundColorResource(R.color.chip_unselector)
-        chip.setTextColor(ContextCompat.getColor(context, R.color.black))
+        chip.setTextColor(ContextCompat.getColor(context, R.color.txt_dark))
         chip.isCloseIconVisible = false
         chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
         chip.text = text
@@ -415,7 +415,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
 
             } else {
                 chip.setChipBackgroundColorResource(R.color.chip_unselector)
-                chip.setTextColor(ContextCompat.getColor(context, R.color.black))
+                chip.setTextColor(ContextCompat.getColor(context, R.color.txt_dark))
                 chip.isChecked = false
 
             }
