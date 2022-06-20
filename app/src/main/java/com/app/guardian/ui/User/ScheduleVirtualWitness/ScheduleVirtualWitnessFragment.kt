@@ -467,7 +467,7 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
         val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
         val btnImmediateJoin: Button = dialog.findViewById(R.id.btnImmediateJoin)
         val btnRequestSend: Button = dialog.findViewById(R.id.btnRequestSend)
-        txtDate.text = SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().time)
+        txtDate.text = SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().time)
         txtTime.text = SimpleDateFormat("hh:mm a").format(Calendar.getInstance().time)
         cvScheduleDate.setOnClickListener {
             ReusedMethod.selectDate(requireActivity(), txtDate)

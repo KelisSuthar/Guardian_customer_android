@@ -54,14 +54,15 @@ industry's standard dummy text ever since the 1500s,
 when an unknown printer took a galley of type and
 scrambled it to make a type specimen book. It has
 survived only five centuries, but also the electronic
-typesetting, remaining essentially unchanged. \n\n Lorem Ipsum is simply dummy text of the printing
+typesetting, remaining essentially unchanged. \n\nLorem Ipsum is simply dummy text of the printing
 and typesetting industry. Lorem Ipsum has been the
 industry's standard dummy text ever since the 1500s,
 when an unknown printer took a galley of type and
 scrambled it to make a type specimen book. It has
 survived only five centuries, but also the electronic
 typesetting, remaining essentially unchanged."
-                android:textColor="@color/black"
+                android:textColor="@color/txt_dark"
+                android:textSize="@dimen/_12ssp"
                 app:layout_constraintTop_toBottomOf="@id/btnRequest" />
 
 
