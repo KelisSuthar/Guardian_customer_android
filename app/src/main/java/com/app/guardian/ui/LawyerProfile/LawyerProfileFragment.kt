@@ -78,7 +78,7 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
             strLawyerName?.let {
                 ReusedMethod.displayLawyerContactDetails(
                     requireActivity(),
-                    it, strEmail, strPhoneNumber, ""
+                    it, strEmail, strPhoneNumber, strProfilePic
                 )
             }
         }
@@ -122,9 +122,14 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
                     it?.data?.let {
                         mBinding.tvLawyerName.text = it.full_name
                         mBinding.tvSpecialization.text = it.specialization
-                        mBinding.txtSpecializationInfo.text =
-                            "Criminal Lawyer\t\t\t" + it.years_of_experience + "- year Experience"
-                        mBinding.txtContactInfo.text = it.email
+                        if (it.years_of_experience!!.toInt() > 1) {
+                            mBinding.txtSpecializationInfo.text =
+                                "Criminal Lawyer\t\t\t" + it.years_of_experience + "- years Experience"
+                        } else {
+                            mBinding.txtSpecializationInfo.text =
+                                "Criminal Lawyer\t\t\t" + it.years_of_experience + "- year Experience"
+                        }
+                        mBinding.txtContactInfo.text = "+" + it.phone
                         strLawyerName = it.full_name
                         strProfilePic = it.profile_avatar
                         lastSeen = it.last_seen
