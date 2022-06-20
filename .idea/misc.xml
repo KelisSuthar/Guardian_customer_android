@@ -50,6 +50,8 @@
         <entry key="app/src/main/res/drawable/ic_know_rights.xml" value="0.111" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2135" />
         <entry key="app/src/main/res/drawable/ic_mail.xml" value="0.187" />
+        <entry key="app/src/main/res/drawable/ic_map_pin_photoradar.xml" value="0.19" />
+        <entry key="app/src/main/res/drawable/ic_map_pin_roadblock.xml" value="0.19" />
         <entry key="app/src/main/res/drawable/ic_password.xml" value="0.2685" />
         <entry key="app/src/main/res/drawable/ic_radio_btn_selected.xml" value="0.2135" />
         <entry key="app/src/main/res/drawable/ic_record.xml" value="0.184" />
@@ -88,6 +90,8 @@
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.20260416666666667" />
         <entry key="app/src/main/res/layout/activity_sub_scription_plan_screen.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_term_and_conditions.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/activity_video_player.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_virtual_witness.xml" value="0.30867892261650276" />
         <entry key="app/src/main/res/layout/banner_row_layout.xml" value="0.22" />
         <entry key="app/src/main/res/layout/banner_row_layout_2.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/chat_layout.xml" value="0.33" />
@@ -98,12 +102,14 @@
         <entry key="app/src/main/res/layout/dialig_filter.xml" value="0.3039257070493879" />
         <entry key="app/src/main/res/layout/dialig_layout.xml" value="0.25" />
         <entry key="app/src/main/res/layout/dialog_filter.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/dialog_do_you_need_mediator.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/dialog_filter.xml" value="0.25" />
         <entry key="app/src/main/res/layout/dialog_lawyer_dial_contact.xml" value="0.30867892261650276" />
         <entry key="app/src/main/res/layout/dialog_layout.xml" value="1.026639344262295" />
         <entry key="app/src/main/res/layout/dialog_specializatio_list.xml" value="0.3039257070493879" />
         <entry key="app/src/main/res/layout/fragment_add_banner.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_add_seek_legal_advice.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_chatting.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_chatting.xml" value="0.16" />
         <entry key="app/src/main/res/layout/fragment_contact_support.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/fragment_contacted_history.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_contected_history.xml" value="0.25" />
@@ -114,19 +120,23 @@
         <entry key="app/src/main/res/layout/fragment_lawyer_profile.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_live_virtual_vitness_mediator.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/fragment_live_virtual_vitness_user.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/fragment_live_virtual_vitness_user.xml" value="0.30272108843537415" />
         <entry key="app/src/main/res/layout/fragment_mediator_home.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_my_videos.xml" value="0.3047699451245251" />
         <entry key="app/src/main/res/layout/fragment_notification.xml" value="0.3047699451245251" />
         <entry key="app/src/main/res/layout/fragment_radar.xml" value="0.12" />
+        <entry key="app/src/main/res/layout/fragment_radar.xml" value="0.47406434668417596" />
         <entry key="app/src/main/res/layout/fragment_radarfragment.xml" value="0.3047699451245251" />
         <entry key="app/src/main/res/layout/fragment_record_police_interaction.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_record_police_interaction_2.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_schedule_virtual_witness.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/layout/fragment_schedule_virtual_witness.xml" value="0.2" />
         <entry key="app/src/main/res/layout/fragment_seek_legal_advice_list.xml" value="0.2" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.30833333333333335" />
         <entry key="app/src/main/res/layout/fragment_support_group_list.xml" value="0.30867892261650276" />
         <entry key="app/src/main/res/layout/fragment_user_home.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_virtual_witness.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/headder_layout.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/home_info_dialog_layout.xml" value="0.5" />
         <entry key="app/src/main/res/layout/image_layout.xml" value="0.75" />
         <entry key="app/src/main/res/layout/item_notification_layout.xml" value="0.8564773559570313" />
         <entry key="app/src/main/res/layout/know_right_dialog.xml" value="0.14" />
@@ -143,6 +153,7 @@
         <entry key="app/src/main/res/layout/row_moderator_contact.xml" value="0.3047699451245251" />
         <entry key="app/src/main/res/layout/row_seek_legal_advice.xml" value="0.22" />
         <entry key="app/src/main/res/layout/row_support_group.xml" value="0.3047699451245251" />
+        <entry key="app/src/main/res/layout/row_videos_layout.xml" value="0.30867892261650276" />
         <entry key="app/src/main/res/layout/specializatio_list_layout.xml" value="0.3113994439295644" />
         <entry key="app/src/main/res/layout/subcription_list_layout.xml" value="0.1" />
         <entry key="app/src/main/res/layout/subscription_list_layout.xml" value="0.33" />
@@ -151,9 +162,12 @@
         <entry key="app/src/main/res/layout/top_corner_blue_back.xml" value="0.31209918768704575" />
         <entry key="app/src/main/res/layout/txt_header_chat_header_row.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/virtual_witness_request_dialog.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/virtual_witness_request_confirmation_dialog.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/virtual_witness_request_dialog.xml" value="0.37791932059447986" />
         <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2135" />
         <entry key="app/src/main/res/xml/filter_chips.xml" value="0.30867892261650276" />
+        <entry key="app/src/main/res/xml/provider_paths.xml" value="0.10816588285592134" />
       </map>
     </option>
   </component>

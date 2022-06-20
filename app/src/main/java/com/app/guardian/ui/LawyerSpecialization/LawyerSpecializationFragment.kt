@@ -377,6 +377,7 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
             context.resources.displayMetrics
         ).toInt()
         chip.setChipBackgroundColorResource(R.color.chip_unselector)
+        chip.typeface = resources.getFont(R.font.lora_regular)
         chip.setTextColor(ContextCompat.getColor(context, R.color.txt_dark))
         chip.isCloseIconVisible = false
         chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
