@@ -107,7 +107,7 @@
                             android:layoutDirection="ltr"
                             android:text="@string/know_your_basic_rights"
                             android:textAlignment="center"
-                            android:textColor="@color/black"
+                            android:textColor="@color/blue_white_color_selector"
                             android:textSize="@dimen/_12ssp"
                             tools:ignore="RtlSymmetry" />
 
@@ -144,7 +144,7 @@
                             android:layoutDirection="ltr"
                             android:text="@string/live_virtual_witness_mediator"
                             android:textAlignment="center"
-                            android:textColor="@color/black"
+                            android:textColor="@color/blue_white_color_selector"
                             android:textSize="@dimen/_12ssp"
                             tools:ignore="RtlSymmetry" />
                     </RelativeLayout>

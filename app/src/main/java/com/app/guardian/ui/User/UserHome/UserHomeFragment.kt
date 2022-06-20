@@ -6,10 +6,12 @@ import android.net.Uri
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.ReusedMethod.Companion.showSubscriptionDialog
 import com.app.guardian.common.ReusedMethod.Companion.viewPagerScroll
+import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentUserHomeBinding
@@ -41,7 +43,6 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
 
     override fun initView() {
         mBinding = getBinding()
-        changeLayout(0)
         setAdapter()
         callApi()
         (activity as HomeActivity).bottomTabVisibility(true)
@@ -82,10 +83,22 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
+
         mBinding.noInternetUserHomeFrag.llNointernet.gone()
         mBinding.noDataUserHomeFrag.gone()
         mBinding.cl.visible()
-        changeLayout(1)
+
+        changeLayout(SharedPreferenceManager.getInt(AppConstants.EXTRA_SH_USER_HOME, 1))
+        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_RECORD_POLICE_INTERACTION,0)
+        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_RECORD_POLICE_INTERACTION_2,0)
+        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_LIVE_VIRTUAL_WITNESS,0)
+        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_SCHEDUAL_VIRTUAL_WITNESS,0)
+        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_CONTACT_SUPPORT,0)
+        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_SUPPORT_GROUP_LIST,0)
+//        if(SharedPreferenceManager.getInt(AppConstants.EXTRA_SH_USER_HOME, 1) == 0)
+//        {
+//            changeLayout(1)
+//        }
     }
 
     override fun handleListener() {
@@ -106,7 +119,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
-                            showSubscriptionDialog(requireActivity(),data)
+                            showSubscriptionDialog(requireActivity(), data)
                             array.clear()
                             bannerArray.clear()
                             array.addAll(data.top5)
@@ -211,7 +224,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun changeLayout(i: Int) {
-
+        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_USER_HOME,i)
         when (i) {
             0 -> {
                 mBinding.rlRecord.setBackgroundColor(

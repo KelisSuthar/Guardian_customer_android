@@ -2,22 +2,24 @@
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
-        <ImageView
-                android:id="@+id/imgRowLawyerPicture"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
-            android:src="@drawable/profile"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/imgRowLawyerPicture"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_marginStart="10dp"
+        android:src="@mipmap/ic_launcher_foreground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/imgRowLawyerPicture"
-            android:layout_toLeftOf="@+id/imgChat"
+            android:layout_toEndOf="@+id/imgRowLawyerPicture"
+            android:layout_toStartOf="@+id/imgChat"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginHorizontal="@dimen/_10sdp"
             android:orientation="vertical"
@@ -25,6 +27,7 @@
             android:layout_centerVertical="true">
 
             <TextView
+                android:id="@+id/txtNotificationTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Notification"
@@ -33,6 +36,7 @@
                 style="@style/TextAppearance.Compat.Notification.Title"
                 />
             <TextView
+                android:id="@+id/txtNotificationBody"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -43,16 +47,17 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/imgChat"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
-            android:src="@drawable/ic_chat"
-                android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/imgChat"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_chat"
+        android:layout_marginRight="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     </RelativeLayout>

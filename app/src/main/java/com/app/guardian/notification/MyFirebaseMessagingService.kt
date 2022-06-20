@@ -49,13 +49,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     fun sendBroadcastData(data: JSONObject, remoteMessage: RemoteMessage) {
-        if (data.length() != 0) {
-            title = data.getString("title")
-            body = data.optString("body")
-        } else {
-            body = remoteMessage.notification?.body
-            title = remoteMessage.notification?.title
-        }
+
+        body = remoteMessage.notification?.body
+        title = remoteMessage.notification?.title
+
         val sound = data.optString("sound")
         val color = data.optString("color")
         val type = data.optString("type")
@@ -74,37 +71,44 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private fun sendNotification(data: JSONObject, remoteMessage: RemoteMessage) {
         Log.i("FIREBASE_DATA", data.toString())
 
-//
-//        val pendingIntent = PendingIntent.getActivity(
-//            this,
-//            0 /* Request code */,
-//            intent,
-//            PendingIntent.FLAG_ONE_SHOT
-//        )
-//        body = data.optString("body")
-//        title = data.optString("title")
-        val channelId = getString(com.app.guardian.R.string.app_name)
-        //val uriObjectofYourAudioFile = Uri.parse("android.resource://" + baseContext.packageName + "/" + R.raw.ccp_afrikaans)
+        intent =
+            Intent(this, HomeActivity::class.java).putExtra(
+                AppConstants.IS_NOTIFICATION, true
+            ).putExtra(
+                AppConstants.EXTRA_NOTIFICATION_DATA, data.getString("type")
+            )
+        startActivity(intent)
 
+
+        val channelId = getString(com.app.guardian.R.string.app_name)
         val notificationLayout = RemoteViews(
             applicationContext.packageName,
             R.layout.notification_layout
         )
-
-        if (data.length() != 0) {
-            title = data.getString("title")
-            body = data.optString("body")
-        } else {
-            body = remoteMessage.notification?.body
-            title = remoteMessage.notification?.title
+        notificationLayout.setTextViewText(
+            R.id.txtNotificationTitle,
+            remoteMessage.notification!!.title
+        )
+        notificationLayout.setTextViewText(
+            R.id.txtNotificationBody,
+            remoteMessage.notification!!.body
+        )
+        if (data.optString("type") == AppConstants.EXTRA_MEDIATOR_PAYLOAD) {
+            notificationLayout.setImageViewResource(R.id.imgChat, R.drawable.ic_notification_video)
+        } else if (data.optString("type") == AppConstants.EXTRA_CHAT_MESSAGE_PAYLOAD) {
+            notificationLayout.setImageViewResource(R.id.imgChat, R.drawable.ic_notification_chat)
+        } else if (data.optString("type") == AppConstants.EXTRA_VIRTUAL_WITNESS_PAYLOAD) {
+            notificationLayout.setImageViewResource(R.id.imgChat, R.drawable.ic_notification_video)
         }
+
+
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setPriority(Notification.PRIORITY_MAX)
             .setDefaults(Notification.DEFAULT_ALL)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle(title)
-            .setContentText(body)
+            .setContentTitle(remoteMessage.notification!!.title)
+            .setContentText(remoteMessage.notification!!.body)
             .setAutoCancel(true)
 //            .setFullScreenIntent(pendingIntent,true)
 

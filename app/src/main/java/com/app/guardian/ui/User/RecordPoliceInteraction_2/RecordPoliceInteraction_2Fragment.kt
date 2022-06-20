@@ -6,8 +6,10 @@ import android.net.Uri
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.databinding.FragmentRecordPoliceInteraction2Binding
 import com.app.guardian.model.HomeBanners.BannerCollection
 import com.app.guardian.model.viewModels.CommonScreensViewModel
@@ -51,10 +53,11 @@ class RecordPoliceInteraction_2Fragment : BaseFragment(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
 
-        changeLayout(0)
+        changeLayout(SharedPreferenceManager.getInt(AppConstants.EXTRA_SH_RECORD_POLICE_INTERACTION_2,0))
     }
 
     private fun changeLayout(i: Int) {
+        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_RECORD_POLICE_INTERACTION_2,i)
         when (i) {
             0 -> {
                 mBinding.rlKnowBasicRight.setBackgroundColor(

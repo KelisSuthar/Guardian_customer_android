@@ -96,7 +96,7 @@ class ChattingFragment(
     private fun lastSeenChecker() {
         Log.i("THIS_APP", "LAST_SEEN_DATE: " + lastSeen.toString())
 
-        if (lastSeen != "") {
+        if (lastSeen != "" && lastSeen != "null" && lastSeen != null) {
             var days = 0
             var hrs = 0
             var min = 0
@@ -358,8 +358,6 @@ class ChattingFragment(
     private fun CallSendMessageAPI() {
         if (ReusedMethod.isNetworkConnected(requireActivity())) {
             if (!TextUtils.isEmpty(mBinding.txtMessage.text?.trim().toString())) {
-
-
                 mViewModel.sendChatMessage(
                     true,
                     context as BaseActivity,

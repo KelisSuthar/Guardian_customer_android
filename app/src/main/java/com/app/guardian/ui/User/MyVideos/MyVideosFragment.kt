@@ -2,7 +2,6 @@ package com.app.guardian.ui.User.MyVideos
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
@@ -10,7 +9,6 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.widget.VideoView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -28,7 +26,6 @@ import com.app.guardian.databinding.FragmentMyVideosBinding
 import com.app.guardian.model.Video.VideoResp
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
-import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.User.MyVideos.adapter.MyVideoListAdapter
 import com.app.guardian.ui.VideoPlayer.VideoPlayerActivity
 import java.io.File
@@ -45,6 +42,7 @@ import java.io.File
 class MyVideosFragment : BaseFragment(), View.OnClickListener {
     var myVideoListAdapter: MyVideoListAdapter? = null
     lateinit var mBinding: FragmentMyVideosBinding
+    var isShow = false
     var arrayList = ArrayList<VideoResp>()
     override fun getInflateResource(): Int {
         return R.layout.fragment_my_videos
@@ -65,10 +63,12 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                 mBinding.clOfflineVideos.visible()
                 mBinding.tvUploadVideos.gone()
                 mBinding.ivVideo.gone()
+                isShow = false
             } else {
                 mBinding.clOfflineVideos.gone()
                 mBinding.tvUploadVideos.visible()
                 mBinding.ivVideo.visible()
+                isShow = true
             }
 
         }
@@ -116,16 +116,16 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
             do {
                 arrayList.add(
                     VideoResp(
-                        videocursor!!.getString(videocursor.getColumnIndex(MediaStore.Video.Media._ID))
+                        videocursor.getString(videocursor.getColumnIndex(MediaStore.Video.Media._ID))
                             .toInt(),
-                        videocursor!!.getString(videocursor.getColumnIndex(MediaStore.Video.Media.TITLE))
+                        videocursor.getString(videocursor.getColumnIndex(MediaStore.Video.Media.TITLE))
                             .toString(),
-                        videocursor!!.getString(videocursor.getColumnIndex(MediaStore.Video.Media.DATA))
+                        videocursor.getString(videocursor.getColumnIndex(MediaStore.Video.Media.DATA))
                             .toString()
                     )
 
                 )
-            } while (videocursor!!.moveToNext())
+            } while (videocursor.moveToNext())
         }
         Log.i("THIS_STRING", arrayList.toString())
         myVideoListAdapter?.updateAll(arrayList)
@@ -147,19 +147,22 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
 
     private fun setAdapter() {
         myVideoListAdapter =
-            MyVideoListAdapter(requireContext(), object : MyVideoListAdapter.onItemClicklisteners {
-                override fun onItemClick(position: Int?) {
-                    startActivity(
-                        Intent(
-                            requireActivity(),
-                            VideoPlayerActivity::class.java
-                        ).putExtra(AppConstants.EXTRA_PATH, arrayList[position!!].path)
-                    )
-                    requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
-                    Log.i("THIS_STRING", arrayList[position].title)
-                }
+            MyVideoListAdapter(
+                requireContext(),
+                isShow,
+                object : MyVideoListAdapter.onItemClicklisteners {
+                    override fun onItemClick(position: Int?) {
+                        startActivity(
+                            Intent(
+                                requireActivity(),
+                                VideoPlayerActivity::class.java
+                            ).putExtra(AppConstants.EXTRA_PATH, arrayList[position!!].path)
+                        )
+                        requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
+                        Log.i("THIS_STRING", arrayList[position].title)
+                    }
 
-            })
+                })
         mBinding.rv.adapter = myVideoListAdapter
         myVideoListAdapter!!.updateAll(arrayList)
     }
@@ -202,9 +205,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                 EXTRA_CAMERA_PERMISSION
             )
         ) {
-            val FILE_PATH: File? =
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-            ReusedMethod.displayMessage(requireActivity(), FILE_PATH.toString())
+
             val f = File(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
                 resources.getString(R.string.app_name)
@@ -212,7 +213,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
             if (!f.exists()) {
                 f.mkdirs()
             }
-            val recordFile: File = File(
+            val recordFile = File(
                 f,
                 SharedPreferenceManager.getUser()!!.user.id.toString() + "_" + System.currentTimeMillis() + ".mp4"
             )

@@ -5,8 +5,10 @@ import android.net.Uri
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.databinding.FragmentLiveVirtualVitnessUserBinding
 import com.app.guardian.model.HomeBanners.BannerCollection
@@ -35,7 +37,7 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        changeLayout(0)
+        changeLayout(SharedPreferenceManager.getInt(AppConstants.EXTRA_SH_LIVE_VIRTUAL_WITNESS,0))
     }
 
     override fun initView() {
@@ -194,6 +196,7 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun changeLayout(i: Int) {
+        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_LIVE_VIRTUAL_WITNESS,i)
         when (i) {
             0 -> {
                 mBinding.rlAccessYourRecording.setBackgroundColor(

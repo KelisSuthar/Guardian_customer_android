@@ -16,10 +16,12 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.app.guardian.R
 import com.app.guardian.common.*
+import com.app.guardian.common.SharedPreferenceManager.removeSeletionData
 import com.app.guardian.common.extentions.checkLoationPermission
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
@@ -32,6 +34,12 @@ import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.Mediator.MediatorHome.MediatorHomeFragment
 import com.app.guardian.ui.Radar.RadarFragment
+import com.app.guardian.ui.SupportGroups.SupportGroupList
+import com.app.guardian.ui.User.ContactSupport.ContactSupportFragment
+import com.app.guardian.ui.User.LiveVirtualVitness.LiveVirtualVitnessUserFragment
+import com.app.guardian.ui.User.RecordPolice.RecordPoliceInteractionFragment
+import com.app.guardian.ui.User.RecordPoliceInteraction_2.RecordPoliceInteraction_2Fragment
+import com.app.guardian.ui.User.ScheduleVirtualWitness.ScheduleVirtualWitnessFragment
 import com.app.guardian.ui.User.UserHome.UserHomeFragment
 import com.app.guardian.ui.User.settings.SettingsFragment
 import com.app.guardian.ui.chatting.ChattingFragment
@@ -44,8 +52,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
 
-class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegration
-{
+class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegration {
     lateinit var mBinding: ActivityHomeBinding
     private val authViewModel: AuthenticationViewModel by viewModel()
 
@@ -61,7 +68,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
     var txtBagecount: TextView? = null
 
 
-    companion object{
+    companion object {
         var bage_counter_notification: Int = 0
         val intentAction = "com.parse.push.intent.RECEIVE"
     }
@@ -71,14 +78,13 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
 
         override fun onReceive(context: Context, intent: Intent) {
 
-            val extras  = intent.getExtras()
+            val extras = intent.getExtras()
 
-            if(extras!= null){
-                if(extras.containsKey("data")){
-                    onVisibleBageCounterCounter(extras.getInt("data") )
+            if (extras != null) {
+                if (extras.containsKey("data")) {
+                    onVisibleBageCounterCounter(extras.getInt("data"))
 
-                }
-                else if(extras.containsKey("code")){
+                } else if (extras.containsKey("code")) {
 
                 }
             }
@@ -188,20 +194,21 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
     //use for notification badge counter display ( only sendbird chat notification get in this fun )
     fun applybadgeview() {
         try {
-            var menuView : BottomNavigationMenuView? = null
-            var itemView : BottomNavigationItemView?= null
+            var menuView: BottomNavigationMenuView? = null
+            var itemView: BottomNavigationItemView? = null
             menuView = mBinding.bottomNavigationUser.getChildAt(0) as BottomNavigationMenuView
-            itemView= menuView.getChildAt(4) as BottomNavigationItemView
+            itemView = menuView.getChildAt(4) as BottomNavigationItemView
 
-            Log.e("menuItem","Update menu item : $menuView   :  $itemView")
-            notificationBadge = LayoutInflater.from(this).inflate(R.layout.item_notification_layout, menuView, false)
+            Log.e("menuItem", "Update menu item : $menuView   :  $itemView")
+            notificationBadge = LayoutInflater.from(this)
+                .inflate(R.layout.item_notification_layout, menuView, false)
             itemView.addView(notificationBadge)
 
             main_layoutBageCounter = notificationBadge?.findViewById(R.id.ly_badge_counter)
             txtBagecount = notificationBadge?.findViewById(R.id.txt_badge_count)
 
-            main_layoutBageCounter?.visibility=View.INVISIBLE
-            txtBagecount?.visibility=View.INVISIBLE
+            main_layoutBageCounter?.visibility = View.INVISIBLE
+            txtBagecount?.visibility = View.INVISIBLE
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -214,9 +221,11 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
 
     override fun onResume() {
         super.onResume()
-        LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver,  IntentFilter(
-            intentAction
-        )
+        removeSeletionData()
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            mBroadcastReceiver, IntentFilter(
+                intentAction
+            )
         )
         getLatLong()
         if (checkLoationPermission(this)) {
@@ -230,6 +239,27 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
             } else {
 
                 ReusedMethod.setLocationDialog(this)
+            }
+        }
+        if(intent !=null && intent.extras !=null){
+            if(intent.getBooleanExtra(AppConstants.IS_NOTIFICATION,false))
+            {
+                if(intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA) == AppConstants.EXTRA_CHAT_MESSAGE_PAYLOAD)
+                {
+                    Log.i("NOTIFICATION_DATA",
+                        intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA)!!
+                    )
+                }else if(intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA) == AppConstants.EXTRA_MEDIATOR_PAYLOAD)
+                {
+                    Log.i("NOTIFICATION_DATA",
+                        intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA)!!
+                    )
+                }else if(intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA) == AppConstants.EXTRA_VIRTUAL_WITNESS_PAYLOAD)
+                {
+                    Log.i("NOTIFICATION_DATA",
+                        intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA)!!
+                    )
+                }
             }
         }
     }
@@ -304,6 +334,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
                 ChattingFragment().stopTimers()
             }
         }
+        selecionReset(getFragment)
         SharedPreferenceManager.clearCityState()
         val fm: FragmentManager = supportFragmentManager
         val getCurrentFragment = supportFragmentManager.fragments
@@ -352,6 +383,41 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
             }
         }
 
+    }
+
+    private fun selecionReset(fragment: Fragment?) {
+        if (fragment != null) {
+            when (fragment) {
+                is RecordPoliceInteractionFragment -> {
+                    SharedPreferenceManager.putInt(
+                        AppConstants.EXTRA_SH_RECORD_POLICE_INTERACTION,
+                        0
+                    )
+                }
+                is RecordPoliceInteraction_2Fragment -> {
+                    SharedPreferenceManager.putInt(
+                        AppConstants.EXTRA_SH_RECORD_POLICE_INTERACTION_2,
+                        0
+                    )
+                }
+                is LiveVirtualVitnessUserFragment -> {
+                    SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_LIVE_VIRTUAL_WITNESS, 0)
+                }
+                is ScheduleVirtualWitnessFragment -> {
+                    SharedPreferenceManager.putInt(
+                        AppConstants.EXTRA_SH_SCHEDUAL_VIRTUAL_WITNESS,
+                        0
+                    )
+                }
+                is ContactSupportFragment -> {
+                    SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_CONTACT_SUPPORT, 0)
+                }
+                is SupportGroupList -> {
+                    SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_SUPPORT_GROUP_LIST, 0)
+                }
+            }
+
+        }
     }
 
     fun clearFragmentBackStack() {

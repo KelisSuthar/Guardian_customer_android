@@ -6,10 +6,12 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
 import com.app.guardian.common.BaseRecyclerViewAdapter
+import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.visible
 import com.app.guardian.model.Video.VideoResp
 import com.bumptech.glide.Glide
 
-class MyVideoListAdapter(val context: Context, val listener: onItemClicklisteners) :
+class MyVideoListAdapter(val context: Context,val isShow: Boolean, val listener: onItemClicklisteners) :
     BaseRecyclerViewAdapter<VideoResp>(context) {
     override fun getViewHolder(view: View): RecyclerView.ViewHolder {
         return CustomViewHolder(view)
@@ -27,6 +29,14 @@ class MyVideoListAdapter(val context: Context, val listener: onItemClicklistener
     open inner class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var positions: Int? = 0
         var appCompatImageView = view.findViewById<AppCompatImageView>(R.id.appCompatImageView)
+        var ivClose = view.findViewById<AppCompatImageView>(R.id.ivClose)
+        init {
+            if(isShow){
+                ivClose.visible()
+            }else{
+                ivClose.gone()
+            }
+        }
         open fun bindData(data: VideoResp, position: Int) {
             positions = position
             Glide.with(context).load(data.path).placeholder(R.drawable.ic_video_placeholder)

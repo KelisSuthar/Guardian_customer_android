@@ -7,6 +7,7 @@ import android.net.Uri
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.ReusedMethod.Companion.showSubscriptionDialog
@@ -41,14 +42,13 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
 
     override fun initView() {
         mBinding = getBinding()
-        chnagelayout(0)
         (activity as HomeActivity).bottomTabVisibility(true)
-        (activity as HomeActivity).headerTextVisible("",false,false)
+        (activity as HomeActivity).headerTextVisible("", false, false)
 
         setAdapter()
         callApi()
 
-        mBinding.availabilitySwitch .setOnToggledListener { _, isOn ->
+        mBinding.availabilitySwitch.setOnToggledListener { _, isOn ->
             if (isOn) {
                 callChangeStatusAPI(0)
             } else {
@@ -94,7 +94,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding.noInternetUserHomeFrag.llNointernet.gone()
         mBinding.noDataUserHomeFrag.gone()
         mBinding.cl.visible()
-        chnagelayout(1)
+        chnagelayout(SharedPreferenceManager.getInt(AppConstants.EXTRA_SH_LAWYER_HOME, 1))
     }
 
     override fun postInit() {
@@ -120,7 +120,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
 
 
                         if (it.status) {
-                            showSubscriptionDialog(requireActivity(),data)
+                            showSubscriptionDialog(requireActivity(), data)
                             mBinding.availabilitySwitch.isOn = data.is_online == 1
                             array.clear()
                             array.addAll(data.top5)
@@ -150,11 +150,11 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                             errorObj.customMessage
                                 ?.let {
                                     if (errorObj.code == ApiConstant.API_401) {
-                                    ReusedMethod.displayMessage(requireActivity(), it)
-                                    (activity as HomeActivity).unAuthorizedNavigation()
-                                } else {
-                                    ReusedMethod.displayMessage(context as Activity, it)
-                                }
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        (activity as HomeActivity).unAuthorizedNavigation()
+                                    } else {
+                                        ReusedMethod.displayMessage(context as Activity, it)
+                                    }
                                 }
                     }
                 }
@@ -222,7 +222,10 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                 chnagelayout(3)
                 ReplaceFragment.replaceFragment(
                     requireActivity(),
-                    SeekLegalAdviceListFragment(true,SharedPreferenceManager.getUser()!!.user.id!!),
+                    SeekLegalAdviceListFragment(
+                        true,
+                        SharedPreferenceManager.getUser()!!.user.id!!
+                    ),
                     true,
                     HomeActivity::class.java.name,
                     HomeActivity::class.java.name
@@ -267,13 +270,15 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun chnagelayout(i: Int) {
+        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_LAWYER_HOME, i)
         when (i) {
-            0->{   mBinding.rlKnowRights.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.lightBlue_2
+            0 -> {
+                mBinding.rlKnowRights.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.lightBlue_2
+                    )
                 )
-            )
                 mBinding.rlAskQuestions.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
@@ -290,7 +295,12 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                 mBinding.btnAskQuestions.isChecked = false
                 mBinding.btnSeekAdv.isChecked = false
                 mBinding.btnKnowRights.buttonTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark))
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorPrimaryDark
+                        )
+                    )
                 mBinding.btnAskQuestions.buttonTintList =
                     ColorStateList.valueOf(
                         ContextCompat.getColor(

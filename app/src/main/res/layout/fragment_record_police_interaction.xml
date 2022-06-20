@@ -103,7 +103,7 @@
                         android:layoutDirection="ltr"
                         android:paddingStart="@dimen/_15sdp"
                         android:text="@string/video_and_audio"
-                        android:textColor="@color/black"
+                        android:textColor="@color/blue_white_color_selector"
                         android:textSize="@dimen/_12ssp"
                         tools:ignore="RtlSymmetry" />
 
@@ -140,7 +140,7 @@
                         android:layoutDirection="ltr"
                         android:paddingStart="@dimen/_15sdp"
                         android:text="@string/just_audio"
-                        android:textColor="@color/black"
+                        android:textColor="@color/blue_white_color_selector"
                         android:textSize="@dimen/_12ssp"
                         tools:ignore="RtlSymmetry" />
                 </RelativeLayout>

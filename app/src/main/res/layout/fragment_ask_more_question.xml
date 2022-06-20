@@ -66,9 +66,9 @@
                             android:text="@string/ask_mode_question"
                             android:textAlignment="center"
                             android:textAllCaps="false"
-                            android:textStyle="bold"
                             android:textColor="@color/colorPrimaryDark"
-                            android:textSize="@dimen/_12ssp" />
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="bold" />
                     </RelativeLayout>
                 </com.google.android.material.card.MaterialCardView>
 

@@ -61,11 +61,12 @@
                         android:layoutDirection="ltr"
                         android:text="@string/support_groups"
                         android:textAlignment="center"
-                        android:textColor="@color/black"
+                        android:textColor="@color/blue_white_color_selector"
                         android:textSize="@dimen/_12ssp"
                         tools:ignore="RtlSymmetry" />
 
                     <TextView
+                        android:id="@+id/txtSupportGroups"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/rbSupportGroups"
@@ -108,9 +109,9 @@
                         android:drawablePadding="@dimen/_15sdp"
                         android:fontFamily="@font/lora_semibold"
                         android:layoutDirection="ltr"
-                        android:textAlignment="center"
                         android:text="@string/find_a_counsellors"
-                        android:textColor="@color/black"
+                        android:textAlignment="center"
+                        android:textColor="@color/blue_white_color_selector"
                         android:textSize="@dimen/_12ssp"
                         tools:ignore="RtlSymmetry" />
                 </RelativeLayout>

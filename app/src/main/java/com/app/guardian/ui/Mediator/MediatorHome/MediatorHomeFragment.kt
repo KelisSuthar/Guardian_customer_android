@@ -96,7 +96,7 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding.noDataUserHomeFrag.gone()
         mBinding.cl.visible()
 
-        chnagelayout(1)
+        chnagelayout(SharedPreferenceManager.getInt(AppConstants.EXTRA_SH_MEDIATOR_HOME, 1))
 
 
     }
@@ -241,6 +241,7 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun chnagelayout(i: Int) {
+        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_MEDIATOR_HOME, i)
         when (i) {
             1 -> {
                 mBinding.rlKnowBasicRight.setBackgroundColor(

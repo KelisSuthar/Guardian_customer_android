@@ -128,14 +128,17 @@ object SharedPreferenceManager {
     }
 
     fun removeString(key: String) {
-        editor!!.remove(key)
+        editor!!.remove(key).commit()
     }
 
-    fun removeFilterData() {
-        removeString(AppConstants.EXTRA_TOTAL_CART_ITEM_COUNT)
-        removeString(AppConstants.EXTRA_TOTAL_CART_ITEM_COUNT)
-        removeString(AppConstants.EXTRA_JOB_TYPE)
-        removeString(AppConstants.EXTRA_CAT_ID)
+    fun removeSeletionData() {
+        removeString(AppConstants.EXTRA_SH_USER_HOME)
+        removeString(AppConstants.EXTRA_SH_MEDIATOR_HOME)
+        removeString(AppConstants.EXTRA_SH_LAWYER_HOME)
+        removeString(AppConstants.EXTRA_SH_RECORD_POLICE_INTERACTION)
+        removeString(AppConstants.EXTRA_SH_RECORD_POLICE_INTERACTION_2)
+        removeString(AppConstants.EXTRA_SH_LIVE_VIRTUAL_WITNESS)
+        removeString(AppConstants.EXTRA_SH_SCHEDUAL_VIRTUAL_WITNESS)
     }
 
 }

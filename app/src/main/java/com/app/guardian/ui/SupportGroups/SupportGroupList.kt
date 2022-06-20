@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.view.View
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentSupportGroupListBinding
@@ -74,6 +76,7 @@ class SupportGroupList(val header: String?) : BaseFragment(), View.OnClickListen
                         SupportGroupList::class.java.name,
                         SupportGroupList::class.java.name
                     );
+                    SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_SUPPORT_GROUP_LIST,array[position].id)
                 }
 
             })

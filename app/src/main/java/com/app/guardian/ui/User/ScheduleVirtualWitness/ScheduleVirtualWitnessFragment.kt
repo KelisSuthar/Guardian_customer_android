@@ -124,7 +124,7 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        changeLayout(0)
+        changeLayout(SharedPreferenceManager.getInt(AppConstants.EXTRA_SH_SCHEDUAL_VIRTUAL_WITNESS,0))
         setAdapter()
         callApi()
         getLatLong()
@@ -295,6 +295,7 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun changeLayout(i: Int) {
+        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_SCHEDUAL_VIRTUAL_WITNESS,i)
         when (i) {
             0 -> {
                 mBinding.rlScheduleDateTime.setBackgroundColor(

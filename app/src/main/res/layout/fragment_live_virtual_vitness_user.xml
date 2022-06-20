@@ -112,7 +112,7 @@
                                 android:layoutDirection="ltr"
                                 android:text="@string/access_your_recording"
                                 android:textAlignment="center"
-                                android:textColor="@color/black"
+                                android:textColor="@color/blue_white_color_selector"
                                 android:textSize="@dimen/_12ssp"
                                 tools:ignore="RtlSymmetry" />
 
@@ -149,7 +149,7 @@
                                 android:layoutDirection="ltr"
                                 android:text="@string/driving_offence_list"
                                 android:textAlignment="center"
-                                android:textColor="@color/black"
+                                android:textColor="@color/blue_white_color_selector"
                                 android:textSize="@dimen/_12ssp"
                                 tools:ignore="RtlSymmetry" />
                         </RelativeLayout>
@@ -183,7 +183,7 @@
                                 android:layoutDirection="ltr"
                                 android:text="@string/dial_a_lawyer"
                                 android:textAlignment="center"
-                                android:textColor="@color/black"
+                                android:textColor="@color/blue_white_color_selector"
                                 android:textSize="@dimen/_12ssp"
                                 tools:ignore="RtlSymmetry" />
                         </RelativeLayout>

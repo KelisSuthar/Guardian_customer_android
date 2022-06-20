@@ -6,8 +6,10 @@ import android.net.Uri
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.databinding.FragmentRecordPoliceInteractionBinding
 import com.app.guardian.model.HomeBanners.BannerCollection
@@ -48,10 +50,16 @@ class RecordPoliceInteractionFragment : BaseFragment(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
 
-        changeLayout(0)
+        changeLayout(
+            SharedPreferenceManager.getInt(
+                AppConstants.EXTRA_SH_RECORD_POLICE_INTERACTION,
+                0
+            )
+        )
     }
 
     private fun changeLayout(i: Int) {
+        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_RECORD_POLICE_INTERACTION, i)
         when (i) {
             0 -> {
                 mBinding.rlVideoAndAudio.setBackgroundColor(
@@ -212,18 +220,22 @@ class RecordPoliceInteractionFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.cvJustAudio -> {
                 changeLayout(2)
-                mBinding.cvVideoAndAudio.performClick()
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    RecordPoliceInteraction_2Fragment(),
+                    true,
+                    RecordPoliceInteractionFragment::class.java.name,
+                    RecordPoliceInteractionFragment::class.java.name
+                );
+
             }
             R.id.rlJustAudio -> {
-                changeLayout(2)
                 mBinding.cvJustAudio.performClick()
             }
             R.id.rbJustAudio -> {
-                changeLayout(1)
                 mBinding.cvJustAudio.performClick()
             }
             R.id.rbVideoAndAudio -> {
-                changeLayout(2)
                 mBinding.cvVideoAndAudio.performClick()
             }
             R.id.txtViewMore -> {

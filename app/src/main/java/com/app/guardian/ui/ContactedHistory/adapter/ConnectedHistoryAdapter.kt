@@ -119,9 +119,9 @@ class ConnectedHistoryAdapter(
             }
             txtSpecialization!!.text = array.specialization
 
-            txtDateTime!!.text = array.from_time!!.formatTimeInGMT2()
-
-
+            if (!array.from_time.isNullOrEmpty()) {
+                txtDateTime!!.text = array.from_time!!.formatTimeInGMT2()
+            }
 
             if (array.user_role == AppConstants.APP_ROLE_USER) {
                 imgRowLawyerChat!!.visible()
