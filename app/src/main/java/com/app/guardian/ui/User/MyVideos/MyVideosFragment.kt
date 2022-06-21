@@ -1,10 +1,11 @@
 package com.app.guardian.ui.User.MyVideos
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
+import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
@@ -15,7 +16,9 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
+import com.app.guardian.common.AppConstants.EXTRA_ACCESS_LOCATION_PERMISSION
 import com.app.guardian.common.AppConstants.EXTRA_CAMERA_PERMISSION
+import com.app.guardian.common.AppConstants.EXTRA_MANAGE_LOCATION_PERMISSION
 import com.app.guardian.common.AppConstants.EXTRA_READ_STORAGE_PERMISSION
 import com.app.guardian.common.AppConstants.EXTRA_WRITE_STORAGE_PERMISSION
 import com.app.guardian.common.ReusedMethod
@@ -76,6 +79,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
 
     }
 
+
     override fun onResume() {
         super.onResume()
         if (mBinding.rb1.isChecked) {
@@ -89,38 +93,71 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
             mBinding.ivVideo.visible()
         }
         setAdapter()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            checkPermissions(
+                Manifest.permission.ACCESS_MEDIA_LOCATION,
+                EXTRA_ACCESS_LOCATION_PERMISSION
+            )
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            checkPermissions(
+                Manifest.permission.MANAGE_EXTERNAL_STORAGE,
+                EXTRA_MANAGE_LOCATION_PERMISSION
+            )
+        }
         checkPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, EXTRA_READ_STORAGE_PERMISSION)
         checkPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, EXTRA_WRITE_STORAGE_PERMISSION)
+
         checkPermissions(
             Manifest.permission.CAMERA,
             EXTRA_CAMERA_PERMISSION
         )
-        getAllVideos()
+//        getAllVideos()
+
+
+        val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+            .toString() + "/" + resources.getString(R.string.app_name) + "/"
+        val f = File(path);
+        val file = f.listFiles()
+        Log.d("Files", "FileName:" + file)
+        for (element in file) {
+            Log.d("Files", "FileName:" + element.name)
+        }
+
 
     }
 
-    @SuppressLint("Recycle", "Range", "LogNotTimber")
     private fun getAllVideos() {
         arrayList.clear()
         val selection = MediaStore.Video.Media.DATA + " like?"
         val selectionArgs = arrayOf(
             "%" + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/" + resources.getString(
                 R.string.app_name
-            ) + "%"
+            ) + "/"
         )
         val videocursor: Cursor? = requireActivity().contentResolver.query(
             MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
             null, selection, selectionArgs, null
         )
+        Log.i("VIDEO_CURSOR", videocursor?.count.toString())
+        Log.i("VIDEO_CURSOR", videocursor?.columnNames?.size.toString())
+        Log.i("VIDEO_CURSOR", videocursor?.position.toString())
+        Log.i("VIDEO_CURSOR", videocursor?.columnCount.toString())
         if (videocursor != null && videocursor.moveToNext()) {
             do {
                 arrayList.add(
                     VideoResp(
-                        videocursor.getString(videocursor.getColumnIndex(MediaStore.Video.Media._ID))
+//                        videocursor.getString(videocursor.getColumnIndex(MediaStore.Video.Media._ID))
+//                            .toInt(),
+//                        videocursor.getString(videocursor.getColumnIndex(MediaStore.Video.Media.TITLE))
+//                            .toString(),
+//                        videocursor.getString(videocursor.getColumnIndex(MediaStore.Video.Media.DATA))
+//                            .toString()
+                        videocursor.getString(videocursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID))
                             .toInt(),
-                        videocursor.getString(videocursor.getColumnIndex(MediaStore.Video.Media.TITLE))
+                        videocursor.getString(videocursor.getColumnIndexOrThrow(MediaStore.Video.Media.TITLE))
                             .toString(),
-                        videocursor.getString(videocursor.getColumnIndex(MediaStore.Video.Media.DATA))
+                        videocursor.getString(videocursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA))
                             .toString()
                     )
 
@@ -204,6 +241,10 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                 Manifest.permission.CAMERA,
                 EXTRA_CAMERA_PERMISSION
             )
+            && checkPermissions(
+                Manifest.permission.ACCESS_MEDIA_LOCATION,
+                EXTRA_ACCESS_LOCATION_PERMISSION
+            )
         ) {
 
             val f = File(
@@ -238,7 +279,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == EXTRA_WRITE_STORAGE_PERMISSION) {
+        if (requestCode == EXTRA_WRITE_STORAGE_PERMISSION || requestCode == EXTRA_ACCESS_LOCATION_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 makeFolder()
             } else {
@@ -247,6 +288,4 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
             }
         }
     }
-
-
 }

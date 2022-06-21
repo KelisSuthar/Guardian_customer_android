@@ -853,7 +853,7 @@ class ReusedMethod {
             val txtTime: TextView = dialog.findViewById(R.id.txtTime)
             val txtDesc: TextView = dialog.findViewById(R.id.txtDesc)
             val txtTitle: TextView = dialog.findViewById(R.id.txtTitle)
-            val sub: AppCompatButton = dialog.findViewById(R.id.txtTitle)
+            val sub: TextView = dialog.findViewById(R.id.btnRequestSend)
 
             txtDate.text = date
             txtTime.text = time
