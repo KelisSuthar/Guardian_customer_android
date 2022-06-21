@@ -1,6 +1,8 @@
 package com.app.guardian.ui.virtualWitness
 
+import android.app.Activity
 import android.app.Dialog
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.Window
@@ -8,16 +10,25 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.ReusedMethod.Companion.callConformationDialog
 import com.app.guardian.common.ReusedMethod.Companion.selectDate
 import com.app.guardian.common.ReusedMethod.Companion.selectTime
+import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.loadWebViewData
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentVirtualWitnessBinding
+import com.app.guardian.model.viewModels.CommonScreensViewModel
+import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.utils.ApiConstant
+import com.app.guardian.utils.Config
 import com.google.android.material.card.MaterialCardView
+import com.google.gson.Gson
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -31,7 +42,7 @@ import java.util.*
  */
 class VirtualWitnessFragment(val headder: String? = "") : BaseFragment(), View.OnClickListener {
     private lateinit var mBinding: FragmentVirtualWitnessBinding
-
+    private val mViewModel: CommonScreensViewModel by viewModel()
     override fun getInflateResource(): Int {
         return R.layout.fragment_virtual_witness
     }
@@ -52,6 +63,7 @@ class VirtualWitnessFragment(val headder: String? = "") : BaseFragment(), View.O
                 true
             )
         }
+
     }
 
     override fun onResume() {
@@ -59,6 +71,23 @@ class VirtualWitnessFragment(val headder: String? = "") : BaseFragment(), View.O
         mBinding.noDataVWitness.gone()
         mBinding.noInternetVWitness.llNointernet.gone()
         mBinding.cl1.visible()
+
+        if (SharedPreferenceManager.getCMS() == null) {
+            callCMSAPI()
+        } else {
+            mBinding.webView.loadWebViewData(SharedPreferenceManager.getCMS()!!.virtual_witness_content)
+        }
+    }
+
+    private fun callCMSAPI() {
+        if (ReusedMethod.isNetworkConnected(requireActivity())) {
+            mViewModel.getCMSData(true, context as BaseActivity)
+        } else {
+            ReusedMethod.displayMessage(
+                requireActivity(),
+                resources.getString(R.string.text_error_network)
+            )
+        }
     }
 
     override fun postInit() {
@@ -71,7 +100,47 @@ class VirtualWitnessFragment(val headder: String? = "") : BaseFragment(), View.O
     }
 
     override fun initObserver() {
+        //CMS DATA RESP
+        mViewModel.getCMSResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            val gson = Gson()
+                            val json = gson.toJson(data)
+                            SharedPreferenceManager.putString(AppConstants.CMS_DETAIL, json)
+                            mBinding.webView.loadWebViewData(SharedPreferenceManager.getCMS()!!.virtual_witness_content)
+                        } else {
+                            ReusedMethod.displayMessage(
+                                requireActivity(),
+                                it.message.toString()
+                            )
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                requireActivity(),
+                                getString(R.string.text_error_network)
+                            )
 
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        (activity as HomeActivity).unAuthorizedNavigation()
+                                    } else {
+                                        ReusedMethod.displayMessage(context as Activity, it)
+                                    }
+                                }
+                    }
+                }
+            }
+        }
     }
 
     override fun onClick(v: View?) {

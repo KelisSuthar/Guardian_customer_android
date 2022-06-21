@@ -213,6 +213,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         //CMS DATA RESP
         mViewModel.getCMSResp().observe(this) { response ->
             response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {

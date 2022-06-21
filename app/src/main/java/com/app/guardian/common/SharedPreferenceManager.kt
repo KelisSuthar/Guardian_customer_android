@@ -139,6 +139,7 @@ object SharedPreferenceManager {
         removeString(AppConstants.EXTRA_SH_RECORD_POLICE_INTERACTION_2)
         removeString(AppConstants.EXTRA_SH_LIVE_VIRTUAL_WITNESS)
         removeString(AppConstants.EXTRA_SH_SCHEDUAL_VIRTUAL_WITNESS)
+        removeString(AppConstants.CMS_DETAIL)
     }
 
 }
