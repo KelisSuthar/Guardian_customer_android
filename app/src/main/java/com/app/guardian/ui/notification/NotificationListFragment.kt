@@ -1,7 +1,6 @@
 package com.app.guardian.ui.notification
 
 import android.app.Activity
-import android.util.Log
 import android.view.View
 import com.app.guardian.R
 import com.app.guardian.common.ReusedMethod
@@ -23,6 +22,7 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: UserViewModel by viewModel()
     var notificationListAdapter: NotificationListAdapter? = null
     var array = ArrayList<NotificationResp>()
+    var deleteId = -1
 
     override fun getInflateResource(): Int {
         return R.layout.fragment_notification_list
@@ -52,15 +52,22 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
         mBinding.rcyNotification.adapter = null
         notificationListAdapter = NotificationListAdapter(context as Activity, array,
             object : NotificationListAdapter.onItemClicklisteners {
-                override fun onDelectclick(selectedNotificationId: Int?) {
-                    Log.i("selectedNotificationId:", selectedNotificationId.toString())
-                    ReusedMethod.displayMessage(
-                        context as Activity,
-                        (context as Activity).resources.getString(R.string.come_soon)
-                    )
+                override fun onDelectclick(position: Int) {
+                    callDeleteAPI(array[position].id)
+                    deleteId = array[position].id!!
                 }
             })
         mBinding.rcyNotification.adapter = notificationListAdapter
+    }
+
+    private fun callDeleteAPI(id: Int?) {
+        if (ReusedMethod.isNetworkConnected(requireContext())) {
+            mViewModel.deleteNotification(true, context as BaseActivity, id!!)
+        } else {
+            mBinding.rcyNotification.gone()
+            mBinding.noDataNotification.gone()
+            mBinding.noInternetNotification.llNointernet.visible()
+        }
     }
 
     override fun postInit() {
@@ -88,6 +95,46 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                             }
                             notificationListAdapter?.notifyDataSetChanged()
                         } else {
+                            mBinding.rcyNotification.gone()
+                            mBinding.noDataNotification.visible()
+                            mBinding.noInternetNotification.llNointernet.gone()
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                context as Activity,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        (activity as HomeActivity).unAuthorizedNavigation()
+                                    } else {
+                                        ReusedMethod.displayMessage(context as Activity, it)
+                                    }
+                                }
+                    }
+                }
+            }
+        }
+//DELETE NOTIFICATION
+        mViewModel.getDeleteNotificationResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data.let { data ->
+                        if (it.status) {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                            array.removeAt(deleteId)
+                            notificationListAdapter?.notifyDataSetChanged()
+                        } else {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                             mBinding.rcyNotification.gone()
                             mBinding.noDataNotification.visible()
                             mBinding.noInternetNotification.llNointernet.gone()

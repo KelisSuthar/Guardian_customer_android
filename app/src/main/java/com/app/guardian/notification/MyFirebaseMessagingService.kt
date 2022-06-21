@@ -75,21 +75,21 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         if (!SharedPreferenceManager.getBoolean(AppConstants.IS_LOGIN, false)) {
 
-            startActivity(
+            intent =
                 Intent(
                     this,
 
                     LoginActivity::class.java
                 )
-            )
+
         } else if (!SharedPreferenceManager.getBoolean(AppConstants.IS_SUBSCRIBE, false)) {
-            startActivity(
+            intent =
                 Intent(
                     this,
 
                     SubScriptionPlanScreen::class.java
                 )
-            )
+
         } else {
             intent =
                 Intent(this, HomeActivity::class.java).putExtra(
@@ -97,13 +97,22 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 ).putExtra(
                     AppConstants.EXTRA_NOTIFICATION_DATA, data.getString("type")
                 )
-            startActivity(intent)
+
         }
+        intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent!!.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
 
 
 
 
         val channelId = getString(com.app.guardian.R.string.app_name)
+        val pendingIntent = PendingIntent.getActivity(
+            this,
+            0 /* Request code */,
+            intent,
+            PendingIntent.FLAG_ONE_SHOT
+        )
         val notificationLayout = RemoteViews(
             applicationContext.packageName,
             R.layout.notification_layout
@@ -133,7 +142,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setContentTitle(remoteMessage.notification!!.title)
             .setContentText(remoteMessage.notification!!.body)
             .setAutoCancel(true)
-//            .setFullScreenIntent(pendingIntent,true)
+            .setContentIntent(pendingIntent)
 
         notificationBuilder.setCustomHeadsUpContentView(notificationLayout)
 

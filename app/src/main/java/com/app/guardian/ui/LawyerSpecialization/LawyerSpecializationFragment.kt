@@ -208,7 +208,6 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
             }
             R.id.lySearchFilter -> {
                 callFilterDataAPI()
-
             }
             R.id.llsearch -> {
                 if (!TextUtils.isEmpty(mBinding.lyLawyerSpListFilter.edtLoginEmail.text.toString())) {
@@ -276,9 +275,7 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
         ReplaceFragment.replaceFragment(
             requireActivity(),
             ChattingFragment(
-                selectUserId, selectUserFullName, profilePicUrl,
-                AppConstants.APP_ROLE_LAWYER,
-                lastseen
+                selectUserId
             ),
             true,
             LawyerSpecializationFragment::class.java.name,
@@ -349,10 +346,13 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
             dialog.dismiss()
             if (years_of_exp == "Above 15") {
                 callAPI("", "15-100", specialization.toString())
+
             } else {
                 callAPI("", years_of_exp.replace(" to ", "-"), specialization.toString())
 
             }
+            specialization = ""
+            years_of_exp = ""
         }
         dialog.show()
     }

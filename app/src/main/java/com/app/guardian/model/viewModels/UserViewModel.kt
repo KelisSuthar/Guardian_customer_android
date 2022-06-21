@@ -122,6 +122,24 @@ class UserViewModel(private val mUserRepository: UserRepo) : ViewModel() {
         )
     }
 
+    //Notification API
+    private val deletenotificationResp = MutableLiveData<RequestState<CommonResponse>>()
+    fun getDeleteNotificationResp(): LiveData<RequestState<CommonResponse>> =
+        deletenotificationResp
+
+    fun deleteNotification(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        id: Int,
+    ) {
+        mUserRepository.deleteNotification(
+            id,
+            isInternetConnected,
+            baseView,
+            deletenotificationResp
+        )
+    }
+
     //GET RADAR LIST API
     private val radarListResp = MutableLiveData<RequestState<MutableList<RadarListResp>>>()
     fun getRadarListResp(): LiveData<RequestState<MutableList<RadarListResp>>> = radarListResp
@@ -159,7 +177,15 @@ class UserViewModel(private val mUserRepository: UserRepo) : ViewModel() {
         body.addProperty(ApiConstant.EXTRAS_LNG, long)
         body.addProperty(
             ApiConstant.EXTRAS_PLACE,
-            ReusedMethod.getAddress(baseView, lat.toDouble(), long.toDouble())[0].locality +","+ReusedMethod.getAddress(baseView, lat.toDouble(), long.toDouble())[0].adminArea
+            ReusedMethod.getAddress(
+                baseView,
+                lat.toDouble(),
+                long.toDouble()
+            )[0].locality + "," + ReusedMethod.getAddress(
+                baseView,
+                lat.toDouble(),
+                long.toDouble()
+            )[0].adminArea
         )
         body.addProperty(ApiConstant.EXTRAS_TYPE, type)
 

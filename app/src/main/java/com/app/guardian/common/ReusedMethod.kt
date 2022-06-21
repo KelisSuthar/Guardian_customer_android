@@ -736,7 +736,7 @@ class ReusedMethod {
 
         }
 
-        fun selectTime(context: Context, txtTime: TextView, isMultiple: Boolean?=false) {
+        fun selectTime(context: Context, txtTime: TextView, isMultiple: Boolean? = false) {
             val currentTime = Calendar.getInstance().time
             val hrsFormatter = SimpleDateFormat("HH", Locale.getDefault())
             val minFormatter = SimpleDateFormat("mm", Locale.getDefault())
@@ -838,7 +838,13 @@ class ReusedMethod {
             return dateFormatter.format(calendar.time)
         }
 
-        fun callConformationDialog(context: Context, date: String, time: String, headder: String?,isMultiple: Boolean?=false) {
+        fun callConformationDialog(
+            context: Context,
+            date: String,
+            time: String,
+            headder: String?,
+            isMultiple: Boolean? = false
+        ) {
             val dialog = Dialog(
                 context,
                 com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
@@ -861,14 +867,24 @@ class ReusedMethod {
             ivClose.setOnClickListener {
                 dialog.dismiss()
             }
-            sub.setOnClickListener{
+            sub.setOnClickListener {
                 dialog.dismiss()
             }
             dialog.show()
         }
 
 
-
+        fun setUpDialog(context: Context, dialogLayout: Int,canclable:Boolean): Dialog {
+            val dialog = Dialog(
+                context,
+                com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+            )
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            dialog.setContentView(dialogLayout)
+            dialog.setCancelable(canclable)
+            return dialog
+        }
     }
 
 

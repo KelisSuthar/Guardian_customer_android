@@ -19,6 +19,7 @@ import com.app.guardian.common.extentions.changeDateFormat
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentChattingBinding
+import com.app.guardian.model.Chat.ChatDetail
 import com.app.guardian.model.Chat.ChatListResp
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
@@ -34,18 +35,14 @@ import java.util.*
 
 class ChattingFragment(
     var selectUserId: Int? = 0,
-    var selectUserFullName: String? = "",
-    var profilePicUrl: String? = "",
-    var to_role: String? = "",
-    var lastSeen: String? = "",
 ) : BaseFragment(), View.OnClickListener {
     lateinit var mBinding: FragmentChattingBinding
     private val mViewModel: CommonScreensViewModel by viewModel()
-
+    var to_role = ""
     var chatMessageAdapter: ChatMessageAdapter? = null
 
     //    var chatMessageAdapter: ChatConversationAdapter? = null
-    var chatArray = ArrayList<ChatListResp>()
+    var chatArray = ArrayList<ChatDetail>()
     var hasMap = HashMap<String, ArrayList<ChatListResp>>()
     var handler = Handler()
     var runnable: Runnable? = null
@@ -66,11 +63,7 @@ class ChattingFragment(
     override fun initView() {
         mBinding = getBinding()
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        mBinding.txtChatUserName.text = selectUserFullName
-        Glide.with(requireActivity())
-            .load(profilePicUrl)
-            .placeholder(R.drawable.profile)
-            .into(mBinding.imgChatUserProfilePic)
+
 
         (activity as HomeActivity).bottomTabVisibility(false)
         (activity as HomeActivity).headerTextVisible(
@@ -82,7 +75,7 @@ class ChattingFragment(
         mBinding.ivBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
-        lastSeenChecker()
+
         mBinding.txtMessage.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEND) {
                 CallSendMessageAPI()
@@ -93,7 +86,7 @@ class ChattingFragment(
     }
 
     @SuppressLint("SimpleDateFormat")
-    private fun lastSeenChecker() {
+    private fun lastSeenChecker(lastSeen: String?) {
         Log.i("THIS_APP", "LAST_SEEN_DATE: " + lastSeen.toString())
 
         if (lastSeen != "" && lastSeen != "null" && lastSeen != null) {
@@ -169,10 +162,16 @@ class ChattingFragment(
                     it.data?.let { data ->
                         if (it.status) {
                             chatArray.clear()
-                            if (!data.isNullOrEmpty()) {
 
-//                                getHeadderTime(data)
-                                chatArray.addAll(data)
+                            to_role = data.user_detail.user_role!!
+                            mBinding.txtChatUserName.text = data.user_detail.full_name
+                            Glide.with(requireActivity())
+                                .load(data.user_detail.profile_avatar)
+                                .placeholder(R.drawable.profile)
+                                .into(mBinding.imgChatUserProfilePic)
+                            lastSeenChecker(data.user_detail.last_seen)
+                            if (!data.chat_detail.isNullOrEmpty()) {
+                                chatArray.addAll(data.chat_detail)
                                 setData()
                                 chatMessageAdapter!!.notifyDataSetChanged()
                             } else {
@@ -298,51 +297,6 @@ class ChattingFragment(
         chatMessageAdapter?.notifyDataSetChanged()
     }
 
-
-    private fun getHeadderTime(data: MutableList<ChatListResp>) {
-        for (i in data.size - 1 downTo 0) {
-            if (changeDateFormat(
-                    "yyyy-MM-dd HH:mm:ss",
-                    "yyyy-MM-dd",
-                    data[i].message_time!!
-                ) == changeDateFormat(
-                    "yyyy-MM-dd HH:mm:ss",
-                    "yyyy-MM-dd",
-                    ReusedMethod.getCurrentDate()
-                )
-            ) {
-                chatArray[i].header_time = "Today"
-                chatArray[i].is_header_show = true
-                chatMessageAdapter?.notifyDataSetChanged()
-                break
-
-            } else if ((getCurrentDay().toInt() - 1) == (changeToDay(data[i].message_time!!).toInt())) {
-                chatArray[i].header_time = "Yesterday"
-                chatArray[i].is_header_show = true
-                chatMessageAdapter?.notifyDataSetChanged()
-                break
-            } else if ((getCurrentDay()
-                    .toInt() - 1) == 0 && (changeToDay(
-                    data[i].message_time!!
-                ) == "31") || (changeToDay(
-                    data[i].message_time!!
-                ) == "30")
-                || (changeToDay(
-                    data[i].message_time!!
-                ) == "28")
-                || (changeToDay(
-                    data[i].message_time!!
-                ) == "29")
-            ) {
-                chatArray[i].header_time = "Yesterday"
-                chatArray[i].is_header_show = true
-                chatMessageAdapter?.notifyDataSetChanged()
-            }
-
-
-        }
-
-    }
 
     override fun onClick(v: View?) {
         when (v?.id) {

@@ -88,10 +88,6 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
                 requireActivity(),
                 ChattingFragment(
                     selectedLawyerListId!!,
-                    strLawyerName!!,
-                    strProfilePic!!,
-                    AppConstants.APP_ROLE_LAWYER,
-                    lastSeen
                 ),
                 true,
                 LawyerProfileFragment::class.java.name,

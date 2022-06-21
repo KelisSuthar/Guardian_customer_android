@@ -152,7 +152,7 @@ interface ApiEndPoint {
     fun addRadarMapPoint(@Body body: JsonObject): Call<CommonResponseModel<RadarListResp>>
 
     @POST("listUserChat")
-    fun getChatList(@Body body: JsonObject): Call<CommonResponseModel<MutableList<ChatListResp>>>
+    fun getChatList(@Body body: JsonObject): Call<CommonResponseModel<ChatListResp>>
 
     @POST("addUserChat")
     fun sendMessageChat(@Body body: JsonObject): Call<CommonResponseModel<SendMessageResp>>
