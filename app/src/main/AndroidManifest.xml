@@ -15,6 +15,15 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- Needed to communicate with already-paired Bluetooth devices. (Legacy up to Android 11) -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" /> <!-- Needed to communicate with already-paired Bluetooth devices. (Android 12 upwards) -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 
     <application
         android:name=".GuardianApplication"
@@ -30,9 +39,17 @@
         tools:replace="android:allowBackup"
         tools:targetApi="q">
         <activity
+            android:name=".ui.createorjoin.CreateOrJoinActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.videocall.VideoCallActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.VideoPlayer.VideoPlayerActivity"
             android:exported="false"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -74,6 +91,10 @@
             android:exported="true" />
         <activity
             android:name=".ui.SelectRole.SelectRoleScreen"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.videocalljoin.VideoCallJoinActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity

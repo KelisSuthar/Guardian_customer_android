@@ -7,10 +7,13 @@ import android.content.Context
 import android.location.Location
 import android.os.Bundle
 import androidx.multidex.MultiDex
+import com.androidnetworking.AndroidNetworking
 import com.app.guardian.common.LocaleUtils
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.ShowLogToast
 import com.app.guardian.injection.appModules
+import live.videosdk.rtc.android.Meeting
+import live.videosdk.rtc.android.VideoSDK
 
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -20,6 +23,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 class GuardianApplication :Application(),Application.ActivityLifecycleCallbacks{
     var isMapAvailable = AtomicBoolean(true)
+    var meeting: Meeting? = null
     var currentCountryCode: String? = null
     private val hasCheckedLocation = AtomicBoolean(false)
     private val lastLocation: Location? = null
@@ -39,6 +43,8 @@ class GuardianApplication :Application(),Application.ActivityLifecycleCallbacks{
 
         super.onCreate()
         Timber.plant(Timber.DebugTree())
+        VideoSDK.initialize(applicationContext)
+        AndroidNetworking.initialize(applicationContext)
 
         startKoin {
             androidLogger()

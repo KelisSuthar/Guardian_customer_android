@@ -158,5 +158,10 @@ dependencies {
     //chat
     implementation 'com.github.smhdk:KM-Recyclerview-Sticky-Header:v1.0.0'
 
+    implementation 'live.videosdk:android-sdk:0.0.15'
+
+    implementation 'com.nabinbhandari.android:permissions:3.8'
+    implementation 'com.amitshekhar.android:android-networking:1.0.2'
+
 
 }

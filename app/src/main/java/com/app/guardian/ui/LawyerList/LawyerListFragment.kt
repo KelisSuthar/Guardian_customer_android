@@ -4,6 +4,7 @@ package com.app.guardian.ui.LawyerList
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.View
@@ -32,6 +33,8 @@ import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
 import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
 import com.app.guardian.ui.chatting.ChattingFragment
+import com.app.guardian.ui.createorjoin.CreateOrJoinActivity
+import com.app.guardian.ui.videocalljoin.VideoCallJoinActivity
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.google.android.material.chip.Chip
@@ -225,10 +228,11 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
 
         YES.setOnClickListener {
             dialog.dismiss()
-            ReusedMethod.displayMessage(
+          /*  ReusedMethod.displayMessage(
                 context as Activity,
                 (context as Activity).resources.getString(R.string.come_soon)
-            )
+            )*/
+            startActivity(Intent(context,CreateOrJoinActivity::class.java))
         }
 
         NO.setOnClickListener {
