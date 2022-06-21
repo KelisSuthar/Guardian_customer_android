@@ -12,16 +12,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.changeDateFormat
+import com.app.guardian.model.Chat.ChatDetail
 import com.app.guardian.model.Chat.ChatListResp
 import com.kodmap.library.kmrecyclerviewstickyheader.KmStickyListener
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 @SuppressLint("NewApi")
 class ChatConversationAdapter(
     var context: Context?,
-    listMessages: ArrayList<ChatListResp>,
+    listMessages: ArrayList<ChatDetail>,
     var fragment: ChattingFragment?,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), KmStickyListener {
     private var listNewMessages: ArrayList<Any>? = null
@@ -59,12 +59,12 @@ class ChatConversationAdapter(
 
     class MySenderHolder(rowView: View) : RecyclerView.ViewHolder(rowView) {
 
-        val txtSendMsg = rowView!!.findViewById<AppCompatTextView>(R.id.txtSendMsg)
+        val txtSendMsg = rowView.findViewById<AppCompatTextView>(R.id.txtSendMsg)
 
     }
 
     class MyReceiverHolder(rowView: View) : RecyclerView.ViewHolder(rowView) {
-        val txtReciver = rowView!!.findViewById<AppCompatTextView>(R.id.txtRecieveMsg)
+        val txtReciver = rowView.findViewById<AppCompatTextView>(R.id.txtRecieveMsg)
     }
 
     class MyHeaderHolder(rowView: View) : RecyclerView.ViewHolder(rowView) {
@@ -146,18 +146,18 @@ class ChatConversationAdapter(
             }
             ChattingFragment.TYPE_SENDER -> {
 
-
-                if (message is ChatListResp) {
-                    val messageHolder = holder as? MySenderHolder
-                    messageHolder?.txtSendMsg?.text = message.message
-                }
+//
+//                if (message is ChatListResp) {
+//                    val messageHolder = holder as? MySenderHolder
+//                    messageHolder?.txtSendMsg?.text = message.message
+//                }
             }
             ChattingFragment.TYPE_RECEIVER -> {
 
-                if (message is ChatListResp) {
-                    val receiverHolder = holder as MyReceiverHolder
-                    receiverHolder.txtReciver.text = message.message
-                }
+//                if (message is ChatListResp) {
+//                    val receiverHolder = holder as MyReceiverHolder
+//                    receiverHolder.txtReciver.text = message.message
+//                }
 
 
             }
@@ -173,14 +173,14 @@ class ChatConversationAdapter(
         try {
             if (message is ChatListResp) {
 
-                if (message.message != null) {
-                    retunViewType =
-                        if (message.from_id!! == SharedPreferenceManager.getUser()!!.user.id) {
-                            ChattingFragment.TYPE_SENDER
-                        } else {
-                            ChattingFragment.TYPE_RECEIVER
-                        }
-                }
+//                if (message.chat_detail.message != null) {
+//                    retunViewType =
+//                        if (message.from_id!! == SharedPreferenceManager.getUser()!!.user.id) {
+//                            ChattingFragment.TYPE_SENDER
+//                        } else {
+//                            ChattingFragment.TYPE_RECEIVER
+//                        }
+//                }
             } else {
                 retunViewType = ChattingFragment.TYPE_HEADER
             }

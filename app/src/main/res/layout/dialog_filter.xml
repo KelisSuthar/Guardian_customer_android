@@ -53,7 +53,7 @@
             android:background="@color/colorPrimaryDark" />
 
         <androidx.appcompat.widget.AppCompatTextView
-
+            android:id="@+id/txtYearsExpTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_15sdp"
@@ -63,6 +63,7 @@
             android:textSize="@dimen/_9ssp" />
 
         <ScrollView
+            android:id="@+id/sv1"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_75sdp"
             android:layout_marginVertical="@dimen/_10sdp">

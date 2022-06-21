@@ -292,7 +292,7 @@ interface UserRepo {
         body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
-        commonResp: MutableLiveData<RequestState<MutableList<ChatListResp>>>
+        commonResp: MutableLiveData<RequestState<ChatListResp>>
     )
 
     fun sendMessage(

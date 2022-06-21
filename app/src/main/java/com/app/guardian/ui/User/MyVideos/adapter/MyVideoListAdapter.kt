@@ -43,11 +43,13 @@ class MyVideoListAdapter(val context: Context,val isShow: Boolean, val listener:
                 .into(appCompatImageView)
 
             itemView.setOnClickListener { listener.onItemClick(position) }
+            ivClose.setOnClickListener { listener.onItemDeleteClick(position) }
         }
     }
 
     interface onItemClicklisteners {
         fun onItemClick(position: Int?)
+        fun onItemDeleteClick(position: Int?)
     }
 
 

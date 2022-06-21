@@ -1,4 +1,4 @@
-package com.studelicious_user.shareddata.repo
+package com.app.guardian.shareddata.repo
 
 import androidx.lifecycle.MutableLiveData
 import com.app.guardian.model.ApiError
@@ -31,7 +31,6 @@ import com.app.guardian.shareddata.BaseView
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.endpoint.ApiEndPoint
 import com.app.guardian.shareddata.networkmanager.NetworkManager
-import com.app.guardian.shareddata.repo.UserRepo
 import com.app.guardian.utils.Config
 import com.google.gson.JsonObject
 
@@ -60,14 +59,14 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
         body: JsonObject,
         isInternetConnected: Boolean,
         baseView: BaseView,
-        callbackKey: MutableLiveData<RequestState<LoginResp>>
+        callback: MutableLiveData<RequestState<LoginResp>>
     ) {
         if (!isInternetConnected) {
-            callbackKey.value =
+            callback.value =
                 RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
         } else {
-            callbackKey.value = RequestState(progress = true)
-            NetworkManager.requestData(mApiEndPoint.doLogIn(body), baseView, callbackKey)
+            callback.value = RequestState(progress = true)
+            NetworkManager.requestData(mApiEndPoint.doLogIn(body), baseView, callback)
         }
     }
 
@@ -75,14 +74,14 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
         body: JsonObject,
         isInternetConnected: Boolean,
         baseView: BaseView,
-        callbackKey: MutableLiveData<RequestState<SignupResp>>
+        callback: MutableLiveData<RequestState<SignupResp>>
     ) {
         if (!isInternetConnected) {
-            callbackKey.value =
+            callback.value =
                 RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
         } else {
-            callbackKey.value = RequestState(progress = true)
-            NetworkManager.requestData(mApiEndPoint.doSignUp(body), baseView, callbackKey)
+            callback.value = RequestState(progress = true)
+            NetworkManager.requestData(mApiEndPoint.doSignUp(body), baseView, callback)
         }
     }
 
@@ -108,17 +107,17 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
         buyPlanJson: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
-        callbackKey: MutableLiveData<RequestState<CommonResponse>>
+        subscriptionResp: MutableLiveData<RequestState<CommonResponse>>
     ) {
         if (!internetConnected) {
-            callbackKey.value =
+            subscriptionResp.value =
                 RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
         } else {
-            callbackKey.value = RequestState(progress = true)
+            subscriptionResp.value = RequestState(progress = true)
             NetworkManager.requestData(
                 mApiEndPoint.buysubscribePlan(buyPlanJson),
                 baseView,
-                callbackKey
+                subscriptionResp
             )
         }
     }
@@ -127,17 +126,17 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
         verifyOTPJson: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
-        UserResp: MutableLiveData<RequestState<User>>
+        commonResponse: MutableLiveData<RequestState<User>>
     ) {
         if (!internetConnected) {
-            UserResp.value =
+            commonResponse.value =
                 RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
         } else {
-            UserResp.value = RequestState(progress = true)
+            commonResponse.value = RequestState(progress = true)
             NetworkManager.requestData(
                 mApiEndPoint.verifyOTP(verifyOTPJson),
                 baseView,
-                UserResp
+                commonResponse
             )
         }
     }
@@ -498,17 +497,17 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
         body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
-        commonResponse: MutableLiveData<RequestState<MutableList<CommonResponse>>>
+        commonResp: MutableLiveData<RequestState<MutableList<CommonResponse>>>
     ) {
         if (!internetConnected) {
-            commonResponse.value =
+            commonResp.value =
                 RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
         } else {
-            commonResponse.value = RequestState(progress = true)
+            commonResp.value = RequestState(progress = true)
             NetworkManager.requestData(
                 mApiEndPoint.changePass(body),
                 baseView,
-                commonResponse
+                commonResp
             )
         }
     }
@@ -723,17 +722,17 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
         LONG: String,
         internetConnected: Boolean,
         baseView: BaseActivity,
-        radarResp: MutableLiveData<RequestState<MutableList<RadarListResp>>>
+        commonResp: MutableLiveData<RequestState<MutableList<RadarListResp>>>
     ) {
         if (!internetConnected) {
-            radarResp.value =
+            commonResp.value =
                 RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
         } else {
-            radarResp.value = RequestState(progress = true)
+            commonResp.value = RequestState(progress = true)
             NetworkManager.requestData(
                 mApiEndPoint.getRadarMapList(LAT, LONG),
                 baseView,
-                radarResp
+                commonResp
             )
         }
     }
@@ -742,17 +741,17 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
         body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
-        chatListResp: MutableLiveData<RequestState<MutableList<ChatListResp>>>
+        commonResp: MutableLiveData<RequestState<ChatListResp>>
     ) {
         if (!internetConnected) {
-            chatListResp.value =
+            commonResp.value =
                 RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
         } else {
-            chatListResp.value = RequestState(progress = true)
+            commonResp.value = RequestState(progress = true)
             NetworkManager.requestData(
                 mApiEndPoint.getChatList(body),
                 baseView,
-                chatListResp
+                commonResp
             )
         }
     }

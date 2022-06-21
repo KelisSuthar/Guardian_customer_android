@@ -1,14 +1,17 @@
 package com.app.guardian.common.extentions
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
+import android.view.Window
 import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.app.guardian.R
 
 import com.bumptech.glide.Glide
@@ -175,5 +178,6 @@ fun WebView.loadWebViewData(url: String) {
     this.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
     this.loadUrl(url)
 }
+
 
 

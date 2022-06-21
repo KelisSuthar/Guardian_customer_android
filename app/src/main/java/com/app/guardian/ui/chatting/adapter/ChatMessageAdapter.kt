@@ -4,17 +4,16 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
+import com.app.guardian.model.Chat.ChatDetail
 import com.app.guardian.model.Chat.ChatListResp
-import com.kodmap.library.kmrecyclerviewstickyheader.KmStickyListener
 
-class ChatMessageAdapter(var context: Context, var array: ArrayList<ChatListResp>) :
+class ChatMessageAdapter(var context: Context, var array: ArrayList<ChatDetail>) :
     RecyclerView.Adapter<ChatMessageAdapter.myViewHolder>() {
     var SENDER = 0
     var RECIEVER = 1

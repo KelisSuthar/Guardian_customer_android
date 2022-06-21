@@ -1,6 +1,5 @@
 package com.app.guardian.model.viewModels
 
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -202,8 +201,8 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
     }
 
     //GET CHAT LIST
-    private val chatListResp = MutableLiveData<RequestState<MutableList<ChatListResp>>>()
-    fun getChatListResp(): LiveData<RequestState<MutableList<ChatListResp>>> = chatListResp
+    private val chatListResp = MutableLiveData<RequestState<ChatListResp>>()
+    fun getChatListResp(): LiveData<RequestState<ChatListResp>> = chatListResp
 
     fun getChatData(
         isInternetConnected: Boolean,

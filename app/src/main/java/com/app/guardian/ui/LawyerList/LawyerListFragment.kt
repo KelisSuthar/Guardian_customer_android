@@ -163,7 +163,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         }
 
         //GET FILTER RESP
-        commonViewModel.getFilterResp().observe(this, Observer { response ->
+        commonViewModel.getFilterResp().observe(this) { response ->
             response.let { requestState ->
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
@@ -195,7 +195,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                 }
             }
 
-        })
+        }
     }
 
     override fun onResume() {
@@ -266,10 +266,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
             requireActivity(),
             ChattingFragment(
                 selectUserId,
-                selectUserFullName,
-                profilePicUrl,
-                AppConstants.APP_ROLE_LAWYER,
-                lastSeen
+
             ),
             true,
             LawyerListFragment::class.java.name,

@@ -1,14 +1,23 @@
 package com.app.guardian.ui.ContactedHistory
 
 import android.app.Activity
+import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.text.TextUtils
+import android.util.TypedValue
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.ScrollView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
@@ -17,15 +26,23 @@ import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentContectedHistoryBinding
+import com.app.guardian.model.ListFilter.FilterResp
+import com.app.guardian.model.ListFilter.Specialization
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
+import com.app.guardian.model.specializationList.SpecializationListResp
+import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.ContactedHistory.adapter.ConnectedHistoryAdapter
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.chatting.ChattingFragment
+import com.app.guardian.ui.signup.adapter.SpecializationAdapter
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipDrawable
+import com.google.android.material.chip.ChipGroup
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -41,6 +58,9 @@ private const val ARG_PARAM2 = "param2"
  */
 class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
+    private val commonViewModel: CommonScreensViewModel by viewModel()
+    var specialization = ""
+
 
     lateinit var mBinding: FragmentContectedHistoryBinding
     var connectedHistoryAdapter: ConnectedHistoryAdapter? = null
@@ -90,7 +110,6 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
         super.onResume()
         callApi("")
 
-
     }
 
     private fun setAdapter() {
@@ -118,10 +137,6 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                         requireActivity(),
                         ChattingFragment(
                             array[position!!].id,
-                            array[position!!].full_name,
-                            array[position!!].profile_avatar,
-                            array[position!!].user_role,
-                             array[position!!].last_seen,
                         ),
                         true,
                         ContectedHistoryFragment::class.java.name,
@@ -196,7 +211,19 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
             mBinding.noDataConnectedHistory.gone()
             mBinding.noInternetConnectedhistory.llNointernet.visible()
             mBinding.cl1.gone()
-            mBinding.radioGroup.gone()
+            mBinding.radioGroup.visible()
+        }
+    }
+
+    private fun callFilterDataAPI() {
+
+        if (ReusedMethod.isNetworkConnected(requireContext())) {
+            commonViewModel.getFilterData(true, context as BaseActivity)
+        } else {
+            mBinding.noDataConnectedHistory.gone()
+            mBinding.noInternetConnectedhistory.llNointernet.visible()
+            mBinding.cl1.gone()
+            mBinding.radioGroup.visible()
         }
     }
 
@@ -274,6 +301,39 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                 }
             }
         }
+        //GET FILTER RESP
+        commonViewModel.getFilterResp().observe(this) { response ->
+            response.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        showFilterDialog(data)
+
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                context as Activity,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        (activity as HomeActivity).unAuthorizedNavigation()
+                                    } else {
+                                        ReusedMethod.displayMessage(context as Activity, it)
+                                    }
+                                }
+                    }
+                }
+            }
+
+        }
     }
 
     override fun onClick(v: View?) {
@@ -283,7 +343,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                 onResume()
             }
             R.id.lySearchFilter -> {
-                ReusedMethod.displayMessage(requireActivity(), "Coming Soon!")
+                callFilterDataAPI()
             }
             R.id.llsearch -> {
                 if (TextUtils.isEmpty(mBinding.searchConnectedHistory.edtLoginEmail.text.toString())) {
@@ -293,8 +353,92 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
-//    private fun changeLayout() {
+
+    //    private fun changeLayout() {
 //        mBinding.rb2.isChecked = mBinding.rb1.isChecked
 //    }
+    private fun showFilterDialog(data: FilterResp) {
+
+        val dialog = Dialog(
+            requireActivity(),
+            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+        )
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setContentView(R.layout.dialog_filter)
+        dialog.setCancelable(false)
+        val chipGroup1: ChipGroup = dialog.findViewById(R.id.chip_group1)
+        val scrollView: ScrollView = dialog.findViewById(R.id.sv1)
+        val btnDone: Button = dialog.findViewById(R.id.btnDone)
+        val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
+        val txtYearsExpTitle: TextView = dialog.findViewById(R.id.txtYearsExpTitle)
+
+        txtYearsExpTitle.gone()
+        scrollView.gone()
+
+        AddItemsInChipGroup(requireContext(), chipGroup1, data.specialization)
+
+        ivClose.setOnClickListener {
+            dialog.dismiss()
+        }
+        btnDone.setOnClickListener {
+            mBinding.rvContectedHistory.visible()
+            mBinding.searchConnectedHistory.lySearch.visible()
+            mBinding.searchConnectedHistory.lySearchFilter.visible()
+            mBinding.noDataConnectedHistory.gone()
+            mBinding.noInternetConnectedhistory.llNointernet.gone()
+            dialog.dismiss()
+
+            callApi(specialization)
+
+        }
+        dialog.show()
+    }
+
+
+    fun AddItemsInChipGroup(
+        context: Context,
+        chipGroup: ChipGroup,
+        arrayList: List<Specialization>
+    ) {
+        for (i in arrayList.indices) {
+            val entryChip2: Chip = getChip(arrayList[i].title, context)
+            entryChip2.id = i
+            chipGroup.addView(entryChip2)
+        }
+    }
+
+    private fun getChip(text: String, context: Context): Chip {
+        val chip = Chip(context)
+        chip.setChipDrawable(ChipDrawable.createFromResource(context, R.xml.filter_chips))
+        val paddingDp = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 50f,
+            context.resources.displayMetrics
+        ).toInt()
+        chip.setChipBackgroundColorResource(R.color.chip_unselector)
+        chip.typeface = resources.getFont(R.font.lora_regular)
+        chip.setTextColor(ContextCompat.getColor(context, R.color.txt_dark))
+        chip.isCloseIconVisible = false
+        chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
+        chip.text = text
+        chip.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+
+
+                specialization = text
+
+                chip.setChipBackgroundColorResource(R.color.chip_selector)
+                chip.setTextColor(ContextCompat.getColor(context, R.color.white))
+                chip.isChecked = true
+
+            } else {
+                chip.setChipBackgroundColorResource(R.color.chip_unselector)
+                chip.setTextColor(ContextCompat.getColor(context, R.color.txt_dark))
+                chip.isChecked = false
+
+            }
+        }
+        return chip
+    }
 
 }

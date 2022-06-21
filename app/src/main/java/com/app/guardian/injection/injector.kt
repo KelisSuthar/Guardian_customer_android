@@ -19,7 +19,7 @@ import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.endpoint.ApiEndPoint
 import com.app.guardian.shareddata.repo.UserRepo
 import com.google.gson.GsonBuilder
-import com.studelicious_user.shareddata.repo.UserRepository
+import com.app.guardian.shareddata.repo.UserRepository
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -29,8 +29,6 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 val viewModelModule = module {
