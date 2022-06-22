@@ -24,6 +24,7 @@ import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.SupportGroup.SupportGroupResp
 import com.app.guardian.model.cms.CMSResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
+import com.app.guardian.model.sendRequestVirtualWitness.SendRequestVirtualWitnessResp
 import com.app.guardian.model.specializationList.SpecializationListResp
 import com.google.gson.JsonObject
 import retrofit2.Call
@@ -128,7 +129,7 @@ interface ApiEndPoint {
     fun getSupportGroup(): Call<CommonResponseModel<MutableList<SupportGroupResp>>>
 
     @POST("sendRequestVirtualWitness")
-    fun sendRequestVirtualWitness(@Body body: JsonObject): Call<CommonResponseModel<CommonResponse>>
+    fun sendRequestVirtualWitness(@Body body: JsonObject): Call<CommonResponseModel<SendRequestVirtualWitnessResp>>
 
     @GET("getNotificationList")
     fun getNotifications(): Call<CommonResponseModel<MutableList<NotificationResp>>>
@@ -162,6 +163,7 @@ interface ApiEndPoint {
 
     @POST("sendCallingRequestToMediator")
     fun sendCallingRequestToMediator(@Body body: JsonObject): Call<CommonResponseModel<MediatorCallReqResp>>
+
 
 
 }

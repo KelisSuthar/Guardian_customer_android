@@ -25,6 +25,7 @@ import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.SupportGroup.SupportGroupResp
 import com.app.guardian.model.cms.CMSResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
+import com.app.guardian.model.sendRequestVirtualWitness.SendRequestVirtualWitnessResp
 import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.shareddata.BaseView
 import com.app.guardian.shareddata.base.BaseActivity
@@ -255,7 +256,7 @@ interface UserRepo {
         body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
-        commonResp: MutableLiveData<RequestState<CommonResponse>>
+        commonResp: MutableLiveData<RequestState<SendRequestVirtualWitnessResp>>
     )
 
     fun getLawyerBySpecialization(

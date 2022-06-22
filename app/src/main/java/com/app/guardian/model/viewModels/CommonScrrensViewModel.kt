@@ -16,6 +16,7 @@ import com.app.guardian.model.ListFilter.FilterResp
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.cms.CMSResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
+import com.app.guardian.model.sendRequestVirtualWitness.SendRequestVirtualWitnessResp
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.repo.UserRepo
 import com.app.guardian.utils.ApiConstant
@@ -287,6 +288,31 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
             isInternetConnected,
             baseView,
             commonResp
+        )
+    }
+
+    //CALL SEND REQUEST VIRTUALVITNESS
+    private val sendRequestVirtualWitnessResp =
+        MutableLiveData<RequestState<SendRequestVirtualWitnessResp>>()
+
+    fun getSendRequestVirtualWitnessResp(): LiveData<RequestState<SendRequestVirtualWitnessResp>> =
+        sendRequestVirtualWitnessResp
+
+    fun SendRequestVirtualWitness(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        is_online: String,
+    ) {
+        val body = JsonObject()
+
+        body.addProperty(ApiConstant.EXTRAS_IS_ONLINE, is_online)
+        body.addProperty(ApiConstant.EXTRAS_LAST_SEEN, getCurrentDate())
+
+        mUserRepository.sendRequestVirtualWitness(
+            body,
+            isInternetConnected,
+            baseView,
+            sendRequestVirtualWitnessResp
         )
     }
 }
