@@ -44,6 +44,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             "bage counter",
             "Bage Counter count :" + HomeActivity.bage_counter_notification.toString()
         )
+        val count = SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE,0)
+        SharedPreferenceManager.putInt(AppConstants.NOTIFICATION_BAGE,
+            count+1
+        )
         triggerBroadcastToActivity(this, HomeActivity.bage_counter_notification)
 
         sendNotification(data, remoteMessage)

@@ -145,7 +145,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
                     )
                 }
                 R.id.menu_setting -> {
-                    onHideBadgeCounter()
                     clearFragmentBackStack()
                     ReplaceFragment.replaceFragment(
                         this,
@@ -562,6 +561,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
     override fun onVisibleBageCounterCounter(i: Int) {
         try {
             Log.e("Brodcast value ", "Notification Counter visible :" + i.toString())
+
             main_layoutBageCounter?.visibility = View.VISIBLE
             txtBagecount?.visibility = View.VISIBLE
             txtBagecount?.text = i.toString()
@@ -583,6 +583,17 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
             Log.e("Bage count", "Bage count e:" + e.printStackTrace())
         }
     }
+ fun removeSettingBage(){
+        try {
 
+            bage_counter_notification = 0
+            main_layoutBageCounter?.visibility = View.INVISIBLE
+            txtBagecount?.visibility = View.INVISIBLE
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e("Bage count", "Bage count e:" + e.printStackTrace())
+        }
+ }
 
 }

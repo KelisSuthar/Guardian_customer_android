@@ -12,6 +12,7 @@ import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentNotificationListBinding
@@ -52,7 +53,12 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
             true,
             true
         )
+        SharedPreferenceManager.putInt(
+            AppConstants.NOTIFICATION_BAGE,
+            0
+        )
     }
+
 
     override fun onResume() {
         super.onResume()

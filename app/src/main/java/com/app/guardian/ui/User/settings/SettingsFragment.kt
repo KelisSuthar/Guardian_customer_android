@@ -60,33 +60,40 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
             .placeholder(R.drawable.profile)
             .into(mBinding.imgProfile)
         mBinding.txtUName.text = SharedPreferenceManager.getUser()?.user?.full_name
+        mBinding.txtSettingNotificationCoout.gone()
+        if (SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, -1) > 0) {
+            mBinding.txtSettingNotificationCoout.visible()
+            mBinding.txtSettingNotificationCoout.text =
+                SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, -1).toString()
+        } else {
+            mBinding.txtSettingNotificationCoout.gone()
+            mBinding.txtSettingNotificationCoout.text =
+                SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, -1).toString()
+        }
+
     }
+
     //todo : broadcast for chat notification
     private val mBroadcastReceiver = object : BroadcastReceiver() {
 
         override fun onReceive(context: Context, intent: Intent) {
-
             val extras = intent.extras
-
             if (extras != null) {
-                if(HomeActivity.bage_counter_notification>0)
-                {
-                    mBinding.txtSettingNotificationCoout.visible()
-                    mBinding.txtSettingNotificationCoout.text = HomeActivity.bage_counter_notification.toString()
-                }else{
-                    mBinding.txtSettingNotificationCoout.gone()
-                    mBinding.txtSettingNotificationCoout.text = HomeActivity.bage_counter_notification.toString()
 
-                }
+                mBinding.txtSettingNotificationCoout.text =
+                    SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, 0).toString()
+
             }
-
         }
+
     }
+
 
     override fun onDestroy() {
         super.onDestroy()
         LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(mBroadcastReceiver);
     }
+
     private fun setViews() {
         (activity as HomeActivity).bottomTabVisibility(true)
         (activity as HomeActivity).headerTextVisible(
@@ -401,6 +408,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                     HomeActivity::class.java.name
                 )
                 requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
+                HomeActivity().removeSettingBage()
 
             }
             R.id.tvSpecialization -> {
