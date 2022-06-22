@@ -198,10 +198,6 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                                 location.latitude,
                                 location.longitude
                             )
-
-
-
-
                             mBinding.edtPostalCode.setText(data[0].postalCode)
                             mBinding.edtProvience.setText(data[0].locality + "/" + data[0].adminArea)
                             if (mFusedLocationClient != null) {
@@ -497,8 +493,10 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
 
     private fun validations() {
         IntegratorImpl.isValidEdit(
-            is_lawyer, is_mediator,
-            profile_img, mBinding.edtFullname.text?.trim().toString(),
+            is_lawyer,
+            is_mediator,
+            mBinding.edtFullname.text?.trim().toString(),
+            mBinding.edtEmail.text?.trim().toString(),
             mBinding.ccp1.selectedCountryCode.toString() + mBinding.edtPhone.text?.trim()
                 .toString(),
             mBinding.edtProvience.text?.trim().toString(),
