@@ -48,6 +48,9 @@ class ApiConstant{
      val EXTRAS_IS_IMMEDIATE_ONLINE="is_immediate_joining"
      val EXTRAS_SCHEDUAL_DATE_TIME="schedule_datetime"
      val EXTRAS_REQUEST_DATE_TIME="request_datetime"
+     val EXTRAS_SUPPORT_GROUP_ID="support_group_id"
+     val EXTRAS_CALLING_HISTORY_ID="calling_history_id"
+     val EXTRAS_ROOM_ID="room_id"
 
 
 

@@ -26,6 +26,7 @@ import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.SupportGroup.SupportGroupResp
 import com.app.guardian.model.cms.CMSResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
+import com.app.guardian.model.scheduleRequestedVideoCall.ScheduleRequestedVideoCallResp
 import com.app.guardian.model.sendRequestVirtualWitness.SendRequestVirtualWitnessResp
 import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.shareddata.BaseView
@@ -808,6 +809,25 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
             commonResponse.value = RequestState(progress = true)
             NetworkManager.requestData(
                 mApiEndPoint.sendCallingRequestToMediator(body),
+                baseView,
+                commonResponse
+            )
+        }
+    }
+
+    override fun scheduleRequestedVideoCall(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResponse: MutableLiveData<RequestState<ScheduleRequestedVideoCallResp>>
+    ) {
+        if (!internetConnected) {
+            commonResponse.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            commonResponse.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.scheduleRequestedVideoCall(body),
                 baseView,
                 commonResponse
             )

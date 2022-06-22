@@ -25,6 +25,7 @@ import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.SupportGroup.SupportGroupResp
 import com.app.guardian.model.cms.CMSResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
+import com.app.guardian.model.scheduleRequestedVideoCall.ScheduleRequestedVideoCallResp
 import com.app.guardian.model.sendRequestVirtualWitness.SendRequestVirtualWitnessResp
 import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.shareddata.BaseView
@@ -315,6 +316,12 @@ interface UserRepo {
         internetConnected: Boolean,
         baseView: BaseActivity,
         commonResponse: MutableLiveData<RequestState<MediatorCallReqResp>>
+    )
+    fun scheduleRequestedVideoCall(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        commonResponse: MutableLiveData<RequestState<ScheduleRequestedVideoCallResp>>
     )
 
 

@@ -16,6 +16,7 @@ import com.app.guardian.model.ListFilter.FilterResp
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.cms.CMSResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
+import com.app.guardian.model.scheduleRequestedVideoCall.ScheduleRequestedVideoCallResp
 import com.app.guardian.model.sendRequestVirtualWitness.SendRequestVirtualWitnessResp
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.repo.UserRepo
@@ -291,7 +292,7 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
         )
     }
 
-    //CALL SEND REQUEST VIRTUALVITNESS
+    //CALL SEND REQUEST VIRTUAL WITNESS
     private val sendRequestVirtualWitnessResp =
         MutableLiveData<RequestState<SendRequestVirtualWitnessResp>>()
 
@@ -301,18 +302,55 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
     fun SendRequestVirtualWitness(
         isInternetConnected: Boolean,
         baseView: BaseActivity,
-        is_online: String,
+        support_group_id: String,
+        is_immediate_joining: Int,
+        schedule_datetime: String,
     ) {
         val body = JsonObject()
 
-        body.addProperty(ApiConstant.EXTRAS_IS_ONLINE, is_online)
-        body.addProperty(ApiConstant.EXTRAS_LAST_SEEN, getCurrentDate())
+        body.addProperty(ApiConstant.EXTRAS_SUPPORT_GROUP_ID, support_group_id)
+        body.addProperty(ApiConstant.EXTRAS_IS_IMMEDIATE_ONLINE, is_immediate_joining)
+        body.addProperty(ApiConstant.EXTRAS_SCHEDUAL_DATE_TIME, schedule_datetime)
 
         mUserRepository.sendRequestVirtualWitness(
             body,
             isInternetConnected,
             baseView,
             sendRequestVirtualWitnessResp
+        )
+    }
+
+    //CALL SEND REQUEST VIRTUAL WITNESS
+    private val scheduleRequestedVideoCallResp =
+        MutableLiveData<RequestState<ScheduleRequestedVideoCallResp>>()
+
+    fun getscheduleRequestedVideoCallResp(): LiveData<RequestState<ScheduleRequestedVideoCallResp>> =
+        scheduleRequestedVideoCallResp
+
+    fun ScheduleRequestedVideoCall(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        calling_history_id: Int,
+        to_id: Int,
+        to_role: String,
+        url: String,
+        schedule_datetime: String,
+        room_id: String,
+    ) {
+        val body = JsonObject()
+
+        body.addProperty(ApiConstant.EXTRAS_CALLING_HISTORY_ID, calling_history_id)
+        body.addProperty(ApiConstant.EXTRAS_TO_ID, to_id)
+        body.addProperty(ApiConstant.EXTRAS_TO_ROLE, to_role)
+        body.addProperty(ApiConstant.EXTRAS_URL, url)
+        body.addProperty(ApiConstant.EXTRAS_SCHEDUAL_DATE_TIME, schedule_datetime)
+        body.addProperty(ApiConstant.EXTRAS_ROOM_ID, room_id)
+
+        mUserRepository.scheduleRequestedVideoCall(
+            body,
+            isInternetConnected,
+            baseView,
+            scheduleRequestedVideoCallResp
         )
     }
 }

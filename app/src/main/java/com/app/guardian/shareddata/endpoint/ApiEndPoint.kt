@@ -24,6 +24,7 @@ import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.SupportGroup.SupportGroupResp
 import com.app.guardian.model.cms.CMSResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
+import com.app.guardian.model.scheduleRequestedVideoCall.ScheduleRequestedVideoCallResp
 import com.app.guardian.model.sendRequestVirtualWitness.SendRequestVirtualWitnessResp
 import com.app.guardian.model.specializationList.SpecializationListResp
 import com.google.gson.JsonObject
@@ -69,7 +70,7 @@ interface ApiEndPoint {
     fun getUserDetails(): Call<CommonResponseModel<UserDetailsResp>>
 
     @PUT("updateUserProfile")
-    fun updateUserProfile(): Call<CommonResponseModel<CommonResponse>>
+    fun updateUserProfile(): Call<CommonResponseModel<LoginResp>>
 
     @POST("getLawyerList")
     fun getLawyerList(@Body jsonObject: JsonObject): Call<CommonResponseModel<MutableList<LawyerListResp>>>
@@ -163,6 +164,9 @@ interface ApiEndPoint {
 
     @POST("sendCallingRequestToMediator")
     fun sendCallingRequestToMediator(@Body body: JsonObject): Call<CommonResponseModel<MediatorCallReqResp>>
+
+    @POST("scheduleRequestedVideoCall")
+    fun scheduleRequestedVideoCall(@Body body: JsonObject): Call<CommonResponseModel<ScheduleRequestedVideoCallResp>>
 
 
 
