@@ -175,6 +175,46 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                             array.removeAt(deleteId)
                             notificationListAdapter?.notifyDataSetChanged()
+                        } else {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                            mBinding.rcyNotification.gone()
+                            mBinding.noDataNotification.visible()
+                            mBinding.noInternetNotification.llNointernet.gone()
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                context as Activity,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        (activity as HomeActivity).unAuthorizedNavigation()
+                                    } else {
+                                        ReusedMethod.displayMessage(context as Activity, it)
+                                    }
+                                }
+                    }
+                }
+            }
+        }
+//DELETE NOTIFICATION
+        mViewModel.getDeleteNotificationResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data.let { data ->
+                        if (it.status) {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                            array.removeAt(deleteId)
+                            notificationListAdapter?.notifyDataSetChanged()
                             if (array.isNullOrEmpty()) {
                                 mBinding.rcyNotification.gone()
                                 mBinding.noDataNotification.visible()

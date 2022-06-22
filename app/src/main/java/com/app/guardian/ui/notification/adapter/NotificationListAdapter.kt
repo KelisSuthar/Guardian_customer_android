@@ -60,7 +60,6 @@ class NotificationListAdapter(
                 "YYYY-MM-DD HH:mm a",
                 array.created_at.toString()
             )
-            itemView.setOnClickListener { listeners.onItemClick(position) }
 
         }
     }
