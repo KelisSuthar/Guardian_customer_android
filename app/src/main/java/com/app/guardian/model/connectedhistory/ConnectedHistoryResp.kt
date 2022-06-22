@@ -19,4 +19,5 @@ data class ConnectedHistoryResp(
     val years_of_experience: String? = "",
     val vehicle_no: String? = "",
     val id: Int? = 0,
+    val call_type: String? = "",
 )

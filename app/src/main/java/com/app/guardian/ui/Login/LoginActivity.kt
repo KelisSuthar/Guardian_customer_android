@@ -3,6 +3,7 @@ package com.app.guardian.ui.Login
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.view.View.OnFocusChangeListener
 import androidx.core.content.ContextCompat
@@ -47,6 +48,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         mBinding.emailphoneSelector.ccp.setCountryForPhoneCode(1)
         mBinding.headderLogin.ivBack.gone()
         setFocus()
+        Log.e("StoredDeviceToken","LOGIN: "+ DEVICE_TOKEN.toString())
     }
 
     private fun setFocus() {

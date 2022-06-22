@@ -56,6 +56,7 @@ class ConnectedHistoryAdapter(
         var imgRowLawyerPicture = view?.findViewById<CircleImageView>(R.id.imgRowLawyerPicture)
         var imgRowLawyerCall = view?.findViewById<ImageView>(R.id.imgRowLawyerCall)
         var imgRowLawyerChat = view?.findViewById<ImageView>(R.id.imgRowLawyerChat)
+        var imgRowLawyerVideoCall = view?.findViewById<ImageView>(R.id.imgRowLawyerVideoCall)
         var imgRowLawyerNote = view?.findViewById<ImageView>(R.id.imgRowLawyerNotes)
         var txtSpTitle = view?.findViewById<TextView>(R.id.txtSpTitle)
 
@@ -63,6 +64,7 @@ class ConnectedHistoryAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(position: Int) {
             val array = arrayList[position]
+            txtSpecialization!!.text = array.specialization
             if (SharedPreferenceManager.getString(
                     AppConstants.USER_ROLE,
                     ""
@@ -74,6 +76,17 @@ class ConnectedHistoryAdapter(
                     ""
                 ) == AppConstants.APP_ROLE_USER
             ) {
+                if (type == AppConstants.APP_ROLE_MEDIATOR) {
+                    imgRowLawyerNote!!.gone()
+                    imgRowLawyerChat!!.gone()
+                    imgRowLawyerCall!!.gone()
+                    imgRowLawyerVideoCall!!.gone()
+                }else{
+                    imgRowLawyerNote!!.gone()
+                    imgRowLawyerChat!!.visible()
+                    imgRowLawyerCall!!.visible()
+                    imgRowLawyerVideoCall!!.visible()
+                }
 
             } else if (SharedPreferenceManager.getString(
                     AppConstants.USER_ROLE,
@@ -81,13 +94,27 @@ class ConnectedHistoryAdapter(
                 ) == AppConstants.APP_ROLE_LAWYER
             ) {
                 if (type == AppConstants.APP_ROLE_USER) {
+                    if(array.call_type == AppConstants.VIDEO)
+                    {
+                        imgRowLawyerNote!!.gone()
+                        imgRowLawyerChat!!.gone()
+                        imgRowLawyerCall!!.gone()
+                        imgRowLawyerVideoCall!!.visible()
+
+                    } else if (array.call_type == AppConstants.TXT) {
+                        imgRowLawyerNote!!.gone()
+                        imgRowLawyerChat!!.visible()
+                        imgRowLawyerCall!!.gone()
+                        imgRowLawyerVideoCall!!.gone()
+                    }
+                    txtExp?.text = "User"
+                    txtSpTitle?.text = "Location :"
+                    txtSpecialization?.text = array.state
+                } else {
                     imgRowLawyerNote!!.gone()
                     imgRowLawyerChat!!.visible()
-                    imgRowLawyerCall!!.gone()
-                } else {
-                    imgRowLawyerNote!!.visible()
-                    imgRowLawyerChat!!.visible()
                     imgRowLawyerCall!!.visible()
+                    imgRowLawyerVideoCall!!.visible()
                 }
             }
 
@@ -117,25 +144,16 @@ class ConnectedHistoryAdapter(
                         "Experience - " + array.years_of_experience + " Years"
                 }
             }
-            txtSpecialization!!.text = array.specialization
+
 
             if (!array.from_time.isNullOrEmpty()) {
-                txtDateTime!!.text = array.from_time!!.formatTimeInGMT2()
+                txtDateTime!!.text = array.from_time.formatTimeInGMT2()
             }
-
-            if (array.user_role == AppConstants.APP_ROLE_USER) {
-                imgRowLawyerChat!!.visible()
-                imgRowLawyerCall!!.gone()
-                txtExp?.text = "User"
-                txtSpTitle?.text = "Location :"
-                txtSpecialization!!.text = array.state
-            }
-
-
             Glide.with(context)
                 .load(array.profile_avatar)
                 .placeholder(R.drawable.profile)
                 .into(imgRowLawyerPicture!!)
+
 
 
         }

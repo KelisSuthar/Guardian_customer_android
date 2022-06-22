@@ -83,7 +83,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
             if (extras != null) {
                 if (extras.containsKey("data")) {
                     onVisibleBageCounterCounter(extras.getInt("data"))
-
                 } else if (extras.containsKey("code")) {
 
                 }

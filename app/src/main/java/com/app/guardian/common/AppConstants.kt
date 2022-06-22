@@ -3,6 +3,7 @@ package com.app.guardian.common
 object AppConstants {
 
 
+
     val BROADCAST_REC_INTENT = "PUSH"
     var latitude = 0.0
     var longitude = 0.0
@@ -65,6 +66,10 @@ object AppConstants {
     const val EXTRA_MEDIATOR_PAYLOAD  = "mediator_request"
     const val EXTRA_CHAT_MESSAGE_PAYLOAD  = "chat_message"
 
+    const val VIDEO  = "video"
+    const val TXT  = "text"
+
+    const val NOTIFICATION_BAGE = "NOTIFICATION_BAGE"
 
     const val CITY_STATE = "CITY_STATE"
     const val CITY = "CITY"

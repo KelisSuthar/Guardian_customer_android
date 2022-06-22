@@ -63,10 +63,10 @@ class CreateOrJoinActivity : AppCompatActivity() {
             val networkInfo = manager.activeNetworkInfo
             val isAvailable = networkInfo != null && networkInfo.isConnected
             if (!isAvailable) {
-             /*   Snackbar.make(
+                Snackbar.make(
                     findViewById(R.id.layout), "No Internet Connection",
                     Snackbar.LENGTH_LONG
-                ).show()*/
+                ).show()
             }
             return isAvailable
         }

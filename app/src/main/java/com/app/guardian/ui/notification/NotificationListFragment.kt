@@ -1,8 +1,16 @@
 package com.app.guardian.ui.notification
 
 import android.app.Activity
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.view.View
+import android.widget.TextView
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
+import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
@@ -12,15 +20,18 @@ import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.chatting.ChattingFragment
 import com.app.guardian.ui.notification.adapter.NotificationListAdapter
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
+import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class NotificationListFragment : BaseFragment(), View.OnClickListener {
     lateinit var mBinding: FragmentNotificationListBinding
     private val mViewModel: UserViewModel by viewModel()
     var notificationListAdapter: NotificationListAdapter? = null
+    var broadcaseRecvier: BroadcastReceiver? = null
     var array = ArrayList<NotificationResp>()
     var deleteId = -1
 
@@ -29,6 +40,11 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
     }
 
     override fun initView() {
+        broadcaseRecvier = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent) {
+                callAPI()
+            }
+        }
         mBinding = getBinding()
         (activity as HomeActivity).bottomTabVisibility(false)
         (activity as HomeActivity).headerTextVisible(
@@ -46,6 +62,17 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
         mBinding.rcyNotification.visible()
         mBinding.noDataNotification.gone()
         mBinding.noInternetNotification.llNointernet.gone()
+        LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(
+            broadcaseRecvier!!,
+            IntentFilter(
+                AppConstants.BROADCAST_REC_INTENT
+            )
+        )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(broadcaseRecvier!!)
     }
 
     private fun setAdapter() {
@@ -53,8 +80,23 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
         notificationListAdapter = NotificationListAdapter(context as Activity, array,
             object : NotificationListAdapter.onItemClicklisteners {
                 override fun onDelectclick(position: Int) {
-                    callDeleteAPI(array[position].id)
-                    deleteId = array[position].id!!
+                    showDialog(position)
+
+                    deleteId = position
+                }
+
+                override fun onItemClick(position: Int) {
+                    when (array[position].notification_type) {
+                        AppConstants.EXTRA_CHAT_MESSAGE_PAYLOAD -> {
+                            ReplaceFragment.replaceFragment(
+                                requireActivity(),
+                                ChattingFragment(array[position].sender_id),
+                                true,
+                                NotificationListFragment::class.java.name,
+                                NotificationListFragment::class.java.name,
+                            )
+                        }
+                    }
                 }
             })
         mBinding.rcyNotification.adapter = notificationListAdapter
@@ -133,6 +175,11 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                             array.removeAt(deleteId)
                             notificationListAdapter?.notifyDataSetChanged()
+                            if (array.isNullOrEmpty()) {
+                                mBinding.rcyNotification.gone()
+                                mBinding.noDataNotification.visible()
+                                mBinding.noInternetNotification.llNointernet.gone()
+                            }
                         } else {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                             mBinding.rcyNotification.gone()
@@ -182,5 +229,29 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                 onResume()
             }
         }
+    }
+
+    private fun showDialog(position: Int?) {
+        val dialog = ReusedMethod.setUpDialog(requireContext(), R.layout.dialog_layout, false)
+        val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
+        val TITLE = dialog.findViewById<TextView>(R.id.tvTitle)
+        val MESSAGE = dialog.findViewById<TextView>(R.id.tvMessage)
+        val CANCEL = dialog.findViewById<MaterialTextView>(R.id.tvNegative)
+        TITLE.text = "Are you sure you want to delete this data ?"
+        MESSAGE.gone()
+        CANCEL.text = "Close"
+        OK.text = "Delete"
+        CANCEL.isAllCaps = false
+        OK.isAllCaps = false
+        CANCEL.setOnClickListener {
+            dialog.dismiss()
+        }
+        OK.setOnClickListener {
+            callDeleteAPI(array[position!!].id)
+            dialog.dismiss()
+        }
+
+
+        dialog.show()
     }
 }

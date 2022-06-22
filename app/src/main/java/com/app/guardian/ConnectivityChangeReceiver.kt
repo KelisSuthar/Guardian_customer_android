@@ -11,6 +11,11 @@ class ConnectivityChangeReceiver : BroadcastReceiver() {
         val i = Intent(context, BackgroundService::class.java)
         context!!.stopService(intent)
         i.putExtra("isNetworkConnected", ReusedMethod.isNetworkConnected(context))
-        context.startService(i)
+        if (ReusedMethod.isNetworkConnected(context)) {
+            context.startService(i)
+        } else {
+            context.startService(i)
+        }
+
     }
 }

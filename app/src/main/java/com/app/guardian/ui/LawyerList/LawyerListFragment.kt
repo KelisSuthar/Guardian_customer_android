@@ -228,11 +228,11 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
 
         YES.setOnClickListener {
             dialog.dismiss()
-          /*  ReusedMethod.displayMessage(
+            ReusedMethod.displayMessage(
                 context as Activity,
                 (context as Activity).resources.getString(R.string.come_soon)
-            )*/
-            startActivity(Intent(context,CreateOrJoinActivity::class.java))
+            )
+//            startActivity(Intent(context,CreateOrJoinActivity::class.java))
         }
 
         NO.setOnClickListener {

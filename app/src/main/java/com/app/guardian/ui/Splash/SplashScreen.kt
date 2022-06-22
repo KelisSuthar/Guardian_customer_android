@@ -82,9 +82,9 @@ class SplashScreen : BaseActivity(), View.OnClickListener {
                 DEVICE_TOKEN = SharedPreferenceManager.getString(ApiConstant.EXTRAS_DEVICETOKEN, "")
                 Log.e("FinalGeneratedToken", "=$token")
             })
-        }else{
-            Log.e("StoredDeviceToken", DEVICE_TOKEN.toString())
-        }
+        }else
+
+        Log.e("StoredDeviceToken", DEVICE_TOKEN.toString())
 
     }
 

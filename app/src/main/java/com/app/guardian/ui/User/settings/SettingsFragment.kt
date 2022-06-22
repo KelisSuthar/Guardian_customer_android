@@ -2,16 +2,21 @@ package com.app.guardian.ui.User.settings
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.view.View
 import android.view.Window
 import android.widget.TextView
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentSettingsBinding
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.model.viewModels.CommonScreensViewModel
@@ -40,6 +45,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
     private lateinit var mBinding: FragmentSettingsBinding
     private val mViewModel: CommonScreensViewModel by viewModel()
     private val authViewModel: AuthenticationViewModel by viewModel()
+    val intentAction = "com.parse.push.intent.RECEIVE"
     override fun getInflateResource(): Int {
         return R.layout.fragment_settings
 
@@ -55,7 +61,32 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
             .into(mBinding.imgProfile)
         mBinding.txtUName.text = SharedPreferenceManager.getUser()?.user?.full_name
     }
+    //todo : broadcast for chat notification
+    private val mBroadcastReceiver = object : BroadcastReceiver() {
 
+        override fun onReceive(context: Context, intent: Intent) {
+
+            val extras = intent.extras
+
+            if (extras != null) {
+                if(HomeActivity.bage_counter_notification>0)
+                {
+                    mBinding.txtSettingNotificationCoout.visible()
+                    mBinding.txtSettingNotificationCoout.text = HomeActivity.bage_counter_notification.toString()
+                }else{
+                    mBinding.txtSettingNotificationCoout.gone()
+                    mBinding.txtSettingNotificationCoout.text = HomeActivity.bage_counter_notification.toString()
+
+                }
+            }
+
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(mBroadcastReceiver);
+    }
     private fun setViews() {
         (activity as HomeActivity).bottomTabVisibility(true)
         (activity as HomeActivity).headerTextVisible(
@@ -128,6 +159,11 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         callCMSAPI()
+        LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(
+            mBroadcastReceiver, IntentFilter(
+                HomeActivity.intentAction
+            )
+        )
     }
 
     private fun callCMSAPI() {
