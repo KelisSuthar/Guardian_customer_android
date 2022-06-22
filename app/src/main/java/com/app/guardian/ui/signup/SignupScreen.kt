@@ -137,7 +137,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 mBinding.edtSpecializations.visible()
                 mBinding.fmOficeNum.visible()
                 mBinding.edtYearsOfExp.visible()
-                mBinding.edtVehicalNum.gone()
+                mBinding.edtRegisteredLicenceNum.visible()
             }
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
@@ -147,7 +147,6 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 ROLE = AppConstants.APP_ROLE_MEDIATOR
                 mBinding.edtSpecializations.visible()
                 mBinding.edtYearsOfExp.visible()
-                mBinding.edtVehicalNum.gone()
             }
         }
 
@@ -247,13 +246,13 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     }
                 }
             }
-        mBinding.edtVehicalNum.onFocusChangeListener =
+        mBinding.edtRegisteredLicenceNum.onFocusChangeListener =
             View.OnFocusChangeListener { _, hasFocus ->
-                val value = mBinding.edtVehicalNum.text?.trim().toString()
+                val value = mBinding.edtRegisteredLicenceNum.text?.trim().toString()
                 if (!hasFocus) {
 
-                    if (!TextUtils.isEmpty(value)) {
-                        ShowNoBorders(this@SignupScreen, mBinding.edtVehicalNum)
+                    if (!TextUtils.isEmpty(value) || value.length<5 ) {
+                        ShowNoBorders(this@SignupScreen, mBinding.edtRegisteredLicenceNum)
                     }
                 }
             }
@@ -590,7 +589,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
             mBinding.edtConPass.text?.trim().toString(),
             mBinding.edtProvience.text?.trim().toString(),
             mBinding.edtPostalCode.text?.trim().toString(),
-            mBinding.edtVehicalNum.text?.trim().toString(),
+            mBinding.edtRegisteredLicenceNum.text?.trim().toString(),
             images,
             object : ValidationView.SignUp {
                 override fun profileImgValidations() {
@@ -988,11 +987,11 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     ShowRedBorders(this@SignupScreen, mBinding.edtProvience)
                 }
 
-                override fun licencPlate_empty() {
+                override fun licencNum_empty() {
                     displayMessageDialog(
                         this@SignupScreen,
                         "",
-                        resources.getString(R.string.empty_licence),
+                        resources.getString(R.string.empty_licence_num),
                         false,
                         "OK",
                         ""
@@ -1007,14 +1006,14 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     ShowNoBorders(this@SignupScreen, mBinding.edtConPass)
                     ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
                     ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
-                    ShowRedBorders(this@SignupScreen, mBinding.edtVehicalNum)
+                    ShowRedBorders(this@SignupScreen, mBinding.edtRegisteredLicenceNum)
                 }
 
-                override fun licencPlatevalidations() {
+                override fun licencNumvalidations() {
                     displayMessageDialog(
                         this@SignupScreen,
                         "",
-                        resources.getString(R.string.valid_licence),
+                        resources.getString(R.string.valid_licence_num),
                         false,
                         "OK",
                         ""
@@ -1029,7 +1028,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     ShowNoBorders(this@SignupScreen, mBinding.edtConPass)
                     ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
                     ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
-                    ShowRedBorders(this@SignupScreen, mBinding.edtVehicalNum)
+                    ShowRedBorders(this@SignupScreen, mBinding.edtRegisteredLicenceNum)
 
                 }
 
@@ -1061,7 +1060,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     ShowNoBorders(this@SignupScreen, mBinding.edtConPass)
                     ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
                     ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
-                    ShowRedBorders(this@SignupScreen, mBinding.edtVehicalNum)
+                    ShowRedBorders(this@SignupScreen, mBinding.edtRegisteredLicenceNum)
 //
 //                    chatRegistration(
 //                        mBinding.edtEmail.text?.trim().toString(),
@@ -1105,7 +1104,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     .toString(),
                 mBinding.edtProvience.text?.trim().toString(),
                 mBinding.edtPostalCode.text?.trim().toString(),
-                mBinding.edtVehicalNum.text?.trim().toString(),
+                mBinding.edtRegisteredLicenceNum.text?.trim().toString(),
                 profile_img,
                 images,
                 DEVICE_TOKEN.toString(),

@@ -79,14 +79,21 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
         override fun onReceive(context: Context, intent: Intent) {
 
             val extras = intent.getExtras()
+            val getFragment = supportFragmentManager.findFragmentById(R.id.flUserContainer)
+            if (getFragment != null) {
+                if (getFragment !is SettingsFragment) {
+                    if (extras != null) {
+                        if (extras.containsKey("data")) {
+                            onVisibleBageCounterCounter(extras.getInt("data"))
+                        } else if (extras.containsKey("code")) {
 
-            if (extras != null) {
-                if (extras.containsKey("data")) {
-                    onVisibleBageCounterCounter(extras.getInt("data"))
-                } else if (extras.containsKey("code")) {
-
+                        }
+                    }
                 }
+            }else{
+                onHideBadgeCounter()
             }
+
 
         }
     }
@@ -145,6 +152,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
                     )
                 }
                 R.id.menu_setting -> {
+                    onHideBadgeCounter()
                     clearFragmentBackStack()
                     ReplaceFragment.replaceFragment(
                         this,
@@ -583,17 +591,9 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
             Log.e("Bage count", "Bage count e:" + e.printStackTrace())
         }
     }
- fun removeSettingBage(){
-        try {
 
-            bage_counter_notification = 0
-            main_layoutBageCounter?.visibility = View.INVISIBLE
-            txtBagecount?.visibility = View.INVISIBLE
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Log.e("Bage count", "Bage count e:" + e.printStackTrace())
-        }
- }
+//    fun removeSettingBage() {
+//        onHideBadgeCounter()
+//    }
 
 }

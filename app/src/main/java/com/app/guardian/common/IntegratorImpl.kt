@@ -59,7 +59,7 @@ object IntegratorImpl {
         conpassword: String,
         provience: String,
         postal_code: String,
-        licence_plate: String,
+        licence_num: String,
         documentList: ArrayList<String>,
 
         ValidationView: ValidationView.SignUp
@@ -117,6 +117,10 @@ object IntegratorImpl {
                         ValidationView.empty_postal_code()
                     } else if (postal_code.length < 3 || postal_code.length > 9) {
                         ValidationView.valid_postal_code()
+                    } else if (TextUtils.isEmpty(licence_num)) {
+                        ValidationView.licencNum_empty()
+                    } else if (licence_num.length < 5) {
+                        ValidationView.licencNumvalidations()
                     } else if (documentList.size == 0) {
                         ValidationView.docValidations()
                     } else {
@@ -652,26 +656,22 @@ object IntegratorImpl {
     fun isValidEdit(
         isLawyer: Boolean,
         isMediator: Boolean,
-        profileImg: String,
         fullName: String,
-//        email: String,
+        email: String,
         mobile: String,
         provience: String,
         postal_code: String,
-        vehicalnumber: String,
         images: ArrayList<String>,
         ValidationView: ValidationView.EditProfile
     ) {
-        if (TextUtils.isEmpty(profileImg)) {
-            ValidationView.empty_profilePic()
-        } else if (TextUtils.isEmpty(fullName)) {
+        if (TextUtils.isEmpty(fullName)) {
             ValidationView.fullname_empty()
         } else if (fullName.length > 35 || fullName.length < 3) {
             ValidationView.fulllNameValidation()
-//        }         else if (TextUtils.isEmpty(email)) {
-//            ValidationView.email_empty()
-//        } else if (!SmartUtils.emailValidator(email)) {
-//            ValidationView.emailValidation()
+        } else if (TextUtils.isEmpty(email)) {
+            ValidationView.email_empty()
+        } else if (!SmartUtils.emailValidator(email)) {
+            ValidationView.emailValidation()
         } else if (TextUtils.isEmpty(mobile)) {
             ValidationView.moNumber_empty()
         } else if (mobile.length < 10) {
@@ -684,10 +684,7 @@ object IntegratorImpl {
             ValidationView.empty_postal_code()
         } else if (postal_code.length < 3 || postal_code.length > 9) {
             ValidationView.valid_postal_code()
-        }//                else if (licence_plate.length < 15) {
-//                    ValidationView.licencPlateLength()
-//                }
-        else if (images.size == 0) {
+        } else if (images.size == 0) {
             ValidationView.docValidations()
         } else {
             ValidationView.success()

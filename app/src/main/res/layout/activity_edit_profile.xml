@@ -193,6 +193,7 @@
 
                     <com.rilixtech.widget.countrycodepicker.CountryCodePicker
                         android:id="@+id/ccp2"
+                        android:focusable="false"
                         android:layout_width="@dimen/_40sdp"
                         android:layout_height="match_parent"
                         android:background="@drawable/left_corners_blue_back"
@@ -211,7 +212,8 @@
                         app:ccp_textSize="@dimen/_9ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
 
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -222,6 +224,7 @@
                         android:drawablePadding="@dimen/_10sdp"
                         android:fontFamily="@font/lora_regular"
                         android:hint="@string/phone"
+                        android:focusable="false"
                         android:inputType="number"
                         android:maxLength="10"
                         android:padding="@dimen/_10sdp"
@@ -268,7 +271,7 @@
 
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtVehicalNum"
+                    android:id="@+id/edtRegisteredLicenceNum"
                     style="@style/White_edittext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -279,6 +282,9 @@
                     android:inputType="text"
                     android:textFontWeight="400"
                     android:textSize="@dimen/_12ssp"
+                    android:visibility="gone"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-"
+                    android:focusable="false"
                     app:layout_constraintTop_toBottomOf="@id/edtPostalCode" />
 
                 <LinearLayout
@@ -289,7 +295,7 @@
                     android:orientation="vertical"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edtVehicalNum">
+                    app:layout_constraintTop_toBottomOf="@+id/edtRegisteredLicenceNum">
 
                     <LinearLayout
                         android:layout_width="match_parent"

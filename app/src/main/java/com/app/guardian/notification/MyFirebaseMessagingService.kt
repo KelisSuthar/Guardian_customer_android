@@ -115,7 +115,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             this,
             0 /* Request code */,
             intent,
-            PendingIntent.FLAG_ONE_SHOT
+            PendingIntent.FLAG_IMMUTABLE
+
         )
         val notificationLayout = RemoteViews(
             applicationContext.packageName,

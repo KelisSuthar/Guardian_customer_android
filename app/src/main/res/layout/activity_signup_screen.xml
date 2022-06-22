@@ -319,7 +319,7 @@
 
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtVehicalNum"
+                        android:id="@+id/edtRegisteredLicenceNum"
                         style="@style/White_edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -328,6 +328,9 @@
                         android:fontFamily="@font/lora_regular"
                         android:hint="@string/licence_num"
                         android:inputType="text"
+                        android:visibility="gone"
+                        android:maxLength="25"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-"
                         android:textFontWeight="400"
                         android:textSize="@dimen/_12ssp" />
                 </LinearLayout>

@@ -123,7 +123,9 @@
     <string name="empty_postal_code">Please enter Postal Code/Zip Code.</string>
     <string name="valid_postal_code">Please enter valid Postal Code/Zip Code.</string>
     <string name="empty_licence">Please enter licence plate no. for car.</string>
+    <string name="empty_licence_num">Please enter your licence number.</string>
     <string name="valid_licence">Please enter valid licence plate no. for car.</string>
+    <string name="valid_licence_num">Please enter valid licence number.</string>
     <string name="valid_doc">Please upload at least one document of yours.</string>
     <string name="empty_specialization">Please enter specialization.</string>
     <string name="valid_specialization">Please enter valid description of specialization</string>
@@ -186,6 +188,7 @@
     <string name="provience_state">Province/State</string>
     <string name="postal_code">Postal Code/Zip Code</string>
     <string name="licence_num">Licence Plate No. for Car</string>
+    <string name="registered_licence_num">Registered Licence No</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="profile_pic">Profile Picture</string>

@@ -408,7 +408,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                     HomeActivity::class.java.name
                 )
                 requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
-                HomeActivity().removeSettingBage()
+
 
             }
             R.id.tvSpecialization -> {

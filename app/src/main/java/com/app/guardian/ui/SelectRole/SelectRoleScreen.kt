@@ -25,7 +25,7 @@ class SelectRoleScreen : BaseActivity(), View.OnClickListener {
     override fun initView() {
         mBinding = getBinding()
         mBinding.headder.tvHeaderText.text = resources.getString(R.string.select_user_role)
-        mBinding.headder.ivBack.gone()
+
         changeLayout(1)
     }
 
@@ -41,12 +41,16 @@ class SelectRoleScreen : BaseActivity(), View.OnClickListener {
         mBinding.rb2.setOnClickListener(this)
         mBinding.rb3.setOnClickListener(this)
         mBinding.btnSubmit.setOnClickListener(this)
+        mBinding.headder.ivBack.setOnClickListener(this)
 
     }
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-            R.id.rl1 -> {
+            R.id.ivBack -> {
+                onBackPressed()
+                overridePendingTransition(R.anim.leftto, R.anim.right)
+            }R.id.rl1 -> {
                 changeLayout(1)
             }
             R.id.rl2 -> {

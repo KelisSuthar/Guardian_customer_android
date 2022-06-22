@@ -33,6 +33,7 @@ import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.gms.location.*
 import com.google.android.material.textview.MaterialTextView
+import com.google.gson.Gson
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -40,7 +41,6 @@ import java.util.*
 class EditProfileActivity : BaseActivity(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
     private val authenticationViewModel: AuthenticationViewModel by viewModel()
-    private val authViewModel: AuthenticationViewModel by viewModel()
 
     lateinit var mBinding: ActivityEditProfileBinding
     var imageAdapter: ImageAdapter? = null
@@ -97,8 +97,8 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 mBinding.edtSpecializations.visible()
                 mBinding.clayout1.visible()
                 mBinding.edtYearsOfExp.visible()
-                mBinding.edtVehicalNum.visible()
-                mBinding.edtVehicalNum.hint = "Registered Licence No"
+                mBinding.edtRegisteredLicenceNum.visible()
+                mBinding.edtRegisteredLicenceNum.hint = "Registered Licence No"
             }
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
@@ -107,7 +107,6 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 is_mediator = true
                 mBinding.edtSpecializations.visible()
                 mBinding.edtYearsOfExp.visible()
-                mBinding.edtVehicalNum.gone()
             }
         }
         //Check ROle
@@ -200,8 +199,60 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
-
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.leftto, R.anim.right)
+    }
     override fun initObserver() {
+        authenticationViewModel.getEditProfileResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            ReusedMethod.displayMessage(this, it.message.toString())
+                            val gson = Gson()
+                            val json = gson.toJson(data)
+                            SharedPreferenceManager.putString(
+                                AppConstants.USER_DETAIL_LOGIN,
+                                json
+                            )
+                            onBackPressed()
+                        } else {
+                            ReusedMethod.displayMessage(this, it.message.toString())
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                this,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        startActivity(
+                                            Intent(
+                                                this@EditProfileActivity,
+                                                LoginActivity::class.java
+                                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                                .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        )
+                                        overridePendingTransition(R.anim.rightto, R.anim.left)
+                                    } else {
+                                        ReusedMethod.displayMessage(this as Activity, it)
+                                    }
+                                }
+                    }
+                }
+            }
+        }
         mViewModel.getuserDetailsResp().observe(this) { response ->
             response?.let { requestState ->
                 showLoadingIndicator(requestState.progress)
@@ -226,16 +277,17 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                             errorObj.customMessage
                                 ?.let {
                                     if (errorObj.code == ApiConstant.API_401) {
-                                        authViewModel.signOUT(true, this as BaseActivity)
                                         startActivity(
                                             Intent(
                                                 this@EditProfileActivity,
                                                 LoginActivity::class.java
-                                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                                .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                         )
                                         overridePendingTransition(R.anim.rightto, R.anim.left)
-                                    }
-                                    else{
+                                    } else {
                                         ReusedMethod.displayMessage(this as Activity, it)
                                     }
                                 }
@@ -252,6 +304,13 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         specializationList.clear()
                         if (it.status) {
                             specializationList.addAll(data)
+                            if (specializationList.isNotEmpty()) {
+                                for (i in specializationList.indices) {
+                                    if (specializationList[i].title == mBinding.edtSpecializations.text.toString()) {
+                                        selectedid == specializationList[i].id
+                                    }
+                                }
+                            }
                         } else {
                             ReusedMethod.displayMessage(this, it.message.toString())
                         }
@@ -269,16 +328,18 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                             errorObj.customMessage
                                 ?.let {
                                     if (errorObj.code == ApiConstant.API_401) {
-                                        authViewModel.signOUT(true, this as BaseActivity)
+
                                         startActivity(
                                             Intent(
                                                 this@EditProfileActivity,
                                                 LoginActivity::class.java
-                                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                                .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                         )
                                         overridePendingTransition(R.anim.rightto, R.anim.left)
-                                    }
-                                    else{
+                                    } else {
                                         ReusedMethod.displayMessage(this as Activity, it)
                                     }
                                 }
@@ -304,7 +365,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         mBinding.edtPhone.setText(data.phone)
         mBinding.edtProvience.setText(data.state)
         mBinding.edtPostalCode.setText(data.postal_code)
-        mBinding.edtVehicalNum.setText(data.licence_no)
+        mBinding.edtRegisteredLicenceNum.setText(data.licence_no)
 
         if (data.profile_avatar != "null" || data.profile_avatar!!.isNotEmpty()) {
             profile_img = data.profile_avatar.toString()
@@ -422,12 +483,10 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         IntegratorImpl.isValidEdit(
             is_lawyer, is_mediator,
             profile_img, mBinding.edtFullname.text?.trim().toString(),
-
             mBinding.ccp1.selectedCountryCode.toString() + mBinding.edtPhone.text?.trim()
                 .toString(),
             mBinding.edtProvience.text?.trim().toString(),
             mBinding.edtPostalCode.text?.trim().toString(),
-            mBinding.edtVehicalNum.text?.trim().toString(),
             images,
             object : ValidationView.EditProfile {
                 override fun empty_profilePic() {
@@ -463,6 +522,10 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         ""
                     )
                     ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtFullname)
+                }
+
+                override fun email_empty() {
+                    TODO("Not yet implemented")
                 }
 
 //                override fun email_empty() {
@@ -579,13 +642,49 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 override fun success() {
                     ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFullname)
                     ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtEmail)
-                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtVehicalNum)
-                    ReusedMethod.displayMessage(this@EditProfileActivity, resources.getString(R.string.come_soon))
-//                    callApi()
+//                    ReusedMethod.displayMessage(
+//                        this@EditProfileActivity,
+//                        resources.getString(R.string.come_soon)
+//                    )
+                    callEditProfileApi()
                 }
 
             }
         )
+    }
+
+    private fun callEditProfileApi() {
+        if (ReusedMethod.isNetworkConnected(this)) {
+            authenticationViewModel.EditProfile(
+                true,
+                this,
+                is_lawyer,
+                is_mediator,
+                mBinding.edtFullname.text?.trim().toString(),
+                mBinding.edtEmail.text?.trim().toString(),
+                mBinding.edtSpecializations.text?.trim().toString(),
+                mBinding.edtYearsOfExp.text?.trim().toString(),
+                mBinding.ccp1.selectedCountryCode.toString(),
+                mBinding.edtOfficeNum.text?.trim()
+                    .toString(),
+
+
+                mBinding.ccp2.selectedCountryCode.toString(),
+                mBinding.edtPhone.text?.trim()
+                    .toString(),
+                mBinding.edtProvience.text?.trim().toString(),
+                mBinding.edtPostalCode.text?.trim().toString(),
+                mBinding.edtRegisteredLicenceNum.text?.trim().toString(),
+                profile_img,
+                images,
+
+                )
+        } else {
+            mBinding.noInternetEdit.llNointernet.visible()
+            mBinding.ns.gone()
+            mBinding.noDataEdit.gone()
+            showLoadingIndicator(false)
+        }
     }
 
     private fun setDialog() {
