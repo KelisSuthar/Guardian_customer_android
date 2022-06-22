@@ -6,8 +6,13 @@ import android.content.ComponentCallbacks2
 import android.content.Context
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import androidx.multidex.MultiDex
 import com.androidnetworking.AndroidNetworking
+import com.amplifyframework.AmplifyException
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin
 import com.app.guardian.common.LocaleUtils
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.ShowLogToast
@@ -55,6 +60,20 @@ class GuardianApplication :Application(),Application.ActivityLifecycleCallbacks{
         currentContext =
             appContext
         SharedPreferenceManager.init(appContext)
+
+        try {
+            // Add these lines to add the AWSApiPlugin plugins
+            //Amplify.addPlugin(AWSApiPlugin())
+            Amplify.addPlugin(AWSCognitoAuthPlugin())
+            Amplify.addPlugin(AWSS3StoragePlugin())
+            Amplify.configure(applicationContext)
+
+
+            Log.i("MyAmplifyApp", "Initialized Amplify")
+        } catch (error: AmplifyException) {
+            Log.i("MyAmplifyApp", "Could not initialize Amplify", error)
+        }
+
         if (!isInitialized) initialize()
     }
 

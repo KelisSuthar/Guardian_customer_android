@@ -187,4 +187,9 @@ object AppConstants {
     const val ACCOMODATION_ACCEPTED = "Renter request Accepted"
     const val ACCOMODATION_REJECTED = "Renter request Rejected"
     const val HOME_NOTIFICATION = "Home Notification"
+
+    const val AWS_ACCESS_KEY ="AKIA3AXY2Q6I6YNJZAP6"
+    const val AWS_SECRET_KEY ="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"
+ //   const val AWS_BASE_URL ="https://guardian-doc.s3.us-east-2.amazonaws.com/"
+    const val AWS_BASE_URL ="https://guardian-doc121628-dev.s3.us-east-2.amazonaws.com/public/"
 }
