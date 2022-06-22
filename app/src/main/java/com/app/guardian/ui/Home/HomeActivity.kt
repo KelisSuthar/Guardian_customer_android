@@ -241,22 +241,21 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
                 ReusedMethod.setLocationDialog(this)
             }
         }
-        if(intent !=null && intent.extras !=null){
-            if(intent.getBooleanExtra(AppConstants.IS_NOTIFICATION,false))
-            {
-                if(intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA) == AppConstants.EXTRA_CHAT_MESSAGE_PAYLOAD)
-                {
-                    Log.i("NOTIFICATION_DATA",
+        if (intent != null && intent.extras != null) {
+            if (intent.getBooleanExtra(AppConstants.IS_NOTIFICATION, false)) {
+                if (intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA) == AppConstants.EXTRA_CHAT_MESSAGE_PAYLOAD) {
+                    Log.i(
+                        "NOTIFICATION_DATA",
                         intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA)!!
                     )
-                }else if(intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA) == AppConstants.EXTRA_MEDIATOR_PAYLOAD)
-                {
-                    Log.i("NOTIFICATION_DATA",
+                } else if (intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA) == AppConstants.EXTRA_MEDIATOR_PAYLOAD) {
+                    Log.i(
+                        "NOTIFICATION_DATA",
                         intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA)!!
                     )
-                }else if(intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA) == AppConstants.EXTRA_VIRTUAL_WITNESS_PAYLOAD)
-                {
-                    Log.i("NOTIFICATION_DATA",
+                } else if (intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA) == AppConstants.EXTRA_VIRTUAL_WITNESS_PAYLOAD) {
+                    Log.i(
+                        "NOTIFICATION_DATA",
                         intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA)!!
                     )
                 }
