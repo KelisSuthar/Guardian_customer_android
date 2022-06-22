@@ -7,6 +7,7 @@ import android.content.Intent
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Looper
+import android.os.NetworkOnMainThreadException
 import android.provider.Settings
 import android.util.Log
 import android.view.View
@@ -14,6 +15,14 @@ import android.view.Window
 import android.widget.TextView
 import androidx.core.content.PermissionChecker
 import androidx.recyclerview.widget.RecyclerView
+import com.amazonaws.ClientConfiguration
+import com.amazonaws.Protocol
+import com.amazonaws.auth.BasicAWSCredentials
+import com.amazonaws.regions.Region
+import com.amazonaws.regions.Regions
+import com.amazonaws.services.s3.AmazonS3Client
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.storage.options.StorageUploadFileOptions
 import com.app.guardian.R
 import com.app.guardian.common.*
 import com.app.guardian.common.ReusedMethod.Companion.getAddress
@@ -35,6 +44,7 @@ import com.google.android.gms.location.*
 import com.google.android.material.textview.MaterialTextView
 import com.google.gson.Gson
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.io.File
 import java.util.*
 
 
@@ -53,6 +63,10 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
     var is_mediator = false
     var is_user = false
     var selectedid = -1
+    var selectedFile: File? = null
+    var attachmentUrl = ""
+
+    private var uploadedImageList: ArrayList<String>? = arrayListOf()
 
     private var locationManager: LocationManager? = null
     private var mFusedLocationClient: FusedLocationProviderClient? = null
@@ -199,10 +213,12 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
+
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.leftto, R.anim.right)
     }
+
     override fun initObserver() {
         authenticationViewModel.getEditProfileResp().observe(this) { response ->
             response?.let { requestState ->
@@ -646,7 +662,8 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
 //                        this@EditProfileActivity,
 //                        resources.getString(R.string.come_soon)
 //                    )
-                    callEditProfileApi()
+//                    callEditProfileApi()
+                    uploadFile(selectedFile, images)
                 }
 
             }
@@ -756,7 +773,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                     val uri: Uri = data?.data!!
                     mBinding.ivProfileImg.setImageURI(uri)
                     profile_img = ImagePicker.getFilePath(data).toString()
-
+                    selectedFile = ImagePicker.getFile(data)!!
                 }
                 DOCUMENT_CODE -> {
                     images.add(ImagePicker.getFilePath(data).toString())
@@ -789,6 +806,86 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
 //                return
 //            }
         }
+    }
+
+    private fun uploadFile(selectedFile: File?, imageList: ArrayList<String>) {
+        showLoadingIndicator(true)
+        try {
+            val options = StorageUploadFileOptions.defaultInstance()
+            val clientConfig = ClientConfiguration()
+            clientConfig.socketTimeout = 120000
+            clientConfig.connectionTimeout = 10000
+            clientConfig.maxErrorRetry = 2
+            clientConfig.protocol = Protocol.HTTP
+
+            val credentials = BasicAWSCredentials(
+                AppConstants.AWS_ACCESS_KEY,
+                AppConstants.AWS_SECRET_KEY
+            )
+            val s3 = AmazonS3Client(credentials, clientConfig)
+            s3.setRegion(Region.getRegion(Regions.US_EAST_2))
+            Amplify.Storage.uploadFile(selectedFile?.name.toString(), selectedFile!!, options, {
+                Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}")
+            },
+                {
+                    Log.i("MyAmplifyApp", "Successfully uploaded: ${it.key}")
+                    attachmentUrl = "${AppConstants.AWS_BASE_URL}${selectedFile?.name}"
+                    Log.i("attachmentUrl", attachmentUrl)
+                },
+                {
+                    showLoadingIndicator(false)
+                    Log.i("MyAmplifyApp", "Upload failed", it)
+                }
+            )
+            uploadMultipleImageFile(imageList)
+
+
+        } catch (exception: Exception) {
+            showLoadingIndicator(false)
+            Log.i("MyAmplifyApp", "Upload failed", exception)
+        } catch (e: NetworkOnMainThreadException) {
+            Log.i("MyAmplifyApp", "Upload failed$e.message")
+        }
+    }
+
+    private fun uploadMultipleImageFile(imageList: ArrayList<String>) {
+
+        var counter = 0
+        val imageListSize = imageList.size
+        uploadedImageList?.clear()
+        imageList.forEachIndexed { index, s ->
+
+            var image1 = File(s)
+            try {
+
+                val options = StorageUploadFileOptions.defaultInstance()
+                Amplify.Storage.uploadFile(image1.name.toString(), image1, options,
+                    {
+                        Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}")
+                    },
+                    {
+                        counter += 1
+                        Log.i("MyAmplifyApp", "Successfully uploaded: ${it.key}")
+                        uploadedImageList?.add("${AppConstants.AWS_BASE_URL}${image1.name}")
+                        if (imageListSize == counter) {
+                            Log.i("uploadedImageList", uploadedImageList.toString())
+                            callEditProfileApi()
+                        }
+                    },
+                    {
+                        showLoadingIndicator(false)
+                        Log.i("MyAmplifyApp", "Upload failed", it)
+                    }
+                )
+            } catch (exception: java.lang.Exception) {
+                showLoadingIndicator(false)
+                Log.i("MyAmplifyApp", "Upload failed", exception)
+            } catch (e: NetworkOnMainThreadException) {
+                showLoadingIndicator(false)
+                Log.i("MyAmplifyApp", "Upload failed$e.message")
+            }
+        }
+
     }
 
 }
