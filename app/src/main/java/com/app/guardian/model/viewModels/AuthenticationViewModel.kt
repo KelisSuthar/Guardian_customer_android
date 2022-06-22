@@ -384,6 +384,105 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             verifyPhoneOTPResp
         )
     }
+    //EDIT PROFILE API
+    private val loginResp =
+        MutableLiveData<RequestState<LoginResp>>()
 
+    fun getEditProfileResp(): LiveData<RequestState<LoginResp>> =
+        loginResp
+
+    fun EditProfile(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        is_lawyer: Boolean,
+        is_mediator: Boolean,
+        full_name: String,
+        email: String,
+        specialization: String,
+        years_of_experience: String,
+        office_dial_code: String,
+        office_phone: String,
+        password: String,
+        confirm_password: String,
+        dial_code: String,
+        phone: String,
+        state: String,
+        postal_code: String,
+        licence_no: String,
+        profile_avatar: String,
+        user_doc: ArrayList<String>,
+        device_token: String,
+        firebase_uid: String,
+    ) {
+        val body = JsonObject()
+
+        body.addProperty(ApiConstant.EXTRAS_FULL_NAME, full_name)
+        body.addProperty(ApiConstant.EXTRAS_EMAIL, email)
+        if (is_lawyer) {
+            body.addProperty(ApiConstant.EXTRAS_SPECIALIZATION, specialization)
+            body.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
+            body.addProperty(ApiConstant.EXTRAS_OFFICE_PHONE, office_phone)
+            body.addProperty(ApiConstant.EXTRAS_OFFICE_DIAL_CODE, office_dial_code)
+            body.addProperty(ApiConstant.EXTRAS_PHONE, phone)
+            body.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
+        } else if (is_mediator) {
+            body.addProperty(ApiConstant.EXTRAS_SPECIALIZATION, specialization)
+            body.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
+            body.addProperty(ApiConstant.EXTRAS_PHONE, phone)
+            body.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
+
+        } else {
+            body.addProperty(ApiConstant.EXTRAS_PHONE, phone)
+            body.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
+            body.addProperty(ApiConstant.EXTRAS_LICENCE_NO, licence_no)
+        }
+
+        body.addProperty(ApiConstant.EXTRAS_PASSWORD, password)
+        body.addProperty(ApiConstant.EXTRAS_CONFIRM_PASS, confirm_password)
+        body.addProperty(ApiConstant.EXTRAS_STATE, state)
+        body.addProperty(ApiConstant.EXTRAS_POSTAL_CODE, postal_code)
+        body.addProperty(ApiConstant.EXTRAS_FIREBASE_UUID, firebase_uid)
+        body.addProperty(ApiConstant.EXTRAS_DEVICETOKEN, device_token)
+
+        val img_array = JsonArray()
+//        for (i in user_doc.indices) {
+        img_array.add("https://blog.ipleaders.in/wp-content/uploads/2019/05/documents-158461_1280-696x637.png")
+//        }
+        body.addProperty(ApiConstant.EXTRAS_PROFILE_AVATAR, "https://scontent.famd5-3.fna.fbcdn.net/v/t1.6435-9/69563903_3014898355248679_7611766459034763264_n.png?_nc_cat=108&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=2glt0vXEgjkAX9MMsBk&_nc_ht=scontent.famd5-3.fna&oh=00_AT8e2ecT0ieq5LX81QMOK3Gkc-DACRwoi2nHNVYfUJ-t4A&oe=62BC2AD2")
+        body.add(ApiConstant.EXTRAS_USER_DOC, img_array)
+
+
+//        if (profile_avatar != "") {
+//            val file = File(profile_avatar)
+//            file.let {
+//                body.addFormDataPart(
+//                    ApiConstant.EXTRAS_PROFILE_AVATAR,
+//                    it.name,
+//                    it.asRequestBody("image/*".toMediaTypeOrNull())
+//                )
+//            }
+//        }
+//        user_doc.forEach {
+//            if (it != "") {
+//                val file = File(it)
+//                file.let {
+//                    body.addFormDataPart(
+//                        ApiConstant.EXTRAS_USER_DOC,
+//                        it.name,
+//                        it.asRequestBody("image/*".toMediaTypeOrNull())
+//                    )
+//                }
+//            }
+//        }
+
+
+
+        mUserRepository.editprofile(
+            body,
+            isInternetConnected,
+            baseView,
+            loginResp
+        )
+    }
 
 }

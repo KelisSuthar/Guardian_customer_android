@@ -833,4 +833,23 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
             )
         }
     }
+
+    override fun editprofile(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        loginResp: MutableLiveData<RequestState<LoginResp>>
+    ) {
+        if (!internetConnected) {
+            loginResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            loginResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.updateUserProfile(body),
+                baseView,
+                loginResp
+            )
+        }
+    }
 }

@@ -324,6 +324,13 @@ interface UserRepo {
         commonResponse: MutableLiveData<RequestState<ScheduleRequestedVideoCallResp>>
     )
 
+    fun editprofile(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        loginResp: MutableLiveData<RequestState<LoginResp>>
+    )
+
 
 }
 
