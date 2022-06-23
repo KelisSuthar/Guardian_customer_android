@@ -6,6 +6,7 @@ import android.content.res.ColorStateList
 import android.net.Uri
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
@@ -27,6 +28,7 @@ import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
+import com.google.android.material.textview.MaterialTextView
 import com.google.gson.Gson
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -46,20 +48,49 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
         (activity as HomeActivity).bottomTabVisibility(true)
         (activity as HomeActivity).headerTextVisible(
             requireActivity().resources.getString(R.string.lawyer_profile),
-            false,
-            false
+            isHeaderVisible = false,
+            isBackButtonVisible = false
         )
 
         setAdapter()
         callApi()
         Log.e("EDIT_APP", SharedPreferenceManager.getUser().toString())
         mBinding.availabilitySwitch.setOnToggledListener { _, isOn ->
+            showDialog(isOn)
+        }
+    }
+
+    private fun showDialog(isOn: Boolean) {
+        val dialog = ReusedMethod.setUpDialog(requireContext(), R.layout.dialog_layout, false)
+        val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
+        val TITLE = dialog.findViewById<TextView>(R.id.tvTitle)
+        val MESSAGE = dialog.findViewById<TextView>(R.id.tvMessage)
+        val CANCEL = dialog.findViewById<MaterialTextView>(R.id.tvNegative)
+        if (isOn) {
+            TITLE.text = "Are you sure want to Active?"
+        } else {
+            TITLE.text = "Are you sure want to De-Active?"
+        }
+
+        MESSAGE.gone()
+        CANCEL.text = "No"
+        OK.text = "Yes"
+        CANCEL.isAllCaps = false
+        OK.isAllCaps = false
+        CANCEL.setOnClickListener {
+            dialog.dismiss()
+            mBinding.availabilitySwitch.isOn = !isOn
+        }
+        OK.setOnClickListener {
+            dialog.dismiss()
             if (isOn) {
-                callChangeStatusAPI(1)
-            } else {
                 callChangeStatusAPI(0)
+            } else {
+                callChangeStatusAPI(1)
+
             }
         }
+        dialog.show()
     }
 
     private fun callChangeStatusAPI(i: Int) {
@@ -179,11 +210,7 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
                     it.data?.let { data ->
 
 
-                        if (it.status) {
-
-                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
-                        } else {
-                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                        if (!it.status) {
                             mBinding.cl.gone()
                             mBinding.noDataUserHomeFrag.visible()
                             mBinding.noInternetUserHomeFrag.llNointernet.gone()
