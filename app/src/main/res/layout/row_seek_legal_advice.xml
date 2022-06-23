@@ -67,24 +67,16 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/lldelete"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:background="@drawable/rounded_blue_back"
-                android:gravity="center"
-                app:layout_constraintStart_toEndOf="@id/liEdit"
-                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/imgDelete"
-                    android:layout_width="@dimen/_10sdp"
-                    android:layout_height="@dimen/_10sdp"
+                    android:id="@+id/lldelete"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_delete" />
-
-            </LinearLayout>
+                    android:src="@drawable/ic_delete"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    app:layout_constraintStart_toEndOf="@id/liEdit"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

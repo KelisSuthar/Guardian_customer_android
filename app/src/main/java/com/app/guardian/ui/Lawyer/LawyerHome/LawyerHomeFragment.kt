@@ -212,9 +212,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                     it.data?.let { data ->
 
 
-                        if (it.status) {
-                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
-                        } else {
+                        if (!it.status) {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                             mBinding.cl.gone()
                             mBinding.noDataUserHomeFrag.visible()
