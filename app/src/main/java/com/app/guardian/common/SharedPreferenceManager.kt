@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.app.guardian.common.AppConstants.APP_NAME
 import com.app.guardian.common.AppConstants.SKIP_INTRO
+import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.cms.CMSResp
 import com.app.guardian.utils.ApiConstant
@@ -24,13 +25,13 @@ object SharedPreferenceManager {
         isInit = true
     }
 
-    fun getUser(): LoginResp? {
+    fun getUser(): UserDetailsResp? {
         val userJson = getString(AppConstants.USER_DETAIL_LOGIN, "")
         if (userJson?.isEmpty()!!) {
             return null
         }
         try {
-            return Gson().fromJson(userJson, LoginResp::class.java)
+            return Gson().fromJson(userJson, UserDetailsResp::class.java)
         } catch (e: Exception) {
             e.printStackTrace()
         }

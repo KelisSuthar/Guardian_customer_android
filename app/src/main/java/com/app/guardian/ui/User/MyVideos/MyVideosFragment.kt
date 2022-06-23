@@ -160,7 +160,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                 "FileName:" + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
                     .toString() + "/" + resources.getString(R.string.app_name) + "/" + element.name
             )
-            if (element.name.startsWith(resources.getString(R.string.app_name) + "_" + SharedPreferenceManager.getUser()?.user!!.id)) {
+            if (element.name.startsWith(resources.getString(R.string.app_name) + "_" + SharedPreferenceManager.getUser()?.id)) {
                 arrayList.add(
                     VideoResp(
                         i,
@@ -305,7 +305,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
             }
             val recordFile = File(
                 f,
-                resources.getString(R.string.app_name) + "_" + SharedPreferenceManager.getUser()!!.user.id.toString() + "_" + System.currentTimeMillis() + ".mp4"
+                resources.getString(R.string.app_name) + "_" + SharedPreferenceManager.getUser()!!.id.toString() + "_" + System.currentTimeMillis() + ".mp4"
             )
             val recorduri = FileProvider.getUriForFile(
                 requireContext(),

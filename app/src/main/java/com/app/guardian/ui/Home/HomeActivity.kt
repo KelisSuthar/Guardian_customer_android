@@ -27,6 +27,7 @@ import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityHomeBinding
 import com.app.guardian.model.viewModels.AuthenticationViewModel
+import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.ContactedHistory.ContectedHistoryFragment
 import com.app.guardian.ui.Lawyer.LawyerHome.LawyerHomeFragment
@@ -43,19 +44,21 @@ import com.app.guardian.ui.User.ScheduleVirtualWitness.ScheduleVirtualWitnessFra
 import com.app.guardian.ui.User.UserHome.UserHomeFragment
 import com.app.guardian.ui.User.settings.SettingsFragment
 import com.app.guardian.ui.chatting.ChattingFragment
+import com.app.guardian.utils.ApiConstant
+import com.app.guardian.utils.Config
 import com.google.android.gms.location.*
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
+import com.google.gson.Gson
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
 
 class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegration {
     lateinit var mBinding: ActivityHomeBinding
-    private val authViewModel: AuthenticationViewModel by viewModel()
-
+    private val mViewModel: CommonScreensViewModel by viewModel()
 
     //get Current Location
     private var locationManager: LocationManager? = null
@@ -90,7 +93,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
                         }
                     }
                 }
-            }else{
+            } else {
                 onHideBadgeCounter()
             }
 
@@ -227,6 +230,10 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
 
     override fun onResume() {
         super.onResume()
+        if (!SharedPreferenceManager.getBoolean(AppConstants.IS_LOGIN_ONCE, false)) {
+            callGetuserDetailsApi()
+        }
+
         removeSeletionData()
         LocalBroadcastManager.getInstance(this).registerReceiver(
             mBroadcastReceiver, IntentFilter(
@@ -266,6 +273,14 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
                     )
                 }
             }
+        }
+    }
+
+    private fun callGetuserDetailsApi() {
+        if (ReusedMethod.isNetworkConnected(this)) {
+            mViewModel.getUserDetials(true, this)
+        } else {
+            ReusedMethod.displayMessage(this, resources.getString(R.string.text_error_network))
         }
     }
 
@@ -315,6 +330,53 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
 //                }
 //            }
 //        }
+        //GET USER DETAILS RESP
+        mViewModel.getuserDetailsResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            val gson = Gson()
+                            val json = gson.toJson(data)
+                            SharedPreferenceManager.putString(
+                                AppConstants.USER_DETAIL_LOGIN,
+                                json
+                            )
+                            SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN_ONCE, true)
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                this,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        startActivity(
+                                            Intent(
+                                                this@HomeActivity,
+                                                LoginActivity::class.java
+                                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                                .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        )
+                                        overridePendingTransition(R.anim.rightto, R.anim.left)
+                                    } else {
+                                        ReusedMethod.displayMessage(this as Activity, it)
+                                    }
+                                }
+                    }
+                }
+            }
+        }
     }
 
 

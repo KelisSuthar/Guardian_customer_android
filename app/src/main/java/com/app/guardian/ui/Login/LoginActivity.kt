@@ -175,7 +175,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                             AppConstants.USER_DETAIL_LOGIN,
                             json
                         )
-                        val getUserRole = SharedPreferenceManager.getUser()!!.user.user_role
+                        val getUserRole = data.user.user_role
                         var setConstantRole =""
                         if(getUserRole.equals(AppConstants.APP_ROLE_USER))
                             setConstantRole=AppConstants.APP_ROLE_USER

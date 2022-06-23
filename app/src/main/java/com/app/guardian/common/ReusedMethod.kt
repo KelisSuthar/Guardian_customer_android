@@ -709,7 +709,7 @@ class ReusedMethod {
                     val CANCEL = dialog.findViewById<MaterialTextView>(R.id.tvNegative)
                     OK.text = context.resources.getString(R.string.subscribe_now)
                     CANCEL.text = "Cancel"
-                    TITLE.text = "Hello," + SharedPreferenceManager.getUser()!!.user.full_name
+                    TITLE.text = "Hello," + SharedPreferenceManager.getUser()!!.full_name
                     MESSAGE.text =
                         context.resources.getString(R.string.suscription_validation_1)
                     MESSAGE2.text =

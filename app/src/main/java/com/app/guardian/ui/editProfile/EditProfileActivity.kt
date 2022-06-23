@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Looper
 import android.os.NetworkOnMainThreadException
 import android.provider.Settings
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.Window
@@ -663,7 +664,12 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
 //                        resources.getString(R.string.come_soon)
 //                    )
 //                    callEditProfileApi()
-                    uploadFile(selectedFile,upload_img_array)
+                    if (!TextUtils.isEmpty(selectedFile.toString()) || upload_img_array.size > 0) {
+                        uploadFile(selectedFile, upload_img_array)
+                    } else {
+                        callEditProfileApi()
+                    }
+
                 }
 
             }
@@ -829,14 +835,18 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 {
                     Log.i("MyAmplifyApp", "Successfully uploaded Single Image: ${it.key}")
                     attachmentUrl = "${AppConstants.AWS_BASE_URL}${selectedFile?.name}"
-                    Log.i("attachmentUrl Single Image", attachmentUrl)
+                    Log.i("attachmentUrl", attachmentUrl)
                 },
                 {
                     showLoadingIndicator(false)
                     Log.i("MyAmplifyApp", "Upload failed Single Image", it)
                 }
             )
-            uploadMultipleImageFile(imageList)
+            if (imageList.size > 0) {
+                uploadMultipleImageFile(imageList)
+            } else {
+                callEditProfileApi()
+            }
 
 
         } catch (exception: Exception) {
@@ -848,16 +858,28 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun uploadMultipleImageFile(imageList: ArrayList<String>) {
+        val clientConfig = ClientConfiguration()
+        clientConfig.socketTimeout = 120000
+        clientConfig.connectionTimeout = 10000
+        clientConfig.maxErrorRetry = 2
+        clientConfig.protocol = Protocol.HTTP
 
+        val credentials = BasicAWSCredentials(
+            AppConstants.AWS_ACCESS_KEY,
+            AppConstants.AWS_SECRET_KEY
+        )
+        val s3 = AmazonS3Client(credentials, clientConfig)
+        s3.setRegion(Region.getRegion(Regions.US_EAST_2))
         var counter = 0
         val imageListSize = imageList.size
         uploadedImageList?.clear()
         imageList.forEachIndexed { index, s ->
 
-            var image1 = File(s)
+            val image1 = File(s)
             try {
 
                 val options = StorageUploadFileOptions.defaultInstance()
+
                 Amplify.Storage.uploadFile(image1.name.toString(), image1, options,
                     {
                         Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}")
@@ -869,6 +891,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         if (imageListSize == counter) {
                             Log.i("uploadedImageList", uploadedImageList.toString())
                             callEditProfileApi()
+
                         }
                     },
                     {

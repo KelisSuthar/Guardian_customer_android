@@ -70,7 +70,7 @@ class ChatMessageAdapter(var context: Context, var array: ArrayList<ChatDetail>)
             } else {
                 headderTime.gone()
             }
-            if (array[position].from_id == (SharedPreferenceManager.getUser()!!.user.id)) {
+            if (array[position].from_id == (SharedPreferenceManager.getUser()!!.id)) {
                 txtRecieveMsg.gone()
                 txtSendMsg.visible()
             } else {

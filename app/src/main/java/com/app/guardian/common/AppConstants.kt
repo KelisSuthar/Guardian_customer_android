@@ -51,6 +51,7 @@ object AppConstants {
     const val EXTRA_PATH = "PATH"
     const val IS_NOTIFICATION = "IS_NOTIFICATION"
     const val EXTRA_NOTIFICATION_DATA = "NOTFICAITON_DATA"
+    const val IS_LOGIN_ONCE = "IS_LOGIN_ONCE"
 
     const val EXTRA_SH_USER_HOME = "USERHOME"
     const val EXTRA_SH_MEDIATOR_HOME = "MEDIATORHOME"

@@ -19,7 +19,7 @@ class AskMoreQuestion : BaseFragment() {
         mBinding = getBinding()
         (activity as HomeActivity).bottomTabVisibility(false)
         (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.ask_mode_question),true,true)
-        strUserLoginEamil =SharedPreferenceManager.getUser()!!.user.email
+        strUserLoginEamil = SharedPreferenceManager.getUser()!!.email
 
         mBinding.txtUserLoginEmail.text=strUserLoginEamil
 

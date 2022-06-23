@@ -224,7 +224,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                     requireActivity(),
                     SeekLegalAdviceListFragment(
                         true,
-                        SharedPreferenceManager.getUser()!!.user.id!!
+                        SharedPreferenceManager.getUser()!!.id!!
                     ),
                     true,
                     HomeActivity::class.java.name,

@@ -18,6 +18,7 @@ import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentSettingsBinding
+import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
@@ -54,11 +55,11 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
     override fun initView() {
         mBinding = getBinding()
         setViews()
-        Glide.with(requireActivity())
-            .load(SharedPreferenceManager.getUser()?.user?.profile_avatar)
-            .placeholder(R.drawable.profile)
-            .into(mBinding.imgProfile)
-        mBinding.txtUName.text = SharedPreferenceManager.getUser()?.user?.full_name
+        if (SharedPreferenceManager.getUser().toString().isNullOrEmpty()) {
+            callGetuserDetailsApi()
+        } else {
+            setData(SharedPreferenceManager.getUser())
+        }
         mBinding.txtSettingNotificationCoout.gone()
         if (SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, -1) > 0) {
             mBinding.txtSettingNotificationCoout.visible()
@@ -69,6 +70,28 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
             mBinding.txtSettingNotificationCoout.text =
                 SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, -1).toString()
         }
+
+    }
+
+    private fun callGetuserDetailsApi() {
+        if (ReusedMethod.isNetworkConnected(requireContext())) {
+            mViewModel.getUserDetials(true, requireActivity() as BaseActivity)
+        } else {
+            ReusedMethod.displayMessage(
+                requireActivity(),
+                resources.getString(R.string.text_error_network)
+            )
+        }
+    }
+
+    private fun setData(user: UserDetailsResp?) {
+        setData(SharedPreferenceManager.getUser())
+        Glide.with(requireActivity())
+            .load(user?.profile_avatar)
+            .placeholder(R.drawable.profile)
+            .into(mBinding.imgProfile)
+        mBinding.txtUName.text = user?.full_name
+
 
     }
 
@@ -286,6 +309,52 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                                         (activity as HomeActivity).unAuthorizedNavigation()
                                     } else {
                                         ReusedMethod.displayMessage(context as Activity, it)
+                                    }
+                                }
+                    }
+                }
+            }
+        }
+        //GET USER DETAILS RESP
+        mViewModel.getuserDetailsResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            val gson = Gson()
+                            val json = gson.toJson(data)
+                            SharedPreferenceManager.putString(
+                                AppConstants.USER_DETAIL_LOGIN,
+                                json
+                            )
+                            setData(SharedPreferenceManager.getUser())
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                requireActivity(),
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                         startActivity(
+                                            Intent(
+                                                requireActivity(),
+                                                LoginActivity::class.java
+                                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                                .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        )
+                                    } else {
+                                        ReusedMethod.displayMessage(this as Activity, it)
                                     }
                                 }
                     }
