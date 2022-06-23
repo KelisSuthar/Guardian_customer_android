@@ -176,8 +176,10 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
             when (getCurrentRole) {
                 AppConstants.APP_ROLE_USER -> {
                     type = if (mBinding.rb1.isChecked) {
+
                         AppConstants.APP_ROLE_LAWYER
                     } else {
+
                         AppConstants.APP_ROLE_MEDIATOR
                     }
                     setAdapter()
@@ -185,8 +187,10 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                 }
                 AppConstants.APP_ROLE_LAWYER -> {
                     type = if (mBinding.rb1.isChecked) {
+                        mBinding.searchConnectedHistory.lySearchFilter.visible()
                         AppConstants.APP_ROLE_MEDIATOR
                     } else {
+                        mBinding.searchConnectedHistory.lySearchFilter.gone()
                         AppConstants.APP_ROLE_USER
                     }
                     mBinding.rb1.text = AppConstants.MEDIATOR
