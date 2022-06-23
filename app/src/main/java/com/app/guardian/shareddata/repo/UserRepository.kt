@@ -838,7 +838,7 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
         body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
-        loginResp: MutableLiveData<RequestState<User>>
+        loginResp: MutableLiveData<RequestState<UserDetailsResp>>
     ) {
         if (!internetConnected) {
             loginResp.value =

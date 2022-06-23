@@ -50,7 +50,8 @@ object AppConstants {
     const val EXTRA_EMAIL = "email"
     const val EXTRA_PATH = "PATH"
     const val IS_NOTIFICATION = "IS_NOTIFICATION"
-    const val EXTRA_NOTIFICATION_DATA = "NOTFICAITON_DATA"
+    const val EXTRA_NOTIFICATION_DATA_TYPE = "NOTFICAITON_DATA"
+    const val EXTRA_NOTIFICATION_DATA_ID = "NOTFICAITON_DATA_ID"
     const val IS_LOGIN_ONCE = "IS_LOGIN_ONCE"
 
     const val EXTRA_SH_USER_HOME = "USERHOME"

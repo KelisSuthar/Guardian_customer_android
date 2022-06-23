@@ -1,8 +1,10 @@
 package com.app.guardian.ui.User.UserHome
 
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
@@ -22,11 +24,13 @@ import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.BannerAds.BannerAdsPager
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.HomeBanners.HomeBannersFragment
+import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.User.ContactSupport.ContactSupportFragment
 import com.app.guardian.ui.User.RecordPolice.RecordPoliceInteractionFragment
 import com.app.guardian.ui.User.ScheduleVirtualWitness.ScheduleVirtualWitnessFragment
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
+import com.google.gson.Gson
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -44,7 +48,9 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
     override fun initView() {
         mBinding = getBinding()
         setAdapter()
+
         callApi()
+        Log.e("EDIT_APP", SharedPreferenceManager.getUser().toString())
         (activity as HomeActivity).bottomTabVisibility(true)
         (activity as HomeActivity).headerTextVisible(
             requireActivity().resources.getString(R.string.know_your_basic_rights),
@@ -57,6 +63,9 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
 
     private fun callApi() {
         if (ReusedMethod.isNetworkConnected(requireActivity())) {
+            if (!SharedPreferenceManager.getBoolean(AppConstants.IS_LOGIN_ONCE, false)) {
+                mViewModel.getUserDetials(true, requireActivity() as BaseActivity)
+            }
             mViewModel.getuserHomeBanners(true, requireActivity() as BaseActivity)
         } else {
             mBinding.noInternetUserHomeFrag.llNointernet.visible()
@@ -64,6 +73,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
             mBinding.cl.gone()
         }
     }
+
 
     private fun setAdapter() {
         bannerAdsPager = BannerAdsPager(requireActivity(), array!!, object
@@ -89,12 +99,12 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
         mBinding.cl.visible()
 
         changeLayout(SharedPreferenceManager.getInt(AppConstants.EXTRA_SH_USER_HOME, 1))
-        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_RECORD_POLICE_INTERACTION,0)
-        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_RECORD_POLICE_INTERACTION_2,0)
-        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_LIVE_VIRTUAL_WITNESS,0)
-        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_SCHEDUAL_VIRTUAL_WITNESS,0)
-        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_CONTACT_SUPPORT,0)
-        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_SUPPORT_GROUP_LIST,0)
+        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_RECORD_POLICE_INTERACTION, 0)
+        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_RECORD_POLICE_INTERACTION_2, 0)
+        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_LIVE_VIRTUAL_WITNESS, 0)
+        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_SCHEDUAL_VIRTUAL_WITNESS, 0)
+        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_CONTACT_SUPPORT, 0)
+        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_SUPPORT_GROUP_LIST, 0)
 //        if(SharedPreferenceManager.getInt(AppConstants.EXTRA_SH_USER_HOME, 1) == 0)
 //        {
 //            changeLayout(1)
@@ -155,6 +165,56 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
                                         (activity as HomeActivity).unAuthorizedNavigation()
                                     } else {
                                         ReusedMethod.displayMessage(requireActivity(), it)
+                                    }
+                                }
+                    }
+                }
+            }
+        }
+        //GET USER DETAILS RESP
+        mViewModel.getuserDetailsResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            val gson = Gson()
+                            val json = gson.toJson(data)
+                            SharedPreferenceManager.putString(
+                                AppConstants.USER_DETAIL_LOGIN,
+                                json
+                            )
+                            SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN_ONCE, true)
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                requireActivity(),
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        startActivity(
+                                            Intent(
+                                                requireContext(),
+                                                LoginActivity::class.java
+                                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                                .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        )
+                                        requireActivity().overridePendingTransition(
+                                            R.anim.rightto,
+                                            R.anim.left
+                                        )
+                                    } else {
+                                        ReusedMethod.displayMessage(this as Activity, it)
                                     }
                                 }
                     }
@@ -224,7 +284,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun changeLayout(i: Int) {
-        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_USER_HOME,i)
+        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_USER_HOME, i)
         when (i) {
             0 -> {
                 mBinding.rlRecord.setBackgroundColor(

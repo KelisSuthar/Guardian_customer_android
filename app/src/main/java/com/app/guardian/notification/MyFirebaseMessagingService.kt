@@ -5,8 +5,10 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.PowerManager
 import android.util.Log
 import android.widget.RemoteViews
+import android.window.SplashScreen
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.app.guardian.R
@@ -44,9 +46,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             "bage counter",
             "Bage Counter count :" + HomeActivity.bage_counter_notification.toString()
         )
-        val count = SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE,0)
-        SharedPreferenceManager.putInt(AppConstants.NOTIFICATION_BAGE,
-            count+1
+        val count = SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, 0)
+        SharedPreferenceManager.putInt(
+            AppConstants.NOTIFICATION_BAGE,
+            count + 1
         )
         triggerBroadcastToActivity(this, HomeActivity.bage_counter_notification)
 
@@ -77,37 +80,20 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private fun sendNotification(data: JSONObject, remoteMessage: RemoteMessage) {
         Log.i("FIREBASE_DATA", data.toString())
 
-        if (!SharedPreferenceManager.getBoolean(AppConstants.IS_LOGIN, false)) {
+
 
             intent =
-                Intent(
-                    this,
-
-                    LoginActivity::class.java
-                )
-
-        } else if (!SharedPreferenceManager.getBoolean(AppConstants.IS_SUBSCRIBE, false)) {
-            intent =
-                Intent(
-                    this,
-
-                    SubScriptionPlanScreen::class.java
-                )
-
-        } else {
-            intent =
-                Intent(this, HomeActivity::class.java).putExtra(
+                Intent(this, com.app.guardian.ui.Splash.SplashScreen::class.java).putExtra(
                     AppConstants.IS_NOTIFICATION, true
                 ).putExtra(
-                    AppConstants.EXTRA_NOTIFICATION_DATA, data.getString("type")
+                    AppConstants.EXTRA_NOTIFICATION_DATA_TYPE, data.getString("type").toString()
+                ).putExtra(
+                    AppConstants.EXTRA_NOTIFICATION_DATA_ID, data.getString("sender_id").toString()
                 )
 
-        }
-        intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+        intent!!.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
         intent!!.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
-
-
 
 
         val channelId = getString(com.app.guardian.R.string.app_name)
@@ -115,7 +101,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             this,
             0 /* Request code */,
             intent,
-            PendingIntent.FLAG_IMMUTABLE
+            PendingIntent.FLAG_UPDATE_CURRENT
 
         )
         val notificationLayout = RemoteViews(
@@ -151,9 +137,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         notificationBuilder.setCustomHeadsUpContentView(notificationLayout)
 
+
 //        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
-//        val pm:PowerManager = this.getSystemService(POWER_SERVICE) as PowerManager
+//        val pm: PowerManager = this.getSystemService(POWER_SERVICE) as PowerManager
 //        val isScreenOn = pm.isScreenOn
 //        if (!isScreenOn) {
 //            val wl: PowerManager.WakeLock = pm.newWakeLock(
@@ -161,7 +148,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 //                "MyLock"
 //            )
 //            wl.acquire(10000)
-//            val wl_cpu: PowerManager.WakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyCpuLock")
+//            val wl_cpu: PowerManager.WakeLock =
+//                pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyCpuLock")
 //            wl_cpu.acquire(10000)
 //        }
 

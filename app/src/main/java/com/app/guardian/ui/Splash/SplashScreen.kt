@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
+import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.databinding.ActivitySplashScreenBinding
@@ -14,12 +15,15 @@ import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.SelectRole.SelectRoleScreen
 import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
+import com.app.guardian.ui.chatting.ChattingFragment
 import com.app.guardian.utils.ApiConstant
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 
 class SplashScreen : BaseActivity(), View.OnClickListener {
     lateinit var mBinding: ActivitySplashScreenBinding
+    val notification_type = ""
+    val notification_id = ""
     var DEVICE_TOKEN = SharedPreferenceManager.getString(ApiConstant.EXTRAS_DEVICETOKEN, "")
     override fun getResource(): Int {
         ReusedMethod.updateStatusBarColor(this, R.color.colorTransparent, 0)
@@ -28,6 +32,19 @@ class SplashScreen : BaseActivity(), View.OnClickListener {
 
     override fun initView() {
         mBinding = getBinding()
+        val notification_type = intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)
+        val notification_id = intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID)
+
+        Log.i(
+            "NOTIFICATION_SPLASh",
+            notification_type.toString()
+        )
+
+        Log.i(
+            "NOTIFICATION_SPLASh_ID",
+            notification_id.toString()
+        )
+
         Handler().postDelayed({
             finish()
             if (!SharedPreferenceManager.getBoolean(AppConstants.IS_LOGIN, false)) {
@@ -54,13 +71,60 @@ class SplashScreen : BaseActivity(), View.OnClickListener {
                     )
                 )
             } else {
-                startActivity(
-                    Intent(
-                        this@SplashScreen,
-
-                        HomeActivity::class.java
-                    )
+                Log.i(
+                    "NOTIFICATION_SPLASh",
+                    notification_type.toString()
                 )
+                if (intent != null && intent.extras != null) {
+                    if (notification_type == AppConstants.EXTRA_CHAT_MESSAGE_PAYLOAD) {
+                        Log.i(
+                            "NOTIFICATION_SPLASh",
+                           notification_type
+                        )
+//                        startActivity(
+//                            Intent(
+//                                this@SplashScreen,
+//
+//                                HomeActivity::class.java
+//                            ).putExtra(
+//                                AppConstants.EXTRA_NOTIFICATION_DATA_TYPE, notification_type
+//                            )
+//                                .putExtra(
+//                                    AppConstants.EXTRA_NOTIFICATION_DATA_ID, notification_id
+//                                )
+//
+//                        )
+                    } else {
+//                        startActivity(
+//                            Intent(
+//                                this@SplashScreen,
+//
+//                                HomeActivity::class.java
+//                            )
+//                        )
+
+//                        else if (intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE) == AppConstants.EXTRA_MEDIATOR_PAYLOAD) {
+//                            Log.i(
+//                                "NOTIFICATION_DATA",
+//                                intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!
+//                            )
+//                        } else if (intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE) == AppConstants.EXTRA_VIRTUAL_WITNESS_PAYLOAD) {
+//                            Log.i(
+//                                "NOTIFICATION_DATA",
+//                                intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!
+//                            )
+//                        }
+
+                    }
+                } else {
+                    startActivity(
+                        Intent(
+                            this@SplashScreen,
+
+                            HomeActivity::class.java
+                        )
+                    )
+                }
             }
 
 
@@ -82,9 +146,9 @@ class SplashScreen : BaseActivity(), View.OnClickListener {
                 DEVICE_TOKEN = SharedPreferenceManager.getString(ApiConstant.EXTRAS_DEVICETOKEN, "")
                 Log.e("FinalGeneratedToken", "=$token")
             })
-        }else
+        } else
 
-        Log.e("StoredDeviceToken", DEVICE_TOKEN.toString())
+            Log.e("StoredDeviceToken", DEVICE_TOKEN.toString())
 
     }
 

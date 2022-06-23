@@ -30,6 +30,7 @@ import com.app.guardian.common.ReusedMethod.Companion.getAddress
 import com.app.guardian.common.extentions.*
 import com.app.guardian.databinding.ActivityEditProfileBinding
 import com.app.guardian.model.Editprofile.UserDetailsResp
+import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.model.viewModels.CommonScreensViewModel
@@ -62,6 +63,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
     var DOCUMENT_CODE = 102
     var profile_img = ""
     var is_lawyer = false
+
     var is_mediator = false
     var is_user = false
     var selectedid = -1
@@ -231,7 +233,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                                 AppConstants.USER_DETAIL_LOGIN,
                                 json
                             )
-                            Log.e("THIS_APP", SharedPreferenceManager.getUser().toString())
+                            Log.e("EDIT_APP", SharedPreferenceManager.getUser().toString())
                             onBackPressed()
                         } else {
                             ReusedMethod.displayMessage(this, it.message.toString())

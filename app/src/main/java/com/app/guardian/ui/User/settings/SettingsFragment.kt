@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.TextView
@@ -55,6 +56,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
     override fun initView() {
         mBinding = getBinding()
         setViews()
+        Log.e("EDIT_APP", SharedPreferenceManager.getUser().toString())
         if (SharedPreferenceManager.getUser().toString().isNullOrEmpty()) {
             callGetuserDetailsApi()
         } else {
@@ -85,7 +87,6 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun setData(user: UserDetailsResp?) {
-        setData(SharedPreferenceManager.getUser())
         Glide.with(requireActivity())
             .load(user?.profile_avatar)
             .placeholder(R.drawable.profile)
@@ -101,7 +102,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         override fun onReceive(context: Context, intent: Intent) {
             val extras = intent.extras
             if (extras != null) {
-
+                mBinding.txtSettingNotificationCoout.visible()
                 mBinding.txtSettingNotificationCoout.text =
                     SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, 0).toString()
 

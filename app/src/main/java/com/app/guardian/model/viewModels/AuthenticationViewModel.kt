@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.app.guardian.model.CommonResponse
+import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
 import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
@@ -386,9 +387,9 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
 
     //EDIT PROFILE API
     private val editprofileResp =
-        MutableLiveData<RequestState<User>>()
+        MutableLiveData<RequestState<UserDetailsResp>>()
 
-    fun getEditProfileResp(): LiveData<RequestState<User>> =
+    fun getEditProfileResp(): LiveData<RequestState<UserDetailsResp>> =
         editprofileResp
 
     fun EditProfile(

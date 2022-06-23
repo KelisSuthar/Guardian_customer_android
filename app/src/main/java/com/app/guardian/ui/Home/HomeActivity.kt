@@ -6,8 +6,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.location.Address
-import android.location.Geocoder
 import android.location.LocationManager
 import android.os.Looper
 import android.util.Log
@@ -26,7 +24,6 @@ import com.app.guardian.common.extentions.checkLoationPermission
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityHomeBinding
-import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.ContactedHistory.ContectedHistoryFragment
@@ -47,25 +44,22 @@ import com.app.guardian.ui.chatting.ChattingFragment
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.google.android.gms.location.*
-import com.google.android.libraries.places.widget.Autocomplete
-import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.gson.Gson
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.util.*
 
 
 class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegration {
     lateinit var mBinding: ActivityHomeBinding
-    private val mViewModel: CommonScreensViewModel by viewModel()
 
     //get Current Location
     private var locationManager: LocationManager? = null
     private var mFusedLocationClient: FusedLocationProviderClient? = null
     private var locationRequest: LocationRequest? = null
     private var locationCallback: LocationCallback? = null
-
+val notification_type = ""
+val notification_id_ = ""
     var main_layoutBageCounter: RelativeLayout? = null
     private var notificationBadge: View? = null
     var txtBagecount: TextView? = null
@@ -175,8 +169,39 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
             onBackPressed()
         }
         //bottom navigation click listener
-        bottomTabVisibility(true)
-        loadHomeScreen()
+
+
+        if (intent != null && intent.extras != null) {
+            if (intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE) == AppConstants.EXTRA_CHAT_MESSAGE_PAYLOAD) {
+                Log.i(
+                    "NOTIFICATION_DATA",
+                    intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!
+                )
+                ReplaceFragment.replaceFragment(
+                    this,
+                    ChattingFragment(
+                        intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID)!!.toInt()
+                    ),
+                    true,
+                    HomeActivity::class.java.name,
+                    HomeActivity::class.java.name
+                )
+            } else if (intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE) == AppConstants.EXTRA_MEDIATOR_PAYLOAD) {
+                Log.i(
+                    "NOTIFICATION_DATA",
+                    intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!
+                )
+            } else if (intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE) == AppConstants.EXTRA_VIRTUAL_WITNESS_PAYLOAD) {
+                Log.i(
+                    "NOTIFICATION_DATA",
+                    intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!
+                )
+
+            }
+        } else {
+            bottomTabVisibility(true)
+            loadHomeScreen()
+        }
 
         locationManager = getSystemService(
             Context.LOCATION_SERVICE
@@ -230,10 +255,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
 
     override fun onResume() {
         super.onResume()
-        if (!SharedPreferenceManager.getBoolean(AppConstants.IS_LOGIN_ONCE, false)) {
-            callGetuserDetailsApi()
-        }
-
         removeSeletionData()
         LocalBroadcastManager.getInstance(this).registerReceiver(
             mBroadcastReceiver, IntentFilter(
@@ -254,35 +275,9 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
                 ReusedMethod.setLocationDialog(this)
             }
         }
-        if (intent != null && intent.extras != null) {
-            if (intent.getBooleanExtra(AppConstants.IS_NOTIFICATION, false)) {
-                if (intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA) == AppConstants.EXTRA_CHAT_MESSAGE_PAYLOAD) {
-                    Log.i(
-                        "NOTIFICATION_DATA",
-                        intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA)!!
-                    )
-                } else if (intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA) == AppConstants.EXTRA_MEDIATOR_PAYLOAD) {
-                    Log.i(
-                        "NOTIFICATION_DATA",
-                        intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA)!!
-                    )
-                } else if (intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA) == AppConstants.EXTRA_VIRTUAL_WITNESS_PAYLOAD) {
-                    Log.i(
-                        "NOTIFICATION_DATA",
-                        intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA)!!
-                    )
-                }
-            }
-        }
+
     }
 
-    private fun callGetuserDetailsApi() {
-        if (ReusedMethod.isNetworkConnected(this)) {
-            mViewModel.getUserDetials(true, this)
-        } else {
-            ReusedMethod.displayMessage(this, resources.getString(R.string.text_error_network))
-        }
-    }
 
     override fun initObserver() {
 
@@ -330,53 +325,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
 //                }
 //            }
 //        }
-        //GET USER DETAILS RESP
-        mViewModel.getuserDetailsResp().observe(this) { response ->
-            response?.let { requestState ->
-                showLoadingIndicator(requestState.progress)
-                requestState.apiResponse?.let {
-                    it.data?.let { data ->
-                        if (it.status) {
-                            val gson = Gson()
-                            val json = gson.toJson(data)
-                            SharedPreferenceManager.putString(
-                                AppConstants.USER_DETAIL_LOGIN,
-                                json
-                            )
-                            SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN_ONCE, true)
-                        }
-                    }
-                }
-                requestState.error?.let { errorObj ->
-                    when (errorObj.errorState) {
-                        Config.NETWORK_ERROR ->
-                            ReusedMethod.displayMessage(
-                                this,
-                                getString(R.string.text_error_network)
-                            )
 
-                        Config.CUSTOM_ERROR ->
-                            errorObj.customMessage
-                                ?.let {
-                                    if (errorObj.code == ApiConstant.API_401) {
-                                        startActivity(
-                                            Intent(
-                                                this@HomeActivity,
-                                                LoginActivity::class.java
-                                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                                                .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
-                                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                        )
-                                        overridePendingTransition(R.anim.rightto, R.anim.left)
-                                    } else {
-                                        ReusedMethod.displayMessage(this as Activity, it)
-                                    }
-                                }
-                    }
-                }
-            }
-        }
     }
 
 

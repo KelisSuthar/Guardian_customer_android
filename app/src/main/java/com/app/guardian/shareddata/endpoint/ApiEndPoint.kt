@@ -70,7 +70,7 @@ interface ApiEndPoint {
     fun getUserDetails(): Call<CommonResponseModel<UserDetailsResp>>
 
     @PUT("updateUserProfile")
-    fun updateUserProfile(@Body jsonObject: JsonObject): Call<CommonResponseModel<User>>
+    fun updateUserProfile(@Body jsonObject: JsonObject): Call<CommonResponseModel<UserDetailsResp>>
 
     @POST("getLawyerList")
     fun getLawyerList(@Body jsonObject: JsonObject): Call<CommonResponseModel<MutableList<LawyerListResp>>>

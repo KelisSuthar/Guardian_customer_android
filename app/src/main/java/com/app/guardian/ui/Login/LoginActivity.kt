@@ -169,12 +169,12 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                             data.token
                         )
                         displayMessage(this, it.message.toString())
-                        val gson = Gson()
-                        val json = gson.toJson(data)
-                        SharedPreferenceManager.putString(
-                            AppConstants.USER_DETAIL_LOGIN,
-                            json
-                        )
+//                        val gson = Gson()
+//                        val json = gson.toJson(data)
+//                        SharedPreferenceManager.putString(
+//                            AppConstants.USER_DETAIL_LOGIN,
+//                            json
+//                        )
                         val getUserRole = data.user.user_role
                         var setConstantRole =""
                         if(getUserRole.equals(AppConstants.APP_ROLE_USER))
