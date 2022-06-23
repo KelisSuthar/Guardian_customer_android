@@ -146,6 +146,7 @@
 
     <!--    Add Banner-->
     <string name="valid_banner_link">Please enter valid banner link.</string>
+    <string name="valid_banner_link_invalid">Selected Link is invalid.</string>
     <string name="empty_banner_link">Please add share link for banner.</string>
     <string name="valid_banner_photo">Please upload banner image.</string>
 
