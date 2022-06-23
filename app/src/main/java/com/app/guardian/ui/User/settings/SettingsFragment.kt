@@ -54,7 +54,6 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
     override fun initView() {
         mBinding = getBinding()
         setViews()
-
         Glide.with(requireActivity())
             .load(SharedPreferenceManager.getUser()?.user?.profile_avatar)
             .placeholder(R.drawable.profile)

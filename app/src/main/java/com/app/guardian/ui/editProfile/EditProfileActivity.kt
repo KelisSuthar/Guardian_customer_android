@@ -55,6 +55,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
     lateinit var mBinding: ActivityEditProfileBinding
     var imageAdapter: ImageAdapter? = null
     var images = ArrayList<String>()
+    var upload_img_array = ArrayList<String>()
     var specializationList = ArrayList<SpecializationListResp>()
     var PROFILE_IMG_CODE = 101
     var DOCUMENT_CODE = 102
@@ -229,6 +230,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                                 AppConstants.USER_DETAIL_LOGIN,
                                 json
                             )
+                            Log.e("THIS_APP", SharedPreferenceManager.getUser().toString())
                             onBackPressed()
                         } else {
                             ReusedMethod.displayMessage(this, it.message.toString())
@@ -661,7 +663,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
 //                        resources.getString(R.string.come_soon)
 //                    )
 //                    callEditProfileApi()
-                    uploadFile(selectedFile, images)
+                    uploadFile(selectedFile,upload_img_array)
                 }
 
             }
@@ -682,8 +684,6 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 mBinding.ccp1.selectedCountryCode.toString(),
                 mBinding.edtOfficeNum.text?.trim()
                     .toString(),
-
-
                 mBinding.ccp2.selectedCountryCode.toString(),
                 mBinding.edtPhone.text?.trim()
                     .toString(),
@@ -775,6 +775,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 }
                 DOCUMENT_CODE -> {
                     images.add(ImagePicker.getFilePath(data).toString())
+                    upload_img_array.add(ImagePicker.getFilePath(data).toString())
                     imageAdapter?.notifyDataSetChanged()
 
                 }
@@ -826,13 +827,13 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}")
             },
                 {
-                    Log.i("MyAmplifyApp", "Successfully uploaded: ${it.key}")
+                    Log.i("MyAmplifyApp", "Successfully uploaded Single Image: ${it.key}")
                     attachmentUrl = "${AppConstants.AWS_BASE_URL}${selectedFile?.name}"
-                    Log.i("attachmentUrl", attachmentUrl)
+                    Log.i("attachmentUrl Single Image", attachmentUrl)
                 },
                 {
                     showLoadingIndicator(false)
-                    Log.i("MyAmplifyApp", "Upload failed", it)
+                    Log.i("MyAmplifyApp", "Upload failed Single Image", it)
                 }
             )
             uploadMultipleImageFile(imageList)
