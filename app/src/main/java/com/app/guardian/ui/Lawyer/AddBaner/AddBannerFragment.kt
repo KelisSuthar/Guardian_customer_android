@@ -66,6 +66,7 @@ class AddBannerFragment : BaseFragment(), View.OnClickListener {
             true,
             true
         )
+
     }
 
     override fun postInit() {
@@ -183,6 +184,7 @@ class AddBannerFragment : BaseFragment(), View.OnClickListener {
             )
             ReusedMethod.ShowRedBorders(requireActivity(), mBinding.edtShareLink)
         } else {
+
             uploadFile(selectedFile)
 
         }
@@ -249,8 +251,10 @@ class AddBannerFragment : BaseFragment(), View.OnClickListener {
                 AppConstants.AWS_ACCESS_KEY,
                 AppConstants.AWS_SECRET_KEY
             )
+
             val s3 = AmazonS3Client(credentials, clientConfig)
             s3.setRegion(Region.getRegion(Regions.US_EAST_2))
+
             Amplify.Storage.uploadFile(selectedFile?.name.toString(), selectedFile!!, options, {
                 Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}")
             },

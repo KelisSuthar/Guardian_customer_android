@@ -151,11 +151,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-        <service
-            android:name=".BackgroundService"
-            android:enabled="true"
-            android:exported="false"
-            tools:ignore="Instantiatable" />
+<!--        <service-->
+<!--            android:name=".BackgroundService"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="false"-->
+<!--            tools:ignore="Instantiatable" />-->
         <receiver android:name=".ConnectivityChangeReceiver"
             android:exported="false">
             <intent-filter>
