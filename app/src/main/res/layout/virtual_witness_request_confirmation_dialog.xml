@@ -19,7 +19,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_15sdp">
+            android:layout_margin="@dimen/_10sdp">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtTitle"
@@ -37,11 +37,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-
                 android:src="@drawable/ic_round_close"
                 android:visibility="visible" />
-
-
         </RelativeLayout>
 
         <View
@@ -153,7 +150,7 @@ typesetting, remaining essentially unchanged."
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_20sdp"
-            android:text="Request Send"
+            android:text="Confirm Request"
 
             />
 
