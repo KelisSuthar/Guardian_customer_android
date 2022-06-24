@@ -156,7 +156,7 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
                                 LAT!!.toDouble(),
                                 LONG!!.toDouble()
                             )[0].adminArea.toString()
-                            mBinding.txtLocation.text = "Location :$CITY,$COUNTRY"
+                            mBinding.txtLocation.text = "Location :$CITY,$STATE"
                             callApi(CITY, STATE)
                             if (mFusedLocationClient != null) {
                                 mFusedLocationClient?.removeLocationUpdates(locationCallback!!)
@@ -378,7 +378,7 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
                     addresses[0].locality.toString()
                 )
                 SharedPreferenceManager.putString(
-                    AppConstants.STATE, addresses[0].countryName.toString()
+                    AppConstants.STATE, addresses[0].adminArea.toString()
                 )
 
 //                mBinding.edtSearch.setText(addresses[0].locality.toString()+","+addresses[0].countryName.toString())

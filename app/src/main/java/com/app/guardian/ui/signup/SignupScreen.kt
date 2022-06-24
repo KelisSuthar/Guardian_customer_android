@@ -1272,7 +1272,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 //        Log.i("THIS_APP",addresses[0].locality)
 //        Log.i("THIS_APP",addresses[0].postalCode)
         mBinding.edtPostalCode.setText(addresses[0].postalCode)
-        mBinding.edtProvience.setText(addresses[0].locality + "/" + addresses[0].adminArea)
+        mBinding.edtProvience.setText(addresses[0].locality + "," + addresses[0].adminArea)
 
 
     }
