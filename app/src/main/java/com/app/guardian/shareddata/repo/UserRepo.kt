@@ -1,8 +1,9 @@
 package com.app.guardian.shareddata.repo
 
 import androidx.lifecycle.MutableLiveData
-import com.app.guardian.model.Chat.ChatListResp
-import com.app.guardian.model.Chat.SendMessageResp
+import com.app.guardian.model.AskModeQ.AskModeQResp
+import com.app.guardian.model.AskModeQResp.ChatListResp
+import com.app.guardian.model.AskModeQResp.SendMessageResp
 import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.Editprofile.UserDetailsResp
@@ -336,6 +337,13 @@ interface UserRepo {
         internetConnected: Boolean,
         baseView: BaseActivity,
         videoCallRequestListResp: MutableLiveData<RequestState<MutableList<GetVideoCallRequestListResp>>>
+    )
+
+    fun askModeQuestion(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        askModeQResp: MutableLiveData<RequestState<AskModeQResp>>
     )
 
 

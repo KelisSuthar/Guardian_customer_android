@@ -79,7 +79,7 @@ class SplashScreen : BaseActivity(), View.OnClickListener {
                     if (notification_type == AppConstants.EXTRA_CHAT_MESSAGE_PAYLOAD) {
                         Log.i(
                             "NOTIFICATION_SPLASh",
-                           notification_type
+                            notification_type
                         )
 //                        startActivity(
 //                            Intent(

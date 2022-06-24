@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.app.guardian.common.ReusedMethod.Companion.getCurrentDate
-import com.app.guardian.model.Chat.ChatListResp
-import com.app.guardian.model.Chat.SendMessageResp
+import com.app.guardian.model.AskModeQResp.ChatListResp
+import com.app.guardian.model.AskModeQResp.SendMessageResp
 import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.Editprofile.UserDetailsResp
@@ -14,7 +14,6 @@ import com.app.guardian.model.HomeBanners.UserHomeBannerResp
 import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
 import com.app.guardian.model.LawyerBySpecialization.LawyerBySpecializationResp
 import com.app.guardian.model.ListFilter.FilterResp
-import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.cms.CMSResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp

@@ -1,4 +1,4 @@
-package com.app.guardian.model.Chat
+package com.app.guardian.model.AskModeQResp
 
 data class SendMessageResp(
     val conversation_id: String? = "",

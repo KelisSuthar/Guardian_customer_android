@@ -250,4 +250,11 @@ interface ValidationView {
         fun length_desc()
         fun success()
     }
+    interface askModeQuestions {
+        fun emptyTitle()
+        fun length_Title()
+        fun emptyTDesc()
+        fun length_desc()
+        fun success()
+    }
 }

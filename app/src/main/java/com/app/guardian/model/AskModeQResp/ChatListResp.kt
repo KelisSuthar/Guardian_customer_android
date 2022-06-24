@@ -1,4 +1,4 @@
-package com.app.guardian.model.Chat
+package com.app.guardian.model.AskModeQResp
 
 data class ChatListResp(
     val chat_detail: List<ChatDetail>,

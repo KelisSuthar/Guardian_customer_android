@@ -2,8 +2,9 @@ package com.app.guardian.shareddata.repo
 
 import androidx.lifecycle.MutableLiveData
 import com.app.guardian.model.ApiError
-import com.app.guardian.model.Chat.ChatListResp
-import com.app.guardian.model.Chat.SendMessageResp
+import com.app.guardian.model.AskModeQ.AskModeQResp
+import com.app.guardian.model.AskModeQResp.ChatListResp
+import com.app.guardian.model.AskModeQResp.SendMessageResp
 import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.Editprofile.UserDetailsResp
@@ -868,6 +869,25 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
                 mApiEndPoint.getVideoCallRequestList(),
                 baseView,
                 videoCallRequestListResp
+            )
+        }
+    }
+
+    override fun askModeQuestion(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        askModeQResp: MutableLiveData<RequestState<AskModeQResp>>
+    ) {
+        if (!internetConnected) {
+            askModeQResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            askModeQResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.askModratorAQuestion(body),
+                baseView,
+                askModeQResp
             )
         }
     }

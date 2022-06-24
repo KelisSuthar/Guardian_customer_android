@@ -10,10 +10,9 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
-import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.changeDateFormat
-import com.app.guardian.model.Chat.ChatDetail
-import com.app.guardian.model.Chat.ChatListResp
+import com.app.guardian.model.AskModeQResp.ChatDetail
+import com.app.guardian.model.AskModeQResp.ChatListResp
 import com.kodmap.library.kmrecyclerviewstickyheader.KmStickyListener
 import java.text.SimpleDateFormat
 import java.util.*

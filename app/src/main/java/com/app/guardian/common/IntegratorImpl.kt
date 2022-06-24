@@ -228,6 +228,23 @@ object IntegratorImpl {
             validationView.success()
         }
     }
+    fun isValidAskQ(
+        title: String,
+        desc: String,
+        validationView: ValidationView.askModeQuestions,
+    ) {
+        if (TextUtils.isEmpty(title)) {
+            validationView.emptyTitle()
+        } else if (!(title.length > 5 && title.length < 60)) {
+            validationView.length_Title()
+        } else if (TextUtils.isEmpty(desc)) {
+            validationView.emptyTDesc()
+        } else if (!(desc.length > 5 && desc.length < 700)) {
+            validationView.length_desc()
+        } else {
+            validationView.success()
+        }
+    }
 
     fun isValidCreateProfile(
         fullName: String,

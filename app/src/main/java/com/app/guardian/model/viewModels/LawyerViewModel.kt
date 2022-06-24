@@ -3,6 +3,8 @@ package com.app.guardian.model.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.app.guardian.common.SharedPreferenceManager
+import com.app.guardian.model.AskModeQ.AskModeQResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
@@ -138,6 +140,29 @@ class LawyerViewModel(private val mUserRepository: UserRepo) : ViewModel() {
             isInternetConnected,
             baseView,
             commonResponse
+        )
+    }
+
+    //ASK MODERATOR QUESTION API
+    private val askModeQResp = MutableLiveData<RequestState<AskModeQResp>>()
+    fun getAskModequeResp(): LiveData<RequestState<AskModeQResp>> = askModeQResp
+    fun askModeQuestions(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        title: String,
+        description: String,
+    ) {
+
+        val body = JsonObject()
+
+        body.addProperty(ApiConstant.EXTRAS_PLAN_ID, SharedPreferenceManager.getUser()!!.email)
+        body.addProperty(ApiConstant.EXTRAS_PRICE, title)
+        body.addProperty(ApiConstant.EXTRAS_SHARED_SECRET, description)
+        mUserRepository.askModeQuestion(
+            body,
+            isInternetConnected,
+            baseView,
+            askModeQResp
         )
     }
 

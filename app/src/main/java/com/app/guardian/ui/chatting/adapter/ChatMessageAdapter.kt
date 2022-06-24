@@ -10,8 +10,7 @@ import com.app.guardian.R
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
-import com.app.guardian.model.Chat.ChatDetail
-import com.app.guardian.model.Chat.ChatListResp
+import com.app.guardian.model.AskModeQResp.ChatDetail
 
 class ChatMessageAdapter(var context: Context, var array: ArrayList<ChatDetail>) :
     RecyclerView.Adapter<ChatMessageAdapter.myViewHolder>() {

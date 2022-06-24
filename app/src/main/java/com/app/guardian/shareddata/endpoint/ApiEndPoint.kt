@@ -1,7 +1,8 @@
 package com.app.guardian.shareddata.endpoint
 
-import com.app.guardian.model.Chat.ChatListResp
-import com.app.guardian.model.Chat.SendMessageResp
+import com.app.guardian.model.AskModeQ.AskModeQResp
+import com.app.guardian.model.AskModeQResp.ChatListResp
+import com.app.guardian.model.AskModeQResp.SendMessageResp
 import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.CommonResponseModel
@@ -172,6 +173,8 @@ interface ApiEndPoint {
     @GET("getVideoCallRequestList")
     fun getVideoCallRequestList(): Call<CommonResponseModel<MutableList<GetVideoCallRequestListResp>>>
 
+    @POST("askQuestion")
+    fun askModratorAQuestion(@Body body: JsonObject): Call<CommonResponseModel<AskModeQResp>>
 
 
 }
