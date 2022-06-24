@@ -7,6 +7,7 @@ import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.CommonResponseModel
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
+import com.app.guardian.model.GetVideoCallRequestResp.GetVideoCallRequestListResp
 import com.app.guardian.model.HomeBanners.UserHomeBannerResp
 import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
 import com.app.guardian.model.LawyerBySpecialization.LawyerBySpecializationResp
@@ -167,6 +168,9 @@ interface ApiEndPoint {
 
     @POST("scheduleRequestedVideoCall")
     fun scheduleRequestedVideoCall(@Body body: JsonObject): Call<CommonResponseModel<ScheduleRequestedVideoCallResp>>
+
+    @GET("getVideoCallRequestList")
+    fun getVideoCallRequestList(): Call<CommonResponseModel<MutableList<GetVideoCallRequestListResp>>>
 
 
 

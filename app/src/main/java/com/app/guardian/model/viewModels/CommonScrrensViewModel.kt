@@ -9,6 +9,7 @@ import com.app.guardian.model.Chat.SendMessageResp
 import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.Editprofile.UserDetailsResp
+import com.app.guardian.model.GetVideoCallRequestResp.GetVideoCallRequestListResp
 import com.app.guardian.model.HomeBanners.UserHomeBannerResp
 import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
 import com.app.guardian.model.LawyerBySpecialization.LawyerBySpecializationResp
@@ -352,6 +353,25 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
             isInternetConnected,
             baseView,
             scheduleRequestedVideoCallResp
+        )
+    }
+
+
+    //GET LISTS OF VIDEO CALL REQUEST
+    private val getVideoCallRequestListResp =
+        MutableLiveData<RequestState<MutableList<GetVideoCallRequestListResp>>>()
+
+    fun getVideoCallRequestListResp(): LiveData<RequestState<MutableList<GetVideoCallRequestListResp>>> =
+        getVideoCallRequestListResp
+
+    fun GetVideoCallRequestList(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+    ) {
+        mUserRepository.getVideoCallRequestList(
+            isInternetConnected,
+            baseView,
+            getVideoCallRequestListResp
         )
     }
 

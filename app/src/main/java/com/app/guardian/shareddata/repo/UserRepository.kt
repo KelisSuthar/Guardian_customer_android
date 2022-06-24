@@ -8,6 +8,7 @@ import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
+import com.app.guardian.model.GetVideoCallRequestResp.GetVideoCallRequestListResp
 import com.app.guardian.model.HomeBanners.UserHomeBannerResp
 import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
 import com.app.guardian.model.LawyerBySpecialization.LawyerBySpecializationResp
@@ -849,6 +850,24 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
                 mApiEndPoint.updateUserProfile(body),
                 baseView,
                 loginResp
+            )
+        }
+    }
+
+    override fun getVideoCallRequestList(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        videoCallRequestListResp: MutableLiveData<RequestState<MutableList<GetVideoCallRequestListResp>>>
+    ) {
+        if (!internetConnected) {
+            videoCallRequestListResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            videoCallRequestListResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.getVideoCallRequestList(),
+                baseView,
+                videoCallRequestListResp
             )
         }
     }

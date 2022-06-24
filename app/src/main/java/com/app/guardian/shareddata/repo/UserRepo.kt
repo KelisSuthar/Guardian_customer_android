@@ -7,6 +7,7 @@ import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
+import com.app.guardian.model.GetVideoCallRequestResp.GetVideoCallRequestListResp
 import com.app.guardian.model.HomeBanners.UserHomeBannerResp
 import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
 import com.app.guardian.model.LawyerBySpecialization.LawyerBySpecializationResp
@@ -329,6 +330,12 @@ interface UserRepo {
         internetConnected: Boolean,
         baseView: BaseActivity,
         loginResp: MutableLiveData<RequestState<UserDetailsResp>>
+    )
+
+    fun getVideoCallRequestList(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        videoCallRequestListResp: MutableLiveData<RequestState<MutableList<GetVideoCallRequestListResp>>>
     )
 
 
