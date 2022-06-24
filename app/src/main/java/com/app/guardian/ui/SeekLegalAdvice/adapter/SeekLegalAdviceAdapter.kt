@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
@@ -40,7 +41,7 @@ class SeekLegalAdviceAdapter(
 
         var rbRowKnowRight = view.findViewById<TextView>(R.id.rbRowKnowRight)
         var liEdit = view.findViewById<LinearLayout>(R.id.liEdit)
-        var lldelete = view.findViewById<LinearLayout>(R.id.lldelete)
+        var lldelete = view.findViewById<AppCompatImageView>(R.id.lldelete)
         var conIcons = view.findViewById<ConstraintLayout>(R.id.conIcons)
         fun bind(position: Int) {
             val seekLegalAdviceData = arrayList[position]

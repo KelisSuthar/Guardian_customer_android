@@ -50,18 +50,18 @@
 
             <LinearLayout
                 android:id="@+id/liEdit"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:background="@drawable/rounded_blue_back"
                 android:gravity="center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
+            <ImageView
                     android:id="@+id/imgEdit"
-                    android:layout_width="@dimen/_10sdp"
-                    android:layout_height="@dimen/_10sdp"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_edit" />
 
@@ -70,8 +70,8 @@
 
                 <ImageView
                     android:id="@+id/lldelete"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_delete"
                     android:layout_marginStart="@dimen/_10sdp"

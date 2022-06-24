@@ -12,6 +12,7 @@ import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.ReusedMethod.Companion.displayMessage
 import com.app.guardian.common.ReusedMethod.Companion.showSubscriptionDialog
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
@@ -302,13 +303,14 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.cvAskQuestion -> {
                 chnagelayout(2)
-                ReplaceFragment.replaceFragment(
-                    requireActivity(),
-                    AskMoreQuestion(),
-                    true,
-                    LawyerHomeFragment::class.java.name,
-                    LawyerHomeFragment::class.java.name
-                )
+//                ReplaceFragment.replaceFragment(
+//                    requireActivity(),
+//                    AskMoreQuestion(),
+//                    true,
+//                    LawyerHomeFragment::class.java.name,
+//                    LawyerHomeFragment::class.java.name
+//                )
+                displayMessage(requireActivity(), resources.getString(R.string.come_soon))
             }
             R.id.cvSeekAdv -> {
                 chnagelayout(3)
@@ -335,7 +337,6 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                 mBinding.cvKnowRights.performClick()
             }
             R.id.btnAskQuestions -> {
-                chnagelayout(2)
                 mBinding.cvAskQuestion.performClick()
             }
             R.id.btnSeekAdv -> {

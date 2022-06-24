@@ -2,12 +2,16 @@ package com.app.guardian.ui.SeekLegalAdvice.AddEditSeekLegalAdv
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.os.Handler
 import android.text.InputFilter
 import android.text.TextUtils
 import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.Window
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.app.guardian.R
@@ -43,7 +47,7 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
     lateinit var mBinding: FragmentAddSeekLegalAdviceBinding
     var is_edit = isEdit
     var seek_legal_adv_id = id
-
+    var imm: InputMethodManager? = null
     var edit_title = title
     var edit_desc = desc
     override fun getInflateResource(): Int {
@@ -58,7 +62,7 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
             true,
             true
         )
-
+         imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         if(is_edit){
     mBinding.edtTitle.setText(edit_title)
     mBinding.edtDesc.setText(edit_desc)
@@ -70,6 +74,15 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
 
         setFocus(mBinding.edtTitle)
         setFocus(mBinding.edtDesc)
+        mBinding.edtDesc.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                mBinding.edtDesc.clearFocus()
+
+                imm!!.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                return@setOnEditorActionListener true
+            }
+            false
+        }
     }
 
     private fun setFocus(edtText: TextInputEditText) {
@@ -163,6 +176,8 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
             dialog.dismiss()
             mBinding.edtDesc.text!!.clear()
             mBinding.edtTitle.text!!.clear()
+            mBinding.edtTitle.requestFocus()
+            imm!!.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
             if (is_edit) {
                 seek_legal_adv_id = 0
                 is_edit = false

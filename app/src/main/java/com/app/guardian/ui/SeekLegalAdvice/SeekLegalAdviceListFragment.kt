@@ -5,11 +5,15 @@ import android.app.Dialog
 import android.util.Log
 import android.view.View
 import android.view.Window
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.ReusedMethod.Companion.setUpDialog
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
@@ -29,7 +33,8 @@ import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class SeekLegalAdviceListFragment(is_icon_show:Boolean,seekLegalIdParams: Int) : BaseFragment(), View.OnClickListener {
+class SeekLegalAdviceListFragment(is_icon_show: Boolean, seekLegalIdParams: Int) : BaseFragment(),
+    View.OnClickListener {
 
     private lateinit var mBinding: FragmentSeekLegalAdviceListBinding
     private var seekLegalAdviceAdapter: SeekLegalAdviceAdapter? = null
@@ -51,17 +56,19 @@ class SeekLegalAdviceListFragment(is_icon_show:Boolean,seekLegalIdParams: Int) :
 //            seekLegalId = it.getInt("SeekID")
 //        }
         (activity as HomeActivity).bottomTabVisibility(false)
-        (activity as HomeActivity).headerTextVisible(requireActivity().resources.getString(R.string.seek_legal_advice),false,false)
+        (activity as HomeActivity).headerTextVisible(
+            requireActivity().resources.getString(R.string.seek_legal_advice),
+            isHeaderVisible = false,
+            isBackButtonVisible = false
+        )
 
 
-        if(isIconShow){
+        if (isIconShow) {
             mBinding.llAddAdv.visible()
-        }
-        else{
+        } else {
             mBinding.llAddAdv.gone()
         }
         mBinding.ivSeekLegalBack.setOnClickListener(this)
-
 
 
     }
@@ -111,12 +118,27 @@ class SeekLegalAdviceListFragment(is_icon_show:Boolean,seekLegalIdParams: Int) :
                 }
 
                 override fun onItemClick(position: Int) {
-                    ReusedMethod. showKnowRightDialog(requireContext(),
-                        array[position].title.toString(),"","",array[position].description)
+                    showDetailsDialog(array[position].title, array[position].description)
                 }
 
             })
         mBinding.rcySeekLegalAdviceList.adapter = seekLegalAdviceAdapter
+    }
+
+    private fun showDetailsDialog(title: String?, description: String?) {
+        val dialog = setUpDialog(requireActivity(), R.layout.dialog_seek_leagl_details, false)
+
+        val btnClose: Button = dialog.findViewById(R.id.btnClose)
+        val txtTitle: TextView = dialog.findViewById(R.id.txtTitle)
+        val txtDesc: TextView = dialog.findViewById(R.id.txtDesc)
+
+        txtTitle.text = title
+        txtDesc.text = description
+
+        btnClose.setOnClickListener { dialog.dismiss() }
+
+        dialog.show()
+
     }
 
 
@@ -248,6 +270,7 @@ class SeekLegalAdviceListFragment(is_icon_show:Boolean,seekLegalIdParams: Int) :
         }
         dialog.show()
     }
+
     override fun handleListener() {
         mBinding.llAddAdv.setOnClickListener(this)
         mBinding.noInternetSeekLegal.btnTryAgain.setOnClickListener(this)
@@ -267,8 +290,8 @@ class SeekLegalAdviceListFragment(is_icon_show:Boolean,seekLegalIdParams: Int) :
                 requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
             }
             R.id.ivSeekLegalBack -> {
-                Log.e("seekLegal","Seek legal back click ")
-                    requireActivity().onBackPressed()
+                Log.e("seekLegal", "Seek legal back click ")
+                requireActivity().onBackPressed()
             }
             R.id.btnTryAgain -> {
                 onResume()
