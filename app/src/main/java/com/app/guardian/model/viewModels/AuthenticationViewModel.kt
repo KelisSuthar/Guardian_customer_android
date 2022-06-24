@@ -88,13 +88,12 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         state: String,
         postal_code: String,
         licence_no: String,
+        availability_time: String,
         profile_avatar: String,
         user_doc: ArrayList<String>,
         device_token: String,
         firebase_uid: String,
-
-
-        ) {
+    ) {
         val body = JsonObject()
 
         body.addProperty(ApiConstant.EXTRAS_FULL_NAME, full_name)
@@ -107,11 +106,13 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             body.addProperty(ApiConstant.EXTRAS_PHONE, phone)
             body.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
             body.addProperty(ApiConstant.EXTRAS_LICENCE_NO, licence_no)
+            body.addProperty(ApiConstant.EXTRAS_AVAILABILITY_TIME, availability_time)
         } else if (is_mediator) {
             body.addProperty(ApiConstant.EXTRAS_SPECIALIZATION, specialization)
             body.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
             body.addProperty(ApiConstant.EXTRAS_PHONE, phone)
             body.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
+            body.addProperty(ApiConstant.EXTRAS_AVAILABILITY_TIME, availability_time)
 
         } else {
             body.addProperty(ApiConstant.EXTRAS_PHONE, phone)
@@ -126,7 +127,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         body.addProperty(ApiConstant.EXTRAS_FIREBASE_UUID, firebase_uid)
         body.addProperty(ApiConstant.EXTRAS_DEVICETOKEN, device_token)
 
-        val img_array:JsonArray = Gson().toJsonTree(user_doc).asJsonArray
+        val img_array: JsonArray = Gson().toJsonTree(user_doc).asJsonArray
         body.addProperty(ApiConstant.EXTRAS_PROFILE_AVATAR, profile_avatar)
         body.add(ApiConstant.EXTRAS_USER_DOC, img_array)
 
@@ -408,6 +409,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         state: String,
         postal_code: String,
         licence_no: String,
+        availability_time: String,
         profile_avatar: String,
         user_doc: ArrayList<String>,
 
@@ -424,11 +426,13 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             body.addProperty(ApiConstant.EXTRAS_OFFICE_DIAL_CODE, office_dial_code)
             body.addProperty(ApiConstant.EXTRAS_PHONE, phone)
             body.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
+            body.addProperty(ApiConstant.EXTRAS_AVAILABILITY_TIME, availability_time)
         } else if (is_mediator) {
             body.addProperty(ApiConstant.EXTRAS_SPECIALIZATION, specialization)
             body.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
             body.addProperty(ApiConstant.EXTRAS_PHONE, phone)
             body.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
+            body.addProperty(ApiConstant.EXTRAS_AVAILABILITY_TIME, availability_time)
 
         } else {
             body.addProperty(ApiConstant.EXTRAS_PHONE, phone)
@@ -437,7 +441,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         body.addProperty(ApiConstant.EXTRAS_STATE, state)
         body.addProperty(ApiConstant.EXTRAS_POSTAL_CODE, postal_code)
 
-        val img_array:JsonArray = Gson().toJsonTree(user_doc).asJsonArray
+        val img_array: JsonArray = Gson().toJsonTree(user_doc).asJsonArray
         body.addProperty(ApiConstant.EXTRAS_PROFILE_AVATAR, profile_avatar)
         body.add(ApiConstant.EXTRAS_USER_DOC, img_array)
 

@@ -126,6 +126,8 @@
     <string name="empty_licence_num">Please enter your licence number.</string>
     <string name="valid_licence">Please enter valid licence plate no. for car.</string>
     <string name="valid_licence_num">Please enter valid licence number.</string>
+    <string name="empty_from_time">Please enter from time.</string>
+    <string name="empty_to_time">Please enter to time.</string>
     <string name="valid_doc">Please upload at least one document of yours.</string>
     <string name="empty_specialization">Please enter specialization.</string>
     <string name="valid_specialization">Please enter valid description of specialization</string>
@@ -294,5 +296,7 @@
     <string name="enter_meeting_id">Enter meeting id</string>
     <string name="join_meeting">Join meeting</string>
     <string name="create_meeting">Create meeting</string>
+    <string name="from_time">From</string>
+    <string name="to_time">To</string>
 
 </resources>

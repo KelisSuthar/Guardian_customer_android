@@ -88,11 +88,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:drawableLeft="@drawable/ic_mail"
+                    android:focusable="false"
                     android:fontFamily="@font/lora_regular"
                     android:hint="@string/email"
                     android:inputType="textEmailAddress"
                     android:textFontWeight="400"
-                    android:focusable="false"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintTop_toBottomOf="@id/edtFullname" />
 
@@ -103,15 +103,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:drawableLeft="@drawable/ic_specialization2"
-                    app:layout_constraintTop_toBottomOf="@+id/edtEmail"
+                    android:focusable="false"
                     android:fontFamily="@font/lora_regular"
                     android:hint="@string/specialization"
                     android:inputType="textEmailAddress"
                     android:textFontWeight="400"
                     android:textSize="@dimen/_12ssp"
-                    android:focusable="false"
                     android:visibility="gone"
-                     />
+                    app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtYearsOfExp"
@@ -122,33 +121,33 @@
                     android:drawableLeft="@drawable/ic_years_exp"
                     android:fontFamily="@font/lora_regular"
                     android:hint="@string/years_exp"
-                    app:layout_constraintTop_toBottomOf="@+id/edtSpecializations"
                     android:inputType="number"
                     android:textFontWeight="400"
                     android:textSize="@dimen/_12ssp"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@+id/edtSpecializations" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clayout1"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@drawable/normal_rounded_light_blue"
-                    app:layout_constraintTop_toBottomOf="@id/edtYearsOfExp"
                     android:visibility="gone"
-                    >
+                    app:layout_constraintTop_toBottomOf="@id/edtYearsOfExp">
 
                     <com.rilixtech.widget.countrycodepicker.CountryCodePicker
                         android:id="@+id/ccp1"
                         android:layout_width="@dimen/_40sdp"
                         android:layout_height="match_parent"
                         android:background="@drawable/left_corners_blue_back"
+                        android:gravity="center"
                         android:padding="@dimen/_10sdp"
                         android:paddingVertical="@dimen/_10sdp"
                         app:ccp_defaultCode="1"
                         app:ccp_dialogTextColor="@color/darkBlue"
                         app:ccp_hideNameCode="true"
                         app:ccp_hidePhoneCode="false"
-                        android:gravity="center"
                         app:ccp_keyboardAutoPopOnSearch="false"
                         app:ccp_setCountryByTimeZone="true"
                         app:ccp_showFlag="false"
@@ -182,28 +181,28 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clayout2"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@drawable/normal_rounded_light_blue"
-                    app:layout_constraintTop_toBottomOf="@id/clayout1"
-                    >
+                    app:layout_constraintTop_toBottomOf="@id/clayout1">
 
                     <com.rilixtech.widget.countrycodepicker.CountryCodePicker
                         android:id="@+id/ccp2"
-                        android:focusable="false"
                         android:layout_width="@dimen/_40sdp"
                         android:layout_height="match_parent"
                         android:background="@drawable/left_corners_blue_back"
+                        android:focusable="false"
+                        android:gravity="center"
                         android:padding="@dimen/_10sdp"
                         android:paddingVertical="@dimen/_10sdp"
                         app:ccp_defaultCode="1"
                         app:ccp_dialogTextColor="@color/darkBlue"
                         app:ccp_hideNameCode="true"
                         app:ccp_hidePhoneCode="false"
-                        android:gravity="center"
                         app:ccp_keyboardAutoPopOnSearch="false"
                         app:ccp_setCountryByTimeZone="true"
                         app:ccp_showFlag="false"
@@ -212,8 +211,7 @@
                         app:ccp_textSize="@dimen/_9ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        />
+                        app:layout_constraintTop_toTopOf="parent" />
 
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -222,9 +220,9 @@
                         android:layout_height="wrap_content"
                         android:background="@color/colorTransparent"
                         android:drawablePadding="@dimen/_10sdp"
+                        android:focusable="false"
                         android:fontFamily="@font/lora_regular"
                         android:hint="@string/phone"
-                        android:focusable="false"
                         android:inputType="number"
                         android:maxLength="10"
                         android:padding="@dimen/_10sdp"
@@ -276,16 +274,73 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-"
                     android:drawableLeft="@drawable/ic_vehical_number"
+                    android:focusable="false"
                     android:fontFamily="@font/lora_regular"
                     android:hint="@string/licence_num"
                     android:inputType="text"
                     android:textFontWeight="400"
                     android:textSize="@dimen/_12ssp"
                     android:visibility="gone"
-                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-"
-                    android:focusable="false"
                     app:layout_constraintTop_toBottomOf="@id/edtPostalCode" />
+
+                <LinearLayout
+                    android:id="@+id/llAvaibilityTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@+id/edtRegisteredLicenceNum">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/lora_semibold"
+                        android:text="Availability Time"
+                        android:textColor="@color/txt_dark" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtFromTime"
+                            style="@style/White_edittext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="0.5"
+                            android:drawableLeft="@drawable/ic_calender"
+                            android:drawableTint="@color/txt_dark"
+                            android:focusable="false"
+                            android:fontFamily="@font/lora_regular"
+                            android:hint="@string/from_time"
+                            android:inputType="text"
+                            android:maxLength="25"
+                            android:textFontWeight="400"
+                            android:textSize="@dimen/_12ssp" />
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtToTime"
+                            style="@style/White_edittext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="0.5"
+                            android:drawableLeft="@drawable/ic_calender"
+                            android:drawableTint="@color/txt_dark"
+                            android:focusable="false"
+                            android:fontFamily="@font/lora_regular"
+                            android:hint="@string/to_time"
+                            android:inputType="text"
+                            android:maxLength="25"
+                            android:textFontWeight="400"
+                            android:textSize="@dimen/_12ssp" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll3"
@@ -295,7 +350,7 @@
                     android:orientation="vertical"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edtRegisteredLicenceNum">
+                    app:layout_constraintTop_toBottomOf="@+id/llAvaibilityTime">
 
                     <LinearLayout
                         android:layout_width="match_parent"

@@ -152,6 +152,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 mBinding.fmOficeNum.visible()
                 mBinding.edtYearsOfExp.visible()
                 mBinding.edtRegisteredLicenceNum.visible()
+                mBinding.llAvaibilityTime.visible()
             }
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
@@ -161,6 +162,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 ROLE = AppConstants.APP_ROLE_MEDIATOR
                 mBinding.edtSpecializations.visible()
                 mBinding.edtYearsOfExp.visible()
+                mBinding.llAvaibilityTime.visible()
             }
         }
 
@@ -265,7 +267,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 val value = mBinding.edtRegisteredLicenceNum.text?.trim().toString()
                 if (!hasFocus) {
 
-                    if (!TextUtils.isEmpty(value) || value.length<5 ) {
+                    if (!TextUtils.isEmpty(value) || value.length < 5) {
                         ShowNoBorders(this@SignupScreen, mBinding.edtRegisteredLicenceNum)
                     }
                 }
@@ -297,6 +299,24 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 if (!hasFocus) {
                     if (!TextUtils.isEmpty(value) && value.length == 10) {
                         ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
+                    }
+                }
+            }
+        mBinding.edtFromTime.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtFromTime.text?.trim().toString()
+                if (!hasFocus) {
+                    if (!TextUtils.isEmpty(value)) {
+                        ShowNoBorders(this@SignupScreen, mBinding.edtFromTime)
+                    }
+                }
+            }
+        mBinding.edtToTime.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtToTime.text?.trim().toString()
+                if (!hasFocus) {
+                    if (!TextUtils.isEmpty(value)) {
+                        ShowNoBorders(this@SignupScreen, mBinding.edtToTime)
                     }
                 }
             }
@@ -463,13 +483,20 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
         mBinding.edtPostalCode.setOnClickListener(this)
         mBinding.btnSigUp.setOnClickListener(this)
         mBinding.edtSpecializations.setOnClickListener(this)
-
+        mBinding.edtFromTime.setOnClickListener(this)
+        mBinding.edtToTime.setOnClickListener(this)
         mBinding.headderSignUp.ivBack.setOnClickListener(this)
         mBinding.noInternetSignUp.btnTryAgain.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
+            R.id.edtFromTime -> {
+                ReusedMethod.selectTime(this, mBinding.edtFromTime)
+            }
+            R.id.edtToTime -> {
+                ReusedMethod.selectTime(this, mBinding.edtToTime)
+            }
             R.id.btnTryAgain -> {
                 onResume()
             }
@@ -597,13 +624,14 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
             mBinding.edtEmail.text?.trim().toString(),
             mBinding.edtSpecializations.text?.trim().toString(),
             mBinding.edtYearsOfExp.text?.trim().toString(),
-            mBinding.edtOfficeNum.text?.trim().toString(),
             mBinding.edtMobileNum.text?.trim().toString(),
             mBinding.edtPass.text?.trim().toString(),
             mBinding.edtConPass.text?.trim().toString(),
             mBinding.edtProvience.text?.trim().toString(),
             mBinding.edtPostalCode.text?.trim().toString(),
             mBinding.edtRegisteredLicenceNum.text?.trim().toString(),
+            mBinding.edtFromTime.text?.trim().toString(),
+            mBinding.edtToTime.text?.trim().toString(),
             images,
             object : ValidationView.SignUp {
                 override fun profileImgValidations() {
@@ -1046,6 +1074,52 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
 
                 }
 
+                override fun empty_from_time() {
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.empty_from_time),
+                        false,
+                        "OK",
+                        ""
+                    )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtMobileNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtPass)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtConPass)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtRegisteredLicenceNum)
+                    ShowRedBorders(this@SignupScreen, mBinding.edtFromTime)
+
+                }
+
+                override fun empty_to_time() {
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.empty_to_time),
+                        false,
+                        "OK",
+                        ""
+                    )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtMobileNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtPass)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtConPass)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtRegisteredLicenceNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFromTime)
+                    ShowRedBorders(this@SignupScreen, mBinding.edtToTime)
+                }
+
 //                override fun licencPlateLength() {
 //                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.empty_licence), false, "OK", "")
 //                    ShowRedBorders(this@SignupScreen, mBinding.edtVehicalNum)
@@ -1075,6 +1149,8 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
                     ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
                     ShowRedBorders(this@SignupScreen, mBinding.edtRegisteredLicenceNum)
+                    ShowRedBorders(this@SignupScreen, mBinding.edtFromTime)
+                    ShowRedBorders(this@SignupScreen, mBinding.edtToTime)
 //
 //                    chatRegistration(
 //                        mBinding.edtEmail.text?.trim().toString(),
@@ -1120,6 +1196,8 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 mBinding.edtProvience.text?.trim().toString(),
                 mBinding.edtPostalCode.text?.trim().toString(),
                 mBinding.edtRegisteredLicenceNum.text?.trim().toString(),
+                mBinding.edtFromTime.text?.trim()
+                    .toString() + " To " + mBinding.edtToTime.text?.trim().toString(),
                 profile_img,
                 images,
                 DEVICE_TOKEN.toString(),
@@ -1377,10 +1455,10 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 )
             } catch (exception: java.lang.Exception) {
                 showLoadingIndicator(false)
-                   Log.i("MyAmplifyApp", "Upload failed", exception)
+                Log.i("MyAmplifyApp", "Upload failed", exception)
             } catch (e: NetworkOnMainThreadException) {
                 showLoadingIndicator(false)
-                  Log.i("MyAmplifyApp", "Upload failed$e.message")
+                Log.i("MyAmplifyApp", "Upload failed$e.message")
             }
         }
 

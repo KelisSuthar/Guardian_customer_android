@@ -26,6 +26,7 @@ import com.amplifyframework.core.Amplify
 import com.amplifyframework.storage.options.StorageUploadFileOptions
 import com.app.guardian.R
 import com.app.guardian.common.*
+import com.app.guardian.common.ReusedMethod.Companion.displayMessageDialog
 import com.app.guardian.common.ReusedMethod.Companion.getAddress
 import com.app.guardian.common.extentions.*
 import com.app.guardian.databinding.ActivityEditProfileBinding
@@ -116,6 +117,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 mBinding.clayout1.visible()
                 mBinding.edtYearsOfExp.visible()
                 mBinding.edtRegisteredLicenceNum.visible()
+                mBinding.llAvaibilityTime.visible()
                 mBinding.edtRegisteredLicenceNum.hint = "Registered Licence No"
             }
             SharedPreferenceManager.getString(
@@ -125,11 +127,134 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 is_mediator = true
                 mBinding.edtSpecializations.visible()
                 mBinding.edtYearsOfExp.visible()
+                mBinding.llAvaibilityTime.visible()
             }
         }
         //Check ROle
 
+        setFocus()
+    }
 
+    private fun setFocus() {
+        mBinding.edtFullname.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtFullname.text?.trim().toString()
+
+                if (!hasFocus) {
+                    if (value.length > 3 && !TextUtils.isEmpty(value)) {
+                        ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFullname)
+                    }
+                }
+            }
+
+        mBinding.edtEmail.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtEmail.text?.trim().toString()
+
+                if (!hasFocus) {
+                    if (SmartUtils.emailValidator(value) && !TextUtils.isEmpty(value)) {
+                        ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtEmail)
+                    }
+                }
+            }
+
+        mBinding.edtPhone.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtPhone.text?.trim().toString()
+
+                if (!hasFocus) {
+                    if (value.length >= 10 && !TextUtils.isEmpty(value)) {
+                        ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtPhone)
+                    }
+                }
+            }
+
+
+        mBinding.edtProvience.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtProvience.text?.trim().toString()
+                if (!hasFocus) {
+
+                    if (!TextUtils.isEmpty(value)) {
+                        ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtProvience)
+                    }
+                }
+            }
+
+        mBinding.edtPostalCode.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtPostalCode.text?.trim().toString()
+                if (!hasFocus) {
+
+                    if (!TextUtils.isEmpty(value) && (value.length > 3 || value.length < 9)) {
+                        ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtPostalCode)
+                    }
+                }
+            }
+        mBinding.edtRegisteredLicenceNum.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtRegisteredLicenceNum.text?.trim().toString()
+                if (!hasFocus) {
+
+                    if (!TextUtils.isEmpty(value) || value.length < 5) {
+                        ReusedMethod.ShowNoBorders(
+                            this@EditProfileActivity,
+                            mBinding.edtRegisteredLicenceNum
+                        )
+                    }
+                }
+            }
+
+        mBinding.edtSpecializations.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtSpecializations.text?.trim().toString()
+                if (!hasFocus) {
+                    if (!TextUtils.isEmpty(value)) {
+                        ReusedMethod.ShowNoBorders(
+                            this@EditProfileActivity,
+                            mBinding.edtSpecializations
+                        )
+                    }
+                }
+            }
+
+        mBinding.edtYearsOfExp.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtYearsOfExp.text?.trim().toString()
+                if (!hasFocus) {
+                    if (!TextUtils.isEmpty(value) && value != "0") {
+                        ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtYearsOfExp)
+                    }
+                }
+            }
+
+        mBinding.edtOfficeNum.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtOfficeNum.text?.trim().toString()
+                if (!hasFocus) {
+                    if (!TextUtils.isEmpty(value) && value.length == 10) {
+                        ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtOfficeNum)
+                    }
+                }
+            }
+        mBinding.edtFromTime.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtFromTime.text?.trim().toString()
+                if (!hasFocus) {
+                    if (!TextUtils.isEmpty(value)) {
+                        ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFromTime)
+                    }
+                }
+            }
+        mBinding.edtToTime.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtToTime.text?.trim().toString()
+                if (!hasFocus) {
+                    if (!TextUtils.isEmpty(value)) {
+                        ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtToTime)
+                    }
+                }
+            }
     }
 
     private fun callGetuserDetailsApi() {
@@ -408,13 +533,20 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         mBinding.ivAddImage.setOnClickListener(this)
         mBinding.btnSubmit.setOnClickListener(this)
         mBinding.edtSpecializations.setOnClickListener(this)
-
+        mBinding.edtFromTime.setOnClickListener(this)
+        mBinding.edtToTime.setOnClickListener(this)
         mBinding.headderEdit.ivBack.setOnClickListener(this)
         mBinding.noInternetEdit.btnTryAgain.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
+            R.id.edtFromTime -> {
+                ReusedMethod.selectTime(this, mBinding.edtFromTime)
+            }
+            R.id.edtToTime -> {
+                ReusedMethod.selectTime(this, mBinding.edtToTime)
+            }
             R.id.btnTryAgain -> {
 //                callApi()
             }
@@ -500,12 +632,16 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         IntegratorImpl.isValidEdit(
             is_lawyer,
             is_mediator,
+            profile_img,
             mBinding.edtFullname.text?.trim().toString(),
             mBinding.edtEmail.text?.trim().toString(),
-            mBinding.ccp1.selectedCountryCode.toString() + mBinding.edtPhone.text?.trim()
-                .toString(),
+            mBinding.edtPhone.text?.trim().toString(),
+            mBinding.edtSpecializations.text?.trim().toString(),
+            mBinding.edtYearsOfExp.text?.trim().toString(),
             mBinding.edtProvience.text?.trim().toString(),
             mBinding.edtPostalCode.text?.trim().toString(),
+            mBinding.edtFromTime.text?.trim().toString(),
+            mBinding.edtToTime.text?.trim().toString(),
             images,
             object : ValidationView.EditProfile {
                 override fun empty_profilePic() {
@@ -544,20 +680,16 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 }
 
                 override fun email_empty() {
-                    TODO("Not yet implemented")
+                    ReusedMethod.displayMessageDialog(
+                        this@EditProfileActivity,
+                        "",
+                        resources.getString(R.string.empty_email),
+                        false,
+                        "OK",
+                        ""
+                    )
+                    ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtEmail)
                 }
-
-//                override fun email_empty() {
-//                    ReusedMethod.displayMessageDialog(
-//                        this@EditProfileActivity,
-//                        "",
-//                        resources.getString(R.string.empty_email),
-//                        false,
-//                        "OK",
-//                        ""
-//                    )
-//                    ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtEmail)
-//                }
 
                 override fun emailValidation() {
                     ReusedMethod.displayMessageDialog(
@@ -571,8 +703,59 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                     ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtEmail)
                 }
 
-                override fun moNumber_empty() {
+                override fun empty_specialization() {
                     ReusedMethod.displayMessageDialog(
+                        this@EditProfileActivity,
+                        "",
+                        resources.getString(R.string.empty_specialization),
+                        false,
+                        "OK",
+                        ""
+                    )
+                    ReusedMethod.ShowRedBorders(
+                        this@EditProfileActivity,
+                        mBinding.edtSpecializations
+                    )
+                }
+
+                override fun empty_years_exp() {
+                    displayMessageDialog(
+                        this@EditProfileActivity,
+                        "",
+                        resources.getString(R.string.empty_exp),
+                        false,
+                        "OK",
+                        ""
+                    )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFullname)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtEmail)
+                    ReusedMethod.ShowNoBorders(
+                        this@EditProfileActivity,
+                        mBinding.edtSpecializations
+                    )
+                    ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtYearsOfExp)
+                }
+
+                override fun valid_years_exp() {
+                    displayMessageDialog(
+                        this@EditProfileActivity,
+                        "",
+                        resources.getString(R.string.valid_exp),
+                        false,
+                        "OK",
+                        ""
+                    )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFullname)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtEmail)
+                    ReusedMethod.ShowNoBorders(
+                        this@EditProfileActivity,
+                        mBinding.edtSpecializations
+                    )
+                    ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtYearsOfExp)
+                }
+
+                override fun moNumber_empty() {
+                    displayMessageDialog(
                         this@EditProfileActivity,
                         "",
                         resources.getString(R.string.empty_number),
@@ -580,24 +763,41 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFullname)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtEmail)
+                    ReusedMethod.ShowNoBorders(
+                        this@EditProfileActivity,
+                        mBinding.edtSpecializations
+                    )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtYearsOfExp)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtOfficeNum)
                     ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtPhone)
                 }
 
                 override fun moNumberValidation() {
-                    ReusedMethod.displayMessageDialog(
+                    displayMessageDialog(
                         this@EditProfileActivity,
                         "",
-                        resources.getString(R.string.valid_number),
+                        resources.getString(R.string.valid_pass),
                         false,
                         "OK",
                         ""
                     )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFullname)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtEmail)
+                    ReusedMethod.ShowNoBorders(
+                        this@EditProfileActivity,
+                        mBinding.edtSpecializations
+                    )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtYearsOfExp)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtOfficeNum)
                     ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtPhone)
+
                 }
 
 
                 override fun empty_provience() {
-                    ReusedMethod.displayMessageDialog(
+                    displayMessageDialog(
                         this@EditProfileActivity,
                         "",
                         resources.getString(R.string.empty_state),
@@ -605,12 +805,21 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFullname)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtEmail)
+                    ReusedMethod.ShowNoBorders(
+                        this@EditProfileActivity,
+                        mBinding.edtSpecializations
+                    )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtYearsOfExp)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtOfficeNum)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtPhone)
                     ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtProvience)
 
                 }
 
                 override fun valid_state() {
-                    ReusedMethod.displayMessageDialog(
+                    displayMessageDialog(
                         this@EditProfileActivity,
                         "",
                         resources.getString(R.string.valid_state),
@@ -618,11 +827,20 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFullname)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtEmail)
+                    ReusedMethod.ShowNoBorders(
+                        this@EditProfileActivity,
+                        mBinding.edtSpecializations
+                    )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtYearsOfExp)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtOfficeNum)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtPhone)
                     ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtProvience)
                 }
 
                 override fun empty_postal_code() {
-                    ReusedMethod.displayMessageDialog(
+                    displayMessageDialog(
                         this@EditProfileActivity,
                         "",
                         resources.getString(R.string.valid_state),
@@ -630,6 +848,16 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFullname)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtEmail)
+                    ReusedMethod.ShowNoBorders(
+                        this@EditProfileActivity,
+                        mBinding.edtSpecializations
+                    )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtYearsOfExp)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtOfficeNum)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtPhone)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtProvience)
                     ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtProvience)
                 }
 
@@ -643,6 +871,59 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         ""
                     )
                     ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtProvience)
+                }
+
+                override fun empty_from_time() {
+                    displayMessageDialog(
+                        this@EditProfileActivity,
+                        "",
+                        resources.getString(R.string.valid_licence_num),
+                        false,
+                        "OK",
+                        ""
+                    )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFullname)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtEmail)
+                    ReusedMethod.ShowNoBorders(
+                        this@EditProfileActivity,
+                        mBinding.edtSpecializations
+                    )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtYearsOfExp)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtOfficeNum)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtPhone)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtProvience)
+                    ReusedMethod.ShowNoBorders(
+                        this@EditProfileActivity,
+                        mBinding.edtRegisteredLicenceNum
+                    )
+                    ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtFromTime)
+                }
+
+                override fun empty_to_time() {
+                    displayMessageDialog(
+                        this@EditProfileActivity,
+                        "",
+                        resources.getString(R.string.empty_to_time),
+                        false,
+                        "OK",
+                        ""
+                    )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFullname)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtEmail)
+                    ReusedMethod.ShowNoBorders(
+                        this@EditProfileActivity,
+                        mBinding.edtSpecializations
+                    )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtYearsOfExp)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtOfficeNum)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtPhone)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtProvience)
+                    ReusedMethod.ShowNoBorders(
+                        this@EditProfileActivity,
+                        mBinding.edtRegisteredLicenceNum
+                    )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFromTime)
+                    ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtToTime)
                 }
 
 
@@ -661,11 +942,21 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 override fun success() {
                     ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFullname)
                     ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtEmail)
-//                    ReusedMethod.displayMessage(
-//                        this@EditProfileActivity,
-//                        resources.getString(R.string.come_soon)
-//                    )
-//                    callEditProfileApi()
+                    ReusedMethod.ShowNoBorders(
+                        this@EditProfileActivity,
+                        mBinding.edtSpecializations
+                    )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtYearsOfExp)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtOfficeNum)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtPhone)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtProvience)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtProvience)
+                    ReusedMethod.ShowRedBorders(
+                        this@EditProfileActivity,
+                        mBinding.edtRegisteredLicenceNum
+                    )
+                    ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtFromTime)
+                    ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtToTime)
                     if (!TextUtils.isEmpty(selectedFile.toString()) || upload_img_array.size > 0) {
                         uploadFile(selectedFile, upload_img_array)
                     } else {
@@ -698,6 +989,8 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 mBinding.edtProvience.text?.trim().toString(),
                 mBinding.edtPostalCode.text?.trim().toString(),
                 mBinding.edtRegisteredLicenceNum.text?.trim().toString(),
+                mBinding.edtFromTime.text?.trim()
+                    .toString() + " To " + mBinding.edtToTime.text?.trim().toString(),
                 profile_img,
                 images,
 

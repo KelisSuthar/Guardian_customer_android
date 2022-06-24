@@ -51,6 +51,7 @@ class ApiConstant{
      val EXTRAS_SUPPORT_GROUP_ID="support_group_id"
      val EXTRAS_CALLING_HISTORY_ID="calling_history_id"
      val EXTRAS_ROOM_ID="room_id"
+     val EXTRAS_AVAILABILITY_TIME="availability_time"
 
 
 
