@@ -61,8 +61,8 @@ object IntegratorImpl {
         licence_num: String,
         from_time: String,
         to_time: String,
+        desc: String,
         documentList: ArrayList<String>,
-
         ValidationView: ValidationView.SignUp
     ) {
 
@@ -121,10 +121,15 @@ object IntegratorImpl {
                         ValidationView.licencNum_empty()
                     } else if (licence_num.length < 5) {
                         ValidationView.licencNumvalidations()
+                    } else if (TextUtils.isEmpty(desc)) {
+                        ValidationView.empty_desc()
+                    } else if (desc.length < 50) {
+                        ValidationView.valid_desc()
                     } else if (TextUtils.isEmpty(from_time)) {
                         ValidationView.empty_from_time()
                     } else if (TextUtils.isEmpty(to_time)) {
                         ValidationView.empty_to_time()
+
                     } else if (documentList.size == 0) {
                         ValidationView.docValidations()
                     } else {
@@ -166,6 +171,11 @@ object IntegratorImpl {
                         ValidationView.empty_postal_code()
                     } else if (postal_code.length < 3 || postal_code.length > 9) {
                         ValidationView.valid_postal_code()
+                    } else if (TextUtils.isEmpty(desc)) {
+                        ValidationView.empty_desc()
+                    } else if (desc.length < 50) {
+                        ValidationView.valid_desc()
+
                     } else if (TextUtils.isEmpty(from_time)) {
                         ValidationView.empty_from_time()
                     } else if (TextUtils.isEmpty(to_time)) {
@@ -228,6 +238,7 @@ object IntegratorImpl {
             validationView.success()
         }
     }
+
     fun isValidAskQ(
         title: String,
         desc: String,
@@ -691,6 +702,7 @@ object IntegratorImpl {
         postal_code: String,
         from_time: String,
         to_time: String,
+        desc: String,
         images: ArrayList<String>,
         ValidationView: ValidationView.EditProfile
     ) {
@@ -728,10 +740,15 @@ object IntegratorImpl {
                         ValidationView.empty_postal_code()
                     } else if (postal_code.length < 3 || postal_code.length > 9) {
                         ValidationView.valid_postal_code()
+                    } else if (TextUtils.isEmpty(desc)) {
+                        ValidationView.empty_desc()
+                    } else if (desc.length < 50) {
+                        ValidationView.valid_desc()
                     } else if (TextUtils.isEmpty(from_time)) {
                         ValidationView.empty_from_time()
                     } else if (TextUtils.isEmpty(to_time)) {
                         ValidationView.empty_to_time()
+
                     } else if (images.size == 0) {
                         ValidationView.docValidations()
                     } else {
@@ -759,11 +776,16 @@ object IntegratorImpl {
                         ValidationView.empty_postal_code()
                     } else if (postal_code.length < 3 || postal_code.length > 9) {
                         ValidationView.valid_postal_code()
+                    } else if (TextUtils.isEmpty(desc)) {
+                        ValidationView.empty_desc()
+                    } else if (desc.length < 50) {
+                        ValidationView.empty_desc()
+                    } else if (images.size == 0) {
                     } else if (TextUtils.isEmpty(from_time)) {
                         ValidationView.empty_from_time()
                     } else if (TextUtils.isEmpty(to_time)) {
                         ValidationView.empty_to_time()
-                    } else if (images.size == 0) {
+
                         ValidationView.docValidations()
                     } else {
                         ValidationView.success()

@@ -19,6 +19,8 @@ import com.app.guardian.ui.chatting.ChattingFragment
 import com.app.guardian.utils.ApiConstant
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
+import java.text.SimpleDateFormat
+import java.util.*
 
 class SplashScreen : BaseActivity(), View.OnClickListener {
     lateinit var mBinding: ActivitySplashScreenBinding

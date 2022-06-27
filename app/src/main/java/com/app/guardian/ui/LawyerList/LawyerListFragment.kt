@@ -4,21 +4,24 @@ package com.app.guardian.ui.LawyerList
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.text.TextUtils
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.Window
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import com.app.guardian.R
-import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.ReusedMethod.Companion.displayMessage
+import com.app.guardian.common.ReusedMethod.Companion.getCurrentDate
+import com.app.guardian.common.ReusedMethod.Companion.setUpDialog
+import com.app.guardian.common.extentions.changeDateFormat
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentLawyerListBinding
@@ -33,19 +36,21 @@ import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
 import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
 import com.app.guardian.ui.chatting.ChattingFragment
-import com.app.guardian.ui.createorjoin.CreateOrJoinActivity
-import com.app.guardian.ui.videocalljoin.VideoCallJoinActivity
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.math.abs
 
 
 class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickListener {
-
     private lateinit var mBinding: FragmentLawyerListBinding
     private val mViewModel: UserViewModel by viewModel()
     private val commonViewModel: CommonScreensViewModel by viewModel()
@@ -64,14 +69,14 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         if (isDialLawyerOpen) {
             (activity as HomeActivity).headerTextVisible(
                 requireActivity().resources.getString(R.string.lawyer_list),
-                true,
-                true
+                isHeaderVisible = true,
+                isBackButtonVisible = true
             )
         } else {
             (activity as HomeActivity).headerTextVisible(
                 requireActivity().resources.getString(R.string.lawyer_list),
-                true,
-                false
+                isHeaderVisible = true,
+                isBackButtonVisible = false
             )
         }
         mBinding.lyLawyerListFilter.edtLoginEmail.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
@@ -199,6 +204,40 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
             }
 
         }
+        //SEND MEDIATOR CALLING REEQUEST RESP
+        mViewModel.getCallMediatorReqResp().observe(this) { response ->
+            response.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        displayMessage(requireActivity(), it.message.toString())
+
+                    }
+                }
+
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                context as Activity,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        (activity as HomeActivity).unAuthorizedNavigation()
+                                    } else {
+                                        ReusedMethod.displayMessage(context as Activity, it)
+                                    }
+                                }
+                    }
+                }
+            }
+
+        }
     }
 
     override fun onResume() {
@@ -228,21 +267,31 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
 
         YES.setOnClickListener {
             dialog.dismiss()
-            ReusedMethod.displayMessage(
-                context as Activity,
-                (context as Activity).resources.getString(R.string.come_soon)
-            )
+//            callRequestrMediatorApi()
+            callScedualDialog()
+
 //            startActivity(Intent(context,CreateOrJoinActivity::class.java))
         }
 
         NO.setOnClickListener {
             dialog.dismiss()
-            ReusedMethod.displayMessage(
-                context as Activity,
-                (context as Activity).resources.getString(R.string.come_soon)
-            )
         }
         dialog.show()
+    }
+
+
+    private fun callRequestrMediatorApi(isMediatorReq: Int, schedual_datetime: String) {
+        if (ReusedMethod.isNetworkConnected(requireContext())) {
+            mViewModel.sendCallingReqtoMediator(
+                true, requireActivity() as BaseActivity,
+                isMediatorReq, schedual_datetime
+            )
+        } else {
+            ReusedMethod.displayMessage(
+                requireActivity(),
+                resources.getString(R.string.text_error_network)
+            )
+        }
     }
 
 
@@ -271,7 +320,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
             ChattingFragment(
                 selectUserId,
 
-            ),
+                ),
             true,
             LawyerListFragment::class.java.name,
             LawyerListFragment::class.java.name
@@ -424,4 +473,68 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         }
         return chip
     }
+
+    private fun callScedualDialog() {
+        val dialog = setUpDialog(requireContext(), R.layout.virtual_witness_request_dialog, true)
+
+        val cvScheduleDate: MaterialCardView = dialog.findViewById(R.id.cvScheduleDate)
+        val cvScheduleTime: MaterialCardView = dialog.findViewById(R.id.cvScheduleTime)
+        val txtDate: TextView = dialog.findViewById(R.id.txtDate)
+        val txtTime: TextView = dialog.findViewById(R.id.txtTime)
+        val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
+        val btnImmediateJoin: Button = dialog.findViewById(R.id.btnImmediateJoin)
+        val btnRequestSend: Button = dialog.findViewById(R.id.btnRequestSend)
+
+        txtDate.text = SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().time)
+        txtTime.text = SimpleDateFormat("hh:mm a").format(Calendar.getInstance().time)
+
+        cvScheduleDate.setOnClickListener {
+            ReusedMethod.selectDate(requireActivity(), txtDate)
+        }
+
+        ivClose.setOnClickListener {
+            dialog.dismiss()
+        }
+        cvScheduleTime.setOnClickListener {
+            ReusedMethod.selectTime(requireActivity(), txtTime)
+        }
+        btnImmediateJoin.setOnClickListener {
+            dialog.dismiss()
+            callRequestrMediatorApi(1, txtDate.text.toString() + " " + txtTime.text.toString())
+        }
+        btnRequestSend.setOnClickListener {
+            dialog.dismiss()
+            if (isValidTime(txtTime.text.toString())) {
+                callRequestrMediatorApi(1, txtDate.text.toString() + " " + txtTime.text.toString())
+            } else {
+                displayMessage(requireActivity(), "Please select proper date and time")
+            }
+        }
+
+        dialog.show()
+    }
+
+    private fun isValidTime(time: String): Boolean {
+        var days = 0
+        var hrs = 0
+        var min = 0
+        val currentDate = getCurrentDate()
+        val currentDateTime =
+            changeDateFormat("yyyy-MM-dd HH:mm:ss", "hh:mm a", currentDate)
+
+        val date2: Date =
+            SimpleDateFormat("hh:mm a").parse("$time")
+        val date1: Date =
+            SimpleDateFormat("hh:mm a").parse(currentDateTime)
+        val difference: Long = date2.time - date1.time
+
+        days = ((difference / (1000 * 60 * 60 * 24)).toInt())
+        hrs = (((difference - (1000 * 60 * 60 * 24 * days)) / (1000 * 60 * 60)).toInt())
+        min =
+            ((difference - (1000 * 60 * 60 * 24 * days) - (1000 * 60 * 60 * hrs)) / (1000 * 60)).toInt();
+
+
+        return hrs > 0 && min > 30
+    }
+
 }

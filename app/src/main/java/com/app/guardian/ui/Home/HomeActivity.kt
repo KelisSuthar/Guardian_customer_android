@@ -58,8 +58,8 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
     private var mFusedLocationClient: FusedLocationProviderClient? = null
     private var locationRequest: LocationRequest? = null
     private var locationCallback: LocationCallback? = null
-val notification_type = ""
-val notification_id_ = ""
+    val notification_type = ""
+    val notification_id_ = ""
     var main_layoutBageCounter: RelativeLayout? = null
     private var notificationBadge: View? = null
     var txtBagecount: TextView? = null
@@ -250,6 +250,10 @@ val notification_id_ = ""
 
     fun historyPageOpen() {
         mBinding.bottomNavigationUser.selectedItemId = R.id.menu_history;
+    }
+
+    fun lawyerListPageOpen() {
+        mBinding.bottomNavigationUser.selectedItemId = R.id.menu_lawyer;
     }
 
 

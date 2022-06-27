@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.extentions.changeDateFormat
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.LawyerProfileDetails.LawyerProfileDetailsResp
@@ -230,7 +231,7 @@ class UserViewModel(private val mUserRepository: UserRepo) : ViewModel() {
     ) {
         val body = JsonObject()
         body.addProperty(ApiConstant.EXTRAS_IS_IMMEDIATE_ONLINE, is_immediate_joining)
-        body.addProperty(ApiConstant.EXTRAS_SCHEDUAL_DATE_TIME, schedule_datetime)
+        body.addProperty(ApiConstant.EXTRAS_SCHEDUAL_DATE_TIME, changeDateFormat("dd-MM-yyyy hh:mm a","yyyy-MM-dd HH:mm:ss",schedule_datetime))
         body.addProperty(ApiConstant.EXTRAS_REQUEST_DATE_TIME, ReusedMethod.getCurrentDate())
         mUserRepository.sendCallingRequestToMediator(
             body,

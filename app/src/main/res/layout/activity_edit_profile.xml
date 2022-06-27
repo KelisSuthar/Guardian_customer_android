@@ -285,23 +285,46 @@
                     android:visibility="gone"
                     app:layout_constraintTop_toBottomOf="@id/edtPostalCode" />
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_120sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/normal_rounded_light_blue"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:fontFamily="@font/lora_regular"
+                    android:gravity="top"
+                    android:hint="@string/desc_title_hint"
+                    android:inputType="textMultiLine"
+                    android:maxLength="500"
+                    android:padding="@dimen/_10sdp"
+                    android:singleLine="false"
+                    android:textColor="@color/txt_dark"
+                    android:textColorHint="@color/txt_dark"
+                    android:textCursorDrawable="@drawable/dark_blue_cursor"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_12ssp"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@+id/edtRegisteredLicenceNum" />
+
                 <LinearLayout
                     android:id="@+id/llAvaibilityTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@+id/edtRegisteredLicenceNum">
+                    app:layout_constraintTop_toBottomOf="@+id/edtDesc">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:fontFamily="@font/lora_semibold"
-                        android:text="Availability Time"
-                        android:textColor="@color/txt_dark" />
+                        android:fontFamily="@font/lora_regular"
+                        android:text="Video Calling Availability Time"
+                        android:textColor="@color/txt_dark"
+                        android:textFontWeight="400" />
 
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp">
@@ -309,38 +332,57 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtFromTime"
                             style="@style/White_edittext"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="5dp"
                             android:layout_weight="0.5"
-                            android:drawableLeft="@drawable/ic_calender"
-                            android:drawableTint="@color/txt_dark"
                             android:focusable="false"
                             android:fontFamily="@font/lora_regular"
                             android:hint="@string/from_time"
                             android:inputType="text"
                             android:maxLength="25"
+                            android:textAlignment="center"
                             android:textFontWeight="400"
-                            android:textSize="@dimen/_12ssp" />
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/appCompatTextView3"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/appCompatTextView3"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="To"
+                            android:textAlignment="center"
+                            android:textColor="@color/txt_dark"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtToTime"
                             style="@style/White_edittext"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
                             android:layout_weight="0.5"
-                            android:drawableLeft="@drawable/ic_calender"
-                            android:drawableTint="@color/txt_dark"
                             android:focusable="false"
                             android:fontFamily="@font/lora_regular"
                             android:hint="@string/to_time"
                             android:inputType="text"
                             android:maxLength="25"
+                            android:textAlignment="center"
                             android:textFontWeight="400"
-                            android:textSize="@dimen/_12ssp" />
-                    </LinearLayout>
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/appCompatTextView3"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
+
+
 
                 <LinearLayout
                     android:id="@+id/ll3"

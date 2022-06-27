@@ -50,6 +50,7 @@
     <string name="do_not_have_an_account_sign_in">Don’t have an account? <b>Sign In</b></string>
     <string name="already_have_an_acc">Already have an account? <b>Sign In</b></string>
     <string name="t_and_c"><u>Terms &amp; Conditions</u></string>
+    <string name="desc">Description</string>
 
 
     <!--    Login screen -->
@@ -116,6 +117,7 @@
     <string name="same_old_new_pass">Old password and new password can not be same.</string>
     <string name="empty_name">Please enter Name.</string>
     <string name="valid_name">Please enter valid name.</string>
+    <string name="valid_desc">Description must be more than 50 characters.</string>
     <string name="empty_number">Please enter phone number.</string>
     <string name="valid_number">Phone Number must be less than or equal 10 Digits.</string>
     <string name="empty_state">Please enter Province/State.</string>
@@ -246,6 +248,12 @@
     <string name="banner_ads">Banner Ads</string>
     <string name="type_something">Type Something...</string>
 
+    <!--    Join Meeting-->
+    <string name="join_meeting">Join Meeting</string>
+    <!--    Video Call -->
+
+    <string name="vide_call_req">Video Call Request</string>
+
     <!--    Lawyer By Specialization-->
     <string name="specialization_list">Specialization List</string>
 
@@ -294,8 +302,8 @@
     <string name="mic_turned_off">Mic turned off</string>
     <string name="remove">Remove</string>
     <string name="enter_meeting_id">Enter meeting id</string>
-    <string name="join_meeting">Join meeting</string>
-    <string name="create_meeting">Create meeting</string>
+
+    <string name="create_meeting">Create Meeting</string>
     <string name="from_time">From</string>
     <string name="to_time">To</string>
 

@@ -32,10 +32,7 @@ import com.app.guardian.common.ReusedMethod.Companion.displayMessage
 import com.app.guardian.common.ReusedMethod.Companion.displayMessageDialog
 import com.app.guardian.common.ReusedMethod.Companion.isNetworkConnected
 import com.app.guardian.common.ReusedMethod.Companion.setLocationDialog
-import com.app.guardian.common.extentions.checkLoationPermission
-import com.app.guardian.common.extentions.checkPermissions
-import com.app.guardian.common.extentions.gone
-import com.app.guardian.common.extentions.visible
+import com.app.guardian.common.extentions.*
 import com.app.guardian.databinding.ActivitySignupScreenBinding
 import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.model.viewModels.AuthenticationViewModel
@@ -54,8 +51,9 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
+import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
+import kotlin.math.abs
 
 
 class SignupScreen : BaseActivity(), View.OnClickListener {
@@ -153,6 +151,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 mBinding.edtYearsOfExp.visible()
                 mBinding.edtRegisteredLicenceNum.visible()
                 mBinding.llAvaibilityTime.visible()
+                mBinding.edtDesc.visible()
             }
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
@@ -163,6 +162,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 mBinding.edtSpecializations.visible()
                 mBinding.edtYearsOfExp.visible()
                 mBinding.llAvaibilityTime.visible()
+                mBinding.edtDesc.visible()
             }
         }
 
@@ -176,6 +176,11 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
         }
 
         setFocus()
+        mBinding.edtFromTime.setText(SimpleDateFormat("hh:mm a").format(Calendar.getInstance().time))
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.MINUTE, 30);
+        mBinding.edtToTime.setText(SimpleDateFormat("hh:mm a").format(cal.time))
+
 
     }
 
@@ -317,6 +322,16 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 if (!hasFocus) {
                     if (!TextUtils.isEmpty(value)) {
                         ShowNoBorders(this@SignupScreen, mBinding.edtToTime)
+                    }
+                }
+            }
+
+        mBinding.edtDesc.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtDesc.text?.trim().toString()
+                if (!hasFocus) {
+                    if (!TextUtils.isEmpty(value) || value.length > 50) {
+                        ShowNoBorders(this@SignupScreen, mBinding.edtDesc)
                     }
                 }
             }
@@ -632,6 +647,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
             mBinding.edtRegisteredLicenceNum.text?.trim().toString(),
             mBinding.edtFromTime.text?.trim().toString(),
             mBinding.edtToTime.text?.trim().toString(),
+            mBinding.edtDesc.text?.trim().toString(),
             images,
             object : ValidationView.SignUp {
                 override fun profileImgValidations() {
@@ -1120,6 +1136,56 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     ShowRedBorders(this@SignupScreen, mBinding.edtToTime)
                 }
 
+                override fun empty_desc() {
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.empty_desc),
+                        false,
+                        "OK",
+                        ""
+                    )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtMobileNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtPass)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtConPass)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtRegisteredLicenceNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFromTime)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtToTime)
+                    ShowRedBorders(this@SignupScreen, mBinding.edtDesc)
+                }
+
+                override fun valid_desc() {
+                    displayMessageDialog(
+                        this@SignupScreen,
+                        "",
+                        resources.getString(R.string.valid_desc),
+                        false,
+                        "OK",
+                        ""
+                    )
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtMobileNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtPass)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtConPass)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtRegisteredLicenceNum)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtFromTime)
+                    ShowNoBorders(this@SignupScreen, mBinding.edtToTime)
+                    ShowRedBorders(this@SignupScreen, mBinding.edtDesc)
+                }
+
 //                override fun licencPlateLength() {
 //                    displayMessageDialog(this@SignupScreen, "", resources.getString(R.string.empty_licence), false, "OK", "")
 //                    ShowRedBorders(this@SignupScreen, mBinding.edtVehicalNum)
@@ -1135,33 +1201,66 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                         "OK",
                         ""
                     )
+
+
                 }
 
                 override fun success() {
-                    ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
-                    ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
-                    ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
-                    ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
-                    ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
-                    ShowNoBorders(this@SignupScreen, mBinding.edtMobileNum)
-                    ShowNoBorders(this@SignupScreen, mBinding.edtPass)
-                    ShowNoBorders(this@SignupScreen, mBinding.edtConPass)
-                    ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
-                    ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
-                    ShowRedBorders(this@SignupScreen, mBinding.edtRegisteredLicenceNum)
-                    ShowRedBorders(this@SignupScreen, mBinding.edtFromTime)
-                    ShowRedBorders(this@SignupScreen, mBinding.edtToTime)
+                    if (isValidTime()) {
+                        ShowNoBorders(this@SignupScreen, mBinding.edtFullname)
+                        ShowNoBorders(this@SignupScreen, mBinding.edtEmail)
+                        ShowNoBorders(this@SignupScreen, mBinding.edtSpecializations)
+                        ShowNoBorders(this@SignupScreen, mBinding.edtYearsOfExp)
+                        ShowNoBorders(this@SignupScreen, mBinding.edtOfficeNum)
+                        ShowNoBorders(this@SignupScreen, mBinding.edtMobileNum)
+                        ShowNoBorders(this@SignupScreen, mBinding.edtPass)
+                        ShowNoBorders(this@SignupScreen, mBinding.edtConPass)
+                        ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
+                        ShowNoBorders(this@SignupScreen, mBinding.edtProvience)
+                        ShowNoBorders(this@SignupScreen, mBinding.edtRegisteredLicenceNum)
+                        ShowNoBorders(this@SignupScreen, mBinding.edtFromTime)
+                        ShowNoBorders(this@SignupScreen, mBinding.edtToTime)
+                        ShowNoBorders(this@SignupScreen, mBinding.edtDesc)
+                        uploadFile(selectedFile, images)
+                    } else {
+                        displayMessageDialog(
+                            this@SignupScreen,
+                            "",
+                            "Please enter attest 30min difference time",
+                            false,
+                            "OK",
+                            ""
+                        )
+                    }
 //
 //                    chatRegistration(
 //                        mBinding.edtEmail.text?.trim().toString(),
 //                        mBinding.edtPass.text?.trim().toString()
 //                    )
                     //  callApi("ABEk231daswe5")
-                    uploadFile(selectedFile, images)
+
                 }
 
             }
         )
+    }
+
+    private fun isValidTime(): Boolean {
+        var days = 0
+        var hrs = 0
+        var min = 0
+
+        val date2: Date =
+            SimpleDateFormat("HH:mm a").parse(mBinding.edtToTime.text?.trim().toString())
+        val date1: Date =
+            SimpleDateFormat("HH:mm a").parse(mBinding.edtFromTime.text?.trim().toString())
+        val difference: Long = date2.time - date1.time
+
+        days = ((difference / (1000 * 60 * 60 * 24)).toInt());
+        hrs = (((difference - (1000 * 60 * 60 * 24 * days)) / (1000 * 60 * 60)).toInt());
+        min =
+            ((difference - (1000 * 60 * 60 * 24 * days) - (1000 * 60 * 60 * hrs)) / (1000 * 60)).toInt();
+        return !(abs(hrs) <0 && abs(min) < 30)
     }
 
     private fun callSpecializationAPI() {

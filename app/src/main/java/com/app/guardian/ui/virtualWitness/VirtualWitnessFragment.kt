@@ -32,14 +32,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-/**
- * A simple [Fragment] subclass.
- * Use the [VirtualWitnessFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class VirtualWitnessFragment(val headder: String? = "") : BaseFragment(), View.OnClickListener {
     private lateinit var mBinding: FragmentVirtualWitnessBinding
     private val mViewModel: CommonScreensViewModel by viewModel()

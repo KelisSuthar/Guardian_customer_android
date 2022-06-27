@@ -34,7 +34,9 @@ fun String.formatTimeInGMT(): String? {
     sdf1.timeZone = TimeZone.getTimeZone("GMT")
     return sdf1.format(newDate)
 
-}fun String.formatTimeInGMT2(): String? {
+}
+
+fun String.formatTimeInGMT2(): String? {
     val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
     val newDate = sdf.parse(this)
     val sdf1 = SimpleDateFormat("dd MMM, hh:mm a", Locale.getDefault())
@@ -132,8 +134,9 @@ fun String.plusTime(plusTime: Int): Date {
     calendar.add(Calendar.MINUTE, plusTime)
     return calendar.time
 }
+
 @SuppressLint("SimpleDateFormat")
-fun changeDateFormat(current_format: String, change_formate: String, str_date: String):String{
+fun changeDateFormat(current_format: String, change_formate: String, str_date: String): String {
     val inputFormat = SimpleDateFormat(current_format)
     val outputFormat = SimpleDateFormat(change_formate)
     var date: Date? = null
@@ -146,6 +149,7 @@ fun changeDateFormat(current_format: String, change_formate: String, str_date: S
     }
     return str!!
 }
+
 fun String.getRelativeTimeDisplay(): String {
 
     val currentTime = Calendar.getInstance().timeInMillis
@@ -167,14 +171,14 @@ fun String.getRelativeTimeDisplay(): String {
 }
 
 @SuppressLint("SimpleDateFormat")
-fun currentDateFormat():String{
+fun currentDateFormat(): String {
     val formatter = SimpleDateFormat("MMM dd, yyyy")
     val date = Date()
-    return  formatter.format(date)
+    return formatter.format(date)
 }
 
 @SuppressLint("SimpleDateFormat")
-fun String.getGmtdate():String?{
+fun String.getGmtdate(): String? {
     val sandlotTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     val outputPattern = "dd MMM, yyyy"
     val outputFormat = SimpleDateFormat(outputPattern)

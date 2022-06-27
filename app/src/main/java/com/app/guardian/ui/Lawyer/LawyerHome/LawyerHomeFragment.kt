@@ -303,14 +303,14 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.cvAskQuestion -> {
                 chnagelayout(2)
-//                ReplaceFragment.replaceFragment(
-//                    requireActivity(),
-//                    AskMoreQuestion(),
-//                    true,
-//                    LawyerHomeFragment::class.java.name,
-//                    LawyerHomeFragment::class.java.name
-//                )
-                displayMessage(requireActivity(), resources.getString(R.string.come_soon))
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    AskMoreQuestion(),
+                    true,
+                    LawyerHomeFragment::class.java.name,
+                    LawyerHomeFragment::class.java.name
+                )
+//                displayMessage(requireActivity(), resources.getString(R.string.come_soon))
             }
             R.id.cvSeekAdv -> {
                 chnagelayout(3)

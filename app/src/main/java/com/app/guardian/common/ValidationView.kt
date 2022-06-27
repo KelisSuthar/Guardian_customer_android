@@ -47,6 +47,8 @@ interface ValidationView {
         fun empty_to_time()
 
         //        fun licencPlateLength()
+        fun empty_desc()
+        fun valid_desc()
         fun docValidations()
         fun success()
 
@@ -238,8 +240,11 @@ interface ValidationView {
         fun valid_postal_code()
         fun empty_from_time()
         fun empty_to_time()
+        fun empty_desc()
+        fun valid_desc()
         fun docValidations()
         fun success()
+
 
     }
 
@@ -250,6 +255,7 @@ interface ValidationView {
         fun length_desc()
         fun success()
     }
+
     interface askModeQuestions {
         fun emptyTitle()
         fun length_Title()

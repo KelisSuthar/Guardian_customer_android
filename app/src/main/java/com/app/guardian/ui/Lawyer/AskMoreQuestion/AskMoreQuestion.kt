@@ -81,7 +81,7 @@ class AskMoreQuestion : BaseFragment(), View.OnClickListener {
         when (v?.id) {
             R.id.btnAskQuestionSubmit -> {
                 validations()
-                callApi()
+
             }
         }
     }

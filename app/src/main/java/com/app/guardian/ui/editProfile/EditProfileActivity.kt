@@ -48,7 +48,9 @@ import com.google.android.material.textview.MaterialTextView
 import com.google.gson.Gson
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
+import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.abs
 
 
 class EditProfileActivity : BaseActivity(), View.OnClickListener {
@@ -119,6 +121,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 mBinding.edtRegisteredLicenceNum.visible()
                 mBinding.llAvaibilityTime.visible()
                 mBinding.edtRegisteredLicenceNum.hint = "Registered Licence No"
+                mBinding.edtDesc.visible()
             }
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
@@ -128,6 +131,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 mBinding.edtSpecializations.visible()
                 mBinding.edtYearsOfExp.visible()
                 mBinding.llAvaibilityTime.visible()
+                mBinding.edtDesc.visible()
             }
         }
         //Check ROle
@@ -252,6 +256,15 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 if (!hasFocus) {
                     if (!TextUtils.isEmpty(value)) {
                         ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtToTime)
+                    }
+                }
+            }
+        mBinding.edtDesc.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                val value = mBinding.edtDesc.text?.trim().toString()
+                if (!hasFocus) {
+                    if (!TextUtils.isEmpty(value) || value.length > 50) {
+                        ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtDesc)
                     }
                 }
             }
@@ -642,6 +655,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             mBinding.edtPostalCode.text?.trim().toString(),
             mBinding.edtFromTime.text?.trim().toString(),
             mBinding.edtToTime.text?.trim().toString(),
+            mBinding.edtDesc.text?.trim().toString(),
             images,
             object : ValidationView.EditProfile {
                 override fun empty_profilePic() {
@@ -926,6 +940,62 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                     ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtToTime)
                 }
 
+                override fun empty_desc() {
+                    displayMessageDialog(
+                        this@EditProfileActivity,
+                        "",
+                        resources.getString(R.string.empty_desc),
+                        false,
+                        "OK",
+                        ""
+                    )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFullname)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtEmail)
+                    ReusedMethod.ShowNoBorders(
+                        this@EditProfileActivity,
+                        mBinding.edtSpecializations
+                    )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtYearsOfExp)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtOfficeNum)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtProvience)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtProvience)
+                    ReusedMethod.ShowNoBorders(
+                        this@EditProfileActivity,
+                        mBinding.edtRegisteredLicenceNum
+                    )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFromTime)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtToTime)
+                    ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtDesc)
+                }
+
+                override fun valid_desc() {
+                    displayMessageDialog(
+                        this@EditProfileActivity,
+                        "",
+                        resources.getString(R.string.valid_desc),
+                        false,
+                        "OK",
+                        ""
+                    )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFullname)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtEmail)
+                    ReusedMethod.ShowNoBorders(
+                        this@EditProfileActivity,
+                        mBinding.edtSpecializations
+                    )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtYearsOfExp)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtOfficeNum)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtProvience)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtProvience)
+                    ReusedMethod.ShowNoBorders(
+                        this@EditProfileActivity,
+                        mBinding.edtRegisteredLicenceNum
+                    )
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFromTime)
+                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtToTime)
+                    ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtDesc)
+                }
+
 
                 override fun docValidations() {
                     ReusedMethod.displayMessageDialog(
@@ -940,33 +1010,65 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
 
 
                 override fun success() {
-                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFullname)
-                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtEmail)
-                    ReusedMethod.ShowNoBorders(
-                        this@EditProfileActivity,
-                        mBinding.edtSpecializations
-                    )
-                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtYearsOfExp)
-                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtOfficeNum)
-                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtPhone)
-                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtProvience)
-                    ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtProvience)
-                    ReusedMethod.ShowRedBorders(
-                        this@EditProfileActivity,
-                        mBinding.edtRegisteredLicenceNum
-                    )
-                    ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtFromTime)
-                    ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtToTime)
-                    if (!TextUtils.isEmpty(selectedFile.toString()) || upload_img_array.size > 0) {
-                        uploadFile(selectedFile, upload_img_array)
+
+                    if (isValidTime()) {
+                        ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFullname)
+                        ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtEmail)
+                        ReusedMethod.ShowNoBorders(
+                            this@EditProfileActivity,
+                            mBinding.edtSpecializations
+                        )
+                        ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtYearsOfExp)
+                        ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtOfficeNum)
+                        ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtPhone)
+                        ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtProvience)
+                        ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtProvience)
+                        ReusedMethod.ShowRedBorders(
+                            this@EditProfileActivity,
+                            mBinding.edtRegisteredLicenceNum
+                        )
+                        ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtFromTime)
+                        ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtToTime)
+                        ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtDesc)
+                        if (!TextUtils.isEmpty(selectedFile.toString()) || upload_img_array.size > 0) {
+                            uploadFile(selectedFile, upload_img_array)
+                        } else {
+                            callEditProfileApi()
+                        }
                     } else {
-                        callEditProfileApi()
+                        displayMessageDialog(
+                            this@EditProfileActivity,
+                            "",
+                            "Please enter attest 30min difference time",
+                            false,
+                            "OK",
+                            ""
+                        )
                     }
+
 
                 }
 
             }
         )
+    }
+
+    private fun isValidTime(): Boolean {
+        var days = 0
+        var hrs = 0
+        var min = 0
+
+        val date2: Date =
+            SimpleDateFormat("HH:mm a").parse(mBinding.edtToTime.text?.trim().toString())
+        val date1: Date =
+            SimpleDateFormat("HH:mm a").parse(mBinding.edtFromTime.text?.trim().toString())
+        val difference: Long = date2.time - date1.time
+
+        days = ((difference / (1000 * 60 * 60 * 24)).toInt());
+        hrs = (((difference - (1000 * 60 * 60 * 24 * days)) / (1000 * 60 * 60)).toInt());
+        min =
+            ((difference - (1000 * 60 * 60 * 24 * days) - (1000 * 60 * 60 * hrs)) / (1000 * 60)).toInt();
+        return !(abs(hrs) < 0 && abs(min) < 30)
     }
 
     private fun callEditProfileApi() {

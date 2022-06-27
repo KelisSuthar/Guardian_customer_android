@@ -155,9 +155,9 @@ class LawyerViewModel(private val mUserRepository: UserRepo) : ViewModel() {
 
         val body = JsonObject()
 
-        body.addProperty(ApiConstant.EXTRAS_PLAN_ID, SharedPreferenceManager.getUser()!!.email)
-        body.addProperty(ApiConstant.EXTRAS_PRICE, title)
-        body.addProperty(ApiConstant.EXTRAS_SHARED_SECRET, description)
+        body.addProperty(ApiConstant.EXTRAS_EMAIL, SharedPreferenceManager.getUser()!!.email)
+        body.addProperty(ApiConstant.EXTRAS_TITLE, title)
+        body.addProperty(ApiConstant.EXTRAS_DESC, description)
         mUserRepository.askModeQuestion(
             body,
             isInternetConnected,
