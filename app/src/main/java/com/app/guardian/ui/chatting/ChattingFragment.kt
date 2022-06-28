@@ -167,10 +167,20 @@ class ChattingFragment(
                                 .load(data.user_detail.profile_avatar)
                                 .placeholder(R.drawable.profile)
                                 .into(mBinding.imgChatUserProfilePic)
-                            lastSeenChecker(data.user_detail.last_seen)
-                            if (!data.chat_detail.isNullOrEmpty()) {
-                                chatArray.addAll(data.chat_detail)
+                            if (data.user_detail.is_online == 1) {
+                                mBinding.imgIsOnline.visible()
+                            } else {
+                                mBinding.imgIsOnline.gone()
+                            }
+                            if (!data.user_detail.last_seen.isNullOrEmpty()) {
+                                lastSeenChecker(data.user_detail.last_seen)
+                            } else {
+                                mBinding.txtLastSeen.gone()
+                            }
+                            chatArray.addAll(data.chat_detail)
+                            if (chatArray.isNotEmpty()) {
                                 setData()
+                                mBinding.rvChat.visible()
                                 chatMessageAdapter!!.notifyDataSetChanged()
                             } else {
                                 mBinding.noInternetChat.llNointernet.gone()

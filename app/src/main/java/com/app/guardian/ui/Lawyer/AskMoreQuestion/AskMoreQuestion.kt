@@ -53,7 +53,7 @@ class AskMoreQuestion : BaseFragment(), View.OnClickListener {
                         if (it.status) {
                             Handler().postDelayed({
                                 requireActivity().onBackPressed()
-                            }, 2000)
+                            }, 1000)
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                         } else {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())

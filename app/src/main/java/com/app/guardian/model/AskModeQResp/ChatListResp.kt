@@ -22,5 +22,6 @@ data class UserDetail(
     val is_online: Int?=0,
     val last_seen: String?="",
     val profile_avatar: String?="",
-    val user_role: String?=""
+    val user_role: String?="",
+    val availability_time: String?=""
 )

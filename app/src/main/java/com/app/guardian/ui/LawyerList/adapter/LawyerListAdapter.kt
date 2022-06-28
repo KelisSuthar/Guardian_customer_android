@@ -10,14 +10,11 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
-import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
-import com.app.guardian.common.extentions.loadImage
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import de.hdodenhof.circleimageview.CircleImageView
 
 class LawyerListAdapter(
@@ -82,12 +79,21 @@ class LawyerListAdapter(
 
 
             imgRowLawyerCall?.setOnClickListener {
-                lawyerListFragment.callShowLawyerContactDetails(
-                    lawyerProfileData.full_name!!,
-                    lawyerProfileData.email!!,
-                    lawyerProfileData.phone!!,
-                    lawyerProfileData.profile_avatar!!,
-                )
+                if (lawyerProfileData.profile_avatar.isNullOrEmpty()) {
+                    lawyerListFragment.callShowLawyerContactDetails(
+                        lawyerProfileData.full_name!!,
+                        lawyerProfileData.email!!,
+                        lawyerProfileData.phone!!,
+                        "",
+                    )
+                } else {
+                    lawyerListFragment.callShowLawyerContactDetails(
+                        lawyerProfileData.full_name!!,
+                        lawyerProfileData.email!!,
+                        lawyerProfileData.phone!!,
+                        lawyerProfileData.profile_avatar!!,
+                    )
+                }
             }
 
             imgPicture!!.setOnClickListener {
@@ -96,11 +102,11 @@ class LawyerListAdapter(
 
 
             imgRowLawyerVideo?.setOnClickListener {
-                lawyerListFragment.displayVideoCallDialog()
+                lawyerListFragment.displayVideoCallDialog(lawyerProfileData.id)
             }
 
             imgRowLawyerChat?.setOnClickListener {
-                if (lawyerProfileData.profile_avatar.isNullOrEmpty() ||lawyerProfileData.last_seen.isNullOrEmpty()) {
+                if (lawyerProfileData.profile_avatar.isNullOrEmpty() || lawyerProfileData.last_seen.isNullOrEmpty()) {
                     lawyerListFragment.callChatPageOpe(
                         lawyerProfileData.id!!,
                         lawyerProfileData.full_name!!,

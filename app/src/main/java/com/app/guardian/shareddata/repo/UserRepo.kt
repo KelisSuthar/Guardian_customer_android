@@ -22,6 +22,7 @@ import com.app.guardian.model.Notification.NotificationResp
 import com.app.guardian.model.Radar.RadarListResp
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
+import com.app.guardian.model.SendVideoCallReq.SendVideoCallReqResp
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.SupportGroup.SupportGroupResp
@@ -344,6 +345,13 @@ interface UserRepo {
         internetConnected: Boolean,
         baseView: BaseActivity,
         askModeQResp: MutableLiveData<RequestState<AskModeQResp>>
+    )
+
+    fun sendVideoCallRequest(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        sendVideocallReqresp: MutableLiveData<RequestState<SendVideoCallReqResp>>
     )
 
 

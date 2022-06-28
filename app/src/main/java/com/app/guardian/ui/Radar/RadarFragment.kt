@@ -190,6 +190,8 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
                     it.data?.let { data ->
                         if (it.status) {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                            setG_MAP()
+                            CallMapListAPI()
                         } else {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                         }
@@ -204,7 +206,7 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
 
                             Config.CUSTOM_ERROR ->
                                 errorObj.customMessage
-                                    ?.let {}
+                                    ?.let {ReusedMethod.displayMessage(requireActivity(), it)}
                         }
                     }
                 }
@@ -214,14 +216,11 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
         mViewModel.addRadarPointResp().observe(this) { response ->
             response?.let { requestState ->
                 showLoadingIndicator(requestState.progress)
-                requestState.apiResponse?.let {
-                    it.data?.let { data ->
-                        if (it.status) {
-                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
-                        } else {
-                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
-                        }
+                requestState.apiResponse.let {
+                    it?.data?.let { data ->
+                        ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                     }
+
                     requestState.error?.let { errorObj ->
                         when (errorObj.errorState) {
                             Config.NETWORK_ERROR ->
@@ -232,7 +231,12 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
 
                             Config.CUSTOM_ERROR ->
                                 errorObj.customMessage
-                                    ?.let {}
+                                    ?.let {
+                                        ReusedMethod.displayMessage(
+                                            requireActivity(),
+                                            it
+                                        )
+                                    }
                         }
                     }
                 }
@@ -298,9 +302,9 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
         if (!array.isNullOrEmpty()) {
 
             for (i in array.indices) {
-                mapIcon = if(array[i].type == AppConstants.EXTRA_PHOTO_RADAR) {
+                mapIcon = if (array[i].type == AppConstants.EXTRA_PHOTO_RADAR) {
                     BitmapDescriptorFactory.fromResource(R.drawable.ic_map_pin_photoradar)
-                }else{
+                } else {
                     BitmapDescriptorFactory.fromResource(R.drawable.ic_map_pin_roadblock)
                 }
                 mMarker = MarkerOptions()

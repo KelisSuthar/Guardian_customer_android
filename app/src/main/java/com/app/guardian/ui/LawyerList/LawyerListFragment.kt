@@ -5,7 +5,6 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.text.TextUtils
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.Window
@@ -16,11 +15,13 @@ import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.ReusedMethod.Companion.displayMessage
 import com.app.guardian.common.ReusedMethod.Companion.getCurrentDate
 import com.app.guardian.common.ReusedMethod.Companion.setUpDialog
+import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.changeDateFormat
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
@@ -47,7 +48,6 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.abs
 
 
 class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickListener {
@@ -59,6 +59,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
     var isDialLawyerOpen = isDialLawyer
     var specialization = ""
     var years_of_exp = ""
+    var selected_laywer_id = -1
     override fun getInflateResource(): Int {
         return R.layout.fragment_lawyer_list
     }
@@ -211,7 +212,53 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         displayMessage(requireActivity(), it.message.toString())
+                        if (SharedPreferenceManager.getString(
+                                AppConstants.USER_ROLE,
+                                ""
+                            ) == AppConstants.APP_ROLE_USER
+                        ) {
+                            callVideoCallRequestAPI(
+                                selected_laywer_id,
+                                AppConstants.APP_ROLE_LAWYER,
+                                data.is_immediate_joining,
+                                data.request_datetime
+                            )
+                        }
 
+                    }
+                }
+
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                context as Activity,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        (activity as HomeActivity).unAuthorizedNavigation()
+                                    } else {
+                                        ReusedMethod.displayMessage(context as Activity, it)
+                                    }
+                                }
+                    }
+                }
+            }
+
+        }
+
+        //SEND Video CallReq
+        commonViewModel.getSendVideoCallRequestResp().observe(this) { response ->
+            response.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        displayMessage(requireActivity(), it.message.toString())
                     }
                 }
 
@@ -240,6 +287,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         }
     }
 
+
     override fun onResume() {
         super.onResume()
         callAPI("", "", "")
@@ -252,7 +300,8 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         mBinding.noInternetLawyer.llNointernet.gone()
     }
 
-    fun displayVideoCallDialog() {
+    fun displayVideoCallDialog(id: Int?) {
+        selected_laywer_id = id!!
         val dialog = Dialog(
             requireContext(),
             com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
@@ -274,22 +323,52 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         }
 
         NO.setOnClickListener {
+            if (SharedPreferenceManager.getString(
+                    AppConstants.USER_ROLE,
+                    ""
+                ) == AppConstants.APP_ROLE_USER
+            ) {
+                callVideoCallRequestAPI(
+                    selected_laywer_id,
+                    AppConstants.APP_ROLE_LAWYER,
+                    0,
+                    getCurrentDate(),
+                )
+            }
             dialog.dismiss()
         }
         dialog.show()
     }
 
 
-    private fun callRequestrMediatorApi(isMediatorReq: Int, schedual_datetime: String) {
+    private fun callRequestrMediatorApi(is_imediate_join: Int, schedual_datetime: String) {
         if (ReusedMethod.isNetworkConnected(requireContext())) {
             mViewModel.sendCallingReqtoMediator(
                 true, requireActivity() as BaseActivity,
-                isMediatorReq, schedual_datetime
+                is_imediate_join, schedual_datetime
             )
         } else {
             ReusedMethod.displayMessage(
                 requireActivity(),
                 resources.getString(R.string.text_error_network)
+            )
+        }
+    }
+
+    private fun callVideoCallRequestAPI(
+        selected_laywer_id: Int,
+        role: String,
+        isImmediateJoining: Int,
+        requestDatetime: String
+    ) {
+        if (ReusedMethod.isNetworkConnected(requireContext())) {
+            commonViewModel.sendVideoCallReq(
+                true,
+                requireActivity() as BaseActivity,
+                selected_laywer_id,
+                role,
+                isImmediateJoining,
+                requestDatetime
             )
         }
     }
@@ -484,6 +563,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
         val btnImmediateJoin: Button = dialog.findViewById(R.id.btnImmediateJoin)
         val btnRequestSend: Button = dialog.findViewById(R.id.btnRequestSend)
+        val current_date = SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().time)
 
         txtDate.text = SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().time)
         txtTime.text = SimpleDateFormat("hh:mm a").format(Calendar.getInstance().time)
@@ -503,11 +583,23 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
             callRequestrMediatorApi(1, txtDate.text.toString() + " " + txtTime.text.toString())
         }
         btnRequestSend.setOnClickListener {
-            dialog.dismiss()
-            if (isValidTime(txtTime.text.toString())) {
-                callRequestrMediatorApi(1, txtDate.text.toString() + " " + txtTime.text.toString())
+
+            if (current_date != txtDate.text.toString()) {
+                dialog.dismiss()
+                callRequestrMediatorApi(
+                    0,
+                    txtDate.text.toString() + " " + txtTime.text.toString()
+                )
             } else {
-                displayMessage(requireActivity(), "Please select proper date and time")
+                if (isValidTime(txtTime.text.toString())) {
+                    dialog.dismiss()
+                    callRequestrMediatorApi(
+                        0,
+                        txtDate.text.toString() + " " + txtTime.text.toString()
+                    )
+                } else {
+                    displayMessage(requireActivity(), "Please select proper date and time")
+                }
             }
         }
 

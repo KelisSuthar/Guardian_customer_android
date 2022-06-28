@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -102,6 +103,15 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                                 NotificationListFragment::class.java.name,
                             )
                         }
+                        AppConstants.EXTRA_VIDEOCALLREQ_PAYLOAD -> {
+//                            ReplaceFragment.replaceFragment(
+//                                requireActivity(),
+//                                ChattingFragment(array[position].sender_id),
+//                                true,
+//                                NotificationListFragment::class.java.name,
+//                                NotificationListFragment::class.java.name,
+//                            )
+                        }
                     }
                 }
             })
@@ -177,16 +187,23 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
                     it.data.let { data ->
-                        if (it.status) {
-                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
-                            array.removeAt(deleteId)
-                            notificationListAdapter?.notifyDataSetChanged()
-                        } else {
-                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+
+                        ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                        Log.i("THIS_APP", "DELETE_ID:       " + deleteId)
+                        Log.i("THIS_APP", "DELETE_ID:       " + array)
+                        Log.i("THIS_APP", "DELETE_ID:       " + array)
+                        array.removeAt(deleteId)
+                        notificationListAdapter?.notifyDataSetChanged()
+                        if (array.isNullOrEmpty()) {
                             mBinding.rcyNotification.gone()
                             mBinding.noDataNotification.visible()
+                            mBinding.noInternetNotification.llNointernet.visible()
+                        } else {
+                            mBinding.rcyNotification.visible()
+                            mBinding.noDataNotification.gone()
                             mBinding.noInternetNotification.llNointernet.gone()
                         }
+
                     }
                 }
                 requestState.error?.let { errorObj ->
@@ -211,55 +228,14 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                 }
             }
         }
-//DELETE NOTIFICATION
-        mViewModel.getDeleteNotificationResp().observe(this) { response ->
-            response?.let { requestState ->
-                showLoadingIndicator(requestState.progress)
-                requestState.apiResponse?.let {
-                    it.data.let { data ->
-                        if (it.status) {
-                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
-                            array.removeAt(deleteId)
-                            notificationListAdapter?.notifyDataSetChanged()
-                            if (array.isNullOrEmpty()) {
-                                mBinding.rcyNotification.gone()
-                                mBinding.noDataNotification.visible()
-                                mBinding.noInternetNotification.llNointernet.gone()
-                            }
-                        } else {
-                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
-                            mBinding.rcyNotification.gone()
-                            mBinding.noDataNotification.visible()
-                            mBinding.noInternetNotification.llNointernet.gone()
-                        }
-                    }
-                }
-                requestState.error?.let { errorObj ->
-                    when (errorObj.errorState) {
-                        Config.NETWORK_ERROR ->
-                            ReusedMethod.displayMessage(
-                                context as Activity,
-                                getString(R.string.text_error_network)
-                            )
 
-                        Config.CUSTOM_ERROR ->
-                            errorObj.customMessage
-                                ?.let {
-                                    if (errorObj.code == ApiConstant.API_401) {
-                                        ReusedMethod.displayMessage(requireActivity(), it)
-                                        (activity as HomeActivity).unAuthorizedNavigation()
-                                    } else {
-                                        ReusedMethod.displayMessage(context as Activity, it)
-                                    }
-                                }
-                    }
-                }
-            }
-        }
 
     }
 
     private fun callAPI() {
+        mBinding.rcyNotification.visible()
+        mBinding.noDataNotification.gone()
+        mBinding.noInternetNotification.llNointernet.gone()
         if (ReusedMethod.isNetworkConnected(requireContext())) {
             mViewModel.getNotification(true, context as BaseActivity)
         } else {
@@ -285,7 +261,7 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
         val CANCEL = dialog.findViewById<MaterialTextView>(R.id.tvNegative)
         TITLE.text = "Are you sure you want to delete this data ?"
         MESSAGE.gone()
-        CANCEL.text = "Close"
+        CANCEL.text = "Cancel"
         OK.text = "Delete"
         CANCEL.isAllCaps = false
         OK.isAllCaps = false

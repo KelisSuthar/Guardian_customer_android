@@ -70,7 +70,7 @@ class ConnectedHistoryAdapter(
                     ""
                 ) == AppConstants.APP_ROLE_MEDIATOR
             ) {
-
+                imgRowLawyerNote!!.gone()
             } else if (SharedPreferenceManager.getString(
                     AppConstants.USER_ROLE,
                     ""
@@ -81,7 +81,7 @@ class ConnectedHistoryAdapter(
                     imgRowLawyerChat!!.gone()
                     imgRowLawyerCall!!.gone()
                     imgRowLawyerVideoCall!!.gone()
-                }else{
+                } else {
                     imgRowLawyerNote!!.gone()
                     imgRowLawyerChat!!.visible()
                     imgRowLawyerCall!!.visible()
@@ -94,8 +94,7 @@ class ConnectedHistoryAdapter(
                 ) == AppConstants.APP_ROLE_LAWYER
             ) {
                 if (type == AppConstants.APP_ROLE_USER) {
-                    if(array.call_type == AppConstants.VIDEO)
-                    {
+                    if (array.call_type == AppConstants.VIDEO) {
                         imgRowLawyerNote!!.gone()
                         imgRowLawyerChat!!.gone()
                         imgRowLawyerCall!!.gone()
@@ -153,7 +152,6 @@ class ConnectedHistoryAdapter(
                 .load(array.profile_avatar)
                 .placeholder(R.drawable.profile)
                 .into(imgRowLawyerPicture!!)
-
 
 
         }

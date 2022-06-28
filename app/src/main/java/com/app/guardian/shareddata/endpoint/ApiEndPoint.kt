@@ -21,6 +21,7 @@ import com.app.guardian.model.MediatorCallReq.MediatorCallReqResp
 import com.app.guardian.model.Notification.NotificationResp
 import com.app.guardian.model.Radar.RadarListResp
 import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
+import com.app.guardian.model.SendVideoCallReq.SendVideoCallReqResp
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.SupportGroup.SupportGroupResp
@@ -175,6 +176,9 @@ interface ApiEndPoint {
 
     @POST("askQuestion")
     fun askModratorAQuestion(@Body body: JsonObject): Call<CommonResponseModel<AskModeQResp>>
+
+    @POST("sendVideoCallRequest")
+    fun sendVideoCallRequest(@Body body: JsonObject): Call<CommonResponseModel<SendVideoCallReqResp>>
 
 
 }

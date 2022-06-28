@@ -15,6 +15,7 @@ import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
 import com.app.guardian.model.LawyerBySpecialization.LawyerBySpecializationResp
 import com.app.guardian.model.ListFilter.FilterResp
 import com.app.guardian.model.RequestState
+import com.app.guardian.model.SendVideoCallReq.SendVideoCallReqResp
 import com.app.guardian.model.cms.CMSResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
 import com.app.guardian.model.scheduleRequestedVideoCall.ScheduleRequestedVideoCallResp
@@ -371,6 +372,35 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
             isInternetConnected,
             baseView,
             getVideoCallRequestListResp
+        )
+    }
+
+    //SEND VIDEO CALLREQUEST
+    private val sendVideocallReqresp =
+        MutableLiveData<RequestState<SendVideoCallReqResp>>()
+
+    fun getSendVideoCallRequestResp(): LiveData<RequestState<SendVideoCallReqResp>> =
+        sendVideocallReqresp
+
+    fun sendVideoCallReq(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        to_id: Int,
+        to_role: String,
+        is_immediate_joining: Int,
+        schedule_datetim: String,
+    ) {
+        val body = JsonObject()
+        body.addProperty(ApiConstant.EXTRAS_TO_ID, to_id)
+        body.addProperty(ApiConstant.EXTRAS_TO_ROLE, to_role)
+        body.addProperty(ApiConstant.EXTRAS_IS_IMMEDIATE_ONLINE, is_immediate_joining)
+//        body.addProperty(ApiConstant.EXTRAS_SCHEDUAL_DATE_TIME,schedule_datetim)
+        body.addProperty("schedule_datetim", schedule_datetim)
+        mUserRepository.sendVideoCallRequest(
+            body,
+            isInternetConnected,
+            baseView,
+            sendVideocallReqresp
         )
     }
 

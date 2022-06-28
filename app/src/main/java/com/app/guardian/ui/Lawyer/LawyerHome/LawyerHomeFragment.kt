@@ -88,10 +88,9 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
         OK.setOnClickListener {
             dialog.dismiss()
             if (isOn) {
-                callChangeStatusAPI(0)
-            } else {
                 callChangeStatusAPI(1)
-
+            } else {
+                callChangeStatusAPI(0)
             }
         }
 

@@ -33,14 +33,6 @@ import com.google.android.material.textview.MaterialTextView
 import java.io.File
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-
-/**
- * A simple [Fragment] subclass.
- * Use the [MyVideosFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MyVideosFragment : BaseFragment(), View.OnClickListener {
     var myVideoListAdapter: MyVideoListAdapter? = null
     lateinit var mBinding: FragmentMyVideosBinding
@@ -74,7 +66,6 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                 true
 
             }
-            getAllVideos()
             setAdapter()
 
         }
@@ -87,11 +78,16 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
             mBinding.clOfflineVideos.visible()
             mBinding.tvUploadVideos.gone()
             mBinding.ivVideo.gone()
+            mBinding.noDataVideo.gone()
+            mBinding.noInternetVideo.llNointernet.gone()
 
         } else {
             mBinding.clOfflineVideos.gone()
             mBinding.tvUploadVideos.visible()
             mBinding.ivVideo.visible()
+            mBinding.noDataVideo.gone()
+            mBinding.noInternetVideo.llNointernet.gone()
+
         }
         setAdapter()
         checkPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, EXTRA_READ_STORAGE_PERMISSION)
@@ -101,8 +97,27 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
             Manifest.permission.CAMERA,
             EXTRA_CAMERA_PERMISSION
         )
-        makeFolder()
-        getAllVideos()
+//        makeFolder()
+        if (checkPermissions(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                EXTRA_READ_STORAGE_PERMISSION
+            ) &&
+            checkPermissions(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                EXTRA_WRITE_STORAGE_PERMISSION
+            )
+        ) {
+            getAllVideos()
+        } else {
+            checkPermissions(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                EXTRA_READ_STORAGE_PERMISSION
+            ) &&
+                    checkPermissions(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        EXTRA_WRITE_STORAGE_PERMISSION
+                    )
+        }
 
 
     }
@@ -152,30 +167,36 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
             .toString() + "/" + resources.getString(R.string.app_name) + "/"
         val f = File(path);
         val file = f.listFiles()
-        Log.d("Files", file.toString())
-        for ((i, element) in file.withIndex()) {
-            Log.d("Files", "FileName:" + element.name)
-            Log.d(
-                "Files",
-                "FileName:" + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-                    .toString() + "/" + resources.getString(R.string.app_name) + "/" + element.name
-            )
-            if (element.name.startsWith(resources.getString(R.string.app_name) + "_" + SharedPreferenceManager.getUser()?.id)) {
-                arrayList.add(
-                    VideoResp(
-                        i,
-                        element.name,
-                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-                            .toString() + "/" + resources.getString(R.string.app_name) + "/" + element.name
-                    )
+        if (!file.isNullOrEmpty()) {
+            for ((i, element) in file.withIndex()) {
+                Log.d("Files", "FileName:" + element.name)
+                Log.d(
+                    "Files",
+                    "FileName:" + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+                        .toString() + "/" + resources.getString(R.string.app_name) + "/" + element.name
                 )
-            }
+                if (element.name.startsWith(resources.getString(R.string.app_name) + "_" + SharedPreferenceManager.getUser()?.id)) {
+                    arrayList.add(
+                        VideoResp(
+                            i,
+                            element.name,
+                            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+                                .toString() + "/" + resources.getString(R.string.app_name) + "/" + element.name
+                        )
+                    )
+                }
 
+            }
+        }
+        if (arrayList.isNullOrEmpty()) {
+            mBinding.noDataVideo.visible()
+            mBinding.noInternetVideo.llNointernet.gone()
+        } else {
+            mBinding.noDataVideo.gone()
+            mBinding.noInternetVideo.llNointernet.gone()
         }
 
         myVideoListAdapter?.updateAll(arrayList)
-
-
     }
 
     private fun checkPermissions(permissions: String, reqcode: Int): Boolean {
@@ -330,7 +351,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == EXTRA_WRITE_STORAGE_PERMISSION || requestCode == EXTRA_ACCESS_LOCATION_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                makeFolder()
+                getAllVideos()
             } else {
                 ReusedMethod.displayMessage(requireActivity(), "Storage Permission Denied")
 

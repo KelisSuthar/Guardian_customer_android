@@ -111,6 +111,7 @@ class LawyerViewModel(private val mUserRepository: UserRepo) : ViewModel() {
 //                )
 //            }
 //        }
+
         body.addProperty(ApiConstant.EXTRAS_BANNER_AVATAR, banner_avatar)
         body.addProperty(ApiConstant.EXTRAS_URL, url)
         body.addProperty(ApiConstant.EXTRAS_START_DATE, start_date)

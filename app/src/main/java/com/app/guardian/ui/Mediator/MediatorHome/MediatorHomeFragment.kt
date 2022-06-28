@@ -84,9 +84,9 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
         OK.setOnClickListener {
             dialog.dismiss()
             if (isOn) {
-                callChangeStatusAPI(0)
-            } else {
                 callChangeStatusAPI(1)
+            } else {
+                callChangeStatusAPI(0)
 
             }
         }
@@ -297,10 +297,8 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.cvDialLawyer -> {
                 chnagelayout(2)
-                ReplaceFragment.replaceFragment(
-                    requireActivity(),
-                    LawyerListFragment(true), true, "", MediatorHomeFragment::class.java.name
-                )
+
+                (activity as HomeActivity).lawyerListPageOpen()
 
             }
 

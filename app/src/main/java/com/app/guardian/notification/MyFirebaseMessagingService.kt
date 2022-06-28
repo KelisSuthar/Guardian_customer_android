@@ -82,14 +82,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
 
 
-            intent =
-                Intent(this, com.app.guardian.ui.Splash.SplashScreen::class.java).putExtra(
-                    AppConstants.IS_NOTIFICATION, true
-                ).putExtra(
-                    AppConstants.EXTRA_NOTIFICATION_DATA_TYPE, data.getString("type").toString()
-                ).putExtra(
-                    AppConstants.EXTRA_NOTIFICATION_DATA_ID, data.getString("sender_id").toString()
-                )
+        intent =
+            Intent(this, com.app.guardian.ui.Splash.SplashScreen::class.java).putExtra(
+                AppConstants.IS_NOTIFICATION, true
+            ).putExtra(
+                AppConstants.EXTRA_NOTIFICATION_DATA_TYPE, data.getString("type").toString()
+            ).putExtra(
+                AppConstants.EXTRA_NOTIFICATION_DATA_ID, data.getString("sender_id").toString()
+            )
 
 
         intent!!.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
@@ -121,6 +121,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         } else if (data.optString("type") == AppConstants.EXTRA_CHAT_MESSAGE_PAYLOAD) {
             notificationLayout.setImageViewResource(R.id.imgChat, R.drawable.ic_notification_chat)
         } else if (data.optString("type") == AppConstants.EXTRA_VIRTUAL_WITNESS_PAYLOAD) {
+            notificationLayout.setImageViewResource(R.id.imgChat, R.drawable.ic_notification_video)
+        } else if (data.optString("type") == AppConstants.EXTRA_VIDEOCALLREQ_PAYLOAD) {
             notificationLayout.setImageViewResource(R.id.imgChat, R.drawable.ic_notification_video)
         }
 

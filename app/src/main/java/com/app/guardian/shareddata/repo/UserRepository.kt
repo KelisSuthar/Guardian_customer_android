@@ -23,6 +23,7 @@ import com.app.guardian.model.Notification.NotificationResp
 import com.app.guardian.model.Radar.RadarListResp
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
+import com.app.guardian.model.SendVideoCallReq.SendVideoCallReqResp
 import com.app.guardian.model.SignUp.SignupResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.SupportGroup.SupportGroupResp
@@ -888,6 +889,25 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
                 mApiEndPoint.askModratorAQuestion(body),
                 baseView,
                 askModeQResp
+            )
+        }
+    }
+
+    override fun sendVideoCallRequest(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        sendVideocallReqresp: MutableLiveData<RequestState<SendVideoCallReqResp>>
+    ) {
+        if (!internetConnected) {
+            sendVideocallReqresp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            sendVideocallReqresp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.sendVideoCallRequest(body),
+                baseView,
+                sendVideocallReqresp
             )
         }
     }

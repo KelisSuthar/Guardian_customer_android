@@ -176,7 +176,7 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
                 changeLayout(3)
                 ReplaceFragment.replaceFragment(
                     requireActivity(),
-                    LawyerListFragment(true),
+                    LawyerListFragment(false),
                     true,
                     "",
                     LiveVirtualVitnessUserFragment::class.java.name

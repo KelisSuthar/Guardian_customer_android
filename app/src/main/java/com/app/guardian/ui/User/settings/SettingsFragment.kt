@@ -27,9 +27,11 @@ import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.termsandcondtions.TermAndConditionsActivity
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Lawyer.AddBaner.AddBannerFragment
+import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
 import com.app.guardian.ui.LawyerSpecialization.LawyerSpecializationFragment
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.ResetPassword.ResetPasswordActivity
+import com.app.guardian.ui.SeekLegalAdvice.SeekLegalAdviceListFragment
 import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
 import com.app.guardian.ui.aboutus.AboutUsActivity
 import com.app.guardian.ui.editProfile.EditProfileActivity
@@ -221,6 +223,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         mBinding.tvNotification.setOnClickListener(this)
         mBinding.tvSubscription2.setOnClickListener(this)
         mBinding.tvSpecialization.setOnClickListener(this)
+        mBinding.tvSeekLegaladv.setOnClickListener(this)
     }
 
     override fun initObserver() {
@@ -345,7 +348,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                             errorObj.customMessage
                                 ?.let {
                                     if (errorObj.code == ApiConstant.API_401) {
-                                         startActivity(
+                                        startActivity(
                                             Intent(
                                                 requireActivity(),
                                                 LoginActivity::class.java
@@ -435,6 +438,15 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                     SettingsFragment::class.java.name,
                     SettingsFragment::class.java.name
                 );
+            }
+            R.id.tvSeekLegaladv -> {
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    SeekLegalAdviceListFragment(true, SharedPreferenceManager.getUser()?.id!!),
+                    true,
+                    SettingsFragment::class.java.name,
+                    SettingsFragment::class.java.name,
+                )
             }
             R.id.tvChangePwd -> {
                 startActivity(
