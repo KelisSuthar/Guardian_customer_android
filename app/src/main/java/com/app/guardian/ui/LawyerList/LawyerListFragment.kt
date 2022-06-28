@@ -626,7 +626,8 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
             ((difference - (1000 * 60 * 60 * 24 * days) - (1000 * 60 * 60 * hrs)) / (1000 * 60)).toInt();
 
 
-        return hrs > 0 && min > 30
+//        return hrs > 0 && min > 30
+        return hrs > 0 || min > 30
     }
 
 }

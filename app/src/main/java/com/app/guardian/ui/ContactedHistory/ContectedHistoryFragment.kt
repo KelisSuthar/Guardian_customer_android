@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.text.TextUtils
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.Window
@@ -23,6 +24,7 @@ import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
+import com.app.guardian.common.extentions.changeDateFormat
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentContectedHistoryBinding
@@ -32,24 +34,32 @@ import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
 import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.model.viewModels.CommonScreensViewModel
+import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.ContactedHistory.adapter.ConnectedHistoryAdapter
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.LawyerList.LawyerListFragment
+import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
 import com.app.guardian.ui.chatting.ChattingFragment
 import com.app.guardian.ui.signup.adapter.SpecializationAdapter
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
-    private val commonViewModel: CommonScreensViewModel by viewModel()
+    private val userViewModel: UserViewModel by viewModel()
     var specialization = ""
-
+    var selected_laywer_id = -1
 
     lateinit var mBinding: FragmentContectedHistoryBinding
     var connectedHistoryAdapter: ConnectedHistoryAdapter? = null
@@ -142,11 +152,183 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                 }
 
                 override fun onItemClick(position: Int?) {
+                    when (type) {
 
+                        AppConstants.APP_ROLE_LAWYER -> {
+                            ReplaceFragment.replaceFragment(
+                                requireActivity(),
+                                LawyerProfileFragment.newInstance(array[position!!].id!!, false),
+                                true,
+                                LawyerListFragment::class.java.name,
+                                LawyerListFragment::class.java.name
+                            );
+                        }
+
+                    }
+                }
+
+                override fun onVideCallClick(position: Int) {
+                    displayVideoCallDialog(array[position].id)
                 }
 
             })
         mBinding.rvContectedHistory.adapter = connectedHistoryAdapter
+    }
+
+    fun displayVideoCallDialog(id: Int?) {
+        selected_laywer_id = id!!
+        val dialog = Dialog(
+            requireContext(),
+            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+        )
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setContentView(R.layout.dialog_do_you_need_mediator)
+        dialog.setCancelable(true)
+
+        val YES = dialog.findViewById<MaterialTextView>(R.id.txtDialogYes)
+        val NO = dialog.findViewById<MaterialTextView>(R.id.txtDialogNo)
+
+        YES.setOnClickListener {
+            dialog.dismiss()
+//            callRequestrMediatorApi()
+            callScedualDialog()
+
+//            startActivity(Intent(context,CreateOrJoinActivity::class.java))
+        }
+
+        NO.setOnClickListener {
+            if (SharedPreferenceManager.getString(
+                    AppConstants.USER_ROLE,
+                    ""
+                ) == AppConstants.APP_ROLE_USER
+            ) {
+                callVideoCallRequestAPI(
+                    selected_laywer_id,
+                    AppConstants.APP_ROLE_LAWYER,
+                    0,
+                    ReusedMethod.getCurrentDate(),
+                )
+            }
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+    private fun callScedualDialog() {
+        val dialog = ReusedMethod.setUpDialog(
+            requireContext(),
+            R.layout.virtual_witness_request_dialog,
+            true
+        )
+
+        val cvScheduleDate: MaterialCardView = dialog.findViewById(R.id.cvScheduleDate)
+        val cvScheduleTime: MaterialCardView = dialog.findViewById(R.id.cvScheduleTime)
+        val txtDate: TextView = dialog.findViewById(R.id.txtDate)
+        val txtTime: TextView = dialog.findViewById(R.id.txtTime)
+        val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
+        val btnImmediateJoin: Button = dialog.findViewById(R.id.btnImmediateJoin)
+        val btnRequestSend: Button = dialog.findViewById(R.id.btnRequestSend)
+        val current_date = SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().time)
+
+        txtDate.text = SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().time)
+        txtTime.text = SimpleDateFormat("hh:mm a").format(Calendar.getInstance().time)
+
+        cvScheduleDate.setOnClickListener {
+            ReusedMethod.selectDate(requireActivity(), txtDate)
+        }
+
+        ivClose.setOnClickListener {
+            dialog.dismiss()
+        }
+        cvScheduleTime.setOnClickListener {
+            ReusedMethod.selectTime(requireActivity(), txtTime)
+        }
+        btnImmediateJoin.setOnClickListener {
+            dialog.dismiss()
+            callRequestrMediatorApi(1, txtDate.text.toString() + " " + txtTime.text.toString())
+        }
+        btnRequestSend.setOnClickListener {
+
+            if (current_date != txtDate.text.toString()) {
+                dialog.dismiss()
+                callRequestrMediatorApi(
+                    0,
+                    txtDate.text.toString() + " " + txtTime.text.toString()
+                )
+            } else {
+                if (isValidTime(txtTime.text.toString())) {
+                    dialog.dismiss()
+                    callRequestrMediatorApi(
+                        0,
+                        txtDate.text.toString() + " " + txtTime.text.toString()
+                    )
+                } else {
+                    ReusedMethod.displayMessage(
+                        requireActivity(),
+                        "Please select proper date and time"
+                    )
+                }
+            }
+        }
+
+        dialog.show()
+    }
+
+    private fun isValidTime(time: String): Boolean {
+        var days = 0
+        var hrs = 0
+        var min = 0
+        val currentDate = ReusedMethod.getCurrentDate()
+        val currentDateTime =
+            changeDateFormat("yyyy-MM-dd HH:mm:ss", "hh:mm a", currentDate)
+
+        val date2: Date =
+            SimpleDateFormat("hh:mm a").parse("$time")
+        val date1: Date =
+            SimpleDateFormat("hh:mm a").parse(currentDateTime)
+        val difference: Long = date2.time - date1.time
+
+        days = ((difference / (1000 * 60 * 60 * 24)).toInt())
+        hrs = (((difference - (1000 * 60 * 60 * 24 * days)) / (1000 * 60 * 60)).toInt())
+        min =
+            ((difference - (1000 * 60 * 60 * 24 * days) - (1000 * 60 * 60 * hrs)) / (1000 * 60)).toInt();
+
+        return hrs > 0 || min > 30
+//        return hrs > 0 && min > 30
+    }
+
+
+    private fun callRequestrMediatorApi(is_imediate_join: Int, schedual_datetime: String) {
+        if (ReusedMethod.isNetworkConnected(requireContext())) {
+            userViewModel.sendCallingReqtoMediator(
+                true, requireActivity() as BaseActivity,
+                is_imediate_join, schedual_datetime
+            )
+        } else {
+            ReusedMethod.displayMessage(
+                requireActivity(),
+                resources.getString(R.string.text_error_network)
+            )
+        }
+    }
+
+    private fun callVideoCallRequestAPI(
+        selected_laywer_id: Int,
+        role: String,
+        isImmediateJoining: Int,
+        requestDatetime: String
+    ) {
+        if (ReusedMethod.isNetworkConnected(requireContext())) {
+            mViewModel.sendVideoCallReq(
+                true,
+                requireActivity() as BaseActivity,
+                selected_laywer_id,
+                role,
+                isImmediateJoining,
+                requestDatetime
+            )
+        }
     }
 
 
@@ -211,7 +393,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
     private fun callFilterDataAPI() {
 
         if (ReusedMethod.isNetworkConnected(requireContext())) {
-            commonViewModel.getFilterData(true, context as BaseActivity)
+            mViewModel.getFilterData(true, context as BaseActivity)
         } else {
             mBinding.noDataConnectedHistory.gone()
             mBinding.noInternetConnectedhistory.llNointernet.visible()
@@ -295,7 +477,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
             }
         }
         //GET FILTER RESP
-        commonViewModel.getFilterResp().observe(this) { response ->
+        mViewModel.getFilterResp().observe(this) { response ->
             response.let { requestState ->
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
@@ -327,6 +509,87 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
             }
 
         }
+        //SEND MEDIATOR CALLING REEQUEST RESP
+        userViewModel.getCallMediatorReqResp().observe(this) { response ->
+            response.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                        if (SharedPreferenceManager.getString(
+                                AppConstants.USER_ROLE,
+                                ""
+                            ) == AppConstants.APP_ROLE_USER
+                        ) {
+                            callVideoCallRequestAPI(
+                                selected_laywer_id,
+                                AppConstants.APP_ROLE_LAWYER,
+                                data.is_immediate_joining,
+                                data.request_datetime
+                            )
+                        }
+
+                    }
+                }
+
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                context as Activity,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        (activity as HomeActivity).unAuthorizedNavigation()
+                                    } else {
+                                        ReusedMethod.displayMessage(context as Activity, it)
+                                    }
+                                }
+                    }
+                }
+            }
+
+        }
+
+        //SEND Video CallReq
+        mViewModel.getSendVideoCallRequestResp().observe(this) { response ->
+            response.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                    }
+                }
+
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                context as Activity,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        (activity as HomeActivity).unAuthorizedNavigation()
+                                    } else {
+                                        ReusedMethod.displayMessage(context as Activity, it)
+                                    }
+                                }
+                    }
+                }
+            }
+
+        }
+
     }
 
     override fun onClick(v: View?) {

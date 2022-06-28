@@ -27,4 +27,7 @@ data class LawyerProfileDetailsResp(
     val is_subscribe: Int?=0,
     val firebase_uid: String?="",
     val firebase_chatid: Int?=0,
+    val dialing_code: String?="",
+    val office_dialing_code: String?="",
+    val availability_time: String?="",
 )

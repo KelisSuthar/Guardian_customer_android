@@ -93,11 +93,11 @@ class LawyerBySpecializationAdapter(
 
 
             imgRowLawyerVideo?.setOnClickListener {
-                fragment.displayVideoCallDialog()
+                fragment.displayVideoCallDialog(array.id)
             }
 
             imgRowLawyerChat?.setOnClickListener {
-                if (array.profile_avatar.isNullOrEmpty()||array.last_seen.isNullOrEmpty()) {
+                if (array.profile_avatar.isNullOrEmpty() || array.last_seen.isNullOrEmpty()) {
                     fragment.callChatPageOpe(
                         array.id!!,
                         array.full_name!!,

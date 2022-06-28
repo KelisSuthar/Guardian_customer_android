@@ -2,6 +2,7 @@ package com.app.guardian.model.connectedhistory
 
 data class ConnectedHistoryResp(
     val dialing_code: String? = "",
+    val office_dialing_code: String? = "",
     val email: String? = "",
     val from_time: String? = "",
     val full_name: String? = "",
@@ -19,5 +20,7 @@ data class ConnectedHistoryResp(
     val years_of_experience: String? = "",
     val vehicle_no: String? = "",
     val id: Int? = 0,
+    val is_online: Int? = 0,
     val call_type: String? = "",
+    val availability_time: String? = "",
 )

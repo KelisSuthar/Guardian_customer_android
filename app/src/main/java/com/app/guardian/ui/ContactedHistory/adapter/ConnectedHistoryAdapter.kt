@@ -131,7 +131,9 @@ class ConnectedHistoryAdapter(
 
             imgRowLawyerCall?.setOnClickListener { listeners.onCallClick(position) }
             imgRowLawyerChat?.setOnClickListener { listeners.onChatClick(position) }
-            itemView.setOnClickListener { listeners.onNotesClick(position) }
+            imgRowLawyerVideoCall?.setOnClickListener { listeners.onVideCallClick(position) }
+//            itemView.setOnClickListener { listeners.onNotesClick(position) }
+            itemView.setOnClickListener { listeners.onItemClick(position) }
 
             txtName!!.text = array.full_name
             if (!array.years_of_experience.isNullOrEmpty()) {
@@ -163,5 +165,6 @@ class ConnectedHistoryAdapter(
         fun onChatClick(position: Int?)
         fun onNotesClick(position: Int?)
         fun onItemClick(position: Int?)
+        fun onVideCallClick(position: Int)
     }
 }

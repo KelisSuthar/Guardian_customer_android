@@ -25,6 +25,6 @@ data class LawyerListResp(
     val last_seen: String? = "",
     val firebase_uid: String? = "",
     val firebase_chatid: String? = "",
-    val years_of_experience: String? = ""
-
+    val years_of_experience: String? = "",
+    val availability_time: String? = "",
 )
