@@ -29,10 +29,12 @@ import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Lawyer.AddBaner.AddBannerFragment
 import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
 import com.app.guardian.ui.LawyerSpecialization.LawyerSpecializationFragment
+import com.app.guardian.ui.LawyerVideoCallReq.LawyerVideoCallReqFragment
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.ResetPassword.ResetPasswordActivity
 import com.app.guardian.ui.SeekLegalAdvice.SeekLegalAdviceListFragment
 import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
+import com.app.guardian.ui.VideoCallReq.VideoCallReqFragment
 import com.app.guardian.ui.aboutus.AboutUsActivity
 import com.app.guardian.ui.editProfile.EditProfileActivity
 import com.app.guardian.ui.notification.NotificationListFragment
@@ -156,6 +158,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                 mBinding.imgVirtualWitness.gone()
                 mBinding.tvVirtualWitness.gone()
                 mBinding.view6.gone()
+                mBinding.tvVideoCallReq.text = resources.getString(R.string.video_req)
             }
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
@@ -180,6 +183,8 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                 mBinding.tvBanneradds.gone()
                 mBinding.imgBanneradds.gone()
                 mBinding.viewBanneradds.gone()
+                mBinding.tvVideoCallReq.text = resources.getString(R.string.video_req)
+
             }
         }
     }
@@ -224,6 +229,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         mBinding.tvSubscription2.setOnClickListener(this)
         mBinding.tvSpecialization.setOnClickListener(this)
         mBinding.tvSeekLegaladv.setOnClickListener(this)
+        mBinding.tvVideoCallReq.setOnClickListener(this)
     }
 
     override fun initObserver() {
@@ -414,6 +420,29 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
+            R.id.tvVideoCallReq -> {
+                if (SharedPreferenceManager.getString(
+                        AppConstants.USER_ROLE,
+                        ""
+                    ) == AppConstants.APP_ROLE_USER
+                ) {
+                    ReplaceFragment.replaceFragment(
+                        requireActivity(),
+                        LawyerVideoCallReqFragment(),
+                        true,
+                        SettingsFragment::class.java.name,
+                        SettingsFragment::class.java.name
+                    )
+                }else{
+                    ReplaceFragment.replaceFragment(
+                        requireActivity(),
+                        VideoCallReqFragment(),
+                        true,
+                        SettingsFragment::class.java.name,
+                        SettingsFragment::class.java.name
+                    )
+                }
+            }
             R.id.tvSubScription -> {
                 startActivity(Intent(context, SubScriptionPlanScreen::class.java))
                 requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)

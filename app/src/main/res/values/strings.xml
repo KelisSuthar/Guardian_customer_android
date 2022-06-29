@@ -247,6 +247,8 @@
     <string name="seek_legal_advice">Seek Legal Advice</string>
     <string name="title">Title</string>
     <string name="banner_ads">Banner Ads</string>
+    <string name="lawyer_video_req">Lawyer Video Call Request</string>
+    <string name="video_req">Video Call Request</string>
     <string name="type_something">Type Something...</string>
 
     <!--    Join Meeting-->

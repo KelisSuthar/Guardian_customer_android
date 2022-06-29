@@ -76,7 +76,6 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
         mBinding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
             if (checkedId == R.id.rb1) {
                 callApi("")
-
             } else {
                 callApi("")
             }

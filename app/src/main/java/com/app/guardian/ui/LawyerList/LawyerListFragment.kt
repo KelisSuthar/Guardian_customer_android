@@ -63,7 +63,6 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
     override fun getInflateResource(): Int {
         return R.layout.fragment_lawyer_list
     }
-
     override fun initView() {
         mBinding = getBinding()
         (activity as HomeActivity).bottomTabVisibility(true)
@@ -355,7 +354,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         }
     }
 
-    private fun callVideoCallRequestAPI(
+     fun callVideoCallRequestAPI(
         selected_laywer_id: Int,
         role: String,
         isImmediateJoining: Int,

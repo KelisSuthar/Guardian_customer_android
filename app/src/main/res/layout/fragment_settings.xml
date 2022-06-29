@@ -505,6 +505,41 @@
                         android:background="@color/lightBlue"
                         app:layout_constraintTop_toBottomOf="@id/imgBanneradds" />
 
+                    <ImageView
+                        android:id="@+id/imgVideoCallReq"
+                        android:layout_width="@dimen/_17sdp"
+                        android:layout_height="@dimen/_17sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:src="@drawable/ic_video_icon"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/viewBanneradds"
+                        app:tint="@color/blue" />
+
+                    <TextView
+                        android:id="@+id/tvVideoCallReq"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:fontFamily="@font/lora_semibold"
+                        android:padding="@dimen/_10sdp"
+                        android:text="@string/lawyer_video_req"
+                        android:textColor="@color/lightblack"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintBottom_toBottomOf="@id/imgVideoCallReq"
+                        app:layout_constraintStart_toEndOf="@id/imgVideoCallReq"
+                        app:layout_constraintTop_toTopOf="@id/imgVideoCallReq" />
+
+                    <View
+                        android:id="@+id/viewVideoCallReq"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:background="@color/lightBlue"
+                        app:layout_constraintTop_toBottomOf="@id/imgVideoCallReq" />
+
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnSignOut"
@@ -519,7 +554,7 @@
                         app:iconGravity="textStart"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/imgBanneradds" />
+                        app:layout_constraintTop_toBottomOf="@id/viewVideoCallReq" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
