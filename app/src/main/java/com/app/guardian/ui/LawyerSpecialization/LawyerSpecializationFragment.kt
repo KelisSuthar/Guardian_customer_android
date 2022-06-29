@@ -601,7 +601,7 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
         }
     }
 
-    private fun callVideoCallRequestAPI(
+     fun callVideoCallRequestAPI(
         selected_laywer_id: Int,
         role: String,
         isImmediateJoining: Int,

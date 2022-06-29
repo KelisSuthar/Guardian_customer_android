@@ -22,6 +22,9 @@ import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.LawyerVideoCallReq.LawyerVideoCallReqFragment
+import com.app.guardian.ui.User.settings.SettingsFragment
+import com.app.guardian.ui.VideoCallReq.VideoCallReqFragment
 import com.app.guardian.ui.chatting.ChattingFragment
 import com.app.guardian.ui.notification.adapter.NotificationListAdapter
 import com.app.guardian.utils.ApiConstant
@@ -104,13 +107,27 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                             )
                         }
                         AppConstants.EXTRA_VIDEOCALLREQ_PAYLOAD -> {
-//                            ReplaceFragment.replaceFragment(
-//                                requireActivity(),
-//                                ChattingFragment(array[position].sender_id),
-//                                true,
-//                                NotificationListFragment::class.java.name,
-//                                NotificationListFragment::class.java.name,
-//                            )
+                            if (SharedPreferenceManager.getString(
+                                    AppConstants.USER_ROLE,
+                                    ""
+                                ) == AppConstants.APP_ROLE_USER
+                            ) {
+                                ReplaceFragment.replaceFragment(
+                                    requireActivity(),
+                                    LawyerVideoCallReqFragment(),
+                                    true,
+                                    SettingsFragment::class.java.name,
+                                    SettingsFragment::class.java.name
+                                )
+                            }else{
+                                ReplaceFragment.replaceFragment(
+                                    requireActivity(),
+                                    VideoCallReqFragment(),
+                                    true,
+                                    SettingsFragment::class.java.name,
+                                    SettingsFragment::class.java.name
+                                )
+                            }
                         }
                     }
                 }

@@ -336,7 +336,7 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
         to_id: Int,
         to_role: String,
         url: String,
-        schedule_datetime: String,
+//        schedule_datetime: String,
         room_id: String,
     ) {
         val body = JsonObject()
@@ -345,7 +345,7 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
         body.addProperty(ApiConstant.EXTRAS_TO_ID, to_id)
         body.addProperty(ApiConstant.EXTRAS_TO_ROLE, to_role)
         body.addProperty(ApiConstant.EXTRAS_URL, url)
-        body.addProperty(ApiConstant.EXTRAS_SCHEDUAL_DATE_TIME, schedule_datetime)
+        body.addProperty(ApiConstant.EXTRAS_SCHEDUAL_DATE_TIME, getCurrentDate())
         body.addProperty(ApiConstant.EXTRAS_ROOM_ID, room_id)
 
         mUserRepository.scheduleRequestedVideoCall(

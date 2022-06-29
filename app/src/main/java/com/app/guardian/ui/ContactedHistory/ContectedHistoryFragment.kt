@@ -167,7 +167,17 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                 }
 
                 override fun onVideCallClick(position: Int) {
-                    displayVideoCallDialog(array[position].id)
+                    if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
+                        displayVideoCallDialog(array[position].id)
+                    } else {
+                        callVideoCallRequestAPI(
+                            array[position].id!!,
+                            AppConstants.APP_ROLE_LAWYER,
+                            0,
+                            ""
+                        )
+                    }
+
                 }
 
             })

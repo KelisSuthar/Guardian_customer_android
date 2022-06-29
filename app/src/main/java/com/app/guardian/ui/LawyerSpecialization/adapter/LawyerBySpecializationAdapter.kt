@@ -10,6 +10,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
+import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.model.LawyerBySpecialization.LawyerBySpecializationResp
@@ -93,7 +96,17 @@ class LawyerBySpecializationAdapter(
 
 
             imgRowLawyerVideo?.setOnClickListener {
-                fragment.displayVideoCallDialog(array.id)
+                if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
+                    fragment.displayVideoCallDialog(array.id)
+                } else {
+                    fragment.callVideoCallRequestAPI(
+                        array.id!!,
+                        AppConstants.APP_ROLE_LAWYER,
+                        0,
+                        ""
+                    )
+                }
+
             }
 
             imgRowLawyerChat?.setOnClickListener {

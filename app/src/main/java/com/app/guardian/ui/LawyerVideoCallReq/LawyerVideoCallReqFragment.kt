@@ -5,16 +5,19 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentLawyerVideoCallReqBinding
+import com.app.guardian.model.GetVideoCallRequestResp.GetVideoCallRequestListResp
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.LawyerVideoCallReq.adapter.LawyerVideoCallReqAdapter
 import com.app.guardian.ui.Login.LoginActivity
+import com.app.guardian.ui.createorjoin.CreateOrJoinActivity
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -22,6 +25,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class LawyerVideoCallReqFragment : BaseFragment(), View.OnClickListener {
     private lateinit var mBinding: FragmentLawyerVideoCallReqBinding
     private val mViewModel: CommonScreensViewModel by viewModel()
+    val array = ArrayList<GetVideoCallRequestListResp>()
     var lawyerVideoCallReqAdapter: LawyerVideoCallReqAdapter? = null
     override fun getInflateResource(): Int {
         return R.layout.fragment_lawyer_video_call_req
@@ -65,9 +69,21 @@ class LawyerVideoCallReqFragment : BaseFragment(), View.OnClickListener {
 //                        LawyerListFragment::class.java.name,
 //                        LawyerListFragment::class.java.name
 //                    )
+                    startActivity(
+                        Intent(context, CreateOrJoinActivity::class.java)
+                            .putExtra(AppConstants.EXTRA_CALLING_HISTORY_ID, array[position!!].id.toString())
+                            .putExtra(AppConstants.EXTRA_TO_ID, array[position!!].to_id.toString())
+                            .putExtra(AppConstants.EXTRA_TO_ROLE, array[position!!].to_role.toString())
+                            .putExtra(
+                                AppConstants.EXTRA_NAME,
+                                array[position!!].user_detail.full_name.toString()
+                            )
+
+                    )
                 }
 
             })
+        mBinding.rvReqList.adapter = lawyerVideoCallReqAdapter
     }
 
 
@@ -96,6 +112,17 @@ class LawyerVideoCallReqFragment : BaseFragment(), View.OnClickListener {
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
+                            array.clear()
+                            array.addAll(data)
+                            mBinding.cl1.visible()
+                            mBinding.noDataLawyerVideoCallReq.gone()
+                            mBinding.noInternetLawyerVideoCallReq.llNointernet.gone()
+                            if (data.isEmpty()) {
+                                mBinding.cl1.gone()
+                                mBinding.noDataLawyerVideoCallReq.visible()
+                                mBinding.noInternetLawyerVideoCallReq.llNointernet.gone()
+                            }
+                            lawyerVideoCallReqAdapter?.updateAll(data)
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                         } else {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())

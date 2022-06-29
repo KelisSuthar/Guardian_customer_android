@@ -1,6 +1,7 @@
 package com.app.guardian.ui.videocalljoin
 
 import android.Manifest
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -9,29 +10,49 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.Window
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
+import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.SharedPreferenceManager
+import com.app.guardian.common.extentions.isVisible
+import com.app.guardian.model.viewModels.AuthenticationViewModel
+import com.app.guardian.model.viewModels.CommonScreensViewModel
+import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.videocall.VideoCallActivity
+import com.app.guardian.utils.Config
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.nabinbhandari.android.permissions.PermissionHandler
 import com.nabinbhandari.android.permissions.Permissions
 import live.videosdk.rtc.android.lib.PeerConnectionUtils
+import org.koin.android.viewmodel.ext.android.viewModel
 import org.webrtc.*
 import java.lang.NullPointerException
 import java.lang.RuntimeException
 import java.util.ArrayList
 
 class VideoCallJoinActivity : AppCompatActivity() {
+    private val mViewModel: CommonScreensViewModel by viewModel()
 
-
+    var dialog: Dialog? = null
     private var micEnabled = false
     private var webcamEnabled = false
     private var btnMic: FloatingActionButton? = null
     private var btnWebcam: FloatingActionButton? = null
     private var svrJoin: SurfaceViewRenderer? = null
     private var etName: EditText? = null
+
+    var history_id = ""
+    var to_id = ""
+    var role = ""
+    var url = ""
+    var room_id = ""
+    var token = ""
+    var meetingId = ""
 
     var videoTrack: VideoTrack? = null
     var videoCapturer: VideoCapturer? = null
@@ -74,35 +95,118 @@ class VideoCallJoinActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join_video_call)
+        ReusedMethod.updateStatusBarColor(this, R.color.colorPrimaryDark, 4)
 
         val btnJoin = findViewById<Button>(R.id.btnJoin)
         btnMic = findViewById(R.id.btnMic)
         btnWebcam = findViewById(R.id.btnWebcam)
         svrJoin = findViewById(R.id.svrJoiningView)
         etName = findViewById(R.id.etName)
+        etName?.setText(SharedPreferenceManager.getUser()?.full_name.toString())
 
         checkPermissions()
 
-        btnMic!!.setOnClickListener(View.OnClickListener { v: View? -> toggleMic() })
+        btnMic!!.setOnClickListener { v: View? -> toggleMic() }
 
-        btnWebcam!!.setOnClickListener(View.OnClickListener { v: View? -> toggleWebcam() })
+        btnWebcam!!.setOnClickListener { v: View? -> toggleWebcam() }
 
-        val token = intent.getStringExtra("token")
-        val meetingId = intent.getStringExtra("meetingId")
+        history_id = intent.getStringExtra(AppConstants.EXTRA_CALLING_HISTORY_ID)!!
+        to_id = intent.getStringExtra(AppConstants.EXTRA_TO_ID)!!
+        role = intent.getStringExtra(AppConstants.EXTRA_TO_ROLE)!!
+        url = intent.getStringExtra(AppConstants.EXTRA_URL)!!
+        room_id = intent.getStringExtra(AppConstants.EXTRA_ROOM_ID)!!
+        room_id = intent.getStringExtra("token")!!
+        meetingId = intent.getStringExtra("meetingId")!!
         btnJoin.setOnClickListener { v: View? ->
-            if ("" == etName!!.getText().toString()) {
-                Toast.makeText(this@VideoCallJoinActivity, "Please Enter Name", Toast.LENGTH_SHORT)
-                    .show()
-            } else {
-                val intent = Intent(this@VideoCallJoinActivity, VideoCallActivity::class.java)
-                intent.putExtra("token", token)
-                intent.putExtra("meetingId", meetingId)
-                intent.putExtra("micEnabled", micEnabled)
-                intent.putExtra("webcamEnabled", webcamEnabled)
-                intent.putExtra("paticipantName", etName!!.getText().toString().trim { it <= ' ' })
-                startActivity(intent)
-                finish()
+            callScheduaCallAPI()
+//            if ("" == etName!!.getText().toString()) {
+//                Toast.makeText(this@VideoCallJoinActivity, "Please Enter Name", Toast.LENGTH_SHORT)
+//                    .show()
+//            } else {
+//                val intent = Intent(this@VideoCallJoinActivity, VideoCallActivity::class.java)
+//                intent.putExtra("token", token)
+//                intent.putExtra("meetingId", meetingId)
+//                intent.putExtra("micEnabled", micEnabled)
+//                intent.putExtra("webcamEnabled", webcamEnabled)
+//                intent.putExtra("paticipantName", etName!!.getText().toString().trim { it <= ' ' })
+//                startActivity(intent)
+//                finish()
+//            }
+
+        }
+        dialog = Dialog(this)
+        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog!!.window!!.setBackgroundDrawableResource(android.R.color.transparent);
+        dialog!!.setContentView(R.layout.progress_dialog)
+        dialog!!.setCancelable(false)
+        initObserver()
+    }
+
+    private fun initObserver() {
+        mViewModel.getscheduleRequestedVideoCallResp().observe(this) { response ->
+            response?.let { requestState ->
+                isVisible(requestState.progress, dialog)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+
+                            if ("" == etName!!.getText().toString()) {
+                                Toast.makeText(
+                                    this@VideoCallJoinActivity,
+                                    "Please Enter Name",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            } else {
+                                val intent = Intent(
+                                    this@VideoCallJoinActivity,
+                                    VideoCallActivity::class.java
+                                )
+                                intent.putExtra("token", token)
+                                intent.putExtra("meetingId", meetingId)
+                                intent.putExtra("micEnabled", micEnabled)
+                                intent.putExtra("webcamEnabled", webcamEnabled)
+                                intent.putExtra(
+                                    "paticipantName",
+                                    etName!!.getText().toString().trim { it <= ' ' })
+                                startActivity(intent)
+                                finish()
+                            }
+
+                            ReusedMethod.displayMessage(this, it.message.toString())
+                        } else {
+                            ReusedMethod.displayMessage(this, it.message.toString())
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                this,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {}
+                    }
+                }
             }
+        }
+    }
+
+    private fun callScheduaCallAPI() {
+        if (ReusedMethod.isNetworkConnected(this)) {
+            mViewModel.ScheduleRequestedVideoCall(
+                true,
+                this as BaseActivity,
+                history_id.toInt(),
+                to_id.toInt(),
+                role,
+                url,
+                room_id,
+                )
         }
     }
 

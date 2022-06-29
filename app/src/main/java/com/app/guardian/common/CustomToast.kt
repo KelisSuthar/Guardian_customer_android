@@ -34,7 +34,8 @@ object CustomToast {
 /*if (postion) {
             toast.setGravity(Gravity.TOP, 0, 50);
         } else
-            toast.setGravity(Gravity.BOTTOM, 0, 50);*/toast.setGravity(Gravity.BOTTOM, 0, 50)
+            toast.setGravity(Gravity.BOTTOM, 0, 50);*/
+//        toast.setGravity(Gravity.BOTTOM, 0, 50)
         toast.view = toastView
         toast.show()
     }

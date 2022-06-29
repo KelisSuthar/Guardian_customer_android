@@ -1,5 +1,6 @@
 package com.app.guardian.ui.VideoCallReq
 
+import android.content.Intent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
@@ -10,6 +11,7 @@ import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentVideoCallReqBinding
+import com.app.guardian.model.GetVideoCallRequestResp.GetVideoCallRequestListResp
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
@@ -17,6 +19,7 @@ import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.LawyerVideoCallReq.adapter.LawyerVideoCallReqAdapter
 import com.app.guardian.ui.VideoCallReq.adapter.VideoCallReqAdapter
+import com.app.guardian.ui.createorjoin.CreateOrJoinActivity
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -25,6 +28,7 @@ class VideoCallReqFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
     var videoCallReqAdapter: VideoCallReqAdapter? = null
     var type = ""
+    val array = ArrayList<GetVideoCallRequestListResp>()
     override fun getInflateResource(): Int {
         return R.layout.fragment_video_call_req
     }
@@ -84,10 +88,20 @@ class VideoCallReqFragment : BaseFragment(), View.OnClickListener {
                 }
 
                 override fun onVideoCallClick(position: Int?) {
+                    startActivity(
+                        Intent(context, CreateOrJoinActivity::class.java)
+                            .putExtra(AppConstants.EXTRA_CALLING_HISTORY_ID, array[position!!].id.toString())
+                            .putExtra(AppConstants.EXTRA_TO_ID, array[position!!].to_id.toString())
+                            .putExtra(AppConstants.EXTRA_TO_ROLE, array[position!!].to_role.toString())
+                            .putExtra(
+                                AppConstants.EXTRA_NAME,
+                                array[position!!].user_detail.full_name.toString())
 
+                    )
                 }
 
             })
+        mBinding.rvVideoCallReq.adapter = videoCallReqAdapter
     }
 
     private fun CallVieoCallReqListAPI() {
@@ -120,6 +134,18 @@ class VideoCallReqFragment : BaseFragment(), View.OnClickListener {
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
+                            array.clear()
+                            array.addAll(data)
+                            mBinding.cl1.visible()
+                            mBinding.noDataVideoCallReq.gone()
+                            mBinding.noInternetVideoCallReq.llNointernet.gone()
+                            if(data.isEmpty())
+                            {
+                                mBinding.cl1.gone()
+                                mBinding.noDataVideoCallReq.visible()
+                                mBinding.noInternetVideoCallReq.llNointernet.gone()
+                            }
+                            videoCallReqAdapter?.updateAll(data)
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                         } else {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())

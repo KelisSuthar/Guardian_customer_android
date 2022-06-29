@@ -85,6 +85,7 @@ class ChattingFragment(
 
     @SuppressLint("SimpleDateFormat")
     private fun lastSeenChecker(lastSeen: String?) {
+        mBinding.txtLastSeen.visible()
         Log.i("THIS_APP", "LAST_SEEN_DATE: " + lastSeen.toString())
 
         if (lastSeen != "" && lastSeen != "null" && lastSeen != null) {
@@ -102,6 +103,7 @@ class ChattingFragment(
                 ((difference - (1000 * 60 * 60 * 24 * days) - (1000 * 60 * 60 * hrs)) / (1000 * 60)).toInt();
 
             if (days == 0) {
+
                 if (hrs == 0) {
                     mBinding.txtLastSeen.text = "Active $min Min Ago"
                 } else if (hrs >= 1) {

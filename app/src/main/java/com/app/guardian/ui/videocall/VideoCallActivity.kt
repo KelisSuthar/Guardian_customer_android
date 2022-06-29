@@ -76,7 +76,6 @@ class VideoCallActivity : AppCompatActivity() {
         toggleMicIcon()
         toggleWebcamIcon()
 
-        //
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.title = meetingId
 
@@ -179,18 +178,17 @@ class VideoCallActivity : AppCompatActivity() {
             Log.d("#meeting", "onMeetingJoined()")
 
             // notify user of any new messages
-            meeting!!.pubSub.subscribe("CHAT", object : PubSubMessageListener {
-                override fun onMessageReceived(pubSubMessage: PubSubMessage) {
-                    if (pubSubMessage.senderId != meeting!!.localParticipant.id) {
-                        val parentLayout = findViewById<View>(android.R.id.content)
-                        Snackbar.make(
-                            parentLayout, (pubSubMessage.senderName + " says: " +
-                                    pubSubMessage.message), Snackbar.LENGTH_SHORT
-                        )
-                            .setDuration(2000).show()
-                    }
+            meeting!!.pubSub.subscribe("CHAT"
+            ) { pubSubMessage ->
+                if (pubSubMessage.senderId != meeting!!.localParticipant.id) {
+                    val parentLayout = findViewById<View>(android.R.id.content)
+                    Snackbar.make(
+                        parentLayout, (pubSubMessage.senderName + " says: " +
+                                pubSubMessage.message), Snackbar.LENGTH_SHORT
+                    )
+                        .setDuration(2000).show()
                 }
-            })
+            }
 
             //terminate meeting in 10 minutes
             Handler().postDelayed({

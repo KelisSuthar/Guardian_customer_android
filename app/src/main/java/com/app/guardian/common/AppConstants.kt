@@ -64,6 +64,15 @@ object AppConstants {
     const val EXTRA_SH_CONTACT_SUPPORT = "CONTACT_SUPPORT"
     const val EXTRA_SH_SUPPORT_GROUP_LIST = "SUPPORT_GROUP_LIST"
 
+    const val EXTRA_VIDEOCALL_RESP = "VIDEO_CALL_RESP"
+    const val EXTRA_CALLING_HISTORY_ID = "CALLING_HISTORY_ID"
+    const val EXTRA_TO_ID = "TO_ID"
+    const val EXTRA_TO_ROLE = "TO_ROLE"
+    const val EXTRA_SCHEDUAL_DATE_TIME = "SCHEDUALE_DATE_TIME"
+    const val EXTRA_URL = "URL"
+    const val EXTRA_ROOM_ID = "ROOM_ID"
+    const val EXTRA_NAME = "NAME"
+
     const val EXTRA_VIRTUAL_WITNESS_PAYLOAD  = "virtual_witness_request"
     const val EXTRA_VIDEOCALLREQ_PAYLOAD  = "video_call_request"
     const val EXTRA_MEDIATOR_PAYLOAD  = "mediator_request"

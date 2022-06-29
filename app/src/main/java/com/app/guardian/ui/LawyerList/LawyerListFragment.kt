@@ -4,6 +4,7 @@ package com.app.guardian.ui.LawyerList
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.View
@@ -37,6 +38,7 @@ import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
 import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
 import com.app.guardian.ui.chatting.ChattingFragment
+import com.app.guardian.ui.createorjoin.CreateOrJoinActivity
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.google.android.material.card.MaterialCardView
@@ -147,7 +149,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                 requestState.error?.let { errorObj ->
                     when (errorObj.errorState) {
                         Config.NETWORK_ERROR ->
-                            ReusedMethod.displayMessage(
+                            displayMessage(
                                 context as Activity,
                                 getString(R.string.text_error_network)
                             )
@@ -156,12 +158,12 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                             errorObj.customMessage
                                 ?.let {
                                     if (errorObj.code == ApiConstant.API_401) {
-                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        displayMessage(requireActivity(), it)
                                         (activity as HomeActivity).unAuthorizedNavigation()
                                     } else {
                                         mBinding.rvLawyerList.gone()
                                         mBinding.noLawyer.visible()
-                                        ReusedMethod.displayMessage(context as Activity, it)
+                                        displayMessage(context as Activity, it)
                                     }
                                 }
                     }
@@ -184,7 +186,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                 requestState.error?.let { errorObj ->
                     when (errorObj.errorState) {
                         Config.NETWORK_ERROR ->
-                            ReusedMethod.displayMessage(
+                            displayMessage(
                                 context as Activity,
                                 getString(R.string.text_error_network)
                             )
@@ -193,10 +195,10 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                             errorObj.customMessage
                                 ?.let {
                                     if (errorObj.code == ApiConstant.API_401) {
-                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        displayMessage(requireActivity(), it)
                                         (activity as HomeActivity).unAuthorizedNavigation()
                                     } else {
-                                        ReusedMethod.displayMessage(context as Activity, it)
+                                        displayMessage(context as Activity, it)
                                     }
                                 }
                     }
@@ -226,11 +228,10 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
 
                     }
                 }
-
                 requestState.error?.let { errorObj ->
                     when (errorObj.errorState) {
                         Config.NETWORK_ERROR ->
-                            ReusedMethod.displayMessage(
+                            displayMessage(
                                 context as Activity,
                                 getString(R.string.text_error_network)
                             )
@@ -239,10 +240,10 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                             errorObj.customMessage
                                 ?.let {
                                     if (errorObj.code == ApiConstant.API_401) {
-                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        displayMessage(requireActivity(), it)
                                         (activity as HomeActivity).unAuthorizedNavigation()
                                     } else {
-                                        ReusedMethod.displayMessage(context as Activity, it)
+                                        displayMessage(context as Activity, it)
                                     }
                                 }
                     }
@@ -264,7 +265,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                 requestState.error?.let { errorObj ->
                     when (errorObj.errorState) {
                         Config.NETWORK_ERROR ->
-                            ReusedMethod.displayMessage(
+                            displayMessage(
                                 context as Activity,
                                 getString(R.string.text_error_network)
                             )
@@ -273,10 +274,10 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                             errorObj.customMessage
                                 ?.let {
                                     if (errorObj.code == ApiConstant.API_401) {
-                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        displayMessage(requireActivity(), it)
                                         (activity as HomeActivity).unAuthorizedNavigation()
                                     } else {
-                                        ReusedMethod.displayMessage(context as Activity, it)
+                                        displayMessage(context as Activity, it)
                                     }
                                 }
                     }
@@ -318,7 +319,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
 //            callRequestrMediatorApi()
             callScedualDialog()
 
-//            startActivity(Intent(context,CreateOrJoinActivity::class.java))
+//            startActivity(Intent(context, CreateOrJoinActivity::class.java))
         }
 
         NO.setOnClickListener {
@@ -347,7 +348,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                 is_imediate_join, schedual_datetime
             )
         } else {
-            ReusedMethod.displayMessage(
+            displayMessage(
                 requireActivity(),
                 resources.getString(R.string.text_error_network)
             )

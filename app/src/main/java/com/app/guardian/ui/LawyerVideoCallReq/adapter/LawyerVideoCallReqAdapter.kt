@@ -11,6 +11,8 @@ import com.app.guardian.common.BaseRecyclerViewAdapter
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.model.GetVideoCallRequestResp.GetVideoCallRequestListResp
 import com.bumptech.glide.Glide
+import com.google.android.gms.maps.model.Circle
+import de.hdodenhof.circleimageview.CircleImageView
 
 class LawyerVideoCallReqAdapter(val context: Context, val listener: onItemClicklisteners) :
     BaseRecyclerViewAdapter<GetVideoCallRequestListResp>(context) {
@@ -35,7 +37,7 @@ class LawyerVideoCallReqAdapter(val context: Context, val listener: onItemClickl
 
     open inner class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var positions: Int? = 0
-        var imgRowLawyerPicture = view.findViewById<AppCompatImageView>(R.id.imgRowLawyerPicture)
+        var imgRowLawyerPicture = view.findViewById<CircleImageView>(R.id.imgRowLawyerPicture)
         var txtName = view.findViewById<AppCompatTextView>(R.id.txtName)
         var txtExp = view.findViewById<AppCompatTextView>(R.id.txtExp)
         var txtDateTime = view.findViewById<AppCompatTextView>(R.id.txtDateTime)
@@ -46,7 +48,7 @@ class LawyerVideoCallReqAdapter(val context: Context, val listener: onItemClickl
             lyRowLawyerContact.gone()
             positions = position
             Glide.with(context).load(data.user_detail.profile_avatar)
-                .placeholder(R.drawable.ic_video_placeholder)
+                .placeholder(R.drawable.profile)
                 .into(imgRowLawyerPicture)
 
             itemView.setOnClickListener { listener.onItemClick(position) }
