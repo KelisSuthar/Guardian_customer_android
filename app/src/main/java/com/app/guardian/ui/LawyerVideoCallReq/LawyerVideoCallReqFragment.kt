@@ -1,22 +1,28 @@
 package com.app.guardian.ui.LawyerVideoCallReq
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
+import android.content.Intent
 import android.view.View
-import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import com.app.guardian.R
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentLawyerVideoCallReqBinding
-import com.app.guardian.databinding.FragmentVideoCallingBinding
+import com.app.guardian.model.viewModels.CommonScreensViewModel
+import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.LawyerVideoCallReq.adapter.LawyerVideoCallReqAdapter
+import com.app.guardian.ui.Login.LoginActivity
+import com.app.guardian.utils.Config
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class LawyerVideoCallReqFragment : BaseFragment(), View.OnClickListener {
     private lateinit var mBinding: FragmentLawyerVideoCallReqBinding
+    private val mViewModel: CommonScreensViewModel by viewModel()
+    var lawyerVideoCallReqAdapter: LawyerVideoCallReqAdapter? = null
     override fun getInflateResource(): Int {
         return R.layout.fragment_lawyer_video_call_req
     }
@@ -26,21 +32,48 @@ class LawyerVideoCallReqFragment : BaseFragment(), View.OnClickListener {
         (activity as HomeActivity).headerTextVisible(
             resources.getString(R.string.lawyer_video_req),
             isHeaderVisible = true,
-            isBackButtonVisible = false
+            isBackButtonVisible = true
         )
         mBinding = getBinding()
+        mBinding.searchConnectedHistory.lySearchFilter.gone()
+        mBinding.searchConnectedHistory.edtLoginEmail.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                CallVieoCallReqListAPI()
+                return@OnEditorActionListener true
+            }
+            false
+        })
+
     }
 
     override fun onResume() {
         super.onResume()
         mBinding.noDataLawyerVideoCallReq.gone()
         mBinding.noInternetLawyerVideoCallReq.llNointernet.gone()
+        setAdapter()
         CallVieoCallReqListAPI()
     }
 
+    private fun setAdapter() {
+        lawyerVideoCallReqAdapter = LawyerVideoCallReqAdapter(requireContext(),
+            object : LawyerVideoCallReqAdapter.onItemClicklisteners {
+                override fun onItemClick(position: Int?) {
+//                    ReplaceFragment.replaceFragment(
+//                        requireActivity(),
+//                        LawyerProfileFragment.newInstance(selectedLawyerListId!!, isDialLawyerOpen),
+//                        true,
+//                        LawyerListFragment::class.java.name,
+//                        LawyerListFragment::class.java.name
+//                    )
+                }
+
+            })
+    }
+
+
     private fun CallVieoCallReqListAPI() {
         if (ReusedMethod.isNetworkConnected(requireContext())) {
-
+            mViewModel.GetVideoCallRequestList(true, requireActivity() as BaseActivity)
         } else {
             mBinding.noInternetLawyerVideoCallReq.llNointernet.visible()
             mBinding.noDataLawyerVideoCallReq.gone()
@@ -57,7 +90,33 @@ class LawyerVideoCallReqFragment : BaseFragment(), View.OnClickListener {
     }
 
     override fun initObserver() {
+        mViewModel.getVideoCallRequestListResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                        } else {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                requireActivity(),
+                                getString(R.string.text_error_network)
+                            )
 
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {}
+                    }
+                }
+            }
+        }
     }
 
     override fun onClick(v: View?) {

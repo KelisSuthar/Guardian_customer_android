@@ -116,7 +116,7 @@ class LawyerListAdapter(
                         lawyerProfileData.id!!,
                         AppConstants.APP_ROLE_LAWYER,
                         0,
-                        ReusedMethod.getCurrentDate()
+                        ""
                     )
                 }
 

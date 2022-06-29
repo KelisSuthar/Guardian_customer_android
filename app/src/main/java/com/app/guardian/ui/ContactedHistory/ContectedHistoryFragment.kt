@@ -206,7 +206,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                     selected_laywer_id,
                     AppConstants.APP_ROLE_LAWYER,
                     0,
-                    ReusedMethod.getCurrentDate(),
+                    "",
                 )
             }
             dialog.dismiss()

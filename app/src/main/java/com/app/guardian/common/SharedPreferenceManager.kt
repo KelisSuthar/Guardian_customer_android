@@ -102,6 +102,9 @@ object SharedPreferenceManager {
     fun getLong(key: String, defValue: Long): Long {
         return prefs!!.getLong(key, defValue)
     }
+    fun getLoginUserRole(): String {
+        return getString(AppConstants.USER_ROLE,"").toString()
+    }
 
     fun removeAllData() {
         val device_token = getString(ApiConstant.EXTRAS_DEVICETOKEN, "")

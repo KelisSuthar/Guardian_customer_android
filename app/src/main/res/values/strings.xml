@@ -87,7 +87,7 @@
 
     <!--    RADAR Screen-->
     <string name="photo_radar">Photo Radar</string>
-    <string name="accident_roadblock">Accident/\nRoad block</string>
+    <string name="accident_roadblock">Accident/\nRoad Block</string>
     <string name="radar_text">Select below option to add photo radar and accident/road block at your current location</string>
 
     <!--    My Video-->

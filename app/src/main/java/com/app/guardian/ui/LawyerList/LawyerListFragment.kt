@@ -106,7 +106,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                         true,
                         LawyerListFragment::class.java.name,
                         LawyerListFragment::class.java.name
-                    );
+                    )
                     //  callLawyerProfileDetails(array[position].id)
                 }
 
@@ -331,7 +331,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                     selected_laywer_id,
                     AppConstants.APP_ROLE_LAWYER,
                     0,
-                    getCurrentDate(),
+                    "",
                 )
             }
             dialog.dismiss()

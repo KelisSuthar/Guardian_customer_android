@@ -1,21 +1,30 @@
 package com.app.guardian.ui.VideoCallReq
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
-import com.app.guardian.databinding.FragmentSettingsBinding
 import com.app.guardian.databinding.FragmentVideoCallReqBinding
+import com.app.guardian.model.viewModels.AuthenticationViewModel
+import com.app.guardian.model.viewModels.CommonScreensViewModel
+import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.LawyerVideoCallReq.adapter.LawyerVideoCallReqAdapter
+import com.app.guardian.ui.VideoCallReq.adapter.VideoCallReqAdapter
+import com.app.guardian.utils.Config
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class VideoCallReqFragment : BaseFragment(), View.OnClickListener {
     private lateinit var mBinding: FragmentVideoCallReqBinding
+    private val mViewModel: CommonScreensViewModel by viewModel()
+    var videoCallReqAdapter: VideoCallReqAdapter? = null
+    var type = ""
     override fun getInflateResource(): Int {
         return R.layout.fragment_video_call_req
     }
@@ -25,10 +34,10 @@ class VideoCallReqFragment : BaseFragment(), View.OnClickListener {
         (activity as HomeActivity).headerTextVisible(
             resources.getString(R.string.video_req),
             isHeaderVisible = true,
-            isBackButtonVisible = false
+            isBackButtonVisible = true
         )
         mBinding = getBinding()
-
+        mBinding.searchConnectedHistory.lySearchFilter.gone()
         mBinding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
             if (checkedId == R.id.rb1) {
                 CallVieoCallReqListAPI()
@@ -37,36 +46,109 @@ class VideoCallReqFragment : BaseFragment(), View.OnClickListener {
             }
 
         }
+        mBinding.searchConnectedHistory.edtLoginEmail.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                CallVieoCallReqListAPI()
+                return@OnEditorActionListener true
+            }
+            false
+        })
+        if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_LAWYER) {
+            mBinding.rb1.text = "Mediator"
+            mBinding.rb2.text = "User"
+        } else {
+            mBinding.rb1.text = "Lawyer"
+            mBinding.rb2.text = "User"
+        }
     }
+
     override fun onResume() {
         super.onResume()
         mBinding.noDataVideoCallReq.gone()
         mBinding.noInternetVideoCallReq.llNointernet.gone()
+        setAdapter()
         CallVieoCallReqListAPI()
     }
-    private fun CallVieoCallReqListAPI() {
-        if (ReusedMethod.isNetworkConnected(requireContext())) {
 
+    private fun setAdapter() {
+        videoCallReqAdapter = VideoCallReqAdapter(requireContext(),
+            object : VideoCallReqAdapter.onItemClicklisteners {
+                override fun onItemClick(position: Int?) {
+//                    ReplaceFragment.replaceFragment(
+//                        requireActivity(),
+//                        LawyerProfileFragment.newInstance(selectedLawyerListId!!, isDialLawyerOpen),
+//                        true,
+//                        LawyerListFragment::class.java.name,
+//                        LawyerListFragment::class.java.name
+//                    )
+                }
+
+                override fun onVideoCallClick(position: Int?) {
+
+                }
+
+            })
+    }
+
+    private fun CallVieoCallReqListAPI() {
+//        type = if (mBinding.rb1.isChecked) {
+//            mBinding.rb1.text.toString()
+//        } else {
+//            mBinding.rb2.text.toString()
+//        }
+        if (ReusedMethod.isNetworkConnected(requireContext())) {
+            mViewModel.GetVideoCallRequestList(true, requireActivity() as BaseActivity)
         } else {
             mBinding.noInternetVideoCallReq.llNointernet.visible()
             mBinding.noDataVideoCallReq.gone()
             mBinding.cl1.gone()
         }
     }
+
     override fun postInit() {
 
     }
 
     override fun handleListener() {
-
+        mBinding.noInternetVideoCallReq.btnTryAgain.setOnClickListener(this)
     }
 
     override fun initObserver() {
+        mViewModel.getVideoCallRequestListResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                        } else {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                requireActivity(),
+                                getString(R.string.text_error_network)
+                            )
 
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {}
+                    }
+                }
+            }
+        }
     }
 
     override fun onClick(v: View?) {
-
+        when (v?.id) {
+            R.id.btnTryAgain -> {
+                onResume()
+            }
+        }
     }
 
 }

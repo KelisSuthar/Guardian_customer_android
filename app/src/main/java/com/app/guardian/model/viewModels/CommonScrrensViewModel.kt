@@ -394,8 +394,8 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
         body.addProperty(ApiConstant.EXTRAS_TO_ID, to_id)
         body.addProperty(ApiConstant.EXTRAS_TO_ROLE, to_role)
         body.addProperty(ApiConstant.EXTRAS_IS_IMMEDIATE_ONLINE, is_immediate_joining)
-//        body.addProperty(ApiConstant.EXTRAS_SCHEDUAL_DATE_TIME,schedule_datetim)
-        body.addProperty("schedule_datetim", schedule_datetim)
+        body.addProperty(ApiConstant.EXTRAS_SCHEDUAL_DATE_TIME,schedule_datetim)
+//        body.addProperty("schedule_datetim", schedule_datetim)
         mUserRepository.sendVideoCallRequest(
             body,
             isInternetConnected,
