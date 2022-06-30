@@ -110,7 +110,8 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
         }
 
         mBinding.imgRowLawyerVideo.setOnClickListener {
-            displayVideoCallDialog(selectedLawyerListId!!)
+//            displayVideoCallDialog(selectedLawyerListId!!)
+            ReusedMethod.displayMessage(requireActivity(),resources.getString(R.string.come_soon))
         }
     }
 

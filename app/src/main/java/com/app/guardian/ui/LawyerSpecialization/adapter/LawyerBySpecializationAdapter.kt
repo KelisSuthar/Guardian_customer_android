@@ -96,16 +96,20 @@ class LawyerBySpecializationAdapter(
 
 
             imgRowLawyerVideo?.setOnClickListener {
-                if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
-                    fragment.displayVideoCallDialog(array.id)
-                } else {
-                    fragment.callVideoCallRequestAPI(
-                        array.id!!,
-                        AppConstants.APP_ROLE_LAWYER,
-                        0,
-                        ""
-                    )
-                }
+//                if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
+                ReusedMethod.displayMessage(
+                    context,
+                    context.resources.getString(R.string.come_soon)
+                )
+//                    fragment.displayVideoCallDialog(array.id)
+//                } else {
+//                    fragment.callVideoCallRequestAPI(
+//                        array.id!!,
+//                        AppConstants.APP_ROLE_LAWYER,
+//                        0,
+//                        ""
+//                    )
+//                }
 
             }
 

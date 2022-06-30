@@ -38,7 +38,7 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        changeLayout(SharedPreferenceManager.getInt(AppConstants.EXTRA_SH_LIVE_VIRTUAL_WITNESS,0))
+        changeLayout(SharedPreferenceManager.getInt(AppConstants.EXTRA_SH_LIVE_VIRTUAL_WITNESS, 0))
     }
 
     override fun initView() {
@@ -143,12 +143,16 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
         when (v?.id) {
             R.id.cvAccessYourRecording -> {
                 changeLayout(1)
-                ReplaceFragment.replaceFragment(
+//                ReplaceFragment.replaceFragment(
+//                    requireActivity(),
+//                    MyVideosFragment(),
+//                    true,
+//                    LiveVirtualVitnessUserFragment::class.java.name,
+//                    LiveVirtualVitnessUserFragment::class.java.name
+//                )
+                ReusedMethod.displayMessage(
                     requireActivity(),
-                    MyVideosFragment(),
-                    true,
-                    LiveVirtualVitnessUserFragment::class.java.name,
-                    LiveVirtualVitnessUserFragment::class.java.name
+                    requireContext().resources.getString(R.string.come_soon)
                 )
             }
             R.id.cvDrivingOffenceList -> {
@@ -159,17 +163,24 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.rbAccessYourRecording -> {
                 changeLayout(1)
-                ReplaceFragment.replaceFragment(
+//                ReplaceFragment.replaceFragment(
+//                    requireActivity(),
+//                    MyVideosFragment(),
+//                    true,
+//                    LiveVirtualVitnessUserFragment::class.java.name,
+//                    LiveVirtualVitnessUserFragment::class.java.name
+//                )
+                ReusedMethod.displayMessage(
                     requireActivity(),
-                    MyVideosFragment(),
-                    true,
-                    LiveVirtualVitnessUserFragment::class.java.name,
-                    LiveVirtualVitnessUserFragment::class.java.name
+                    requireContext().resources.getString(R.string.come_soon)
                 )
             }
             R.id.rbDrivingOffenceList -> {
                 changeLayout(2)
-                ReusedMethod.displayMessage(requireActivity(), requireContext().resources.getString(R.string.come_soon))
+                ReusedMethod.displayMessage(
+                    requireActivity(),
+                    requireContext().resources.getString(R.string.come_soon)
+                )
 
             }
             R.id.rbDialLawyer -> {
@@ -196,7 +207,7 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun changeLayout(i: Int) {
-        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_LIVE_VIRTUAL_WITNESS,i)
+        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_LIVE_VIRTUAL_WITNESS, i)
         when (i) {
             0 -> {
                 mBinding.rlAccessYourRecording.setBackgroundColor(

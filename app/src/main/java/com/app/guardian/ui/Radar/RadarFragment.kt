@@ -190,7 +190,7 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
                     it.data?.let { data ->
                         if (it.status) {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
-                            setG_MAP()
+
                             CallMapListAPI()
                         } else {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
@@ -206,7 +206,7 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
 
                             Config.CUSTOM_ERROR ->
                                 errorObj.customMessage
-                                    ?.let {ReusedMethod.displayMessage(requireActivity(), it)}
+                                    ?.let { ReusedMethod.displayMessage(requireActivity(), it) }
                         }
                     }
                 }
@@ -218,6 +218,7 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse.let {
                     it?.data?.let { data ->
+                        CallMapListAPI()
                         ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                     }
 
@@ -343,23 +344,26 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
 //
 //        })
 
-        mMarker = MarkerOptions()
-        mMarker!!.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
-            .anchor(0.0f, 1.0f)
-            .title(resources.getString(R.string.current_loc))
-            .flat(true)
-            .position(LatLng(CURRENT_LAT, CURRENT_LONG))
+          if(array.isEmpty())
+          {
+              mMarker = MarkerOptions()
+              mMarker!!.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
+                  .anchor(0.0f, 1.0f)
+                  .title(resources.getString(R.string.current_loc))
+                  .flat(true)
+                  .position(LatLng(CURRENT_LAT, CURRENT_LONG))
 
-        gMap!!.addMarker(mMarker!!)
-        setMarkerZoom(CURRENT_LAT, CURRENT_LONG)
-
-        gMap!!.setOnInfoWindowClickListener { marker ->
+              gMap!!.addMarker(mMarker!!)
+              gMap!!.setOnInfoWindowClickListener { marker ->
 //            ReusedMethod.displayMessage(requireActivity(), marker.title.toString())
+              }
+
+          }
+
+        setMarkerZoom(CURRENT_LAT, CURRENT_LONG)
+            gMap!!.setOnMarkerClickListener(this)
         }
 
-        gMap!!.setOnMarkerClickListener(this)
-
-    }
 
     private fun setMarkerZoom(latitude: Double, longitude: Double) {
         val builder: LatLngBounds.Builder? = LatLngBounds.Builder()
@@ -451,7 +455,7 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
                             Log.i("THIS_APP", location.longitude.toString())
                             CURRENT_LAT = location.latitude
                             CURRENT_LONG = location.longitude
-                            setG_MAP()
+
                             CallMapListAPI()
                             if (mFusedLocationClient != null) {
                                 mFusedLocationClient?.removeLocationUpdates(locationCallback!!)

@@ -60,6 +60,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
     private val userViewModel: UserViewModel by viewModel()
     var specialization = ""
     var selected_laywer_id = -1
+    var isSearchVisisble = false
 
     lateinit var mBinding: FragmentContectedHistoryBinding
     var connectedHistoryAdapter: ConnectedHistoryAdapter? = null
@@ -75,14 +76,17 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
 
         mBinding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
             if (checkedId == R.id.rb1) {
+                isSearchVisisble = false
                 callApi("")
             } else {
+                isSearchVisisble = false
                 callApi("")
             }
 
         }
         mBinding.searchConnectedHistory.edtLoginEmail.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                isSearchVisisble = true
                 callApi(
                     mBinding.searchConnectedHistory.edtLoginEmail.text.toString(),
                 )
@@ -435,7 +439,11 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                                 if (array.isNullOrEmpty()) {
                                     mBinding.noDataConnectedHistory.visible()
                                     mBinding.noInternetConnectedhistory.llNointernet.gone()
-                                    mBinding.cl1.gone()
+                                    if (isSearchVisisble) {
+                                        mBinding.searchConnectedHistory.lySearch.visible()
+                                    } else {
+                                        mBinding.searchConnectedHistory.lySearch.gone()
+                                    }
                                     mBinding.radioGroup.visible()
                                 }
                             } else {
@@ -611,6 +619,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                 callFilterDataAPI()
             }
             R.id.llsearch -> {
+                isSearchVisisble = true
                 if (TextUtils.isEmpty(mBinding.searchConnectedHistory.edtLoginEmail.text.toString())) {
                     callApi(mBinding.searchConnectedHistory.edtLoginEmail.text.toString())
                 }
@@ -653,7 +662,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
             mBinding.noDataConnectedHistory.gone()
             mBinding.noInternetConnectedhistory.llNointernet.gone()
             dialog.dismiss()
-
+            isSearchVisisble = true
             callApi(specialization)
 
         }
@@ -688,8 +697,6 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
         chip.text = text
         chip.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-
-
                 specialization = text
 
                 chip.setChipBackgroundColorResource(R.color.chip_selector)
