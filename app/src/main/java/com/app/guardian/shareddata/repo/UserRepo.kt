@@ -19,6 +19,8 @@ import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
 import com.app.guardian.model.MediatorCallReq.MediatorCallReqResp
 import com.app.guardian.model.Notification.NotificationResp
+import com.app.guardian.model.OfflineVideos.OfflineUploadedVideoResp
+import com.app.guardian.model.OfflineVideos.UploadOfflineVideoResp
 import com.app.guardian.model.Radar.RadarListResp
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
@@ -352,6 +354,19 @@ interface UserRepo {
         internetConnected: Boolean,
         baseView: BaseActivity,
         sendVideocallReqresp: MutableLiveData<RequestState<SendVideoCallReqResp>>
+    )
+
+    fun uploadOfflineVideo(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        uploadOfflineVideoResp: MutableLiveData<RequestState<UploadOfflineVideoResp>>
+    )
+
+    fun getOfflineVideoList(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        offlineUploadedVideoResp: MutableLiveData<RequestState<MutableList<OfflineUploadedVideoResp>>>
     )
 
 

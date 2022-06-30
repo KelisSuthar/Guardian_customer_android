@@ -19,6 +19,8 @@ import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
 import com.app.guardian.model.MediatorCallReq.MediatorCallReqResp
 import com.app.guardian.model.Notification.NotificationResp
+import com.app.guardian.model.OfflineVideos.OfflineUploadedVideoResp
+import com.app.guardian.model.OfflineVideos.UploadOfflineVideoResp
 import com.app.guardian.model.Radar.RadarListResp
 import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
 import com.app.guardian.model.SendVideoCallReq.SendVideoCallReqResp
@@ -171,7 +173,7 @@ interface ApiEndPoint {
     @POST("scheduleRequestedVideoCall")
     fun scheduleRequestedVideoCall(@Body body: JsonObject): Call<CommonResponseModel<ScheduleRequestedVideoCallResp>>
 
-    @GET("getVideoCallRequestList")
+    @GET("getVideoCallRequestListToLawyer")
     fun getVideoCallRequestList(): Call<CommonResponseModel<MutableList<GetVideoCallRequestListResp>>>
 
     @POST("askQuestion")
@@ -179,6 +181,12 @@ interface ApiEndPoint {
 
     @POST("sendVideoCallRequest")
     fun sendVideoCallRequest(@Body body: JsonObject): Call<CommonResponseModel<SendVideoCallReqResp>>
+
+    @POST("uploadVideo")
+    fun uploadOfflineVideos(@Body body: JsonObject): Call<CommonResponseModel<UploadOfflineVideoResp>>
+
+    @GET("userVideoList")
+    fun getOfflinUploadedVideoCallList(): Call<CommonResponseModel<MutableList<OfflineUploadedVideoResp>>>
 
 
 }

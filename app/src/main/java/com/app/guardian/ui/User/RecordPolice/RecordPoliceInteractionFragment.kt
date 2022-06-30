@@ -131,8 +131,7 @@ class RecordPoliceInteractionFragment : BaseFragment(), View.OnClickListener {
         bannerAdsPager = BannerAdsPager(requireActivity(), array, object
             : BannerAdsPager.onItemClicklisteners {
             override fun onItemClick(position: Int) {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(array[position].url))
-                startActivity(browserIntent)
+                ReusedMethod.redirecttoUrl(requireContext(),array[position].url)
             }
 
         })

@@ -21,6 +21,7 @@ import com.amplifyframework.storage.options.StorageUploadFileOptions
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.ReusedMethod.Companion.isValidUrl
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentAddBannerBinding
@@ -36,16 +37,7 @@ import java.io.File
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AddBannerFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AddBannerFragment : BaseFragment(), View.OnClickListener {
     lateinit var mBinding: FragmentAddBannerBinding
     private val mViewModel: LawyerViewModel by viewModel()
@@ -188,15 +180,6 @@ class AddBannerFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
-    fun isValidUrl(linkToCheck: String?): Boolean {
-        if (linkToCheck == null) {
-            return false;
-        }
-        return Pattern.matches(
-            "^(https?://)?([a-zA-Z0-9_-]+\\.[a-zA-Z0-9_-]+)+(/*[A-Za-z0-9/\\-_&:?\\+=//.%]*)*",
-            linkToCheck
-        );
-    }
 
     private fun callAddBannerApi() {
         mBinding.noInternetAddBanner.llNointernet.gone()

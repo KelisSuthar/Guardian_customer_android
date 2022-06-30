@@ -51,6 +51,7 @@ class LawyerVideoCallReqAdapter(val context: Context, val listener: onItemClickl
                 .placeholder(R.drawable.profile)
                 .into(imgRowLawyerPicture)
 
+            txtName.text = data.user_detail.full_name
             itemView.setOnClickListener { listener.onItemClick(position) }
         }
     }

@@ -54,7 +54,7 @@ class VideoCallReqAdapter(val context: Context, val listener: onItemClicklistene
             Glide.with(context).load(data.user_detail.profile_avatar)
                 .placeholder(R.drawable.profile)
                 .into(imgRowLawyerPicture)
-
+            txtName.text = data.user_detail.full_name
             itemView.setOnClickListener { listener.onItemClick(position) }
             imgRowLawyerVideoCall.setOnClickListener { listener.onVideoCallClick(position) }
         }

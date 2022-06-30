@@ -20,6 +20,8 @@ import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.Login.User
 import com.app.guardian.model.MediatorCallReq.MediatorCallReqResp
 import com.app.guardian.model.Notification.NotificationResp
+import com.app.guardian.model.OfflineVideos.OfflineUploadedVideoResp
+import com.app.guardian.model.OfflineVideos.UploadOfflineVideoResp
 import com.app.guardian.model.Radar.RadarListResp
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
@@ -908,6 +910,43 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
                 mApiEndPoint.sendVideoCallRequest(body),
                 baseView,
                 sendVideocallReqresp
+            )
+        }
+    }
+
+    override fun uploadOfflineVideo(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        uploadOfflineVideoResp: MutableLiveData<RequestState<UploadOfflineVideoResp>>
+    ) {
+        if (!internetConnected) {
+            uploadOfflineVideoResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            uploadOfflineVideoResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.uploadOfflineVideos(body),
+                baseView,
+                uploadOfflineVideoResp
+            )
+        }
+    }
+
+    override fun getOfflineVideoList(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        offlineUploadedVideoResp: MutableLiveData<RequestState<MutableList<OfflineUploadedVideoResp>>>
+    ) {
+        if (!internetConnected) {
+            offlineUploadedVideoResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            offlineUploadedVideoResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.getOfflinUploadedVideoCallList(),
+                baseView,
+                offlineUploadedVideoResp
             )
         }
     }

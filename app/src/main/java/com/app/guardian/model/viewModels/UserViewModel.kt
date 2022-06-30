@@ -10,6 +10,8 @@ import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.LawyerProfileDetails.LawyerProfileDetailsResp
 import com.app.guardian.model.MediatorCallReq.MediatorCallReqResp
 import com.app.guardian.model.Notification.NotificationResp
+import com.app.guardian.model.OfflineVideos.OfflineUploadedVideoResp
+import com.app.guardian.model.OfflineVideos.UploadOfflineVideoResp
 import com.app.guardian.model.Radar.RadarListResp
 import com.app.guardian.model.RequestState
 import com.app.guardian.model.SeekLegalAdviceResp.SeekLegalAdviceResp
@@ -239,6 +241,38 @@ class UserViewModel(private val mUserRepository: UserRepo) : ViewModel() {
             baseView,
             mediatorCallReqResp
 
+        )
+    }
+    //LIST FOR OFFLINE UPLOADED VIDEOS
+    private val OfflineUploadedVideoResp = MutableLiveData<RequestState<MutableList<OfflineUploadedVideoResp>>>()
+    fun getOfflineUploadedVideoResp(): LiveData<RequestState<MutableList<OfflineUploadedVideoResp>>> = OfflineUploadedVideoResp
+    fun getOfflineVideos(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+    ) {
+        mUserRepository.getOfflineVideoList(
+            isInternetConnected,
+            baseView,
+            OfflineUploadedVideoResp
+        )
+    }
+
+    //LIST FOR OFFLINE UPLOADED VIDEOS
+    private val UploadOfflineVideoResp = MutableLiveData<RequestState<UploadOfflineVideoResp>>()
+    fun getUploadOfflineVideoResp(): LiveData<RequestState<UploadOfflineVideoResp>> = UploadOfflineVideoResp
+    fun uploadOfflineVideos(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        video_url: String,
+    ) {
+        val body = JsonObject()
+        body.addProperty(ApiConstant.EXTRAS_VIDEO_URL, video_url)
+
+        mUserRepository.uploadOfflineVideo(
+            body,
+            isInternetConnected,
+            baseView,
+            UploadOfflineVideoResp
         )
     }
 }

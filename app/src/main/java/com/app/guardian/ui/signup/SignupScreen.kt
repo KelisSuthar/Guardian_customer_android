@@ -1260,7 +1260,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
         hrs = (((difference - (1000 * 60 * 60 * 24 * days)) / (1000 * 60 * 60)).toInt());
         min =
             ((difference - (1000 * 60 * 60 * 24 * days) - (1000 * 60 * 60 * hrs)) / (1000 * 60)).toInt();
-        return !(abs(hrs) <0 && abs(min) < 30)
+        return !(abs(hrs) < 0 && abs(min) < 30)
     }
 
     private fun callSpecializationAPI() {
@@ -1297,6 +1297,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 mBinding.edtRegisteredLicenceNum.text?.trim().toString(),
                 mBinding.edtFromTime.text?.trim()
                     .toString() + " To " + mBinding.edtToTime.text?.trim().toString(),
+                mBinding.edtDesc.text?.trim().toString(),
                 profile_img,
                 images,
                 DEVICE_TOKEN.toString(),

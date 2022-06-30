@@ -32,6 +32,7 @@ import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.google.gson.Gson
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.util.regex.Pattern
 
 
 class UserHomeFragment : BaseFragment(), View.OnClickListener {
@@ -79,8 +80,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
         bannerAdsPager = BannerAdsPager(requireActivity(), array!!, object
             : BannerAdsPager.onItemClicklisteners {
             override fun onItemClick(position: Int) {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(array[position].url))
-                startActivity(browserIntent)
+              ReusedMethod.redirecttoUrl(requireContext(),array[position].url)
             }
 
         })
@@ -90,6 +90,8 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
     override fun postInit() {
 
     }
+
+
 
     override fun onResume() {
         super.onResume()

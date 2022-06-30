@@ -1,6 +1,7 @@
 package com.app.guardian.ui.videocalljoin
 
 import android.Manifest
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -19,6 +20,7 @@ import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.isVisible
+import com.app.guardian.databinding.ActivityJoinVideoCallBinding
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
@@ -35,16 +37,13 @@ import java.lang.NullPointerException
 import java.lang.RuntimeException
 import java.util.ArrayList
 
-class VideoCallJoinActivity : AppCompatActivity() {
+class VideoCallJoinActivity : BaseActivity() {
     private val mViewModel: CommonScreensViewModel by viewModel()
+    lateinit var mBinding: ActivityJoinVideoCallBinding
 
-    var dialog: Dialog? = null
     private var micEnabled = false
     private var webcamEnabled = false
-    private var btnMic: FloatingActionButton? = null
-    private var btnWebcam: FloatingActionButton? = null
-    private var svrJoin: SurfaceViewRenderer? = null
-    private var etName: EditText? = null
+
 
     var history_id = ""
     var to_id = ""
@@ -66,11 +65,11 @@ class VideoCallJoinActivity : AppCompatActivity() {
         override fun onGranted() {
             permissionsGranted = true
             micEnabled = true
-            btnMic!!.setImageResource(R.drawable.ic_baseline_mic_24)
-            changeFloatingActionButtonLayout(btnMic, micEnabled)
+            mBinding.btnMic!!.setImageResource(R.drawable.ic_baseline_mic_24)
+            changeFloatingActionButtonLayout(mBinding.btnMic, micEnabled)
             webcamEnabled = true
-            btnWebcam!!.setImageResource(R.drawable.ic_baseline_videocam_24)
-            changeFloatingActionButtonLayout(btnWebcam, webcamEnabled)
+            mBinding.btnWebcam!!.setImageResource(R.drawable.ic_baseline_videocam_24)
+            changeFloatingActionButtonLayout(mBinding.btnWebcam, webcamEnabled)
             updateCameraView()
         }
 
@@ -91,58 +90,35 @@ class VideoCallJoinActivity : AppCompatActivity() {
         }
     }
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_join_video_call)
+    override fun getResource(): Int {
         ReusedMethod.updateStatusBarColor(this, R.color.colorPrimaryDark, 4)
+        return R.layout.activity_join_video_call
+    }
 
+    override fun initView() {
+        mBinding = getBinding()
         val btnJoin = findViewById<Button>(R.id.btnJoin)
-        btnMic = findViewById(R.id.btnMic)
-        btnWebcam = findViewById(R.id.btnWebcam)
-        svrJoin = findViewById(R.id.svrJoiningView)
-        etName = findViewById(R.id.etName)
-        etName?.setText(SharedPreferenceManager.getUser()?.full_name.toString())
+
+        mBinding.etName?.setText(SharedPreferenceManager.getUser()?.full_name.toString())
 
         checkPermissions()
 
-        btnMic!!.setOnClickListener { v: View? -> toggleMic() }
+        mBinding.btnMic!!.setOnClickListener { v: View? -> toggleMic() }
 
-        btnWebcam!!.setOnClickListener { v: View? -> toggleWebcam() }
+        mBinding.btnWebcam!!.setOnClickListener { v: View? -> toggleWebcam() }
 
         history_id = intent.getStringExtra(AppConstants.EXTRA_CALLING_HISTORY_ID)!!
         to_id = intent.getStringExtra(AppConstants.EXTRA_TO_ID)!!
         role = intent.getStringExtra(AppConstants.EXTRA_TO_ROLE)!!
         url = intent.getStringExtra(AppConstants.EXTRA_URL)!!
         room_id = intent.getStringExtra(AppConstants.EXTRA_ROOM_ID)!!
-        room_id = intent.getStringExtra("token")!!
+        token = intent.getStringExtra("token")!!
         meetingId = intent.getStringExtra("meetingId")!!
         btnJoin.setOnClickListener { v: View? ->
-            callScheduaCallAPI()
-//            if ("" == etName!!.getText().toString()) {
-//                Toast.makeText(this@VideoCallJoinActivity, "Please Enter Name", Toast.LENGTH_SHORT)
-//                    .show()
-//            } else {
-//                val intent = Intent(this@VideoCallJoinActivity, VideoCallActivity::class.java)
-//                intent.putExtra("token", token)
-//                intent.putExtra("meetingId", meetingId)
-//                intent.putExtra("micEnabled", micEnabled)
-//                intent.putExtra("webcamEnabled", webcamEnabled)
-//                intent.putExtra("paticipantName", etName!!.getText().toString().trim { it <= ' ' })
-//                startActivity(intent)
-//                finish()
-//            }
-
-        }
-        dialog = Dialog(this)
-        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.window!!.setBackgroundDrawableResource(android.R.color.transparent);
-        dialog!!.setContentView(R.layout.progress_dialog)
-        dialog!!.setCancelable(false)
-        initObserver()
+            callScheduaCallAPI() }
     }
 
-    private fun initObserver() {
+    override fun initObserver() {
         mViewModel.getscheduleRequestedVideoCallResp().observe(this) { response ->
             response?.let { requestState ->
                 isVisible(requestState.progress, dialog)
@@ -150,28 +126,22 @@ class VideoCallJoinActivity : AppCompatActivity() {
                     it.data?.let { data ->
                         if (it.status) {
 
-                            if ("" == etName!!.getText().toString()) {
-                                Toast.makeText(
-                                    this@VideoCallJoinActivity,
-                                    "Please Enter Name",
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
-                            } else {
-                                val intent = Intent(
-                                    this@VideoCallJoinActivity,
-                                    VideoCallActivity::class.java
-                                )
-                                intent.putExtra("token", token)
-                                intent.putExtra("meetingId", meetingId)
-                                intent.putExtra("micEnabled", micEnabled)
-                                intent.putExtra("webcamEnabled", webcamEnabled)
-                                intent.putExtra(
-                                    "paticipantName",
-                                    etName!!.getText().toString().trim { it <= ' ' })
-                                startActivity(intent)
-                                finish()
-                            }
+
+                            val intent = Intent(
+                                this@VideoCallJoinActivity,
+                                VideoCallActivity::class.java
+                            )
+                            intent.putExtra("token", token)
+                            intent.putExtra("meetingId", meetingId)
+                            intent.putExtra("micEnabled", micEnabled)
+                            intent.putExtra("webcamEnabled", webcamEnabled)
+                            intent.putExtra(
+                                "paticipantName",
+                                mBinding.etName!!.text.toString().trim()
+                            )
+                            startActivity(intent)
+                            finish()
+
 
                             ReusedMethod.displayMessage(this, it.message.toString())
                         } else {
@@ -196,20 +166,24 @@ class VideoCallJoinActivity : AppCompatActivity() {
         }
     }
 
+    override fun handleListener() {
+    }
+
     private fun callScheduaCallAPI() {
         if (ReusedMethod.isNetworkConnected(this)) {
             mViewModel.ScheduleRequestedVideoCall(
                 true,
-                this as BaseActivity,
+                this,
                 history_id.toInt(),
                 to_id.toInt(),
                 role,
                 url,
                 room_id,
-                )
+            )
+        } else {
+            ReusedMethod.displayMessage(this, resources.getString(R.string.text_error_network))
         }
     }
-
 
     private fun toggleMic() {
         if (!permissionsGranted) {
@@ -218,11 +192,11 @@ class VideoCallJoinActivity : AppCompatActivity() {
         }
         micEnabled = !micEnabled
         if (micEnabled) {
-            btnMic!!.setImageResource(R.drawable.ic_baseline_mic_24)
+           mBinding. btnMic!!.setImageResource(R.drawable.ic_baseline_mic_24)
         } else {
-            btnMic!!.setImageResource(R.drawable.ic_baseline_mic_off_24)
+            mBinding.btnMic!!.setImageResource(R.drawable.ic_baseline_mic_off_24)
         }
-        changeFloatingActionButtonLayout(btnMic, micEnabled)
+        changeFloatingActionButtonLayout(mBinding.btnMic, micEnabled)
     }
 
     private fun toggleWebcam() {
@@ -232,12 +206,12 @@ class VideoCallJoinActivity : AppCompatActivity() {
         }
         webcamEnabled = !webcamEnabled
         if (webcamEnabled) {
-            btnWebcam!!.setImageResource(R.drawable.ic_baseline_videocam_24)
+            mBinding.btnWebcam!!.setImageResource(R.drawable.ic_baseline_videocam_24)
         } else {
-            btnWebcam!!.setImageResource(R.drawable.ic_baseline_videocam_off_24)
+            mBinding.btnWebcam!!.setImageResource(R.drawable.ic_baseline_videocam_off_24)
         }
         updateCameraView()
-        changeFloatingActionButtonLayout(btnWebcam, webcamEnabled)
+        changeFloatingActionButtonLayout(mBinding.btnWebcam, webcamEnabled)
     }
 
     private fun changeFloatingActionButtonLayout(btn: FloatingActionButton?, enabled: Boolean) {
@@ -259,7 +233,7 @@ class VideoCallJoinActivity : AppCompatActivity() {
                     .createInitializationOptions()
             PeerConnectionFactory.initialize(initializationOptions)
             peerConnectionFactory = PeerConnectionFactory.builder().createPeerConnectionFactory()
-            svrJoin!!.init(PeerConnectionUtils.getEglContext(), null)
+            mBinding.svrJoiningView!!.init(PeerConnectionUtils.getEglContext(), null)
             val surfaceTextureHelper =
                 SurfaceTextureHelper.create("CaptureThread", PeerConnectionUtils.getEglContext())
 
@@ -277,11 +251,11 @@ class VideoCallJoinActivity : AppCompatActivity() {
             videoTrack = peerConnectionFactory!!.createVideoTrack("100", videoSource)
 
             // display in localView
-            videoTrack!!.addSink(svrJoin)
+            videoTrack!!.addSink(mBinding.svrJoiningView)
         } else {
-            if (videoTrack != null) videoTrack!!.removeSink(svrJoin)
-            svrJoin!!.clearImage()
-            svrJoin!!.release()
+            if (videoTrack != null) videoTrack!!.removeSink(mBinding.svrJoiningView)
+            mBinding.svrJoiningView!!.clearImage()
+            mBinding.svrJoiningView!!.release()
         }
     }
 
@@ -312,9 +286,9 @@ class VideoCallJoinActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        videoTrack!!.removeSink(svrJoin)
-        svrJoin!!.clearImage()
-        svrJoin!!.release()
+        videoTrack!!.removeSink(mBinding.svrJoiningView)
+        mBinding.svrJoiningView!!.clearImage()
+        mBinding.svrJoiningView!!.release()
         closeCapturer()
         super.onDestroy()
     }

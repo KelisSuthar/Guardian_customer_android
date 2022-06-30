@@ -25,22 +25,27 @@ import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentMyVideosBinding
 import com.app.guardian.model.Video.VideoResp
+import com.app.guardian.model.viewModels.UserViewModel
+import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.User.MyVideos.adapter.MyVideoListAdapter
 import com.app.guardian.ui.VideoPlayer.VideoPlayerActivity
+import com.app.guardian.utils.Config
 import com.google.android.material.textview.MaterialTextView
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
 
 
 class MyVideosFragment : BaseFragment(), View.OnClickListener {
     var myVideoListAdapter: MyVideoListAdapter? = null
+    private val mVideModel: UserViewModel by viewModel()
     lateinit var mBinding: FragmentMyVideosBinding
     var isShow = false
     var arrayList = ArrayList<VideoResp>()
     override fun getInflateResource(): Int {
         return R.layout.fragment_my_videos
-
     }
 
     override fun initView() {
@@ -51,75 +56,58 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
             false,
             false
         )
+        mBinding.switchAutoUploadVideo.setOnToggledListener { _, isOn ->
+            SharedPreferenceManager.putBoolean(AppConstants.IS_OFFLINE_VIDEO_UPLOAD, isOn)
+        }
 
         mBinding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
 
             isShow = if (checkedId == R.id.rb1) {
+
+                mBinding.noInternetVideo.llNointernet.gone()
+                mBinding.rv.gone()
+                mBinding.noDataVideo.gone()
                 mBinding.clOfflineVideos.visible()
                 mBinding.tvUploadVideos.gone()
                 mBinding.ivVideo.gone()
-                false
-            } else {
-                mBinding.clOfflineVideos.gone()
-                mBinding.tvUploadVideos.visible()
-                mBinding.ivVideo.visible()
-                true
 
-            }
-            setAdapter()
-
-        }
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-        if (mBinding.rb1.isChecked) {
-            mBinding.clOfflineVideos.visible()
-            mBinding.tvUploadVideos.gone()
-            mBinding.ivVideo.gone()
-            mBinding.noDataVideo.gone()
-            mBinding.noInternetVideo.llNointernet.gone()
-
-        } else {
-            mBinding.clOfflineVideos.gone()
-            mBinding.tvUploadVideos.visible()
-            mBinding.ivVideo.visible()
-            mBinding.noDataVideo.gone()
-            mBinding.noInternetVideo.llNointernet.gone()
-
-        }
-        setAdapter()
-        checkPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, EXTRA_READ_STORAGE_PERMISSION)
-        checkPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, EXTRA_WRITE_STORAGE_PERMISSION)
-
-        checkPermissions(
-            Manifest.permission.CAMERA,
-            EXTRA_CAMERA_PERMISSION
-        )
-//        makeFolder()
-        if (checkPermissions(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                EXTRA_READ_STORAGE_PERMISSION
-            ) &&
-            checkPermissions(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                EXTRA_WRITE_STORAGE_PERMISSION
-            )
-        ) {
-            getAllVideos()
-        } else {
-            checkPermissions(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                EXTRA_READ_STORAGE_PERMISSION
-            ) &&
+                if (checkPermissions(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        EXTRA_READ_STORAGE_PERMISSION
+                    ) &&
                     checkPermissions(
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         EXTRA_WRITE_STORAGE_PERMISSION
                     )
+                ) {
+                    getAllVideos()
+                } else {
+                    checkPermissions(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        EXTRA_READ_STORAGE_PERMISSION
+                    ) &&
+                            checkPermissions(
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                EXTRA_WRITE_STORAGE_PERMISSION
+                            )
+                }
+                false
+            } else {
+                mBinding.noInternetVideo.llNointernet.gone()
+                mBinding.rv.gone()
+                mBinding.noDataVideo.gone()
+                mBinding.clOfflineVideos.visible()
+                mBinding.tvUploadVideos.gone()
+                mBinding.ivVideo.gone()
+                mBinding.clOfflineVideos.gone()
+                mBinding.tvUploadVideos.visible()
+                mBinding.ivVideo.visible()
+                callOfflienVideoListAPI()
+                true
+            }
+            setAdapter()
+
         }
-
-
     }
 
     @SuppressLint("LogNotTimber")
@@ -191,12 +179,76 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
         if (arrayList.isNullOrEmpty()) {
             mBinding.noDataVideo.visible()
             mBinding.noInternetVideo.llNointernet.gone()
+            mBinding.rv.gone()
         } else {
             mBinding.noDataVideo.gone()
+            mBinding.rv.visible()
             mBinding.noInternetVideo.llNointernet.gone()
         }
 
         myVideoListAdapter?.updateAll(arrayList)
+    }
+
+
+    private fun callOfflienVideoListAPI() {
+        if (ReusedMethod.isNetworkConnected(requireContext())) {
+            mVideModel.getOfflineVideos(true, requireActivity() as BaseActivity)
+        } else {
+            mBinding.noInternetVideo.llNointernet.visible()
+            mBinding.rv.gone()
+            mBinding.noDataVideo.gone()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+//        if (mBinding.rb1.isChecked) {
+//            mBinding.clOfflineVideos.visible()
+//            mBinding.tvUploadVideos.gone()
+//            mBinding.ivVideo.gone()
+//            mBinding.noDataVideo.gone()
+//            mBinding.noInternetVideo.llNointernet.gone()
+//
+//        } else {
+//            mBinding.clOfflineVideos.gone()
+//            mBinding.tvUploadVideos.visible()
+//            mBinding.ivVideo.visible()
+//            mBinding.noDataVideo.gone()
+//            mBinding.noInternetVideo.llNointernet.gone()
+//
+//        }
+        mBinding.rb1.isChecked = true
+        setAdapter()
+        checkPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, EXTRA_READ_STORAGE_PERMISSION)
+        checkPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, EXTRA_WRITE_STORAGE_PERMISSION)
+
+        checkPermissions(
+            Manifest.permission.CAMERA,
+            EXTRA_CAMERA_PERMISSION
+        )
+//        makeFolder()
+        if (checkPermissions(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                EXTRA_READ_STORAGE_PERMISSION
+            ) &&
+            checkPermissions(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                EXTRA_WRITE_STORAGE_PERMISSION
+            )
+        ) {
+            getAllVideos()
+        } else {
+            checkPermissions(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                EXTRA_READ_STORAGE_PERMISSION
+            ) &&
+                    checkPermissions(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        EXTRA_WRITE_STORAGE_PERMISSION
+                    )
+        }
+
+
     }
 
     private fun checkPermissions(permissions: String, reqcode: Int): Boolean {
@@ -284,7 +336,44 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
     }
 
     override fun initObserver() {
+        mVideModel.getOfflineUploadedVideoResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            if (data.isNotEmpty()) {
+                                for (i in data.indices) {
+                                    arrayList.add(VideoResp(i, "", data[i].video_url))
+                                }
+                                myVideoListAdapter?.updateAll(arrayList)
+                                mBinding.rv.visible()
+                                mBinding.noDataVideo.gone()
+                                mBinding.noInternetVideo.llNointernet.gone()
+                            } else {
+                                mBinding.noDataVideo.visible()
+                                mBinding.rv.gone()
+                                mBinding.noInternetVideo.llNointernet.gone()
+                            }
 
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                requireActivity(),
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {}
+                    }
+                }
+            }
+        }
     }
 
     override fun onClick(v: View?) {

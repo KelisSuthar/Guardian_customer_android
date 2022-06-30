@@ -50,6 +50,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.regex.Pattern
 import kotlin.math.acos
 import kotlin.math.cos
 import kotlin.math.sin
@@ -874,7 +875,7 @@ class ReusedMethod {
         }
 
 
-        fun setUpDialog(context: Context, dialogLayout: Int,canclable:Boolean): Dialog {
+        fun setUpDialog(context: Context, dialogLayout: Int, canclable: Boolean): Dialog {
             val dialog = Dialog(
                 context,
                 com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
@@ -884,6 +885,32 @@ class ReusedMethod {
             dialog.setContentView(dialogLayout)
             dialog.setCancelable(canclable)
             return dialog
+        }
+
+        fun redirecttoUrl(context: Context, url: String) {
+            if (isValidUrl(url)) {
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                context.startActivity(browserIntent)
+            } else {
+                ReusedMethod.displayMessageDialog(
+                    context as Activity,
+                    "",
+                    "Give Url is in appropriate.\n We are not able to redirect to url",
+                    false,
+                    "OK",
+                    ""
+                )
+            }
+        }
+
+        fun isValidUrl(linkToCheck: String?): Boolean {
+            if (linkToCheck == null) {
+                return false;
+            }
+            return Pattern.matches(
+                "^(https?://)?([a-zA-Z0-9_-]+\\.[a-zA-Z0-9_-]+)+(/*[A-Za-z0-9/\\-_&:?\\+=//.%]*)*",
+                linkToCheck
+            );
         }
     }
 

@@ -52,6 +52,7 @@ class ApiConstant{
      val EXTRAS_CALLING_HISTORY_ID="calling_history_id"
      val EXTRAS_ROOM_ID="room_id"
      val EXTRAS_AVAILABILITY_TIME="availability_time"
+     val EXTRAS_VIDEO_URL="video_url"
 
 
 

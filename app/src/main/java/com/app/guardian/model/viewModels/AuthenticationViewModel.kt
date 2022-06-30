@@ -89,6 +89,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         postal_code: String,
         licence_no: String,
         availability_time: String,
+        desc: String,
         profile_avatar: String,
         user_doc: ArrayList<String>,
         device_token: String,
@@ -107,12 +108,14 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             body.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
             body.addProperty(ApiConstant.EXTRAS_LICENCE_NO, licence_no)
             body.addProperty(ApiConstant.EXTRAS_AVAILABILITY_TIME, availability_time)
+            body.addProperty(ApiConstant.EXTRAS_DESC, desc)
         } else if (is_mediator) {
             body.addProperty(ApiConstant.EXTRAS_SPECIALIZATION, specialization)
             body.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)
             body.addProperty(ApiConstant.EXTRAS_PHONE, phone)
             body.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
             body.addProperty(ApiConstant.EXTRAS_AVAILABILITY_TIME, availability_time)
+            body.addProperty(ApiConstant.EXTRAS_DESC, desc)
 
         } else {
             body.addProperty(ApiConstant.EXTRAS_PHONE, phone)
@@ -410,6 +413,7 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         postal_code: String,
         licence_no: String,
         availability_time: String,
+        desc: String,
         profile_avatar: String,
         user_doc: ArrayList<String>,
 
@@ -427,6 +431,8 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
             body.addProperty(ApiConstant.EXTRAS_PHONE, phone)
             body.addProperty(ApiConstant.EXTRAS_DIAL_CODE, dial_code)
             body.addProperty(ApiConstant.EXTRAS_AVAILABILITY_TIME, availability_time)
+            body.addProperty(ApiConstant.EXTRAS_DESC, desc)
+            body.addProperty(ApiConstant.EXTRAS_LICENCE_NO, licence_no)
         } else if (is_mediator) {
             body.addProperty(ApiConstant.EXTRAS_SPECIALIZATION, specialization)
             body.addProperty(ApiConstant.EXTRAS_YEARS_OF_EXP, years_of_experience)

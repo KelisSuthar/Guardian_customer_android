@@ -1093,9 +1093,9 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 mBinding.edtRegisteredLicenceNum.text?.trim().toString(),
                 mBinding.edtFromTime.text?.trim()
                     .toString() + " To " + mBinding.edtToTime.text?.trim().toString(),
+                mBinding.edtDesc.text?.trim().toString(),
                 profile_img,
                 images,
-
                 )
         } else {
             mBinding.noInternetEdit.llNointernet.visible()
