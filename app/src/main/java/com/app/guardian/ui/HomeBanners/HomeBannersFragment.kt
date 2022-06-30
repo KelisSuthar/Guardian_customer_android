@@ -66,8 +66,7 @@ class HomeBannersFragment(var bannerarray: ArrayList<BannerCollection>) : BaseFr
                 hashMapBannerColloection,
                 object : HomeBannersAdapter.onItemClicklisteners {
                     override fun onClick(position: Int, url: String) {
-
-                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+                        ReusedMethod.redirectUrl(requireActivity(), array[position].url)
                     }
 
                 })

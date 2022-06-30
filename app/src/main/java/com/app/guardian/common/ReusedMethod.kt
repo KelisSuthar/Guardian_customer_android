@@ -29,6 +29,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.viewpager.widget.ViewPager
 import com.app.guardian.R
 import com.app.guardian.common.extentions.gone
@@ -47,6 +48,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.rilixtech.widget.countrycodepicker.CountryCodePicker
 import de.hdodenhof.circleimageview.CircleImageView
+import java.net.URL
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -887,12 +889,15 @@ class ReusedMethod {
             return dialog
         }
 
-        fun redirecttoUrl(context: Context, url: String) {
+        fun redirectUrl(context: Context, url: String) {
+//    var url = array[position].url.toString()
+            var url = url.toString()
+            if (!url.startsWith("http://") && !url.startsWith("https://"))
+                url = "http://$url";
             if (isValidUrl(url)) {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                context.startActivity(browserIntent)
+                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
             } else {
-                ReusedMethod.displayMessageDialog(
+                displayMessageDialog(
                     context as Activity,
                     "",
                     "Give Url is in appropriate.\n We are not able to redirect to url",

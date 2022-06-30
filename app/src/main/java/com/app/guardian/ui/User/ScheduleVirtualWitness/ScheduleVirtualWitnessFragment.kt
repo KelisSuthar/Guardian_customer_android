@@ -110,7 +110,7 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
         bannerAdsPager = BannerAdsPager(requireActivity(), array, object
             : BannerAdsPager.onItemClicklisteners {
             override fun onItemClick(position: Int) {
-                ReusedMethod.redirecttoUrl(requireContext(),array[position].url)
+                ReusedMethod.redirectUrl(requireActivity(), array[position].url)
             }
 
         })

@@ -128,10 +128,10 @@ class RecordPoliceInteractionFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun setAdapter() {
-        bannerAdsPager = BannerAdsPager(requireActivity(), array, object
+        bannerAdsPager = BannerAdsPager(requireActivity(), array!!, object
             : BannerAdsPager.onItemClicklisteners {
             override fun onItemClick(position: Int) {
-                ReusedMethod.redirecttoUrl(requireContext(),array[position].url)
+                ReusedMethod.redirectUrl(requireActivity(), array[position].url)
             }
 
         })

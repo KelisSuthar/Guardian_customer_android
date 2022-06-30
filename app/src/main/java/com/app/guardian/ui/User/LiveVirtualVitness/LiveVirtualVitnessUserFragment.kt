@@ -1,5 +1,6 @@
 package com.app.guardian.ui.User.LiveVirtualVitness
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.view.View
@@ -67,7 +68,7 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
         bannerAdsPager = BannerAdsPager(requireActivity(), array, object
             : BannerAdsPager.onItemClicklisteners {
             override fun onItemClick(position: Int) {
-                ReusedMethod.redirecttoUrl(requireContext(),array[position].url)
+                ReusedMethod.redirectUrl(requireActivity(), array[position].url)
             }
 
         })
