@@ -1,7 +1,6 @@
 package com.app.guardian.ui.HomeBanners
 
-import android.content.Intent
-import android.net.Uri
+import android.icu.text.Bidi.invertMap
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -18,7 +17,11 @@ import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.HomeBanners.Adapters.HomeBannersAdapter
 import com.app.guardian.utils.Config
+import com.google.android.gms.common.util.MapUtils
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,6 +39,7 @@ class HomeBannersFragment(var bannerarray: ArrayList<BannerCollection>) : BaseFr
     var homeBannersAdapter: HomeBannersAdapter? = null
     var array = ArrayList<BannerCollection>()
     val hashMapBannerColloection = HashMap<String, ArrayList<BannerCollection>>()
+    var reverse_map = HashMap<String, ArrayList<BannerCollection>>()
     override fun getInflateResource(): Int {
         return R.layout.fragment_home_banners
     }
@@ -63,10 +67,10 @@ class HomeBannersFragment(var bannerarray: ArrayList<BannerCollection>) : BaseFr
         homeBannersAdapter =
             HomeBannersAdapter(
                 requireContext(),
-                hashMapBannerColloection,
+                reverse_map,
                 object : HomeBannersAdapter.onItemClicklisteners {
                     override fun onClick(position: Int, url: String) {
-                        ReusedMethod.redirectUrl(requireActivity(), array[position].url)
+                        ReusedMethod.redirectUrl(requireActivity(),url)
                     }
 
                 })
@@ -136,42 +140,55 @@ class HomeBannersFragment(var bannerarray: ArrayList<BannerCollection>) : BaseFr
 //
 //            }
 
-            hashMapBannerColloection.clear()
+        hashMapBannerColloection.clear()
 
-            for (apiData in bannerarray.indices) {
-                if (bannerarray[apiData].user != null) {
+        for (apiData in bannerarray.indices) {
+            if (bannerarray[apiData].user != null) {
 
-                    if (hashMapBannerColloection.containsKey(bannerarray[apiData].user.specialization)) {
-                        hashMapBannerColloection[bannerarray[apiData].user.specialization]?.add(bannerarray[apiData])
-                    } else
-                    {
-                        val listBannerData : ArrayList<BannerCollection> = arrayListOf()
+                if (hashMapBannerColloection.containsKey(bannerarray[apiData].user.specialization)) {
+                    hashMapBannerColloection[bannerarray[apiData].user.specialization]?.add(
+                        bannerarray[apiData]
+                    )
+                } else {
+                    val listBannerData: ArrayList<BannerCollection> = arrayListOf()
 
-                        val getHasMapKey = hashMapBannerColloection.keys
-                        if(getHasMapKey.isNotEmpty()){
-                                listBannerData.clear()
-                            Log.e("HashBanner_collection","${apiData.toString()}")
-
-                        }
-                        listBannerData.add(bannerarray[apiData])
-                        hashMapBannerColloection[bannerarray[apiData].user.specialization] =
-                            listBannerData
+                    val getHasMapKey = hashMapBannerColloection.keys
+                    if (getHasMapKey.isNotEmpty()) {
+                        listBannerData.clear()
+                        Log.e("HashBanner_collection", "${apiData.toString()}")
 
                     }
+                    listBannerData.add(bannerarray[apiData])
+                    hashMapBannerColloection[bannerarray[apiData].user.specialization] =
+                        listBannerData
+
                 }
             }
-
-        Log.e("HashBanner_collection","${hashMapBannerColloection.size}")
-        Log.e("HashBanner_collection","${hashMapBannerColloection.keys.toString()}")
-//        println("HashBanner_collection $hashMapBannerColloection")
-            homeBannersAdapter?.notifyDataSetChanged()
         }
 
+        Log.e("HashBanner_collection", "${hashMapBannerColloection.size}")
+        Log.e("HashBanner_collection", "${hashMapBannerColloection.keys.toString()}")
+//        println("HashBanner_collection $hashMapBannerColloection")
+        val alKeys: List<String> = ArrayList<String>(hashMapBannerColloection.keys)
+
+        Collections.reverse(alKeys)
+
+        for (strKey: String in alKeys) {
+            println(
+                "Key : " + strKey + "\t\t"
+                        + "Value : "
+                        + hashMapBannerColloection.get(strKey)
+            )
+         reverse_map.put(strKey, hashMapBannerColloection.get(strKey)!!)
+        }
+
+        Log.i("THIS_APP", reverse_map.toString())
+        Log.e("HashBanner_collection", "${hashMapBannerColloection.size}")
+        homeBannersAdapter?.notifyDataSetChanged()
 
 //        println("THIS_APP${hashMapBannerColloection["Constitutional Law"]}")
-//        Log.i("THIS_APP",HashMap.toString())
 
-
+    }
 
     override fun onClick(v: View?) {
         when (v?.id) {

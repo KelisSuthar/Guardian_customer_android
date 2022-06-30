@@ -105,7 +105,13 @@ class ChattingFragment(
             if (days == 0) {
 
                 if (hrs == 0) {
-                    mBinding.txtLastSeen.text = "Active $min Min Ago"
+                    if(min == 0)
+                    {
+                        mBinding.txtLastSeen.text = "Active a Min Ago"
+                    }else{
+                        mBinding.txtLastSeen.text = "Active $min Min Ago"
+                    }
+
                 } else if (hrs >= 1) {
                     mBinding.txtLastSeen.text = "Active $hrs Hrs Ago"
                 }
@@ -171,13 +177,15 @@ class ChattingFragment(
                                 .into(mBinding.imgChatUserProfilePic)
                             if (data.user_detail.is_online == 1) {
                                 mBinding.imgIsOnline.visible()
+
                             } else {
                                 mBinding.imgIsOnline.gone()
                             }
-                            if (!data.user_detail.last_seen.isNullOrEmpty()) {
+                            if (!data.user_detail.last_seen.isNullOrEmpty()&& data.user_detail.is_online == 0) {
                                 lastSeenChecker(data.user_detail.last_seen)
                             } else {
-                                mBinding.txtLastSeen.gone()
+                                mBinding.txtLastSeen.visible()
+                                mBinding.txtLastSeen.text = "Online"
                             }
                             chatArray.addAll(data.chat_detail)
                             if (chatArray.isNotEmpty()) {

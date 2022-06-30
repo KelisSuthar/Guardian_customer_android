@@ -43,7 +43,7 @@ class SplashScreen : BaseActivity(), View.OnClickListener {
         )
 
         Log.i(
-            "NOTIFICATION_SPLASh_ID",
+            "NOTIFICATION_SPLASh",
             notification_id.toString()
         )
 

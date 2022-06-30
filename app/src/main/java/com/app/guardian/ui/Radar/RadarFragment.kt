@@ -156,6 +156,7 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
+                            array.clear()
                             if (data != null) {
                                 array.addAll(data)
                                 setG_MAP()

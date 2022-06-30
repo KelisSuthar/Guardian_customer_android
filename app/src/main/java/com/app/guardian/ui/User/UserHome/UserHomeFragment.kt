@@ -81,6 +81,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
         bannerAdsPager = BannerAdsPager(requireActivity(), array!!, object
             : BannerAdsPager.onItemClicklisteners {
             override fun onItemClick(position: Int) {
+
                 redirectUrl(requireActivity(),array[position].url)
             }
 

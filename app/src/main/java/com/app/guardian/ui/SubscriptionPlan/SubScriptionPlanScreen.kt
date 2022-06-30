@@ -79,16 +79,16 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
             array,
             object : SubscriptionPlanAdapter.onItemClicklisteners {
                 override fun onSubclick(position: Int) {
-                    loadAllSKUs()
-//                    if (SharedPreferenceManager.getString(
-//                            AppConstants.USER_ROLE,
-//                            AppConstants.APP_ROLE_USER
-//                        ) == AppConstants.APP_ROLE_LAWYER
-//                    ) {
-//                        callLawyerBannerplanAPI(array[position].id, array[position].pricing)
-//                    } else {
-//                        callBuyPlanAPI(array[position].id, array[position].pricing)
-//                    }
+//                    loadAllSKUs()
+                    if (SharedPreferenceManager.getString(
+                            AppConstants.USER_ROLE,
+                            AppConstants.APP_ROLE_USER
+                        ) == AppConstants.APP_ROLE_LAWYER
+                    ) {
+                        callLawyerBannerplanAPI(array[position].id, array[position].pricing)
+                    } else {
+                        callBuyPlanAPI(array[position].id, array[position].pricing)
+                    }
 
                 }
 

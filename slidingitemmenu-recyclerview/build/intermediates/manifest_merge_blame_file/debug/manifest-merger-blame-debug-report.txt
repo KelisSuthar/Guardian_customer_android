@@ -4,8 +4,8 @@
 4
 5    <uses-sdk
 6        android:minSdkVersion="11"
-6-->/Users/appleiqlance/Documents/Kelis_WorkSpace/android/IQlance_Projects/Guardian_customer_android/slidingitemmenu-recyclerview/src/main/AndroidManifest.xml
+6-->D:\Hardik Workspace\android\GuardianProject\Guardian_customer_android\slidingitemmenu-recyclerview\src\main\AndroidManifest.xml
 7        android:targetSdkVersion="32" />
-7-->/Users/appleiqlance/Documents/Kelis_WorkSpace/android/IQlance_Projects/Guardian_customer_android/slidingitemmenu-recyclerview/src/main/AndroidManifest.xml
+7-->D:\Hardik Workspace\android\GuardianProject\Guardian_customer_android\slidingitemmenu-recyclerview\src\main\AndroidManifest.xml
 8
 9</manifest>
