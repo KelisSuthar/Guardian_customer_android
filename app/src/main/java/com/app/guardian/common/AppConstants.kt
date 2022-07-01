@@ -55,6 +55,9 @@ object AppConstants {
     const val IS_LOGIN_ONCE = "IS_LOGIN_ONCE"
     const val IS_OFFLINE_VIDEO_UPLOAD = "IS_ONLINE_VIDEO_UPLOAD"
 
+    const val MONTHLY_PLAN = "Monthly Plan"
+    const val ANNUAL_PLAN = "Annual Plan"
+
     const val EXTRA_SH_USER_HOME = "USERHOME"
     const val EXTRA_SH_MEDIATOR_HOME = "MEDIATORHOME"
     const val EXTRA_SH_LAWYER_HOME = "LAWYERHOME"
@@ -73,6 +76,7 @@ object AppConstants {
     const val EXTRA_URL = "URL"
     const val EXTRA_ROOM_ID = "ROOM_ID"
     const val EXTRA_NAME = "NAME"
+    const val IS_JOIN = "IS_JOIN"
 
     const val EXTRA_VIRTUAL_WITNESS_PAYLOAD  = "virtual_witness_request"
     const val EXTRA_VIDEOCALLREQ_PAYLOAD  = "video_call_request"

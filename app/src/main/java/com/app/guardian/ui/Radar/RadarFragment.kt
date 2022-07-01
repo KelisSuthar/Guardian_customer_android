@@ -158,6 +158,7 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
                         if (it.status) {
                             array.clear()
                             if (data != null) {
+                                array.clear()
                                 array.addAll(data)
                                 setG_MAP()
                             } else {
@@ -345,25 +346,24 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
 //
 //        })
 
-          if(array.isEmpty())
-          {
-              mMarker = MarkerOptions()
-              mMarker!!.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
-                  .anchor(0.0f, 1.0f)
-                  .title(resources.getString(R.string.current_loc))
-                  .flat(true)
-                  .position(LatLng(CURRENT_LAT, CURRENT_LONG))
+        if (array.isEmpty()) {
+            mMarker = MarkerOptions()
+            mMarker!!.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
+                .anchor(0.0f, 1.0f)
+                .title(resources.getString(R.string.current_loc))
+                .flat(true)
+                .position(LatLng(CURRENT_LAT, CURRENT_LONG))
 
-              gMap!!.addMarker(mMarker!!)
-              gMap!!.setOnInfoWindowClickListener { marker ->
+            gMap!!.addMarker(mMarker!!)
+            gMap!!.setOnInfoWindowClickListener { marker ->
 //            ReusedMethod.displayMessage(requireActivity(), marker.title.toString())
-              }
+            }
 
-          }
+        }
 
         setMarkerZoom(CURRENT_LAT, CURRENT_LONG)
-            gMap!!.setOnMarkerClickListener(this)
-        }
+        gMap!!.setOnMarkerClickListener(this)
+    }
 
 
     private fun setMarkerZoom(latitude: Double, longitude: Double) {

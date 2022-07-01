@@ -364,11 +364,51 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
     fun getVideoCallRequestListResp(): LiveData<RequestState<MutableList<GetVideoCallRequestListResp>>> =
         getVideoCallRequestListResp
 
-    fun GetVideoCallRequestList(
+    fun GetVideoCallRequestUserList(
         isInternetConnected: Boolean,
         baseView: BaseActivity,
+        ser: String
     ) {
-        mUserRepository.getVideoCallRequestList(
+        val body = JsonObject()
+
+        body.addProperty(ApiConstant.EXTRAS_SERCH, ser)
+
+        mUserRepository.getVideoCallRequestUserList(
+            body,
+            isInternetConnected,
+            baseView,
+            getVideoCallRequestListResp
+        )
+    }
+
+    fun GetVideoCallRequestLawyerList(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        ser: String,
+        type: String,
+    ) {
+        val body = JsonObject()
+
+        body.addProperty(ApiConstant.EXTRAS_SERCH, ser)
+        body.addProperty(ApiConstant.EXTRAS_TYPE, type)
+        mUserRepository.getVideoCallRequestLawyerList(
+            body,
+            isInternetConnected,
+            baseView,
+            getVideoCallRequestListResp
+        )
+    }
+
+    fun GetVideoCallRequestMediatorList(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        ser: String,
+    ) {
+        val body = JsonObject()
+
+        body.addProperty(ApiConstant.EXTRAS_SERCH, ser)
+        mUserRepository.getVideoCallRequestMediatorList(
+            body,
             isInternetConnected,
             baseView,
             getVideoCallRequestListResp
@@ -394,7 +434,7 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
         body.addProperty(ApiConstant.EXTRAS_TO_ID, to_id)
         body.addProperty(ApiConstant.EXTRAS_TO_ROLE, to_role)
         body.addProperty(ApiConstant.EXTRAS_IS_IMMEDIATE_ONLINE, is_immediate_joining)
-        body.addProperty(ApiConstant.EXTRAS_SCHEDUAL_DATE_TIME,schedule_datetim)
+        body.addProperty(ApiConstant.EXTRAS_SCHEDUAL_DATE_TIME, schedule_datetim)
 //        body.addProperty("schedule_datetim", schedule_datetim)
         mUserRepository.sendVideoCallRequest(
             body,

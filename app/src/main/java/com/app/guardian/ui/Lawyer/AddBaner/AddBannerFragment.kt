@@ -176,7 +176,7 @@ class AddBannerFragment : BaseFragment(), View.OnClickListener {
             ReusedMethod.ShowRedBorders(requireActivity(), mBinding.edtShareLink)
         } else {
             uploadFile(selectedFile)
-
+//            callAddBannerApi()
         }
     }
 

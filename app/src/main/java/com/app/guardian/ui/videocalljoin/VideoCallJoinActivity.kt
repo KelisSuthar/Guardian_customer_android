@@ -106,16 +106,36 @@ class VideoCallJoinActivity : BaseActivity() {
         mBinding.btnMic!!.setOnClickListener { v: View? -> toggleMic() }
 
         mBinding.btnWebcam!!.setOnClickListener { v: View? -> toggleWebcam() }
-
-        history_id = intent.getStringExtra(AppConstants.EXTRA_CALLING_HISTORY_ID)!!
-        to_id = intent.getStringExtra(AppConstants.EXTRA_TO_ID)!!
-        role = intent.getStringExtra(AppConstants.EXTRA_TO_ROLE)!!
-        url = intent.getStringExtra(AppConstants.EXTRA_URL)!!
-        room_id = intent.getStringExtra(AppConstants.EXTRA_ROOM_ID)!!
+        if (!intent.getBooleanExtra(AppConstants.IS_JOIN, false)) {
+            history_id = intent.getStringExtra(AppConstants.EXTRA_CALLING_HISTORY_ID)!!
+            to_id = intent.getStringExtra(AppConstants.EXTRA_TO_ID)!!
+            role = intent.getStringExtra(AppConstants.EXTRA_TO_ROLE)!!
+            url = intent.getStringExtra(AppConstants.EXTRA_URL)!!
+            room_id = intent.getStringExtra(AppConstants.EXTRA_ROOM_ID)!!
+        }
         token = intent.getStringExtra("token")!!
         meetingId = intent.getStringExtra("meetingId")!!
+
         btnJoin.setOnClickListener { v: View? ->
-            callScheduaCallAPI() }
+            if (intent.getBooleanExtra(AppConstants.IS_JOIN, false)) {
+                val intent = Intent(
+                    this@VideoCallJoinActivity,
+                    VideoCallActivity::class.java
+                )
+                intent.putExtra("token", token)
+                intent.putExtra("meetingId", meetingId)
+                intent.putExtra("micEnabled", micEnabled)
+                intent.putExtra("webcamEnabled", webcamEnabled)
+                intent.putExtra(
+                    "paticipantName",
+                    mBinding.etName!!.text.toString().trim()
+                )
+                startActivity(intent)
+                finish()
+            } else {
+                callScheduaCallAPI()
+            }
+        }
     }
 
     override fun initObserver() {
@@ -192,7 +212,7 @@ class VideoCallJoinActivity : BaseActivity() {
         }
         micEnabled = !micEnabled
         if (micEnabled) {
-           mBinding. btnMic!!.setImageResource(R.drawable.ic_baseline_mic_24)
+            mBinding.btnMic!!.setImageResource(R.drawable.ic_baseline_mic_24)
         } else {
             mBinding.btnMic!!.setImageResource(R.drawable.ic_baseline_mic_off_24)
         }

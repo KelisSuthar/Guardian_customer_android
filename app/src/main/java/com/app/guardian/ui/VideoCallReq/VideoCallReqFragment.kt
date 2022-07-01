@@ -44,24 +44,23 @@ class VideoCallReqFragment : BaseFragment(), View.OnClickListener {
         mBinding.searchConnectedHistory.lySearchFilter.gone()
         mBinding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
             if (checkedId == R.id.rb1) {
-                CallVieoCallReqListAPI()
+                CallVieoCallReqListAPI("")
             } else {
-                CallVieoCallReqListAPI()
+                CallVieoCallReqListAPI("")
             }
 
         }
         mBinding.searchConnectedHistory.edtLoginEmail.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                CallVieoCallReqListAPI()
+                CallVieoCallReqListAPI(
+                    mBinding.searchConnectedHistory.edtLoginEmail.text?.trim().toString()
+                )
                 return@OnEditorActionListener true
             }
             false
         })
         if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_LAWYER) {
             mBinding.rb1.text = "Mediator"
-            mBinding.rb2.text = "User"
-        } else {
-            mBinding.rb1.text = "Lawyer"
             mBinding.rb2.text = "User"
         }
     }
@@ -71,7 +70,7 @@ class VideoCallReqFragment : BaseFragment(), View.OnClickListener {
         mBinding.noDataVideoCallReq.gone()
         mBinding.noInternetVideoCallReq.llNointernet.gone()
         setAdapter()
-        CallVieoCallReqListAPI()
+        CallVieoCallReqListAPI("")
     }
 
     private fun setAdapter() {
@@ -90,28 +89,41 @@ class VideoCallReqFragment : BaseFragment(), View.OnClickListener {
                 override fun onVideoCallClick(position: Int?) {
                     startActivity(
                         Intent(context, CreateOrJoinActivity::class.java)
-                            .putExtra(AppConstants.EXTRA_CALLING_HISTORY_ID, array[position!!].id.toString())
-                            .putExtra(AppConstants.EXTRA_TO_ID, array[position!!].to_id.toString())
-                            .putExtra(AppConstants.EXTRA_TO_ROLE, array[position!!].to_role.toString())
+                            .putExtra(
+                                AppConstants.EXTRA_CALLING_HISTORY_ID,
+                                array[position!!].id.toString()
+                            )
+                            .putExtra(
+                                AppConstants.EXTRA_TO_ID,
+                                array[position!!].from_id.toString()
+                            )
+                            .putExtra(
+                                AppConstants.EXTRA_TO_ROLE,
+                                array[position!!].from_role.toString()
+                            )
                             .putExtra(
                                 AppConstants.EXTRA_NAME,
-                                array[position!!].user_detail.full_name.toString())
-
+                                array[position!!].user_detail.full_name.toString()
+                            )
                     )
                 }
-
             })
         mBinding.rvVideoCallReq.adapter = videoCallReqAdapter
     }
 
-    private fun CallVieoCallReqListAPI() {
-//        type = if (mBinding.rb1.isChecked) {
-//            mBinding.rb1.text.toString()
-//        } else {
-//            mBinding.rb2.text.toString()
-//        }
+    private fun CallVieoCallReqListAPI(search: String) {
+        type = if (mBinding.rb1.isChecked) {
+            "mediator"
+        } else {
+            "user"
+        }
         if (ReusedMethod.isNetworkConnected(requireContext())) {
-            mViewModel.GetVideoCallRequestList(true, requireActivity() as BaseActivity)
+            mViewModel.GetVideoCallRequestLawyerList(
+                true,
+                requireActivity() as BaseActivity,
+                search,
+                type
+            )
         } else {
             mBinding.noInternetVideoCallReq.llNointernet.visible()
             mBinding.noDataVideoCallReq.gone()
@@ -139,14 +151,12 @@ class VideoCallReqFragment : BaseFragment(), View.OnClickListener {
                             mBinding.cl1.visible()
                             mBinding.noDataVideoCallReq.gone()
                             mBinding.noInternetVideoCallReq.llNointernet.gone()
-                            if(data.isEmpty())
-                            {
+                            if (data.isEmpty()) {
                                 mBinding.cl1.gone()
                                 mBinding.noDataVideoCallReq.visible()
                                 mBinding.noInternetVideoCallReq.llNointernet.gone()
                             }
                             videoCallReqAdapter?.updateAll(data)
-                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                         } else {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                         }

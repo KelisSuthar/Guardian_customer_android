@@ -113,6 +113,7 @@ class LawyerViewModel(private val mUserRepository: UserRepo) : ViewModel() {
 //        }
 
         body.addProperty(ApiConstant.EXTRAS_BANNER_AVATAR, banner_avatar)
+//        body.addProperty(ApiConstant.EXTRAS_BANNER_AVATAR, "https://images.pexels.com/photos/1172253/pexels-photo-1172253.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500")
         body.addProperty(ApiConstant.EXTRAS_URL, url)
         body.addProperty(ApiConstant.EXTRAS_START_DATE, start_date)
         body.addProperty(ApiConstant.EXTRAS_END_DATE, end_date)

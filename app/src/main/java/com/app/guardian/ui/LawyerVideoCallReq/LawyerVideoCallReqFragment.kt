@@ -7,6 +7,7 @@ import android.widget.TextView
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentLawyerVideoCallReqBinding
@@ -42,7 +43,9 @@ class LawyerVideoCallReqFragment : BaseFragment(), View.OnClickListener {
         mBinding.searchConnectedHistory.lySearchFilter.gone()
         mBinding.searchConnectedHistory.edtLoginEmail.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                CallVieoCallReqListAPI()
+                CallVieoCallReqListAPI(
+                    mBinding.searchConnectedHistory.edtLoginEmail.text?.trim().toString()
+                )
                 return@OnEditorActionListener true
             }
             false
@@ -55,7 +58,7 @@ class LawyerVideoCallReqFragment : BaseFragment(), View.OnClickListener {
         mBinding.noDataLawyerVideoCallReq.gone()
         mBinding.noInternetLawyerVideoCallReq.llNointernet.gone()
         setAdapter()
-        CallVieoCallReqListAPI()
+        CallVieoCallReqListAPI("")
     }
 
     private fun setAdapter() {
@@ -69,17 +72,26 @@ class LawyerVideoCallReqFragment : BaseFragment(), View.OnClickListener {
 //                        LawyerListFragment::class.java.name,
 //                        LawyerListFragment::class.java.name
 //                    )
-                    startActivity(
-                        Intent(context, CreateOrJoinActivity::class.java)
-                            .putExtra(AppConstants.EXTRA_CALLING_HISTORY_ID, array[position!!].id.toString())
-                            .putExtra(AppConstants.EXTRA_TO_ID, array[position!!].to_id.toString())
-                            .putExtra(AppConstants.EXTRA_TO_ROLE, array[position!!].to_role.toString())
-                            .putExtra(
-                                AppConstants.EXTRA_NAME,
-                                array[position!!].user_detail.full_name.toString()
-                            )
-
-                    )
+//                    startActivity(
+//                        Intent(context, CreateOrJoinActivity::class.java)
+//                            .putExtra(
+//                                AppConstants.EXTRA_CALLING_HISTORY_ID,
+//                                array[position!!].id.toString()
+//                            )
+//                            .putExtra(
+//                                AppConstants.EXTRA_TO_ID,
+//                                array[position!!].from_id.toString()
+//                            )
+//                            .putExtra(
+//                                AppConstants.EXTRA_TO_ROLE,
+//                                array[position!!].from_role.toString()
+//                            )
+//                            .putExtra(
+//                                AppConstants.EXTRA_NAME,
+//                                array[position!!].user_detail.full_name.toString()
+//                            )
+//
+//                    )
                 }
 
             })
@@ -87,9 +99,22 @@ class LawyerVideoCallReqFragment : BaseFragment(), View.OnClickListener {
     }
 
 
-    private fun CallVieoCallReqListAPI() {
+    private fun CallVieoCallReqListAPI(search: String) {
         if (ReusedMethod.isNetworkConnected(requireContext())) {
-            mViewModel.GetVideoCallRequestList(true, requireActivity() as BaseActivity)
+            if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
+                mViewModel.GetVideoCallRequestUserList(
+                    true,
+                    requireActivity() as BaseActivity,
+                    search
+                )
+            } else {
+                mViewModel.GetVideoCallRequestMediatorList(
+                    true,
+                    requireActivity() as BaseActivity,
+                    search
+                )
+            }
+
         } else {
             mBinding.noInternetLawyerVideoCallReq.llNointernet.visible()
             mBinding.noDataLawyerVideoCallReq.gone()

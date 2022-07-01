@@ -8,6 +8,7 @@ import android.widget.Button
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
+import com.app.guardian.common.extentions.gone
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 
 class SubscriptionPlanDetailsAdapter(
@@ -35,8 +36,12 @@ class SubscriptionPlanDetailsAdapter(
     inner class myViewHolder(view: View?) : RecyclerView.ViewHolder(view!!) {
         var tv = view?.findViewById<AppCompatTextView>(R.id.txtData)
         fun bindItem(position: Int) {
+            if (!arrayList[position].isNullOrEmpty()) {
+                tv!!.text = arrayList[position]
+            } else {
+                tv?.gone()
+            }
 
-            tv!!.text = arrayList[position]
         }
 
     }

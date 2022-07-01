@@ -359,15 +359,15 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
 
         val geocoder = Geocoder(requireContext(), Locale.getDefault())
         val addresses: List<Address> = geocoder.getFromLocation(MyLat, MyLong, 10)
-        Log.i("ADDRESS", addresses.toString())
+        Log.i("ADDRESS", addresses[0].toString())
         if (!addresses.isNullOrEmpty()) {
             if (addresses[0].locality == null) {
                 SharedPreferenceManager.putString(
                     AppConstants.CITY,
-                    addresses[0].adminArea.toString() + addresses[0].countryName.toString()
+                    addresses[0].adminArea.toString()
                 )
                 SharedPreferenceManager.putString(
-                    AppConstants.STATE, addresses[0].countryName.toString()
+                    AppConstants.STATE, addresses[0].adminArea.toString()
                 )
 //                mBinding.edtSearch.setText(addresses[0].adminArea.toString()+","+addresses[0].countryName.toString())
 //                mBinding.txtLocation.setText(addresses[0].adminArea.toString()+","+addresses[0].countryName.toString())

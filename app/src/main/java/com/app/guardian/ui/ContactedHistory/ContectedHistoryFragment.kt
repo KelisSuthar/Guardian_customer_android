@@ -449,7 +449,11 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                             } else {
                                 mBinding.noDataConnectedHistory.visible()
                                 mBinding.noInternetConnectedhistory.llNointernet.gone()
-                                mBinding.cl1.gone()
+                                if (isSearchVisisble) {
+                                    mBinding.searchConnectedHistory.lySearch.visible()
+                                } else {
+                                    mBinding.searchConnectedHistory.lySearch.gone()
+                                }
                                 mBinding.radioGroup.visible()
                             }
 

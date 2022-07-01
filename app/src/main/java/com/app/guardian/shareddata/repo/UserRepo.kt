@@ -336,7 +336,20 @@ interface UserRepo {
         loginResp: MutableLiveData<RequestState<UserDetailsResp>>
     )
 
-    fun getVideoCallRequestList(
+    fun getVideoCallRequestUserList(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        videoCallRequestListResp: MutableLiveData<RequestState<MutableList<GetVideoCallRequestListResp>>>
+    )
+    fun getVideoCallRequestLawyerList(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        videoCallRequestListResp: MutableLiveData<RequestState<MutableList<GetVideoCallRequestListResp>>>
+    )
+    fun getVideoCallRequestMediatorList(
+        body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
         videoCallRequestListResp: MutableLiveData<RequestState<MutableList<GetVideoCallRequestListResp>>>

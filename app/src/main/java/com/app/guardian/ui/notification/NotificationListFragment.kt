@@ -9,6 +9,9 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
@@ -18,27 +21,39 @@ import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentNotificationListBinding
 import com.app.guardian.model.Notification.NotificationResp
+import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.Lawyer.AddBaner.AddBannerFragment
 import com.app.guardian.ui.LawyerVideoCallReq.LawyerVideoCallReqFragment
+import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
 import com.app.guardian.ui.User.settings.SettingsFragment
 import com.app.guardian.ui.VideoCallReq.VideoCallReqFragment
 import com.app.guardian.ui.chatting.ChattingFragment
 import com.app.guardian.ui.notification.adapter.NotificationListAdapter
+import com.app.guardian.ui.videocalljoin.VideoCallJoinActivity
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.google.android.material.textview.MaterialTextView
+import com.google.gson.Gson
+import org.json.JSONException
+import org.json.JSONObject
 import org.koin.android.viewmodel.ext.android.viewModel
+
 
 class NotificationListFragment : BaseFragment(), View.OnClickListener {
     lateinit var mBinding: FragmentNotificationListBinding
     private val mViewModel: UserViewModel by viewModel()
+    private val commonViewModel: CommonScreensViewModel by viewModel()
+
     var notificationListAdapter: NotificationListAdapter? = null
     var broadcaseRecvier: BroadcastReceiver? = null
     var array = ArrayList<NotificationResp>()
     var deleteId = -1
+    var meeting_Id = ""
+
 
     override fun getInflateResource(): Int {
         return R.layout.fragment_notification_list
@@ -107,27 +122,33 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                             )
                         }
                         AppConstants.EXTRA_VIDEOCALLREQ_PAYLOAD -> {
-                            if (SharedPreferenceManager.getString(
-                                    AppConstants.USER_ROLE,
-                                    ""
-                                ) == AppConstants.APP_ROLE_USER
-                            ) {
-                                ReplaceFragment.replaceFragment(
-                                    requireActivity(),
-                                    LawyerVideoCallReqFragment(),
-                                    true,
-                                    SettingsFragment::class.java.name,
-                                    SettingsFragment::class.java.name
-                                )
-                            }else{
-                                ReplaceFragment.replaceFragment(
-                                    requireActivity(),
-                                    VideoCallReqFragment(),
-                                    true,
-                                    SettingsFragment::class.java.name,
-                                    SettingsFragment::class.java.name
-                                )
+                            val jsonObject =
+                                JSONObject(array[position].data_obj)
+                            Log.i("NOTIFICATION_DATA", jsonObject.getString("room_id"))
+                            if (jsonObject.has("room_id")) {
+                                meeting_Id = jsonObject.getString("room_id")
+                                callCheckSubscriptionApi()
+                            } else {
+                                if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER || SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_MEDIATOR) {
+                                    ReplaceFragment.replaceFragment(
+                                        requireActivity(),
+                                        LawyerVideoCallReqFragment(),
+                                        true,
+                                        SettingsFragment::class.java.name,
+                                        SettingsFragment::class.java.name
+                                    )
+                                } else {
+                                    ReplaceFragment.replaceFragment(
+                                        requireActivity(),
+                                        VideoCallReqFragment(),
+                                        true,
+                                        SettingsFragment::class.java.name,
+                                        SettingsFragment::class.java.name
+                                    )
+                                }
                             }
+
+
                         }
                     }
                 }
@@ -153,6 +174,49 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
     }
 
     override fun initObserver() {
+        //CHECK SUBSCRIPTION RESP
+        commonViewModel.getcheckSubResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            if (data.is_subscribe == 0) {
+                                startActivity(
+                                    Intent(
+                                        requireActivity(),
+                                        SubScriptionPlanScreen::class.java
+                                    )
+                                )
+                                requireActivity().overridePendingTransition(
+                                    R.anim.rightto,
+                                    R.anim.left
+                                )
+                            } else {
+                                joinMeeting(meeting_Id)
+                            }
+
+                        } else {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                requireActivity(),
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {}
+                    }
+                }
+            }
+        }
+
         mViewModel.getNotificationResp().observe(this) { response ->
             response?.let { requestState ->
                 showLoadingIndicator(requestState.progress)
@@ -214,7 +278,7 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                         if (array.isNullOrEmpty()) {
                             mBinding.rcyNotification.gone()
                             mBinding.noDataNotification.visible()
-                            mBinding.noInternetNotification.llNointernet.visible()
+                            mBinding.noInternetNotification.llNointernet.gone()
                         } else {
                             mBinding.rcyNotification.visible()
                             mBinding.noDataNotification.gone()
@@ -292,5 +356,54 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
 
 
         dialog.show()
+    }
+
+    private fun callCheckSubscriptionApi() {
+        if (ReusedMethod.isNetworkConnected(requireActivity())) {
+            commonViewModel.checkSubscritpion(true, context as BaseActivity)
+        } else {
+            ReusedMethod.displayMessage(requireActivity(), getString(R.string.text_error_network))
+        }
+    }
+
+    private fun joinMeeting(meeting_Id: String) {
+        AndroidNetworking.post("https://api.videosdk.live/v1/meetings/$meeting_Id")
+            .addHeaders("Authorization", resources.getString(R.string.video_call_auth))
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject) {
+                    val meetingId = response.getString("meetingId")
+                    Log.e("VIDEO_CALL", "JOIN_MEATING_RESP:    $response")
+                    val intent =
+                        Intent(requireContext(), VideoCallJoinActivity::class.java)
+                    intent.putExtra("token", resources.getString(R.string.video_call_auth))
+                    intent.putExtra("meetingId", meetingId)
+                    intent.putExtra(
+                        AppConstants.EXTRA_NAME,
+                        SharedPreferenceManager.getUser()?.full_name
+                    )
+                    intent.putExtra(
+                        AppConstants.IS_JOIN,
+                        true
+                    )
+                    intent.putExtra(
+                        AppConstants.EXTRA_URL,
+                        "https://api.videosdk.live/v1/meetings/$meetingId"
+                    )
+                    intent.putExtra(AppConstants.EXTRA_ROOM_ID, meetingId)
+                    startActivity(intent)
+
+                }
+
+                override fun onError(anError: ANError) {
+                    anError.printStackTrace()
+                    ReusedMethod.displayMessage(
+                        requireActivity(),
+                        anError.message.toString()
+                    )
+                    Log.e("VIDEO_CALL", "JOIN_MEATING_ERRRO:    " + anError)
+
+                }
+            })
     }
 }

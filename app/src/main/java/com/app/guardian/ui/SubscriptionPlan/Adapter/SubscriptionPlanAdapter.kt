@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 
@@ -55,15 +56,27 @@ class SubscriptionPlanAdapter(
             btn?.setOnClickListener {
                 listeners.onSubclick(position)
             }
-            if(array.offer_detail == ""){
+            if (array.offer_detail == "") {
                 txtIntroOffer?.gone()
             }
             txtTitle!!.text = array.plan_duration
             txtPlanType!!.text = array.plan_type
-            txtPlanPrice!!.text = "$"+array.pricing+"/"+array.plan_type
+            when (array.plan_duration) {
+                AppConstants.MONTHLY_PLAN -> {
+                    txtPlanPrice!!.text = "$" + array.pricing + "/" + "Month"
+                }
+                AppConstants.ANNUAL_PLAN -> {
+                    txtPlanPrice!!.text = "$" + array.pricing + "/" + "Year"
+                }
+                else -> {
+                    txtPlanPrice!!.text = "$" + array.pricing + "/" + array.plan_type
+                }
+            }
+
             txtIntroOffer!!.text = array.offer_detail
 
-            subscriptionPlanDetailsAdapter = SubscriptionPlanDetailsAdapter(context, arrayList[position].features)
+            subscriptionPlanDetailsAdapter =
+                SubscriptionPlanDetailsAdapter(context, arrayList[position].features)
             rv!!.adapter = subscriptionPlanDetailsAdapter
             subscriptionPlanDetailsAdapter!!.notifyDataSetChanged()
         }

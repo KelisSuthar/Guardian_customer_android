@@ -67,7 +67,7 @@ class HomeBannersFragment(var bannerarray: ArrayList<BannerCollection>) : BaseFr
         homeBannersAdapter =
             HomeBannersAdapter(
                 requireContext(),
-                reverse_map,
+                hashMapBannerColloection,
                 object : HomeBannersAdapter.onItemClicklisteners {
                     override fun onClick(position: Int, url: String) {
                         ReusedMethod.redirectUrl(requireActivity(), url)
@@ -129,18 +129,36 @@ class HomeBannersFragment(var bannerarray: ArrayList<BannerCollection>) : BaseFr
 
     private fun setData(data: MutableList<SpecializationListResp>) {
 
-//        for (i in data.indices) {
-//            for (j in bannerarray.indices) {
-//                if (bannerarray[j].user != null) {
-//                    if (data[i].title.toString() == bannerarray[j].user.specialization.toString()) {
-//                        array.add(bannerarray[j])
-//                        hashMapBannerColloection[data[i].title] = bannerarray[j]
-//                    }
-//                }
-//
-//            }
+        for (i in data.indices) {
+            for (j in bannerarray.indices) {
+                if (bannerarray[j].user != null) {
+                    if (reverse_map.containsKey(data[i].title)) {
+                        reverse_map[data[i].title]?.add(
+                            bannerarray[j]
+                        )
+                    } else {
+                        val listBannerData: ArrayList<BannerCollection> = arrayListOf()
+
+                        val getHasMapKey = reverse_map.keys
+                        if (getHasMapKey.isNotEmpty()) {
+                            listBannerData.clear()
+                            Log.e("REVERSER_MAP", "${j.toString()}")
+
+                        }
+                        listBannerData.add(bannerarray[j])
+                        reverse_map[data[i].title] =
+                            listBannerData
+
+                    }
+                }
+
+            }
+        }
+
+        Log.i("REVERSER_MAP", reverse_map.toString())
 
         hashMapBannerColloection.clear()
+
 
         for (apiData in bannerarray.indices) {
             if (bannerarray[apiData].user != null) {
@@ -155,7 +173,7 @@ class HomeBannersFragment(var bannerarray: ArrayList<BannerCollection>) : BaseFr
                     val getHasMapKey = hashMapBannerColloection.keys
                     if (getHasMapKey.isNotEmpty()) {
                         listBannerData.clear()
-                        Log.e("HashBanner_collection", "${apiData.toString()}")
+                        Log.e("HashBanner_collection", "$apiData")
 
                     }
                     listBannerData.add(bannerarray[apiData])
@@ -182,8 +200,6 @@ class HomeBannersFragment(var bannerarray: ArrayList<BannerCollection>) : BaseFr
             reverse_map.put(strKey, hashMapBannerColloection.get(strKey)!!)
         }
 
-        Log.i("THIS_APP", reverse_map.toString())
-        Log.e("HashBanner_collection", "${hashMapBannerColloection.size}")
         homeBannersAdapter?.notifyDataSetChanged()
 
 //        println("THIS_APP${hashMapBannerColloection["Constitutional Law"]}")

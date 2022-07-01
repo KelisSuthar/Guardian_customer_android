@@ -36,7 +36,7 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
 
     private lateinit var billingClient: BillingClient//inApp Purchase
     private val skuList = CollectionUtils.listOf("android.test.purchased")//inApp Purchase
-    var checkUpdate: Boolean = false//inApp Purchase
+    var checkUpdate: Boolean = false//inApp Purchase-
     private var isSkuIdGated = false//inApp Purchase
     override fun getResource(): Int {
         ReusedMethod.updateStatusBarColor(this, R.color.colorPrimaryDark, 4)
@@ -132,7 +132,8 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                                         HomeActivity().unAuthorizedNavigation()
                                     } else {
                                         ReusedMethod.displayMessage(this as Activity, it)
-                                    } }
+                                    }
+                                }
                     }
                 }
             }

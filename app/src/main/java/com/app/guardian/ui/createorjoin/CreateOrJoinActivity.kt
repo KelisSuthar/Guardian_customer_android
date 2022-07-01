@@ -28,8 +28,8 @@ class CreateOrJoinActivity : AppCompatActivity() {
     // private val AUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiJmNjllODdhOS1jMzhkLTQwYjMtYTVmMi01NTlkMTEwYzc3N2QiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTY1NTI3MjUxNCwiZXhwIjoxNjU1ODc3MzE0fQ.PH-2FRmSDZPXnzatozsfSFKAnbOQWxrIVywzIW8Yt4g"
 //    private val AUTH_TOKEN =
 //        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiIxY2FhZmFmNi1kYjc5LTRlMDctOTk5Yy00YTNlMjUxNjQ1OGEiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTY1NTcyNjg0NCwiZXhwIjoxNjU2MzMxNjQ0fQ.y8LY-LgA4f7nTDnVKbMjgioJ4HgRcXmZbWuOYqUP1Jk"
-    private val AUTH_TOKEN =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiIxN2Y2YWRhOC1kOWJkLTQwNjktYTQ3Yi0yNTQ2NGNiMDA0YjEiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTY1NjQ5NDY0NywiZXhwIjoxNjU3MDk5NDQ3fQ.Fs_JaVDxW3LGa44tkD9WgwWiGrUtO0AEgxr7rA1I6Pw"
+//    private val AUTH_TOKEN =
+//        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiIxN2Y2YWRhOC1kOWJkLTQwNjktYTQ3Yi0yNTQ2NGNiMDA0YjEiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTY1NjQ5NDY0NywiZXhwIjoxNjU3MDk5NDQ3fQ.Fs_JaVDxW3LGa44tkD9WgwWiGrUtO0AEgxr7rA1I6Pw"
     private val AUTH_URL = null
 
     //    private var etMeetingId: EditText? = null
@@ -50,10 +50,6 @@ class CreateOrJoinActivity : AppCompatActivity() {
 //        val btnJoin = findViewById<Button>(R.id.btnJoinMeeting)
 //        etMeetingId = findViewById(R.id.etMeetingId)
 
-        Log.i("THIS_APP", intent.getStringExtra(AppConstants.EXTRA_CALLING_HISTORY_ID)!!)
-        Log.i("THIS_APP", intent.getStringExtra(AppConstants.EXTRA_TO_ID)!!)
-        Log.i("THIS_APP", intent.getStringExtra(AppConstants.EXTRA_TO_ROLE)!!)
-        Log.i("THIS_APP", intent.getStringExtra(AppConstants.EXTRA_NAME)!!)
         role = intent.getStringExtra(AppConstants.EXTRA_TO_ROLE)!!
         name = intent.getStringExtra(AppConstants.EXTRA_NAME)!!
         to_id = intent.getStringExtra(AppConstants.EXTRA_TO_ID)!!
@@ -85,18 +81,18 @@ class CreateOrJoinActivity : AppCompatActivity() {
         if (!ReusedMethod.isNetworkConnected(this@CreateOrJoinActivity)) {
             return
         }
-        if (!isNullOrEmpty(AUTH_TOKEN) && !isNullOrEmpty(AUTH_URL)) {
+        if (!isNullOrEmpty( resources.getString(R.string.video_call_auth)) && !isNullOrEmpty(AUTH_URL)) {
             ReusedMethod.displayMessage(
                 this,
                 "Please Provide only one - either auth_token or auth_url"
             )
             return
         }
-        if (!isNullOrEmpty(AUTH_TOKEN)) {
+        if (!isNullOrEmpty( resources.getString(R.string.video_call_auth))) {
             if (meetingId == null) {
-                createMeeting(AUTH_TOKEN)
+                createMeeting( resources.getString(R.string.video_call_auth))
             } else {
-                joinMeeting(AUTH_TOKEN)
+                joinMeeting( resources.getString(R.string.video_call_auth))
             }
             return
         }
@@ -160,6 +156,10 @@ class CreateOrJoinActivity : AppCompatActivity() {
                         intent.putExtra(
                             AppConstants.EXTRA_NAME,
                             name
+                        )
+                        intent.putExtra(
+                            AppConstants.IS_JOIN,
+                            false
                         )
                         intent.putExtra(
                             AppConstants.EXTRA_URL,

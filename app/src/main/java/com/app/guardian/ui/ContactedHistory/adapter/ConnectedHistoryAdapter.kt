@@ -94,18 +94,12 @@ class ConnectedHistoryAdapter(
                 ) == AppConstants.APP_ROLE_LAWYER
             ) {
                 if (type == AppConstants.APP_ROLE_USER) {
-                    if (array.call_type == AppConstants.VIDEO) {
-                        imgRowLawyerNote!!.gone()
-                        imgRowLawyerChat!!.gone()
-                        imgRowLawyerCall!!.gone()
-                        imgRowLawyerVideoCall!!.visible()
 
-                    } else if (array.call_type == AppConstants.TXT) {
-                        imgRowLawyerNote!!.gone()
-                        imgRowLawyerChat!!.visible()
-                        imgRowLawyerCall!!.gone()
-                        imgRowLawyerVideoCall!!.gone()
-                    }
+                    imgRowLawyerNote!!.gone()
+                    imgRowLawyerChat!!.visible()
+                    imgRowLawyerCall!!.gone()
+                    imgRowLawyerVideoCall!!.visible()
+
                     txtExp?.text = "User"
                     txtSpTitle?.text = "Location :"
                     txtSpecialization?.text = array.state

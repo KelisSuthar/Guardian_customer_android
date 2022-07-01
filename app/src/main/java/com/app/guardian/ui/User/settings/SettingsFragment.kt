@@ -421,31 +421,28 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.tvVideoCallReq -> {
-//                if (SharedPreferenceManager.getString(
-//                        AppConstants.USER_ROLE,
-//                        ""
-//                    ) == AppConstants.APP_ROLE_USER
-//                ) {
-//                    ReplaceFragment.replaceFragment(
-//                        requireActivity(),
-//                        LawyerVideoCallReqFragment(),
-//                        true,
-//                        SettingsFragment::class.java.name,
-//                        SettingsFragment::class.java.name
-//                    )
-//                }else{
-//                    ReplaceFragment.replaceFragment(
-//                        requireActivity(),
-//                        VideoCallReqFragment(),
-//                        true,
-//                        SettingsFragment::class.java.name,
-//                        SettingsFragment::class.java.name
-//                    )
-//                }
-                ReusedMethod.displayMessage(
-                    requireActivity(),
-                    requireContext().resources.getString(R.string.come_soon)
-                )
+                if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER || SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_MEDIATOR) {
+                    ReplaceFragment.replaceFragment(
+                        requireActivity(),
+                        LawyerVideoCallReqFragment(),
+                        true,
+                        SettingsFragment::class.java.name,
+                        SettingsFragment::class.java.name
+                    )
+                } else {
+                    ReplaceFragment.replaceFragment(
+                        requireActivity(),
+                        VideoCallReqFragment(),
+                        true,
+                        SettingsFragment::class.java.name,
+                        SettingsFragment::class.java.name
+                    )
+                }
+
+//                ReusedMethod.displayMessage(
+//                    requireActivity(),
+//                    requireContext().resources.getString(R.string.come_soon)
+//                )
             }
             R.id.tvSubScription -> {
                 startActivity(Intent(context, SubScriptionPlanScreen::class.java))

@@ -858,7 +858,8 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
         }
     }
 
-    override fun getVideoCallRequestList(
+    override fun getVideoCallRequestUserList(
+        body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
         videoCallRequestListResp: MutableLiveData<RequestState<MutableList<GetVideoCallRequestListResp>>>
@@ -869,12 +870,51 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
         } else {
             videoCallRequestListResp.value = RequestState(progress = true)
             NetworkManager.requestData(
-                mApiEndPoint.getVideoCallRequestList(),
+                mApiEndPoint.getVideoCallRequestUserList(body),
                 baseView,
                 videoCallRequestListResp
             )
         }
     }
+
+    override fun getVideoCallRequestLawyerList(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        videoCallRequestListResp: MutableLiveData<RequestState<MutableList<GetVideoCallRequestListResp>>>
+    ) {
+        if (!internetConnected) {
+            videoCallRequestListResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            videoCallRequestListResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.getVideoCallRequestLawyerList(body),
+                baseView,
+                videoCallRequestListResp
+            )
+        }
+    }
+
+    override fun getVideoCallRequestMediatorList(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        videoCallRequestListResp: MutableLiveData<RequestState<MutableList<GetVideoCallRequestListResp>>>
+    ) {
+        if (!internetConnected) {
+            videoCallRequestListResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            videoCallRequestListResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.getVideoCallRequestMediatorList(body),
+                baseView,
+                videoCallRequestListResp
+            )
+        }
+    }
+
 
     override fun askModeQuestion(
         body: JsonObject,

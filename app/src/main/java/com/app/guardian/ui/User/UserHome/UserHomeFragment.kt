@@ -11,6 +11,7 @@ import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.ReusedMethod.Companion.isValidUrl
 import com.app.guardian.common.ReusedMethod.Companion.redirectUrl
 import com.app.guardian.common.ReusedMethod.Companion.showSubscriptionDialog
 import com.app.guardian.common.ReusedMethod.Companion.viewPagerScroll
@@ -81,8 +82,9 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
         bannerAdsPager = BannerAdsPager(requireActivity(), array!!, object
             : BannerAdsPager.onItemClicklisteners {
             override fun onItemClick(position: Int) {
+                ReusedMethod.redirectUrl(requireActivity(), array[position].url)
 
-                redirectUrl(requireActivity(),array[position].url)
+
             }
 
         })

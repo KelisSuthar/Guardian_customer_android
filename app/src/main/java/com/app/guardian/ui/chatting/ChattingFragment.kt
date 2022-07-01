@@ -105,10 +105,9 @@ class ChattingFragment(
             if (days == 0) {
 
                 if (hrs == 0) {
-                    if(min == 0)
-                    {
+                    if (min == 0) {
                         mBinding.txtLastSeen.text = "Active a Min Ago"
-                    }else{
+                    } else {
                         mBinding.txtLastSeen.text = "Active $min Min Ago"
                     }
 
@@ -175,17 +174,20 @@ class ChattingFragment(
                                 .load(data.user_detail.profile_avatar)
                                 .placeholder(R.drawable.profile)
                                 .into(mBinding.imgChatUserProfilePic)
-                            if (data.user_detail.is_online == 1) {
-                                mBinding.imgIsOnline.visible()
-
+                            if (data.user_detail.user_role != AppConstants.APP_ROLE_USER) {
+                                if (data.user_detail.is_online == 1) {
+                                    mBinding.imgIsOnline.visible()
+                                } else {
+                                    mBinding.imgIsOnline.gone()
+                                }
+                                if (!data.user_detail.last_seen.isNullOrEmpty() && data.user_detail.is_online == 0) {
+                                    lastSeenChecker(data.user_detail.last_seen)
+                                } else {
+                                    mBinding.txtLastSeen.visible()
+                                    mBinding.txtLastSeen.text = "Online"
+                                }
                             } else {
-                                mBinding.imgIsOnline.gone()
-                            }
-                            if (!data.user_detail.last_seen.isNullOrEmpty()&& data.user_detail.is_online == 0) {
-                                lastSeenChecker(data.user_detail.last_seen)
-                            } else {
-                                mBinding.txtLastSeen.visible()
-                                mBinding.txtLastSeen.text = "Online"
+                                mBinding.txtLastSeen.gone()
                             }
                             chatArray.addAll(data.chat_detail)
                             if (chatArray.isNotEmpty()) {

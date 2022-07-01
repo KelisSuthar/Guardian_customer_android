@@ -173,8 +173,14 @@ interface ApiEndPoint {
     @POST("scheduleRequestedVideoCall")
     fun scheduleRequestedVideoCall(@Body body: JsonObject): Call<CommonResponseModel<ScheduleRequestedVideoCallResp>>
 
-    @GET("getVideoCallRequestListToLawyer")
-    fun getVideoCallRequestList(): Call<CommonResponseModel<MutableList<GetVideoCallRequestListResp>>>
+    @POST("getVideoCallRequestListUser")
+    fun getVideoCallRequestUserList(@Body body: JsonObject): Call<CommonResponseModel<MutableList<GetVideoCallRequestListResp>>>
+
+    @POST("getVideoCallRequestListToLawyer")
+    fun getVideoCallRequestLawyerList(@Body body: JsonObject): Call<CommonResponseModel<MutableList<GetVideoCallRequestListResp>>>
+
+    @POST("getVideoCallRequestListMediator")
+    fun getVideoCallRequestMediatorList(@Body body: JsonObject): Call<CommonResponseModel<MutableList<GetVideoCallRequestListResp>>>
 
     @POST("askQuestion")
     fun askModratorAQuestion(@Body body: JsonObject): Call<CommonResponseModel<AskModeQResp>>
