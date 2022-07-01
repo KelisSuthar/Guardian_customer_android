@@ -70,7 +70,7 @@ class HomeBannersFragment(var bannerarray: ArrayList<BannerCollection>) : BaseFr
                 reverse_map,
                 object : HomeBannersAdapter.onItemClicklisteners {
                     override fun onClick(position: Int, url: String) {
-                        ReusedMethod.redirectUrl(requireActivity(),url)
+                        ReusedMethod.redirectUrl(requireActivity(), url)
                     }
 
                 })
@@ -179,7 +179,7 @@ class HomeBannersFragment(var bannerarray: ArrayList<BannerCollection>) : BaseFr
                         + "Value : "
                         + hashMapBannerColloection.get(strKey)
             )
-         reverse_map.put(strKey, hashMapBannerColloection.get(strKey)!!)
+            reverse_map.put(strKey, hashMapBannerColloection.get(strKey)!!)
         }
 
         Log.i("THIS_APP", reverse_map.toString())
