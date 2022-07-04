@@ -76,7 +76,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
 
-    @SuppressLint("WrongConstant", "InvalidWakeLockTag", "RemoteViewLayout")
+    @SuppressLint("WrongConstant", "InvalidWakeLockTag", "RemoteViewLayout",
+        "UnspecifiedImmutableFlag"
+    )
     private fun sendNotification(data: JSONObject, remoteMessage: RemoteMessage) {
         Log.i("FIREBASE_DATA", data.toString())
 
@@ -92,10 +94,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             )
 
 
-        intent!!.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
-        intent!!.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//        intent!!.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
+//        intent!!.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-
+         intent!!.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+         intent!!.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         val channelId = getString(com.app.guardian.R.string.app_name)
         val pendingIntent = PendingIntent.getActivity(
             this,
