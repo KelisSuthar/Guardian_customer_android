@@ -11,13 +11,11 @@ import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentVideoCallReqBinding
-import com.app.guardian.model.GetVideoCallRequestResp.GetVideoCallRequestListResp
-import com.app.guardian.model.viewModels.AuthenticationViewModel
+import com.app.guardian.model.GetVideoCallRequestResp.VideoCallRequestListResp
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
-import com.app.guardian.ui.LawyerVideoCallReq.adapter.LawyerVideoCallReqAdapter
 import com.app.guardian.ui.VideoCallReq.adapter.VideoCallReqAdapter
 import com.app.guardian.ui.createorjoin.CreateOrJoinActivity
 import com.app.guardian.utils.Config
@@ -28,7 +26,7 @@ class VideoCallReqFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
     var videoCallReqAdapter: VideoCallReqAdapter? = null
     var type = ""
-    val array = ArrayList<GetVideoCallRequestListResp>()
+    val array = ArrayList<VideoCallRequestListResp>()
     override fun getInflateResource(): Int {
         return R.layout.fragment_video_call_req
     }
@@ -95,15 +93,15 @@ class VideoCallReqFragment : BaseFragment(), View.OnClickListener {
                             )
                             .putExtra(
                                 AppConstants.EXTRA_TO_ID,
-                                array[position!!].from_id.toString()
+                                array[position!!].user_id.toString()
                             )
                             .putExtra(
                                 AppConstants.EXTRA_TO_ROLE,
-                                array[position!!].from_role.toString()
+                                array[position!!].user_role
                             )
                             .putExtra(
                                 AppConstants.EXTRA_NAME,
-                                array[position!!].user_detail.full_name.toString()
+                                array[position!!].full_name
                             )
                     )
                 }

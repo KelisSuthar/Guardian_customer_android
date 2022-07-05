@@ -5,6 +5,8 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -28,7 +30,13 @@ class ConnectedHistoryAdapter(
     var type: String,
     var arrayList: ArrayList<ConnectedHistoryResp>,
     var listeners: onItemClicklisteners
-) : RecyclerView.Adapter<ConnectedHistoryAdapter.myViewHolder>() {
+) : RecyclerView.Adapter<ConnectedHistoryAdapter.myViewHolder>(), Filterable {
+    var list: ArrayList<ConnectedHistoryResp>
+
+    init {
+        list = arrayList
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -43,7 +51,7 @@ class ConnectedHistoryAdapter(
     }
 
     override fun getItemCount(): Int {
-        return arrayList.size
+        return list.size
     }
 
     inner class myViewHolder(view: View?) : RecyclerView.ViewHolder(view!!) {
@@ -63,7 +71,7 @@ class ConnectedHistoryAdapter(
 
         @SuppressLint("SetTextI18n")
         fun bind(position: Int) {
-            val array = arrayList[position]
+            val array = list[position]
             txtSpecialization!!.text = array.specialization
             if (SharedPreferenceManager.getString(
                     AppConstants.USER_ROLE,
@@ -160,5 +168,35 @@ class ConnectedHistoryAdapter(
         fun onNotesClick(position: Int?)
         fun onItemClick(position: Int?)
         fun onVideCallClick(position: Int)
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(charSequence: CharSequence?): FilterResults {
+
+                val charString = charSequence.toString()
+                list = if (charString.isEmpty()) {
+                    arrayList
+                } else {
+                    val filterList: ArrayList<ConnectedHistoryResp> = ArrayList()
+                    for (i in list!!.indices) {
+                        if (list[i].full_name!!.lowercase().contains(charString.lowercase())) {
+                            filterList.add(list[i])
+                        }
+                    }
+                    filterList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = list
+                return filterResults
+
+            }
+
+            override fun publishResults(charSequence: CharSequence?, results: FilterResults?) {
+                list = results?.values as ArrayList<ConnectedHistoryResp>
+                notifyDataSetChanged()
+            }
+
+        }
     }
 }

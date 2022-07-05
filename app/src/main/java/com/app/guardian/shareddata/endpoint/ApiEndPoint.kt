@@ -8,7 +8,7 @@ import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.CommonResponseModel
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
-import com.app.guardian.model.GetVideoCallRequestResp.GetVideoCallRequestListResp
+import com.app.guardian.model.GetVideoCallRequestResp.VideoCallRequestListResp
 import com.app.guardian.model.HomeBanners.UserHomeBannerResp
 import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
 import com.app.guardian.model.LawyerBySpecialization.LawyerBySpecializationResp
@@ -174,13 +174,13 @@ interface ApiEndPoint {
     fun scheduleRequestedVideoCall(@Body body: JsonObject): Call<CommonResponseModel<ScheduleRequestedVideoCallResp>>
 
     @POST("getVideoCallRequestListUser")
-    fun getVideoCallRequestUserList(@Body body: JsonObject): Call<CommonResponseModel<MutableList<GetVideoCallRequestListResp>>>
+    fun getVideoCallRequestUserList(@Body body: JsonObject): Call<CommonResponseModel<MutableList<VideoCallRequestListResp>>>
 
     @POST("getVideoCallRequestListToLawyer")
-    fun getVideoCallRequestLawyerList(@Body body: JsonObject): Call<CommonResponseModel<MutableList<GetVideoCallRequestListResp>>>
+    fun getVideoCallRequestLawyerList(@Body body: JsonObject): Call<CommonResponseModel<MutableList<VideoCallRequestListResp>>>
 
     @POST("getVideoCallRequestListMediator")
-    fun getVideoCallRequestMediatorList(@Body body: JsonObject): Call<CommonResponseModel<MutableList<GetVideoCallRequestListResp>>>
+    fun getVideoCallRequestMediatorList(@Body body: JsonObject): Call<CommonResponseModel<MutableList<VideoCallRequestListResp>>>
 
     @POST("askQuestion")
     fun askModratorAQuestion(@Body body: JsonObject): Call<CommonResponseModel<AskModeQResp>>

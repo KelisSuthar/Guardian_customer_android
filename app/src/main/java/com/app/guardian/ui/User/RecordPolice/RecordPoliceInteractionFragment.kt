@@ -206,13 +206,17 @@ class RecordPoliceInteractionFragment : BaseFragment(), View.OnClickListener {
         when (v?.id) {
             R.id.cvVideoAndAudio -> {
                 changeLayout(1)
-                ReplaceFragment.replaceFragment(
+//                ReplaceFragment.replaceFragment(
+//                    requireActivity(),
+//                    RecordPoliceInteraction_2Fragment(),
+//                    true,
+//                    RecordPoliceInteractionFragment::class.java.name,
+//                    RecordPoliceInteractionFragment::class.java.name
+//                );
+                ReusedMethod.displayMessage(
                     requireActivity(),
-                    RecordPoliceInteraction_2Fragment(),
-                    true,
-                    RecordPoliceInteractionFragment::class.java.name,
-                    RecordPoliceInteractionFragment::class.java.name
-                );
+                    resources.getString(R.string.come_soon)
+                )
             }
             R.id.rlVideoAndAudio -> {
                 mBinding.cvVideoAndAudio.performClick()

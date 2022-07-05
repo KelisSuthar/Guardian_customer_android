@@ -30,11 +30,11 @@ class AboutUsActivity : BaseActivity(), View.OnClickListener {
         mBinding = getBinding()
         mBinding.headderAboutUs.tvHeaderText.text = resources.getString(R.string.about_us)
 
-        checkPermissions(
-            this,
-            AppConstants.EXTRA_CALL_PERMISSION,
-            Manifest.permission.CALL_PHONE
-        )
+//        checkPermissions(
+//            this,
+//            AppConstants.EXTRA_CALL_PERMISSION,
+//            Manifest.permission.CALL_PHONE
+//        )
     }
 
     override fun onResume() {

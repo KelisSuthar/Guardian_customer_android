@@ -1,6 +1,5 @@
 package com.app.guardian.ui.LawyerVideoCallReq
 
-import android.content.Intent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
@@ -11,14 +10,12 @@ import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentLawyerVideoCallReqBinding
-import com.app.guardian.model.GetVideoCallRequestResp.GetVideoCallRequestListResp
+import com.app.guardian.model.GetVideoCallRequestResp.VideoCallRequestListResp
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.LawyerVideoCallReq.adapter.LawyerVideoCallReqAdapter
-import com.app.guardian.ui.Login.LoginActivity
-import com.app.guardian.ui.createorjoin.CreateOrJoinActivity
 import com.app.guardian.utils.Config
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -26,7 +23,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class LawyerVideoCallReqFragment : BaseFragment(), View.OnClickListener {
     private lateinit var mBinding: FragmentLawyerVideoCallReqBinding
     private val mViewModel: CommonScreensViewModel by viewModel()
-    val array = ArrayList<GetVideoCallRequestListResp>()
+    val array = ArrayList<VideoCallRequestListResp>()
     var lawyerVideoCallReqAdapter: LawyerVideoCallReqAdapter? = null
     override fun getInflateResource(): Int {
         return R.layout.fragment_lawyer_video_call_req
@@ -148,7 +145,6 @@ class LawyerVideoCallReqFragment : BaseFragment(), View.OnClickListener {
                                 mBinding.noInternetLawyerVideoCallReq.llNointernet.gone()
                             }
                             lawyerVideoCallReqAdapter?.updateAll(data)
-                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                         } else {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
                         }

@@ -1,25 +1,19 @@
 package com.app.guardian.ui.createorjoin
 
 import android.content.Intent
-import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
-import com.app.guardian.common.AppConstants.EXTRA_VIDEOCALL_RESP
 import com.app.guardian.common.ReusedMethod
-import com.app.guardian.model.GetVideoCallRequestResp.GetVideoCallRequestListResp
 import com.app.guardian.ui.videocalljoin.VideoCallJoinActivity
-import com.google.android.material.snackbar.Snackbar
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -81,18 +75,18 @@ class CreateOrJoinActivity : AppCompatActivity() {
         if (!ReusedMethod.isNetworkConnected(this@CreateOrJoinActivity)) {
             return
         }
-        if (!isNullOrEmpty( resources.getString(R.string.video_call_auth)) && !isNullOrEmpty(AUTH_URL)) {
+        if (!isNullOrEmpty(resources.getString(R.string.video_call_auth)) && !isNullOrEmpty(AUTH_URL)) {
             ReusedMethod.displayMessage(
                 this,
                 "Please Provide only one - either auth_token or auth_url"
             )
             return
         }
-        if (!isNullOrEmpty( resources.getString(R.string.video_call_auth))) {
+        if (!isNullOrEmpty(resources.getString(R.string.video_call_auth))) {
             if (meetingId == null) {
-                createMeeting( resources.getString(R.string.video_call_auth))
+                createMeeting(resources.getString(R.string.video_call_auth))
             } else {
-                joinMeeting( resources.getString(R.string.video_call_auth))
+                joinMeeting(resources.getString(R.string.video_call_auth))
             }
             return
         }

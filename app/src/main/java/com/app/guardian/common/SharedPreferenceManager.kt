@@ -102,8 +102,9 @@ object SharedPreferenceManager {
     fun getLong(key: String, defValue: Long): Long {
         return prefs!!.getLong(key, defValue)
     }
+
     fun getLoginUserRole(): String {
-        return getString(AppConstants.USER_ROLE,"").toString()
+        return getString(AppConstants.USER_ROLE, "").toString()
     }
 
     fun removeAllData() {

@@ -1,32 +1,35 @@
 package com.app.guardian.ui.Splash
 
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Handler
 import android.util.Log
 import android.view.View
+import androidx.work.*
+import com.app.guardian.BackgroundService
+import com.app.guardian.ConnectivityChangeReceiver
+import com.app.guardian.NotifyWork
+import com.app.guardian.NotifyWork.Companion.NOTIFICATION_WORK
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
-import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.databinding.ActivitySplashScreenBinding
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Login.LoginActivity
-import com.app.guardian.ui.SelectRole.SelectRoleScreen
 import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
-import com.app.guardian.ui.chatting.ChattingFragment
 import com.app.guardian.utils.ApiConstant
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
-import java.text.SimpleDateFormat
-import java.util.*
 
 class SplashScreen : BaseActivity(), View.OnClickListener {
     lateinit var mBinding: ActivitySplashScreenBinding
     val notification_type = ""
     val notification_id = ""
     var DEVICE_TOKEN = SharedPreferenceManager.getString(ApiConstant.EXTRAS_DEVICETOKEN, "")
+
+
     override fun getResource(): Int {
         ReusedMethod.updateStatusBarColor(this, R.color.colorTransparent, 0)
         return R.layout.activity_splash_screen
@@ -46,6 +49,7 @@ class SplashScreen : BaseActivity(), View.OnClickListener {
             "NOTIFICATION_SPLASh",
             notification_id.toString()
         )
+//        startService(Intent(this, BackgroundService::class.java))
 
         Handler().postDelayed({
             finish()
@@ -74,13 +78,13 @@ class SplashScreen : BaseActivity(), View.OnClickListener {
                 )
             } else {
                 Log.i(
-                    "NOTIFICATION_SPLASh",
+                    "NOTIFICATION_SPLASH",
                     notification_type.toString()
                 )
                 if (intent != null && intent.extras != null) {
                     if (notification_type == AppConstants.EXTRA_CHAT_MESSAGE_PAYLOAD) {
                         Log.i(
-                            "NOTIFICATION_SPLASh",
+                            "NOTIFICATION_SPLASH",
                             notification_type
                         )
 //                        startActivity(
@@ -135,6 +139,22 @@ class SplashScreen : BaseActivity(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
+
+//        val broadcastReceiver = ConnectivityChangeReceiver()
+//        registerReceiver(broadcastReceiver, IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"))
+//        IntentFilter(Intent.ACTION_ANSWER)
+//        val constraints: Constraints = Constraints.Builder()
+//            .setRequiredNetworkType(NetworkType.CONNECTED)
+//            .build()
+//        val notificationWork = OneTimeWorkRequest.Builder(NotifyWork::class.java)
+//            .setConstraints(constraints).build()
+//
+//        val instanceWorkManager = WorkManager.getInstance(this)
+//        instanceWorkManager.beginUniqueWork(
+//            NOTIFICATION_WORK,
+//            ExistingWorkPolicy.REPLACE, notificationWork
+//        ).enqueue()
+
 
         if (DEVICE_TOKEN.isNullOrEmpty() || DEVICE_TOKEN == "") {
             FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->

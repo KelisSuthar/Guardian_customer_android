@@ -229,6 +229,7 @@
     <string name="notification">Notification</string>
     <string name="virtual_witness">Virtual Witness</string>
     <string name="terms_amp_conditions"><![CDATA[Terms & Conditions]]></string>
+    <string name="terms_conditions">Terms Conditions</string>
     <string name="sign_out">Sign Out</string>
     <string name="old_password">Old Password</string>
     <string name="contact_us">Contact Us</string>
@@ -309,5 +310,7 @@
     <string name="create_meeting">Create Meeting</string>
     <string name="from_time">From</string>
     <string name="to_time">To</string>
+    <string name="clear_all"><u>Clear All</u></string>
+    <string name="clear"><u>Clear</u></string>
 
 </resources>

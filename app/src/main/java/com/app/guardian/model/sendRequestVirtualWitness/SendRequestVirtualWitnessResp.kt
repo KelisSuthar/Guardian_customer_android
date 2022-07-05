@@ -5,8 +5,8 @@ data class SendRequestVirtualWitnessResp(
     val id: Int,
     val is_immediate_joining: Int,
     val request_datetime: String,
-    val schedule_datetime: Any,
-    val support_group_id: Any,
+    val schedule_datetime: String,
+    val support_group_id: Int,
     val updated_at: String,
     val user_id: Int
 )

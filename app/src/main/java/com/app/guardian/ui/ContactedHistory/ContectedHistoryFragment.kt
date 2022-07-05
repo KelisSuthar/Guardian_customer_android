@@ -5,7 +5,9 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
@@ -26,6 +28,7 @@ import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.changeDateFormat
 import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.inVisible
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentContectedHistoryBinding
 import com.app.guardian.model.ListFilter.FilterResp
@@ -84,16 +87,41 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
             }
 
         }
+        mBinding.searchConnectedHistory.edtLoginEmail.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0.isNullOrEmpty()) {
+                    mBinding.searchConnectedHistory.ivCancel.gone()
+                } else {
+                    mBinding.searchConnectedHistory.ivCancel.visible()
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+
+            }
+
+        })
         mBinding.searchConnectedHistory.edtLoginEmail.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                isSearchVisisble = true
-                callApi(
-                    mBinding.searchConnectedHistory.edtLoginEmail.text.toString(),
-                )
+//                callAPI(
+//                    mBinding.lyLawyerListFilter.edtLoginEmail.text.toString(),
+//                    years_of_exp,
+//                    specialization
+//                )
+                val value = mBinding.searchConnectedHistory.edtLoginEmail.text?.trim().toString()
+                if (!TextUtils.isEmpty(value)) {
+                    connectedHistoryAdapter!!.filter.filter(value)
+                }
                 return@OnEditorActionListener true
             }
             false
         })
+
         (activity as HomeActivity).bottomTabVisibility(true)
         (activity as HomeActivity).headerTextVisible(
             requireActivity().resources.getString(R.string.contacted_history),
@@ -259,7 +287,8 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
         }
         btnImmediateJoin.setOnClickListener {
             dialog.dismiss()
-            callRequestrMediatorApi(1, txtDate.text.toString() + " " + txtTime.text.toString())
+//            callRequestrMediatorApi(1, txtDate.text.toString() + " " + txtTime.text.toString())
+            ReusedMethod.displayMessage(requireActivity(),resources.getString(R.string.come_soon))
         }
         btnRequestSend.setOnClickListener {
 
@@ -624,8 +653,13 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.llsearch -> {
                 isSearchVisisble = true
-                if (TextUtils.isEmpty(mBinding.searchConnectedHistory.edtLoginEmail.text.toString())) {
-                    callApi(mBinding.searchConnectedHistory.edtLoginEmail.text.toString())
+                if (!TextUtils.isEmpty(
+                        mBinding.searchConnectedHistory.edtLoginEmail.text?.trim().toString()
+                    )
+                ) {
+                    connectedHistoryAdapter!!.filter.filter(
+                        mBinding.searchConnectedHistory.edtLoginEmail.text?.trim().toString()
+                    )
                 }
             }
         }
@@ -650,6 +684,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
         val btnDone: Button = dialog.findViewById(R.id.btnDone)
         val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
         val txtYearsExpTitle: TextView = dialog.findViewById(R.id.txtYearsExpTitle)
+        val txtClear2: TextView = dialog.findViewById(R.id.txtClear2)
 
         txtYearsExpTitle.gone()
         scrollView.gone()
@@ -658,6 +693,11 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
 
         ivClose.setOnClickListener {
             dialog.dismiss()
+        }
+        if (specialization.isNotEmpty()) {
+            txtClear2.visible()
+        } else {
+            txtClear2.gone()
         }
         btnDone.setOnClickListener {
             mBinding.rvContectedHistory.visible()
@@ -669,6 +709,14 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
             isSearchVisisble = true
             callApi(specialization)
 
+        }
+        txtClear2.setOnClickListener {
+
+            specialization = ""
+            chipGroup1.removeAllViews()
+            AddItemsInChipGroup(requireContext(), chipGroup1, data.specialization)
+            txtClear2.inVisible()
+            callApi(specialization)
         }
         dialog.show()
     }
@@ -693,16 +741,22 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
             TypedValue.COMPLEX_UNIT_DIP, 50f,
             context.resources.displayMetrics
         ).toInt()
-        chip.setChipBackgroundColorResource(R.color.chip_unselector)
+        if (specialization == text) {
+            chip.setChipBackgroundColorResource(R.color.chip_selector)
+            chip.setTextColor(ContextCompat.getColor(context, R.color.white))
+            chip.isChecked = true
+        } else {
+            chip.setChipBackgroundColorResource(R.color.chip_unselector)
+            chip.setTextColor(ContextCompat.getColor(context, R.color.txt_dark))
+            chip.isChecked = false
+        }
         chip.typeface = resources.getFont(R.font.lora_regular)
-        chip.setTextColor(ContextCompat.getColor(context, R.color.txt_dark))
         chip.isCloseIconVisible = false
         chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
         chip.text = text
         chip.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 specialization = text
-
                 chip.setChipBackgroundColorResource(R.color.chip_selector)
                 chip.setTextColor(ContextCompat.getColor(context, R.color.white))
                 chip.isChecked = true

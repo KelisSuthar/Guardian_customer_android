@@ -124,7 +124,6 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                         AppConstants.EXTRA_VIDEOCALLREQ_PAYLOAD -> {
                             val jsonObject =
                                 JSONObject(array[position].data_obj)
-                            Log.i("NOTIFICATION_DATA", jsonObject.getString("room_id"))
                             if (jsonObject.has("room_id")) {
                                 meeting_Id = jsonObject.getString("room_id")
                                 callCheckSubscriptionApi()

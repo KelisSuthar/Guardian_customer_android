@@ -7,6 +7,7 @@ import android.net.Uri
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
+import com.app.guardian.BackgroundService
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
@@ -98,7 +99,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-
+//        context?.startService(Intent(requireContext(), BackgroundService::class.java))
         mBinding.noInternetUserHomeFrag.llNointernet.gone()
         mBinding.noDataUserHomeFrag.gone()
         mBinding.cl.visible()

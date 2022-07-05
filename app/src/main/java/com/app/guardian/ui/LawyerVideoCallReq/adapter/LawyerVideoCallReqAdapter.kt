@@ -3,19 +3,20 @@ package com.app.guardian.ui.LawyerVideoCallReq.adapter
 import android.content.Context
 import android.view.View
 import android.widget.LinearLayout
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.BaseRecyclerViewAdapter
+import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
-import com.app.guardian.model.GetVideoCallRequestResp.GetVideoCallRequestListResp
+import com.app.guardian.model.GetVideoCallRequestResp.VideoCallRequestListResp
+import com.app.guardian.model.ListFilter.Specialization
 import com.bumptech.glide.Glide
-import com.google.android.gms.maps.model.Circle
 import de.hdodenhof.circleimageview.CircleImageView
 
 class LawyerVideoCallReqAdapter(val context: Context, val listener: onItemClicklisteners) :
-    BaseRecyclerViewAdapter<GetVideoCallRequestListResp>(context) {
+    BaseRecyclerViewAdapter<VideoCallRequestListResp>(context) {
 
 
     override fun getViewHolder(view: View): RecyclerView.ViewHolder {
@@ -28,7 +29,7 @@ class LawyerVideoCallReqAdapter(val context: Context, val listener: onItemClickl
 
     override fun setData(
         holder: RecyclerView.ViewHolder,
-        data: GetVideoCallRequestListResp,
+        data: VideoCallRequestListResp,
         position: Int
     ) {
         val customViewHolder = holder as CustomViewHolder
@@ -44,15 +45,29 @@ class LawyerVideoCallReqAdapter(val context: Context, val listener: onItemClickl
         var txtSpTitle = view.findViewById<AppCompatTextView>(R.id.txtSpTitle)
         var txtSpecialization = view.findViewById<AppCompatTextView>(R.id.txtSpecialization)
         var lyRowLawyerContact = view.findViewById<LinearLayout>(R.id.lyRowLawyerContact)
-        open fun bindData(data: GetVideoCallRequestListResp, position: Int) {
+        open fun bindData(data: VideoCallRequestListResp, position: Int) {
             lyRowLawyerContact.gone()
             positions = position
-            Glide.with(context).load(data.user_detail.profile_avatar)
+            Glide.with(context).load(data.profile_avatar)
                 .placeholder(R.drawable.profile)
                 .into(imgRowLawyerPicture)
 
-            txtName.text = data.user_detail.full_name
+            txtName.text = data.full_name
             itemView.setOnClickListener { listener.onItemClick(position) }
+            when (data.user_role) {
+                AppConstants.APP_ROLE_USER -> {
+                    txtExp.text = AppConstants.USER
+                }
+                AppConstants.APP_ROLE_LAWYER -> {
+                    txtExp.text = AppConstants.LAWYEER
+                }
+                AppConstants.APP_ROLE_MEDIATOR -> {
+                    txtExp.text = AppConstants.MEDIATOR
+                }
+            }
+            txtDateTime.text = "Status : " + data.request_status
+            txtSpTitle.text = "Specialization :"
+            txtSpecialization.text = data.specialization
         }
     }
 

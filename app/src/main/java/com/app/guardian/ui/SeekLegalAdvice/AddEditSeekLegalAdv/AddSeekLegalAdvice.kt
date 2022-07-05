@@ -31,18 +31,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AddSeekLegalAdvice.newInstance] factory method to
- * create an instance of this fragment.
- */
-class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : BaseFragment(), View.OnClickListener {
+class AddSeekLegalAdvice(isEdit: Boolean, id: Int, title: String, desc: String) : BaseFragment(),
+    View.OnClickListener {
     private val mViewModel: LawyerViewModel by viewModel()
     lateinit var mBinding: FragmentAddSeekLegalAdviceBinding
     var is_edit = isEdit
@@ -62,10 +52,10 @@ class AddSeekLegalAdvice(isEdit: Boolean, id: Int,title:String,desc:String) : Ba
             true,
             true
         )
-         imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-        if(is_edit){
-    mBinding.edtTitle.setText(edit_title)
-    mBinding.edtDesc.setText(edit_desc)
+        imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        if (is_edit) {
+            mBinding.edtTitle.setText(edit_title)
+            mBinding.edtDesc.setText(edit_desc)
 
         }
         mBinding.edtDesc.filters = arrayOf(InputFilter.LengthFilter(700))

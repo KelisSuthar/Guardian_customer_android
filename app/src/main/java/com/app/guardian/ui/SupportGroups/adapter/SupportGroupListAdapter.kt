@@ -27,7 +27,7 @@ class SupportGroupListAdapter(
     var context: Activity,
 
     var arrayList: ArrayList<SupportGroupResp>,
-    var listeners: SupportGroupListAdapter.onItemClicklisteners
+    var listeners: onItemClicklisteners
 ) :
 
     RecyclerView.Adapter<SupportGroupListAdapter.myViewHolder>() {

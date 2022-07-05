@@ -52,15 +52,33 @@
             android:layout_margin="@dimen/_10sdp"
             android:background="@color/colorPrimaryDark" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtYearsExpTitle"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:fontFamily="@font/lora_semibold"
-            android:text="Years of Experience :"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/_9ssp" />
+            android:layout_marginHorizontal="@dimen/_15sdp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtYearsExpTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/lora_semibold"
+                android:text="Years of Experience :"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/_9ssp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtClear1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:fontFamily="@font/lora_semibold"
+                android:text="@string/clear"
+                android:visibility="gone"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/_13ssp" />
+        </RelativeLayout>
 
         <ScrollView
             android:id="@+id/sv1"
@@ -77,15 +95,34 @@
 
             </com.google.android.material.chip.ChipGroup>
         </ScrollView>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:fontFamily="@font/lora_semibold"
-            android:text="@string/specialization_title"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/_9ssp" />
+            android:layout_marginHorizontal="@dimen/_15sdp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtSpTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/lora_semibold"
+                android:text="Specialization :"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/_9ssp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtClear2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:fontFamily="@font/lora_semibold"
+                android:text="@string/clear"
+                android:visibility="gone"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/_13ssp" />
+        </RelativeLayout>
+
 
 
         <ScrollView

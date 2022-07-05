@@ -5,7 +5,9 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.TypedValue
 import android.view.View
 import android.view.Window
@@ -25,6 +27,7 @@ import com.app.guardian.common.ReusedMethod.Companion.setUpDialog
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.changeDateFormat
 import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.inVisible
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentLawyerListBinding
 import com.app.guardian.model.LawyerLsit.LawyerListResp
@@ -46,7 +49,9 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textview.MaterialTextView
+import okhttp3.internal.cacheGet
 import org.koin.android.viewmodel.ext.android.viewModel
+import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -65,6 +70,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
     override fun getInflateResource(): Int {
         return R.layout.fragment_lawyer_list
     }
+
     override fun initView() {
         mBinding = getBinding()
         (activity as HomeActivity).bottomTabVisibility(true)
@@ -81,13 +87,36 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                 isBackButtonVisible = false
             )
         }
+        mBinding.lyLawyerListFilter.edtLoginEmail.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0.isNullOrEmpty()) {
+                    mBinding.lyLawyerListFilter.ivCancel.gone()
+                } else {
+                    mBinding.lyLawyerListFilter.ivCancel.visible()
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+
+            }
+
+        })
         mBinding.lyLawyerListFilter.edtLoginEmail.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                callAPI(
-                    mBinding.lyLawyerListFilter.edtLoginEmail.text.toString(),
-                    years_of_exp,
-                    specialization
-                )
+//                callAPI(
+//                    mBinding.lyLawyerListFilter.edtLoginEmail.text.toString(),
+//                    years_of_exp,
+//                    specialization
+//                )
+                val value = mBinding.lyLawyerListFilter.edtLoginEmail.text?.trim().toString()
+                if (!TextUtils.isEmpty(value)) {
+                    lawyerListAdapter!!.filter.filter(value)
+                }
                 return@OnEditorActionListener true
             }
             false
@@ -290,6 +319,8 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
 
     override fun onResume() {
         super.onResume()
+        years_of_exp = ""
+        specialization = ""
         callAPI("", "", "")
         setAdapter()
         mBinding.rvLawyerList.visible()
@@ -355,7 +386,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         }
     }
 
-     fun callVideoCallRequestAPI(
+    fun callVideoCallRequestAPI(
         selected_laywer_id: Int,
         role: String,
         isImmediateJoining: Int,
@@ -436,6 +467,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         mBinding.noInternetLawyer.btnTryAgain.setOnClickListener(this)
         mBinding.lyLawyerListFilter.lySearchFilter.setOnClickListener(this)
         mBinding.lyLawyerListFilter.llsearch.setOnClickListener(this)
+        mBinding.lyLawyerListFilter.ivCancel.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -443,32 +475,44 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
             R.id.btnTryAgain -> {
                 onResume()
             }
+            R.id.ivCancel -> {
+                lawyerListAdapter!!.filter.filter("")
+                mBinding.lyLawyerListFilter.edtLoginEmail.setText("")
+            }
             R.id.lySearchFilter -> {
                 callFilterDataAPI()
 
             }
             R.id.llsearch -> {
-                if (!TextUtils.isEmpty(mBinding.lyLawyerListFilter.edtLoginEmail.text.toString())) {
-                    callAPI(mBinding.lyLawyerListFilter.edtLoginEmail.text.toString(), "", "")
+//                if (!TextUtils.isEmpty(mBinding.lyLawyerListFilter.edtLoginEmail.text.toString())) {
+//                    callAPI(mBinding.lyLawyerListFilter.edtLoginEmail.text.toString(), "", "")
+//                }
+
+                if (!TextUtils.isEmpty(
+                        mBinding.lyLawyerListFilter.edtLoginEmail.text?.trim().toString()
+                    )
+                ) {
+                    lawyerListAdapter!!.filter.filter(
+                        mBinding.lyLawyerListFilter.edtLoginEmail.text?.trim().toString()
+                    )
                 }
             }
         }
     }
 
     private fun showFilterDialog(data: FilterResp) {
-
-        val dialog = Dialog(
-            requireActivity(),
-            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
-        )
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.setContentView(R.layout.dialog_filter)
-        dialog.setCancelable(false)
+//        var cancel1 = false
+//        var cancel2 = false
+//        var sp = ""
+//        var years_exp = ""
+        val dialog = setUpDialog(requireContext(), R.layout.dialog_filter, false)
+//        val dialog = setUpDialog(requireContext(),R.layout.dialog_filter_2,false)
         val chipGroup1: ChipGroup = dialog.findViewById(R.id.chip_group1)
         val chipGroup2: ChipGroup = dialog.findViewById(R.id.chip_group2)
         val btnDone: Button = dialog.findViewById(R.id.btnDone)
         val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
+        val txtClear1: TextView = dialog.findViewById(R.id.txtClear1)
+        val txtClear2: TextView = dialog.findViewById(R.id.txtClear2)
 
         AddItemsInChipGroup(requireContext(), chipGroup1, data.specialization)
 
@@ -488,6 +532,16 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         ivClose.setOnClickListener {
             dialog.dismiss()
         }
+        if (specialization.isNotEmpty()) {
+            txtClear2.visible()
+        } else {
+            txtClear2.gone()
+        }
+        if (years_of_exp.isNotEmpty()) {
+            txtClear1.visible()
+        } else {
+            txtClear1.gone()
+        }
         btnDone.setOnClickListener {
             mBinding.rvLawyerList.visible()
             mBinding.lyLawyerListFilter.lySearch.visible()
@@ -500,8 +554,32 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                 callAPI("", "15-100", specialization)
             } else {
                 callAPI("", years_of_exp.replace(" to ", "-"), specialization)
-
             }
+        }
+        txtClear1.setOnClickListener {
+
+            years_of_exp = ""
+            chipGroup2.removeAllViews()
+            for (i in array.indices) {
+                val entryChip2: Chip = getChip(array[i], requireContext(), false)
+                entryChip2.id = i
+                chipGroup2.addView(entryChip2)
+            }
+
+            txtClear1.inVisible()
+            if (years_of_exp == "Above 15") {
+                callAPI("", "15-100", specialization)
+            } else {
+                callAPI("", years_of_exp.replace(" to ", "-"), specialization)
+            }
+        }
+        txtClear2.setOnClickListener {
+
+            specialization = ""
+            chipGroup1.removeAllViews()
+            AddItemsInChipGroup(requireContext(), chipGroup1, data.specialization)
+            txtClear2.inVisible()
+            callAPI("", years_of_exp, specialization)
         }
         dialog.show()
     }
@@ -525,17 +603,26 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
             TypedValue.COMPLEX_UNIT_DIP, 50f,
             context.resources.displayMetrics
         ).toInt()
-        chip.setChipBackgroundColorResource(R.color.chip_unselector)
+        if (specialization == text || years_of_exp == text) {
+            chip.setChipBackgroundColorResource(R.color.chip_selector)
+            chip.setTextColor(ContextCompat.getColor(context, R.color.white))
+            chip.isChecked = true
+        } else {
+            chip.setChipBackgroundColorResource(R.color.chip_unselector)
+            chip.setTextColor(ContextCompat.getColor(context, R.color.txt_dark))
+            chip.isChecked = false
+        }
+
         chip.typeface = resources.getFont(R.font.lora_regular)
-        chip.setTextColor(ContextCompat.getColor(context, R.color.txt_dark))
+
         chip.isCloseIconVisible = false
         chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
         chip.text = text
         chip.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-
                 if (b) {
                     specialization = text
+
                 } else {
                     years_of_exp = text
                 }
@@ -547,7 +634,6 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                 chip.setChipBackgroundColorResource(R.color.chip_unselector)
                 chip.setTextColor(ContextCompat.getColor(context, R.color.txt_dark))
                 chip.isChecked = false
-
             }
         }
         return chip
@@ -580,7 +666,8 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         }
         btnImmediateJoin.setOnClickListener {
             dialog.dismiss()
-            callRequestrMediatorApi(1, txtDate.text.toString() + " " + txtTime.text.toString())
+//            callRequestrMediatorApi(1, txtDate.text.toString() + " " + txtTime.text.toString())
+            ReusedMethod.displayMessage(requireActivity(),resources.getString(R.string.come_soon))
         }
         btnRequestSend.setOnClickListener {
 

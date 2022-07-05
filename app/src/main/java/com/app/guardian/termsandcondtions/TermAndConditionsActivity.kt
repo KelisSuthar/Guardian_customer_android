@@ -2,6 +2,7 @@ package com.app.guardian.termsandcondtions
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import androidx.databinding.DataBindingUtil.getBinding
 import com.app.guardian.R
@@ -23,7 +24,7 @@ class TermAndConditionsActivity : BaseActivity(), View.OnClickListener {
 
     override fun initView() {
         mBinding = getBinding()
-        mBinding.headderTerms.tvHeaderText.text = resources.getString(R.string.terms_amp_conditions)
+        mBinding.headderTerms.tvHeaderText.text = resources.getString(R.string.terms_conditions)
     }
 
     override fun initObserver() {
@@ -40,11 +41,14 @@ class TermAndConditionsActivity : BaseActivity(), View.OnClickListener {
         super.onResume()
         mBinding.cl.gone()
         mBinding.noInternetTerms.llNointernet.gone()
-        if(ReusedMethod.isNetworkConnected(this))
-        {
+        if (ReusedMethod.isNetworkConnected(this)) {
+            showLoadingIndicator(true)
+            Handler().postDelayed({
+                showLoadingIndicator(false)
+            }, 2000)
             mBinding.webview.loadWebViewData(SharedPreferenceManager.getCMS()!!.terms_conditions)
             mBinding.cl.visible()
-        }else{
+        } else {
             mBinding.noInternetTerms.llNointernet.visible()
             mBinding.cl.gone()
         }

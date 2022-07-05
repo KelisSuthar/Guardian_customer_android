@@ -37,7 +37,9 @@ import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.BannerAds.BannerAdsPager
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.HomeBanners.HomeBannersFragment
+import com.app.guardian.ui.SupportGroups.SupportGroupList
 import com.app.guardian.ui.User.ContactSupport.ContactSupportFragment
+import com.app.guardian.ui.User.settings.SettingsFragment
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.google.android.gms.location.*
@@ -54,6 +56,7 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
     lateinit var mBinding: FragmentScheduleVirtualWitnessBinding
     var array = ArrayList<BannerCollection>()
     var bannerArray = ArrayList<BannerCollection>()
+
     var bannerAdsPager: BannerAdsPager? = null
     var isMultiple: Boolean = false
     var isStopped: Boolean = false
@@ -210,7 +213,14 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
         when (v?.id) {
             R.id.cvScheduleDateTime -> {
                 changeLayout(1)
-                callScedualDialog()
+//                callScedualDialog()
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    SupportGroupList(resources.getString(R.string.support_groups),true,schedule_call = true),
+                    true,
+                    ScheduleVirtualWitnessFragment::class.java.name,
+                    ScheduleVirtualWitnessFragment::class.java.name
+                )
 
             }
             R.id.cvLocationWhereCallWillTakePlace -> {
@@ -219,7 +229,14 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.cvScheduleMultipleCalls -> {
                 changeLayout(3)
-                callScedualDialog()
+//                callScedualDialog()
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    SupportGroupList(resources.getString(R.string.support_groups),true),
+                    true,
+                    ScheduleVirtualWitnessFragment::class.java.name,
+                    ScheduleVirtualWitnessFragment::class.java.name
+                )
             }
             R.id.cvContactSupport -> {
                 changeLayout(4)
@@ -242,17 +259,15 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
                 );
             }
             R.id.rlScheduleMultipleCalls -> {
-                changeLayout(3)
-                callScedualDialog()
-                displayMessage(requireActivity(), "Coming Soon!")
+                mBinding.cvScheduleMultipleCalls.performClick()
+
             }
             R.id.rlLocationWhereCallWillTakePlace -> {
                 changeLayout(2)
                 locationCall(requireActivity())
             }
             R.id.rlScheduleDateTime -> {
-                changeLayout(1)
-                callScedualDialog()
+
 
             }
             R.id.rbContactSupport -> {
@@ -266,8 +281,7 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
                 );
             }
             R.id.rbScheduleDateTime -> {
-                changeLayout(1)
-                callScedualDialog()
+                mBinding.cvScheduleDateTime.performClick()
 
             }
             R.id.rbLocationWhereCallWillTakePlace -> {
@@ -276,9 +290,7 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
 
             }
             R.id.rbScheduleMultipleCalls -> {
-                changeLayout(3)
-
-                callScedualDialog()
+                mBinding.cvScheduleMultipleCalls.performClick()
 
             }
             R.id.txtViewMore -> {

@@ -34,6 +34,8 @@ import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.ResetPassword.ResetPasswordActivity
 import com.app.guardian.ui.SeekLegalAdvice.SeekLegalAdviceListFragment
 import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
+import com.app.guardian.ui.SupportGroups.SupportGroupList
+import com.app.guardian.ui.User.ContactSupport.ContactSupportFragment
 import com.app.guardian.ui.VideoCallReq.VideoCallReqFragment
 import com.app.guardian.ui.aboutus.AboutUsActivity
 import com.app.guardian.ui.editProfile.EditProfileActivity
@@ -461,13 +463,20 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                 requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
             }
             R.id.tvVirtualWitness -> {
+//                ReplaceFragment.replaceFragment(
+//                    requireActivity(),
+//                    VirtualWitnessFragment(),
+//                    true,
+//                    SettingsFragment::class.java.name,
+//                    SettingsFragment::class.java.name
+//                )
                 ReplaceFragment.replaceFragment(
                     requireActivity(),
-                    VirtualWitnessFragment(),
+                    SupportGroupList(resources.getString(R.string.support_groups)),
                     true,
                     SettingsFragment::class.java.name,
                     SettingsFragment::class.java.name
-                );
+                )
             }
             R.id.tvSeekLegaladv -> {
                 ReplaceFragment.replaceFragment(

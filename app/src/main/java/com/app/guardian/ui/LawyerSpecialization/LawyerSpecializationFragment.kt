@@ -3,7 +3,9 @@ package com.app.guardian.ui.LawyerSpecialization
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.TypedValue
 import android.view.View
 import android.view.Window
@@ -11,6 +13,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
@@ -19,6 +22,7 @@ import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.changeDateFormat
 import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.inVisible
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentLawyerSpecializationBinding
 import com.app.guardian.model.LawyerBySpecialization.LawyerBySpecializationResp
@@ -52,7 +56,7 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
     private lateinit var mBinding: FragmentLawyerSpecializationBinding
     var lawyerBySpecializationAdapter: LawyerBySpecializationAdapter? = null
     var isDialLawyerOpen = isDialLawyer
-    var specialization = specialization
+    var specialization = ""
     var years_of_exp = ""
     var selected_laywer_id = -1
     var array = ArrayList<LawyerBySpecializationResp>()
@@ -78,13 +82,36 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
             )
         }
 //        mBinding.lyLawyerSpListFilter.lySearchFilter.gone()
+        mBinding.lyLawyerSpListFilter.edtLoginEmail.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0.isNullOrEmpty()) {
+                    mBinding.lyLawyerSpListFilter.ivCancel.gone()
+                } else {
+                    mBinding.lyLawyerSpListFilter.ivCancel.visible()
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+
+            }
+
+        })
 
         mBinding.lyLawyerSpListFilter.edtLoginEmail.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                callAPI(
-                    mBinding.lyLawyerSpListFilter.edtLoginEmail.text.toString(),
-                    years_of_exp, specialization!!
-                )
+//                callAPI(
+//                    mBinding.lyLawyerSpListFilter.edtLoginEmail.text.toString(),
+//                    years_of_exp, specialization!!
+//                )
+                val value = mBinding.lyLawyerSpListFilter.edtLoginEmail.text?.trim().toString()
+                if (!TextUtils.isEmpty(value)) {
+                    lawyerBySpecializationAdapter!!.filter.filter(value)
+                }
                 return@OnEditorActionListener true
             }
             false
@@ -301,10 +328,18 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
             }
             R.id.llsearch -> {
                 if (!TextUtils.isEmpty(mBinding.lyLawyerSpListFilter.edtLoginEmail.text.toString())) {
-                    callAPI(
-                        mBinding.lyLawyerSpListFilter.edtLoginEmail.text.toString(), years_of_exp,
-                        specialization.toString()
-                    )
+//                    callAPI(
+//                        mBinding.lyLawyerSpListFilter.edtLoginEmail.text.toString(), years_of_exp,
+//                        specialization.toString()
+//                    )
+                    if (!TextUtils.isEmpty(
+                            mBinding.lyLawyerSpListFilter.edtLoginEmail.text?.trim().toString()
+                        )
+                    ) {
+                        lawyerBySpecializationAdapter!!.filter.filter(
+                            mBinding.lyLawyerSpListFilter.edtLoginEmail.text?.trim().toString()
+                        )
+                    }
                 }
             }
         }
@@ -409,19 +444,13 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
     }
 
     private fun showFilterDialog(data: FilterResp) {
-
-        val dialog = Dialog(
-            requireActivity(),
-            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
-        )
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.setContentView(R.layout.dialog_filter)
-        dialog.setCancelable(false)
+        val dialog = ReusedMethod.setUpDialog(requireContext(), R.layout.dialog_filter, false)
         val chipGroup1: ChipGroup = dialog.findViewById(R.id.chip_group1)
         val chipGroup2: ChipGroup = dialog.findViewById(R.id.chip_group2)
         val btnDone: Button = dialog.findViewById(R.id.btnDone)
         val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
+        val txtClear1: AppCompatTextView = dialog.findViewById(R.id.txtClear1)
+        val txtClear2: AppCompatTextView = dialog.findViewById(R.id.txtClear2)
 
         AddItemsInChipGroup(requireContext(), chipGroup1, data.specialization)
 
@@ -441,7 +470,23 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
         ivClose.setOnClickListener {
             dialog.dismiss()
         }
+        if (specialization!!.isNotEmpty()) {
+            txtClear2.visible()
+        } else {
+            txtClear2.gone()
+        }
+        if (years_of_exp.isNotEmpty()) {
+            txtClear1.visible()
+        } else {
+            txtClear1.gone()
+        }
         btnDone.setOnClickListener {
+            mBinding.rvLawyerSpList.visible()
+            mBinding.lyLawyerSpListFilter.lySearch.visible()
+            mBinding.lyLawyerSpListFilter.lySearchFilter.visible()
+            //  mBinding.lyLawyerListFilter.edtLoginEmail.gone()
+            mBinding.noLawyerSp.gone()
+            mBinding.noInternetLawyerSp.llNointernet.gone()
             dialog.dismiss()
             if (years_of_exp == "Above 15") {
                 callAPI("", "15-100", specialization.toString())
@@ -449,10 +494,33 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
             } else {
                 callAPI("", years_of_exp.replace(" to ", "-"), specialization.toString())
 
+
             }
-            specialization = ""
-            years_of_exp = ""
         }
+        txtClear1.setOnClickListener {
+            years_of_exp = ""
+            chipGroup2.removeAllViews()
+            for (i in array.indices) {
+                val entryChip2: Chip = getChip(array[i], requireContext(), false)
+                entryChip2.id = i
+                chipGroup2.addView(entryChip2)
+            }
+            txtClear1.inVisible()
+            if (years_of_exp == "Above 15") {
+                callAPI("", "15-100", specialization.toString())
+            } else {
+                callAPI("", years_of_exp.replace(" to ", "-"), specialization.toString())
+            }
+        }
+        txtClear2.setOnClickListener {
+
+            specialization = ""
+            chipGroup1.removeAllViews()
+            AddItemsInChipGroup(requireContext(), chipGroup1, data.specialization)
+            txtClear2.inVisible()
+            callAPI("", years_of_exp, specialization!!)
+        }
+
         dialog.show()
     }
 
@@ -475,9 +543,19 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
             TypedValue.COMPLEX_UNIT_DIP, 50f,
             context.resources.displayMetrics
         ).toInt()
-        chip.setChipBackgroundColorResource(R.color.chip_unselector)
+        if (specialization == text || years_of_exp == text) {
+            chip.setChipBackgroundColorResource(R.color.chip_selector)
+            chip.setTextColor(ContextCompat.getColor(context, R.color.white))
+            chip.isChecked = true
+        } else {
+            chip.setChipBackgroundColorResource(R.color.chip_unselector)
+            chip.setTextColor(ContextCompat.getColor(context, R.color.txt_dark))
+            chip.isChecked = false
+        }
+
+
         chip.typeface = resources.getFont(R.font.lora_regular)
-        chip.setTextColor(ContextCompat.getColor(context, R.color.txt_dark))
+
         chip.isCloseIconVisible = false
         chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
         chip.text = text
@@ -534,7 +612,8 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
         }
         btnImmediateJoin.setOnClickListener {
             dialog.dismiss()
-            callRequestrMediatorApi(1, txtDate.text.toString() + " " + txtTime.text.toString())
+//            callRequestrMediatorApi(1, txtDate.text.toString() + " " + txtTime.text.toString())
+            ReusedMethod.displayMessage(requireActivity(),resources.getString(R.string.come_soon))
         }
         btnRequestSend.setOnClickListener {
 
@@ -601,7 +680,7 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
         }
     }
 
-     fun callVideoCallRequestAPI(
+    fun callVideoCallRequestAPI(
         selected_laywer_id: Int,
         role: String,
         isImmediateJoining: Int,

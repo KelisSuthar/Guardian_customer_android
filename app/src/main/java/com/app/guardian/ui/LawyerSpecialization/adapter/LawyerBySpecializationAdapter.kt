@@ -5,9 +5,7 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
@@ -29,7 +27,9 @@ class LawyerBySpecializationAdapter(
     var isDialLawyer: Boolean,
     var arrayList: ArrayList<LawyerBySpecializationResp>,
     var listeners: onItemClicklisteners
-) : RecyclerView.Adapter<LawyerBySpecializationAdapter.myViewHolder>() {
+) : RecyclerView.Adapter<LawyerBySpecializationAdapter.myViewHolder>(), Filterable {
+    var list: ArrayList<LawyerBySpecializationResp> = arrayList
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -47,7 +47,7 @@ class LawyerBySpecializationAdapter(
     }
 
     override fun getItemCount(): Int {
-        return arrayList.size
+        return list.size
     }
 
     inner class myViewHolder(view: View?) : RecyclerView.ViewHolder(view!!) {
@@ -73,7 +73,7 @@ class LawyerBySpecializationAdapter(
 
             }
 
-            var array = arrayList[position]
+            var array = list[position]
             lyLawyerDetails?.setOnClickListener {
                 listeners.onSubclick(array.id)
             }
@@ -156,5 +156,35 @@ class LawyerBySpecializationAdapter(
 
     interface onItemClicklisteners {
         fun onSubclick(selectedLawyerId: Int?)
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(charSequence: CharSequence?): FilterResults {
+
+                val charString = charSequence.toString()
+                list = if (charString.isEmpty()) {
+                    arrayList
+                } else {
+                    val filterList: ArrayList<LawyerBySpecializationResp> = ArrayList()
+                    for (i in list!!.indices) {
+                        if (list[i].full_name!!.lowercase().contains(charString.lowercase())) {
+                            filterList.add(list[i])
+                        }
+                    }
+                    filterList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = list
+                return filterResults
+
+            }
+
+            override fun publishResults(charSequence: CharSequence?, results: FilterResults?) {
+                list = results?.values as ArrayList<LawyerBySpecializationResp>
+                notifyDataSetChanged()
+            }
+
+        }
     }
 }

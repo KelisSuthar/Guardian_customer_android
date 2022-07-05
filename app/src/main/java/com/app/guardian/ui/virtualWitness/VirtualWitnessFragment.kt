@@ -1,29 +1,32 @@
 package com.app.guardian.ui.virtualWitness
 
 import android.app.Activity
-import android.app.Dialog
-import android.util.Log
-import androidx.fragment.app.Fragment
+import android.content.Context
+import android.content.Intent
+import android.os.Handler
 import android.view.View
-import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
-import com.app.guardian.common.ReusedMethod.Companion.callConformationDialog
+import com.app.guardian.common.ReusedMethod.Companion.getCurrentDate
 import com.app.guardian.common.ReusedMethod.Companion.selectDate
 import com.app.guardian.common.ReusedMethod.Companion.selectTime
 import com.app.guardian.common.SharedPreferenceManager
+import com.app.guardian.common.extentions.changeDateFormat
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.loadWebViewData
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentVirtualWitnessBinding
+import com.app.guardian.model.SupportGroup.SupportGroupResp
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.google.android.material.card.MaterialCardView
@@ -33,7 +36,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class VirtualWitnessFragment(val headder: String? = "") : BaseFragment(), View.OnClickListener {
+class VirtualWitnessFragment(val resp: SupportGroupResp) : BaseFragment(),
+    View.OnClickListener {
     private lateinit var mBinding: FragmentVirtualWitnessBinding
     private val mViewModel: CommonScreensViewModel by viewModel()
     override fun getInflateResource(): Int {
@@ -43,17 +47,17 @@ class VirtualWitnessFragment(val headder: String? = "") : BaseFragment(), View.O
     override fun initView() {
         mBinding = getBinding()
         (activity as HomeActivity).bottomTabVisibility(false)
-        if (headder.isNullOrEmpty()) {
+        if (resp.toString().isNullOrEmpty()) {
             (activity as HomeActivity).headerTextVisible(
                 resources.getString(R.string.virtual_witness),
-                true,
-                true
+                isHeaderVisible = true,
+                isBackButtonVisible = true
             )
         } else {
             (activity as HomeActivity).headerTextVisible(
-                headder!!,
-                true,
-                true
+                resp.title.toString(),
+                isHeaderVisible = true,
+                isBackButtonVisible = true
             )
         }
 
@@ -61,6 +65,11 @@ class VirtualWitnessFragment(val headder: String? = "") : BaseFragment(), View.O
 
     override fun onResume() {
         super.onResume()
+        showLoadingIndicator(true)
+        Handler().postDelayed({
+            showLoadingIndicator(false)
+        }, 2000)
+
         mBinding.noDataVWitness.gone()
         mBinding.noInternetVWitness.llNointernet.gone()
         mBinding.cl1.visible()
@@ -75,6 +84,20 @@ class VirtualWitnessFragment(val headder: String? = "") : BaseFragment(), View.O
     private fun callCMSAPI() {
         if (ReusedMethod.isNetworkConnected(requireActivity())) {
             mViewModel.getCMSData(true, context as BaseActivity)
+        } else {
+            ReusedMethod.displayMessage(
+                requireActivity(),
+                resources.getString(R.string.text_error_network)
+            )
+        }
+    }
+
+    private fun callVirtualWitnessReqAPI(is_immediate_joining: Int? = 0, schedule_time: String) {
+        if (ReusedMethod.isNetworkConnected(requireActivity())) {
+            mViewModel.SendRequestVirtualWitness(
+                true, context as BaseActivity, resp.id.toString(),
+                is_immediate_joining!!, schedule_time
+            )
         } else {
             ReusedMethod.displayMessage(
                 requireActivity(),
@@ -134,6 +157,33 @@ class VirtualWitnessFragment(val headder: String? = "") : BaseFragment(), View.O
                 }
             }
         }
+        mViewModel.getSendRequestVirtualWitnessResp().observe(this) { response ->
+            response.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                        } else {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                requireActivity(),
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {}
+                    }
+                }
+            }
+        }
     }
 
     override fun onClick(v: View?) {
@@ -148,17 +198,11 @@ class VirtualWitnessFragment(val headder: String? = "") : BaseFragment(), View.O
     }
 
     private fun callScedualDialog() {
-
-
-        val dialog = Dialog(
-            requireActivity(),
-            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+        val dialog = ReusedMethod.setUpDialog(
+            requireContext(),
+            R.layout.virtual_witness_request_dialog,
+            true
         )
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.setContentView(R.layout.virtual_witness_request_dialog)
-        dialog.setCancelable(true)
-
         val cvScheduleDate: MaterialCardView = dialog.findViewById(R.id.cvScheduleDate)
         val cvScheduleTime: MaterialCardView = dialog.findViewById(R.id.cvScheduleTime)
         val txtDate: TextView = dialog.findViewById(R.id.txtDate)
@@ -182,11 +226,12 @@ class VirtualWitnessFragment(val headder: String? = "") : BaseFragment(), View.O
         }
         btnImmediateJoin.setOnClickListener {
             dialog.dismiss()
-            ReusedMethod.displayMessage(requireActivity(), resources.getString(R.string.come_soon))
+//            callVirtualWitnessReqAPI(0, getCurrentDate())
+            ReusedMethod.displayMessage(requireActivity(),resources.getString(R.string.come_soon))
         }
         btnRequestSend.setOnClickListener {
             dialog.dismiss()
-            if (headder.isNullOrEmpty()) {
+            if (resp.toString().isNullOrEmpty()) {
                 callConformationDialog(
                     requireActivity(),
                     txtDate.text.toString(),
@@ -198,7 +243,7 @@ class VirtualWitnessFragment(val headder: String? = "") : BaseFragment(), View.O
                     requireActivity(),
                     txtDate.text.toString(),
                     txtTime.text.toString(),
-                    headder
+                    resp.title.toString()
                 )
             }
 
@@ -207,6 +252,39 @@ class VirtualWitnessFragment(val headder: String? = "") : BaseFragment(), View.O
         dialog.show()
     }
 
+    fun callConformationDialog(
+        context: Context,
+        date: String,
+        time: String,
+        headder: String?,
+    ) {
+        val dialog = ReusedMethod.setUpDialog(
+            context,
+            R.layout.virtual_witness_request_confirmation_dialog,
+            true
+        )
+        val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
+        val txtDate: TextView = dialog.findViewById(R.id.txtDate)
+        val txtTime: TextView = dialog.findViewById(R.id.txtTime)
+        val txtTitle: TextView = dialog.findViewById(R.id.txtTitle)
+        val sub: AppCompatButton = dialog.findViewById(R.id.btnRequestSend)
 
-//
+        txtDate.text = date
+        txtTime.text = time
+        txtTitle.text = headder
+        ivClose.setOnClickListener {
+            dialog.dismiss()
+        }
+        val time = changeDateFormat(
+            "dd-MM-yyyy hh:mm a",
+            "yyyy-MM-dd HH:mm:ss",
+            (txtDate.text.toString() + " " + txtTime.text.toString())
+        )
+        sub.setOnClickListener {
+            callVirtualWitnessReqAPI(schedule_time = time)
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
 }

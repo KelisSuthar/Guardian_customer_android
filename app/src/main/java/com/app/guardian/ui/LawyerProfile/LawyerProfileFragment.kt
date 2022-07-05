@@ -111,7 +111,7 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
 
         mBinding.imgRowLawyerVideo.setOnClickListener {
 //            displayVideoCallDialog(selectedLawyerListId!!)
-            ReusedMethod.displayMessage(requireActivity(),resources.getString(R.string.come_soon))
+            ReusedMethod.displayMessage(requireActivity(), resources.getString(R.string.come_soon))
         }
     }
 
@@ -132,10 +132,10 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
                         mBinding.tvSpecialization.text = it.specialization
                         if (it.years_of_experience!!.toInt() > 1) {
                             mBinding.txtSpecializationInfo.text =
-                                "Criminal Lawyer\t\t\t" + it.years_of_experience + "- years Experience"
+                                it.specialization + "\t\t\t" + it.years_of_experience + "+ years Experience"
                         } else {
                             mBinding.txtSpecializationInfo.text =
-                                "Criminal Lawyer\t\t\t" + it.years_of_experience + "- year Experience"
+                                it.specialization + "\t\t\t" + it.years_of_experience + "+ year Experience"
                         }
                         mBinding.txtContactInfo.text = "+" + it.phone
                         strLawyerName = it.full_name
@@ -372,7 +372,8 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
         }
         btnImmediateJoin.setOnClickListener {
             dialog.dismiss()
-            callRequestrMediatorApi(1, txtDate.text.toString() + " " + txtTime.text.toString())
+//            callRequestrMediatorApi(1, txtDate.text.toString() + " " + txtTime.text.toString())
+            ReusedMethod.displayMessage(requireActivity(), resources.getString(R.string.come_soon))
         }
         btnRequestSend.setOnClickListener {
 

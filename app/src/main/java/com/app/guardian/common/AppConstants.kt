@@ -58,6 +58,8 @@ object AppConstants {
     const val MONTHLY_PLAN = "Monthly Plan"
     const val ANNUAL_PLAN = "Annual Plan"
 
+    const val MULTIPLE_CALLS = "MULTIPLE_CALLS"
+
     const val EXTRA_SH_USER_HOME = "USERHOME"
     const val EXTRA_SH_MEDIATOR_HOME = "MEDIATORHOME"
     const val EXTRA_SH_LAWYER_HOME = "LAWYERHOME"

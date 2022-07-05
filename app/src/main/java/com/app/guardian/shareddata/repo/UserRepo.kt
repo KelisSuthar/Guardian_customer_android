@@ -8,7 +8,7 @@ import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
-import com.app.guardian.model.GetVideoCallRequestResp.GetVideoCallRequestListResp
+import com.app.guardian.model.GetVideoCallRequestResp.VideoCallRequestListResp
 import com.app.guardian.model.HomeBanners.UserHomeBannerResp
 import com.app.guardian.model.KnowYourRights.KnowYourRightsResp
 import com.app.guardian.model.LawyerBySpecialization.LawyerBySpecializationResp
@@ -340,19 +340,19 @@ interface UserRepo {
         body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
-        videoCallRequestListResp: MutableLiveData<RequestState<MutableList<GetVideoCallRequestListResp>>>
+        videoCallRequestListResp: MutableLiveData<RequestState<MutableList<VideoCallRequestListResp>>>
     )
     fun getVideoCallRequestLawyerList(
         body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
-        videoCallRequestListResp: MutableLiveData<RequestState<MutableList<GetVideoCallRequestListResp>>>
+        videoCallRequestListResp: MutableLiveData<RequestState<MutableList<VideoCallRequestListResp>>>
     )
     fun getVideoCallRequestMediatorList(
         body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
-        videoCallRequestListResp: MutableLiveData<RequestState<MutableList<GetVideoCallRequestListResp>>>
+        videoCallRequestListResp: MutableLiveData<RequestState<MutableList<VideoCallRequestListResp>>>
     )
 
     fun askModeQuestion(

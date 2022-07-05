@@ -25,11 +25,9 @@ import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.viewpager.widget.ViewPager
 import com.app.guardian.R
 import com.app.guardian.common.extentions.gone
@@ -48,7 +46,6 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.rilixtech.widget.countrycodepicker.CountryCodePicker
 import de.hdodenhof.circleimageview.CircleImageView
-import java.net.URL
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -663,15 +660,13 @@ class ReusedMethod {
         fun getCurrentDate(): String {
             val fmt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
             val currentTime: Date = Calendar.getInstance().time
-            val date = fmt.format(currentTime)
-            return date
+            return fmt.format(currentTime)
         }
 
         fun getCurrentDay(): String {
             val fmt = SimpleDateFormat("dd")
             val currentTime: Date = Calendar.getInstance().time
-            val date = fmt.format(currentTime)
-            return date
+            return fmt.format(currentTime)
         }
 
         fun changeToDay(str_date: String): String {
@@ -839,41 +834,6 @@ class ReusedMethod {
             val calendar = Calendar.getInstance()
             calendar[year, monthOfYear] = dayOfMonth
             return dateFormatter.format(calendar.time)
-        }
-
-        fun callConformationDialog(
-            context: Context,
-            date: String,
-            time: String,
-            headder: String?,
-            isMultiple: Boolean? = false
-        ) {
-            val dialog = Dialog(
-                context,
-                com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
-            )
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-            dialog.setContentView(R.layout.virtual_witness_request_confirmation_dialog)
-            dialog.setCancelable(true)
-
-            val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
-            val txtDate: TextView = dialog.findViewById(R.id.txtDate)
-            val txtTime: TextView = dialog.findViewById(R.id.txtTime)
-            val txtDesc: TextView = dialog.findViewById(R.id.txtDesc)
-            val txtTitle: TextView = dialog.findViewById(R.id.txtTitle)
-            val sub: TextView = dialog.findViewById(R.id.btnRequestSend)
-
-            txtDate.text = date
-            txtTime.text = time
-            txtTitle.text = headder
-            ivClose.setOnClickListener {
-                dialog.dismiss()
-            }
-            sub.setOnClickListener {
-                dialog.dismiss()
-            }
-            dialog.show()
         }
 
 

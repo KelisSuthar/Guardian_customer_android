@@ -10,7 +10,7 @@ import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.User.UserHome.UserHomeFragment
 
 object ReplaceFragment {
-    val transaction : FragmentTransaction ?= null
+    val transaction: FragmentTransaction? = null
 
 /*
     fun homeFragmentReplace(currentActivity : HomeActivity,fragment: Fragment,backStackName : String?){
@@ -37,6 +37,7 @@ object ReplaceFragment {
             fragment?.let { mFragment ->
                 if (isAddToBackStack) {
                     activity?.supportFragmentManager?.beginTransaction()
+//                        ?.setCustomAnimations(R.anim.rightto, R.anim.left)
                         ?.replace(R.id.flUserContainer, mFragment, tagName)
                         ?.addToBackStack(backStackName)?.commitAllowingStateLoss()
 
@@ -50,4 +51,5 @@ object ReplaceFragment {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-    }}
+    }
+}

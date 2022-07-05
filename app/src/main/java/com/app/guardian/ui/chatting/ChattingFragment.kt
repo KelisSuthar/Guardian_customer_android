@@ -121,7 +121,7 @@ class ChattingFragment(
             } else if (days > 1) {
 
                 mBinding.txtLastSeen.text = "Active " +
-                        SimpleDateFormat("yyyy-MM-dd").format(date1)
+                        SimpleDateFormat("dd-MM-yyyy").format(date1)
                             .toString()
             }
         }

@@ -5,9 +5,7 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
@@ -28,7 +26,13 @@ class LawyerListAdapter(
     var listeners: onItemClicklisteners
 ) :
 
-    RecyclerView.Adapter<LawyerListAdapter.myViewHolder>() {
+    RecyclerView.Adapter<LawyerListAdapter.myViewHolder>(), Filterable {
+    var list: ArrayList<LawyerListResp>
+
+    init {
+        list = arrayList
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -43,7 +47,7 @@ class LawyerListAdapter(
     }
 
     override fun getItemCount(): Int {
-        return arrayList.size
+        return list.size
     }
 
     inner class myViewHolder(view: View?) : RecyclerView.ViewHolder(view!!) {
@@ -71,7 +75,7 @@ class LawyerListAdapter(
 
             }
             var lawyerProfileData: LawyerListResp? = null
-            lawyerProfileData = arrayList[position]
+            lawyerProfileData = list[position]
             lyLawyerDetails?.setOnClickListener {
                 listeners.onSubclick(lawyerProfileData.id)
             }
@@ -105,21 +109,21 @@ class LawyerListAdapter(
 
 
             imgRowLawyerVideo?.setOnClickListener {
-//                if (SharedPreferenceManager.getString(
-//                        AppConstants.USER_ROLE,
-//                        ""
-//                    ) == AppConstants.APP_ROLE_USER
-//                ) {
-                    ReusedMethod.displayMessage(context,context.resources.getString(R.string.come_soon))
+                if (SharedPreferenceManager.getString(
+                        AppConstants.USER_ROLE,
+                        ""
+                    ) == AppConstants.APP_ROLE_USER
+                ) {
+
                     lawyerListFragment.displayVideoCallDialog(lawyerProfileData.id)
-//                } else {
-//                    lawyerListFragment.callVideoCallRequestAPI(
-//                        lawyerProfileData.id!!,
-//                        AppConstants.APP_ROLE_LAWYER,
-//                        0,
-//                        ""
-//                    )
-//                }
+                } else {
+                    lawyerListFragment.callVideoCallRequestAPI(
+                        lawyerProfileData.id!!,
+                        AppConstants.APP_ROLE_LAWYER,
+                        0,
+                        ""
+                    )
+                }
 
             }
 
@@ -145,14 +149,14 @@ class LawyerListAdapter(
             tvLawyerName?.text = lawyerProfileData.full_name
             if (lawyerProfileData.years_of_experience!!.toInt() == 1) {
                 tvLawyerExp?.text =
-                    "Experience - " + lawyerProfileData.years_of_experience + " Year"
+                    "Experience - " + lawyerProfileData.years_of_experience + "+ Year"
             } else {
                 tvLawyerExp?.text =
-                    "Experience - " + lawyerProfileData.years_of_experience + " Years"
+                    "Experience - " + lawyerProfileData.years_of_experience + "+ Years"
             }
 
             tvLawyerExp?.text =
-                "Experience - " + lawyerProfileData.years_of_experience + " " + context.resources.getString(
+                "Experience - " + lawyerProfileData.years_of_experience + " +" + context.resources.getString(
                     R.string.years
                 )
             tvLawyerSpecialization?.text = lawyerProfileData.specialization
@@ -165,5 +169,35 @@ class LawyerListAdapter(
 
     interface onItemClicklisteners {
         fun onSubclick(selectedLawyerId: Int?)
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(charSequence: CharSequence?): FilterResults {
+
+                val charString = charSequence.toString()
+                list = if (charString.isEmpty()) {
+                    arrayList
+                } else {
+                    val filterList: ArrayList<LawyerListResp> = ArrayList()
+                    for (i in list!!.indices) {
+                        if (list[i].full_name!!.lowercase().contains(charString.lowercase())) {
+                            filterList.add(list[i])
+                        }
+                    }
+                    filterList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = list
+                return filterResults
+
+            }
+
+            override fun publishResults(charSequence: CharSequence?, results: FilterResults?) {
+                list = results?.values as ArrayList<LawyerListResp>
+                notifyDataSetChanged()
+            }
+
+        }
     }
 }
