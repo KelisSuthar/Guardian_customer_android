@@ -1,15 +1,10 @@
 package com.app.guardian.ui.Splash
 
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Handler
 import android.util.Log
 import android.view.View
-import androidx.work.*
-import com.app.guardian.BackgroundService
-import com.app.guardian.ConnectivityChangeReceiver
-import com.app.guardian.NotifyWork
-import com.app.guardian.NotifyWork.Companion.NOTIFICATION_WORK
+import androidx.appcompat.app.AppCompatActivity
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
@@ -23,22 +18,51 @@ import com.app.guardian.utils.ApiConstant
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 
-class SplashScreen : BaseActivity(), View.OnClickListener {
+class SplashScreen : AppCompatActivity(), View.OnClickListener {
     lateinit var mBinding: ActivitySplashScreenBinding
-    val notification_type = ""
-    val notification_id = ""
+    var notification_type = ""
+    var notification_id = ""
     var DEVICE_TOKEN = SharedPreferenceManager.getString(ApiConstant.EXTRAS_DEVICETOKEN, "")
 
 
     override fun getResource(): Int {
         ReusedMethod.updateStatusBarColor(this, R.color.colorTransparent, 0)
         return R.layout.activity_splash_screen
+
+//
+//    override fun getResource(): Int {
+//        ReusedMethod.updateStatusBarColor(this, R.color.colorTransparent, 0)
+//        return R.layout.activity_splash_screen
+//    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+         mBinding = ActivitySplashScreenBinding.inflate(layoutInflater)
+        val view = mBinding.root
+        setContentView(view)
+
+        initView()
     }
 
-    override fun initView() {
-        mBinding = getBinding()
-        val notification_type = intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)
-        val notification_id = intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID)
+
+    //use for new screen open according to which notification are come
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        Log.i(
+            "NOTIFICATION_SPLASh",
+            "onNewIntent call"
+        )
+        setIntent(intent)
+//        val getIntent = intent
+        notification_type = intent!!.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE).toString()
+        notification_id = intent!!.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID).toString()
+
+    }
+    private fun initView() {
+//        mBinding = getBinding()
+        val getIntent = intent
+        notification_type = intent!!.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE).toString()
+        notification_id = intent!!.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID).toString()
 
         Log.i(
             "NOTIFICATION_SPLASh",
@@ -174,13 +198,7 @@ class SplashScreen : BaseActivity(), View.OnClickListener {
 
     }
 
-    override fun initObserver() {
 
-    }
-
-    override fun handleListener() {
-
-    }
 
 
     override fun onClick(p0: View?) {
