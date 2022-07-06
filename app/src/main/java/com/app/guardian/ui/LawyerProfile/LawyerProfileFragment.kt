@@ -147,22 +147,11 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
                             .into(mBinding.imgRoimgRowLawyerPicturewLawyerPicture)
                         strPhoneNumber = it.phone
 
-
-                        mBinding.txtDescriptionInfo.text = it.description
-                        mBinding.txtAvaibilityInfo.text = it.availability_time
-                        if (it.description.isNullOrEmpty()) {
-                            mBinding.txtDescriptionTitle.gone()
-                            mBinding.txtDescriptionInfo.gone()
-                        } else {
-                            mBinding.txtDescriptionTitle.visible()
-                            mBinding.txtDescriptionInfo.visible()
+                        if (!it.description.isNullOrEmpty()) {
+                            mBinding.txtDescriptionInfo.text = it.description
                         }
-                        if (it.availability_time.isNullOrEmpty()) {
-                            mBinding.txtAvaibilityInfo.gone()
-                            mBinding.txtAvaibilityTitle.gone()
-                        } else {
-                            mBinding.txtAvaibilityInfo.visible()
-                            mBinding.txtAvaibilityTitle.visible()
+                        if (!it.availability_time.isNullOrEmpty()) {
+                            mBinding.txtAvaibilityInfo.text = it.availability_time
                         }
                     }
                 }

@@ -15,13 +15,9 @@ import com.app.guardian.common.AppConstants
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.formatTimeInGMT2
 import com.app.guardian.common.extentions.gone
-import com.app.guardian.common.extentions.loadImage
 import com.app.guardian.common.extentions.visible
-import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
-import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
 import com.bumptech.glide.Glide
-import com.google.android.material.card.MaterialCardView
 import de.hdodenhof.circleimageview.CircleImageView
 
 class ConnectedHistoryAdapter(
@@ -123,28 +119,33 @@ class ConnectedHistoryAdapter(
                 if (!array.years_of_experience.isNullOrEmpty()) {
                     if (array.years_of_experience!!.toInt() == 1) {
                         txtExp?.text =
-                            "Experience - " + array.years_of_experience + " Year"
+                            "Experience - " + array.years_of_experience + "+ Year"
                     } else {
                         txtExp?.text =
-                            "Experience - " + array.years_of_experience + " Years"
+                            "Experience - " + array.years_of_experience + "+ Years"
                     }
                 }
             }
 
-            imgRowLawyerCall?.setOnClickListener { listeners.onCallClick(position) }
-            imgRowLawyerChat?.setOnClickListener { listeners.onChatClick(position) }
-            imgRowLawyerVideoCall?.setOnClickListener { listeners.onVideCallClick(position) }
+            imgRowLawyerCall?.setOnClickListener { listeners.onCallClick(position, array.id,array.full_name,array.email,array.phone,array.profile_avatar) }
+            imgRowLawyerChat?.setOnClickListener { listeners.onChatClick(position,array.id) }
+            imgRowLawyerVideoCall?.setOnClickListener {
+                listeners.onVideCallClick(
+                    position,
+                    array.id
+                )
+            }
 //            itemView.setOnClickListener { listeners.onNotesClick(position) }
-            itemView.setOnClickListener { listeners.onItemClick(position) }
+            itemView.setOnClickListener { listeners.onItemClick(position,array.id) }
 
             txtName!!.text = array.full_name
             if (!array.years_of_experience.isNullOrEmpty()) {
                 if (array.years_of_experience!!.toInt() == 1) {
                     txtExp?.text =
-                        "Experience - " + array.years_of_experience + " Year"
+                        "Experience - " + array.years_of_experience + "+ Year"
                 } else {
                     txtExp?.text =
-                        "Experience - " + array.years_of_experience + " Years"
+                        "Experience - " + array.years_of_experience + "+ Years"
                 }
             }
 
@@ -156,18 +157,23 @@ class ConnectedHistoryAdapter(
                 .load(array.profile_avatar)
                 .placeholder(R.drawable.profile)
                 .into(imgRowLawyerPicture!!)
-
-
         }
 
     }
 
     interface onItemClicklisteners {
-        fun onCallClick(position: Int)
-        fun onChatClick(position: Int?)
-        fun onNotesClick(position: Int?)
-        fun onItemClick(position: Int?)
-        fun onVideCallClick(position: Int)
+        fun onCallClick(
+            position: Int,
+            id: Int?,
+            fullName: String?,
+            email: String?,
+            phone: String?,
+            profileAvatar: String?
+        )
+        fun onChatClick(position: Int,id: Int?)
+        fun onNotesClick(position: Int,id: Int?)
+        fun onItemClick(position: Int,id: Int?)
+        fun onVideCallClick(position: Int, id: Int?)
     }
 
     override fun getFilter(): Filter {

@@ -3,8 +3,6 @@ package com.app.guardian.ui.ContactedHistory
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -19,8 +17,6 @@ import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
@@ -34,8 +30,6 @@ import com.app.guardian.databinding.FragmentContectedHistoryBinding
 import com.app.guardian.model.ListFilter.FilterResp
 import com.app.guardian.model.ListFilter.Specialization
 import com.app.guardian.model.connectedhistory.ConnectedHistoryResp
-import com.app.guardian.model.specializationList.SpecializationListResp
-import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.base.BaseActivity
@@ -45,7 +39,6 @@ import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
 import com.app.guardian.ui.chatting.ChattingFragment
-import com.app.guardian.ui.signup.adapter.SpecializationAdapter
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.google.android.material.card.MaterialCardView
@@ -54,6 +47,7 @@ import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.text.FieldPosition
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -149,24 +143,39 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
             type,
             array,
             object : ConnectedHistoryAdapter.onItemClicklisteners {
-                override fun onCallClick(position: Int) {
-                    val i = Intent(
-                        Intent.ACTION_DIAL,
-                        Uri.parse("tel:" + "+" + array[position].dialing_code + " " + array[position].phone)
-                    )
-                    try {
-                        context?.startActivity(i)
-                    } catch (s: SecurityException) {
-                        ReusedMethod.displayMessage(context as Activity, "An error occurred")
+                override fun onCallClick(
+                    position: Int,
+                    id: Int?,
+                    fullName: String?,
+                    email: String?,
+                    phone: String?,
+                    profileAvatar: String?
+                ) {
+                    if (profileAvatar.isNullOrEmpty()) {
+                        fullName?.let {
+                            ReusedMethod.displayLawyerContactDetails(
+                                requireActivity(),
+                                it, email, phone, profileAvatar
+                            )
+                        }
+                    } else {
+                        fullName?.let {
+                            ReusedMethod.displayLawyerContactDetails(
+                                requireActivity(),
+                                it, email, phone, ""
+                            )
+                        }
                     }
+
                 }
 
-                override fun onChatClick(position: Int?) {
+                override fun onChatClick(position: Int, id: Int?) {
 //                    if (array[position!!].user_role == AppConstants.APP_ROLE_LAWYER) {
+                    Log.i("SEARCH_ISSUE", id.toString())
                     ReplaceFragment.replaceFragment(
                         requireActivity(),
                         ChattingFragment(
-                            array[position!!].id,
+                            id,
                         ),
                         true,
                         ContectedHistoryFragment::class.java.name,
@@ -175,20 +184,20 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
 //                    }
                 }
 
-                override fun onNotesClick(position: Int?) {
+                override fun onNotesClick(position: Int, id: Int?) {
                     ReusedMethod.displayMessage(
                         requireActivity(),
                         resources.getString(R.string.come_soon)
                     )
                 }
 
-                override fun onItemClick(position: Int?) {
+                override fun onItemClick(position: Int, id: Int?) {
                     when (type) {
 
                         AppConstants.APP_ROLE_LAWYER -> {
                             ReplaceFragment.replaceFragment(
                                 requireActivity(),
-                                LawyerProfileFragment.newInstance(array[position!!].id!!, false),
+                                LawyerProfileFragment.newInstance(id!!, false),
                                 true,
                                 LawyerListFragment::class.java.name,
                                 LawyerListFragment::class.java.name
@@ -198,7 +207,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                     }
                 }
 
-                override fun onVideCallClick(position: Int) {
+                override fun onVideCallClick(position: Int, id: Int?) {
                     if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
                         displayVideoCallDialog(array[position].id)
                     } else {
@@ -288,7 +297,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
         btnImmediateJoin.setOnClickListener {
             dialog.dismiss()
 //            callRequestrMediatorApi(1, txtDate.text.toString() + " " + txtTime.text.toString())
-            ReusedMethod.displayMessage(requireActivity(),resources.getString(R.string.come_soon))
+            ReusedMethod.displayMessage(requireActivity(), resources.getString(R.string.come_soon))
         }
         btnRequestSend.setOnClickListener {
 
@@ -449,6 +458,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
         mBinding.noInternetConnectedhistory.btnTryAgain.setOnClickListener(this)
         mBinding.searchConnectedHistory.llsearch.setOnClickListener(this)
         mBinding.searchConnectedHistory.lySearchFilter.setOnClickListener(this)
+        mBinding.searchConnectedHistory.ivCancel.setOnClickListener(this)
     }
 
     override fun initObserver() {
@@ -662,6 +672,10 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                     )
                 }
             }
+            R.id.ivCancel -> {
+                connectedHistoryAdapter!!.filter.filter("")
+                mBinding.searchConnectedHistory.edtLoginEmail.setText("")
+            }
         }
     }
 
@@ -685,7 +699,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
         val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
         val txtYearsExpTitle: TextView = dialog.findViewById(R.id.txtYearsExpTitle)
         val txtClear2: TextView = dialog.findViewById(R.id.txtClear2)
-
+        txtClear2.visible()
         txtYearsExpTitle.gone()
         scrollView.gone()
 
@@ -694,11 +708,11 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
         ivClose.setOnClickListener {
             dialog.dismiss()
         }
-        if (specialization.isNotEmpty()) {
-            txtClear2.visible()
-        } else {
-            txtClear2.gone()
-        }
+//        if (specialization.isNotEmpty()) {
+//            txtClear2.visible()
+//        } else {
+//            txtClear2.gone()
+//        }
         btnDone.setOnClickListener {
             mBinding.rvContectedHistory.visible()
             mBinding.searchConnectedHistory.lySearch.visible()
@@ -715,7 +729,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
             specialization = ""
             chipGroup1.removeAllViews()
             AddItemsInChipGroup(requireContext(), chipGroup1, data.specialization)
-            txtClear2.inVisible()
+//            txtClear2.inVisible()
             callApi(specialization)
         }
         dialog.show()

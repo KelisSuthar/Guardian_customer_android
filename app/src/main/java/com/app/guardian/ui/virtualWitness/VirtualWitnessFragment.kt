@@ -2,9 +2,11 @@ package com.app.guardian.ui.virtualWitness
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Handler
 import android.view.View
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -12,7 +14,7 @@ import androidx.appcompat.widget.AppCompatButton
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
-import com.app.guardian.common.ReusedMethod.Companion.getCurrentDate
+import com.app.guardian.common.ReusedMethod.Companion.displayMessage
 import com.app.guardian.common.ReusedMethod.Companion.selectDate
 import com.app.guardian.common.ReusedMethod.Companion.selectTime
 import com.app.guardian.common.SharedPreferenceManager
@@ -26,7 +28,6 @@ import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
-import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.google.android.material.card.MaterialCardView
@@ -98,7 +99,9 @@ class VirtualWitnessFragment(val resp: SupportGroupResp) : BaseFragment(),
                 true, context as BaseActivity, resp.id.toString(),
                 is_immediate_joining!!, schedule_time
             )
+            showLoadingIndicator(true)
         } else {
+            showLoadingIndicator(true)
             ReusedMethod.displayMessage(
                 requireActivity(),
                 resources.getString(R.string.text_error_network)
@@ -119,7 +122,6 @@ class VirtualWitnessFragment(val resp: SupportGroupResp) : BaseFragment(),
         //CMS DATA RESP
         mViewModel.getCMSResp().observe(this) { response ->
             response?.let { requestState ->
-                showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
@@ -127,6 +129,15 @@ class VirtualWitnessFragment(val resp: SupportGroupResp) : BaseFragment(),
                             val json = gson.toJson(data)
                             SharedPreferenceManager.putString(AppConstants.CMS_DETAIL, json)
                             mBinding.webView.loadWebViewData(SharedPreferenceManager.getCMS()!!.virtual_witness_content)
+
+                            showLoadingIndicator(false)
+                            mBinding.webView.webViewClient = object : WebViewClient() {
+                                override fun onPageFinished(view: WebView, url: String) {
+                                    displayMessage(requireActivity(), "finished")
+                                }
+                            }
+
+
                         } else {
                             ReusedMethod.displayMessage(
                                 requireActivity(),
@@ -227,7 +238,7 @@ class VirtualWitnessFragment(val resp: SupportGroupResp) : BaseFragment(),
         btnImmediateJoin.setOnClickListener {
             dialog.dismiss()
 //            callVirtualWitnessReqAPI(0, getCurrentDate())
-            ReusedMethod.displayMessage(requireActivity(),resources.getString(R.string.come_soon))
+            ReusedMethod.displayMessage(requireActivity(), resources.getString(R.string.come_soon))
         }
         btnRequestSend.setOnClickListener {
             dialog.dismiss()

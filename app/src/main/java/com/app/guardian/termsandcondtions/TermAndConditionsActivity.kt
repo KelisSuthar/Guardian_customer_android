@@ -1,19 +1,19 @@
 package com.app.guardian.termsandcondtions
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
-import androidx.databinding.DataBindingUtil.getBinding
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import com.app.guardian.R
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.loadWebViewData
 import com.app.guardian.common.extentions.visible
-import com.app.guardian.databinding.ActivityAboutUsBinding
 import com.app.guardian.databinding.ActivityTermAndConditionsBinding
 import com.app.guardian.shareddata.base.BaseActivity
+
 
 class TermAndConditionsActivity : BaseActivity(), View.OnClickListener {
     lateinit var mBinding: ActivityTermAndConditionsBinding
@@ -46,6 +46,7 @@ class TermAndConditionsActivity : BaseActivity(), View.OnClickListener {
             Handler().postDelayed({
                 showLoadingIndicator(false)
             }, 2000)
+
             mBinding.webview.loadWebViewData(SharedPreferenceManager.getCMS()!!.terms_conditions)
             mBinding.cl.visible()
         } else {

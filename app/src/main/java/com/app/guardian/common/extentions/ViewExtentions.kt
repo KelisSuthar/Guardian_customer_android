@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.annotation.DrawableRes
@@ -176,6 +178,13 @@ fun WebView.loadWebViewData(url: String) {
     this.settings.loadsImagesAutomatically = true
     this.settings.javaScriptEnabled = true
     this.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
+    this.webViewClient = object : WebViewClient() {
+        override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+            Log.i("currentUrl", ": $url")
+            view.loadUrl(url)
+            return true
+        }
+    }
     this.loadUrl(url)
 }
 

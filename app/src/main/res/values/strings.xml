@@ -13,7 +13,7 @@
     <string name="g_map_api_key_3">2x2jYFX1JZ79jI</string>
     <string name="g_map_api_key">AIzaSyCn23HyRn8zm-9sao4u-2x2jYFX1JZ79jI</string>
 
-<string name="video_call_auth">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiIxN2Y2YWRhOC1kOWJkLTQwNjktYTQ3Yi0yNTQ2NGNiMDA0YjEiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTY1NjQ5NDY0NywiZXhwIjoxNjU3MDk5NDQ3fQ.Fs_JaVDxW3LGa44tkD9WgwWiGrUtO0AEgxr7rA1I6Pw</string>
+<string name="video_call_auth">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiI1NGE1NzM4Ni0zZWUwLTRkZjQtODkyYy1mMjk3NGZkZmViMGYiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTY1NzEwMDQxNiwiZXhwIjoxNjU3NzA1MjE2fQ.PWpSzc5_4_Q32wvFNb46-EVSb4N4jST9tdhQjCh3OXk</string>
     <!--    not Working-->
     <!--    <string name="map_api_key">AIzaSyAyMrbXh6XrkhpCzXfNZJzu3akbUIbVqcg</string>-->
     <!--    working-->
@@ -180,7 +180,7 @@
     <string name="menu_lawyer">Lawyer</string>
     <string name="menu_radar">Radar</string>
     <string name="menu_history">History</string>
-    <string name="menu_setting">Setting</string>
+    <string name="menu_setting">Settings</string>
 
     <!-- SignUp Screen-->
     <string name="fullname">Full Name</string>

@@ -72,7 +72,6 @@ class VideoCallActivity : AppCompatActivity() {
         if (participantName == null) {
             participantName = "John Doe"
         }
-
         toggleMicIcon()
         toggleWebcamIcon()
 
@@ -178,7 +177,8 @@ class VideoCallActivity : AppCompatActivity() {
             Log.d("#meeting", "onMeetingJoined()")
 
             // notify user of any new messages
-            meeting!!.pubSub.subscribe("CHAT"
+            meeting!!.pubSub.subscribe(
+                "CHAT"
             ) { pubSubMessage ->
                 if (pubSubMessage.senderId != meeting!!.localParticipant.id) {
                     val parentLayout = findViewById<View>(android.R.id.content)
@@ -279,7 +279,8 @@ class VideoCallActivity : AppCompatActivity() {
         }
 
         override fun onExternalCallStarted() {
-            Toast.makeText(this@VideoCallActivity, "onExternalCallStarted", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@VideoCallActivity, "onExternalCallStarted", Toast.LENGTH_SHORT)
+                .show()
             Log.d("#meeting", "onExternalCallAnswered: User Answered a Call")
         }
     }
@@ -435,11 +436,11 @@ class VideoCallActivity : AppCompatActivity() {
         findViewById<View>(R.id.btnMore).setOnClickListener { v: View? -> showMoreOptionsDialog() }
         findViewById<View>(R.id.btnSwitchCameraMode).setOnClickListener { view: View? -> meeting!!.changeWebcam() }
 
-     /*   // Chat
-        findViewById<View>(R.id.btnChat).setOnClickListener { view: View? ->
-            val intent = Intent(this@VideoCallActivity, ChatActivity::class.java)
-            startActivity(intent)
-        }*/
+        /*   // Chat
+           findViewById<View>(R.id.btnChat).setOnClickListener { view: View? ->
+               val intent = Intent(this@VideoCallActivity, ChatActivity::class.java)
+               startActivity(intent)
+           }*/
 
         //
         btnScreenShare!!.setOnClickListener { view: View? -> toggleScreenSharing() }
@@ -511,7 +512,7 @@ class VideoCallActivity : AppCompatActivity() {
     private fun showMoreOptionsDialog() {
         val items = arrayOf(
             if (recording) "Stop recording" else "Start recording",
-         //   if (livestreaming) "Stop livestreaming" else "Start livestreaming"
+            //   if (livestreaming) "Stop livestreaming" else "Start livestreaming"
         )
         MaterialAlertDialogBuilder(this@VideoCallActivity)
             .setTitle(getString(R.string.more_options))
@@ -520,9 +521,9 @@ class VideoCallActivity : AppCompatActivity() {
                     0 -> {
                         toggleRecording()
                     }
-                   /* 1 -> {
-                        toggleLivestreaming()
-                    }*/
+                    /* 1 -> {
+                         toggleLivestreaming()
+                     }*/
                 }
             }
             .show()
@@ -537,11 +538,10 @@ class VideoCallActivity : AppCompatActivity() {
     }
 
 
-
-
     companion object {
         private var meeting: Meeting? = null
-        private val YOUTUBE_RTMP_URL: String? = "rtmp://7f63aa16-6f48-4438-8668-b7e8c71327fe.dacastmmd.pri.lldns.net/dacastmmd"
+        private val YOUTUBE_RTMP_URL: String? =
+            "rtmp://7f63aa16-6f48-4438-8668-b7e8c71327fe.dacastmmd.pri.lldns.net/dacastmmd"
         private val YOUTUBE_RTMP_STREAM_KEY: String? = "46751b80d07f4f0cb27aa4f19181b776_4500"
         private val CAPTURE_PERMISSION_REQUEST_CODE = 1
     }

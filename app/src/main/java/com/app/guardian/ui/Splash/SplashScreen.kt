@@ -1,6 +1,7 @@
 package com.app.guardian.ui.Splash
 
 import android.content.Intent
+import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
@@ -24,11 +25,6 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
     var notification_id = ""
     var DEVICE_TOKEN = SharedPreferenceManager.getString(ApiConstant.EXTRAS_DEVICETOKEN, "")
 
-
-    override fun getResource(): Int {
-        ReusedMethod.updateStatusBarColor(this, R.color.colorTransparent, 0)
-        return R.layout.activity_splash_screen
-
 //
 //    override fun getResource(): Int {
 //        ReusedMethod.updateStatusBarColor(this, R.color.colorTransparent, 0)
@@ -37,7 +33,8 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-         mBinding = ActivitySplashScreenBinding.inflate(layoutInflater)
+        ReusedMethod.updateStatusBarColor(this, R.color.colorTransparent, 0)
+        mBinding = ActivitySplashScreenBinding.inflate(layoutInflater)
         val view = mBinding.root
         setContentView(view)
 
@@ -54,15 +51,20 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
         )
         setIntent(intent)
 //        val getIntent = intent
-        notification_type = intent!!.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE).toString()
-        notification_id = intent!!.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID).toString()
+        notification_type =
+            intent!!.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE).toString()
+        notification_id =
+            intent!!.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID).toString()
 
     }
+
     private fun initView() {
 //        mBinding = getBinding()
         val getIntent = intent
-        notification_type = intent!!.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE).toString()
-        notification_id = intent!!.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID).toString()
+        notification_type =
+            intent!!.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE).toString()
+        notification_id =
+            intent!!.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID).toString()
 
         Log.i(
             "NOTIFICATION_SPLASh",
@@ -197,8 +199,6 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
             Log.e("StoredDeviceToken", DEVICE_TOKEN.toString())
 
     }
-
-
 
 
     override fun onClick(p0: View?) {

@@ -109,7 +109,8 @@ class CreateOrJoinActivity : AppCompatActivity() {
 
                     override fun onError(anError: ANError) {
                         anError.printStackTrace()
-                        ReusedMethod.displayMessage(this@CreateOrJoinActivity, anError.errorDetail)
+                        Log.e("VIDEO_CALL", "ERROR:    $anError")
+//                        ReusedMethod.displayMessage(this@CreateOrJoinActivity, anError.errorDetail)
                     }
                 })
             return
@@ -168,7 +169,7 @@ class CreateOrJoinActivity : AppCompatActivity() {
 
                 override fun onError(anError: ANError) {
                     anError.printStackTrace()
-                    Log.e("VIDEO_CALL", "CREATE_MEATING_ERROR:    " + anError)
+                    Log.e("VIDEO_CALL", "CREATE_MEATING_ERROR:    " + anError.errorDetail)
                     ReusedMethod.displayMessage(
                         this@CreateOrJoinActivity,
                         anError.message.toString()
@@ -220,7 +221,7 @@ class CreateOrJoinActivity : AppCompatActivity() {
                         this@CreateOrJoinActivity,
                         anError.message.toString()
                     )
-                    Log.e("VIDEO_CALL", "JOIN_MEATING_ERRRO:    " + anError)
+                    Log.e("VIDEO_CALL", "JOIN_MEATING_ERRRO:    " + anError.errorDetail)
 
                 }
             })

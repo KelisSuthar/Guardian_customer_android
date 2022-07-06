@@ -127,8 +127,8 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         (activity as HomeActivity).bottomTabVisibility(true)
         (activity as HomeActivity).headerTextVisible(
             requireActivity().resources.getString(R.string.menu_setting),
-            true,
-            false
+            isHeaderVisible = true,
+            isBackButtonVisible = false
         )
 
         when {

@@ -64,6 +64,7 @@ class OTPScreen : BaseActivity(), View.OnClickListener {
                                     this@OTPScreen,
                                     ResetPasswordActivity::class.java
                                 ).putExtra(AppConstants.EXTRA_USER_ID,data.id.toString())
+                                    .putExtra(AppConstants.IS_CHANGE_PASS, false)
                             )
                             overridePendingTransition(R.anim.rightto, R.anim.left)
                             ReusedMethod.displayMessage(this, it.message.toString())

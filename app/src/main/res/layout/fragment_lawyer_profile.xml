@@ -143,7 +143,7 @@
                     android:text="@string/avaibility_title"
                     android:textColor="@color/txt_dark"
                     android:textSize="@dimen/_13ssp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintTop_toBottomOf="@+id/txtContactInfo" />
 
                 <TextView
@@ -153,10 +153,10 @@
                     android:fontFamily="@font/lora_regular"
                     android:paddingTop="@dimen/_5sdp"
                     android:paddingBottom="@dimen/_3sdp"
-                    android:text="10:00AM To 10:00PM"
+                    android:text="Undecided"
                     android:textColor="@color/txt_dark"
                     android:textSize="@dimen/_11ssp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintTop_toBottomOf="@+id/txtAvaibilityTitle" />
 
                 <TextView
@@ -178,7 +178,7 @@
                     android:fontFamily="@font/lora_regular"
                     android:paddingTop="@dimen/_5sdp"
                     android:paddingBottom="@dimen/_3sdp"
-                    android:text="@string/sample_text"
+                    android:text="--NA--"
                     android:textColor="@color/txt_dark"
                     android:textSize="@dimen/_11ssp"
                     app:layout_constraintTop_toBottomOf="@+id/txtDescriptionTitle" />

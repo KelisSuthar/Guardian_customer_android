@@ -400,7 +400,7 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                         requireActivity(),
                         anError.message.toString()
                     )
-                    Log.e("VIDEO_CALL", "JOIN_MEATING_ERRRO:    " + anError)
+                    Log.e("VIDEO_CALL", "JOIN_MEATING_ERRRO:    " + anError.errorBody)
 
                 }
             })

@@ -180,7 +180,7 @@ class ChattingFragment(
                                 } else {
                                     mBinding.imgIsOnline.gone()
                                 }
-                                if (!data.user_detail.last_seen.isNullOrEmpty() && data.user_detail.is_online == 0) {
+                                if (!data.user_detail.last_seen.isNullOrEmpty() || data.user_detail.last_seen != null && data.user_detail.is_online == 0) {
                                     lastSeenChecker(data.user_detail.last_seen)
                                 } else {
                                     mBinding.txtLastSeen.visible()

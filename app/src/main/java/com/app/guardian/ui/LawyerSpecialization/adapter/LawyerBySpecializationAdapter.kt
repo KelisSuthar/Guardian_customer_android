@@ -73,7 +73,7 @@ class LawyerBySpecializationAdapter(
 
             }
 
-            var array = list[position]
+            val array = list[position]
             lyLawyerDetails?.setOnClickListener {
                 listeners.onSubclick(array.id)
             }
@@ -82,12 +82,22 @@ class LawyerBySpecializationAdapter(
                 imgPicture!!
             )
             imgRowLawyerCall?.setOnClickListener {
-                fragment.callShowLawyerContactDetails(
-                    array.full_name!!,
-                    "array.email!!",
-                    array.phone!!,
-                    array.profile_avatar!!,
-                )
+                if (array.profile_avatar.isNullOrEmpty()) {
+                    fragment.callShowLawyerContactDetails(
+                        array.full_name!!,
+                        "array.email",
+                        array.dialing_code + array.phone!!,
+                        array.profile_avatar!!,
+                    )
+                } else {
+                    fragment.callShowLawyerContactDetails(
+                        array.full_name!!,
+                        "array.email!!",
+                        array.dialing_code + array.phone!!,
+                        "",
+                    )
+                }
+
             }
 
             imgPicture!!.setOnClickListener {
@@ -136,16 +146,11 @@ class LawyerBySpecializationAdapter(
 
             if ((array.years_of_experience?.toInt() ?: 0) == 1) {
                 tvLawyerExp?.text =
-                    "Experience - " + array.years_of_experience + " Year"
+                    "Experience - " + array.years_of_experience + "+ Year"
             } else {
                 tvLawyerExp?.text =
-                    "Experience - " + array.years_of_experience + " Years"
+                    "Experience - " + array.years_of_experience + "+ Years"
             }
-
-            tvLawyerExp?.text =
-                "Experience - " + array.years_of_experience + " " + context.resources.getString(
-                    R.string.years
-                )
             tvLawyerSpecialization?.text = array.specialization
 
         }

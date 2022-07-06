@@ -321,6 +321,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         super.onResume()
         years_of_exp = ""
         specialization = ""
+        mBinding.lyLawyerListFilter.edtLoginEmail.setText("")
         callAPI("", "", "")
         setAdapter()
         mBinding.rvLawyerList.visible()
@@ -513,7 +514,8 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
         val txtClear1: TextView = dialog.findViewById(R.id.txtClear1)
         val txtClear2: TextView = dialog.findViewById(R.id.txtClear2)
-
+        txtClear2.visible()
+        txtClear1.visible()
         AddItemsInChipGroup(requireContext(), chipGroup1, data.specialization)
 
 
@@ -532,16 +534,16 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         ivClose.setOnClickListener {
             dialog.dismiss()
         }
-        if (specialization.isNotEmpty()) {
-            txtClear2.visible()
-        } else {
-            txtClear2.gone()
-        }
-        if (years_of_exp.isNotEmpty()) {
-            txtClear1.visible()
-        } else {
-            txtClear1.gone()
-        }
+//        if (specialization.isNotEmpty()) {
+//            txtClear2.visible()
+//        } else {
+//            txtClear2.gone()
+//        }
+//        if (years_of_exp.isNotEmpty()) {
+//            txtClear1.visible()
+//        } else {
+//            txtClear1.gone()
+//        }
         btnDone.setOnClickListener {
             mBinding.rvLawyerList.visible()
             mBinding.lyLawyerListFilter.lySearch.visible()
@@ -566,7 +568,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                 chipGroup2.addView(entryChip2)
             }
 
-            txtClear1.inVisible()
+//            txtClear1.inVisible()
             if (years_of_exp == "Above 15") {
                 callAPI("", "15-100", specialization)
             } else {
@@ -578,7 +580,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
             specialization = ""
             chipGroup1.removeAllViews()
             AddItemsInChipGroup(requireContext(), chipGroup1, data.specialization)
-            txtClear2.inVisible()
+//            txtClear2.inVisible()
             callAPI("", years_of_exp, specialization)
         }
         dialog.show()
@@ -667,7 +669,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         btnImmediateJoin.setOnClickListener {
             dialog.dismiss()
 //            callRequestrMediatorApi(1, txtDate.text.toString() + " " + txtTime.text.toString())
-            ReusedMethod.displayMessage(requireActivity(),resources.getString(R.string.come_soon))
+            ReusedMethod.displayMessage(requireActivity(), resources.getString(R.string.come_soon))
         }
         btnRequestSend.setOnClickListener {
 

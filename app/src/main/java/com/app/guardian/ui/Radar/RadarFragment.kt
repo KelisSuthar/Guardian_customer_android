@@ -34,17 +34,6 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [RadarFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-
 class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
     GoogleMap.OnMarkerClickListener {
     private val mViewModel: UserViewModel by viewModel()
@@ -115,6 +104,8 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
     }
 
     private fun addPointAPI(type: String) {
+//
+
         if (ReusedMethod.isNetworkConnected(requireActivity())) {
             mViewModel.addRadarPoint(
                 true, context as BaseActivity, CURRENT_LAT.toString(),
@@ -123,6 +114,16 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
         } else {
             mBinding.cl1.gone()
             mBinding.noInternetRadar.llNointernet.visible()
+//            var isAdded = false
+//        for (i in array.indices) {
+//            if (array[i].lat?.startsWith(CURRENT_LAT.toString()) == true || array[i].lng?.startsWith(
+//                    CURRENT_LONG.toString()
+//                ) == true
+//            ) {
+//                isAdded = true
+//                break
+//            }
+//        }
         }
     }
 
@@ -188,11 +189,10 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
         mViewModel.deleteRadarPointResp().observe(this) { response ->
             response?.let { requestState ->
                 showLoadingIndicator(requestState.progress)
-                requestState.apiResponse?.let {
-                    it.data?.let { data ->
+                requestState.apiResponse.let {
+                    it?.data?.let { data ->
                         if (it.status) {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
-
                             CallMapListAPI()
                         } else {
                             ReusedMethod.displayMessage(requireActivity(), it.message.toString())
@@ -295,6 +295,7 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
     override fun onMapReady(googleMap: GoogleMap) {
         var mapIcon: BitmapDescriptor
         gMap = googleMap
+        gMap!!.clear()
         val dFormat = DecimalFormat("#.####")
         AppConstants.latitude = dFormat.format(AppConstants.latitude).toDouble()
         AppConstants.longitude = dFormat.format(AppConstants.longitude).toDouble()
@@ -346,20 +347,20 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
 //
 //        })
 
-        if (array.isEmpty()) {
-            mMarker = MarkerOptions()
-            mMarker!!.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
-                .anchor(0.0f, 1.0f)
-                .title(resources.getString(R.string.current_loc))
-                .flat(true)
-                .position(LatLng(CURRENT_LAT, CURRENT_LONG))
+//        if (array.isEmpty()) {
+        mMarker = MarkerOptions()
+        mMarker!!.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
+            .anchor(0.0f, 1.0f)
+            .title(resources.getString(R.string.current_loc))
+            .flat(true)
+            .position(LatLng(CURRENT_LAT, CURRENT_LONG))
 
-            gMap!!.addMarker(mMarker!!)
-            gMap!!.setOnInfoWindowClickListener { marker ->
+        gMap!!.addMarker(mMarker!!)
+        gMap!!.setOnInfoWindowClickListener { marker ->
 //            ReusedMethod.displayMessage(requireActivity(), marker.title.toString())
-            }
-
         }
+
+//        }
 
         setMarkerZoom(CURRENT_LAT, CURRENT_LONG)
         gMap!!.setOnMarkerClickListener(this)

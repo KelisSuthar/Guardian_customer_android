@@ -104,7 +104,10 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
                                             Intent(
                                                 this@ResetPasswordActivity,
                                                 LoginActivity::class.java
-                                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                                .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                         )
                                         overridePendingTransition(R.anim.rightto, R.anim.left)
                                     } else {
@@ -148,11 +151,13 @@ class ResetPasswordActivity : BaseActivity(), View.OnClickListener {
                                             Intent(
                                                 this@ResetPasswordActivity,
                                                 LoginActivity::class.java
-                                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                                .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                         )
                                         overridePendingTransition(R.anim.rightto, R.anim.left)
-                                    }
-                                    else{
+                                    } else {
                                         ReusedMethod.displayMessage(this as Activity, it)
 
                                     }
