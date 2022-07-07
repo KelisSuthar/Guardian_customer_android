@@ -1,6 +1,7 @@
 package com.app.guardian.ui.chatting
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Handler
 import android.text.TextUtils
 import android.util.Log
@@ -33,6 +34,7 @@ import java.util.*
 
 class ChattingFragment(
     var selectUserId: Int? = 0,
+    var isNotification : Boolean?=false
 ) : BaseFragment(), View.OnClickListener {
     lateinit var mBinding: FragmentChattingBinding
     private val mViewModel: CommonScreensViewModel by viewModel()
@@ -71,7 +73,20 @@ class ChattingFragment(
         )
 
         mBinding.ivBack.setOnClickListener {
-            requireActivity().onBackPressed()
+            if(isNotification!!){
+
+                startActivity(
+                    Intent(
+                        requireActivity(),
+
+                        HomeActivity::class.java
+                    ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                )
+            }
+            else{
+                requireActivity().onBackPressed()
+
+            }
         }
 
         mBinding.txtMessage.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->

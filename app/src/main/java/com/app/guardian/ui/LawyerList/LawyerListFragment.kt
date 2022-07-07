@@ -351,6 +351,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
 //            callRequestrMediatorApi()
             callScedualDialog()
 
+
 //            startActivity(Intent(context, CreateOrJoinActivity::class.java))
         }
 

@@ -43,23 +43,65 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
 
 
     //use for new screen open according to which notification are come
-//    override fun onNewIntent(intent: Intent?) {
-//        super.onNewIntent(intent)
-//        Log.i(
-//            "NOTIFICATION_SPLASh",
-//            "onNewIntent call"
-//        )
-////        setIntent(intent)
-////        val getIntent = intent
-//    }
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        Log.e(
+            "NOTIFICATION_SPLASh",
+            "onNewIntent call"
+        )
+
+        val i = getIntent()
+        val extras = i.extras
+        if (extras != null) {
+            for (key in extras.keySet()) {
+                val value = extras[key]
+                Log.d(
+                    "Notification",
+                    "Extras received at onNewIntent splash onNewIntent :  Key: $key Value: $value"
+                )
+            }
+            val title = extras.getString("title")
+            val message = extras.getString("body")
+            if (message != null && message.length > 0) {
+                getIntent().removeExtra("body")
+            }}
+//        setIntent(intent)
+//        val getIntent = intent
+    }
 
     private fun initView() {
+        Log.e(
+            "NOTIFICATION_SPLASh",
+            "initView call"
+        )
+
+        val i = getIntent()
+        val extras = i.extras
+        if (extras != null) {
+            for (key in extras.keySet()) {
+                val value = extras[key]
+                Log.d(
+                    "Notification",
+                    "Extras received at initView splash:  Key: $key Value: $value"
+                )
+            }
+            val title = extras.getString("title")
+            val message = extras.getString("body")
+            if (message != null && message.length > 0) {
+                getIntent().removeExtra("body")
+            }
+            notification_type =
+                intent.getStringExtra("type").toString()
+            notification_id =
+                intent.getStringExtra("sender_id").toString()
+        }
+
 //        mBinding = getBinding()
         if (intent != null && intent.extras != null) {
             notification_type =
-                intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE).toString()
+                intent.getStringExtra("type").toString()
             notification_id =
-                intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID).toString()
+                intent.getStringExtra("sender_id").toString()
         }
         Log.i(
             "NOTIFICATION_TYPE_INIT",
@@ -70,7 +112,6 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
             "NOTIFICATION_ID_INIT",
             notification_id.toString()
         )
-//        startService(Intent(this, BackgroundService::class.java))
 
         Handler().postDelayed({
             finish()
@@ -92,6 +133,7 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
             } else {
                 Log.i("NOTIFICATION_TYPE", notification_type)
                 if (intent != null && intent.extras != null) {
+
                     if (notification_type == AppConstants.EXTRA_CHAT_MESSAGE_PAYLOAD) {
                         Log.i("NOTIFICATION_TYPE", notification_type)
                         startActivity(
@@ -113,7 +155,12 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
                                 this@SplashScreen,
 
                                 HomeActivity::class.java
+                            ).putExtra(
+                                AppConstants.EXTRA_NOTIFICATION_DATA_TYPE, notification_type
                             )
+                                .putExtra(
+                                    AppConstants.EXTRA_NOTIFICATION_DATA_ID, notification_id
+                                )
                         )
 
 //                        else if (intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE) == AppConstants.EXTRA_MEDIATOR_PAYLOAD) {
