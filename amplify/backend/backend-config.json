@@ -1,14 +1,13 @@
 {
   "auth": {
-    "guardianapplication45cfd93c": {
+    "guardian47451de0": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
       "customAuth": false,
       "frontendAuthConfig": {
-        "loginMechanism": [
-          "EMAIL"
-        ],
+        "socialProviders": [],
+        "usernameAttributes": [],
         "signupAttributes": [
           "EMAIL"
         ],
@@ -19,14 +18,18 @@
         "mfaConfiguration": "OFF",
         "mfaTypes": [
           "SMS"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
         ]
       }
     }
   },
   "storage": {
-    "S3Guardian": {
+    "guardianAWSs3": {
       "service": "S3",
-      "providerPlugin": "awscloudformation"
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
     }
   }
 }

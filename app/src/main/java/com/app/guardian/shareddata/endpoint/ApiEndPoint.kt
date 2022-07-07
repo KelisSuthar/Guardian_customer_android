@@ -1,5 +1,6 @@
 package com.app.guardian.shareddata.endpoint
 
+import com.app.guardian.model.AcceptRejectCallByMediator.AcceptRejectCallByMediatorResp
 import com.app.guardian.model.AskModeQ.AskModeQResp
 import com.app.guardian.model.AskModeQResp.ChatListResp
 import com.app.guardian.model.AskModeQResp.SendMessageResp
@@ -193,6 +194,12 @@ interface ApiEndPoint {
 
     @GET("userVideoList")
     fun getOfflinUploadedVideoCallList(): Call<CommonResponseModel<MutableList<OfflineUploadedVideoResp>>>
+
+    @POST("endCall")
+    fun sendEndCall(): Call<CommonResponseModel<CommonResponse>>
+
+    @POST("acceptUserRequestByMediator")
+    fun acceptRejectCallByMeditor(): Call<CommonResponseModel<AcceptRejectCallByMediatorResp>>
 
 
 }

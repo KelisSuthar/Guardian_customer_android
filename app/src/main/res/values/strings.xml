@@ -13,7 +13,7 @@
     <string name="g_map_api_key_3">2x2jYFX1JZ79jI</string>
     <string name="g_map_api_key">AIzaSyCn23HyRn8zm-9sao4u-2x2jYFX1JZ79jI</string>
 
-<string name="video_call_auth">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiI1NGE1NzM4Ni0zZWUwLTRkZjQtODkyYy1mMjk3NGZkZmViMGYiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTY1NzEwMDQxNiwiZXhwIjoxNjU3NzA1MjE2fQ.PWpSzc5_4_Q32wvFNb46-EVSb4N4jST9tdhQjCh3OXk</string>
+    <string name="video_call_auth">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiI1NGE1NzM4Ni0zZWUwLTRkZjQtODkyYy1mMjk3NGZkZmViMGYiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTY1NzEwMDQxNiwiZXhwIjoxNjU3NzA1MjE2fQ.PWpSzc5_4_Q32wvFNb46-EVSb4N4jST9tdhQjCh3OXk</string>
     <!--    not Working-->
     <!--    <string name="map_api_key">AIzaSyAyMrbXh6XrkhpCzXfNZJzu3akbUIbVqcg</string>-->
     <!--    working-->

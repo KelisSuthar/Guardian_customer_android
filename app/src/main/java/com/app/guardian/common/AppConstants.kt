@@ -3,7 +3,6 @@ package com.app.guardian.common
 object AppConstants {
 
 
-
     val BROADCAST_REC_INTENT = "PUSH"
     var latitude = 0.0
     var longitude = 0.0
@@ -17,7 +16,7 @@ object AppConstants {
     val USER = "User"
     val MEDIATOR = "Mediator"
     val LAWYEER = "Lawyer"
-    val APP_NAME = "Tajmeel"
+    val APP_NAME = "Guardian"
     val APP_ROLE_USER = "user"
     val APP_ROLE_LAWYER = "lawyer"
     val APP_ROLE_MEDIATOR = "mediator"
@@ -80,13 +79,13 @@ object AppConstants {
     const val EXTRA_NAME = "NAME"
     const val IS_JOIN = "IS_JOIN"
 
-    const val EXTRA_VIRTUAL_WITNESS_PAYLOAD  = "virtual_witness_request"
-    const val EXTRA_VIDEOCALLREQ_PAYLOAD  = "video_call_request"
-    const val EXTRA_MEDIATOR_PAYLOAD  = "mediator_request"
-    const val EXTRA_CHAT_MESSAGE_PAYLOAD  = "chat_message"
+    const val EXTRA_VIRTUAL_WITNESS_PAYLOAD = "virtual_witness_request"
+    const val EXTRA_VIDEOCALLREQ_PAYLOAD = "video_call_request"
+    const val EXTRA_MEDIATOR_PAYLOAD = "mediator_request"
+    const val EXTRA_CHAT_MESSAGE_PAYLOAD = "chat_message"
 
-    const val VIDEO  = "video"
-    const val TXT  = "text"
+    const val VIDEO = "video"
+    const val TXT = "text"
 
     const val NOTIFICATION_BAGE = "NOTIFICATION_BAGE"
 
@@ -132,55 +131,10 @@ object AppConstants {
     const val EXTRA_WRITE_STORAGE_PERMISSION = 110
     const val EXTRA_ACCESS_LOCATION_PERMISSION = 111
     const val EXTRA_MANAGE_LOCATION_PERMISSION = 111
-    const val EXTRA_TOTAL_CART_ITEM_COUNT = "TOTAL_ITEM_COUNT"
-    const val EXTRA_ASCENDING = "asc"
-    const val EXTRA_DESCENDING = "desc"
-    const val EXTRA_POPULARITY = "desc"
-    const val EXTRA_CART = "CART"
-    const val EXTRA_BUSINESS_REMOVED_FAV_LIST = "Remove from favourite list"
-    const val EXTRA_BUSINESS_ADDED_FAV_LIST = "Save to favourite list"
-    const val EXTRA_REMOVE = "REMOVE"
-    const val EXTRA_ADD = "ADD"
-    const val EXTRA_JOB_TYPE = "JOB_TYPE"
-    const val EXTRA_CAT_ID = "CATEGORY_ID"
     const val GET_CAT = "GET_CATEGORY"
     const val CARD_DETAILS = "CARD_DETAILS"
-    const val GOLD = "Gold"
-    const val SILVER = "Silver"
-    const val BRONZE = "Bronze"
-    const val DATA_NOT_FOUND = "Data not found."
-    const val ADD_ONE_ORDER = "You can order from one restaurant at a time"
-    const val ADD_FULL_TIME = "Full Time"
-    const val ADD_PART_TIME = "Part Time"
-    const val ADD_PERSONAL_ASSISTANT = "Personal Assistant"
-    const val ADD_SALES_MANAGER = "Sales Manager"
-    const val ADD_DELIVERY_BOY = "Delivery Boy"
-    const val ADD_DESIGNER = "Designer"
-    const val ADD_ALL = "ALL"
-    const val EXTRA_PLAN_ID = "plan_id"
-    const val EXTRA_PRICE = "price"
-    const val EXTRA_APPLE_RECEIPT = "apple_receipt"
-    const val EXTRA_SHARED_SECRET = "shared_secret"
-    const val STATIC_SHARED_SECRET = "0c5fbd801a6b41dd8d4673b5307f9b95"
-    const val HOME_CONDO = "Home or Condo"
-    const val HOME_STAY = "Homestay"
-    const val SHARED_ACCOMODATION = "Shared Accommodation"
-    const val THREE_MONTHS = "3 Months"
-    const val SIX_MONTHS = "6 Months"
-    const val TWELVE_MONTHS = "12 Months"
-    const val EXTRA_PARENTS = "Parents"
-    const val EXTRA_FAMILY_MEMBER = "Family Member"
-    const val EXTRA_STUDENT_LOAN = "Student Loan"
-    const val EXTRA_EMPLOYMENT = "Employment"
-    const val EXTRA_MONTHLY_INCOME = "Monthly Income"
-    const val EXTRA_STUDENT = "Student"
-    const val EXTRA_INTERNATIONAL_STUDENT = "International Student"
-    const val EXTRA_EMPLOYEMNT_BUSINESS = "Employment/Business"
-    const val EXTRA_TRAVEL = "Travel"
     const val EXTRA_SELECT = "Select"
     const val EXTRA_MARTIAL_STATUS = "Marital Status"
-    const val EXTRA_SINGLE = "Single"
-    const val EXTRA_MARRIED = "Married"
     const val EXTRA_LAT = "Latitude"
     const val EXTRA_LONG = "Longitude"
     const val EXTRA_RESTAURANTS = "Restaurants"
@@ -207,8 +161,16 @@ object AppConstants {
     const val ACCOMODATION_REJECTED = "Renter request Rejected"
     const val HOME_NOTIFICATION = "Home Notification"
 
-    const val AWS_ACCESS_KEY ="AKIA3AXY2Q6I6YNJZAP6"
-    const val AWS_SECRET_KEY ="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"
- //   const val AWS_BASE_URL ="https://guardian-doc.s3.us-east-2.amazonaws.com/"
-    const val AWS_BASE_URL ="https://guardian-doc121628-dev.s3.us-east-2.amazonaws.com/public/"
+    //    const val AWS_ACCESS_KEY = "AKIA3AXY2Q6I6YNJZAP6"
+    const val AWS_ACCESS_KEY = "AKIAQ64R4AJ3AQCHTFOF"
+
+    //    const val AWS_SECRET_KEY = "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"
+    const val AWS_SECRET_KEY = "n1Il5CQO8ABCuFU6miXV/oy/IBDPr6E/tLQLooXX"
+
+    //   const val AWS_BASE_URL ="https://guardian-doc.s3.us-east-2.amazonaws.com/"
+//    const val AWS_BASE_URL ="https://guardian-doc121628-dev.s3.us-east-2.amazonaws.com/public/"
+//    const val AWS_BASE_URL = "https://guardian-temp.s3.us-east-2.amazonaws.com/"
+//    const val AWS_BASE_URL = "https://guardian-temp.s3.us-east-2.amazonaws.com/"
+    const val AWS_BASE_URL =
+        "https://guardian-temp151234-guardian.s3.us-east-2.amazonaws.com/public/"
 }

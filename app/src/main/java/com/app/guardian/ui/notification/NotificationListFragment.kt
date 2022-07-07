@@ -28,6 +28,7 @@ import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Lawyer.AddBaner.AddBannerFragment
 import com.app.guardian.ui.LawyerVideoCallReq.LawyerVideoCallReqFragment
+import com.app.guardian.ui.MediatorVideoCallReq.MediatorVideoCallReqFragment
 import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
 import com.app.guardian.ui.User.settings.SettingsFragment
 import com.app.guardian.ui.VideoCallReq.VideoCallReqFragment
@@ -128,7 +129,7 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                                 meeting_Id = jsonObject.getString("room_id")
                                 callCheckSubscriptionApi()
                             } else {
-                                if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER || SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_MEDIATOR) {
+                                if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
                                     ReplaceFragment.replaceFragment(
                                         requireActivity(),
                                         LawyerVideoCallReqFragment(),
@@ -136,10 +137,18 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                                         SettingsFragment::class.java.name,
                                         SettingsFragment::class.java.name
                                     )
-                                } else {
+                                } else if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_LAWYER) {
                                     ReplaceFragment.replaceFragment(
                                         requireActivity(),
                                         VideoCallReqFragment(),
+                                        true,
+                                        SettingsFragment::class.java.name,
+                                        SettingsFragment::class.java.name
+                                    )
+                                } else if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_MEDIATOR) {
+                                    ReplaceFragment.replaceFragment(
+                                        requireActivity(),
+                                        MediatorVideoCallReqFragment(),
                                         true,
                                         SettingsFragment::class.java.name,
                                         SettingsFragment::class.java.name

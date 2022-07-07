@@ -98,7 +98,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 )
             intent!!.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent!!.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-        }else{
+        } else {
             intent =
                 Intent(this, com.app.guardian.ui.Splash.SplashScreen::class.java).putExtra(
                     AppConstants.IS_NOTIFICATION, true
@@ -155,6 +155,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setContentTitle(remoteMessage.notification!!.title)
             .setContentText(remoteMessage.notification!!.body)
             .setAutoCancel(true)
+
             .setContentIntent(pendingIntent)
 
         notificationBuilder.setCustomHeadsUpContentView(notificationLayout)
@@ -188,7 +189,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             val channel = NotificationChannel(
                 channelId,
                 "Channel human readable title",
-                NotificationManager.IMPORTANCE_HIGH
+                NotificationManager.IMPORTANCE_HIGH,
+
             )
             channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
             notificationManager.createNotificationChannel(channel)

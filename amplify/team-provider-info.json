@@ -1,19 +1,22 @@
 {
-  "dev": {
+  "guardian": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-guardianapplication-dev-121628-authRole",
-      "UnauthRoleArn": "arn:aws:iam::757509818257:role/amplify-guardianapplication-dev-121628-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::757509818257:role/amplify-guardianapplication-dev-121628-authRole",
+      "AuthRoleName": "amplify-guardian-guardian-151234-authRole",
+      "UnauthRoleArn": "arn:aws:iam::066341044854:role/amplify-guardian-guardian-151234-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::066341044854:role/amplify-guardian-guardian-151234-authRole",
       "Region": "us-east-2",
-      "DeploymentBucketName": "amplify-guardianapplication-dev-121628-deployment",
-      "UnauthRoleName": "amplify-guardianapplication-dev-121628-unauthRole",
-      "StackName": "amplify-guardianapplication-dev-121628",
-      "StackId": "arn:aws:cloudformation:us-east-2:757509818257:stack/amplify-guardianapplication-dev-121628/66919530-e564-11ec-a48a-02b793202106",
-      "AmplifyAppId": "d2rjep4g7ssbbn"
+      "DeploymentBucketName": "amplify-guardian-guardian-151234-deployment",
+      "UnauthRoleName": "amplify-guardian-guardian-151234-unauthRole",
+      "StackName": "amplify-guardian-guardian-151234",
+      "StackId": "arn:aws:cloudformation:us-east-2:066341044854:stack/amplify-guardian-guardian-151234/23c95390-fdd9-11ec-a964-0617ba236dec",
+      "AmplifyAppId": "ddjrfvse5xwmt"
     },
     "categories": {
       "auth": {
-        "guardianapplication45cfd93c": {}
+        "guardianb98088ea": {},
+        "true": {},
+        "guardianb5f2554e": {},
+        "guardian47451de0": {}
       }
     }
   }

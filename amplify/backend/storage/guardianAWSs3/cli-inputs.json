@@ -1,0 +1,16 @@
+{
+  "resourceName": "guardianAWSs3",
+  "policyUUID": "94bbf46f",
+  "bucketName": "guardian-temp",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}
