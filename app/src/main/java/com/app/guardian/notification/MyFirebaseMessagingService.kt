@@ -133,7 +133,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             intent!!.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
         }else{
-        } else {
             intent =
                 Intent(this, HomeActivity::class.java).putExtra(
                     AppConstants.IS_NOTIFICATION, true
