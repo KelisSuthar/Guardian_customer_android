@@ -1,5 +1,6 @@
 package com.app.guardian.ui.Splash
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -64,11 +65,13 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
             val message = extras.getString("body")
             if (message != null && message.length > 0) {
                 getIntent().removeExtra("body")
-            }}
+            }
+        }
 //        setIntent(intent)
 //        val getIntent = intent
     }
 
+    @SuppressLint("LogNotTimber")
     private fun initView() {
         Log.e(
             "NOTIFICATION_SPLASh",
@@ -162,6 +165,7 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
                                     AppConstants.EXTRA_NOTIFICATION_DATA_ID, notification_id
                                 )
                         )
+
 
 //                        else if (intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE) == AppConstants.EXTRA_MEDIATOR_PAYLOAD) {
 //                            Log.i(

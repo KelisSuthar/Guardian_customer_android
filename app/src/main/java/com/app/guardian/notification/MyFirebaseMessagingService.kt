@@ -133,12 +133,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             intent!!.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
         }else{
+            SharedPreferenceManager.putString(AppConstants.IS_NOTIFICATION_SHARED_TYPE,data.getString("type").toString())
+            SharedPreferenceManager.putString(AppConstants.IS_NOTIFICATION_SHARED_ID,data.getString("sender_id"))
             intent =
-                Intent(this, HomeActivity::class.java).putExtra(
-                    AppConstants.IS_NOTIFICATION, true
-                )
-                    .putExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE,data.getString("type").toString())
-                    .putExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID,data.getString("sender_id").toString())
+                Intent(this, HomeActivity::class.java)
+//                    .putExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE,data.getString("type").toString())
+//                    .putExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID,data.getString("sender_id").toString())
 //                    .putExtra(
 //                    "type", data.getString("type").toString()
 //                ).putExtra(

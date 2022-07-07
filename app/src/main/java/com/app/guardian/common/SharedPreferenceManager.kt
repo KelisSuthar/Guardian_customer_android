@@ -147,4 +147,10 @@ object SharedPreferenceManager {
         removeString(AppConstants.CMS_DETAIL)
     }
 
+    fun removeNotificationData() {
+        removeString(AppConstants.IS_NOTIFICATION_SHARED_TYPE)
+        removeString(AppConstants.IS_NOTIFICATION_SHARED_ID)
+
+    }
+
 }

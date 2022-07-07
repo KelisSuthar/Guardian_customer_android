@@ -58,6 +58,8 @@ object AppConstants {
     const val ANNUAL_PLAN = "Annual Plan"
 
     const val MULTIPLE_CALLS = "MULTIPLE_CALLS"
+    const val IS_NOTIFICATION_SHARED_TYPE = "IS_NOTIFICATION_SHARED_TYPE"
+    const val IS_NOTIFICATION_SHARED_ID = "IS_NOTIFICATION_SHARED_ID"
 
     const val EXTRA_SH_USER_HOME = "USERHOME"
     const val EXTRA_SH_MEDIATOR_HOME = "MEDIATORHOME"

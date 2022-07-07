@@ -1,6 +1,7 @@
 package com.app.guardian.ui.Home
 
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -54,8 +55,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
     private var mFusedLocationClient: FusedLocationProviderClient? = null
     private var locationRequest: LocationRequest? = null
     private var locationCallback: LocationCallback? = null
-    val notification_type = ""
-    val notification_id_ = ""
     var main_layoutBageCounter: RelativeLayout? = null
     private var notificationBadge: View? = null
     var txtBagecount: TextView? = null
@@ -95,26 +94,223 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
 
-        val i = getIntent()
-        val extras = i.extras
-        if (extras != null) {
-            for (key in extras.keySet()) {
-                val value = extras[key]
-                Log.d(
-                    "Notification",
-                    "Extras received at onNewIntent:  Key: $key Value: $value"
-                )
-            }
-            val title = extras.getString("title")
-            val message = extras.getString("body")
-            if (message != null && message.length > 0) {
-                getIntent().removeExtra("body")
-            }
-        }
+
     }
+
+    @SuppressLint("LogNotTimber")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+    }
+
+    override fun getResource(): Int {
+        ReusedMethod.updateStatusBarColor(this, R.color.colorPrimaryDark, 4)
+        return R.layout.activity_home
+    }
+
+
+    override fun initView() {
+
+        val count = SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, 0)
+        Log.e("bageCount", "BageCount initView : " + count.toString())
+        if (count > 0) {
+            onVisibleBageCounterCounter(count)
+        }
+        mBinding = getBinding()
+
+//        mBinding.bottomNavigationUser.setOnNavigationItemSelectedListener {
+//            when (it.itemId) {
+//                R.id.menu_home -> {
+//                    clearFragmentBackStack()
+//                    loadHomeScreen()
+////                    ReplaceFragment.replaceFragment(this,KnowRightFragment(),false,"",HomeActivity::class.java.name)
+//                }
+//                R.id.menu_lawyer -> {
+//                    clearFragmentBackStack()
+////                    ReplaceFragment.replaceFragment(
+////                        this,
+////                        ChattingFragment(),
+////                        false,
+////                        "",
+////                        HomeActivity::class.java.name
+////                    )
+//                    ReplaceFragment.replaceFragment(
+//                        this,
+//                        LawyerListFragment(false),
+//                        false,
+//                        "",
+//                        HomeActivity::class.java.name
+//                    )
+//                }
+//                R.id.menu_radar -> {
+//                    clearFragmentBackStack()
+//                    ReplaceFragment.replaceFragment(
+//                        this,
+//                        RadarFragment(),
+//                        false,
+//                        "",
+//                        HomeActivity::class.java.name
+//                    )
+//
+//                }
+//                R.id.menu_history -> {
+//                    clearFragmentBackStack()
+//                    ReplaceFragment.replaceFragment(
+//                        this,
+//                        ContectedHistoryFragment(),
+//                        false,
+//                        "",
+//                        HomeActivity::class.java.name
+//                    )
+//                }
+//                R.id.menu_setting -> {
+//                    onHideBadgeCounter()
+//                    clearFragmentBackStack()
+//                    ReplaceFragment.replaceFragment(
+//                        this,
+//                        SettingsFragment(),
+//                        false,
+//                        "",
+//                        HomeActivity::class.java.name
+//                    )
+//                }
+//            }
+//            true
+//        }
+//
+//
+//        mBinding.headerToolbar.ivBack.setOnClickListener()
+//        {
+//            onBackPressed()
+//        }
+//        //bottom navigation click listener
+//
+//        if (intent != null && intent.extras != null) {
+//            val notification_type =
+//                intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!
+//            Log.i("NOTIFICATION_DATA_H", intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!)
+//            when (notification_type) {
+//                AppConstants.EXTRA_CHAT_MESSAGE_PAYLOAD -> {
+//                    Log.i("NOTIFICATION_DATA_H", intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!)
+//                    ReplaceFragment.replaceFragment(
+//                        this,
+//                        ChattingFragment(
+//                            intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID)!!
+//                                .toInt(),
+//                            true
+//                        ),
+//                        true,
+//                        HomeActivity::class.java.name,
+//                        HomeActivity::class.java.name
+//                    )
+//                }
+//                AppConstants.EXTRA_MEDIATOR_PAYLOAD -> {
+//                    Log.i("NOTIFICATION_DATA_H", intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!)
+//                }
+//                AppConstants.EXTRA_VIRTUAL_WITNESS_PAYLOAD -> {
+//                    Log.i("NOTIFICATION_DATA_H", intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!)
+//
+//                }
+//            }
+//        } else {
+//            bottomTabVisibility(true)
+//            loadHomeScreen()
+//        }
+
+        locationManager = getSystemService(
+            Context.LOCATION_SERVICE
+        ) as LocationManager
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        locationRequest = LocationRequest.create()
+        locationRequest?.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest?.interval = 20 * 1000
+
+
+        headerTextVisible(resources.getString(R.string.seek_legal_advice), false, true)
+
+        applybadgeview()
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
+
+    }
+
+    //todo : other function
+    //use for notification badge counter display ( only sendbird chat notification get in this fun )
+
+    fun applybadgeview() {
+        try {
+            var menuView: BottomNavigationMenuView? = null
+            var itemView: BottomNavigationItemView? = null
+            menuView = mBinding.bottomNavigationUser.getChildAt(0) as BottomNavigationMenuView
+            itemView = menuView.getChildAt(4) as BottomNavigationItemView
+
+            Log.e("menuItem", "Update menu item : $menuView   :  $itemView")
+            notificationBadge = LayoutInflater.from(this)
+                .inflate(R.layout.item_notification_layout, menuView, false)
+            itemView.addView(notificationBadge)
+
+            main_layoutBageCounter = notificationBadge?.findViewById(R.id.ly_badge_counter)
+            txtBagecount = notificationBadge?.findViewById(R.id.txt_badge_count)
+
+            main_layoutBageCounter?.visibility = View.INVISIBLE
+            txtBagecount?.visibility = View.INVISIBLE
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun historyPageOpen() {
+        mBinding.bottomNavigationUser.selectedItemId = R.id.menu_history;
+    }
+
+    fun lawyerListPageOpen() {
+        mBinding.bottomNavigationUser.selectedItemId = R.id.menu_lawyer;
+    }
+
+
+    fun visibleBageCount() {
+        val count = SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, 0)
+        Log.e("bageCount", "BageCount visibleBageCount : " + count.toString())
+        if (count > 0) {
+            onVisibleBageCounterCounter(count)
+        }
+    }
+
+
+    @SuppressLint("LogNotTimber")
+    override fun onResume() {
+        super.onResume()
+        val count = SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, 0)
+        Log.e("bageCount", "BageCount onResume : " + count.toString())
+        if (count > 0) {
+            onVisibleBageCounterCounter(count)
+        }
+        removeSeletionData()
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            mBroadcastReceiver, IntentFilter(
+                intentAction
+            )
+        )
+        getLatLong()
+        if (checkLoationPermission(this)) {
+            if (locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER)!!) {
+
+                mFusedLocationClient?.requestLocationUpdates(
+                    locationRequest!!,
+                    locationCallback!!,
+                    Looper.getMainLooper()
+                )
+            } else {
+
+                ReusedMethod.setLocationDialog(this)
+            }
+        }
 
         val i = getIntent()
         val extras = i.extras
@@ -132,21 +328,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
                 getIntent().removeExtra("body")
             }
         }
-    }
-    override fun getResource(): Int {
-        ReusedMethod.updateStatusBarColor(this, R.color.colorPrimaryDark, 4)
-        return R.layout.activity_home
-    }
-
-
-    override fun initView() {
-
-        val count = SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, 0)
-        Log.e("bageCount","BageCount initView : "+count.toString())
-        if(count>0){
-            onVisibleBageCounterCounter(count)
-        }
-        mBinding = getBinding()
 
         mBinding.bottomNavigationUser.setOnNavigationItemSelectedListener {
             when (it.itemId) {
@@ -214,139 +395,69 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
             onBackPressed()
         }
         //bottom navigation click listener
-
+        Log.i(
+            "NOTIFICATION_H",
+            SharedPreferenceManager.getString("NOTIFICATION", "").toString()
+        )
 
         if (intent != null && intent.extras != null) {
-            Log.i(
-                "NOTIFICATION_DATA_H",
+            val notification_type =
                 intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!
+            val notification_id =
+                intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID)!!
+            checkNotificationRedirection(notification_type, notification_id)
+
+        } else if (!SharedPreferenceManager.getString(AppConstants.IS_NOTIFICATION_SHARED_TYPE, "")
+                .isNullOrEmpty()
+        ) {
+            checkNotificationRedirection(
+                SharedPreferenceManager.getString(AppConstants.IS_NOTIFICATION_SHARED_TYPE, "")
+                    .toString(),
+                SharedPreferenceManager.getString(AppConstants.IS_NOTIFICATION_SHARED_ID, "")
+                    .toString()
             )
-            if (intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE) == AppConstants.EXTRA_CHAT_MESSAGE_PAYLOAD) {
+
+        } else {
+            bottomTabVisibility(true)
+            loadHomeScreen()
+        }
+
+    }
+
+    fun checkNotificationRedirection(notification_type: String, id: String) {
+        SharedPreferenceManager.removeNotificationData()
+        when (notification_type) {
+            AppConstants.EXTRA_CHAT_MESSAGE_PAYLOAD -> {
                 Log.i(
                     "NOTIFICATION_DATA_H",
-                    intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!
+                    notification_type
                 )
                 ReplaceFragment.replaceFragment(
                     this,
                     ChattingFragment(
-                        intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID)!!.toInt(),
+                        id.toInt(),
                         true
                     ),
                     true,
                     HomeActivity::class.java.name,
                     HomeActivity::class.java.name
                 )
-            } else if (intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE) == AppConstants.EXTRA_MEDIATOR_PAYLOAD) {
+            }
+            AppConstants.EXTRA_MEDIATOR_PAYLOAD -> {
                 Log.i(
                     "NOTIFICATION_DATA_H",
-                    intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!
+                    notification_type
                 )
-            } else if (intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE) == AppConstants.EXTRA_VIRTUAL_WITNESS_PAYLOAD) {
+            }
+            AppConstants.EXTRA_VIRTUAL_WITNESS_PAYLOAD -> {
                 Log.i(
                     "NOTIFICATION_DATA_H",
-                    intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!
+                    notification_type
                 )
 
             }
-        } else {
-            bottomTabVisibility(true)
-            loadHomeScreen()
-        }
-
-        locationManager = getSystemService(
-            Context.LOCATION_SERVICE
-        ) as LocationManager
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        locationRequest = LocationRequest.create()
-        locationRequest?.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        locationRequest?.interval = 20 * 1000
-
-
-        headerTextVisible(resources.getString(R.string.seek_legal_advice), false, true)
-
-        applybadgeview()
-
-    }
-
-    override fun onPause() {
-        super.onPause()
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
-
-    }
-
-    //todo : other function
-    //use for notification badge counter display ( only sendbird chat notification get in this fun )
-    fun applybadgeview() {
-        try {
-            var menuView: BottomNavigationMenuView? = null
-            var itemView: BottomNavigationItemView? = null
-            menuView = mBinding.bottomNavigationUser.getChildAt(0) as BottomNavigationMenuView
-            itemView = menuView.getChildAt(4) as BottomNavigationItemView
-
-            Log.e("menuItem", "Update menu item : $menuView   :  $itemView")
-            notificationBadge = LayoutInflater.from(this)
-                .inflate(R.layout.item_notification_layout, menuView, false)
-            itemView.addView(notificationBadge)
-
-            main_layoutBageCounter = notificationBadge?.findViewById(R.id.ly_badge_counter)
-            txtBagecount = notificationBadge?.findViewById(R.id.txt_badge_count)
-
-            main_layoutBageCounter?.visibility = View.INVISIBLE
-            txtBagecount?.visibility = View.INVISIBLE
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
     }
-
-    fun historyPageOpen() {
-        mBinding.bottomNavigationUser.selectedItemId = R.id.menu_history;
-    }
-
-    fun lawyerListPageOpen() {
-        mBinding.bottomNavigationUser.selectedItemId = R.id.menu_lawyer;
-    }
-
-
-    fun visibleBageCount(){
-        val count = SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, 0)
-        Log.e("bageCount","BageCount visibleBageCount : "+count.toString())
-        if(count>0){
-            onVisibleBageCounterCounter(count)
-        }
-    }
-
-
-
-    override fun onResume() {
-        super.onResume()
-        val count = SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, 0)
-        Log.e("bageCount","BageCount onResume : "+count.toString())
-        if(count>0){
-            onVisibleBageCounterCounter(count)
-        }
-        removeSeletionData()
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-            mBroadcastReceiver, IntentFilter(
-                intentAction
-            )
-        )
-        getLatLong()
-        if (checkLoationPermission(this)) {
-            if (locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER)!!) {
-
-                mFusedLocationClient?.requestLocationUpdates(
-                    locationRequest!!,
-                    locationCallback!!,
-                    Looper.getMainLooper()
-                )
-            } else {
-
-                ReusedMethod.setLocationDialog(this)
-            }
-        }
-
-    }
-
 
     override fun initObserver() {
 
