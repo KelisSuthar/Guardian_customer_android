@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
 import android.widget.TextView
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
@@ -194,5 +195,23 @@ class MediatorVideoCallReqFragment : BaseFragment(), View.OnClickListener {
             mBinding.noDataMediatorVideoCallReq.gone()
             mBinding.cl1.gone()
         }
+    }
+
+    fun AcceptRejectDialog() {
+        val dialog =
+            ReusedMethod.setUpDialog(requireActivity(), R.layout.dialog_layout, false)
+        val tvTitle: TextView = dialog.findViewById(R.id.tvTitle)
+        val tvMessage: TextView = dialog.findViewById(R.id.tvMessage)
+        val tvNegative: Button = dialog.findViewById(R.id.tvNegative)
+        val tvPositive: Button = dialog.findViewById(R.id.tvPositive)
+        tvMessage.gone()
+        tvTitle.text = "Are you sure want to accept this request?"
+        tvPositive.setOnClickListener {
+            dialog.dismiss()
+        }
+        tvNegative.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.show()
     }
 }
