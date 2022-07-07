@@ -208,16 +208,17 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                 }
 
                 override fun onVideCallClick(position: Int, id: Int?) {
-                    if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
-                        displayVideoCallDialog(array[position].id)
-                    } else {
-                        callVideoCallRequestAPI(
-                            array[position].id!!,
-                            AppConstants.APP_ROLE_LAWYER,
-                            0,
-                            ""
-                        )
-                    }
+                    ReusedMethod.displayMessage(requireActivity(),resources.getString(R.string.come_soon))
+//                    if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
+//                        displayVideoCallDialog(array[position].id)
+//                    } else {
+//                        callVideoCallRequestAPI(
+//                            array[position].id!!,
+//                            AppConstants.APP_ROLE_LAWYER,
+//                            0,
+//                            ""
+//                        )
+//                    }
 
                 }
 

@@ -122,30 +122,31 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                             )
                         }
                         AppConstants.EXTRA_VIDEOCALLREQ_PAYLOAD -> {
-                            val jsonObject =
-                                JSONObject(array[position].data_obj)
-                            if (jsonObject.has("room_id")) {
-                                meeting_Id = jsonObject.getString("room_id")
-                                callCheckSubscriptionApi()
-                            } else {
-                                if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER || SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_MEDIATOR) {
-                                    ReplaceFragment.replaceFragment(
-                                        requireActivity(),
-                                        LawyerVideoCallReqFragment(),
-                                        true,
-                                        SettingsFragment::class.java.name,
-                                        SettingsFragment::class.java.name
-                                    )
-                                } else {
-                                    ReplaceFragment.replaceFragment(
-                                        requireActivity(),
-                                        VideoCallReqFragment(),
-                                        true,
-                                        SettingsFragment::class.java.name,
-                                        SettingsFragment::class.java.name
-                                    )
-                                }
-                            }
+                            ReusedMethod.displayMessage(requireActivity(),resources.getString(R.string.come_soon))
+//                            val jsonObject =
+//                                JSONObject(array[position].data_obj)
+//                            if (jsonObject.has("room_id")) {
+//                                meeting_Id = jsonObject.getString("room_id")
+//                                callCheckSubscriptionApi()
+//                            } else {
+//                                if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER || SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_MEDIATOR) {
+//                                    ReplaceFragment.replaceFragment(
+//                                        requireActivity(),
+//                                        LawyerVideoCallReqFragment(),
+//                                        true,
+//                                        SettingsFragment::class.java.name,
+//                                        SettingsFragment::class.java.name
+//                                    )
+//                                } else {
+//                                    ReplaceFragment.replaceFragment(
+//                                        requireActivity(),
+//                                        VideoCallReqFragment(),
+//                                        true,
+//                                        SettingsFragment::class.java.name,
+//                                        SettingsFragment::class.java.name
+//                                    )
+//                                }
+//                            }
 
 
                         }

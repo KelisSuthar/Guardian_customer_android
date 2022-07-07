@@ -109,21 +109,22 @@ class LawyerListAdapter(
 
 
             imgRowLawyerVideo?.setOnClickListener {
-                if (SharedPreferenceManager.getString(
-                        AppConstants.USER_ROLE,
-                        ""
-                    ) == AppConstants.APP_ROLE_USER
-                ) {
-
-                    lawyerListFragment.displayVideoCallDialog(lawyerProfileData.id)
-                } else {
-                    lawyerListFragment.callVideoCallRequestAPI(
-                        lawyerProfileData.id!!,
-                        AppConstants.APP_ROLE_LAWYER,
-                        0,
-                        ""
-                    )
-                }
+//                if (SharedPreferenceManager.getString(
+//                        AppConstants.USER_ROLE,
+//                        ""
+//                    ) == AppConstants.APP_ROLE_USER
+//                ) {
+//
+//                    lawyerListFragment.displayVideoCallDialog(lawyerProfileData.id)
+//                } else {
+//                    lawyerListFragment.callVideoCallRequestAPI(
+//                        lawyerProfileData.id!!,
+//                        AppConstants.APP_ROLE_LAWYER,
+//                        0,
+//                        ""
+//                    )
+//                }
+                ReusedMethod.displayMessage(context,context.resources.getString(R.string.come_soon))
 
             }
 

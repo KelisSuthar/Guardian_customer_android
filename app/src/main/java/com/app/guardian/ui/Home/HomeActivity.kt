@@ -1,12 +1,13 @@
 package com.app.guardian.ui.Home
 
 
-import android.app.Activity
+import android.app.Application
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.location.LocationManager
+import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
@@ -24,7 +25,6 @@ import com.app.guardian.common.extentions.checkLoationPermission
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityHomeBinding
-import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.ContactedHistory.ContectedHistoryFragment
 import com.app.guardian.ui.Lawyer.LawyerHome.LawyerHomeFragment
@@ -41,13 +41,9 @@ import com.app.guardian.ui.User.ScheduleVirtualWitness.ScheduleVirtualWitnessFra
 import com.app.guardian.ui.User.UserHome.UserHomeFragment
 import com.app.guardian.ui.User.settings.SettingsFragment
 import com.app.guardian.ui.chatting.ChattingFragment
-import com.app.guardian.utils.ApiConstant
-import com.app.guardian.utils.Config
 import com.google.android.gms.location.*
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
-import com.google.gson.Gson
-import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegration {
@@ -95,12 +91,61 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
         }
     }
 
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        val i = getIntent()
+        val extras = i.extras
+        if (extras != null) {
+            for (key in extras.keySet()) {
+                val value = extras[key]
+                Log.d(
+                    "Notification",
+                    "Extras received at onNewIntent:  Key: $key Value: $value"
+                )
+            }
+            val title = extras.getString("title")
+            val message = extras.getString("body")
+            if (message != null && message.length > 0) {
+                getIntent().removeExtra("body")
+            }
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val i = getIntent()
+        val extras = i.extras
+        if (extras != null) {
+            for (key in extras.keySet()) {
+                val value = extras[key]
+                Log.d(
+                    "Notification",
+                    "Extras received at onCreate:  Key: $key Value: $value"
+                )
+            }
+            val title = extras.getString("title")
+            val message = extras.getString("body")
+            if (message != null && message.length > 0) {
+                getIntent().removeExtra("body")
+            }
+        }
+    }
     override fun getResource(): Int {
         ReusedMethod.updateStatusBarColor(this, R.color.colorPrimaryDark, 4)
         return R.layout.activity_home
     }
 
+
     override fun initView() {
+
+        val count = SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, 0)
+        Log.e("bageCount","BageCount initView : "+count.toString())
+        if(count>0){
+            onVisibleBageCounterCounter(count)
+        }
         mBinding = getBinding()
 
         mBinding.bottomNavigationUser.setOnNavigationItemSelectedListener {
@@ -172,15 +217,20 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
 
 
         if (intent != null && intent.extras != null) {
+            Log.i(
+                "NOTIFICATION_DATA_H",
+                intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!
+            )
             if (intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE) == AppConstants.EXTRA_CHAT_MESSAGE_PAYLOAD) {
                 Log.i(
-                    "NOTIFICATION_DATA",
+                    "NOTIFICATION_DATA_H",
                     intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!
                 )
                 ReplaceFragment.replaceFragment(
                     this,
                     ChattingFragment(
-                        intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID)!!.toInt()
+                        intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID)!!.toInt(),
+                        true
                     ),
                     true,
                     HomeActivity::class.java.name,
@@ -188,12 +238,12 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
                 )
             } else if (intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE) == AppConstants.EXTRA_MEDIATOR_PAYLOAD) {
                 Log.i(
-                    "NOTIFICATION_DATA",
+                    "NOTIFICATION_DATA_H",
                     intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!
                 )
             } else if (intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE) == AppConstants.EXTRA_VIRTUAL_WITNESS_PAYLOAD) {
                 Log.i(
-                    "NOTIFICATION_DATA",
+                    "NOTIFICATION_DATA_H",
                     intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!
                 )
 
@@ -257,8 +307,23 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
     }
 
 
+    fun visibleBageCount(){
+        val count = SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, 0)
+        Log.e("bageCount","BageCount visibleBageCount : "+count.toString())
+        if(count>0){
+            onVisibleBageCounterCounter(count)
+        }
+    }
+
+
+
     override fun onResume() {
         super.onResume()
+        val count = SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, 0)
+        Log.e("bageCount","BageCount onResume : "+count.toString())
+        if(count>0){
+            onVisibleBageCounterCounter(count)
+        }
         removeSeletionData()
         LocalBroadcastManager.getInstance(this).registerReceiver(
             mBroadcastReceiver, IntentFilter(
