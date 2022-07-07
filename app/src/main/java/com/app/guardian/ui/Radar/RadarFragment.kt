@@ -161,6 +161,7 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
                             if (data != null) {
                                 array.clear()
                                 array.addAll(data)
+                                Log.i("ARRAY", array.toString())
                                 setG_MAP()
                             } else {
                                 setG_MAP()
@@ -347,20 +348,32 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
 //
 //        })
 
-//        if (array.isEmpty()) {
-        mMarker = MarkerOptions()
-        mMarker!!.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
-            .anchor(0.0f, 1.0f)
-            .title(resources.getString(R.string.current_loc))
-            .flat(true)
-            .position(LatLng(CURRENT_LAT, CURRENT_LONG))
 
-        gMap!!.addMarker(mMarker!!)
-        gMap!!.setOnInfoWindowClickListener { marker ->
-//            ReusedMethod.displayMessage(requireActivity(), marker.title.toString())
+        var isAdded = false
+        for (i in array.indices) {
+            if (array[i].lat?.startsWith(CURRENT_LAT.toString()) == true && array[i].lng?.startsWith(
+                    CURRENT_LONG.toString()
+                ) == true
+            ) {
+                isAdded = true
+                break
+            }
+        }
+        if (!isAdded) {
+            mMarker = MarkerOptions()
+            mMarker!!.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
+                .anchor(0.0f, 1.0f)
+                .title(resources.getString(R.string.current_loc))
+                .flat(true)
+                .position(LatLng(CURRENT_LAT, CURRENT_LONG))
+
+            gMap!!.addMarker(mMarker!!)
+            gMap!!.setOnInfoWindowClickListener { marker ->
+            }
         }
 
-//        }
+
+
 
         setMarkerZoom(CURRENT_LAT, CURRENT_LONG)
         gMap!!.setOnMarkerClickListener(this)

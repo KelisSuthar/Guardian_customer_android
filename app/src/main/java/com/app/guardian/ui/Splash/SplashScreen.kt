@@ -43,36 +43,31 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
 
 
     //use for new screen open according to which notification are come
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        Log.i(
-            "NOTIFICATION_SPLASh",
-            "onNewIntent call"
-        )
-        setIntent(intent)
-//        val getIntent = intent
-        notification_type =
-            intent!!.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE).toString()
-        notification_id =
-            intent!!.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID).toString()
-
-    }
+//    override fun onNewIntent(intent: Intent?) {
+//        super.onNewIntent(intent)
+//        Log.i(
+//            "NOTIFICATION_SPLASh",
+//            "onNewIntent call"
+//        )
+////        setIntent(intent)
+////        val getIntent = intent
+//    }
 
     private fun initView() {
 //        mBinding = getBinding()
-        val getIntent = intent
-        notification_type =
-            intent!!.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE).toString()
-        notification_id =
-            intent!!.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID).toString()
-
+        if (intent != null && intent.extras != null) {
+            notification_type =
+                intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE).toString()
+            notification_id =
+                intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID).toString()
+        }
         Log.i(
-            "NOTIFICATION_SPLASh",
+            "NOTIFICATION_TYPE_INIT",
             notification_type.toString()
         )
 
         Log.i(
-            "NOTIFICATION_SPLASh",
+            "NOTIFICATION_ID_INIT",
             notification_id.toString()
         )
 //        startService(Intent(this, BackgroundService::class.java))
@@ -80,17 +75,9 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
         Handler().postDelayed({
             finish()
             if (!SharedPreferenceManager.getBoolean(AppConstants.IS_LOGIN, false)) {
-//                startActivity(
-//                    Intent(
-//                        this@SplashScreen,
-//
-//                        SelectRoleScreen::class.java
-//                    )
-//                )
                 startActivity(
                     Intent(
                         this@SplashScreen,
-
                         LoginActivity::class.java
                     )
                 )
@@ -103,37 +90,31 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
                     )
                 )
             } else {
-                Log.i(
-                    "NOTIFICATION_SPLASH",
-                    notification_type.toString()
-                )
+                Log.i("NOTIFICATION_TYPE", notification_type)
                 if (intent != null && intent.extras != null) {
                     if (notification_type == AppConstants.EXTRA_CHAT_MESSAGE_PAYLOAD) {
-                        Log.i(
-                            "NOTIFICATION_SPLASH",
-                            notification_type
+                        Log.i("NOTIFICATION_TYPE", notification_type)
+                        startActivity(
+                            Intent(
+                                this@SplashScreen,
+
+                                HomeActivity::class.java
+                            ).putExtra(
+                                AppConstants.EXTRA_NOTIFICATION_DATA_TYPE, notification_type
+                            )
+                                .putExtra(
+                                    AppConstants.EXTRA_NOTIFICATION_DATA_ID, notification_id
+                                )
+
                         )
-//                        startActivity(
-//                            Intent(
-//                                this@SplashScreen,
-//
-//                                HomeActivity::class.java
-//                            ).putExtra(
-//                                AppConstants.EXTRA_NOTIFICATION_DATA_TYPE, notification_type
-//                            )
-//                                .putExtra(
-//                                    AppConstants.EXTRA_NOTIFICATION_DATA_ID, notification_id
-//                                )
-//
-//                        )
                     } else {
-//                        startActivity(
-//                            Intent(
-//                                this@SplashScreen,
-//
-//                                HomeActivity::class.java
-//                            )
-//                        )
+                        startActivity(
+                            Intent(
+                                this@SplashScreen,
+
+                                HomeActivity::class.java
+                            )
+                        )
 
 //                        else if (intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE) == AppConstants.EXTRA_MEDIATOR_PAYLOAD) {
 //                            Log.i(

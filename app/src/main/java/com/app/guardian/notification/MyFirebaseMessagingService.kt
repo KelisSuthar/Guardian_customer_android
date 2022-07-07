@@ -13,6 +13,7 @@ import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
+import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Login.LoginActivity
@@ -76,29 +77,45 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
 
-    @SuppressLint("WrongConstant", "InvalidWakeLockTag", "RemoteViewLayout",
+    @SuppressLint(
+        "WrongConstant", "InvalidWakeLockTag", "RemoteViewLayout",
         "UnspecifiedImmutableFlag"
     )
     private fun sendNotification(data: JSONObject, remoteMessage: RemoteMessage) {
         Log.i("FIREBASE_DATA", data.toString())
+        Log.i("FIREBASE_DATA", data.getString("type"))
+        Log.i("FIREBASE_DATA", data.getString("sender_id"))
+        Log.i("FIREBASE_DATA", isAppIsInBackground(this).toString())
 
-
-
-        intent =
-            Intent(this, com.app.guardian.ui.Splash.SplashScreen::class.java).putExtra(
-                AppConstants.IS_NOTIFICATION, true
-            ).putExtra(
-                AppConstants.EXTRA_NOTIFICATION_DATA_TYPE, data.getString("type").toString()
-            ).putExtra(
-                AppConstants.EXTRA_NOTIFICATION_DATA_ID, data.getString("sender_id").toString()
-            )
+        if (isAppIsInBackground(this)) {
+            intent =
+                Intent(this, com.app.guardian.ui.Splash.SplashScreen::class.java).putExtra(
+                    AppConstants.IS_NOTIFICATION, true
+                ).putExtra(
+                    AppConstants.EXTRA_NOTIFICATION_DATA_TYPE, data.getString("type").toString()
+                ).putExtra(
+                    AppConstants.EXTRA_NOTIFICATION_DATA_ID, data.getString("sender_id").toString()
+                )
+            intent!!.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent!!.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        }else{
+            intent =
+                Intent(this, com.app.guardian.ui.Splash.SplashScreen::class.java).putExtra(
+                    AppConstants.IS_NOTIFICATION, true
+                ).putExtra(
+                    AppConstants.EXTRA_NOTIFICATION_DATA_TYPE, data.getString("type").toString()
+                ).putExtra(
+                    AppConstants.EXTRA_NOTIFICATION_DATA_ID, data.getString("sender_id").toString()
+                )
+            intent!!.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent!!.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        }
 
 
 //        intent!!.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
 //        intent!!.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-         intent!!.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-         intent!!.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+
         val channelId = getString(com.app.guardian.R.string.app_name)
         val pendingIntent = PendingIntent.getActivity(
             this,
