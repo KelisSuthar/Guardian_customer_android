@@ -196,10 +196,10 @@ interface ApiEndPoint {
     fun getOfflinUploadedVideoCallList(): Call<CommonResponseModel<MutableList<OfflineUploadedVideoResp>>>
 
     @POST("endCall")
-    fun sendEndCall(): Call<CommonResponseModel<CommonResponse>>
+    fun sendEndCall(@Body body: JsonObject): Call<CommonResponseModel<CommonResponse>>
 
     @POST("acceptUserRequestByMediator")
-    fun acceptRejectCallByMeditor(): Call<CommonResponseModel<AcceptRejectCallByMediatorResp>>
+    fun acceptRejectCallByMeditor(@Body body: JsonObject): Call<CommonResponseModel<AcceptRejectCallByMediatorResp>>
 
 
 }

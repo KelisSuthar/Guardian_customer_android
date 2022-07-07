@@ -330,6 +330,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         //  mBinding.lyLawyerListFilter.edtLoginEmail.gone()
         mBinding.noLawyer.gone()
         mBinding.noInternetLawyer.llNointernet.gone()
+        mBinding.lyLawyerListFilter.edtLoginEmail.text?.clear()
     }
 
     fun displayVideoCallDialog(id: Int?) {

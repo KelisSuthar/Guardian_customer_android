@@ -18,15 +18,7 @@ import org.json.JSONException
 import org.json.JSONObject
 
 class CreateOrJoinActivity : AppCompatActivity() {
-
-    // private val AUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiJmNjllODdhOS1jMzhkLTQwYjMtYTVmMi01NTlkMTEwYzc3N2QiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTY1NTI3MjUxNCwiZXhwIjoxNjU1ODc3MzE0fQ.PH-2FRmSDZPXnzatozsfSFKAnbOQWxrIVywzIW8Yt4g"
-//    private val AUTH_TOKEN =
-//        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiIxY2FhZmFmNi1kYjc5LTRlMDctOTk5Yy00YTNlMjUxNjQ1OGEiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTY1NTcyNjg0NCwiZXhwIjoxNjU2MzMxNjQ0fQ.y8LY-LgA4f7nTDnVKbMjgioJ4HgRcXmZbWuOYqUP1Jk"
-//    private val AUTH_TOKEN =
-//        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiIxN2Y2YWRhOC1kOWJkLTQwNjktYTQ3Yi0yNTQ2NGNiMDA0YjEiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTY1NjQ5NDY0NywiZXhwIjoxNjU3MDk5NDQ3fQ.Fs_JaVDxW3LGa44tkD9WgwWiGrUtO0AEgxr7rA1I6Pw"
     private val AUTH_URL = null
-
-    //    private var etMeetingId: EditText? = null
     private val apiServerUrl = "http://192.168.0.101:9000"
     var meetingId = ""
     var history_id = ""
@@ -50,19 +42,6 @@ class CreateOrJoinActivity : AppCompatActivity() {
         history_id = intent.getStringExtra(AppConstants.EXTRA_CALLING_HISTORY_ID)!!
         //
         btnCreate.setOnClickListener { v: View? -> getToken(null) }
-
-        //Join Metting
-//        btnJoin.setOnClickListener { v: View? ->
-//            val meetingId = etMeetingId!!.getText().toString().trim { it <= ' ' }
-//            val pattern = Regex("\\w{4}\\-\\w{4}\\-\\w{4}")
-//            if ("" == meetingId) {
-//                ReusedMethod.displayMessage(this,"Please enter meeting ID")
-        //            } else if (!pattern.matches(meetingId)) {
-//                ReusedMethod.displayMessage(this,"Please enter valid meeting ID")
-//            } else {
-//                getToken(meetingId)
-//            }
-//        }
     }
 
 

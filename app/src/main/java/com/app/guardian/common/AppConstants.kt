@@ -57,6 +57,9 @@ object AppConstants {
     const val MONTHLY_PLAN = "Monthly Plan"
     const val ANNUAL_PLAN = "Annual Plan"
 
+    const val REQ_GET = "request_get"
+    const val REQ_SEND = "request_send"
+
     const val MULTIPLE_CALLS = "MULTIPLE_CALLS"
     const val IS_NOTIFICATION_SHARED_TYPE = "IS_NOTIFICATION_SHARED_TYPE"
     const val IS_NOTIFICATION_SHARED_ID = "IS_NOTIFICATION_SHARED_ID"

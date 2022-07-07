@@ -52,6 +52,16 @@ class MediatorVideoCallReqFragment : BaseFragment(), View.OnClickListener {
             }
             false
         })
+
+        mBinding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            mBinding.searchConnectedHistory.edtLoginEmail.text?.clear()
+            if (checkedId == R.id.rb1) {
+                CallVieoCallReqListAPI("")
+            } else {
+                CallVieoCallReqListAPI("")
+            }
+
+        }
     }
 
     override fun onResume() {
@@ -59,7 +69,8 @@ class MediatorVideoCallReqFragment : BaseFragment(), View.OnClickListener {
         mBinding.noDataMediatorVideoCallReq.gone()
         mBinding.noInternetMediatorVideoCallReq.llNointernet.gone()
         setAdapter()
-//        CallVieoCallReqListAPI("")
+        mBinding.rb1.isChecked = true
+        CallVieoCallReqListAPI("")
     }
 
     private fun setAdapter() {
@@ -105,6 +116,7 @@ class MediatorVideoCallReqFragment : BaseFragment(), View.OnClickListener {
 
     override fun handleListener() {
         mBinding.noInternetMediatorVideoCallReq.btnTryAgain.setOnClickListener(this)
+        mBinding.searchConnectedHistory.llsearch.setOnClickListener(this)
     }
 
     override fun initObserver() {
@@ -152,24 +164,30 @@ class MediatorVideoCallReqFragment : BaseFragment(), View.OnClickListener {
             R.id.btnTryAgain -> {
                 onResume()
             }
+            R.id.llsearch -> {
+                CallVieoCallReqListAPI(
+                    mBinding.searchConnectedHistory.edtLoginEmail.text?.trim().toString()
+                )
+            }
         }
     }
 
     private fun CallVieoCallReqListAPI(search: String) {
-        if (ReusedMethod.isNetworkConnected(requireContext())) {
-            if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
-                mViewModel.GetVideoCallRequestMediatorList(
-                    true,
-                    requireActivity() as BaseActivity,
-                    search
-                )
+        var type =
+            if (mBinding.rb1.isChecked) {
+                AppConstants.REQ_GET
             } else {
-                mViewModel.GetVideoCallRequestMediatorList(
-                    true,
-                    requireActivity() as BaseActivity,
-                    search
-                )
+                AppConstants.REQ_SEND
             }
+        if (ReusedMethod.isNetworkConnected(requireContext())) {
+
+            mViewModel.GetVideoCallRequestMediatorList(
+                true,
+                requireActivity() as BaseActivity,
+                search,
+                type
+            )
+
 
         } else {
             mBinding.noInternetMediatorVideoCallReq.llNointernet.visible()

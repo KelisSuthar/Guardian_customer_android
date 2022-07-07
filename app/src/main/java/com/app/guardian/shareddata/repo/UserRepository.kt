@@ -1,6 +1,7 @@
 package com.app.guardian.shareddata.repo
 
 import androidx.lifecycle.MutableLiveData
+import com.app.guardian.model.AcceptRejectCallByMediator.AcceptRejectCallByMediatorResp
 import com.app.guardian.model.ApiError
 import com.app.guardian.model.AskModeQ.AskModeQResp
 import com.app.guardian.model.AskModeQResp.ChatListResp
@@ -987,6 +988,44 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
                 mApiEndPoint.getOfflinUploadedVideoCallList(),
                 baseView,
                 offlineUploadedVideoResp
+            )
+        }
+    }
+
+    override fun sendEndCallReq(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        sendEndcallReqresp: MutableLiveData<RequestState<CommonResponse>>
+    ) {
+        if (!internetConnected) {
+            sendEndcallReqresp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            sendEndcallReqresp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.sendEndCall(body),
+                baseView,
+                sendEndcallReqresp
+            )
+        }
+    }
+
+    override fun sendAcceptRejectReq(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        acceptRejectCallByMediatorResp: MutableLiveData<RequestState<AcceptRejectCallByMediatorResp>>
+    ) {
+        if (!internetConnected) {
+            acceptRejectCallByMediatorResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            acceptRejectCallByMediatorResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.acceptRejectCallByMeditor(body),
+                baseView,
+                acceptRejectCallByMediatorResp
             )
         }
     }

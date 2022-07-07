@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.app.guardian.common.ReusedMethod.Companion.getCurrentDate
+import com.app.guardian.model.AcceptRejectCallByMediator.AcceptRejectCallByMediatorResp
 import com.app.guardian.model.AskModeQResp.ChatListResp
 import com.app.guardian.model.AskModeQResp.SendMessageResp
 import com.app.guardian.model.CheckSub.CheckSubscriptionResp
@@ -404,10 +405,12 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
         isInternetConnected: Boolean,
         baseView: BaseActivity,
         ser: String,
+        tab: String,
     ) {
         val body = JsonObject()
 
         body.addProperty(ApiConstant.EXTRAS_SERCH, ser)
+        body.addProperty(ApiConstant.EXTRAS_TAB, tab)//request_get,request_send
         mUserRepository.getVideoCallRequestMediatorList(
             body,
             isInternetConnected,
@@ -442,6 +445,68 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
             isInternetConnected,
             baseView,
             sendVideocallReqresp
+        )
+    }
+
+    //SEND END CALLREQUEST
+    private val sendEndcallReqresp =
+        MutableLiveData<RequestState<CommonResponse>>()
+
+    fun getSendEndCallResp(): LiveData<RequestState<CommonResponse>> =
+        sendEndcallReqresp
+
+    fun sendEndCallReq(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        calling_history_id: String,
+        note: String,
+        from_time: Int,
+        to_time: String,
+        duration_min: String,
+    ) {
+        val body = JsonObject()
+        body.addProperty(ApiConstant.EXTRAS_CALLING_HISTORY_ID, calling_history_id)
+        body.addProperty(ApiConstant.EXTRAS_NOTE, note)
+        body.addProperty(ApiConstant.EXTRAS_FROM_TIME, from_time)
+        body.addProperty(ApiConstant.EXTRAS_TO_TIME, to_time)
+        body.addProperty(ApiConstant.EXTRAS_DURATION_MIN, duration_min)
+        mUserRepository.sendEndCallReq(
+            body,
+            isInternetConnected,
+            baseView,
+            sendEndcallReqresp
+        )
+    }
+
+    //SEND END CALLREQUEST
+    private val acceptRejectCallByMediatorResp =
+        MutableLiveData<RequestState<AcceptRejectCallByMediatorResp>>()
+
+    fun getacceptRejectCallByMediatorResp(): LiveData<RequestState<AcceptRejectCallByMediatorResp>> =
+        acceptRejectCallByMediatorResp
+
+    fun sendAcceptRejectCallByMediatorResp(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        calling_history_id: String,
+        user_id: String,
+        user_role: Int,
+        schedule_datetime: String,
+        url: String,
+        room_id: String,
+    ) {
+        val body = JsonObject()
+        body.addProperty(ApiConstant.EXTRAS_CALLING_HISTORY_ID, calling_history_id)
+        body.addProperty(ApiConstant.EXTRAS_USER_ID, user_id)
+        body.addProperty(ApiConstant.EXTRAS_USER_ROLE, user_role)
+        body.addProperty(ApiConstant.EXTRAS_SCHEDUAL_DATE_TIME, schedule_datetime)
+        body.addProperty(ApiConstant.EXTRAS_URL, url)
+        body.addProperty(ApiConstant.EXTRAS_ROOM_ID, room_id)
+        mUserRepository.sendAcceptRejectReq(
+            body,
+            isInternetConnected,
+            baseView,
+            acceptRejectCallByMediatorResp
         )
     }
 

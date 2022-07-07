@@ -1,6 +1,7 @@
 package com.app.guardian.shareddata.repo
 
 import androidx.lifecycle.MutableLiveData
+import com.app.guardian.model.AcceptRejectCallByMediator.AcceptRejectCallByMediatorResp
 import com.app.guardian.model.AskModeQ.AskModeQResp
 import com.app.guardian.model.AskModeQResp.ChatListResp
 import com.app.guardian.model.AskModeQResp.SendMessageResp
@@ -380,6 +381,20 @@ interface UserRepo {
         internetConnected: Boolean,
         baseView: BaseActivity,
         offlineUploadedVideoResp: MutableLiveData<RequestState<MutableList<OfflineUploadedVideoResp>>>
+    )
+
+    fun sendEndCallReq(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        sendEndcallReqresp: MutableLiveData<RequestState<CommonResponse>>
+    )
+
+    fun sendAcceptRejectReq(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        acceptRejectCallByMediatorResp: MutableLiveData<RequestState<AcceptRejectCallByMediatorResp>>
     )
 
 

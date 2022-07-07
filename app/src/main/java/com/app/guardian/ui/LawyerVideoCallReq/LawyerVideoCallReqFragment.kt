@@ -56,6 +56,7 @@ class LawyerVideoCallReqFragment : BaseFragment(), View.OnClickListener {
         mBinding.noInternetLawyerVideoCallReq.llNointernet.gone()
         setAdapter()
         CallVieoCallReqListAPI("")
+        mBinding.searchConnectedHistory.edtLoginEmail.text?.clear()
     }
 
     private fun setAdapter() {
@@ -98,20 +99,11 @@ class LawyerVideoCallReqFragment : BaseFragment(), View.OnClickListener {
 
     private fun CallVieoCallReqListAPI(search: String) {
         if (ReusedMethod.isNetworkConnected(requireContext())) {
-            if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
-                mViewModel.GetVideoCallRequestUserList(
-                    true,
-                    requireActivity() as BaseActivity,
-                    search
-                )
-            } else {
-                mViewModel.GetVideoCallRequestMediatorList(
-                    true,
-                    requireActivity() as BaseActivity,
-                    search
-                )
-            }
-
+            mViewModel.GetVideoCallRequestUserList(
+                true,
+                requireActivity() as BaseActivity,
+                search
+            )
         } else {
             mBinding.noInternetLawyerVideoCallReq.llNointernet.visible()
             mBinding.noDataLawyerVideoCallReq.gone()
@@ -125,6 +117,7 @@ class LawyerVideoCallReqFragment : BaseFragment(), View.OnClickListener {
 
     override fun handleListener() {
         mBinding.noInternetLawyerVideoCallReq.btnTryAgain.setOnClickListener(this)
+        mBinding.searchConnectedHistory.llsearch.setOnClickListener(this)
     }
 
     override fun initObserver() {
@@ -171,6 +164,11 @@ class LawyerVideoCallReqFragment : BaseFragment(), View.OnClickListener {
         when (v?.id) {
             R.id.btnTryAgain -> {
                 onResume()
+            }
+            R.id.llsearch -> {
+                CallVieoCallReqListAPI(
+                    mBinding.searchConnectedHistory.edtLoginEmail.text?.trim().toString()
+                )
             }
         }
     }

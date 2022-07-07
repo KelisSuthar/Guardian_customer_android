@@ -36,6 +36,7 @@ class ApiConstant{
      val EXTRAS_TITLE="title"
      val EXTRAS_SEEK_LEGAL_ADV="seek_legal_advice_id"
      val EXTRAS_SERCH="ser"
+     val EXTRAS_TAB="tab"
      val EXTRAS_BANNER_AVATAR="banner_avatar"
      val EXTRAS_URL="url"
      val EXTRAS_PLAN_ID="plan_id"
@@ -53,6 +54,11 @@ class ApiConstant{
      val EXTRAS_ROOM_ID="room_id"
      val EXTRAS_AVAILABILITY_TIME="availability_time"
      val EXTRAS_VIDEO_URL="video_url"
+     val EXTRAS_DURATION_MIN="duration_min"
+     val EXTRAS_TO_TIME="to_time"
+     val EXTRAS_FROM_TIME="from_time"
+     val EXTRAS_NOTE="note"
+     val EXTRAS_USER_ROLE="user_role"
 
 
 

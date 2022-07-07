@@ -26,7 +26,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     var body: String? = null
     var title: String? = null
     var intent: Intent? = null
-    var countMessage : Int =0
+    var countMessage: Int = 0
     override fun onNewToken(s: String) {
         super.onNewToken(s)
         Log.e("Firebase_Token", "= $s")
@@ -46,16 +46,19 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             "Bage Counter count :" + HomeActivity.bage_counter_notification.toString()
         )
         val count = SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, 0)
-        Log.e("bageCount","BageCount onMessageReceived : "+count.toString())
-        Log.e("bageCount","BageCount onMessageReceived  message: "+data.toString())
-        Log.e("bageCount","BageCount onMessageReceived  HomeActivity count: "+ HomeActivity.bage_counter_notification.toString())
+        Log.e("bageCount", "BageCount onMessageReceived : " + count.toString())
+        Log.e("bageCount", "BageCount onMessageReceived  message: " + data.toString())
+        Log.e(
+            "bageCount",
+            "BageCount onMessageReceived  HomeActivity count: " + HomeActivity.bage_counter_notification.toString()
+        )
 
         SharedPreferenceManager.putInt(
             AppConstants.NOTIFICATION_BAGE,
             count + 1
         )
         val count1 = SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, 0)
-        Log.e("bageCount","BageCount onMessageReceived count1: "+count1.toString())
+        Log.e("bageCount", "BageCount onMessageReceived count1: " + count1.toString())
 
         triggerBroadcastToActivity(this, HomeActivity.bage_counter_notification)
 
@@ -66,7 +69,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     fun sendBroadcastData(data: JSONObject, remoteMessage: RemoteMessage) {
         val count = SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, 0)
-        Log.e("bageCount","BageCount sendBroadcastData : "+count.toString())
+        Log.e("bageCount", "BageCount sendBroadcastData : " + count.toString())
 
         body = remoteMessage.notification?.body
         title = remoteMessage.notification?.title
@@ -81,7 +84,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         intent.putExtra("title", title)
         intent.putExtra("type Value", type)
         intent.putExtra("body", body)
-        intent.putExtra("data",count)
+        intent.putExtra("data", count)
         intent.putExtra("is_approve", is_approve)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
@@ -118,7 +121,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val count = SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, 0)
         val channelId = getString(com.app.guardian.R.string.app_name)
 
-        Log.e("bageCount","BageCount sendNotification : "+count.toString())
+        Log.e("bageCount", "BageCount sendNotification : " + count.toString())
 
         if (isAppIsInBackground(this)) {
             intent =
@@ -132,22 +135,22 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             intent!!.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent!!.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
-        }else{
-            SharedPreferenceManager.putString(AppConstants.IS_NOTIFICATION_SHARED_TYPE,data.getString("type").toString())
-            SharedPreferenceManager.putString(AppConstants.IS_NOTIFICATION_SHARED_ID,data.getString("sender_id"))
+        } else {
+            SharedPreferenceManager.putString(
+                AppConstants.IS_NOTIFICATION_SHARED_TYPE,
+                data.getString("type").toString()
+            )
+            SharedPreferenceManager.putString(
+                AppConstants.IS_NOTIFICATION_SHARED_ID,
+                data.getString("sender_id")
+            )
             intent =
                 Intent(this, HomeActivity::class.java)
-//                    .putExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE,data.getString("type").toString())
-//                    .putExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID,data.getString("sender_id").toString())
-//                    .putExtra(
-//                    "type", data.getString("type").toString()
-//                ).putExtra(
-//                )
             intent!!.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent!!.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         }
 
-       // createNotificationChannel(channelId,remoteMessage.notification!!.title!!);
+        // createNotificationChannel(channelId,remoteMessage.notification!!.title!!);
 
         val pendingIntent = PendingIntent.getActivity(
             this,
@@ -204,7 +207,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 "Channel human readable title",
                 NotificationManager.IMPORTANCE_HIGH,
 
-            )
+                )
             channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
             notificationManager.createNotificationChannel(channel)
         }

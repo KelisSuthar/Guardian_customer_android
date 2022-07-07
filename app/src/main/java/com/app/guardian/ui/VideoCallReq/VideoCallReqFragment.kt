@@ -41,6 +41,7 @@ class VideoCallReqFragment : BaseFragment(), View.OnClickListener {
         mBinding = getBinding()
         mBinding.searchConnectedHistory.lySearchFilter.gone()
         mBinding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            mBinding.searchConnectedHistory.edtLoginEmail.text?.clear()
             if (checkedId == R.id.rb1) {
                 CallVieoCallReqListAPI("")
             } else {
@@ -135,6 +136,7 @@ class VideoCallReqFragment : BaseFragment(), View.OnClickListener {
 
     override fun handleListener() {
         mBinding.noInternetVideoCallReq.btnTryAgain.setOnClickListener(this)
+        mBinding.searchConnectedHistory.llsearch.setOnClickListener(this)
     }
 
     override fun initObserver() {
@@ -181,6 +183,11 @@ class VideoCallReqFragment : BaseFragment(), View.OnClickListener {
         when (v?.id) {
             R.id.btnTryAgain -> {
                 onResume()
+            }
+            R.id.llsearch -> {
+                CallVieoCallReqListAPI(
+                    mBinding.searchConnectedHistory.edtLoginEmail.text?.trim().toString()
+                )
             }
         }
     }

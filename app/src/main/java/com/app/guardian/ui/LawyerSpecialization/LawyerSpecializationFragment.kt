@@ -158,6 +158,7 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
         //  mBinding.lyLawyerListFilter.edtLoginEmail.gone()
         mBinding.noLawyerSp.gone()
         mBinding.noInternetLawyerSp.llNointernet.gone()
+        mBinding.lyLawyerSpListFilter.edtLoginEmail.text?.clear()
     }
 
     override fun postInit() {

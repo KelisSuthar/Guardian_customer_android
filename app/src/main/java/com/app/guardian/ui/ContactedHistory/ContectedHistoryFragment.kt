@@ -133,7 +133,6 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         callApi("")
-
     }
 
     private fun setAdapter() {
@@ -407,6 +406,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                     }
                     setAdapter()
                     mViewModel.getUserConnectedHistory(true, context as BaseActivity, search, type)
+                    mBinding.searchConnectedHistory.edtLoginEmail.text?.clear()
                 }
                 AppConstants.APP_ROLE_LAWYER -> {
                     type = if (mBinding.rb1.isChecked) {
@@ -425,6 +425,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                         search,
                         type
                     )
+                    mBinding.searchConnectedHistory.edtLoginEmail.text?.clear()
                 }
                 AppConstants.APP_ROLE_MEDIATOR -> {
                     mBinding.radioGroup.gone()
