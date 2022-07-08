@@ -123,7 +123,9 @@ class LawyerViewModel(private val mUserRepository: UserRepo) : ViewModel() {
             baseView,
             commonResponse
         )
-    }  fun addBannersSubscription(
+    }
+
+    fun addBannersSubscription(
         isInternetConnected: Boolean,
         baseView: BaseActivity,
         plan_id: String,
@@ -133,10 +135,21 @@ class LawyerViewModel(private val mUserRepository: UserRepo) : ViewModel() {
 
         val body = JsonObject()
 
-        body.addProperty(ApiConstant.EXTRAS_PLAN_ID, plan_id)
         body.addProperty(ApiConstant.EXTRAS_PRICE, price)
         body.addProperty(ApiConstant.EXTRAS_APPLE_RECEIPT, "fddgfgfgfg@hardik15")
         body.addProperty(ApiConstant.EXTRAS_SHARED_SECRET, shared_secret)
+
+        val payment_detail = JsonObject()
+//        payment_detail.addProperty("packageName",packageName)
+//        payment_detail.addProperty("acknowledged",packageName)
+//        payment_detail.addProperty("orderId",packageName)
+//        payment_detail.addProperty("productId",packageName)
+//        payment_detail.addProperty("developerPayload",packageName)
+//        payment_detail.addProperty("purchaseTime",packageName)
+//        payment_detail.addProperty("purchaseState",packageName)
+//        payment_detail.addProperty("purchaseToken",packageName)
+
+//        body.add(ApiConstant.EXTRAS_PAYMENT_DETAILS, payment_detail)
         mUserRepository.addBannerSubscription(
             body,
             isInternetConnected,
@@ -167,7 +180,6 @@ class LawyerViewModel(private val mUserRepository: UserRepo) : ViewModel() {
             askModeQResp
         )
     }
-
 
 
 }

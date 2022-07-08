@@ -4,6 +4,7 @@ object AppConstants {
 
 
     val BROADCAST_REC_INTENT = "PUSH"
+    val BROADCAST_ADD_VIDEO = "com.guardian.uploadVideos"
     var latitude = 0.0
     var longitude = 0.0
     const val Poppins_Light = 1

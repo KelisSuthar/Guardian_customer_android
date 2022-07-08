@@ -258,11 +258,34 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
 //        start_date: String,
 //        end_date: String,
     ) {
+//        "payment_detail": {
+//            "packageName": "com.aemerse.iapsample",
+//            "acknowledged": false,
+//            "orderId": "transactionId.android.test.purchased",
+//            "productId": "android.test.purchased",
+//            "developerPayload": "",
+//            "purchaseTime": 0,
+//            "purchaseState": 0,
+//            "purchaseToken": "inapp:com.aemerse.iapsample:android.test.purchased"
+//        }
         val buyPlanJson = JsonObject()
+
         buyPlanJson.addProperty(ApiConstant.EXTRAS_PRICE_ID, price_id)
         buyPlanJson.addProperty(ApiConstant.EXTRAS_PRICE, price)
         buyPlanJson.addProperty(ApiConstant.EXTRAS_APPLE_RECEIPT, "fddgfgfgfg@hardik15")
         buyPlanJson.addProperty(ApiConstant.EXTRAS_SHARED_SECRET, shared_secret)
+
+        val payment_detail = JsonObject()
+//        payment_detail.addProperty("packageName",packageName)
+//        payment_detail.addProperty("acknowledged",packageName)
+//        payment_detail.addProperty("orderId",packageName)
+//        payment_detail.addProperty("productId",packageName)
+//        payment_detail.addProperty("developerPayload",packageName)
+//        payment_detail.addProperty("purchaseTime",packageName)
+//        payment_detail.addProperty("purchaseState",packageName)
+//        payment_detail.addProperty("purchaseToken",packageName)
+
+//        buyPlanJson.add(ApiConstant.EXTRAS_PAYMENT_DETAILS, payment_detail)
 //        buyPlanJson.addProperty(ApiConstant.EXTRAS_START_DATE, start_date)
 //        buyPlanJson.addProperty(ApiConstant.EXTRAS_END_DATE, end_date)
 

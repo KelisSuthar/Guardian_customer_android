@@ -143,17 +143,17 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
         when (v?.id) {
             R.id.cvAccessYourRecording -> {
                 changeLayout(1)
-//                ReplaceFragment.replaceFragment(
-//                    requireActivity(),
-//                    MyVideosFragment(),
-//                    true,
-//                    LiveVirtualVitnessUserFragment::class.java.name,
-//                    LiveVirtualVitnessUserFragment::class.java.name
-//                )
-                ReusedMethod.displayMessage(
+                ReplaceFragment.replaceFragment(
                     requireActivity(),
-                    requireContext().resources.getString(R.string.come_soon)
+                    MyVideosFragment(),
+                    true,
+                    LiveVirtualVitnessUserFragment::class.java.name,
+                    LiveVirtualVitnessUserFragment::class.java.name
                 )
+//                ReusedMethod.displayMessage(
+//                    requireActivity(),
+//                    requireContext().resources.getString(R.string.come_soon)
+//                )
             }
             R.id.cvDrivingOffenceList -> {
                 changeLayout(2)

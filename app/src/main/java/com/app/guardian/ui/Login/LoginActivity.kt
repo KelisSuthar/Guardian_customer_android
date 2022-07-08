@@ -51,8 +51,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         Log.e("StoredDeviceToken", "LOGIN: " + DEVICE_TOKEN.toString())
 
 
-
-
     }
 
     private fun setFocus() {
@@ -127,47 +125,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
-//                        if (it.status) {
-//                            if (data.user.user_role == SharedPreferenceManager.getString(
-//                                    AppConstants.USER_ROLE,
-//                                    AppConstants.APP_ROLE_USER
-//                                )
-//                            ) {
-//                                showLoadingIndicator(true)
-//                                checkLogin(data)
-//                                SharedPreferenceManager.putString(
-//                                    AppConstants.BEREAR_TOKEN,
-//                                    data.token
-//                                )
-//                                displayMessage(this, it.message.toString())
-//                                val gson = Gson()
-//                                val json = gson.toJson(data)
-//                                SharedPreferenceManager.putString(
-//                                    AppConstants.USER_DETAIL_LOGIN,
-//                                    json
-//                                )
-//                                displayMessage(this, it.message.toString())
-//                            } else {
-//                                displayMessageDialog(
-//                                    this@LoginActivity,
-//                                    "",
-//                                    resources.getString(R.string.valid_role_selections),
-//                                    false,
-//                                    "OK",
-//                                    ""
-//                                )
-//                            }
-//                        } else {
-//                            Log.e(
-//                                "network_message",
-//                                "Display network error form login message : " + it.message
-//                            )
-//
-//                            displayMessage(this, it.message.toString())
-//                        }
-
-                        showLoadingIndicator(true)
-                        checkLogin(data)
                         SharedPreferenceManager.putString(
                             AppConstants.BEREAR_TOKEN,
                             data.token
@@ -180,19 +137,19 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 //                            json
 //                        )
                         val getUserRole = data.user.user_role
-                        var setConstantRole = ""
-                        if (getUserRole.equals(AppConstants.APP_ROLE_USER))
-                            setConstantRole = AppConstants.APP_ROLE_USER
-                        else if (getUserRole.equals(AppConstants.APP_ROLE_LAWYER))
-                            setConstantRole = AppConstants.APP_ROLE_LAWYER
-                        else if (getUserRole.equals(AppConstants.APP_ROLE_MEDIATOR))
-                            setConstantRole = AppConstants.APP_ROLE_MEDIATOR
 
                         SharedPreferenceManager.putString(
                             AppConstants.USER_ROLE,
-                            setConstantRole
+                            getUserRole!!
+                        )
+                        Log.i("MEIDIATOR", data.user.is_subscribe.toString())
+                        Log.i("MEIDIATOR", data.user.user_role)
+                        Log.i(
+                            "MEIDIATOR",
+                            SharedPreferenceManager.getString(AppConstants.USER_ROLE, "").toString()
                         )
                         displayMessage(this, it.message.toString())
+                        checkLogin(data)
                     }
                 }
                 requestState.error?.let { errorObj ->
@@ -214,79 +171,36 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun checkLogin(data: LoginResp) {
-//        auth!!.signInWithEmailAndPassword(
-//            data.user.email.toString(), mBinding.editTextLoginPass.text?.trim()
-//                .toString()
-//        )
-//            .addOnCompleteListener(this) {
-//                if (it.isSuccessful) {
-        showLoadingIndicator(true)
-        when {
-            SharedPreferenceManager.getString(
-                AppConstants.USER_ROLE,
-                AppConstants.APP_ROLE_USER
-            ) == AppConstants.APP_ROLE_USER -> {
-
-                if (data.user.is_subscribe == 0) {
-                    startActivity(
-                        Intent(
-                            this@LoginActivity,
-                            SubScriptionPlanScreen::class.java
-                        )
+        displayMessage(this, data.user.user_role.toString())
+        if (data.user.user_role == AppConstants.APP_ROLE_LAWYER || data.user.user_role == AppConstants.APP_ROLE_USER) {
+            if (data.user.is_subscribe == 0) {
+                startActivity(
+                    Intent(
+                        this@LoginActivity,
+                        SubScriptionPlanScreen::class.java
                     )
-                    overridePendingTransition(R.anim.rightto, R.anim.left)
+                )
+                overridePendingTransition(R.anim.rightto, R.anim.left)
 
-                } else {
-                    SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
-                    SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
-                    openDashBoard()
-                    overridePendingTransition(R.anim.rightto, R.anim.left)
-                }
-
-            }
-            SharedPreferenceManager.getString(
-                AppConstants.USER_ROLE,
-                AppConstants.APP_ROLE_USER
-            ) == AppConstants.APP_ROLE_LAWYER -> {
-//                                    displayMessageDialog(
-//                                        this@LoginActivity,
-//                                        "",
-//                                        it.message.toString(),
-//                                        false,
-//                                        "Ok",
-//                                        ""
-//                                    )
-//                                    displayMessage(this,it.message.toString())
+            } else {
                 SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
                 SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
                 openDashBoard()
-
+                overridePendingTransition(R.anim.rightto, R.anim.left)
             }
-            SharedPreferenceManager.getString(
-                AppConstants.USER_ROLE,
-                AppConstants.APP_ROLE_USER
-            ) == AppConstants.APP_ROLE_MEDIATOR -> {
-//                                    displayMessageDialog(
-//                                        this@LoginActivity,
-//                                        "",
-//                                        it.message.toString(),
-//                                        false,
-//                                        "Ok",
-//                                        ""
-//                                    )
-//                                    displayMessage(this,it.message.toString())
-                SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
-                SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
-                openDashBoard()
-            }
+        } else {
+            SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
+            SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
+            openDashBoard()
+            overridePendingTransition(R.anim.rightto, R.anim.left)
         }
-
+    }
 //                } else {
 //                    showLoadingIndicator(false)
 //                }
 
 //            }
-    }
+
 
     private fun openDashBoard() {
         startActivity(

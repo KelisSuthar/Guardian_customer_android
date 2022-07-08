@@ -10,6 +10,7 @@ class ApiConstant{
      val EXTRAS_PRICE_ID="pricing_id"
      val EXTRAS_APPLE_RECEIPT="apple_receipt"
      val EXTRAS_SHARED_SECRET="shared_secret"
+     val EXTRAS_PAYMENT_DETAILS="payment_detail"
      val EXTRAS_START_DATE="start_date"
      val EXTRAS_END_DATE="end_date"
      val EXTRAS_PRICE="price"

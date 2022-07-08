@@ -178,11 +178,9 @@
 <!--        </receiver>
 -->
         <receiver android:name=".ConnectivityChangeReceiver"
-            android:exported="true"
-            android:enabled="true"
-            tools:ignore="BatteryLife">
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="com.guardian.uploadVideos" />
             </intent-filter>
         </receiver>
     </application>

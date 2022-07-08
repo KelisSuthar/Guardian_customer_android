@@ -9,6 +9,7 @@ import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.BaseRecyclerViewAdapter
 import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.visible
 import com.app.guardian.model.GetVideoCallRequestResp.VideoCallRequestListResp
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
@@ -63,7 +64,14 @@ class MediatorVideoCallReqAdapter(val context: Context, val listener: onItemClic
                     txtExp.text = AppConstants.MEDIATOR
                 }
             }
-            txtDateTime.text = "Status : " + data.request_status
+            if (data.specialization.isNullOrEmpty()) {
+                txtSpecialization.gone()
+                txtSpTitle.gone()
+            } else {
+                txtSpecialization.visible()
+                txtSpTitle.visible()
+            }
+            txtDateTime.text = "Status : " + data.my_status
             txtSpTitle.text = "Specialization :"
             txtSpecialization.text = data.specialization
         }

@@ -24,7 +24,7 @@ class TermAndConditionsActivity : BaseActivity(), View.OnClickListener {
 
     override fun initView() {
         mBinding = getBinding()
-        mBinding.headderTerms.tvHeaderText.text = resources.getString(R.string.terms_conditions)
+        mBinding.headderTerms.tvHeaderText.text = resources.getString(R.string.terms_amp_conditions)
     }
 
     override fun initObserver() {

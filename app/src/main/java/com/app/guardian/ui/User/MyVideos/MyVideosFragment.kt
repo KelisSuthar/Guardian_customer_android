@@ -2,19 +2,26 @@ package com.app.guardian.ui.User.MyVideos
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Environment
+import android.os.Handler
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.fragment.app.Fragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.app.guardian.ConnectivityChangeReceiver
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
+import com.app.guardian.common.AppConstants.BROADCAST_ADD_VIDEO
 import com.app.guardian.common.AppConstants.EXTRA_ACCESS_LOCATION_PERMISSION
 import com.app.guardian.common.AppConstants.EXTRA_CAMERA_PERMISSION
 import com.app.guardian.common.AppConstants.EXTRA_READ_STORAGE_PERMISSION
@@ -30,7 +37,6 @@ import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
-import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.User.MyVideos.adapter.MyVideoListAdapter
 import com.app.guardian.ui.VideoPlayer.VideoPlayerActivity
 import com.app.guardian.utils.Config
@@ -49,6 +55,25 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
         return R.layout.fragment_my_videos
     }
 
+
+    private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent) {
+            val handler = Handler()
+            var runnable: Runnable? = null
+
+            handler.postDelayed(Runnable {
+                handler.postDelayed(runnable!!, 2000)
+                if (ReusedMethod.isNetworkConnected(context!!)) {
+                    Log.i("ConnectivityChange", "TRUE")
+                } else {
+                    Log.i("ConnectivityChange", "FALSE")
+                }
+            }.also { runnable = it }, 0)
+
+
+        }
+    }
+
     override fun initView() {
         mBinding = getBinding()
         (activity as HomeActivity).bottomTabVisibility(false)
@@ -60,6 +85,8 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
         mBinding.switchAutoUploadVideo.setOnToggledListener { _, isOn ->
             SharedPreferenceManager.putBoolean(AppConstants.IS_OFFLINE_VIDEO_UPLOAD, isOn)
             showStatusDialog(isOn)
+
+
         }
 
         mBinding.switchAutoUploadVideo.isOn =
@@ -286,6 +313,13 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
 //            mBinding.noInternetVideo.llNointernet.gone()
 //
 //        }
+        val intent = Intent()
+        intent.action = BROADCAST_ADD_VIDEO
+        requireActivity().sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(
+            mMessageReceiver,
+            IntentFilter(BROADCAST_ADD_VIDEO)
+        )
         mBinding.rb1.isChecked = true
         setAdapter()
         checkPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, EXTRA_READ_STORAGE_PERMISSION)

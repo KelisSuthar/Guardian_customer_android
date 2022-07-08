@@ -65,6 +65,8 @@ class LawyerVideoCallReqAdapter(val context: Context, val listener: onItemClickl
                     txtExp.text = AppConstants.MEDIATOR
                 }
             }
+            txtSpTitle.gone()
+            txtSpecialization.gone()
             txtDateTime.text = "Status : " + data.request_status
             txtSpTitle.text = "Specialization :"
             txtSpecialization.text = data.specialization

@@ -50,7 +50,8 @@ class SelectRoleScreen : BaseActivity(), View.OnClickListener {
             R.id.ivBack -> {
                 onBackPressed()
                 overridePendingTransition(R.anim.leftto, R.anim.right)
-            }R.id.rl1 -> {
+            }
+            R.id.rl1 -> {
                 changeLayout(1)
             }
             R.id.rl2 -> {
@@ -71,10 +72,6 @@ class SelectRoleScreen : BaseActivity(), View.OnClickListener {
             R.id.btnSubmit -> {
                 when {
                     mBinding.rb1.isChecked -> {
-                        SharedPreferenceManager.putString(
-                            AppConstants.USER_ROLE,
-                            AppConstants.APP_ROLE_USER
-                        )
                         startActivity(
                             Intent(
                                 this@SelectRoleScreen,
@@ -82,14 +79,9 @@ class SelectRoleScreen : BaseActivity(), View.OnClickListener {
                             )
 
                         )
-
                         overridePendingTransition(R.anim.rightto, R.anim.left)
                     }
                     mBinding.rb2.isChecked -> {
-                        SharedPreferenceManager.putString(
-                            AppConstants.USER_ROLE,
-                            AppConstants.APP_ROLE_MEDIATOR
-                        )
                         startActivity(
                             Intent(
                                 this@SelectRoleScreen,
@@ -100,17 +92,13 @@ class SelectRoleScreen : BaseActivity(), View.OnClickListener {
                         overridePendingTransition(R.anim.rightto, R.anim.left)
                     }
                     mBinding.rb3.isChecked -> {
-                        SharedPreferenceManager.putString(
-                            AppConstants.USER_ROLE,
-                            AppConstants.APP_ROLE_LAWYER
-                        )
-                                startActivity(
-                                    Intent(
-                                        this@SelectRoleScreen,
-                                        SignupScreen::class.java
-                                    )
+                        startActivity(
+                            Intent(
+                                this@SelectRoleScreen,
+                                SignupScreen::class.java
+                            )
 
-                                )
+                        )
                         overridePendingTransition(R.anim.rightto, R.anim.left)
                     }
                     else -> {
