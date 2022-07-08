@@ -460,7 +460,7 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
         baseView: BaseActivity,
         calling_history_id: String,
         note: String,
-        from_time: Int,
+        from_time: String,
         to_time: String,
         duration_min: String,
     ) {

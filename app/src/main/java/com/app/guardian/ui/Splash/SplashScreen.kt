@@ -184,8 +184,8 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
                     startActivity(
                         Intent(
                             this@SplashScreen,
-
                             HomeActivity::class.java
+
                         )
                     )
                 }

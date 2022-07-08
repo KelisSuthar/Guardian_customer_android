@@ -25,6 +25,7 @@ import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.chatting.adapter.ChatMessageAdapter
+import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.bumptech.glide.Glide
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -195,7 +196,7 @@ class ChattingFragment(
                                 } else {
                                     mBinding.imgIsOnline.gone()
                                 }
-                                if (!data.user_detail.last_seen.isNullOrEmpty() || data.user_detail.last_seen != null && data.user_detail.is_online == 0) {
+                                if (!data.user_detail.last_seen.isNullOrEmpty() && data.user_detail.is_online == 0) {
                                     lastSeenChecker(data.user_detail.last_seen)
                                 } else {
                                     mBinding.txtLastSeen.visible()
@@ -228,7 +229,15 @@ class ChattingFragment(
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let {}
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        requireActivity().onBackPressed()
+                                        displayMessage(requireActivity(), it)
+                                        (activity as HomeActivity).unAuthorizedNavigation()
+                                    } else {
+                                        displayMessage(requireActivity(), it)
+                                    }
+                                }
                     }
                 }
             }

@@ -126,10 +126,8 @@ object SharedPreferenceManager {
     }
 
     fun clearCityState() {
-        putString(AppConstants.CITY, "")
-        putString(AppConstants.STATE, "")
-        editor!!.remove(AppConstants.CITY)
-        editor!!.remove(AppConstants.STATE)
+        removeString(AppConstants.CITY)
+        removeString(AppConstants.STATE)
     }
 
     fun removeString(key: String) {

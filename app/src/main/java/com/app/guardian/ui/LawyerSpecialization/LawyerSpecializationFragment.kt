@@ -206,7 +206,14 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { ReusedMethod.displayMessage(context as Activity, it) }
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        (activity as HomeActivity).unAuthorizedNavigation()
+                                    } else {
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                    }
+                                }
                     }
                 }
             }
@@ -233,7 +240,14 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { ReusedMethod.displayMessage(context as Activity, it) }
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        (activity as HomeActivity).unAuthorizedNavigation()
+                                    } else {
+                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                    }
+                                }
                     }
                 }
             }

@@ -59,6 +59,7 @@ class ApiConstant{
      val EXTRAS_FROM_TIME="from_time"
      val EXTRAS_NOTE="note"
      val EXTRAS_USER_ROLE="user_role"
+     val EXTRAS_IS_AUTOUPLOAD="is_autoupload"
 
 
 

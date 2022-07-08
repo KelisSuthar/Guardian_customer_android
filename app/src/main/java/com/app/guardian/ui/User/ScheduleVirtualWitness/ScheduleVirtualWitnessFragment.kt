@@ -126,7 +126,12 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        changeLayout(SharedPreferenceManager.getInt(AppConstants.EXTRA_SH_SCHEDUAL_VIRTUAL_WITNESS,0))
+        changeLayout(
+            SharedPreferenceManager.getInt(
+                AppConstants.EXTRA_SH_SCHEDUAL_VIRTUAL_WITNESS,
+                0
+            )
+        )
         setAdapter()
         callApi()
         getLatLong()
@@ -216,7 +221,11 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
 //                callScedualDialog()
                 ReplaceFragment.replaceFragment(
                     requireActivity(),
-                    SupportGroupList(resources.getString(R.string.support_groups),true,schedule_call = true),
+                    SupportGroupList(
+                        resources.getString(R.string.support_groups),
+                        true,
+                        schedule_call = true
+                    ),
                     true,
                     ScheduleVirtualWitnessFragment::class.java.name,
                     ScheduleVirtualWitnessFragment::class.java.name
@@ -232,7 +241,7 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
 //                callScedualDialog()
                 ReplaceFragment.replaceFragment(
                     requireActivity(),
-                    SupportGroupList(resources.getString(R.string.support_groups),true),
+                    SupportGroupList(resources.getString(R.string.support_groups), true),
                     true,
                     ScheduleVirtualWitnessFragment::class.java.name,
                     ScheduleVirtualWitnessFragment::class.java.name
@@ -306,7 +315,7 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun changeLayout(i: Int) {
-        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_SCHEDUAL_VIRTUAL_WITNESS,i)
+        SharedPreferenceManager.putInt(AppConstants.EXTRA_SH_SCHEDUAL_VIRTUAL_WITNESS, i)
         when (i) {
             0 -> {
                 mBinding.rlScheduleDateTime.setBackgroundColor(
@@ -496,8 +505,6 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
             dialog.dismiss()
             if (isMultiple) {
                 displayMultipleCallConfirmationDialog(requireContext())
-            } else {
-                displayMessage(requireActivity(), resources.getString(R.string.come_soon))
             }
 
         }

@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.app.guardian.R
 import com.app.guardian.common.*
+import com.app.guardian.common.SharedPreferenceManager.clearCityState
 import com.app.guardian.common.SharedPreferenceManager.removeSeletionData
 import com.app.guardian.common.extentions.checkLoationPermission
 import com.app.guardian.common.extentions.gone
@@ -185,39 +186,8 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
 //        {
 //            onBackPressed()
 //        }
-//        //bottom navigation click listener
-//
-//        if (intent != null && intent.extras != null) {
-//            val notification_type =
-//                intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!
-//            Log.i("NOTIFICATION_DATA_H", intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!)
-//            when (notification_type) {
-//                AppConstants.EXTRA_CHAT_MESSAGE_PAYLOAD -> {
-//                    Log.i("NOTIFICATION_DATA_H", intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!)
-//                    ReplaceFragment.replaceFragment(
-//                        this,
-//                        ChattingFragment(
-//                            intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID)!!
-//                                .toInt(),
-//                            true
-//                        ),
-//                        true,
-//                        HomeActivity::class.java.name,
-//                        HomeActivity::class.java.name
-//                    )
-//                }
-//                AppConstants.EXTRA_MEDIATOR_PAYLOAD -> {
-//                    Log.i("NOTIFICATION_DATA_H", intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!)
-//                }
-//                AppConstants.EXTRA_VIRTUAL_WITNESS_PAYLOAD -> {
-//                    Log.i("NOTIFICATION_DATA_H", intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!)
-//
-//                }
-//            }
-//        } else {
-//            bottomTabVisibility(true)
-//            loadHomeScreen()
-//        }
+        //bottom navigation click listener
+
 
         locationManager = getSystemService(
             Context.LOCATION_SERVICE
@@ -292,6 +262,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
             onVisibleBageCounterCounter(count)
         }
         removeSeletionData()
+
         LocalBroadcastManager.getInstance(this).registerReceiver(
             mBroadcastReceiver, IntentFilter(
                 intentAction
@@ -300,7 +271,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
         getLatLong()
         if (checkLoationPermission(this)) {
             if (locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER)!!) {
-
                 mFusedLocationClient?.requestLocationUpdates(
                     locationRequest!!,
                     locationCallback!!,
@@ -400,6 +370,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
             SharedPreferenceManager.getString("NOTIFICATION", "").toString()
         )
 
+
         if (intent != null && intent.extras != null) {
             val notification_type =
                 intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!
@@ -418,11 +389,16 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
             )
 
         } else {
-            bottomTabVisibility(true)
-            loadHomeScreen()
-        }
 
+            var getFragment = supportFragmentManager.findFragmentById(R.id.flUserContainer)
+            if (getFragment is UserHomeFragment || getFragment is UserHomeFragment || getFragment is UserHomeFragment || getFragment == null) {
+                loadHomeScreen()
+                bottomTabVisibility(true)
+
+            }
+        }
     }
+
 
     fun checkNotificationRedirection(notification_type: String, id: String) {
         SharedPreferenceManager.removeNotificationData()
@@ -531,12 +507,10 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
             }
         }
         selecionReset(getFragment)
-        SharedPreferenceManager.clearCityState()
+        clearCityState()
         val fm: FragmentManager = supportFragmentManager
         val getCurrentFragment = supportFragmentManager.fragments
         Log.e("BackStack", "Current fragment Name : " + getCurrentFragment.toString())
-
-
         when {
             SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,

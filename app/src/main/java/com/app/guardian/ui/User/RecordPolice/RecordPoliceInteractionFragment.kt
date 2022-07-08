@@ -206,6 +206,20 @@ class RecordPoliceInteractionFragment : BaseFragment(), View.OnClickListener {
         when (v?.id) {
             R.id.cvVideoAndAudio -> {
                 changeLayout(1)
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    RecordPoliceInteraction_2Fragment(),
+                    true,
+                    RecordPoliceInteractionFragment::class.java.name,
+                    RecordPoliceInteractionFragment::class.java.name
+                );
+
+            }
+            R.id.rlVideoAndAudio -> {
+                mBinding.cvVideoAndAudio.performClick()
+            }
+            R.id.cvJustAudio -> {
+                changeLayout(2)
 //                ReplaceFragment.replaceFragment(
 //                    requireActivity(),
 //                    RecordPoliceInteraction_2Fragment(),
@@ -217,19 +231,6 @@ class RecordPoliceInteractionFragment : BaseFragment(), View.OnClickListener {
                     requireActivity(),
                     resources.getString(R.string.come_soon)
                 )
-            }
-            R.id.rlVideoAndAudio -> {
-                mBinding.cvVideoAndAudio.performClick()
-            }
-            R.id.cvJustAudio -> {
-                changeLayout(2)
-                ReplaceFragment.replaceFragment(
-                    requireActivity(),
-                    RecordPoliceInteraction_2Fragment(),
-                    true,
-                    RecordPoliceInteractionFragment::class.java.name,
-                    RecordPoliceInteractionFragment::class.java.name
-                );
 
             }
             R.id.rlJustAudio -> {

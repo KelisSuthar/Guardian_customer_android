@@ -34,7 +34,7 @@
                 android:button="@null"
                 android:checked="true"
                 android:fontFamily="@font/lora_semibold"
-                android:text="Lawyer"
+                android:text="Request Get"
                 android:textAlignment="center"
                 android:textColor="@color/blue_white_color_selector"
                 android:textSize="@dimen/_14ssp" />
@@ -48,7 +48,7 @@
                 android:button="@null"
                 android:checked="false"
                 android:fontFamily="@font/lora_semibold"
-                android:text="Mediator"
+                android:text="Request Send"
                 android:textAlignment="center"
                 android:textColor="@color/blue_white_color_selector"
                 android:textSize="@dimen/_14ssp" />

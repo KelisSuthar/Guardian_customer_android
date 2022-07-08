@@ -160,7 +160,7 @@ class AskMoreQuestion : BaseFragment(), View.OnClickListener {
                 mBinding.edtAskMoreQuestionDesc.text?.trim().toString()
             )
         } else {
-            ReusedMethod.displayMessage(requireActivity(), resources.getString(R.string.come_soon))
+            ReusedMethod.displayMessage(requireActivity(), resources.getString(R.string.text_error_network))
         }
     }
 

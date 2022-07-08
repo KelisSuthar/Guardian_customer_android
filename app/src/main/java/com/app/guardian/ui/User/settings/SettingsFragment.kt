@@ -449,10 +449,10 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                         SettingsFragment::class.java.name
                     )
                 }
-//                ReusedMethod.displayMessage(
-//                    requireActivity(),
-//                    requireContext().resources.getString(R.string.come_soon)
-//                )
+                ReusedMethod.displayMessage(
+                    requireActivity(),
+                    requireContext().resources.getString(R.string.come_soon)
+                )
             }
             R.id.tvSubScription -> {
                 startActivity(Intent(context, SubScriptionPlanScreen::class.java))

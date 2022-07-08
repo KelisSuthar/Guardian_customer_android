@@ -323,6 +323,7 @@ interface UserRepo {
         baseView: BaseActivity,
         commonResponse: MutableLiveData<RequestState<MediatorCallReqResp>>
     )
+
     fun scheduleRequestedVideoCall(
         body: JsonObject,
         internetConnected: Boolean,
@@ -343,12 +344,14 @@ interface UserRepo {
         baseView: BaseActivity,
         videoCallRequestListResp: MutableLiveData<RequestState<MutableList<VideoCallRequestListResp>>>
     )
+
     fun getVideoCallRequestLawyerList(
         body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
         videoCallRequestListResp: MutableLiveData<RequestState<MutableList<VideoCallRequestListResp>>>
     )
+
     fun getVideoCallRequestMediatorList(
         body: JsonObject,
         internetConnected: Boolean,
@@ -395,6 +398,20 @@ interface UserRepo {
         internetConnected: Boolean,
         baseView: BaseActivity,
         acceptRejectCallByMediatorResp: MutableLiveData<RequestState<AcceptRejectCallByMediatorResp>>
+    )
+
+    fun deleteUploadOfflineVideo(
+        id: Int,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        deleteUploadedOfflineVideoResp: MutableLiveData<RequestState<CommonResponse>>
+    )
+
+    fun chnageUploadOfflineVideoStatus(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        chnageUploadedOfflineVideostatusResp: MutableLiveData<RequestState<CommonResponse>>
     )
 
 

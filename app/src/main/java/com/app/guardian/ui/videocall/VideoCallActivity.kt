@@ -9,12 +9,11 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.media.projection.MediaProjectionManager
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -22,12 +21,19 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.GuardianApplication
 import com.app.guardian.R
-import com.app.guardian.ui.createorjoin.CreateOrJoinActivity
+import com.app.guardian.common.AppConstants
+import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.extentions.gone
+import com.app.guardian.databinding.ActivityVideoCallBinding
+import com.app.guardian.model.viewModels.CommonScreensViewModel
+import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.videocall.adapter.ParticipantAdapter
-import com.app.guardian.ui.videocalljoin.VideoCallJoinActivity
+import com.app.guardian.utils.Config
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textview.MaterialTextView
 import com.nabinbhandari.android.permissions.PermissionHandler
 import com.nabinbhandari.android.permissions.Permissions
 import live.videosdk.rtc.android.Meeting
@@ -36,14 +42,18 @@ import live.videosdk.rtc.android.Stream
 import live.videosdk.rtc.android.VideoSDK
 import live.videosdk.rtc.android.lib.AppRTCAudioManager
 import live.videosdk.rtc.android.lib.PeerConnectionUtils
-import live.videosdk.rtc.android.lib.PubSubMessage
 import live.videosdk.rtc.android.listeners.*
+import org.koin.android.viewmodel.ext.android.viewModel
 import org.webrtc.RendererCommon
 import org.webrtc.SurfaceViewRenderer
 import org.webrtc.VideoTrack
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.math.abs
 
-class VideoCallActivity : AppCompatActivity() {
-
+class VideoCallActivity : BaseActivity() {
+    lateinit var mBinding: ActivityVideoCallBinding
+    private val mViewModel: CommonScreensViewModel by viewModel()
     private var svrShare: SurfaceViewRenderer? = null
     private var btnMic: FloatingActionButton? = null
     private var btnWebcam: FloatingActionButton? = null
@@ -53,12 +63,16 @@ class VideoCallActivity : AppCompatActivity() {
     private var livestreaming = false
     private var localScreenShare = false
     private var isNetworkAvailable = true
+    var is_join = false
+    var start_time = ReusedMethod.getCurrentDate()
+    var end_time = ReusedMethod.getCurrentDate()
     private var btnScreenShare: FloatingActionButton? = null
+    override fun getResource(): Int {
+        return R.layout.activity_video_call
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_video_call)
-
+    override fun initView() {
+        mBinding = getBinding()
         btnScreenShare = findViewById(R.id.btnScreenShare)
         svrShare = findViewById(R.id.svrShare)
         svrShare!!.init(PeerConnectionUtils.getEglContext(), null)
@@ -109,9 +123,44 @@ class VideoCallActivity : AppCompatActivity() {
         (findViewById<View>(R.id.btnCopyContent) as ImageButton).setOnClickListener(
             View.OnClickListener { copyTextToClipboard(meetingId) })
         (findViewById<View>(R.id.btnAudioSelection) as ImageButton).setOnClickListener { showAudioInputDialog() }
+        is_join = intent.getBooleanExtra(AppConstants.IS_JOIN, false)
 
     }
 
+    override fun initObserver() {
+        mViewModel.getacceptRejectCallByMediatorResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            meeting!!.end()
+                            ReusedMethod.displayMessage(this, it.message.toString())
+                        } else {
+                            ReusedMethod.displayMessage(this, it.message.toString())
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                this,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {}
+                    }
+                }
+            }
+        }
+    }
+
+    override fun handleListener() {
+
+    }
 
     private fun copyTextToClipboard(text: String?) {
         val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
@@ -208,12 +257,20 @@ class VideoCallActivity : AppCompatActivity() {
             Log.d("#meeting", "onMeetingLeft()")
             meeting = null
             if (!isDestroyed) {
-                val intents = Intent(this@VideoCallActivity, CreateOrJoinActivity::class.java)
-                intents.addFlags(
-                    (Intent.FLAG_ACTIVITY_NEW_TASK
-                            or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//                val intents = Intent(this@VideoCallActivity, CreateOrJoinActivity::class.java)
+//                intents.addFlags(
+//                    (Intent.FLAG_ACTIVITY_NEW_TASK
+//                            or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//                )
+//                startActivity(intents)
+//                finish()
+                startActivity(
+                    Intent(
+                        this@VideoCallActivity,
+                        HomeActivity::class.java
+
+                    )
                 )
-                startActivity(intents)
                 finish()
             }
         }
@@ -499,14 +556,95 @@ class VideoCallActivity : AppCompatActivity() {
     }
 
     private fun showLeaveOrEndDialog() {
-        MaterialAlertDialogBuilder(this@VideoCallActivity)
-            .setTitle("Leave or End meeting")
-            .setMessage("Leave from meeting or end the meeting for everyone ?")
-            .setPositiveButton(
-                "Leave"
-            ) { dialog: DialogInterface?, which: Int -> meeting!!.leave() }
-            .setNegativeButton("End") { dialog: DialogInterface?, which: Int -> meeting!!.end() }
-            .show()
+        val dialog = ReusedMethod.setUpDialog(this, R.layout.dialog_layout, false)
+        val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
+        val TITLE = dialog.findViewById<TextView>(R.id.tvTitle)
+        val MESSAGE = dialog.findViewById<TextView>(R.id.tvMessage)
+        val CANCEL = dialog.findViewById<MaterialTextView>(R.id.tvNegative)
+
+        MESSAGE.gone()
+        CANCEL.text = "No"
+        OK.text = "Yes"
+        TITLE.text = "Leave from meeting or end the meeting for everyone ?"
+        CANCEL.isAllCaps = false
+        OK.isAllCaps = false
+        CANCEL.setOnClickListener {
+            dialog.dismiss()
+        }
+        OK.setOnClickListener {
+            dialog.dismiss()
+            if (is_join) {
+                meeting?.end()
+            } else {
+                callEndMeetingAPI()
+            }
+
+
+        }
+
+        dialog.show()
+//        MaterialAlertDialogBuilder(this@VideoCallActivity)
+//            .setTitle("Leave or End meeting")
+//            .setMessage("Leave from meeting or end the meeting for everyone ?")
+//            .setPositiveButton(
+//                "Leave"
+//            ) { dialog: DialogInterface?, which: Int -> meeting!!.leave() }
+//            .setNegativeButton("End") { dialog: DialogInterface?, which: Int ->
+//                run {
+//                    startActivity(
+//                        Intent(
+//                            this@VideoCallActivity,
+//                            HomeActivity::class.java
+//
+//                        )
+//                    )
+//                    meeting!!.end()
+//                }
+//
+//            }
+//            .show()
+    }
+
+    private fun callEndMeetingAPI() {
+
+        end_time = ReusedMethod.getCurrentDate()
+        val duration_min = getMinDuration(start_time, end_time)
+        if (ReusedMethod.isNetworkConnected(this)) {
+            mViewModel.sendEndCallReq(
+                true,
+                this@VideoCallActivity,
+                "",
+                "",
+                start_time.toString(),
+                end_time.toString(),
+                duration_min
+            )
+        } else {
+            ReusedMethod.displayMessage(this, resources.getString(R.string.text_error_network))
+        }
+    }
+
+    private fun getMinDuration(start_time: String, end_time: String): String {
+        var final_time = ""
+
+        val date2: Date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(start_time)
+        val date1: Date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(end_time)
+
+        val difference: Long = date2.time - date1.time
+        val hrs = (difference / (1000 * 60 * 60))
+        val min = (difference / (1000 * 60)) % 60
+        Log.i("======= Hours", " :: $hrs")
+        Log.i("======= MIN", " :: $min")
+
+        final_time = if (hrs.toInt() > 0) {
+            abs(min)
+            min.toString()
+        } else {
+            abs(min)
+            abs(hrs)
+            (((hrs * 60) + min).toString())
+        }
+        return final_time
     }
 
     private fun showMoreOptionsDialog() {
@@ -545,5 +683,4 @@ class VideoCallActivity : AppCompatActivity() {
         private val YOUTUBE_RTMP_STREAM_KEY: String? = "46751b80d07f4f0cb27aa4f19181b776_4500"
         private val CAPTURE_PERMISSION_REQUEST_CODE = 1
     }
-
 }

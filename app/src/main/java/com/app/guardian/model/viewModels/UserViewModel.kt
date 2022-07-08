@@ -233,7 +233,10 @@ class UserViewModel(private val mUserRepository: UserRepo) : ViewModel() {
     ) {
         val body = JsonObject()
         body.addProperty(ApiConstant.EXTRAS_IS_IMMEDIATE_ONLINE, is_immediate_joining)
-        body.addProperty(ApiConstant.EXTRAS_SCHEDUAL_DATE_TIME, changeDateFormat("dd-MM-yyyy hh:mm a","yyyy-MM-dd HH:mm:ss",schedule_datetime))
+        body.addProperty(
+            ApiConstant.EXTRAS_SCHEDUAL_DATE_TIME,
+            changeDateFormat("dd-MM-yyyy hh:mm a", "yyyy-MM-dd HH:mm:ss", schedule_datetime)
+        )
         body.addProperty(ApiConstant.EXTRAS_REQUEST_DATE_TIME, ReusedMethod.getCurrentDate())
         mUserRepository.sendCallingRequestToMediator(
             body,
@@ -243,9 +246,14 @@ class UserViewModel(private val mUserRepository: UserRepo) : ViewModel() {
 
         )
     }
+
     //LIST FOR OFFLINE UPLOADED VIDEOS
-    private val OfflineUploadedVideoResp = MutableLiveData<RequestState<MutableList<OfflineUploadedVideoResp>>>()
-    fun getOfflineUploadedVideoResp(): LiveData<RequestState<MutableList<OfflineUploadedVideoResp>>> = OfflineUploadedVideoResp
+    private val OfflineUploadedVideoResp =
+        MutableLiveData<RequestState<MutableList<OfflineUploadedVideoResp>>>()
+
+    fun getOfflineUploadedVideoResp(): LiveData<RequestState<MutableList<OfflineUploadedVideoResp>>> =
+        OfflineUploadedVideoResp
+
     fun getOfflineVideos(
         isInternetConnected: Boolean,
         baseView: BaseActivity,
@@ -259,7 +267,9 @@ class UserViewModel(private val mUserRepository: UserRepo) : ViewModel() {
 
     //LIST FOR OFFLINE UPLOADED VIDEOS
     private val UploadOfflineVideoResp = MutableLiveData<RequestState<UploadOfflineVideoResp>>()
-    fun getUploadOfflineVideoResp(): LiveData<RequestState<UploadOfflineVideoResp>> = UploadOfflineVideoResp
+    fun getUploadOfflineVideoResp(): LiveData<RequestState<UploadOfflineVideoResp>> =
+        UploadOfflineVideoResp
+
     fun uploadOfflineVideos(
         isInternetConnected: Boolean,
         baseView: BaseActivity,
@@ -273,6 +283,47 @@ class UserViewModel(private val mUserRepository: UserRepo) : ViewModel() {
             isInternetConnected,
             baseView,
             UploadOfflineVideoResp
+        )
+    }
+
+    //DELETE OFFLINE UPLOADED VIDEOS
+    private val deleteUploadedOfflineVideoResp = MutableLiveData<RequestState<CommonResponse>>()
+    fun getDeleteUploadOfflineVideoResp(): LiveData<RequestState<CommonResponse>> =
+        deleteUploadedOfflineVideoResp
+
+    fun deleteUploadOfflineVideos(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        id: Int,
+    ) {
+
+
+        mUserRepository.deleteUploadOfflineVideo(
+            id,
+            isInternetConnected,
+            baseView,
+            deleteUploadedOfflineVideoResp
+        )
+    }
+    //CHANGE OFFLINE UPLOADED VIDEOS STATUS
+    private val chnageUploadedOfflineVideostatusResp = MutableLiveData<RequestState<CommonResponse>>()
+    fun getchnageUploadOfflineVideoStatusResp(): LiveData<RequestState<CommonResponse>> =
+        chnageUploadedOfflineVideostatusResp
+
+    fun chnageUploadOfflineVideosStatus(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        is_autoupload:Int
+    ) {
+
+        val body = JsonObject()
+        body.addProperty(ApiConstant.EXTRAS_IS_AUTOUPLOAD, is_autoupload)
+
+        mUserRepository.chnageUploadOfflineVideoStatus(
+            body,
+            isInternetConnected,
+            baseView,
+            chnageUploadedOfflineVideostatusResp
         )
     }
 }

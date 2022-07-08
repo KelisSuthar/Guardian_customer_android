@@ -156,31 +156,20 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
                 )
             }
             R.id.cvDrivingOffenceList -> {
-                mBinding.rlDrivingOffenceList.performClick()
-            }
-            R.id.cvDialLawyer -> {
-                mBinding.rlDialLawyer.performClick()
-            }
-            R.id.rbAccessYourRecording -> {
-                changeLayout(1)
-//                ReplaceFragment.replaceFragment(
-//                    requireActivity(),
-//                    MyVideosFragment(),
-//                    true,
-//                    LiveVirtualVitnessUserFragment::class.java.name,
-//                    LiveVirtualVitnessUserFragment::class.java.name
-//                )
-                ReusedMethod.displayMessage(
-                    requireActivity(),
-                    requireContext().resources.getString(R.string.come_soon)
-                )
-            }
-            R.id.rbDrivingOffenceList -> {
                 changeLayout(2)
                 ReusedMethod.displayMessage(
                     requireActivity(),
                     requireContext().resources.getString(R.string.come_soon)
                 )
+            }
+            R.id.cvDialLawyer -> {
+                mBinding.rlDialLawyer.performClick()
+            }
+            R.id.rbAccessYourRecording -> {
+                mBinding.cvAccessYourRecording.performClick()
+            }
+            R.id.rbDrivingOffenceList -> {
+                mBinding.cvDrivingOffenceList.performClick()
 
             }
             R.id.rbDialLawyer -> {

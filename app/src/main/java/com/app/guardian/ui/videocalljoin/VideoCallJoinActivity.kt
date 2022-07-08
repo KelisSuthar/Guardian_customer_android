@@ -130,6 +130,7 @@ class VideoCallJoinActivity : BaseActivity() {
                     "paticipantName",
                     mBinding.etName!!.text.toString().trim()
                 )
+                intent.putExtra(AppConstants.IS_JOIN, true)
                 startActivity(intent)
                 finish()
             } else {
@@ -145,8 +146,6 @@ class VideoCallJoinActivity : BaseActivity() {
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
-
-
                             val intent = Intent(
                                 this@VideoCallJoinActivity,
                                 VideoCallActivity::class.java
@@ -159,6 +158,11 @@ class VideoCallJoinActivity : BaseActivity() {
                                 "paticipantName",
                                 mBinding.etName!!.text.toString().trim()
                             )
+                            intent.putExtra(
+                                AppConstants.EXTRA_CALLING_HISTORY_ID,
+                                history_id
+                            )
+                            intent.putExtra(AppConstants.IS_JOIN, false)
                             startActivity(intent)
                             finish()
 

@@ -1029,4 +1029,42 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
             )
         }
     }
+
+    override fun deleteUploadOfflineVideo(
+        id: Int,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        deleteUploadedOfflineVideoResp: MutableLiveData<RequestState<CommonResponse>>
+    ) {
+        if (!internetConnected) {
+            deleteUploadedOfflineVideoResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            deleteUploadedOfflineVideoResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.deleteUploadedVideos(id),
+                baseView,
+                deleteUploadedOfflineVideoResp
+            )
+        }
+    }
+
+    override fun chnageUploadOfflineVideoStatus(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        chnageUploadedOfflineVideostatusResp: MutableLiveData<RequestState<CommonResponse>>
+    ) {
+        if (!internetConnected) {
+            chnageUploadedOfflineVideostatusResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            chnageUploadedOfflineVideostatusResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.changeUploadStatus(body),
+                baseView,
+                chnageUploadedOfflineVideostatusResp
+            )
+        }
+    }
 }

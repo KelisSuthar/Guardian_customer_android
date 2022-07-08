@@ -20,6 +20,7 @@ import com.app.guardian.common.AppConstants.EXTRA_CAMERA_PERMISSION
 import com.app.guardian.common.AppConstants.EXTRA_READ_STORAGE_PERMISSION
 import com.app.guardian.common.AppConstants.EXTRA_WRITE_STORAGE_PERMISSION
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.ReusedMethod.Companion.displayMessage
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
@@ -53,12 +54,17 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
         (activity as HomeActivity).bottomTabVisibility(false)
         (activity as HomeActivity).headerTextVisible(
             requireActivity().resources.getString(R.string.contacted_history),
-            false,
-            false
+            isHeaderVisible = false,
+            isBackButtonVisible = false
         )
         mBinding.switchAutoUploadVideo.setOnToggledListener { _, isOn ->
             SharedPreferenceManager.putBoolean(AppConstants.IS_OFFLINE_VIDEO_UPLOAD, isOn)
+            showStatusDialog(isOn)
         }
+
+        mBinding.switchAutoUploadVideo.isOn =
+            SharedPreferenceManager.getBoolean(AppConstants.IS_OFFLINE_VIDEO_UPLOAD, false)
+
 
         mBinding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
 
@@ -108,6 +114,35 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
             setAdapter()
 
         }
+    }
+
+    private fun showStatusDialog(on: Boolean) {
+        val dialog = ReusedMethod.setUpDialog(requireContext(), R.layout.dialog_layout, false)
+        val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
+        val TITLE = dialog.findViewById<TextView>(R.id.tvTitle)
+        val MESSAGE = dialog.findViewById<TextView>(R.id.tvMessage)
+        val CANCEL = dialog.findViewById<MaterialTextView>(R.id.tvNegative)
+        TITLE.text = "Are you sure want to change status of AutoUpload?"
+
+        MESSAGE.gone()
+        CANCEL.text = "No"
+        OK.text = "Yes"
+        CANCEL.isAllCaps = false
+        OK.isAllCaps = false
+        CANCEL.setOnClickListener {
+            dialog.dismiss()
+            mBinding.switchAutoUploadVideo.isOn = !on
+        }
+        OK.setOnClickListener {
+            dialog.dismiss()
+            if (on) {
+                callChnageOfflienVideoStatusAPI(1)
+            } else {
+                callChnageOfflienVideoStatusAPI(0)
+
+            }
+        }
+        dialog.show()
     }
 
     @SuppressLint("LogNotTimber")
@@ -193,6 +228,40 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
     private fun callOfflienVideoListAPI() {
         if (ReusedMethod.isNetworkConnected(requireContext())) {
             mVideModel.getOfflineVideos(true, requireActivity() as BaseActivity)
+        } else {
+            mBinding.noInternetVideo.llNointernet.visible()
+            mBinding.rv.gone()
+            mBinding.noDataVideo.gone()
+        }
+    }
+
+    private fun callUploadOfflienVideoAPI(URL: String) {
+        if (ReusedMethod.isNetworkConnected(requireContext())) {
+            mVideModel.uploadOfflineVideos(true, requireActivity() as BaseActivity, URL)
+        } else {
+            mBinding.noInternetVideo.llNointernet.visible()
+            mBinding.rv.gone()
+            mBinding.noDataVideo.gone()
+        }
+    }
+
+    private fun callDeleteOfflienVideoAPI(id: Int) {
+        if (ReusedMethod.isNetworkConnected(requireContext())) {
+            mVideModel.deleteUploadOfflineVideos(true, requireActivity() as BaseActivity, id)
+        } else {
+            mBinding.noInternetVideo.llNointernet.visible()
+            mBinding.rv.gone()
+            mBinding.noDataVideo.gone()
+        }
+    }
+
+    private fun callChnageOfflienVideoStatusAPI(staus: Int) {
+        if (ReusedMethod.isNetworkConnected(requireContext())) {
+            mVideModel.chnageUploadOfflineVideosStatus(
+                true,
+                requireActivity() as BaseActivity,
+                staus
+            )
         } else {
             mBinding.noInternetVideo.llNointernet.visible()
             mBinding.rv.gone()
@@ -314,7 +383,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
             if (f.exists()) {
                 if (f.delete()) {
                     myVideoListAdapter!!.remove(position)
-                    ReusedMethod.displayMessage(
+                    displayMessage(
                         requireActivity(),
                         "Video deleted successfully"
                     )
@@ -362,7 +431,94 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                 requestState.error?.let { errorObj ->
                     when (errorObj.errorState) {
                         Config.NETWORK_ERROR ->
-                            ReusedMethod.displayMessage(
+                            displayMessage(
+                                requireActivity(),
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {}
+                    }
+                }
+            }
+        }
+        //UPLOAD VIDEOS RESP
+        mVideModel.getUploadOfflineVideoResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+
+
+                        } else {
+
+                        }
+
+                    }
+
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            displayMessage(
+                                requireActivity(),
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {}
+                    }
+                }
+            }
+        }
+        //DELETE VIDEOS RESP
+        mVideModel.getDeleteUploadOfflineVideoResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+
+
+                        } else {
+
+                        }
+
+                    }
+
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            displayMessage(
+                                requireActivity(),
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {}
+                    }
+                }
+            }
+        }//CHANGE UPLOAD VIDEO AUTO UPLOAD STATUS RESP
+        mVideModel.getchnageUploadOfflineVideoStatusResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        displayMessage(requireActivity(), it.message.toString())
+
+                    }
+
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            displayMessage(
                                 requireActivity(),
                                 getString(R.string.text_error_network)
                             )
@@ -442,7 +598,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getAllVideos()
             } else {
-                ReusedMethod.displayMessage(requireActivity(), "Storage Permission Denied")
+                displayMessage(requireActivity(), "Storage Permission Denied")
 
             }
         }

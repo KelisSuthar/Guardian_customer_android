@@ -361,7 +361,7 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
         }
         btnImmediateJoin.setOnClickListener {
             dialog.dismiss()
-//            callRequestrMediatorApi(1, txtDate.text.toString() + " " + txtTime.text.toString())
+            callRequestrMediatorApi(1, txtDate.text.toString() + " " + txtTime.text.toString())
             ReusedMethod.displayMessage(requireActivity(), resources.getString(R.string.come_soon))
         }
         btnRequestSend.setOnClickListener {

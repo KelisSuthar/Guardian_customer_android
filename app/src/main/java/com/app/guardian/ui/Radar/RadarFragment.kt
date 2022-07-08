@@ -70,6 +70,7 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
         locationRequest = LocationRequest.create()
         locationRequest?.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         locationRequest?.interval = 20 * 1000
+        getLatLong()
     }
 
     override fun onResume() {
@@ -77,7 +78,7 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
 
         mBinding.cl1.visible()
         mBinding.noInternetRadar.llNointernet.gone()
-        getLatLong()
+
 
         if (checkLoationPermission(requireActivity())) {
             if (locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER)!!) {
@@ -128,9 +129,9 @@ class RadarFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
     }
 
     private fun CallMapListAPI() {
-        if (ReusedMethod.isNetworkConnected(requireActivity())) {
+        if (ReusedMethod.isNetworkConnected(requireContext())) {
             mViewModel.getRadarList(
-                true, context as BaseActivity,
+                true, requireContext() as BaseActivity,
                 CURRENT_LAT.toString(), CURRENT_LONG.toString()
             )
         } else {

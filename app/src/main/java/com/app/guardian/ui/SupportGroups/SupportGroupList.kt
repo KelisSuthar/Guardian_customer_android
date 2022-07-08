@@ -263,7 +263,7 @@ class SupportGroupList(
         }
         btnImmediateJoin.setOnClickListener {
             dialog.dismiss()
-//            callVirtualWitnessReqAPI(1, ReusedMethod.getCurrentDate())
+            callVirtualWitnessReqAPI(1, ReusedMethod.getCurrentDate())
             ReusedMethod.displayMessage(requireActivity(), resources.getString(R.string.come_soon))
 
         }
@@ -330,13 +330,7 @@ class SupportGroupList(
                 json
             )
             dialog.dismiss()
-            val jsonReader = SharedPreferenceManager.getString(AppConstants.MULTIPLE_CALLS, "")
-            Log.e(
-                "MULTIPLECALLS",
-                Gson().fromJson(jsonReader, MultipleCallResp::class.java).toString()
-            )
         }
-        val set: Set<String> = HashSet()
         OK.setOnClickListener {
             dialog.dismiss()
             callScedualDialog()

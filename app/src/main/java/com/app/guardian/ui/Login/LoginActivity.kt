@@ -26,9 +26,9 @@ import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
 import com.app.guardian.ui.forgot.ForgotPasswordActivity
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
-import com.google.firebase.auth.FirebaseAuth
-import com.google.gson.Gson
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
@@ -48,7 +48,11 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         mBinding.emailphoneSelector.ccp.setCountryForPhoneCode(1)
         mBinding.headderLogin.ivBack.gone()
         setFocus()
-        Log.e("StoredDeviceToken","LOGIN: "+ DEVICE_TOKEN.toString())
+        Log.e("StoredDeviceToken", "LOGIN: " + DEVICE_TOKEN.toString())
+
+
+
+
     }
 
     private fun setFocus() {
@@ -176,13 +180,13 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 //                            json
 //                        )
                         val getUserRole = data.user.user_role
-                        var setConstantRole =""
-                        if(getUserRole.equals(AppConstants.APP_ROLE_USER))
-                            setConstantRole=AppConstants.APP_ROLE_USER
-                        else if(getUserRole.equals(AppConstants.APP_ROLE_LAWYER))
-                            setConstantRole=AppConstants.APP_ROLE_LAWYER
-                        else if(getUserRole.equals(AppConstants.APP_ROLE_MEDIATOR))
-                            setConstantRole=AppConstants.APP_ROLE_MEDIATOR
+                        var setConstantRole = ""
+                        if (getUserRole.equals(AppConstants.APP_ROLE_USER))
+                            setConstantRole = AppConstants.APP_ROLE_USER
+                        else if (getUserRole.equals(AppConstants.APP_ROLE_LAWYER))
+                            setConstantRole = AppConstants.APP_ROLE_LAWYER
+                        else if (getUserRole.equals(AppConstants.APP_ROLE_MEDIATOR))
+                            setConstantRole = AppConstants.APP_ROLE_MEDIATOR
 
                         SharedPreferenceManager.putString(
                             AppConstants.USER_ROLE,
