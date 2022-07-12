@@ -11,12 +11,14 @@ import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentLiveVirtualVitnessUserBinding
 import com.app.guardian.model.HomeBanners.BannerCollection
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.BannerAds.BannerAdsPager
+import com.app.guardian.ui.DrivingOffice.DrivingOfficeListFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.HomeBanners.HomeBannersFragment
 import com.app.guardian.ui.LawyerList.LawyerListFragment
@@ -108,6 +110,11 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
                             if (data.bannerCollection.isNullOrEmpty()) {
                                 mBinding.txtViewMore.gone()
                             }
+                            if (data.top5.isNullOrEmpty()) {
+                                mBinding.cl1.gone()
+                            } else {
+                                mBinding.cl1.visible()
+                            }
                             if (array.size > 1) {
                                 ReusedMethod.viewPagerScroll(mBinding.pager, array.size)
                             }
@@ -157,13 +164,20 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.cvDrivingOffenceList -> {
                 changeLayout(2)
-                ReusedMethod.displayMessage(
+//                ReusedMethod.displayMessage(
+//                    requireActivity(),
+//                    requireContext().resources.getString(R.string.come_soon)
+//                )
+                ReplaceFragment.replaceFragment(
                     requireActivity(),
-                    requireContext().resources.getString(R.string.come_soon)
+                    DrivingOfficeListFragment(),
+                    true,
+                    LiveVirtualVitnessUserFragment::class.java.name,
+                    LiveVirtualVitnessUserFragment::class.java.name
                 )
             }
             R.id.cvDialLawyer -> {
-                mBinding.rlDialLawyer.performClick()
+                mBinding.rbDialLawyer.performClick()
             }
             R.id.rbAccessYourRecording -> {
                 mBinding.cvAccessYourRecording.performClick()
@@ -176,7 +190,7 @@ class LiveVirtualVitnessUserFragment : BaseFragment(), View.OnClickListener {
                 changeLayout(3)
                 ReplaceFragment.replaceFragment(
                     requireActivity(),
-                    LawyerListFragment(false),
+                    LawyerListFragment(true),
                     true,
                     "",
                     LiveVirtualVitnessUserFragment::class.java.name

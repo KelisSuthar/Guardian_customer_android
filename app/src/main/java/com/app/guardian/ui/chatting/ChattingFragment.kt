@@ -1,19 +1,26 @@
 package com.app.guardian.ui.chatting
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.os.Handler
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.ReusedMethod.Companion.displayMessage
 import com.app.guardian.common.ReusedMethod.Companion.getCurrentDate
+import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.changeDateFormat
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
@@ -28,6 +35,8 @@ import com.app.guardian.ui.chatting.adapter.ChatMessageAdapter
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.bumptech.glide.Glide
+import com.google.android.material.card.MaterialCardView
+import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -35,12 +44,14 @@ import java.util.*
 
 class ChattingFragment(
     var selectUserId: Int? = 0,
-    var isNotification : Boolean?=false
+    var isNotification: Boolean? = false
+
 ) : BaseFragment(), View.OnClickListener {
     lateinit var mBinding: FragmentChattingBinding
     private val mViewModel: CommonScreensViewModel by viewModel()
     var to_role = ""
     var chatMessageAdapter: ChatMessageAdapter? = null
+    var selectedLawyerListId = 0
 
     //    var chatMessageAdapter: ChatConversationAdapter? = null
     var chatArray = ArrayList<ChatDetail>()
@@ -74,17 +85,18 @@ class ChattingFragment(
         )
 
         mBinding.ivBack.setOnClickListener {
-            if(isNotification!!){
+            if (isNotification!!) {
 
                 startActivity(
                     Intent(
                         requireActivity(),
 
                         HomeActivity::class.java
-                    ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                    ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
                 )
-            }
-            else{
+            } else {
                 requireActivity().onBackPressed()
 
             }
@@ -183,7 +195,7 @@ class ChattingFragment(
                     it.data?.let { data ->
                         if (it.status) {
                             chatArray.clear()
-
+                            selectedLawyerListId = data.user_detail.id!!
                             to_role = data.user_detail.user_role!!
                             mBinding.txtChatUserName.text = data.user_detail.full_name
                             Glide.with(requireActivity())
@@ -270,6 +282,39 @@ class ChattingFragment(
                 }
             }
         }
+        //SEND Video CallReq
+        mViewModel.getSendVideoCallRequestResp().observe(this) { response ->
+            response.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        displayMessage(requireActivity(), it.message.toString())
+                    }
+                }
+
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            displayMessage(
+                                context as Activity,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {
+                                    if (errorObj.code == ApiConstant.API_401) {
+                                        displayMessage(requireActivity(), it)
+                                        (activity as HomeActivity).unAuthorizedNavigation()
+                                    } else {
+                                        displayMessage(context as Activity, it)
+                                    }
+                                }
+                    }
+                }
+            }
+
+        }
 
     }
 
@@ -348,7 +393,9 @@ class ChattingFragment(
                 CallSendMessageAPI()
             }
             R.id.appCompatImageView3 -> {
-                displayMessage(requireActivity(), resources.getString(R.string.come_soon))
+                displayVideoCallDialog(selectedLawyerListId)
+//                displayMessage(requireActivity(), resources.getString(R.string.come_soon))
+
             }
         }
     }
@@ -388,9 +435,9 @@ class ChattingFragment(
 
 
     private fun callChatListApi() {
-        if (ReusedMethod.isNetworkConnected(requireActivity())) {
+        if (ReusedMethod.isNetworkConnected(requireContext())) {
             handler.postDelayed(Runnable {
-                handler.postDelayed(runnable!!, 2000)
+                handler.postDelayed(runnable!!, 3000)
                 mViewModel.getChatData(
                     true,
                     requireActivity() as BaseActivity,
@@ -421,4 +468,171 @@ class ChattingFragment(
         handler.removeCallbacksAndMessages(null);
     }
 
+    fun displayVideoCallDialog(id: Int?) {
+        val dialog = Dialog(
+            requireContext(),
+            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
+        )
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setContentView(R.layout.dialog_do_you_need_mediator)
+        dialog.setCancelable(true)
+
+        val YES = dialog.findViewById<MaterialTextView>(R.id.txtDialogYes)
+        val NO = dialog.findViewById<MaterialTextView>(R.id.txtDialogNo)
+
+        YES.setOnClickListener {
+            dialog.dismiss()
+//            callRequestrMediatorApi()
+            callScedualDialog(id)
+
+//            startActivity(Intent(context,CreateOrJoinActivity::class.java))
+        }
+
+        NO.setOnClickListener {
+            if (SharedPreferenceManager.getString(
+                    AppConstants.USER_ROLE,
+                    ""
+                ) == AppConstants.APP_ROLE_USER
+            ) {
+                callVideoCallRequestAPI(
+                    id!!,
+                    AppConstants.APP_ROLE_LAWYER,
+                    0,
+                    ReusedMethod.getCurrentDate(),
+                    0
+                )
+            }
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+    private fun callScedualDialog(id: Int?) {
+        val dialog = ReusedMethod.setUpDialog(
+            requireContext(),
+            R.layout.virtual_witness_request_dialog,
+            true
+        )
+
+        val cvScheduleDate: MaterialCardView = dialog.findViewById(R.id.cvScheduleDate)
+        val cvScheduleTime: MaterialCardView = dialog.findViewById(R.id.cvScheduleTime)
+        val txtDate: TextView = dialog.findViewById(R.id.txtDate)
+        val txtTime: TextView = dialog.findViewById(R.id.txtTime)
+        val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
+        val btnImmediateJoin: Button = dialog.findViewById(R.id.btnImmediateJoin)
+        val btnRequestSend: Button = dialog.findViewById(R.id.btnRequestSend)
+        val linerlayout_or: LinearLayout = dialog.findViewById(R.id.llor)
+
+        val current_date = SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().time)
+
+        txtDate.text = SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().time)
+        txtTime.text = SimpleDateFormat("hh:mm a").format(Calendar.getInstance().time)
+        btnImmediateJoin.gone()
+        linerlayout_or.gone()
+        cvScheduleDate.setOnClickListener {
+            ReusedMethod.selectDate(requireActivity(), txtDate)
+        }
+
+        ivClose.setOnClickListener {
+            dialog.dismiss()
+        }
+        cvScheduleTime.setOnClickListener {
+            ReusedMethod.selectTime(requireActivity(), txtTime)
+        }
+        btnImmediateJoin.setOnClickListener {
+            dialog.dismiss()
+//            callRequestrMediatorApi(1, txtDate.text.toString() + " " + txtTime.text.toString())
+//            displayMessage(requireActivity(), resources.getString(R.string.come_soon))
+            callVideoCallRequestAPI(
+                id!!,
+                AppConstants.APP_ROLE_LAWYER,
+                0,
+                txtDate.text.toString() + " " + txtTime.text.toString(),
+                1
+            )
+        }
+        btnRequestSend.setOnClickListener {
+
+            if (current_date != txtDate.text.toString()) {
+                dialog.dismiss()
+//                callRequestrMediatorApi(
+//                    0,
+//                    txtDate.text.toString() + " " + txtTime.text.toString()
+//                )
+                callVideoCallRequestAPI(
+                    id!!,
+                    AppConstants.APP_ROLE_LAWYER,
+                    0,
+                    txtDate.text.toString() + " " + txtTime.text.toString(),
+                    1
+                )
+            } else {
+                if (isValidTime(txtTime.text.toString())) {
+                    dialog.dismiss()
+//                    callRequestrMediatorApi(
+//                        0,
+//                        txtDate.text.toString() + " " + txtTime.text.toString()
+//                    )
+                    callVideoCallRequestAPI(
+                        id!!,
+                        AppConstants.APP_ROLE_LAWYER,
+                        0,
+                        txtDate.text.toString() + " " + txtTime.text.toString(),
+                        1
+                    )
+                } else {
+                    displayMessage(
+                        requireActivity(),
+                        "Please select proper date and time"
+                    )
+                }
+            }
+        }
+
+        dialog.show()
+    }
+
+    private fun isValidTime(time: String): Boolean {
+        var days = 0
+        var hrs = 0
+        var min = 0
+        val currentDate = ReusedMethod.getCurrentDate()
+        val currentDateTime =
+            changeDateFormat("yyyy-MM-dd HH:mm:ss", "hh:mm a", currentDate)
+
+        val date2: Date =
+            SimpleDateFormat("hh:mm a").parse("$time")
+        val date1: Date =
+            SimpleDateFormat("hh:mm a").parse(currentDateTime)
+        val difference: Long = date2.time - date1.time
+
+        days = ((difference / (1000 * 60 * 60 * 24)).toInt())
+        hrs = (((difference - (1000 * 60 * 60 * 24 * days)) / (1000 * 60 * 60)).toInt())
+        min =
+            ((difference - (1000 * 60 * 60 * 24 * days) - (1000 * 60 * 60 * hrs)) / (1000 * 60)).toInt();
+
+        return hrs > 0 || min > 30
+//        return hrs > 0 && min > 30
+    }
+
+    private fun callVideoCallRequestAPI(
+        selected_laywer_id: Int,
+        role: String,
+        isImmediateJoining: Int,
+        requestDatetime: String,
+        is_med_req: Int,
+    ) {
+        if (ReusedMethod.isNetworkConnected(requireContext())) {
+            mViewModel.sendVideoCallReq(
+                true,
+                requireActivity() as BaseActivity,
+                selected_laywer_id,
+                role,
+                isImmediateJoining,
+                requestDatetime,
+                is_med_req
+            )
+        }
+    }
 }

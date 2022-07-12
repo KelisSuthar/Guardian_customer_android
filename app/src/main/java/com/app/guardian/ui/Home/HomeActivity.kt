@@ -27,6 +27,7 @@ import com.app.guardian.common.extentions.checkLoationPermission
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityHomeBinding
+import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.ContactedHistory.ContectedHistoryFragment
 import com.app.guardian.ui.Lawyer.LawyerHome.LawyerHomeFragment
@@ -43,13 +44,16 @@ import com.app.guardian.ui.User.ScheduleVirtualWitness.ScheduleVirtualWitnessFra
 import com.app.guardian.ui.User.UserHome.UserHomeFragment
 import com.app.guardian.ui.User.settings.SettingsFragment
 import com.app.guardian.ui.chatting.ChattingFragment
+import com.app.guardian.utils.Config
 import com.google.android.gms.location.*
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegration {
     lateinit var mBinding: ActivityHomeBinding
+//    private val mVideModel: UserViewModel by viewModel()
 
     //get Current Location
     private var locationManager: LocationManager? = null
@@ -436,7 +440,37 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
     }
 
     override fun initObserver() {
-
+        //OFFLINE VIDEO UPLOAD
+//        mVideModel.getUploadOfflineVideoResp().observe(this) { response ->
+//            response?.let { requestState ->
+//                showLoadingIndicator(requestState.progress)
+//                requestState.apiResponse?.let {
+//                    it.data?.let { data ->
+//                        if (it.status) {
+//
+//
+//                        } else {
+//
+//                        }
+//
+//                    }
+//
+//                }
+//                requestState.error?.let { errorObj ->
+//                    when (errorObj.errorState) {
+//                        Config.NETWORK_ERROR ->
+//                            ReusedMethod.displayMessage(
+//                                this,
+//                                getString(R.string.text_error_network)
+//                            )
+//
+//                        Config.CUSTOM_ERROR ->
+//                            errorObj.customMessage
+//                                ?.let {}
+//                    }
+//                }
+//            }
+//        }
         //Logout Resp
 //        authViewModel.getSignOutResp().observe(this) { response ->
 //            response?.let { requestState ->
@@ -757,6 +791,12 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
         }
     }
 
+
+//    fun callUploadOfflienVideoAPI(URL: String) {
+//
+//        mVideModel.uploadOfflineVideos(true, this, URL)
+//
+//    }
 //    fun removeSettingBage() {
 //        onHideBadgeCounter()
 //    }

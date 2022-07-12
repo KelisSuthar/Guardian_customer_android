@@ -29,6 +29,7 @@ import com.app.guardian.common.ReusedMethod.Companion.getAddress
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.checkLoationPermission
 import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentScheduleVirtualWitnessBinding
 import com.app.guardian.model.HomeBanners.BannerCollection
 import com.app.guardian.model.viewModels.CommonScreensViewModel
@@ -181,6 +182,11 @@ class ScheduleVirtualWitnessFragment : BaseFragment(), View.OnClickListener {
                             bannerArray.addAll(data.bannerCollection)
                             if (data.bannerCollection.isNullOrEmpty()) {
                                 mBinding.txtViewMore.gone()
+                            }
+                            if (data.top5.isNullOrEmpty()) {
+                                mBinding.cl1.gone()
+                            } else {
+                                mBinding.cl1.visible()
                             }
                             if (array.size > 1) {
                                 ReusedMethod.viewPagerScroll(mBinding.pager, array.size)

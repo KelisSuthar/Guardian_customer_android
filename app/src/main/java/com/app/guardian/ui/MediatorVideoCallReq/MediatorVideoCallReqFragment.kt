@@ -1,13 +1,16 @@
 package com.app.guardian.ui.MediatorVideoCallReq
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.TextView
+import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
@@ -20,9 +23,11 @@ import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
-import com.app.guardian.ui.LawyerVideoCallReq.adapter.LawyerVideoCallReqAdapter
 import com.app.guardian.ui.MediatorVideoCallReq.adapter.MediatorVideoCallReqAdapter
+import com.app.guardian.ui.videocalljoin.VideoCallJoinActivity
 import com.app.guardian.utils.Config
+import com.google.android.material.textview.MaterialTextView
+import org.json.JSONObject
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MediatorVideoCallReqFragment : BaseFragment(), View.OnClickListener {
@@ -30,11 +35,20 @@ class MediatorVideoCallReqFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
     val array = ArrayList<VideoCallRequestListResp>()
     var mediatorVideoCallReqAdapter: MediatorVideoCallReqAdapter? = null
+    var broadcaseRecvier: BroadcastReceiver? = null
+    var type = ""
     override fun getInflateResource(): Int {
         return R.layout.fragment_mediator_video_call_req
     }
 
     override fun initView() {
+        broadcaseRecvier = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent) {
+                CallVieoCallReqListAPI(
+                    mBinding.searchConnectedHistory.edtLoginEmail.text?.trim().toString()
+                )
+            }
+        }
         (activity as HomeActivity).bottomTabVisibility(false)
         (activity as HomeActivity).headerTextVisible(
             resources.getString(R.string.lawyer_video_req),
@@ -77,34 +91,11 @@ class MediatorVideoCallReqFragment : BaseFragment(), View.OnClickListener {
     private fun setAdapter() {
         mediatorVideoCallReqAdapter = MediatorVideoCallReqAdapter(requireContext(),
             object : MediatorVideoCallReqAdapter.onItemClicklisteners {
-                override fun onItemClick(position: Int?) {
-//                    ReplaceFragment.replaceFragment(
-//                        requireActivity(),
-//                        LawyerProfileFragment.newInstance(selectedLawyerListId!!, isDialLawyerOpen),
-//                        true,
-//                        LawyerListFragment::class.java.name,
-//                        LawyerListFragment::class.java.name
-//                    )
-//                    startActivity(
-//                        Intent(context, CreateOrJoinActivity::class.java)
-//                            .putExtra(
-//                                AppConstants.EXTRA_CALLING_HISTORY_ID,
-//                                array[position!!].id.toString()
-//                            )
-//                            .putExtra(
-//                                AppConstants.EXTRA_TO_ID,
-//                                array[position!!].from_id.toString()
-//                            )
-//                            .putExtra(
-//                                AppConstants.EXTRA_TO_ROLE,
-//                                array[position!!].from_role.toString()
-//                            )
-//                            .putExtra(
-//                                AppConstants.EXTRA_NAME,
-//                                array[position!!].user_detail.full_name.toString()
-//                            )
-//
-//                    )
+                override fun onItemClick(position: Int?, userRole: String, userId: Int, id: Int) {
+                    if (type == AppConstants.REQ_GET) {
+                        AcceptRejectDialog(userRole, userId, id)
+                    }
+
                 }
 
             })
@@ -158,6 +149,35 @@ class MediatorVideoCallReqFragment : BaseFragment(), View.OnClickListener {
                 }
             }
         }
+        mViewModel.getAcceptCallByMediatorResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            if (!data.room_id.isNullOrEmpty() || !data.url.isNullOrEmpty()) {
+                                joinMeeting(data.url)
+                            }
+                        } else {
+                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                requireActivity(),
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {}
+                    }
+                }
+            }
+        }
     }
 
     override fun onClick(v: View?) {
@@ -174,7 +194,7 @@ class MediatorVideoCallReqFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun CallVieoCallReqListAPI(search: String) {
-        var type =
+        type =
             if (mBinding.rb1.isChecked) {
                 AppConstants.REQ_GET
             } else {
@@ -197,21 +217,99 @@ class MediatorVideoCallReqFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
-    fun AcceptRejectDialog() {
+    fun AcceptRejectDialog(userRole: String, userId: Int, id: Int) {
         val dialog =
             ReusedMethod.setUpDialog(requireActivity(), R.layout.dialog_layout, false)
         val tvTitle: TextView = dialog.findViewById(R.id.tvTitle)
         val tvMessage: TextView = dialog.findViewById(R.id.tvMessage)
-        val tvNegative: Button = dialog.findViewById(R.id.tvNegative)
-        val tvPositive: Button = dialog.findViewById(R.id.tvPositive)
+        val tvNegative: MaterialTextView = dialog.findViewById(R.id.tvNegative)
+        val tvPositive: MaterialTextView = dialog.findViewById(R.id.tvPositive)
         tvMessage.gone()
-        tvTitle.text = "Are you sure want to accept this request?"
+        tvNegative.isAllCaps = false
+        tvPositive.isAllCaps = false
+        tvTitle.text = "Do you want to accept this request?"
         tvPositive.setOnClickListener {
             dialog.dismiss()
+            callAcceptReqApi(userRole, userId, id)
+
         }
         tvNegative.setOnClickListener {
             dialog.dismiss()
+            callRejectReqApi(id)
         }
         dialog.show()
+    }
+
+    private fun callRejectReqApi(id: Int) {
+        if (ReusedMethod.isNetworkConnected(requireContext())) {
+            mViewModel.sendRejectCallByMediatorResp(
+                true,
+                requireActivity() as BaseActivity,
+                id.toString(),
+            )
+        } else {
+            ReusedMethod.displayMessage(
+                requireActivity(),
+                resources.getString(R.string.text_error_network)
+            )
+        }
+    }
+
+    private fun callAcceptReqApi(userRole: String, userId: Int, id: Int) {
+        if (ReusedMethod.isNetworkConnected(requireContext())) {
+            mViewModel.sendAcceptCallByMediatorResp(
+                true,
+                requireActivity() as BaseActivity,
+                id.toString(),
+                userId.toString(),
+                userRole
+            )
+        } else {
+            ReusedMethod.displayMessage(
+                requireActivity(),
+                resources.getString(R.string.text_error_network)
+            )
+        }
+    }
+
+    private fun joinMeeting(url: String?) {
+        AndroidNetworking.post(url)
+            .addHeaders("Authorization", resources.getString(R.string.video_call_auth))
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject) {
+                    val meetingId = response.getString("meetingId")
+                    Log.e("VIDEO_CALL", "JOIN_MEATING_RESP:    $response")
+                    val intent =
+                        Intent(requireContext(), VideoCallJoinActivity::class.java)
+                    intent.putExtra("token", resources.getString(R.string.video_call_auth))
+                    intent.putExtra("meetingId", meetingId)
+                    intent.putExtra(
+                        AppConstants.EXTRA_NAME,
+                        SharedPreferenceManager.getUser()?.full_name
+                    )
+                    intent.putExtra(
+                        AppConstants.IS_JOIN,
+                        true
+                    )
+                    intent.putExtra(
+                        AppConstants.EXTRA_URL,
+                        url
+                    )
+                    intent.putExtra(AppConstants.EXTRA_ROOM_ID, meetingId)
+                    startActivity(intent)
+
+                }
+
+                override fun onError(anError: ANError) {
+                    anError.printStackTrace()
+                    ReusedMethod.displayMessage(
+                        requireActivity(),
+                        anError.message.toString()
+                    )
+                    Log.e("VIDEO_CALL", "JOIN_MEATING_ERRRO:    " + anError.errorBody)
+
+                }
+            })
     }
 }

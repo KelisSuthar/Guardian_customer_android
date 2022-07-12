@@ -25,7 +25,6 @@ import de.hdodenhof.circleimageview.CircleImageView
 
 class SupportGroupListAdapter(
     var context: Activity,
-
     var arrayList: ArrayList<SupportGroupResp>,
     var listeners: onItemClicklisteners
 ) :

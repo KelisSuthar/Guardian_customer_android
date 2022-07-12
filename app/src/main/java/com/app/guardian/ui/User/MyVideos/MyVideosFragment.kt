@@ -32,12 +32,14 @@ import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentMyVideosBinding
+import com.app.guardian.model.OfflineVideos.OfflineUploadedVideoResp
 import com.app.guardian.model.Video.VideoResp
 import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.User.MyVideos.adapter.MyVideoListAdapter
+import com.app.guardian.ui.User.UserHome.UserHomeFragment
 import com.app.guardian.ui.VideoPlayer.VideoPlayerActivity
 import com.app.guardian.utils.Config
 import com.google.android.material.textview.MaterialTextView
@@ -50,28 +52,11 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
     private val mVideModel: UserViewModel by viewModel()
     lateinit var mBinding: FragmentMyVideosBinding
     var isShow = false
+    var delete_pos = -1
     var arrayList = ArrayList<VideoResp>()
+    var array = ArrayList<OfflineUploadedVideoResp>()
     override fun getInflateResource(): Int {
         return R.layout.fragment_my_videos
-    }
-
-
-    private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent) {
-            val handler = Handler()
-            var runnable: Runnable? = null
-
-            handler.postDelayed(Runnable {
-                handler.postDelayed(runnable!!, 2000)
-                if (ReusedMethod.isNetworkConnected(context!!)) {
-                    Log.i("ConnectivityChange", "TRUE")
-                } else {
-                    Log.i("ConnectivityChange", "FALSE")
-                }
-            }.also { runnable = it }, 0)
-
-
-        }
     }
 
     override fun initView() {
@@ -85,10 +70,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
         mBinding.switchAutoUploadVideo.setOnToggledListener { _, isOn ->
             SharedPreferenceManager.putBoolean(AppConstants.IS_OFFLINE_VIDEO_UPLOAD, isOn)
             showStatusDialog(isOn)
-
-
         }
-
         mBinding.switchAutoUploadVideo.isOn =
             SharedPreferenceManager.getBoolean(AppConstants.IS_OFFLINE_VIDEO_UPLOAD, false)
 
@@ -162,7 +144,16 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
         }
         OK.setOnClickListener {
             dialog.dismiss()
+
             if (on) {
+                IntentFilter().apply {
+                    addAction("android.intent.action.CUSTOM_ACTION")
+                    requireActivity().registerReceiver(ConnectivityChangeReceiver(), this)
+
+                }
+                val i = Intent()
+                i.action = "android.intent.action.CUSTOM_ACTION"
+                requireActivity().sendBroadcast(i)
                 callChnageOfflienVideoStatusAPI(1)
             } else {
                 callChnageOfflienVideoStatusAPI(0)
@@ -262,15 +253,15 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
-    private fun callUploadOfflienVideoAPI(URL: String) {
-        if (ReusedMethod.isNetworkConnected(requireContext())) {
-            mVideModel.uploadOfflineVideos(true, requireActivity() as BaseActivity, URL)
-        } else {
-            mBinding.noInternetVideo.llNointernet.visible()
-            mBinding.rv.gone()
-            mBinding.noDataVideo.gone()
-        }
-    }
+//     fun callUploadOfflienVideoAPI(URL: String) {
+//        if (ReusedMethod.isNetworkConnected(requireActivity())) {
+//            mVideModel.uploadOfflineVideos(true, requireActivity() as BaseActivity, URL)
+//        } else {
+//            mBinding.noInternetVideo.llNointernet.visible()
+//            mBinding.rv.gone()
+//            mBinding.noDataVideo.gone()
+//        }
+//    }
 
     private fun callDeleteOfflienVideoAPI(id: Int) {
         if (ReusedMethod.isNetworkConnected(requireContext())) {
@@ -298,28 +289,6 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-//        if (mBinding.rb1.isChecked) {
-//            mBinding.clOfflineVideos.visible()
-//            mBinding.tvUploadVideos.gone()
-//            mBinding.ivVideo.gone()
-//            mBinding.noDataVideo.gone()
-//            mBinding.noInternetVideo.llNointernet.gone()
-//
-//        } else {
-//            mBinding.clOfflineVideos.gone()
-//            mBinding.tvUploadVideos.visible()
-//            mBinding.ivVideo.visible()
-//            mBinding.noDataVideo.gone()
-//            mBinding.noInternetVideo.llNointernet.gone()
-//
-//        }
-        val intent = Intent()
-        intent.action = BROADCAST_ADD_VIDEO
-        requireActivity().sendBroadcast(intent);
-        LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(
-            mMessageReceiver,
-            IntentFilter(BROADCAST_ADD_VIDEO)
-        )
         mBinding.rb1.isChecked = true
         setAdapter()
         checkPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, EXTRA_READ_STORAGE_PERMISSION)
@@ -386,7 +355,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
 
                     override fun onItemDeleteClick(position: Int?) {
                         showDialog(position)
-
+                        delete_pos = position!!
                     }
 
                 })
@@ -410,20 +379,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
             dialog.dismiss()
         }
         OK.setOnClickListener {
-            val path =
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-                    .toString() + "/" + resources.getString(R.string.app_name) + "/" + arrayList[position!!].title
-            val f = File(path);
-            if (f.exists()) {
-                if (f.delete()) {
-                    myVideoListAdapter!!.remove(position)
-                    displayMessage(
-                        requireActivity(),
-                        "Video deleted successfully"
-                    )
-                    dialog.dismiss()
-                }
-            }
+            callDeleteOfflienVideoAPI(array[position!!].id)
 
         }
         dialog.show()
@@ -446,6 +402,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                     it.data?.let { data ->
                         if (it.status) {
                             if (data.isNotEmpty()) {
+                                array.addAll(data)
                                 for (i in data.indices) {
                                     arrayList.add(VideoResp(i, "", data[i].video_url))
                                 }
@@ -515,10 +472,10 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
-
-
+                            myVideoListAdapter?.remove(delete_pos)
+                            displayMessage(requireActivity(), it.message.toString())
                         } else {
-
+                            displayMessage(requireActivity(), it.message.toString())
                         }
 
                     }
@@ -633,7 +590,6 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                 getAllVideos()
             } else {
                 displayMessage(requireActivity(), "Storage Permission Denied")
-
             }
         }
     }

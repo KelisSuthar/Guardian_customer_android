@@ -252,15 +252,7 @@ class ReusedMethod {
             phone: String?,
             lawyerProfilePic: String?
         ) {
-            val dialog = Dialog(
-                context,
-                com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
-            )
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-            dialog.setContentView(R.layout.dialog_lawyer_dial_contact)
-            dialog.setCancelable(true)
-
+            val dialog = setUpDialog(context, R.layout.dialog_lawyer_dial_contact, true)
             val PROFILEURL = dialog.findViewById<CircleImageView>(R.id.imgDialogLawyerPicture)
             val OK = dialog.findViewById<MaterialTextView>(R.id.txtLawyerDialogOk)
             val CALLNOW = dialog.findViewById<MaterialTextView>(R.id.txtDialogCallNow)

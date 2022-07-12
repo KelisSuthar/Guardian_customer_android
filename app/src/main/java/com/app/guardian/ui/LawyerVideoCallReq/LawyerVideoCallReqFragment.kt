@@ -1,5 +1,8 @@
 package com.app.guardian.ui.LawyerVideoCallReq
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
@@ -25,11 +28,19 @@ class LawyerVideoCallReqFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
     val array = ArrayList<VideoCallRequestListResp>()
     var lawyerVideoCallReqAdapter: LawyerVideoCallReqAdapter? = null
+    var broadcaseRecvier: BroadcastReceiver? = null
     override fun getInflateResource(): Int {
         return R.layout.fragment_lawyer_video_call_req
     }
 
     override fun initView() {
+        broadcaseRecvier = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent) {
+                CallVieoCallReqListAPI(
+                    mBinding.searchConnectedHistory.edtLoginEmail.text?.trim().toString()
+                )
+            }
+        }
         (activity as HomeActivity).bottomTabVisibility(false)
         (activity as HomeActivity).headerTextVisible(
             resources.getString(R.string.lawyer_video_req),

@@ -128,7 +128,7 @@ class VideoCallActivity : BaseActivity() {
     }
 
     override fun initObserver() {
-        mViewModel.getacceptRejectCallByMediatorResp().observe(this) { response ->
+        mViewModel.getSendEndCallResp().observe(this) { response ->
             response?.let { requestState ->
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
@@ -287,6 +287,7 @@ class VideoCallActivity : BaseActivity() {
                 this@VideoCallActivity, participant.displayName + " left",
                 Toast.LENGTH_SHORT
             ).show()
+
         }
 
         override fun onPresenterChanged(participantId: String?) {
@@ -573,8 +574,17 @@ class VideoCallActivity : BaseActivity() {
         }
         OK.setOnClickListener {
             dialog.dismiss()
-            if (is_join) {
-                meeting?.end()
+            if (intent.getBooleanExtra(AppConstants.IS_JOIN, false)) {
+                startActivity(
+                    Intent(
+                        this@VideoCallActivity,
+                        HomeActivity::class.java
+
+                    )
+                )
+
+                meeting?.leave()
+
             } else {
                 callEndMeetingAPI()
             }
@@ -613,7 +623,7 @@ class VideoCallActivity : BaseActivity() {
             mViewModel.sendEndCallReq(
                 true,
                 this@VideoCallActivity,
-                "",
+                intent.getStringExtra(AppConstants.EXTRA_CALLING_HISTORY_ID).toString(),
                 "",
                 start_time.toString(),
                 end_time.toString(),

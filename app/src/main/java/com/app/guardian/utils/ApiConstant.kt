@@ -61,6 +61,7 @@ class ApiConstant{
      val EXTRAS_NOTE="note"
      val EXTRAS_USER_ROLE="user_role"
      val EXTRAS_IS_AUTOUPLOAD="is_autoupload"
+     val EXTRA_IS_MEDIATOR_REQUIRED="is_mediator_required"
 
 
 

@@ -7,6 +7,7 @@ import com.app.guardian.model.AskModeQResp.SendMessageResp
 import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.CommonResponseModel
+import com.app.guardian.model.DrivingOffenceList.DrivingOffenceListResp
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
 import com.app.guardian.model.GetVideoCallRequestResp.VideoCallRequestListResp
@@ -199,7 +200,10 @@ interface ApiEndPoint {
     fun sendEndCall(@Body body: JsonObject): Call<CommonResponseModel<CommonResponse>>
 
     @POST("acceptUserRequestByMediator")
-    fun acceptRejectCallByMeditor(@Body body: JsonObject): Call<CommonResponseModel<AcceptRejectCallByMediatorResp>>
+    fun acceptCallByMeditor(@Body body: JsonObject): Call<CommonResponseModel<AcceptRejectCallByMediatorResp>>
+
+    @POST("declineUserRequestByMediator")
+    fun rejectCallByMeditor(@Body body: JsonObject): Call<CommonResponseModel<AcceptRejectCallByMediatorResp>>
 
 
     @DELETE("deleteVideo/{id}")
@@ -207,6 +211,9 @@ interface ApiEndPoint {
 
     @PUT("changeUploadStatus")
     fun changeUploadStatus(@Body body: JsonObject): Call<CommonResponseModel<CommonResponse>>
+
+    @GET("drivingOffenceList")
+    fun getDrivingOffenceList(): Call<CommonResponseModel<MutableList<DrivingOffenceListResp>>>
 
 
 }

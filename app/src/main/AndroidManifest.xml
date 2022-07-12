@@ -18,6 +18,7 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- Needed to communicate with already-paired Bluetooth devices. (Legacy up to Android 11) -->
     <uses-permission
         android:name="android.permission.BLUETOOTH"
@@ -119,11 +120,11 @@
             </intent-filter>
             <intent-filter>
 
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
-    </activity>
+        </activity>
         <activity
             android:name=".ui.ResetPassword.ResetPasswordActivity"
             android:exported="true"
@@ -170,17 +171,18 @@
             android:enabled="true"
             android:exported="false"
             tools:ignore="Instantiatable" />
-<!--        <receiver android:name=".ConnectivityChangeReceiver"-->
-<!--            android:exported="false">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
-<!--            </intent-filter>-->
-<!--        </receiver>
--->
-        <receiver android:name=".ConnectivityChangeReceiver"
+        <!--        <receiver android:name=".ConnectivityChangeReceiver"-->
+        <!--            android:exported="false">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+        <!--            </intent-filter>-->
+        <!--        </receiver>
+        -->
+        <receiver
+            android:name=".ConnectivityChangeReceiver"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.guardian.uploadVideos" />
+                <action android:name="android.intent.action.CUSTOM_ACTION" />
             </intent-filter>
         </receiver>
     </application>

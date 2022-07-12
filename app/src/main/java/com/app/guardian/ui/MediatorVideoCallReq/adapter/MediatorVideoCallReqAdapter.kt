@@ -52,7 +52,7 @@ class MediatorVideoCallReqAdapter(val context: Context, val listener: onItemClic
                 .into(imgRowLawyerPicture)
 
             txtName.text = data.full_name
-            itemView.setOnClickListener { listener.onItemClick(position) }
+            itemView.setOnClickListener { listener.onItemClick(position,data.user_role,data.user_id,data.id) }
             when (data.user_role) {
                 AppConstants.APP_ROLE_USER -> {
                     txtExp.text = AppConstants.USER
@@ -79,7 +79,7 @@ class MediatorVideoCallReqAdapter(val context: Context, val listener: onItemClic
 
 
     interface onItemClicklisteners {
-        fun onItemClick(position: Int?)
+        fun onItemClick(position: Int?, userRole: String, userId: Int, id: Int)
     }
 
 }

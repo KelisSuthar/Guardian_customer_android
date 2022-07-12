@@ -168,6 +168,11 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
                             if (data.bannerCollection.isNullOrEmpty()) {
                                 mBinding.txtViewMore.gone()
                             }
+                            if (data.top5.isNullOrEmpty()) {
+                                mBinding.cl1.gone()
+                            } else {
+                                mBinding.cl1.visible()
+                            }
                             if (array.size > 1) {
                                 ReusedMethod.viewPagerScroll(mBinding.pager, array.size)
                             }
@@ -296,8 +301,13 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.cvDialLawyer -> {
                 chnagelayout(2)
-
-                (activity as HomeActivity).lawyerListPageOpen()
+                ReplaceFragment.replaceFragment(
+                    requireActivity(),
+                    LawyerListFragment(true),
+                    true,
+                    HomeActivity::class.java.name,
+                    HomeActivity::class.java.name
+                );
 
             }
 
@@ -306,7 +316,6 @@ class MediatorHomeFragment : BaseFragment(), View.OnClickListener {
                 mBinding.cvKnowBasicRight.performClick()
             }
             R.id.rbDialLawyer -> {
-                chnagelayout(2)
                 mBinding.cvDialLawyer.performClick()
             }
             R.id.txtViewMore -> {

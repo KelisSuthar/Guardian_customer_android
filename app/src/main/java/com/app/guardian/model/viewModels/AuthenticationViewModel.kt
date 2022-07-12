@@ -19,6 +19,7 @@ import com.app.guardian.utils.ApiConstant
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import org.json.JSONObject
 
 
 class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel() {
@@ -255,19 +256,19 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         price_id: String,
         price: String,
         shared_secret: String,
+        packageName:String,
+        acknowledged:String,
+        orderId:String,
+        productId:String,
+        developerPayload:String,
+        purchaseTime:String,
+        purchaseState:String,
+        purchaseToken:String,
 //        start_date: String,
 //        end_date: String,
+
     ) {
-//        "payment_detail": {
-//            "packageName": "com.aemerse.iapsample",
-//            "acknowledged": false,
-//            "orderId": "transactionId.android.test.purchased",
-//            "productId": "android.test.purchased",
-//            "developerPayload": "",
-//            "purchaseTime": 0,
-//            "purchaseState": 0,
-//            "purchaseToken": "inapp:com.aemerse.iapsample:android.test.purchased"
-//        }
+
         val buyPlanJson = JsonObject()
 
         buyPlanJson.addProperty(ApiConstant.EXTRAS_PRICE_ID, price_id)
@@ -276,16 +277,16 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         buyPlanJson.addProperty(ApiConstant.EXTRAS_SHARED_SECRET, shared_secret)
 
         val payment_detail = JsonObject()
-//        payment_detail.addProperty("packageName",packageName)
-//        payment_detail.addProperty("acknowledged",packageName)
-//        payment_detail.addProperty("orderId",packageName)
-//        payment_detail.addProperty("productId",packageName)
-//        payment_detail.addProperty("developerPayload",packageName)
-//        payment_detail.addProperty("purchaseTime",packageName)
-//        payment_detail.addProperty("purchaseState",packageName)
-//        payment_detail.addProperty("purchaseToken",packageName)
+        payment_detail.addProperty("packageName",packageName)
+        payment_detail.addProperty("acknowledged",acknowledged)
+        payment_detail.addProperty("orderId",orderId)
+        payment_detail.addProperty("productId",productId)
+        payment_detail.addProperty("developerPayload",developerPayload)
+        payment_detail.addProperty("purchaseTime",purchaseTime)
+        payment_detail.addProperty("purchaseState",purchaseState)
+        payment_detail.addProperty("purchaseToken",purchaseToken)
 
-//        buyPlanJson.add(ApiConstant.EXTRAS_PAYMENT_DETAILS, payment_detail)
+        buyPlanJson.add(ApiConstant.EXTRAS_PAYMENT_DETAILS, payment_detail)
 //        buyPlanJson.addProperty(ApiConstant.EXTRAS_START_DATE, start_date)
 //        buyPlanJson.addProperty(ApiConstant.EXTRAS_END_DATE, end_date)
 

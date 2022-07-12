@@ -141,7 +141,7 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                                         SettingsFragment::class.java.name,
                                         SettingsFragment::class.java.name
                                     )
-                                } else if( SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_MEDIATOR) {
+                                } else if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_MEDIATOR) {
                                     ReplaceFragment.replaceFragment(
                                         requireActivity(),
                                         MediatorVideoCallReqFragment(),
@@ -149,7 +149,7 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                                         SettingsFragment::class.java.name,
                                         SettingsFragment::class.java.name
                                     )
-                                } else if( SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_LAWYER) {
+                                } else if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_LAWYER) {
                                     ReplaceFragment.replaceFragment(
                                         requireActivity(),
                                         VideoCallReqFragment(),

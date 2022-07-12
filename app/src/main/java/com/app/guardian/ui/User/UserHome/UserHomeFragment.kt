@@ -3,11 +3,13 @@ package com.app.guardian.ui.User.UserHome
 
 import android.app.Activity
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.app.guardian.BackgroundService
+import com.app.guardian.ConnectivityChangeReceiver
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
@@ -83,9 +85,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
         bannerAdsPager = BannerAdsPager(requireActivity(), array!!, object
             : BannerAdsPager.onItemClicklisteners {
             override fun onItemClick(position: Int) {
-                ReusedMethod.redirectUrl(requireActivity(), array[position].url)
-
-
+                redirectUrl(requireActivity(), array[position].url)
             }
 
         })
@@ -115,6 +115,15 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
 //        {
 //            changeLayout(1)
 //        }
+        if (SharedPreferenceManager.getBoolean(AppConstants.IS_OFFLINE_VIDEO_UPLOAD, false)) {
+            IntentFilter().apply {
+                addAction("android.intent.action.CUSTOM_ACTION")
+                requireActivity().registerReceiver(ConnectivityChangeReceiver(), this)
+            }
+            val i = Intent()
+            i.action = "android.intent.action.CUSTOM_ACTION"
+            requireActivity().sendBroadcast(i)
+        }
     }
 
     override fun handleListener() {
@@ -143,6 +152,12 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
                             if (data.bannerCollection.isNullOrEmpty()) {
                                 mBinding.txtViewMore.gone()
                             }
+                            if (data.top5.isNullOrEmpty()) {
+                                mBinding.cl1.gone()
+                            } else {
+                                mBinding.cl1.visible()
+                            }
+
                             bannerAdsPager?.notifyDataSetChanged()
                             if (array.size > 1) {
                                 viewPagerScroll(mBinding.pager, array.size)
@@ -390,4 +405,5 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
 
         }
     }
+
 }

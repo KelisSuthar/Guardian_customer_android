@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.extentions.changeDateFormat
 import com.app.guardian.model.CommonResponse
+import com.app.guardian.model.DrivingOffenceList.DrivingOffenceListResp
 import com.app.guardian.model.LawyerLsit.LawyerListResp
 import com.app.guardian.model.LawyerProfileDetails.LawyerProfileDetailsResp
 import com.app.guardian.model.MediatorCallReq.MediatorCallReqResp
@@ -296,8 +297,6 @@ class UserViewModel(private val mUserRepository: UserRepo) : ViewModel() {
         baseView: BaseActivity,
         id: Int,
     ) {
-
-
         mUserRepository.deleteUploadOfflineVideo(
             id,
             isInternetConnected,
@@ -326,4 +325,22 @@ class UserViewModel(private val mUserRepository: UserRepo) : ViewModel() {
             chnageUploadedOfflineVideostatusResp
         )
     }
+    //DRIVING OFFENC LIST
+    private val drivingOffenceListResp = MutableLiveData<RequestState<MutableList<DrivingOffenceListResp>>>()
+    fun getDrivingOffenceResp(): LiveData<RequestState<MutableList<DrivingOffenceListResp>>> =
+        drivingOffenceListResp
+
+    fun drivigOffnceList(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+    ) {
+        mUserRepository.drivingOffenceList(
+
+            isInternetConnected,
+            baseView,
+            drivingOffenceListResp
+        )
+    }
+
+
 }

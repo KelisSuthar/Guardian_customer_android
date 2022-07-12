@@ -433,12 +433,14 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
         to_role: String,
         is_immediate_joining: Int,
         schedule_datetim: String,
+        is_mediator_required: Int,
     ) {
         val body = JsonObject()
         body.addProperty(ApiConstant.EXTRAS_TO_ID, to_id)
         body.addProperty(ApiConstant.EXTRAS_TO_ROLE, to_role)
         body.addProperty(ApiConstant.EXTRAS_IS_IMMEDIATE_ONLINE, is_immediate_joining)
         body.addProperty(ApiConstant.EXTRAS_SCHEDUAL_DATE_TIME, schedule_datetim)
+        body.addProperty(ApiConstant.EXTRA_IS_MEDIATOR_REQUIRED, is_mediator_required)
 //        body.addProperty("schedule_datetim", schedule_datetim)
         mUserRepository.sendVideoCallRequest(
             body,
@@ -478,31 +480,41 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
         )
     }
 
-    //SEND END CALLREQUEST
+    //SEND ACCEPT MED REQ
     private val acceptRejectCallByMediatorResp =
         MutableLiveData<RequestState<AcceptRejectCallByMediatorResp>>()
 
-    fun getacceptRejectCallByMediatorResp(): LiveData<RequestState<AcceptRejectCallByMediatorResp>> =
+    fun getAcceptCallByMediatorResp(): LiveData<RequestState<AcceptRejectCallByMediatorResp>> =
         acceptRejectCallByMediatorResp
 
-    fun sendAcceptRejectCallByMediatorResp(
+    fun sendAcceptCallByMediatorResp(
         isInternetConnected: Boolean,
         baseView: BaseActivity,
         calling_history_id: String,
         user_id: String,
-        user_role: Int,
-        schedule_datetime: String,
-        url: String,
-        room_id: String,
+        user_role: String,
     ) {
         val body = JsonObject()
         body.addProperty(ApiConstant.EXTRAS_CALLING_HISTORY_ID, calling_history_id)
         body.addProperty(ApiConstant.EXTRAS_USER_ID, user_id)
         body.addProperty(ApiConstant.EXTRAS_USER_ROLE, user_role)
-        body.addProperty(ApiConstant.EXTRAS_SCHEDUAL_DATE_TIME, schedule_datetime)
-        body.addProperty(ApiConstant.EXTRAS_URL, url)
-        body.addProperty(ApiConstant.EXTRAS_ROOM_ID, room_id)
-        mUserRepository.sendAcceptRejectReq(
+        mUserRepository.sendAcceptReqMed(
+            body,
+            isInternetConnected,
+            baseView,
+            acceptRejectCallByMediatorResp
+        )
+    }
+    //SEND REJECT MED REQ
+
+    fun sendRejectCallByMediatorResp(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        calling_history_id: String,
+    ) {
+        val body = JsonObject()
+        body.addProperty(ApiConstant.EXTRAS_CALLING_HISTORY_ID, calling_history_id)
+        mUserRepository.sendRejectReqMed(
             body,
             isInternetConnected,
             baseView,

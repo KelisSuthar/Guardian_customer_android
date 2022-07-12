@@ -7,6 +7,7 @@ import com.app.guardian.model.AskModeQResp.ChatListResp
 import com.app.guardian.model.AskModeQResp.SendMessageResp
 import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
+import com.app.guardian.model.DrivingOffenceList.DrivingOffenceListResp
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
 import com.app.guardian.model.GetVideoCallRequestResp.VideoCallRequestListResp
@@ -393,7 +394,7 @@ interface UserRepo {
         sendEndcallReqresp: MutableLiveData<RequestState<CommonResponse>>
     )
 
-    fun sendAcceptRejectReq(
+    fun sendAcceptReqMed(
         body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
@@ -412,6 +413,19 @@ interface UserRepo {
         internetConnected: Boolean,
         baseView: BaseActivity,
         chnageUploadedOfflineVideostatusResp: MutableLiveData<RequestState<CommonResponse>>
+    )
+
+    fun drivingOffenceList(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        drivingOffenceListResp: MutableLiveData<RequestState<MutableList<DrivingOffenceListResp>>>
+    )
+
+    fun sendRejectReqMed(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        acceptRejectCallByMediatorResp: MutableLiveData<RequestState<AcceptRejectCallByMediatorResp>>
     )
 
 

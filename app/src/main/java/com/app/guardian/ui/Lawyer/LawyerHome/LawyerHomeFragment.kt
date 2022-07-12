@@ -160,8 +160,6 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                 showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
-
-
                         if (it.status) {
                             showSubscriptionDialog(requireActivity(), data)
                             mBinding.availabilitySwitch.isOn = data.is_online == 1
@@ -172,6 +170,11 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                             bannerArray.addAll(data.bannerCollection)
                             if (data.bannerCollection.isNullOrEmpty()) {
                                 mBinding.txtViewMore.gone()
+                            }
+                            if (data.top5.isNullOrEmpty()) {
+                                mBinding.cl1.gone()
+                            } else {
+                                mBinding.cl1.visible()
                             }
                         } else {
                             mBinding.cl.gone()

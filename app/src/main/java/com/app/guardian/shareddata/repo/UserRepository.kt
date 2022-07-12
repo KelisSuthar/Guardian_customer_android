@@ -8,6 +8,7 @@ import com.app.guardian.model.AskModeQResp.ChatListResp
 import com.app.guardian.model.AskModeQResp.SendMessageResp
 import com.app.guardian.model.CheckSub.CheckSubscriptionResp
 import com.app.guardian.model.CommonResponse
+import com.app.guardian.model.DrivingOffenceList.DrivingOffenceListResp
 import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.ForgotPass.ForgotPassResp
 import com.app.guardian.model.GetVideoCallRequestResp.VideoCallRequestListResp
@@ -1011,7 +1012,7 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
         }
     }
 
-    override fun sendAcceptRejectReq(
+    override fun sendAcceptReqMed(
         body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
@@ -1023,7 +1024,7 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
         } else {
             acceptRejectCallByMediatorResp.value = RequestState(progress = true)
             NetworkManager.requestData(
-                mApiEndPoint.acceptRejectCallByMeditor(body),
+                mApiEndPoint.acceptCallByMeditor(body),
                 baseView,
                 acceptRejectCallByMediatorResp
             )
@@ -1064,6 +1065,43 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
                 mApiEndPoint.changeUploadStatus(body),
                 baseView,
                 chnageUploadedOfflineVideostatusResp
+            )
+        }
+    }
+
+    override fun drivingOffenceList(
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        drivingOffenceListResp: MutableLiveData<RequestState<MutableList<DrivingOffenceListResp>>>
+    ) {
+        if (!internetConnected) {
+            drivingOffenceListResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            drivingOffenceListResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.getDrivingOffenceList(),
+                baseView,
+                drivingOffenceListResp
+            )
+        }
+    }
+
+    override fun sendRejectReqMed(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        acceptRejectCallByMediatorResp: MutableLiveData<RequestState<AcceptRejectCallByMediatorResp>>
+    ) {
+        if (!internetConnected) {
+            acceptRejectCallByMediatorResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            acceptRejectCallByMediatorResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.rejectCallByMeditor(body),
+                baseView,
+                acceptRejectCallByMediatorResp
             )
         }
     }

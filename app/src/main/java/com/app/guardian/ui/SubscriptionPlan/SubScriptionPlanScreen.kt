@@ -21,6 +21,7 @@ import com.app.guardian.ui.SubscriptionPlan.Adapter.SubscriptionPlanAdapter
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.google.android.gms.common.util.CollectionUtils
+import org.json.JSONObject
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -32,6 +33,8 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
     var shared_secret = "ifjsjfkjs;p;sjflk;jmsw;lfalsw"
     var start_date = ""
     var end_date = ""
+    var plan_id = ""
+    var plan_price = ""
     var array = ArrayList<SubscriptionPlanResp>()
 
     private lateinit var billingClient: BillingClient//inApp Purchase
@@ -46,14 +49,6 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
     override fun initView() {
         mBinding = getBinding()
         mBinding.headderSubscritpion.tvHeaderText.text = resources.getString(R.string.sub_plan)
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        setupBillingClient()
-//        if (intent.extras != null || intent != null) {
-//            if (intent.getBooleanExtra(AppConstants.EXTRA_IS_LAWYER, false)) {
         if (SharedPreferenceManager.getString(
                 AppConstants.USER_ROLE,
                 AppConstants.APP_ROLE_USER
@@ -63,6 +58,15 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
         } else {
             callAPI()
         }
+        setupBillingClient()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+//        if (intent.extras != null || intent != null) {
+//            if (intent.getBooleanExtra(AppConstants.EXTRA_IS_LAWYER, false)) {
 
 
         setAdapter()
@@ -79,23 +83,24 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
             array,
             object : SubscriptionPlanAdapter.onItemClicklisteners {
                 override fun onSubclick(position: Int) {
-//                    loadAllSKUs()
-                    if (SharedPreferenceManager.getString(
-                            AppConstants.USER_ROLE,
-                            AppConstants.APP_ROLE_USER
-                        ) == AppConstants.APP_ROLE_LAWYER
-                    ) {
-                        callLawyerBannerplanAPI(array[position].id, array[position].pricing)
-                    } else {
-                        callBuyPlanAPI(array[position].id, array[position].pricing)
-                    }
+                    loadAllSKUs()
+                    plan_id = array[position].id.toString()
+                    plan_price = array[position].pricing.toString()
+//                    if (SharedPreferenceManager.getString(
+//                            AppConstants.USER_ROLE,
+//                            AppConstants.APP_ROLE_USER
+//                        ) == AppConstants.APP_ROLE_LAWYER
+//                    ) {
+//                        callLawyerBannerplanAPI(array[position].id, array[position].pricing)
+//                    } else {
+//                        callBuyPlanAPI(array[position].id, array[position].pricing)
+//                    }
 
                 }
 
             })
         mBinding.recyclerView.adapter = subscriptionPlanAdapter
     }
-
 
     override fun initObserver() {
         //SUBSCRIPTION PLAN RESP
@@ -298,8 +303,7 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
         }
     }
 
-    private fun callBuyPlanAPI(id: Int?, pricing: String?) {
-
+    private fun callBuyPlanAPI(id: String, pricing: String?, jsonObject: JSONObject) {
         if (ReusedMethod.isNetworkConnected(this)) {
             mViewModel.BuySubscriptionPlanList(
                 true,
@@ -309,6 +313,14 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                 shared_secret,
 //                start_date,
 //                end_date
+                jsonObject.getString("packageName"),
+                jsonObject.getString("acknowledged"),
+                jsonObject.getString("orderId"),
+                jsonObject.getString("productId"),
+                jsonObject.getString("developerPayload"),
+                jsonObject.getString("purchaseTime"),
+                jsonObject.getString("purchaseState"),
+                jsonObject.getString("purchaseToken"),
             )
         } else {
             mBinding.recyclerView.gone()
@@ -318,7 +330,7 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
 
     }
 
-    private fun callLawyerBannerplanAPI(id: Int?, pricing: String?) {
+    private fun callLawyerBannerplanAPI(id: String, pricing: String?, jsonObject: JSONObject) {
         if (ReusedMethod.isNetworkConnected(this)) {
             lawyerViewModel.addBannersSubscription(
                 true,
@@ -328,6 +340,14 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                 shared_secret,
 //                start_date,
 //                end_date
+                jsonObject.getString("packageName"),
+                jsonObject.getString("acknowledged"),
+                jsonObject.getString("orderId"),
+                jsonObject.getString("productId"),
+                jsonObject.getString("developerPayload"),
+                jsonObject.getString("purchaseTime"),
+                jsonObject.getString("purchaseState"),
+                jsonObject.getString("purchaseToken"),
             )
         } else {
             mBinding.recyclerView.gone()
@@ -394,6 +414,7 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                 for (purchase in purchasesList) {
                     checkUpdate = true
                     Log.e("getDetails", "=================")
+                    Log.e("getDetails", "=================$purchase")
                     acknowledgePurchase(
                         purchase.purchaseToken,
                         purchase.purchaseTime,
@@ -419,21 +440,30 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
         purchaseTime: Long,
         originalJson: String
     ) {
+        val jsonObject = JSONObject(originalJson)
         val params = AcknowledgePurchaseParams.newBuilder()
             .setPurchaseToken(purchaseToken)
             .build()
         billingClient.acknowledgePurchase(params) { billingResult ->
-            /*val responseCode = billingResult.responseCode
-            val debugMessage = billingResult.debugMessage*/
-
-            Log.e("responseCode", billingResult.responseCode.toString())
-            if (billingResult.responseCode == 0) {
-//                callBuyPlanAPI()
-            }
+            val responseCode = billingResult.responseCode
+            val debugMessage = billingResult.debugMessage
+            Log.e("###", debugMessage)
+            Log.e("###", responseCode.toString())
+//            if (billingResult.responseCode == 0) {
+////                callBuyPlanAPI()
+//            }
 
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                 Log.e("ABCDEF", "------------------------------")
-
+                if (SharedPreferenceManager.getString(
+                        AppConstants.USER_ROLE,
+                        ""
+                    ) == AppConstants.APP_ROLE_LAWYER
+                ) {
+                    callLawyerBannerplanAPI(plan_id, plan_price, jsonObject)
+                } else {
+                    callBuyPlanAPI(plan_id, plan_price, jsonObject)
+                }
                 if (!isSkuIdGated) {
                     isSkuIdGated = true
                 }
@@ -476,14 +506,21 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
         Log.e("onPurchasesUpdated", "------onPurchasesUpdated--------------")
         if (billingResult?.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
             purchases.forEach {
-                Log.v("acknowledgePurchase", purchases.toString())
+//                Log.v("acknowledgePurchase", purchases.toString())
+                Log.v(
+                    "acknowledgePurchase",
+                    it.toString()
+                )
+                Log.v(
+                    "acknowledgePurchase",
+                    it.originalJson.toString()
+                )
 
                 acknowledgePurchase(
                     it.purchaseToken,
                     it.purchaseTime,
                     it.originalJson
                 )
-
 
             }
             /*for (purchase in purchases) {

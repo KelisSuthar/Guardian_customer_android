@@ -13,6 +13,7 @@ import android.view.Window
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
@@ -265,12 +266,12 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
                                 ""
                             ) == AppConstants.APP_ROLE_USER
                         ) {
-                            callVideoCallRequestAPI(
-                                selected_laywer_id,
-                                AppConstants.APP_ROLE_LAWYER,
-                                data.is_immediate_joining,
-                                data.request_datetime
-                            )
+//                            callVideoCallRequestAPI(
+//                                selected_laywer_id,
+//                                AppConstants.APP_ROLE_LAWYER,
+//                                data.is_immediate_joining,
+//                                data.request_datetime
+//                            )
                         }
 
                     }
@@ -399,6 +400,7 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
                     AppConstants.APP_ROLE_LAWYER,
                     0,
                     ReusedMethod.getCurrentDate(),
+                    0
                 )
             }
             dialog.dismiss()
@@ -619,11 +621,13 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
         val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
         val btnImmediateJoin: Button = dialog.findViewById(R.id.btnImmediateJoin)
         val btnRequestSend: Button = dialog.findViewById(R.id.btnRequestSend)
+        val linerlayout_or: LinearLayout = dialog.findViewById(R.id.llor)
         val current_date = SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().time)
 
         txtDate.text = SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().time)
         txtTime.text = SimpleDateFormat("hh:mm a").format(Calendar.getInstance().time)
-
+        btnImmediateJoin.gone()
+        linerlayout_or.gone()
         cvScheduleDate.setOnClickListener {
             ReusedMethod.selectDate(requireActivity(), txtDate)
         }
@@ -643,16 +647,30 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
 
             if (current_date != txtDate.text.toString()) {
                 dialog.dismiss()
-                callRequestrMediatorApi(
+//                callRequestrMediatorApi(
+//                    0,
+//                    txtDate.text.toString() + " " + txtTime.text.toString()
+//                )
+                callVideoCallRequestAPI(
+                    selected_laywer_id,
+                    AppConstants.APP_ROLE_LAWYER,
                     0,
-                    txtDate.text.toString() + " " + txtTime.text.toString()
+                    txtDate.text.toString() + " " + txtTime.text.toString(),
+                    1
                 )
             } else {
                 if (isValidTime(txtTime.text.toString())) {
                     dialog.dismiss()
-                    callRequestrMediatorApi(
+//                    callRequestrMediatorApi(
+//                        0,
+//                        txtDate.text.toString() + " " + txtTime.text.toString()
+//                    )
+                    callVideoCallRequestAPI(
+                        selected_laywer_id,
+                        AppConstants.APP_ROLE_LAWYER,
                         0,
-                        txtDate.text.toString() + " " + txtTime.text.toString()
+                        txtDate.text.toString() + " " + txtTime.text.toString(),
+                        1
                     )
                 } else {
                     ReusedMethod.displayMessage(
@@ -708,7 +726,8 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
         selected_laywer_id: Int,
         role: String,
         isImmediateJoining: Int,
-        requestDatetime: String
+        requestDatetime: String,
+        id_med_req: Int,
     ) {
         if (ReusedMethod.isNetworkConnected(requireContext())) {
             commonViewModel.sendVideoCallReq(
@@ -717,7 +736,8 @@ class LawyerSpecializationFragment(isDialLawyer: Boolean? = false, specializatio
                 selected_laywer_id,
                 role,
                 isImmediateJoining,
-                requestDatetime
+                requestDatetime,
+                id_med_req
             )
         }
     }

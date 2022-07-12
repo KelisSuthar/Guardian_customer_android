@@ -1,10 +1,10 @@
 package com.app.guardian.model.AcceptRejectCallByMediator
 
 data class AcceptRejectCallByMediatorResp(
-    val assign_by: Int? = 0,
-    val call_status: Int? = 0,
+    val assign_by: String? = "0",
+    val call_status: String? = "0",
     val call_type: String? = "",
-    val conversation_id: Int? = 0,
+    val conversation_id: String? = "",
     val created_at: String? = "",
     val duration_min: String? = "",
     val from_id: Int? = 0,

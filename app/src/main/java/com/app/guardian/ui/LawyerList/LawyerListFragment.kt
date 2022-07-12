@@ -14,6 +14,7 @@ import android.view.Window
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
 import androidx.core.content.ContextCompat
@@ -73,20 +74,18 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
 
     override fun initView() {
         mBinding = getBinding()
-        (activity as HomeActivity).bottomTabVisibility(true)
+        (activity as HomeActivity).headerTextVisible(
+            requireActivity().resources.getString(R.string.lawyer_list),
+            isHeaderVisible = true,
+            isBackButtonVisible = false
+        )
         if (isDialLawyerOpen) {
-            (activity as HomeActivity).headerTextVisible(
-                requireActivity().resources.getString(R.string.lawyer_list),
-                isHeaderVisible = true,
-                isBackButtonVisible = true
-            )
+            (activity as HomeActivity).bottomTabVisibility(false)
         } else {
-            (activity as HomeActivity).headerTextVisible(
-                requireActivity().resources.getString(R.string.lawyer_list),
-                isHeaderVisible = true,
-                isBackButtonVisible = false
-            )
+
+            (activity as HomeActivity).bottomTabVisibility(true)
         }
+
         mBinding.lyLawyerListFilter.edtLoginEmail.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -247,12 +246,12 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                                 ""
                             ) == AppConstants.APP_ROLE_USER
                         ) {
-                            callVideoCallRequestAPI(
-                                selected_laywer_id,
-                                AppConstants.APP_ROLE_LAWYER,
-                                data.is_immediate_joining,
-                                data.request_datetime
-                            )
+//                            callVideoCallRequestAPI(
+//                                selected_laywer_id,
+//                                AppConstants.APP_ROLE_LAWYER,
+//                                data.is_immediate_joining,
+//                                data.request_datetime
+//                            )
                         }
 
                     }
@@ -367,6 +366,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                     AppConstants.APP_ROLE_LAWYER,
                     0,
                     "",
+                    0
                 )
             }
             dialog.dismiss()
@@ -393,7 +393,8 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         selected_laywer_id: Int,
         role: String,
         isImmediateJoining: Int,
-        requestDatetime: String
+        requestDatetime: String,
+        is_mediator_required: Int,
     ) {
         if (ReusedMethod.isNetworkConnected(requireContext())) {
             commonViewModel.sendVideoCallReq(
@@ -402,7 +403,8 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
                 selected_laywer_id,
                 role,
                 isImmediateJoining,
-                requestDatetime
+                requestDatetime,
+                is_mediator_required
             )
         }
     }
@@ -653,11 +655,14 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
         val btnImmediateJoin: Button = dialog.findViewById(R.id.btnImmediateJoin)
         val btnRequestSend: Button = dialog.findViewById(R.id.btnRequestSend)
+        val linerlayout_or: LinearLayout = dialog.findViewById(R.id.llor)
         val current_date = SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().time)
 
         txtDate.text = SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().time)
         txtTime.text = SimpleDateFormat("hh:mm a").format(Calendar.getInstance().time)
 
+        btnImmediateJoin.gone()
+        linerlayout_or.gone()
         cvScheduleDate.setOnClickListener {
             ReusedMethod.selectDate(requireActivity(), txtDate)
         }
@@ -671,22 +676,35 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         btnImmediateJoin.setOnClickListener {
             dialog.dismiss()
 //            callRequestrMediatorApi(1, txtDate.text.toString() + " " + txtTime.text.toString())
-            ReusedMethod.displayMessage(requireActivity(), resources.getString(R.string.come_soon))
+            displayMessage(requireActivity(), resources.getString(R.string.come_soon))
         }
         btnRequestSend.setOnClickListener {
-
             if (current_date != txtDate.text.toString()) {
                 dialog.dismiss()
-                callRequestrMediatorApi(
+//                callRequestrMediatorApi(
+//                    0,
+//                    txtDate.text.toString() + " " + txtTime.text.toString()
+//                )
+                callVideoCallRequestAPI(
+                    selected_laywer_id,
+                    AppConstants.APP_ROLE_LAWYER,
                     0,
-                    txtDate.text.toString() + " " + txtTime.text.toString()
+                    txtDate.text.toString() + " " + txtTime.text.toString(),
+                    1
                 )
             } else {
                 if (isValidTime(txtTime.text.toString())) {
                     dialog.dismiss()
-                    callRequestrMediatorApi(
+//                    callRequestrMediatorApi(
+//                        0,
+//                        txtDate.text.toString() + " " + txtTime.text.toString()
+//                    )
+                    callVideoCallRequestAPI(
+                        selected_laywer_id,
+                        AppConstants.APP_ROLE_LAWYER,
                         0,
-                        txtDate.text.toString() + " " + txtTime.text.toString()
+                        txtDate.text.toString() + " " + txtTime.text.toString(),
+                        1
                     )
                 } else {
                     displayMessage(requireActivity(), "Please select proper date and time")

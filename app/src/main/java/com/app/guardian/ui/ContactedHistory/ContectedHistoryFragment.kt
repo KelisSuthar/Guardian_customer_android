@@ -12,10 +12,7 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ScrollView
-import android.widget.TextView
+import android.widget.*
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
@@ -207,7 +204,10 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                 }
 
                 override fun onVideCallClick(position: Int, id: Int?) {
-                    ReusedMethod.displayMessage(requireActivity(),resources.getString(R.string.come_soon))
+                    ReusedMethod.displayMessage(
+                        requireActivity(),
+                        resources.getString(R.string.come_soon)
+                    )
 //                    if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
 //                        displayVideoCallDialog(array[position].id)
 //                    } else {
@@ -258,6 +258,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                     AppConstants.APP_ROLE_LAWYER,
                     0,
                     "",
+                    0
                 )
             }
             dialog.dismiss()
@@ -279,11 +280,15 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
         val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
         val btnImmediateJoin: Button = dialog.findViewById(R.id.btnImmediateJoin)
         val btnRequestSend: Button = dialog.findViewById(R.id.btnRequestSend)
+        val linerlayout_or: LinearLayout = dialog.findViewById(R.id.llor)
         val current_date = SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().time)
+        btnImmediateJoin.gone()
 
         txtDate.text = SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().time)
         txtTime.text = SimpleDateFormat("hh:mm a").format(Calendar.getInstance().time)
 
+        btnImmediateJoin.gone()
+        linerlayout_or.gone()
         cvScheduleDate.setOnClickListener {
             ReusedMethod.selectDate(requireActivity(), txtDate)
         }
@@ -303,16 +308,30 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
 
             if (current_date != txtDate.text.toString()) {
                 dialog.dismiss()
-                callRequestrMediatorApi(
+//                callRequestrMediatorApi(
+//                    0,
+//                    txtDate.text.toString() + " " + txtTime.text.toString()
+//                )
+                callVideoCallRequestAPI(
+                    selected_laywer_id,
+                    AppConstants.APP_ROLE_LAWYER,
                     0,
-                    txtDate.text.toString() + " " + txtTime.text.toString()
+                    txtDate.text.toString() + " " + txtTime.text.toString(),
+                    1
                 )
             } else {
                 if (isValidTime(txtTime.text.toString())) {
                     dialog.dismiss()
-                    callRequestrMediatorApi(
+//                    callRequestrMediatorApi(
+//                        0,
+//                        txtDate.text.toString() + " " + txtTime.text.toString()
+//                    )
+                    callVideoCallRequestAPI(
+                        selected_laywer_id,
+                        AppConstants.APP_ROLE_LAWYER,
                         0,
-                        txtDate.text.toString() + " " + txtTime.text.toString()
+                        txtDate.text.toString() + " " + txtTime.text.toString(),
+                        1
                     )
                 } else {
                     ReusedMethod.displayMessage(
@@ -368,7 +387,8 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
         selected_laywer_id: Int,
         role: String,
         isImmediateJoining: Int,
-        requestDatetime: String
+        requestDatetime: String,
+        is_mediator_required: Int
     ) {
         if (ReusedMethod.isNetworkConnected(requireContext())) {
             mViewModel.sendVideoCallReq(
@@ -377,7 +397,8 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                 selected_laywer_id,
                 role,
                 isImmediateJoining,
-                requestDatetime
+                requestDatetime,
+                is_mediator_required
             )
         }
     }
@@ -583,12 +604,12 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                                 ""
                             ) == AppConstants.APP_ROLE_USER
                         ) {
-                            callVideoCallRequestAPI(
-                                selected_laywer_id,
-                                AppConstants.APP_ROLE_LAWYER,
-                                data.is_immediate_joining,
-                                data.request_datetime
-                            )
+//                            callVideoCallRequestAPI(
+//                                selected_laywer_id,
+//                                AppConstants.APP_ROLE_LAWYER,
+//                                data.is_immediate_joining,
+//                                data.request_datetime
+//                            )
                         }
 
                     }

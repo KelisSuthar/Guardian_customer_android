@@ -157,6 +157,7 @@ class RecordPoliceInteraction_2Fragment : BaseFragment(), View.OnClickListener {
                         if (it.status) {
                             array.clear()
                             array.addAll(data.top5)
+
                             bannerAdsPager?.notifyDataSetChanged()
                             if (array.size > 1) {
                                 ReusedMethod.viewPagerScroll(mBinding.pager, array.size)

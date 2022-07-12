@@ -121,7 +121,8 @@ class LawyerListAdapter(
                         lawyerProfileData.id!!,
                         AppConstants.APP_ROLE_LAWYER,
                         0,
-                        ""
+                        "",
+                        0,
                     )
                 }
 //                ReusedMethod.displayMessage(context,context.resources.getString(R.string.come_soon))

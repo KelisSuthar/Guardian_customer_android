@@ -113,7 +113,8 @@ class LawyerBySpecializationAdapter(
                         array.id!!,
                         AppConstants.APP_ROLE_LAWYER,
                         0,
-                        ""
+                        "",
+                    0
                     )
                 }
 

@@ -171,7 +171,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun checkLogin(data: LoginResp) {
-        displayMessage(this, data.user.user_role.toString())
         if (data.user.user_role == AppConstants.APP_ROLE_LAWYER || data.user.user_role == AppConstants.APP_ROLE_USER) {
             if (data.user.is_subscribe == 0) {
                 startActivity(

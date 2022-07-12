@@ -211,7 +211,7 @@ class AddBannerFragment : BaseFragment(), View.OnClickListener {
                     mBinding.lladdImg.gone()
                     mBinding.ivBannerImg.setImageURI(uri)
                     bannerImage = ImagePicker.getFilePath(data).toString()
-                    selectedFile = ImagePicker.getFile(data)!!
+                        selectedFile = ImagePicker.getFile(data)!!
                 }
             }
 

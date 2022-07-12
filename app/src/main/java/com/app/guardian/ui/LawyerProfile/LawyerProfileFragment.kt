@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.app.guardian.R
@@ -56,12 +57,6 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
     override fun initView() {
         mBinding = getBinding()
 
-        (activity as HomeActivity).bottomTabVisibility(false)
-        (activity as HomeActivity).headerTextVisible(
-            requireActivity().resources.getString(R.string.lawyer_profile),
-            true,
-            true
-        )
 
         arguments?.let {
             selectedLawyerListId = it.getInt("LawyerId")
@@ -69,6 +64,13 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
             storeSelctedId = selectedLawyerListId
         }
 
+        (activity as HomeActivity).bottomTabVisibility(false)
+
+        (activity as HomeActivity).headerTextVisible(
+            requireActivity().resources.getString(R.string.lawyer_profile),
+            true,
+            true
+        )
         callAPI()
         mBinding.btnSeeLegal.setOnClickListener {
 
@@ -110,8 +112,8 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
         }
 
         mBinding.imgRowLawyerVideo.setOnClickListener {
-//            displayVideoCallDialog(selectedLawyerListId!!)
-            ReusedMethod.displayMessage(requireActivity(), resources.getString(R.string.come_soon))
+            displayVideoCallDialog(selectedLawyerListId!!)
+//            ReusedMethod.displayMessage(requireActivity(), resources.getString(R.string.come_soon))
         }
     }
 
@@ -191,12 +193,12 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
                             ) == AppConstants.APP_ROLE_USER
                         ) {
                             selected_laywer_id?.let { it1 ->
-                                callVideoCallRequestAPI(
-                                    it1,
-                                    AppConstants.APP_ROLE_LAWYER,
-                                    data.is_immediate_joining,
-                                    data.request_datetime
-                                )
+//                                callVideoCallRequestAPI(
+//                                    it1,
+//                                    AppConstants.APP_ROLE_LAWYER,
+//                                    data.is_immediate_joining,
+//                                    data.request_datetime
+//                                )
                             }
                         }
 
@@ -323,6 +325,7 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
                     AppConstants.APP_ROLE_LAWYER,
                     0,
                     ReusedMethod.getCurrentDate(),
+                    0
                 )
             }
             dialog.dismiss()
@@ -344,11 +347,13 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
         val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
         val btnImmediateJoin: Button = dialog.findViewById(R.id.btnImmediateJoin)
         val btnRequestSend: Button = dialog.findViewById(R.id.btnRequestSend)
+        val linerlayout_or: LinearLayout = dialog.findViewById(R.id.llor)
         val current_date = SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().time)
 
         txtDate.text = SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().time)
         txtTime.text = SimpleDateFormat("hh:mm a").format(Calendar.getInstance().time)
-
+        btnImmediateJoin.gone()
+        linerlayout_or.gone()
         cvScheduleDate.setOnClickListener {
             ReusedMethod.selectDate(requireActivity(), txtDate)
         }
@@ -361,23 +366,37 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
         }
         btnImmediateJoin.setOnClickListener {
             dialog.dismiss()
-            callRequestrMediatorApi(1, txtDate.text.toString() + " " + txtTime.text.toString())
+//            callRequestrMediatorApi(1, txtDate.text.toString() + " " + txtTime.text.toString())
             ReusedMethod.displayMessage(requireActivity(), resources.getString(R.string.come_soon))
         }
         btnRequestSend.setOnClickListener {
 
             if (current_date != txtDate.text.toString()) {
                 dialog.dismiss()
-                callRequestrMediatorApi(
+//                callRequestrMediatorApi(
+//                    0,
+//                    txtDate.text.toString() + " " + txtTime.text.toString()
+//                )
+                callVideoCallRequestAPI(
+                    selected_laywer_id!!,
+                    AppConstants.APP_ROLE_LAWYER,
                     0,
-                    txtDate.text.toString() + " " + txtTime.text.toString()
+                    txtDate.text.toString() + " " + txtTime.text.toString(),
+                    1
                 )
             } else {
                 if (isValidTime(txtTime.text.toString())) {
                     dialog.dismiss()
-                    callRequestrMediatorApi(
+//                    callRequestrMediatorApi(
+//                        0,
+//                        txtDate.text.toString() + " " + txtTime.text.toString()
+//                    )
+                    callVideoCallRequestAPI(
+                        selected_laywer_id!!,
+                        AppConstants.APP_ROLE_LAWYER,
                         0,
-                        txtDate.text.toString() + " " + txtTime.text.toString()
+                        txtDate.text.toString() + " " + txtTime.text.toString(),
+                        1
                     )
                 } else {
                     ReusedMethod.displayMessage(
@@ -433,7 +452,8 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
         selected_laywer_id: Int,
         role: String,
         isImmediateJoining: Int,
-        requestDatetime: String
+        requestDatetime: String,
+        is_med_req: Int,
     ) {
         if (ReusedMethod.isNetworkConnected(requireContext())) {
             commonViewModel.sendVideoCallReq(
@@ -442,7 +462,8 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
                 selected_laywer_id,
                 role,
                 isImmediateJoining,
-                requestDatetime
+                requestDatetime,
+                is_med_req
             )
         }
     }
