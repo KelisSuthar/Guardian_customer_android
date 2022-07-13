@@ -12,8 +12,13 @@
     <string name="g_map_api_key_2">-9sao4u-</string>
     <string name="g_map_api_key_3">2x2jYFX1JZ79jI</string>
     <string name="g_map_api_key">AIzaSyCn23HyRn8zm-9sao4u-2x2jYFX1JZ79jI</string>
-
     <string name="video_call_auth">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiI1NGE1NzM4Ni0zZWUwLTRkZjQtODkyYy1mMjk3NGZkZmViMGYiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTY1NzI4NTg3NywiZXhwIjoxNjU3ODkwNjc3fQ._kx_05q1l5h_o_jhHJjGHBMGlO-D6stMmy1BMpH9crE</string>
+    <string name="aws_access_1">AKIAQ64R4A</string>
+    <string name="aws_access_2">J3AQCHTFOF</string>
+    <string name="aws_sec_1">n1Il5CQO8ABCuFU6miXV/</string>
+    <string name="aws_sec_2">oy/IBDPr6E/</string>
+    <string name="aws_sec_3">tLQLooXX</string>
+    <string name="aws_base_url">https://guardian-temp151234-guardian.s3.us-east-2.amazonaws.com/public/</string>
     <!--    not Working-->
     <!--    <string name="map_api_key">AIzaSyAyMrbXh6XrkhpCzXfNZJzu3akbUIbVqcg</string>-->
     <!--    working-->

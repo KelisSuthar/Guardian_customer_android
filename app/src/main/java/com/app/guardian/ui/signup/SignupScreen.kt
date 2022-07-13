@@ -1495,8 +1495,11 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
             clientConfig.protocol = Protocol.HTTP
 
             val credentials = BasicAWSCredentials(
-                AppConstants.AWS_ACCESS_KEY,
-                AppConstants.AWS_SECRET_KEY
+
+                resources.getString(R.string.aws_access_1) + resources.getString(R.string.aws_access_2),
+                resources.getString(R.string.aws_sec_1) + resources.getString(R.string.aws_sec_2) + resources.getString(
+                    R.string.aws_sec_3
+                )
             )
             val s3 = AmazonS3Client(credentials, clientConfig)
             s3.setRegion(Region.getRegion(Regions.US_EAST_2))
@@ -1505,7 +1508,9 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
             },
                 {
                     Log.i("MyAmplifyApp", "Successfully uploaded: ${it.key}")
-                    attachmentUrl = "${AppConstants.AWS_BASE_URL}${selectedFile?.name}"
+//                    attachmentUrl = "${AppConstants.AWS_BASE_URL}${selectedFile?.name}"
+                    attachmentUrl =
+                        "${resources.getString(R.string.aws_base_url)}${selectedFile?.name}"
                     Log.i("attachmentUrl", attachmentUrl)
                 },
                 {
@@ -1542,7 +1547,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                     {
                         counter += 1
                         Log.i("MyAmplifyApp", "Successfully uploaded: ${it.key}")
-                        uploadedImageList?.add("${AppConstants.AWS_BASE_URL}${image1.name}")
+                        uploadedImageList?.add("${resources.getString(R.string.aws_base_url)}${image1.name}")
                         if (imageListSize == counter) {
                             Log.i("uploadedImageList", uploadedImageList.toString())
                             callApi("ABEk231daswe5")

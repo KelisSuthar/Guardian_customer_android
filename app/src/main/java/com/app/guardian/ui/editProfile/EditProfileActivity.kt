@@ -1096,7 +1096,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 mBinding.edtDesc.text?.trim().toString(),
                 profile_img,
                 images,
-                )
+            )
         } else {
             mBinding.noInternetEdit.llNointernet.visible()
             mBinding.ns.gone()
@@ -1220,9 +1220,13 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             clientConfig.maxErrorRetry = 2
             clientConfig.protocol = Protocol.HTTP
 
+
             val credentials = BasicAWSCredentials(
-                AppConstants.AWS_ACCESS_KEY,
-                AppConstants.AWS_SECRET_KEY
+
+                resources.getString(R.string.aws_access_1) + resources.getString(R.string.aws_access_2),
+                resources.getString(R.string.aws_sec_1) + resources.getString(R.string.aws_sec_2) + resources.getString(
+                    R.string.aws_sec_3
+                )
             )
             val s3 = AmazonS3Client(credentials, clientConfig)
             s3.setRegion(Region.getRegion(Regions.US_EAST_2))
@@ -1231,7 +1235,8 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             },
                 {
                     Log.i("MyAmplifyApp", "Successfully uploaded Single Image: ${it.key}")
-                    attachmentUrl = "${AppConstants.AWS_BASE_URL}${selectedFile?.name}"
+                    attachmentUrl =
+                        "${resources.getString(R.string.aws_base_url)}${selectedFile?.name}"
                     Log.i("attachmentUrl", attachmentUrl)
                 },
                 {
@@ -1262,8 +1267,11 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         clientConfig.protocol = Protocol.HTTP
 
         val credentials = BasicAWSCredentials(
-            AppConstants.AWS_ACCESS_KEY,
-            AppConstants.AWS_SECRET_KEY
+
+            resources.getString(R.string.aws_access_1) + resources.getString(R.string.aws_access_2),
+            resources.getString(R.string.aws_sec_1) + resources.getString(R.string.aws_sec_2) + resources.getString(
+                R.string.aws_sec_3
+            )
         )
         val s3 = AmazonS3Client(credentials, clientConfig)
         s3.setRegion(Region.getRegion(Regions.US_EAST_2))
@@ -1284,7 +1292,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                     {
                         counter += 1
                         Log.i("MyAmplifyApp", "Successfully uploaded: ${it.key}")
-                        uploadedImageList?.add("${AppConstants.AWS_BASE_URL}${image1.name}")
+                        uploadedImageList?.add("${resources.getString(R.string.aws_base_url)}${image1.name}")
                         if (imageListSize == counter) {
                             Log.i("uploadedImageList", uploadedImageList.toString())
                             callEditProfileApi()

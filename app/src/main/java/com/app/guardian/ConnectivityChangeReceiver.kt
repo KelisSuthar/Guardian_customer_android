@@ -7,7 +7,6 @@ import android.os.Environment
 import android.os.Handler
 import android.os.NetworkOnMainThreadException
 import android.util.Log
-import android.widget.Toast
 import com.amazonaws.ClientConfiguration
 import com.amazonaws.Protocol
 import com.amazonaws.auth.BasicAWSCredentials
@@ -63,7 +62,7 @@ class ConnectivityChangeReceiver : BroadcastReceiver() {
                         false
                     )
                 ) {
-                    uploadFile(file)
+                    uploadFile(file, context)
                 }
 
 
@@ -73,7 +72,7 @@ class ConnectivityChangeReceiver : BroadcastReceiver() {
 //        }.also { runnable = it }, 0)
     }
 
-    private fun uploadFile(selectedFile: File?) {
+    private fun uploadFile(selectedFile: File?, context: Context) {
         var attachmentUrl = ""
         try {
             val options = StorageUploadFileOptions.defaultInstance()
@@ -84,8 +83,11 @@ class ConnectivityChangeReceiver : BroadcastReceiver() {
             clientConfig.protocol = Protocol.HTTP
 
             val credentials = BasicAWSCredentials(
-                AppConstants.AWS_ACCESS_KEY,
-                AppConstants.AWS_SECRET_KEY
+
+                context.resources.getString(R.string.aws_access_1) + context.resources.getString(R.string.aws_access_2),
+                context.resources.getString(R.string.aws_sec_1) + context.resources.getString(R.string.aws_sec_2) + context.resources.getString(
+                    R.string.aws_sec_3
+                )
             )
             val s3 = AmazonS3Client(credentials, clientConfig)
             s3.setRegion(Region.getRegion(Regions.US_EAST_2))
@@ -95,7 +97,8 @@ class ConnectivityChangeReceiver : BroadcastReceiver() {
                 {
 
                     Log.i("MyAmplifyApp_BROADCAST", "Successfully uploaded: ${it.key}")
-                    attachmentUrl = "${AppConstants.AWS_BASE_URL}${selectedFile?.name}"
+                    attachmentUrl =
+                        "${context.resources.getString(R.string.aws_base_url)}${selectedFile?.name}"
                     Log.i("attachmentUrl", attachmentUrl)
                     if (selectedFile.exists()) {
                         selectedFile.delete()
