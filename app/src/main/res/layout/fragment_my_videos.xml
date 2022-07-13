@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.User.MyVideos.MyVideosFragment">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:id="@+id/clHeadder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -127,7 +127,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clOfflineVideos"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_27sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -208,7 +208,9 @@
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cl2"
+            app:layout_constraintVertical_bias="1.0"
             app:spanCount="2"
+            tools:layout_editor_absoluteX="0dp"
             tools:listitem="@layout/row_videos_layout" />
 
 

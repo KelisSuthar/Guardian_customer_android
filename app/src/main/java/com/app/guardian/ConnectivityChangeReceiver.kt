@@ -16,6 +16,7 @@ import com.amazonaws.services.s3.AmazonS3Client
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.storage.options.StorageUploadFileOptions
 import com.app.guardian.common.AppConstants
+import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.model.CommonResponseModel
 import com.app.guardian.model.OfflineVideos.UploadOfflineVideoResp
@@ -62,7 +63,10 @@ class ConnectivityChangeReceiver : BroadcastReceiver() {
                         false
                     )
                 ) {
-                    uploadFile(file, context)
+                    if (ReusedMethod.isNetworkConnected(context)) {
+                        uploadFile(file, context)
+                    }
+
                 }
 
 

@@ -5,6 +5,8 @@ import android.content.Intent
 import android.util.Log
 import android.view.View
 import com.android.billingclient.api.*
+import com.app.guardian.BuildConfig
+import com.app.guardian.OAuthInterceptor
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
@@ -12,17 +14,28 @@ import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivitySubScriptionPlanScreenBinding
+import com.app.guardian.model.CommonResponse
+import com.app.guardian.model.CommonResponseModel
+import com.app.guardian.model.OfflineVideos.UploadOfflineVideoResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.model.viewModels.LawyerViewModel
 import com.app.guardian.shareddata.base.BaseActivity
+import com.app.guardian.shareddata.endpoint.ApiEndPoint
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.SubscriptionPlan.Adapter.SubscriptionPlanAdapter
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.google.android.gms.common.util.CollectionUtils
+import com.google.gson.JsonObject
+import okhttp3.OkHttpClient
 import org.json.JSONObject
 import org.koin.android.viewmodel.ext.android.viewModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 
 class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUpdatedListener {
@@ -65,11 +78,9 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
     override fun onResume() {
         super.onResume()
 
-//        if (intent.extras != null || intent != null) {
-//            if (intent.getBooleanExtra(AppConstants.EXTRA_IS_LAWYER, false)) {
-
 
         setAdapter()
+
         mBinding.recyclerView.visible()
         mBinding.noDataSubscritpion.gone()
         mBinding.noInternetSubscritpion.llNointernet.gone()
@@ -150,15 +161,9 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
-
                             SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
                             SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
-                            startActivity(
-                                Intent(
-                                    this@SubScriptionPlanScreen,
-                                    HomeActivity::class.java
-                                )
-                            )
+                            onBackPressed()
                             finish()
                             overridePendingTransition(R.anim.rightto, R.anim.left)
 
@@ -449,20 +454,21 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
             val debugMessage = billingResult.debugMessage
             Log.e("###", debugMessage)
             Log.e("###", responseCode.toString())
+            Log.e(
+                "###", SharedPreferenceManager.getLoginUserRole()
+            )
 //            if (billingResult.responseCode == 0) {
 ////                callBuyPlanAPI()
 //            }
 
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                 Log.e("ABCDEF", "------------------------------")
-                if (SharedPreferenceManager.getString(
-                        AppConstants.USER_ROLE,
-                        ""
-                    ) == AppConstants.APP_ROLE_LAWYER
-                ) {
-                    callLawyerBannerplanAPI(plan_id, plan_price, jsonObject)
-                } else {
+                if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
+//                    buyUserPlan(plan_id, plan_price, jsonObject)
                     callBuyPlanAPI(plan_id, plan_price, jsonObject)
+                } else if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_LAWYER) {
+                    callLawyerBannerplanAPI(plan_id, plan_price, jsonObject)
+//                    buyLawyerPlan(plan_id, plan_price, jsonObject)
                 }
                 if (!isSkuIdGated) {
                     isSkuIdGated = true
@@ -471,6 +477,7 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
 
         }
     }
+
 
     private fun loadAllSKUs() = if (billingClient.isReady) {
         val params = SkuDetailsParams
@@ -491,7 +498,7 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                     }
                 }
             }
-            // Log.v("###",skuDetailsList!!.get(0).description)
+            Log.v("###", skuDetailsList!!.get(0).description)
 
         }
 

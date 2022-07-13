@@ -2,5 +2,6 @@ package com.app.guardian.model.OfflineVideos
 
 data class OfflineUploadedVideoResp(
     val id: Int,
-    val video_url: String
+    val video_url: String,
+    val isSelected: Boolean? = false
 )

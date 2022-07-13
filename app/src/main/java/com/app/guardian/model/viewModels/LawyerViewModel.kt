@@ -145,8 +145,8 @@ class LawyerViewModel(private val mUserRepository: UserRepo) : ViewModel() {
         val body = JsonObject()
 
         body.addProperty(ApiConstant.EXTRAS_PRICE, price)
-        body.addProperty(ApiConstant.EXTRAS_APPLE_RECEIPT, "fddgfgfgfg@hardik15")
-        body.addProperty(ApiConstant.EXTRAS_SHARED_SECRET, shared_secret)
+        body.addProperty(ApiConstant.EXTRAS_APPLE_RECEIPT, purchaseToken)
+        body.addProperty(ApiConstant.EXTRAS_SHARED_SECRET, "")
         body.addProperty(ApiConstant.EXTRAS_PLAN_ID, plan_id)
 
         val payment_detail = JsonObject()

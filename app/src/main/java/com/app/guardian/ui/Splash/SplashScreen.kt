@@ -40,6 +40,8 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
         setContentView(view)
 
         initView()
+
+
     }
 
 

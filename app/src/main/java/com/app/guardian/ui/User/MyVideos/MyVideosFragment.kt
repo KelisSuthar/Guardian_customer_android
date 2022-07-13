@@ -2,26 +2,22 @@ package com.app.guardian.ui.User.MyVideos
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Environment
-import android.os.Handler
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.work.*
 import com.app.guardian.ConnectivityChangeReceiver
+import com.app.guardian.NotifyWork
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
-import com.app.guardian.common.AppConstants.BROADCAST_ADD_VIDEO
 import com.app.guardian.common.AppConstants.EXTRA_ACCESS_LOCATION_PERMISSION
 import com.app.guardian.common.AppConstants.EXTRA_CAMERA_PERMISSION
 import com.app.guardian.common.AppConstants.EXTRA_READ_STORAGE_PERMISSION
@@ -39,16 +35,20 @@ import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.base.BaseFragment
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.User.MyVideos.adapter.MyVideoListAdapter
-import com.app.guardian.ui.User.UserHome.UserHomeFragment
+import com.app.guardian.ui.User.MyVideos.adapter.UploadedVideosListAdapter
 import com.app.guardian.ui.VideoPlayer.VideoPlayerActivity
 import com.app.guardian.utils.Config
 import com.google.android.material.textview.MaterialTextView
+import com.google.gson.Gson
+import org.json.JSONStringer
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
+import java.util.concurrent.TimeUnit
 
 
 class MyVideosFragment : BaseFragment(), View.OnClickListener {
     var myVideoListAdapter: MyVideoListAdapter? = null
+    var uploadedVideoListAdapter: UploadedVideosListAdapter? = null
     private val mVideModel: UserViewModel by viewModel()
     lateinit var mBinding: FragmentMyVideosBinding
     var isShow = false
@@ -73,18 +73,20 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
         }
         mBinding.switchAutoUploadVideo.isOn =
             SharedPreferenceManager.getBoolean(AppConstants.IS_OFFLINE_VIDEO_UPLOAD, false)
+        isShow =
+            !SharedPreferenceManager.getBoolean(AppConstants.IS_OFFLINE_VIDEO_UPLOAD, false)
 
 
         mBinding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
 
-            isShow = if (checkedId == R.id.rb1) {
-
+            if (checkedId == R.id.rb1) {
+                setAdapter(true)
                 mBinding.noInternetVideo.llNointernet.gone()
                 mBinding.rv.gone()
                 mBinding.noDataVideo.gone()
                 mBinding.clOfflineVideos.visible()
                 mBinding.tvUploadVideos.gone()
-                mBinding.ivVideo.gone()
+                mBinding.ivVideo.visible()
 
                 if (checkPermissions(
                         Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -106,21 +108,20 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                                 EXTRA_WRITE_STORAGE_PERMISSION
                             )
                 }
-                false
+
             } else {
                 mBinding.noInternetVideo.llNointernet.gone()
                 mBinding.rv.gone()
                 mBinding.noDataVideo.gone()
                 mBinding.clOfflineVideos.visible()
                 mBinding.tvUploadVideos.gone()
-                mBinding.ivVideo.gone()
                 mBinding.clOfflineVideos.gone()
                 mBinding.tvUploadVideos.visible()
-                mBinding.ivVideo.visible()
+                mBinding.ivVideo.gone()
                 callOfflienVideoListAPI()
-                true
+                setAdapter(false)
+
             }
-            setAdapter()
 
         }
     }
@@ -146,14 +147,16 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
             dialog.dismiss()
 
             if (on) {
-                IntentFilter().apply {
-                    addAction("android.intent.action.CUSTOM_ACTION")
-                    requireActivity().registerReceiver(ConnectivityChangeReceiver(), this)
+//                IntentFilter().apply {
+//                    addAction("android.intent.action.CUSTOM_ACTION")
+//                    requireActivity().registerReceiver(ConnectivityChangeReceiver(), this)
+//
+//                }
+//                val i = Intent()
+//                i.action = "android.intent.action.CUSTOM_ACTION"
+//                requireActivity().sendBroadcast(i)
 
-                }
-                val i = Intent()
-                i.action = "android.intent.action.CUSTOM_ACTION"
-                requireActivity().sendBroadcast(i)
+
                 callChnageOfflienVideoStatusAPI(1)
             } else {
                 callChnageOfflienVideoStatusAPI(0)
@@ -219,7 +222,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                 if (element.name.startsWith(resources.getString(R.string.app_name) + "_" + SharedPreferenceManager.getUser()?.id)) {
                     arrayList.add(
                         VideoResp(
-                            i,
+                            i.toString(),
                             element.name,
                             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
                                 .toString() + "/" + resources.getString(R.string.app_name) + "/" + element.name
@@ -290,7 +293,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         mBinding.rb1.isChecked = true
-        setAdapter()
+        setAdapter(true)
         checkPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, EXTRA_READ_STORAGE_PERMISSION)
         checkPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, EXTRA_WRITE_STORAGE_PERMISSION)
 
@@ -336,31 +339,63 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
-    private fun setAdapter() {
-        myVideoListAdapter =
-            MyVideoListAdapter(
-                requireContext(),
-                isShow,
-                object : MyVideoListAdapter.onItemClicklisteners {
-                    override fun onItemClick(position: Int?) {
-                        startActivity(
-                            Intent(
-                                requireActivity(),
-                                VideoPlayerActivity::class.java
-                            ).putExtra(AppConstants.EXTRA_PATH, arrayList[position!!].path)
-                        )
-                        requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
-                        Log.i("THIS_STRING", arrayList[position].title)
-                    }
+    private fun setAdapter(b: Boolean) {
+        if (b) {
+            myVideoListAdapter =
+                MyVideoListAdapter(
+                    requireContext(),
+                    isShow,
+                    object : MyVideoListAdapter.onItemClicklisteners {
+                        override fun onItemClick(position: Int?) {
+                            startActivity(
+                                Intent(
+                                    requireActivity(),
+                                    VideoPlayerActivity::class.java
+                                ).putExtra(AppConstants.EXTRA_PATH, arrayList[position!!].path)
+                            )
+                            requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
+                            Log.i("THIS_STRING", arrayList[position].title)
+                        }
 
-                    override fun onItemDeleteClick(position: Int?) {
-                        showDialog(position)
-                        delete_pos = position!!
-                    }
+                        override fun onItemSelect(position: Int?) {
+                            arrayList[position!!].isSelected =
+                                arrayList[position!!].isSelected != true
 
-                })
-        mBinding.rv.adapter = myVideoListAdapter
-        myVideoListAdapter!!.updateAll(arrayList)
+                            myVideoListAdapter?.updateAll(arrayList)
+                        }
+
+
+                    })
+            mBinding.rv.adapter = myVideoListAdapter
+            myVideoListAdapter!!.updateAll(arrayList)
+        } else {
+            uploadedVideoListAdapter =
+                UploadedVideosListAdapter(
+                    requireContext(),
+                    object : UploadedVideosListAdapter.onItemClicklisteners {
+                        override fun onItemClick(position: Int) {
+                            startActivity(
+                                Intent(
+                                    requireActivity(),
+                                    VideoPlayerActivity::class.java
+                                ).putExtra(
+                                    AppConstants.EXTRA_PATH,
+                                    uploadedVideoListAdapter?.getData()?.get(position)?.video_url
+                                )
+                            )
+                            requireActivity().overridePendingTransition(R.anim.rightto, R.anim.left)
+                        }
+
+                        override fun onItemDeleteClick(position: Int) {
+                            showDialog(position)
+                            delete_pos = position!!
+                        }
+
+
+                    })
+            mBinding.rv.adapter = uploadedVideoListAdapter
+        }
+
     }
 
     private fun showDialog(position: Int?) {
@@ -379,8 +414,8 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
             dialog.dismiss()
         }
         OK.setOnClickListener {
-            callDeleteOfflienVideoAPI(array[position!!].id)
-
+            dialog.dismiss()
+            callDeleteOfflienVideoAPI(uploadedVideoListAdapter?.getData()?.get(position!!)!!.id)
         }
         dialog.show()
     }
@@ -392,6 +427,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
     override fun handleListener() {
         mBinding.ivVideo.setOnClickListener(this)
         mBinding.ivBack.setOnClickListener(this)
+        mBinding.appCompatTextView2.setOnClickListener(this)
     }
 
     override fun initObserver() {
@@ -402,11 +438,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                     it.data?.let { data ->
                         if (it.status) {
                             if (data.isNotEmpty()) {
-                                array.addAll(data)
-                                for (i in data.indices) {
-                                    arrayList.add(VideoResp(i, "", data[i].video_url))
-                                }
-                                myVideoListAdapter?.updateAll(arrayList)
+                                uploadedVideoListAdapter?.updateAll(data)
                                 mBinding.rv.visible()
                                 mBinding.noDataVideo.gone()
                                 mBinding.noInternetVideo.llNointernet.gone()
@@ -472,7 +504,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
-                            myVideoListAdapter?.remove(delete_pos)
+                            uploadedVideoListAdapter?.remove(delete_pos)
                             displayMessage(requireActivity(), it.message.toString())
                         } else {
                             displayMessage(requireActivity(), it.message.toString())
@@ -502,6 +534,17 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         displayMessage(requireActivity(), it.message.toString())
+                        if (SharedPreferenceManager.getBoolean(
+                                AppConstants.IS_OFFLINE_VIDEO_UPLOAD,
+                                false
+                            )
+                        ) {
+                            mBinding.appCompatTextView2.gone()
+                        } else {
+                            mBinding.appCompatTextView2.visible()
+                        }
+                        isShow = !mBinding.switchAutoUploadVideo.isOn
+                        setAdapter(true)
 
                     }
 
@@ -531,7 +574,35 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
             R.id.ivBack -> {
                 requireActivity().onBackPressed()
             }
+            R.id.appCompatTextView2 -> {
+                checkMultipleUploadData()
+            }
         }
+    }
+
+    @SuppressLint("RestrictedApi")
+    private fun checkMultipleUploadData() {
+        val paths = ArrayList<String>()
+        arrayList.forEach {
+            if (it.isSelected == true) {
+                paths.add(it.path)
+            }
+        }
+        if (paths.isNullOrEmpty()) {
+            displayMessage(requireActivity(), "Please Select Video")
+        } else {
+
+            val data = Data.Builder()
+            data.putString("file_path", paths.toString())
+            val constraints: Constraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
+            val notificationWork = OneTimeWorkRequest.Builder(NotifyWork::class.java)
+                .setConstraints(constraints).setInputData(data.build()).build()
+
+            WorkManager.getInstance(requireContext()).enqueue(notificationWork)
+        }
+
     }
 
     private fun makeFolder() {

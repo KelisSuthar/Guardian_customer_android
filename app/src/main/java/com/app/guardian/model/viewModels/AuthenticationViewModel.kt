@@ -273,8 +273,8 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
 
         buyPlanJson.addProperty(ApiConstant.EXTRAS_PRICE_ID, price_id)
         buyPlanJson.addProperty(ApiConstant.EXTRAS_PRICE, price)
-        buyPlanJson.addProperty(ApiConstant.EXTRAS_APPLE_RECEIPT, "fddgfgfgfg@hardik15")
-        buyPlanJson.addProperty(ApiConstant.EXTRAS_SHARED_SECRET, shared_secret)
+        buyPlanJson.addProperty(ApiConstant.EXTRAS_APPLE_RECEIPT, purchaseToken)
+        buyPlanJson.addProperty(ApiConstant.EXTRAS_SHARED_SECRET, "")
 
         val payment_detail = JsonObject()
         payment_detail.addProperty("packageName",packageName)

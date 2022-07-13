@@ -115,15 +115,15 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
 //        {
 //            changeLayout(1)
 //        }
-        if (SharedPreferenceManager.getBoolean(AppConstants.IS_OFFLINE_VIDEO_UPLOAD, false)) {
-            IntentFilter().apply {
-                addAction("android.intent.action.CUSTOM_ACTION")
-                requireActivity().registerReceiver(ConnectivityChangeReceiver(), this)
-            }
-            val i = Intent()
-            i.action = "android.intent.action.CUSTOM_ACTION"
-            requireActivity().sendBroadcast(i)
-        }
+//        if (SharedPreferenceManager.getBoolean(AppConstants.IS_OFFLINE_VIDEO_UPLOAD, false)) {
+//            IntentFilter().apply {
+//                addAction("android.intent.action.CUSTOM_ACTION")
+//                requireActivity().registerReceiver(ConnectivityChangeReceiver(), this)
+//            }
+//            val i = Intent()
+//            i.action = "android.intent.action.CUSTOM_ACTION"
+//            requireActivity().sendBroadcast(i)
+//        }
     }
 
     override fun handleListener() {

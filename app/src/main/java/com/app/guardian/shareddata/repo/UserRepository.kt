@@ -122,7 +122,7 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
             subscriptionResp.value =
                 RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
         } else {
-            subscriptionResp.value = RequestState(progress = true)
+//            subscriptionResp.value = RequestState(progress = true)
             NetworkManager.requestData(
                 mApiEndPoint.buysubscribePlan(buyPlanJson),
                 baseView,
@@ -474,7 +474,7 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
             commonResp.value =
                 RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
         } else {
-            commonResp.value = RequestState(progress = true)
+//            commonResp.value = RequestState(progress = true)
             NetworkManager.requestData(
                 mApiEndPoint.addBannerSubscription(body),
                 baseView,

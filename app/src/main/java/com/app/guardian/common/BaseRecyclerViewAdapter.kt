@@ -47,7 +47,7 @@ abstract class BaseRecyclerViewAdapter<T>(val mContext: Context) :
     }
 
     fun updateAll(mArrayLists: MutableList<T>) {
-        if (!mArrayLists.isNullOrEmpty()){
+        if (!mArrayLists.isNullOrEmpty()) {
             this.mArrayList?.clear()
             this.mArrayList!!.addAll(mArrayLists)
             notifyDataSetChanged()
@@ -67,7 +67,7 @@ abstract class BaseRecyclerViewAdapter<T>(val mContext: Context) :
     fun remove(position: Int) {
         this.mArrayList!!.removeAt(position)
         notifyItemRemoved(position)
-      //  notifyItemRangeChanged(position, mArrayList!!.size)
+        //  notifyItemRangeChanged(position, mArrayList!!.size)
     }
 
     fun removeItem(position: Int) {
