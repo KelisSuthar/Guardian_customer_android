@@ -298,6 +298,7 @@ class MediatorVideoCallReqFragment : BaseFragment(), View.OnClickListener {
                     )
                     intent.putExtra(AppConstants.EXTRA_ROOM_ID, meetingId)
                     startActivity(intent)
+                    requireActivity().finish()
 
                 }
 

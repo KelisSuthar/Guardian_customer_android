@@ -115,6 +115,7 @@ class VideoCallReqFragment : BaseFragment(), View.OnClickListener {
                                 array[position!!].full_name
                             )
                     )
+                    requireActivity().finish()
                 }
             })
         mBinding.rvVideoCallReq.adapter = videoCallReqAdapter

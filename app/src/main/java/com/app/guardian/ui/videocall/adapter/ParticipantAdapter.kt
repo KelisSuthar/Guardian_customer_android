@@ -65,7 +65,7 @@ class ParticipantAdapter(meeting: Meeting) : RecyclerView.Adapter<ParticipantAda
             override fun onStreamDisabled(stream: Stream) {
                 if (stream.kind.equals("video", ignoreCase = true)) {
                     val track = stream.track as VideoTrack
-                    track?.removeSink(holder.svrParticipant)
+                    track.removeSink(holder.svrParticipant)
                     holder.svrParticipant.clearImage()
                     holder.svrParticipant.visibility = View.GONE
                 } else if (stream.kind.equals("audio", ignoreCase = true)) {

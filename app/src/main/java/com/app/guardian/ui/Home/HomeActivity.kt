@@ -395,7 +395,8 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
         } else {
 
             var getFragment = supportFragmentManager.findFragmentById(R.id.flUserContainer)
-            if (getFragment is UserHomeFragment || getFragment is UserHomeFragment || getFragment is UserHomeFragment || getFragment == null) {
+            Log.e("LOGS", ReusedMethod.isAppIsInBackground(this).toString())
+            if (getFragment is UserHomeFragment || getFragment is LawyerHomeFragment || getFragment is MediatorHomeFragment || getFragment == null) {
                 loadHomeScreen()
                 bottomTabVisibility(true)
 
@@ -636,10 +637,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
 
     private fun loadHomeScreen() {
         when {
-            SharedPreferenceManager.getString(
-                AppConstants.USER_ROLE,
-                AppConstants.APP_ROLE_USER
-            ) == AppConstants.APP_ROLE_USER -> {
+            SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER -> {
 
                 ReplaceFragment.replaceFragment(
                     this,
@@ -649,10 +647,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
                     HomeActivity::class.java.name
                 )
             }
-            SharedPreferenceManager.getString(
-                AppConstants.USER_ROLE,
-                AppConstants.APP_ROLE_USER
-            ) == AppConstants.APP_ROLE_LAWYER -> {
+            SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_LAWYER -> {
                 mBinding.bottomNavigationUser.menu.getItem(2).isVisible = false
                 mBinding.bottomNavigationUser.menu.getItem(3).setIcon(R.drawable.ic_history_2)
                 mBinding.bottomNavigationUser.menu.getItem(3).title = "Contact history"
@@ -664,10 +659,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
                     HomeActivity::class.java.name
                 );
             }
-            SharedPreferenceManager.getString(
-                AppConstants.USER_ROLE,
-                AppConstants.APP_ROLE_USER
-            ) == AppConstants.APP_ROLE_MEDIATOR -> {
+            SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_MEDIATOR -> {
                 mBinding.bottomNavigationUser.menu.getItem(2).isVisible = false
                 mBinding.bottomNavigationUser.menu.getItem(3).setIcon(R.drawable.ic_history_2)
                 mBinding.bottomNavigationUser.menu.getItem(3).title = "Contact history"

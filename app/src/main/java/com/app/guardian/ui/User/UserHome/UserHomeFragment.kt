@@ -3,18 +3,13 @@ package com.app.guardian.ui.User.UserHome
 
 import android.app.Activity
 import android.content.Intent
-import android.content.IntentFilter
-import android.net.Uri
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
-import com.app.guardian.BackgroundService
-import com.app.guardian.ConnectivityChangeReceiver
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
-import com.app.guardian.common.ReusedMethod.Companion.isValidUrl
 import com.app.guardian.common.ReusedMethod.Companion.redirectUrl
 import com.app.guardian.common.ReusedMethod.Companion.showSubscriptionDialog
 import com.app.guardian.common.ReusedMethod.Companion.viewPagerScroll
@@ -37,7 +32,6 @@ import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.google.gson.Gson
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.util.regex.Pattern
 
 
 class UserHomeFragment : BaseFragment(), View.OnClickListener {
@@ -82,7 +76,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
 
 
     private fun setAdapter() {
-        bannerAdsPager = BannerAdsPager(requireActivity(), array!!, object
+        bannerAdsPager = BannerAdsPager(requireActivity(), array, object
             : BannerAdsPager.onItemClicklisteners {
             override fun onItemClick(position: Int) {
                 redirectUrl(requireActivity(), array[position].url)

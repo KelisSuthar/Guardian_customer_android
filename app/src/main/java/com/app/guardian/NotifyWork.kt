@@ -15,6 +15,7 @@ import com.amazonaws.services.s3.AmazonS3Client
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.storage.options.StorageUploadFileOptions
 import com.app.guardian.common.AppConstants
+import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.model.CommonResponseModel
 import com.app.guardian.model.Editprofile.UserDetailsResp
@@ -40,56 +41,16 @@ class NotifyWork(context: Context, params: WorkerParameters) : Worker(context, p
 
 
         val paths =
-            inputData.getString("file_path")
+            inputData.getStringArray("file_path")
 
-
-        val chars = listOf(paths)
-        Log.e("MyAmplifyApp_BROADCAST", chars.toString())
-        chars.forEach {
-            val c = listOf(it)
-            c.forEach {i->
-                Log.e("MyAmplifyApp_BROADCAST", i.toString())
+        paths!!.forEach {
+            val file = File(it);
+            if (ReusedMethod.isNetworkConnected(applicationContext)) {
+                if (file.exists()) {
+                    uploadFile(file, applicationContext)
+                }
             }
         }
-//        paths!!.forEach {
-//            Log.e("MyAmplifyApp_BROADCAST", it + "\n\n")
-//        }
-
-
-//        handler.postDelayed(Runnable {
-//            handler.postDelayed(runnable!!, 2000)
-//        val path =
-//            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-//                .toString() + "/" + applicationContext!!.resources.getString(R.string.app_name) + "/"
-//        val f = File(path);
-//        val file = f.listFiles()
-//        if (!file.isNullOrEmpty()) {
-//            for (element in file) {
-//                Log.d("Files", "FileName:" + element.name)
-//                Log.d(
-//                    "Files",
-//                    "FileName:" + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-//                        .toString() + "/" + applicationContext!!.resources.getString(R.string.app_name) + "/" + element.name
-//                )
-//                val file = File(
-//                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-//                        .toString() + "/" + applicationContext!!.resources.getString(R.string.app_name) + "/" + element.name
-//                )
-//                if (SharedPreferenceManager.getBoolean(
-//                        AppConstants.IS_OFFLINE_VIDEO_UPLOAD,
-//                        false
-//                    )
-//                ) {
-//                    if (ReusedMethod.isNetworkConnected(applicationContext)) {
-//                        uploadFile(file, applicationContext)
-//                    }
-//
-//                }
-//
-//
-//            }
-//        }
-
         return success()
     }
 

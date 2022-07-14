@@ -36,11 +36,6 @@ import java.io.File
 class ConnectivityChangeReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         Log.i("ConnectivityChange", "RESUME")
-        val handler = Handler()
-        var runnable: Runnable? = null
-
-//        handler.postDelayed(Runnable {
-//            handler.postDelayed(runnable!!, 2000)
         val path =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
                 .toString() + "/" + context!!.resources.getString(R.string.app_name) + "/"
@@ -64,7 +59,9 @@ class ConnectivityChangeReceiver : BroadcastReceiver() {
                     )
                 ) {
                     if (ReusedMethod.isNetworkConnected(context)) {
-                        uploadFile(file, context)
+                        if (file.exists()) {
+                            uploadFile(file, context)
+                        }
                     }
 
                 }

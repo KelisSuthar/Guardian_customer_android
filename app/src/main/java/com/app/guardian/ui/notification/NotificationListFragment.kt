@@ -63,7 +63,9 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
     override fun initView() {
         broadcaseRecvier = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent) {
-                callAPI()
+                if (!ReusedMethod.isAppIsInBackground(context!!)) {
+                    callAPI()
+                }
             }
         }
         mBinding = getBinding()
@@ -402,6 +404,7 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                     )
                     intent.putExtra(AppConstants.EXTRA_ROOM_ID, meetingId)
                     startActivity(intent)
+                    requireActivity().finish()
 
                 }
 

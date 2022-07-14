@@ -9,5 +9,5 @@ data class VideoResp(
     val title: String,
     val path: String,
     var isSelected:Boolean?=false,
-    val is_Checkable:Boolean?=false,
+    val is_Show:Boolean?=false,
 ) : Parcelable

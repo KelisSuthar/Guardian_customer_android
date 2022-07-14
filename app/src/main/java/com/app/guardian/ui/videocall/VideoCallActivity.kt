@@ -135,7 +135,15 @@ class VideoCallActivity : BaseActivity() {
                     it.data?.let { data ->
                         if (it.status) {
                             meeting!!.end()
-                            ReusedMethod.displayMessage(this, it.message.toString())
+//
+//                            ReusedMethod.displayMessage(this, it.message.toString())
+//                            val intents = Intent(this@VideoCallActivity, HomeActivity::class.java)
+//                            intents.addFlags(
+//                                (Intent.FLAG_ACTIVITY_NEW_TASK
+//                                        or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//                            )
+//                            startActivity(intents)
+//                            finish()
                         } else {
                             ReusedMethod.displayMessage(this, it.message.toString())
                         }
@@ -240,42 +248,44 @@ class VideoCallActivity : BaseActivity() {
             }
 
             //terminate meeting in 10 minutes
-            Handler().postDelayed({
-                if (!isDestroyed) MaterialAlertDialogBuilder(this@VideoCallActivity)
-                    .setTitle("Meeting Left")
-                    .setMessage("Demo app limits meeting to 10 Minutes")
-                    .setCancelable(false)
-                    .setPositiveButton("Ok") { dialog: DialogInterface?, which: Int ->
-                        if (!isDestroyed) meeting!!.leave()
-                        Log.d("Auto Terminate", "run: Meeting Terminated")
-                    }
-                    .create().show()
-            }, 600000)
+//            Handler().postDelayed({
+//                if (!isDestroyed) MaterialAlertDialogBuilder(this@VideoCallActivity)
+//                    .setTitle("Meeting Left")
+//                    .setMessage("Demo app limits meeting to 10 Minutes")
+//                    .setCancelable(false)
+//                    .setPositiveButton("Ok") { dialog: DialogInterface?, which: Int ->
+//                        if (!isDestroyed) meeting!!.leave()
+//                        Log.d("Auto Terminate", "run: Meeting Terminated")
+//                    }
+//                    .create().show()
+//            }, 600000)
         }
 
         override fun onMeetingLeft() {
             Log.d("#meeting", "onMeetingLeft()")
+            Log.d("#meeting_USER", "onMeetingLeft()")
             meeting = null
             if (!isDestroyed) {
-//                val intents = Intent(this@VideoCallActivity, CreateOrJoinActivity::class.java)
-//                intents.addFlags(
-//                    (Intent.FLAG_ACTIVITY_NEW_TASK
-//                            or Intent.FLAG_ACTIVITY_CLEAR_TOP)
-//                )
-//                startActivity(intents)
-//                finish()
-                startActivity(
-                    Intent(
-                        this@VideoCallActivity,
-                        HomeActivity::class.java
-
-                    )
+                val intents = Intent(this@VideoCallActivity, HomeActivity::class.java)
+                intents.addFlags(
+                    (Intent.FLAG_ACTIVITY_NEW_TASK
+                            or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NO_HISTORY)
                 )
-                finish()
+                startActivity(intents)
+//                finish()
+//                startActivity(
+//                    Intent(
+//                        this@VideoCallActivity,
+//                        HomeActivity::class.java
+//
+//                    )
+//                )
+//                finish()
             }
         }
 
         override fun onParticipantJoined(participant: Participant) {
+
             Toast.makeText(
                 this@VideoCallActivity, participant.displayName + " joined",
                 Toast.LENGTH_SHORT
@@ -283,6 +293,7 @@ class VideoCallActivity : BaseActivity() {
         }
 
         override fun onParticipantLeft(participant: Participant) {
+            Log.d("#meeting_USER", "onParticipantLeft()")
             Toast.makeText(
                 this@VideoCallActivity, participant.displayName + " left",
                 Toast.LENGTH_SHORT
@@ -556,6 +567,11 @@ class VideoCallActivity : BaseActivity() {
         })
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        showLeaveOrEndDialog()
+    }
+
     private fun showLeaveOrEndDialog() {
         val dialog = ReusedMethod.setUpDialog(this, R.layout.dialog_layout, false)
         val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
@@ -574,22 +590,16 @@ class VideoCallActivity : BaseActivity() {
         }
         OK.setOnClickListener {
             dialog.dismiss()
-            if (intent.getBooleanExtra(AppConstants.IS_JOIN, false)) {
-                startActivity(
-                    Intent(
-                        this@VideoCallActivity,
-                        HomeActivity::class.java
+            try {
+                if (intent.getBooleanExtra(AppConstants.IS_JOIN, false)) {
+                    meeting?.leave()
+                } else {
+                    callEndMeetingAPI()
+                }
 
-                    )
-                )
-
-                meeting?.leave()
-
-            } else {
-                callEndMeetingAPI()
+            } catch (e: Exception) {
+                Log.e("THIS_APP", e.toString())
             }
-
-
         }
 
         dialog.show()

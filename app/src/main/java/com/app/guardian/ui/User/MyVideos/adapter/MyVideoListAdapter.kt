@@ -45,7 +45,13 @@ class MyVideoListAdapter(
                 ivSelect.gone()
             }
         }
+
         open fun bindData(data: VideoResp, position: Int) {
+            if (data.is_Show == true) {
+                itemView.gone()
+            } else {
+                itemView.visible()
+            }
             if (data.isSelected == true) {
                 ivSelect.setImageResource(R.drawable.ic_outline_check_circle_outline)
             } else {
@@ -57,12 +63,14 @@ class MyVideoListAdapter(
 
             llplay.setOnClickListener { listener.onItemClick(position) }
             itemView.setOnClickListener { listener.onItemSelect(position) }
+            ivClose.setOnClickListener { listener.ontItemDelete(position) }
         }
     }
 
     interface onItemClicklisteners {
         fun onItemClick(position: Int?)
         fun onItemSelect(position: Int?)
+        fun ontItemDelete(position: Int)
     }
 
 

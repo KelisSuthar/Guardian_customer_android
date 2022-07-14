@@ -3,7 +3,6 @@ package com.app.guardian.ui.User.MyVideos
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Environment
 import android.provider.MediaStore
@@ -13,9 +12,6 @@ import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.work.*
-import com.app.guardian.ConnectivityChangeReceiver
-import com.app.guardian.NotifyWork
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.AppConstants.EXTRA_ACCESS_LOCATION_PERMISSION
@@ -39,11 +35,8 @@ import com.app.guardian.ui.User.MyVideos.adapter.UploadedVideosListAdapter
 import com.app.guardian.ui.VideoPlayer.VideoPlayerActivity
 import com.app.guardian.utils.Config
 import com.google.android.material.textview.MaterialTextView
-import com.google.gson.Gson
-import org.json.JSONStringer
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
-import java.util.concurrent.TimeUnit
 
 
 class MyVideosFragment : BaseFragment(), View.OnClickListener {
@@ -54,6 +47,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
     var isShow = false
     var delete_pos = -1
     var arrayList = ArrayList<VideoResp>()
+    val new_array = ArrayList<VideoResp>()
     var array = ArrayList<OfflineUploadedVideoResp>()
     override fun getInflateResource(): Int {
         return R.layout.fragment_my_videos
@@ -228,6 +222,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                                 .toString() + "/" + resources.getString(R.string.app_name) + "/" + element.name
                         )
                     )
+
                 }
 
             }
@@ -360,14 +355,30 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                         override fun onItemSelect(position: Int?) {
                             arrayList[position!!].isSelected =
                                 arrayList[position!!].isSelected != true
+                            new_array.clear()
 
-                            myVideoListAdapter?.updateAll(arrayList)
+
+                            myVideoListAdapter?.update(
+                                position!!,
+                                VideoResp(
+                                    arrayList[position].id,
+                                    arrayList[position].title,
+                                    arrayList[position].path,
+                                    arrayList[position!!].isSelected,
+                                    arrayList[position].is_Show
+                                )
+                            )
+                            new_array.addAll(myVideoListAdapter?.getData()!!)
+                        }
+
+                        override fun ontItemDelete(position: Int) {
+                            showDialog(position, true)
                         }
 
 
                     })
             mBinding.rv.adapter = myVideoListAdapter
-            myVideoListAdapter!!.updateAll(arrayList)
+
         } else {
             uploadedVideoListAdapter =
                 UploadedVideosListAdapter(
@@ -387,7 +398,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                         }
 
                         override fun onItemDeleteClick(position: Int) {
-                            showDialog(position)
+                            showDialog(position, false)
                             delete_pos = position!!
                         }
 
@@ -398,7 +409,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
 
     }
 
-    private fun showDialog(position: Int?) {
+    private fun showDialog(position: Int?, b: Boolean) {
         val dialog = ReusedMethod.setUpDialog(requireContext(), R.layout.dialog_layout, false)
         val OK = dialog.findViewById<MaterialTextView>(R.id.tvPositive)
         val TITLE = dialog.findViewById<TextView>(R.id.tvTitle)
@@ -415,7 +426,19 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
         }
         OK.setOnClickListener {
             dialog.dismiss()
-            callDeleteOfflienVideoAPI(uploadedVideoListAdapter?.getData()?.get(position!!)!!.id)
+            if (b) {
+                val file = File(myVideoListAdapter?.getData()?.get(position!!)!!.path)
+                if (file.exists()) {
+                    if (file.delete()) {
+                        displayMessage(requireActivity(), "Video Deleted Successfully")
+                        myVideoListAdapter?.remove(position!!)
+                    }
+                }
+
+            } else {
+                callDeleteOfflienVideoAPI(uploadedVideoListAdapter?.getData()?.get(position!!)!!.id)
+            }
+
         }
         dialog.show()
     }
@@ -545,6 +568,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                         }
                         isShow = !mBinding.switchAutoUploadVideo.isOn
                         setAdapter(true)
+                        myVideoListAdapter!!.updateAll(arrayList)
 
                     }
 
@@ -583,24 +607,39 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
     @SuppressLint("RestrictedApi")
     private fun checkMultipleUploadData() {
         val paths = ArrayList<String>()
-        arrayList.forEach {
-            if (it.isSelected == true) {
-                paths.add(it.path)
+        val array = ArrayList<VideoResp>()
+        for (i in arrayList.indices) {
+            if (arrayList[i].isSelected == true) {
+                paths.add(arrayList[i].path)
+            } else {
+                array.add(arrayList[i])
             }
         }
+
         if (paths.isNullOrEmpty()) {
             displayMessage(requireActivity(), "Please Select Video")
         } else {
-
-            val data = Data.Builder()
-            data.putString("file_path", paths.toString())
-            val constraints: Constraints = Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build()
-            val notificationWork = OneTimeWorkRequest.Builder(NotifyWork::class.java)
-                .setConstraints(constraints).setInputData(data.build()).build()
-
-            WorkManager.getInstance(requireContext()).enqueue(notificationWork)
+            myVideoListAdapter?.updateAll(array)
+            Log.e("PATHS", arrayList.toString())
+            if (myVideoListAdapter?.getData().isNullOrEmpty()) {
+                mBinding.noDataVideo.visible()
+                mBinding.noInternetVideo.llNointernet.gone()
+                mBinding.rv.gone()
+            } else {
+                mBinding.noDataVideo.gone()
+                mBinding.rv.visible()
+                mBinding.noInternetVideo.llNointernet.gone()
+            }
+//            val data = Data.Builder()
+////            data.putString("file_path", paths.toString())
+//            data.putStringArray("file_path", paths.toArray(arrayOfNulls<String>(paths.size)))
+//            val constraints: Constraints = Constraints.Builder()
+//                .setRequiredNetworkType(NetworkType.CONNECTED)
+//                .build()
+//            val notificationWork = OneTimeWorkRequest.Builder(NotifyWork::class.java)
+//                .setConstraints(constraints).setInputData(data.build()).build()
+//
+//            WorkManager.getInstance(requireContext()).enqueue(notificationWork)
         }
 
     }
