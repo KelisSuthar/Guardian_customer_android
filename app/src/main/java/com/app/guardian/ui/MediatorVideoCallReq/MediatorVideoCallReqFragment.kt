@@ -219,7 +219,7 @@ class MediatorVideoCallReqFragment : BaseFragment(), View.OnClickListener {
 
     fun AcceptRejectDialog(userRole: String, userId: Int, id: Int) {
         val dialog =
-            ReusedMethod.setUpDialog(requireActivity(), R.layout.dialog_layout, false)
+            ReusedMethod.setUpDialog(requireActivity(), R.layout.dialog_layout, true)
         val tvTitle: TextView = dialog.findViewById(R.id.tvTitle)
         val tvMessage: TextView = dialog.findViewById(R.id.tvMessage)
         val tvNegative: MaterialTextView = dialog.findViewById(R.id.tvNegative)

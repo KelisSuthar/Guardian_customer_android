@@ -1,12 +1,9 @@
 package com.app.guardian.ui.SubscriptionPlan
 
 import android.app.Activity
-import android.content.Intent
 import android.util.Log
 import android.view.View
 import com.android.billingclient.api.*
-import com.app.guardian.BuildConfig
-import com.app.guardian.OAuthInterceptor
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
@@ -14,28 +11,17 @@ import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivitySubScriptionPlanScreenBinding
-import com.app.guardian.model.CommonResponse
-import com.app.guardian.model.CommonResponseModel
-import com.app.guardian.model.OfflineVideos.UploadOfflineVideoResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.model.viewModels.LawyerViewModel
 import com.app.guardian.shareddata.base.BaseActivity
-import com.app.guardian.shareddata.endpoint.ApiEndPoint
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.SubscriptionPlan.Adapter.SubscriptionPlanAdapter
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.google.android.gms.common.util.CollectionUtils
-import com.google.gson.JsonObject
-import okhttp3.OkHttpClient
 import org.json.JSONObject
 import org.koin.android.viewmodel.ext.android.viewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUpdatedListener {

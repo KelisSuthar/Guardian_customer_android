@@ -514,15 +514,15 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             mBinding.edtSpecializations.setText(data.specialization)
             mBinding.edtYearsOfExp.setText(data.years_of_experience)
             mBinding.edtOfficeNum.setText(data.office_phone)
-            mBinding.ccp1.setCountryForPhoneCode(data.office_dialing_code!!)
+            mBinding.ccp1.setCountryForPhoneCode(data.office_dialing_code!!.toInt())
         }
-        mBinding.ccp2.setCountryForPhoneCode(data.dialing_code!!)
+        mBinding.ccp2.setCountryForPhoneCode(data.dialing_code!!.toInt())
         mBinding.edtPhone.setText(data.phone)
         mBinding.edtProvience.setText(data.state)
         mBinding.edtPostalCode.setText(data.postal_code)
         mBinding.edtRegisteredLicenceNum.setText(data.licence_no)
 
-        if (data.profile_avatar != "null" || data.profile_avatar!!.isNotEmpty()) {
+        if (data.profile_avatar != "null" || data.profile_avatar.isNotEmpty()) {
             profile_img = data.profile_avatar.toString()
             mBinding.ivProfileImg.loadImage(data.profile_avatar)
             Glide.with(this)
@@ -1011,7 +1011,63 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
 
                 override fun success() {
 
-                    if (isValidTime()) {
+                    if (SharedPreferenceManager.getLoginUserRole() != AppConstants.APP_ROLE_USER) {
+                        if (isValidTime()) {
+                            ReusedMethod.ShowNoBorders(
+                                this@EditProfileActivity,
+                                mBinding.edtFullname
+                            )
+                            ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtEmail)
+                            ReusedMethod.ShowNoBorders(
+                                this@EditProfileActivity,
+                                mBinding.edtSpecializations
+                            )
+                            ReusedMethod.ShowNoBorders(
+                                this@EditProfileActivity,
+                                mBinding.edtYearsOfExp
+                            )
+                            ReusedMethod.ShowNoBorders(
+                                this@EditProfileActivity,
+                                mBinding.edtOfficeNum
+                            )
+                            ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtPhone)
+                            ReusedMethod.ShowNoBorders(
+                                this@EditProfileActivity,
+                                mBinding.edtProvience
+                            )
+                            ReusedMethod.ShowNoBorders(
+                                this@EditProfileActivity,
+                                mBinding.edtProvience
+                            )
+                            ReusedMethod.ShowRedBorders(
+                                this@EditProfileActivity,
+                                mBinding.edtRegisteredLicenceNum
+                            )
+                            ReusedMethod.ShowRedBorders(
+                                this@EditProfileActivity,
+                                mBinding.edtFromTime
+                            )
+                            ReusedMethod.ShowRedBorders(
+                                this@EditProfileActivity,
+                                mBinding.edtToTime
+                            )
+                            ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtDesc)
+                            if (!TextUtils.isEmpty(selectedFile.toString()) || upload_img_array.size > 0  ) {
+                                uploadFile(selectedFile, upload_img_array)
+                            } else {
+                                callEditProfileApi()
+                            }
+                        } else {
+                            displayMessageDialog(
+                                this@EditProfileActivity,
+                                "",
+                                "Please enter attest 30min difference time",
+                                false,
+                                "OK",
+                                ""
+                            )
+                        }
+                    } else {
                         ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFullname)
                         ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtEmail)
                         ReusedMethod.ShowNoBorders(
@@ -1030,22 +1086,13 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtFromTime)
                         ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtToTime)
                         ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtDesc)
-                        if (!TextUtils.isEmpty(selectedFile.toString()) || upload_img_array.size > 0) {
+                        if (!selectedFile?.absolutePath.isNullOrEmpty() || upload_img_array.size > 0) {
                             uploadFile(selectedFile, upload_img_array)
                         } else {
                             callEditProfileApi()
                         }
-                    } else {
-                        displayMessageDialog(
-                            this@EditProfileActivity,
-                            "",
-                            "Please enter attest 30min difference time",
-                            false,
-                            "OK",
-                            ""
-                        )
-                    }
 
+                    }
 
                 }
 

@@ -18,6 +18,7 @@ import com.amplifyframework.storage.options.StorageUploadFileOptions
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
+import com.app.guardian.injection.OAuthInterceptor
 import com.app.guardian.model.CommonResponseModel
 import com.app.guardian.model.OfflineVideos.UploadOfflineVideoResp
 import com.app.guardian.shareddata.endpoint.ApiEndPoint
@@ -102,7 +103,9 @@ class ConnectivityChangeReceiver : BroadcastReceiver() {
                         "${context.resources.getString(R.string.aws_base_url)}${selectedFile?.name}"
                     Log.i("attachmentUrl", attachmentUrl)
                     if (selectedFile.exists()) {
-                        selectedFile.delete()
+                        if (selectedFile.delete()) {
+                            Log.i("MyAmplifyApp_BROADCAST", "FILE Deleted Successfully")
+                        }
                     }
 //                    HomeActivity().callUploadOfflienVideoAPI(attachmentUrl)
                     postData(attachmentUrl)
@@ -160,13 +163,3 @@ class ConnectivityChangeReceiver : BroadcastReceiver() {
 
 }
 
-class OAuthInterceptor(private val tokenType: String, private val acceessToken: String) :
-    Interceptor {
-
-    override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
-        var request = chain.request()
-        request = request.newBuilder().header("Authorization", "$tokenType $acceessToken").build()
-
-        return chain.proceed(request)
-    }
-}

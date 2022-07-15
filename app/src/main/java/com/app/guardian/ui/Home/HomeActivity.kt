@@ -16,6 +16,8 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -221,10 +223,22 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
         try {
             var menuView: BottomNavigationMenuView? = null
             var itemView: BottomNavigationItemView? = null
+//            menuView = mBinding.bottomNavigationUser.getChildAt(0) as BottomNavigationMenuView
             menuView = mBinding.bottomNavigationUser.getChildAt(0) as BottomNavigationMenuView
-            itemView = menuView.getChildAt(4) as BottomNavigationItemView
+            itemView =
+                if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
+                    menuView.getChildAt(4) as BottomNavigationItemView
+                } else {
 
-            Log.e("menuItem", "Update menu item : $menuView   :  $itemView")
+                    menuView.getChildAt(0) as BottomNavigationItemView
+                }
+
+//            itemView = menuView.findViewById(R.id.menu_setting) as BottomNavigationItemView
+
+            Log.e("menuItem", "Update menu item : ${menuView.getChildAt(1).id}   :  $itemView")
+            Log.e("menuItem", "Update menu item : ${menuView[4]}   :  $itemView")
+//            notificationBadge = LayoutInflater.from(this)
+//                .inflate(R.layout.item_notification_layout, menuView, false)
             notificationBadge = LayoutInflater.from(this)
                 .inflate(R.layout.item_notification_layout, menuView, false)
             itemView.addView(notificationBadge)

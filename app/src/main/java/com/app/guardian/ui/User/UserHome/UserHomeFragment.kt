@@ -3,9 +3,11 @@ package com.app.guardian.ui.User.UserHome
 
 import android.app.Activity
 import android.content.Intent
+import android.content.IntentFilter
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
+import com.app.guardian.ConnectivityChangeReceiver
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReplaceFragment
@@ -109,15 +111,15 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
 //        {
 //            changeLayout(1)
 //        }
-//        if (SharedPreferenceManager.getBoolean(AppConstants.IS_OFFLINE_VIDEO_UPLOAD, false)) {
-//            IntentFilter().apply {
-//                addAction("android.intent.action.CUSTOM_ACTION")
-//                requireActivity().registerReceiver(ConnectivityChangeReceiver(), this)
-//            }
-//            val i = Intent()
-//            i.action = "android.intent.action.CUSTOM_ACTION"
-//            requireActivity().sendBroadcast(i)
-//        }
+        if (SharedPreferenceManager.getBoolean(AppConstants.IS_OFFLINE_VIDEO_UPLOAD, false)) {
+            IntentFilter().apply {
+                addAction("android.intent.action.CUSTOM_ACTION")
+                requireActivity().registerReceiver(ConnectivityChangeReceiver(), this)
+            }
+            val i = Intent()
+            i.action = "android.intent.action.CUSTOM_ACTION"
+            requireActivity().sendBroadcast(i)
+        }
     }
 
     override fun handleListener() {

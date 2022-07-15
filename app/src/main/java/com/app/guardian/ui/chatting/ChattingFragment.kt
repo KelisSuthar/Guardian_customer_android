@@ -20,6 +20,7 @@ import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.ReusedMethod.Companion.displayMessage
 import com.app.guardian.common.ReusedMethod.Companion.getCurrentDate
+import com.app.guardian.common.ReusedMethod.Companion.setUpDialog
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.changeDateFormat
 import com.app.guardian.common.extentions.gone
@@ -393,7 +394,18 @@ class ChattingFragment(
                 CallSendMessageAPI()
             }
             R.id.appCompatImageView3 -> {
-                displayVideoCallDialog(selectedLawyerListId)
+                if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
+
+                    displayVideoCallDialog(selectedLawyerListId)
+                } else {
+                    callVideoCallRequestAPI(
+                        selectedLawyerListId!!,
+                        AppConstants.APP_ROLE_LAWYER,
+                        0,
+                        "",
+                        0,
+                    )
+                }
 //                displayMessage(requireActivity(), resources.getString(R.string.come_soon))
 
             }
@@ -469,14 +481,7 @@ class ChattingFragment(
     }
 
     fun displayVideoCallDialog(id: Int?) {
-        val dialog = Dialog(
-            requireContext(),
-            com.google.android.material.R.style.Base_Theme_AppCompat_Light_Dialog_Alert
-        )
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.setContentView(R.layout.dialog_do_you_need_mediator)
-        dialog.setCancelable(true)
+        val dialog = setUpDialog(requireContext(),R.layout.dialog_do_you_need_mediator,true)
 
         val YES = dialog.findViewById<MaterialTextView>(R.id.txtDialogYes)
         val NO = dialog.findViewById<MaterialTextView>(R.id.txtDialogNo)

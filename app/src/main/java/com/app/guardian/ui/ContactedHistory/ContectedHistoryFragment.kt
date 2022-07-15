@@ -216,7 +216,8 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                             AppConstants.APP_ROLE_LAWYER,
                             0,
                             "",
-                        0)
+                            0
+                        )
                     }
 
                 }

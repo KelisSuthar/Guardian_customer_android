@@ -64,11 +64,6 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         mBinding = getBinding()
         setViews()
         Log.e("EDIT_APP", SharedPreferenceManager.getUser().toString())
-        if (SharedPreferenceManager.getUser().toString().isNullOrEmpty()) {
-            callGetuserDetailsApi()
-        } else {
-            setData(SharedPreferenceManager.getUser())
-        }
         mBinding.txtSettingNotificationCoout.gone()
         if (SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, -1) > 0) {
             mBinding.txtSettingNotificationCoout.visible()
@@ -82,16 +77,6 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 
     }
 
-    private fun callGetuserDetailsApi() {
-        if (ReusedMethod.isNetworkConnected(requireContext())) {
-            mViewModel.getUserDetials(true, requireActivity() as BaseActivity)
-        } else {
-            ReusedMethod.displayMessage(
-                requireActivity(),
-                resources.getString(R.string.text_error_network)
-            )
-        }
-    }
 
     private fun setData(user: UserDetailsResp?) {
         Glide.with(requireActivity())
@@ -99,8 +84,6 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
             .placeholder(R.drawable.profile)
             .into(mBinding.imgProfile)
         mBinding.txtUName.text = user?.full_name
-
-
     }
 
     //todo : broadcast for chat notification
@@ -208,6 +191,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 
     private fun callCMSAPI() {
         if (ReusedMethod.isNetworkConnected(requireActivity())) {
+            mViewModel.getUserDetials(true, requireActivity() as BaseActivity)
             mViewModel.getCMSData(true, context as BaseActivity)
         } else {
             ReusedMethod.displayMessage(

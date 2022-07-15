@@ -180,6 +180,13 @@
                 <action android:name="android.intent.action.CUSTOM_ACTION" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".ConnectivityChangeReceiver2"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.CUSTOM_ACTION_2" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -109,11 +109,7 @@ class LawyerListAdapter(
 
 
             imgRowLawyerVideo?.setOnClickListener {
-                if (SharedPreferenceManager.getString(
-                        AppConstants.USER_ROLE,
-                        ""
-                    ) == AppConstants.APP_ROLE_USER
-                ) {
+                if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
 
                     lawyerListFragment.displayVideoCallDialog(lawyerProfileData.id)
                 } else {

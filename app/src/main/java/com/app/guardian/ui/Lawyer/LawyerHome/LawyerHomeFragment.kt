@@ -187,7 +187,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                 requestState.error?.let { errorObj ->
                     when (errorObj.errorState) {
                         Config.NETWORK_ERROR ->
-                            ReusedMethod.displayMessage(
+                            displayMessage(
                                 requireActivity(),
                                 getString(R.string.text_error_network)
                             )
@@ -196,10 +196,10 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                             errorObj.customMessage
                                 ?.let {
                                     if (errorObj.code == ApiConstant.API_401) {
-                                        ReusedMethod.displayMessage(requireActivity(), it)
+                                        displayMessage(requireActivity(), it)
                                         (activity as HomeActivity).unAuthorizedNavigation()
                                     } else {
-                                        ReusedMethod.displayMessage(context as Activity, it)
+                                        displayMessage(context as Activity, it)
                                     }
                                 }
                     }
@@ -215,7 +215,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
 
 
                         if (!it.status) {
-                            ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+                            displayMessage(requireActivity(), it.message.toString())
                             mBinding.cl.gone()
                             mBinding.noDataUserHomeFrag.visible()
                             mBinding.noInternetUserHomeFrag.llNointernet.gone()
@@ -226,14 +226,14 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                 requestState.error?.let { errorObj ->
                     when (errorObj.errorState) {
                         Config.NETWORK_ERROR ->
-                            ReusedMethod.displayMessage(
+                            displayMessage(
                                 requireActivity(),
                                 getString(R.string.text_error_network)
                             )
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let { ReusedMethod.displayMessage(requireActivity(), it) }
+                                ?.let { displayMessage(requireActivity(), it) }
                     }
                 }
             }
@@ -258,7 +258,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                 requestState.error?.let { errorObj ->
                     when (errorObj.errorState) {
                         Config.NETWORK_ERROR ->
-                            ReusedMethod.displayMessage(
+                            displayMessage(
                                 requireActivity(),
                                 getString(R.string.text_error_network)
                             )
@@ -281,7 +281,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                                             R.anim.left
                                         )
                                     } else {
-                                        ReusedMethod.displayMessage(this as Activity, it)
+                                        displayMessage( requireActivity(), it)
                                     }
                                 }
                     }

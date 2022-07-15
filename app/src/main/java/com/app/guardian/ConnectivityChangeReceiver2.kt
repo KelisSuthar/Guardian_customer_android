@@ -1,12 +1,12 @@
 package com.app.guardian
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
 import android.os.Environment
+import android.os.Handler
 import android.os.NetworkOnMainThreadException
 import android.util.Log
-import androidx.work.ListenableWorker.Result.success
-import androidx.work.Worker
-import androidx.work.WorkerParameters
 import com.amazonaws.ClientConfiguration
 import com.amazonaws.Protocol
 import com.amazonaws.auth.BasicAWSCredentials
@@ -18,17 +18,16 @@ import com.amplifyframework.storage.options.StorageUploadFileOptions
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
+import com.app.guardian.injection.OAuthInterceptor
 import com.app.guardian.model.CommonResponseModel
-import com.app.guardian.model.Editprofile.UserDetailsResp
 import com.app.guardian.model.OfflineVideos.UploadOfflineVideoResp
-import com.app.guardian.model.Video.VideoResp
+import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.endpoint.ApiEndPoint
 import com.app.guardian.utils.ApiConstant
-import com.google.gson.Gson
 import com.google.gson.JsonObject
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import org.json.JSONArray
+import org.webrtc.ContextUtils.getApplicationContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,25 +36,25 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 
 
-class NotifyWork(context: Context, params: WorkerParameters) : Worker(context, params) {
-    override fun doWork(): Result {
+class ConnectivityChangeReceiver2 : BroadcastReceiver() {
+    override fun onReceive(context: Context?, intent: Intent?) {
 
 
         val paths =
-            inputData.getStringArray("file_path")
+            intent?.getStringArrayListExtra("file_path")
+        Log.i("ConnectivityChange_2", "RESUME")
+        Log.i("ConnectivityChange_2", paths.toString())
+        for (i in paths?.indices!!) {
+            val file = File(paths[i].toString())
 
-        paths!!.forEach {
-            val file = File(it);
-            if (ReusedMethod.isNetworkConnected(applicationContext)) {
-                if (file.exists()) {
-                    uploadFile(file, applicationContext)
-
-                }
+            if (file.exists()) {
+                Log.i("THIS_FILE", file.absolutePath)
+                uploadFile(file, context!!)
             }
         }
 
 
-    return success()
+    }
 }
 
 private fun uploadFile(selectedFile: File?, context: Context) {
@@ -86,12 +85,28 @@ private fun uploadFile(selectedFile: File?, context: Context) {
                 attachmentUrl =
                     "${context.resources.getString(R.string.aws_base_url)}${selectedFile?.name}"
                 Log.i("attachmentUrl", attachmentUrl)
-                if (selectedFile.exists()) {
-                    if (selectedFile.delete()) {
-                        Log.i("MyAmplifyApp_BROADCAST", "FILE Deleted Successfully")
-                    }
-                }
-                postData(attachmentUrl)
+                Handler().postDelayed(
+                    {
+                        Log.i("THIS_FILE", selectedFile.absolutePath)
+                        if (selectedFile.exists()) {
+                            selectedFile.canonicalFile.delete()
+                            if (selectedFile.exists()) {
+                                getApplicationContext().deleteFile (selectedFile.name);
+
+                                Log.i("MyAmplifyApp_BROADCAST", "FILE Deleted Successfully")
+                                postData(attachmentUrl)
+                            } else {
+                                Log.i("MyAmplifyApp_BROADCAST", "FILE IS NOT DELETED")
+                            }
+                        } else {
+                            Log.i("MyAmplifyApp_BROADCAST", "FILE IS NOT EXIXTS")
+                        }
+                    }, 2000
+                )
+
+
+//                    HomeActivity().callUploadOfflienVideoAPI(attachmentUrl)
+
 
             },
             {
@@ -144,16 +159,4 @@ private fun postData(attachmentUrl: String) {
     })
 }
 
-class OAuthInterceptor(private val tokenType: String, private val acceessToken: String) :
-    Interceptor {
-
-    override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
-        var request = chain.request()
-        request =
-            request.newBuilder().header("Authorization", "$tokenType $acceessToken").build()
-
-        return chain.proceed(request)
-    }
-}
-}
 

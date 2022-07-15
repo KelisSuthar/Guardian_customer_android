@@ -82,7 +82,7 @@ class LawyerBySpecializationAdapter(
                 imgPicture!!
             )
             imgRowLawyerCall?.setOnClickListener {
-                if (array.profile_avatar.isNullOrEmpty()) {
+                if (!array.profile_avatar.isNullOrEmpty()) {
                     fragment.callShowLawyerContactDetails(
                         array.full_name!!,
                         "array.email",

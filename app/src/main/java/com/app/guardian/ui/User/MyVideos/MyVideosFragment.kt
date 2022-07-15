@@ -3,6 +3,7 @@ package com.app.guardian.ui.User.MyVideos
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Environment
 import android.provider.MediaStore
@@ -12,6 +13,10 @@ import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.work.*
+import com.app.guardian.ConnectivityChangeReceiver
+import com.app.guardian.ConnectivityChangeReceiver2
+import com.app.guardian.NotifyWork
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.AppConstants.EXTRA_ACCESS_LOCATION_PERMISSION
@@ -37,6 +42,7 @@ import com.app.guardian.utils.Config
 import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
+import kotlin.math.log
 
 
 class MyVideosFragment : BaseFragment(), View.OnClickListener {
@@ -45,6 +51,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
     private val mVideModel: UserViewModel by viewModel()
     lateinit var mBinding: FragmentMyVideosBinding
     var isShow = false
+    var is_first_time = true
     var delete_pos = -1
     var arrayList = ArrayList<VideoResp>()
     val new_array = ArrayList<VideoResp>()
@@ -141,14 +148,10 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
             dialog.dismiss()
 
             if (on) {
-//                IntentFilter().apply {
-//                    addAction("android.intent.action.CUSTOM_ACTION")
-//                    requireActivity().registerReceiver(ConnectivityChangeReceiver(), this)
-//
-//                }
-//                val i = Intent()
-//                i.action = "android.intent.action.CUSTOM_ACTION"
-//                requireActivity().sendBroadcast(i)
+
+                val i = Intent()
+                i.action = "android.intent.action.CUSTOM_ACTION"
+                requireActivity().sendBroadcast(i)
 
 
                 callChnageOfflienVideoStatusAPI(1)
@@ -163,6 +166,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
     @SuppressLint("LogNotTimber")
     private fun getAllVideos() {
         arrayList.clear()
+        new_array.clear()
 //        val selection = MediaStore.Video.Media.DATA + " like?"
 //        val selectionArgs = arrayOf(
 //            "%" + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/" + resources.getString(
@@ -222,6 +226,14 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                                 .toString() + "/" + resources.getString(R.string.app_name) + "/" + element.name
                         )
                     )
+//                    new_array.add(
+//                        VideoResp(
+//                            i.toString(),
+//                            element.name,
+//                            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+//                                .toString() + "/" + resources.getString(R.string.app_name) + "/" + element.name
+//                        )
+//                    )
 
                 }
 
@@ -237,7 +249,6 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
             mBinding.noInternetVideo.llNointernet.gone()
         }
 
-        myVideoListAdapter?.updateAll(arrayList)
     }
 
 
@@ -296,6 +307,16 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
             Manifest.permission.CAMERA,
             EXTRA_CAMERA_PERMISSION
         )
+        IntentFilter().apply {
+            addAction("android.intent.action.CUSTOM_ACTION")
+            requireActivity().registerReceiver(ConnectivityChangeReceiver(), this)
+
+        }
+        IntentFilter().apply {
+            addAction("android.intent.action.CUSTOM_ACTION_2")
+            requireActivity().registerReceiver(ConnectivityChangeReceiver2(), this)
+
+        }
 //        makeFolder()
         if (checkPermissions(
                 Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -340,6 +361,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                 MyVideoListAdapter(
                     requireContext(),
                     isShow,
+                    arrayList,
                     object : MyVideoListAdapter.onItemClicklisteners {
                         override fun onItemClick(position: Int?) {
                             startActivity(
@@ -353,22 +375,40 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                         }
 
                         override fun onItemSelect(position: Int?) {
+
                             arrayList[position!!].isSelected =
                                 arrayList[position!!].isSelected != true
-                            new_array.clear()
+                            myVideoListAdapter?.notifyDataSetChanged()
+//                            if (is_first_time) {
+//                                arrayList[position!!].isSelected =
+//                                    arrayList[position!!].isSelected != true
+//
+//                                myVideoListAdapter?.update(
+//                                    position!!,
+//                                    VideoResp(
+//                                        arrayList[position].id,
+//                                        arrayList[position].title,
+//                                        arrayList[position].path,
+//                                        arrayList[position!!].isSelected,
+//                                        arrayList[position].is_Show
+//                                    )
+//                                )
+//                            } else {
+//                                new_array[position!!].isSelected =
+//                                    new_array[position].isSelected != true
+//
+//                                myVideoListAdapter?.update(
+//                                    position,
+//                                    VideoResp(
+//                                        new_array[position].id,
+//                                        new_array[position].title,
+//                                        new_array[position].path,
+//                                        new_array[position].isSelected,
+//                                        new_array[position].is_Show
+//                                    )
+//                                )
+//                            }
 
-
-                            myVideoListAdapter?.update(
-                                position!!,
-                                VideoResp(
-                                    arrayList[position].id,
-                                    arrayList[position].title,
-                                    arrayList[position].path,
-                                    arrayList[position!!].isSelected,
-                                    arrayList[position].is_Show
-                                )
-                            )
-                            new_array.addAll(myVideoListAdapter?.getData()!!)
                         }
 
                         override fun ontItemDelete(position: Int) {
@@ -427,11 +467,13 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
         OK.setOnClickListener {
             dialog.dismiss()
             if (b) {
-                val file = File(myVideoListAdapter?.getData()?.get(position!!)!!.path)
+//                val file = File(myVideoListAdapter?.getData()?.get(position!!)!!.path)
+                val file = File(arrayList[position!!].path)
                 if (file.exists()) {
                     if (file.delete()) {
                         displayMessage(requireActivity(), "Video Deleted Successfully")
-                        myVideoListAdapter?.remove(position!!)
+//                        myVideoListAdapter?.remove(position!!)
+                        arrayList.removeAt(position)
                     }
                 }
 
@@ -568,7 +610,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                         }
                         isShow = !mBinding.switchAutoUploadVideo.isOn
                         setAdapter(true)
-                        myVideoListAdapter!!.updateAll(arrayList)
+//                        myVideoListAdapter!!.updateAll(arrayList)
 
                     }
 
@@ -606,22 +648,42 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
 
     @SuppressLint("RestrictedApi")
     private fun checkMultipleUploadData() {
+        is_first_time = false
+        new_array.clear()
         val paths = ArrayList<String>()
-        val array = ArrayList<VideoResp>()
         for (i in arrayList.indices) {
             if (arrayList[i].isSelected == true) {
                 paths.add(arrayList[i].path)
             } else {
-                array.add(arrayList[i])
+                new_array.add(arrayList[i])
             }
         }
 
         if (paths.isNullOrEmpty()) {
             displayMessage(requireActivity(), "Please Select Video")
         } else {
-            myVideoListAdapter?.updateAll(array)
-            Log.e("PATHS", arrayList.toString())
-            if (myVideoListAdapter?.getData().isNullOrEmpty()) {
+
+
+            val data = Data.Builder()
+//            val i = Intent()
+//            i.action = "android.intent.action.CUSTOM_ACTION_2"
+//            i.putStringArrayListExtra("file_path", paths)
+//            requireActivity().sendBroadcast(i)
+            data.putString("file_path", paths.toString())
+            data.putStringArray("file_path", paths.toArray(arrayOfNulls<String>(paths.size)))
+            val constraints: Constraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
+            val notificationWork = OneTimeWorkRequest.Builder(NotifyWork::class.java)
+                .setConstraints(constraints).setInputData(data.build()).build()
+
+            WorkManager.getInstance(requireContext()).enqueue(notificationWork)
+            arrayList.clear()
+            arrayList.addAll(new_array)
+            setAdapter(true)
+            Log.e("PATHS", paths.toString())
+//            myVideoListAdapter?.updateAll(new_array)
+            if (arrayList.isNullOrEmpty()) {
                 mBinding.noDataVideo.visible()
                 mBinding.noInternetVideo.llNointernet.gone()
                 mBinding.rv.gone()
@@ -630,16 +692,6 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                 mBinding.rv.visible()
                 mBinding.noInternetVideo.llNointernet.gone()
             }
-//            val data = Data.Builder()
-////            data.putString("file_path", paths.toString())
-//            data.putStringArray("file_path", paths.toArray(arrayOfNulls<String>(paths.size)))
-//            val constraints: Constraints = Constraints.Builder()
-//                .setRequiredNetworkType(NetworkType.CONNECTED)
-//                .build()
-//            val notificationWork = OneTimeWorkRequest.Builder(NotifyWork::class.java)
-//                .setConstraints(constraints).setInputData(data.build()).build()
-//
-//            WorkManager.getInstance(requireContext()).enqueue(notificationWork)
         }
 
     }
