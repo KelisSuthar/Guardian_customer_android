@@ -28,6 +28,7 @@ import com.app.guardian.databinding.ActivityVideoCallBinding
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.Home.HomeActivity
+import com.app.guardian.ui.editProfile.EditProfileActivity
 import com.app.guardian.ui.videocall.adapter.ParticipantAdapter
 import com.app.guardian.utils.Config
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -266,7 +267,7 @@ class VideoCallActivity : BaseActivity() {
             Log.d("#meeting_USER", "onMeetingLeft()")
             meeting = null
             if (!isDestroyed) {
-                val intents = Intent(this@VideoCallActivity, HomeActivity::class.java)
+                val intents = Intent(this@VideoCallActivity, EditProfileActivity::class.java)
                 intents.addFlags(
                     (Intent.FLAG_ACTIVITY_NEW_TASK
                             or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NO_HISTORY)

@@ -127,72 +127,76 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
         }
         mBinding = getBinding()
 
-//        mBinding.bottomNavigationUser.setOnNavigationItemSelectedListener {
-//            when (it.itemId) {
-//                R.id.menu_home -> {
-//                    clearFragmentBackStack()
-//                    loadHomeScreen()
-////                    ReplaceFragment.replaceFragment(this,KnowRightFragment(),false,"",HomeActivity::class.java.name)
-//                }
-//                R.id.menu_lawyer -> {
-//                    clearFragmentBackStack()
-////                    ReplaceFragment.replaceFragment(
-////                        this,
-////                        ChattingFragment(),
-////                        false,
-////                        "",
-////                        HomeActivity::class.java.name
-////                    )
+        mBinding.bottomNavigationUser.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.menu_home -> {
+                    clearFragmentBackStack()
+                    loadHomeScreen()
+//                    ReplaceFragment.replaceFragment(this,KnowRightFragment(),false,"",HomeActivity::class.java.name)
+                }
+                R.id.menu_lawyer -> {
+                    clearFragmentBackStack()
 //                    ReplaceFragment.replaceFragment(
 //                        this,
-//                        LawyerListFragment(false),
+//                        ChattingFragment(),
 //                        false,
 //                        "",
 //                        HomeActivity::class.java.name
 //                    )
-//                }
-//                R.id.menu_radar -> {
-//                    clearFragmentBackStack()
-//                    ReplaceFragment.replaceFragment(
-//                        this,
-//                        RadarFragment(),
-//                        false,
-//                        "",
-//                        HomeActivity::class.java.name
-//                    )
-//
-//                }
-//                R.id.menu_history -> {
-//                    clearFragmentBackStack()
-//                    ReplaceFragment.replaceFragment(
-//                        this,
-//                        ContectedHistoryFragment(),
-//                        false,
-//                        "",
-//                        HomeActivity::class.java.name
-//                    )
-//                }
-//                R.id.menu_setting -> {
-//                    onHideBadgeCounter()
-//                    clearFragmentBackStack()
-//                    ReplaceFragment.replaceFragment(
-//                        this,
-//                        SettingsFragment(),
-//                        false,
-//                        "",
-//                        HomeActivity::class.java.name
-//                    )
-//                }
-//            }
-//            true
-//        }
-//
-//
-//        mBinding.headerToolbar.ivBack.setOnClickListener()
-//        {
-//            onBackPressed()
-//        }
+                    ReplaceFragment.replaceFragment(
+                        this,
+                        LawyerListFragment(false),
+                        false,
+                        "",
+                        HomeActivity::class.java.name
+                    )
+                }
+                R.id.menu_radar -> {
+                    clearFragmentBackStack()
+                    ReplaceFragment.replaceFragment(
+                        this,
+                        RadarFragment(),
+                        false,
+                        "",
+                        HomeActivity::class.java.name
+                    )
+
+                }
+                R.id.menu_history -> {
+                    clearFragmentBackStack()
+                    ReplaceFragment.replaceFragment(
+                        this,
+                        ContectedHistoryFragment(),
+                        false,
+                        "",
+                        HomeActivity::class.java.name
+                    )
+                }
+                R.id.menu_setting -> {
+                    onHideBadgeCounter()
+                    clearFragmentBackStack()
+                    ReplaceFragment.replaceFragment(
+                        this,
+                        SettingsFragment(),
+                        false,
+                        "",
+                        HomeActivity::class.java.name
+                    )
+                }
+            }
+            true
+        }
+
+
+        mBinding.headerToolbar.ivBack.setOnClickListener()
+        {
+            onBackPressed()
+        }
         //bottom navigation click listener
+        Log.i(
+            "NOTIFICATION_H",
+            SharedPreferenceManager.getString("NOTIFICATION", "").toString()
+        )
 
 
         locationManager = getSystemService(
@@ -204,7 +208,11 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
         locationRequest?.interval = 20 * 1000
 
 
-        headerTextVisible(resources.getString(R.string.seek_legal_advice), false, true)
+        headerTextVisible(
+            resources.getString(R.string.seek_legal_advice),
+            isHeaderVisible = false,
+            isBackButtonVisible = true
+        )
 
         applybadgeview()
 
@@ -317,76 +325,76 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
             }
         }
 
-        mBinding.bottomNavigationUser.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.menu_home -> {
-                    clearFragmentBackStack()
-                    loadHomeScreen()
-//                    ReplaceFragment.replaceFragment(this,KnowRightFragment(),false,"",HomeActivity::class.java.name)
-                }
-                R.id.menu_lawyer -> {
-                    clearFragmentBackStack()
+//        mBinding.bottomNavigationUser.setOnNavigationItemSelectedListener {
+//            when (it.itemId) {
+//                R.id.menu_home -> {
+//                    clearFragmentBackStack()
+//                    loadHomeScreen()
+////                    ReplaceFragment.replaceFragment(this,KnowRightFragment(),false,"",HomeActivity::class.java.name)
+//                }
+//                R.id.menu_lawyer -> {
+//                    clearFragmentBackStack()
+////                    ReplaceFragment.replaceFragment(
+////                        this,
+////                        ChattingFragment(),
+////                        false,
+////                        "",
+////                        HomeActivity::class.java.name
+////                    )
 //                    ReplaceFragment.replaceFragment(
 //                        this,
-//                        ChattingFragment(),
+//                        LawyerListFragment(false),
 //                        false,
 //                        "",
 //                        HomeActivity::class.java.name
 //                    )
-                    ReplaceFragment.replaceFragment(
-                        this,
-                        LawyerListFragment(false),
-                        false,
-                        "",
-                        HomeActivity::class.java.name
-                    )
-                }
-                R.id.menu_radar -> {
-                    clearFragmentBackStack()
-                    ReplaceFragment.replaceFragment(
-                        this,
-                        RadarFragment(),
-                        false,
-                        "",
-                        HomeActivity::class.java.name
-                    )
-
-                }
-                R.id.menu_history -> {
-                    clearFragmentBackStack()
-                    ReplaceFragment.replaceFragment(
-                        this,
-                        ContectedHistoryFragment(),
-                        false,
-                        "",
-                        HomeActivity::class.java.name
-                    )
-                }
-                R.id.menu_setting -> {
-                    onHideBadgeCounter()
-                    clearFragmentBackStack()
-                    ReplaceFragment.replaceFragment(
-                        this,
-                        SettingsFragment(),
-                        false,
-                        "",
-                        HomeActivity::class.java.name
-                    )
-                }
-            }
-            true
-        }
-
-
-        mBinding.headerToolbar.ivBack.setOnClickListener()
-        {
-            onBackPressed()
-        }
-        //bottom navigation click listener
-        Log.i(
-            "NOTIFICATION_H",
-            SharedPreferenceManager.getString("NOTIFICATION", "").toString()
-        )
+//                }
+//                R.id.menu_radar -> {
+//                    clearFragmentBackStack()
+//                    ReplaceFragment.replaceFragment(
+//                        this,
+//                        RadarFragment(),
+//                        false,
+//                        "",
+//                        HomeActivity::class.java.name
+//                    )
+//
+//                }
+//                R.id.menu_history -> {
+//                    clearFragmentBackStack()
+//                    ReplaceFragment.replaceFragment(
+//                        this,
+//                        ContectedHistoryFragment(),
+//                        false,
+//                        "",
+//                        HomeActivity::class.java.name
+//                    )
+//                }
+//                R.id.menu_setting -> {
+//                    onHideBadgeCounter()
+//                    clearFragmentBackStack()
+//                    ReplaceFragment.replaceFragment(
+//                        this,
+//                        SettingsFragment(),
+//                        false,
+//                        "",
+//                        HomeActivity::class.java.name
+//                    )
+//                }
+//            }
+//            true
+//        }
+//
+//
+//        mBinding.headerToolbar.ivBack.setOnClickListener()
+//        {
+//            onBackPressed()
+//        }
+//        //bottom navigation click listener
+//        Log.i(
+//            "NOTIFICATION_H",
+//            SharedPreferenceManager.getString("NOTIFICATION", "").toString()
+//        )
 
 
         if (intent != null && intent.extras != null) {
@@ -408,13 +416,14 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
 
         } else {
 
-            var getFragment = supportFragmentManager.findFragmentById(R.id.flUserContainer)
+            val getFragment = supportFragmentManager.findFragmentById(R.id.flUserContainer)
             Log.e("LOGS", ReusedMethod.isAppIsInBackground(this).toString())
-            if (getFragment is UserHomeFragment || getFragment is LawyerHomeFragment || getFragment is MediatorHomeFragment || getFragment == null) {
+//            if (getFragment is UserHomeFragment || getFragment is LawyerHomeFragment || getFragment is MediatorHomeFragment || getFragment == null) {
+                clearFragmentBackStack()
                 loadHomeScreen()
                 bottomTabVisibility(true)
 
-            }
+//            }
         }
     }
 

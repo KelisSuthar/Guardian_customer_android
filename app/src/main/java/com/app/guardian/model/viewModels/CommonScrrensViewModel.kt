@@ -506,7 +506,11 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
         )
     }
     //SEND REJECT MED REQ
+    private val rejectRejectCallByMediatorResp =
+        MutableLiveData<RequestState<CommonResponse>>()
 
+    fun getRejectCallByMediatorResp(): LiveData<RequestState<CommonResponse>> =
+        rejectRejectCallByMediatorResp
     fun sendRejectCallByMediatorResp(
         isInternetConnected: Boolean,
         baseView: BaseActivity,
@@ -518,7 +522,7 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
             body,
             isInternetConnected,
             baseView,
-            acceptRejectCallByMediatorResp
+            rejectRejectCallByMediatorResp
         )
     }
 

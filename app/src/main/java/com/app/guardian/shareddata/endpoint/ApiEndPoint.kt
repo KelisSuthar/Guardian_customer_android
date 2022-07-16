@@ -203,7 +203,7 @@ interface ApiEndPoint {
     fun acceptCallByMeditor(@Body body: JsonObject): Call<CommonResponseModel<AcceptRejectCallByMediatorResp>>
 
     @POST("declineUserRequestByMediator")
-    fun rejectCallByMeditor(@Body body: JsonObject): Call<CommonResponseModel<AcceptRejectCallByMediatorResp>>
+    fun rejectCallByMeditor(@Body body: JsonObject): Call<CommonResponseModel<CommonResponse>>
 
 
     @DELETE("deleteVideo/{id}")

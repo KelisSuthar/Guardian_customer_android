@@ -1091,7 +1091,7 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
         body: JsonObject,
         internetConnected: Boolean,
         baseView: BaseActivity,
-        acceptRejectCallByMediatorResp: MutableLiveData<RequestState<AcceptRejectCallByMediatorResp>>
+        acceptRejectCallByMediatorResp: MutableLiveData<RequestState<CommonResponse>>
     ) {
         if (!internetConnected) {
             acceptRejectCallByMediatorResp.value =

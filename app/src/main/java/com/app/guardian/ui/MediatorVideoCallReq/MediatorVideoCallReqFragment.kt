@@ -144,7 +144,7 @@ class MediatorVideoCallReqFragment : BaseFragment(), View.OnClickListener {
 
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
-                                ?.let {}
+                                ?.let { ReusedMethod.displayMessage(requireActivity(), it) }
                     }
                 }
             }
@@ -174,6 +174,35 @@ class MediatorVideoCallReqFragment : BaseFragment(), View.OnClickListener {
                         Config.CUSTOM_ERROR ->
                             errorObj.customMessage
                                 ?.let {}
+                    }
+                }
+            }
+        }
+        mViewModel.getRejectCallByMediatorResp().observe(this) { response ->
+            response?.let { requestState ->
+                showLoadingIndicator(requestState.progress)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        ReusedMethod.displayMessage(requireActivity(), it.message.toString())
+
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                requireActivity(),
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {
+                                    ReusedMethod.displayMessage(
+                                        requireActivity(),
+                                        it
+                                    )
+                                }
                     }
                 }
             }
