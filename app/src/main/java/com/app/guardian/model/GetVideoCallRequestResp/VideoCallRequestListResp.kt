@@ -18,6 +18,7 @@ data class VideoCallRequestListResp(
     val note: String,
     val phone: String,
     val profile_avatar: String,
+    val state: String? = "",
     val request_datetime: String,
     val request_status: String,
     val my_status: String,

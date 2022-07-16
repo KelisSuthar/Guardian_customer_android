@@ -428,6 +428,13 @@ interface UserRepo {
         acceptRejectCallByMediatorResp: MutableLiveData<RequestState<CommonResponse>>
     )
 
+    fun sendVideoCallRequestFromLawyerToUser(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        scheduleRequestedVideoCallFromLawyerToUserResp: MutableLiveData<RequestState<SendVideoCallReqResp>>
+    )
+
 
 }
 

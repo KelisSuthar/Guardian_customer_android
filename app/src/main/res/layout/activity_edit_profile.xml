@@ -138,7 +138,7 @@
 
                     <com.rilixtech.widget.countrycodepicker.CountryCodePicker
                         android:id="@+id/ccp1"
-                        android:layout_width="@dimen/_40sdp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@drawable/left_corners_blue_back"
                         android:gravity="center"
@@ -192,10 +192,9 @@
 
                     <com.rilixtech.widget.countrycodepicker.CountryCodePicker
                         android:id="@+id/ccp2"
-                        android:layout_width="@dimen/_40sdp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@drawable/left_corners_blue_back"
-                        android:focusable="false"
                         android:gravity="center"
                         android:padding="@dimen/_10sdp"
                         android:paddingVertical="@dimen/_10sdp"
@@ -207,6 +206,7 @@
                         app:ccp_setCountryByTimeZone="true"
                         app:ccp_showFlag="false"
                         app:ccp_showFullName="false"
+                        app:ccp_clickable="false"
                         app:ccp_textColor="@color/white"
                         app:ccp_textSize="@dimen/_9ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -381,7 +381,6 @@
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
-
 
 
                 <LinearLayout

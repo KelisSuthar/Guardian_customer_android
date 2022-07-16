@@ -312,10 +312,10 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
             requireActivity().registerReceiver(ConnectivityChangeReceiver(), this)
 
         }
-        IntentFilter().apply {
-            addAction("android.intent.action.CUSTOM_ACTION_2")
-            requireActivity().registerReceiver(ConnectivityChangeReceiver2(), this)
-
+        if (SharedPreferenceManager.getBoolean(AppConstants.IS_OFFLINE_VIDEO_UPLOAD, false)) {
+            val i = Intent()
+            i.action = "android.intent.action.CUSTOM_ACTION"
+            requireActivity().sendBroadcast(i)
         }
 //        makeFolder()
         if (checkPermissions(

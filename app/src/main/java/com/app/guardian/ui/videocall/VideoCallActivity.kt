@@ -273,7 +273,7 @@ class VideoCallActivity : BaseActivity() {
                             or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NO_HISTORY)
                 )
                 startActivity(intents)
-//                finish()
+                finish()
 //                startActivity(
 //                    Intent(
 //                        this@VideoCallActivity,

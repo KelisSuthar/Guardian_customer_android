@@ -59,8 +59,8 @@ class VideoCallReqAdapter(val context: Context, val listener: onItemClicklistene
             when (data.user_role) {
                 AppConstants.APP_ROLE_USER -> {
                     txtExp.text = AppConstants.USER
-                    txtSpTitle.text = "Details :"
-                    txtSpecialization.text = data.description
+                    txtSpTitle.text = "Location :"
+                    txtSpecialization.text = data.state!!.replace("/", ",")
                 }
                 AppConstants.APP_ROLE_LAWYER -> {
                     txtExp.text = AppConstants.LAWYEER

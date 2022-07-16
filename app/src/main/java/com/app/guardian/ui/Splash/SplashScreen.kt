@@ -180,7 +180,6 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
 //                                intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!
 //                            )
 //                        }
-
                     }
                 } else {
                     startActivity(
@@ -192,8 +191,6 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
                     )
                 }
             }
-
-
         }, 2000)
     }
 

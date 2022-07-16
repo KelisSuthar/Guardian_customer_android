@@ -163,6 +163,7 @@ class UserHomeFragment : BaseFragment(), View.OnClickListener {
                             mBinding.noDataUserHomeFrag.visible()
                             mBinding.noInternetUserHomeFrag.llNointernet.gone()
                         }
+                        showLoadingIndicator(false)
 
                     }
                 }

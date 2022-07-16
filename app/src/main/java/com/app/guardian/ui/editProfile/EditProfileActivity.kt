@@ -93,6 +93,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         callGetuserDetailsApi()
         mBinding.ccp1.setCountryForPhoneCode(1)
         mBinding.ccp2.setCountryForPhoneCode(1)
+
         locationManager = getSystemService(
             Context.LOCATION_SERVICE
         ) as LocationManager
@@ -1052,7 +1053,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                                 mBinding.edtToTime
                             )
                             ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtDesc)
-                            if (!TextUtils.isEmpty(selectedFile.toString()) || upload_img_array.size > 0  ) {
+                            if (!TextUtils.isEmpty(selectedFile.toString()) || upload_img_array.size > 0) {
                                 uploadFile(selectedFile, upload_img_array)
                             } else {
                                 callEditProfileApi()

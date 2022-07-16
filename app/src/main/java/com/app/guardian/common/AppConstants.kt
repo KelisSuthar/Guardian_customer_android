@@ -84,6 +84,7 @@ object AppConstants {
     const val EXTRA_ROOM_ID = "ROOM_ID"
     const val EXTRA_NAME = "NAME"
     const val IS_JOIN = "IS_JOIN"
+    const val IS_CANTATCED_JOIN = "IS_CANTATCED_JOIN"
 
     const val EXTRA_VIRTUAL_WITNESS_PAYLOAD = "virtual_witness_request"
     const val EXTRA_VIDEOCALLREQ_PAYLOAD = "video_call_request"

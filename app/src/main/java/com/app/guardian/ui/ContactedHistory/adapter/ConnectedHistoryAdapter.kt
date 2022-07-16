@@ -127,16 +127,27 @@ class ConnectedHistoryAdapter(
                 }
             }
 
-            imgRowLawyerCall?.setOnClickListener { listeners.onCallClick(position, array.id,array.full_name,array.email,array.phone,array.profile_avatar) }
-            imgRowLawyerChat?.setOnClickListener { listeners.onChatClick(position,array.id) }
+            imgRowLawyerCall?.setOnClickListener {
+                listeners.onCallClick(
+                    position,
+                    array.id,
+                    array.full_name,
+                    array.email,
+                    array.phone,
+                    array.profile_avatar
+                )
+            }
+            imgRowLawyerChat?.setOnClickListener { listeners.onChatClick(position, array.id) }
             imgRowLawyerVideoCall?.setOnClickListener {
                 listeners.onVideCallClick(
                     position,
-                    array.id
+                    array.id,
+                    array.full_name,
+
                 )
             }
 //            itemView.setOnClickListener { listeners.onNotesClick(position) }
-            itemView.setOnClickListener { listeners.onItemClick(position,array.id) }
+            itemView.setOnClickListener { listeners.onItemClick(position, array.id) }
 
             txtName!!.text = array.full_name
             if (!array.years_of_experience.isNullOrEmpty()) {
@@ -170,10 +181,11 @@ class ConnectedHistoryAdapter(
             phone: String?,
             profileAvatar: String?
         )
-        fun onChatClick(position: Int,id: Int?)
-        fun onNotesClick(position: Int,id: Int?)
-        fun onItemClick(position: Int,id: Int?)
-        fun onVideCallClick(position: Int, id: Int?)
+
+        fun onChatClick(position: Int, id: Int?)
+        fun onNotesClick(position: Int, id: Int?)
+        fun onItemClick(position: Int, id: Int?)
+        fun onVideCallClick(position: Int, id: Int?, fullName: String?)
     }
 
     override fun getFilter(): Filter {

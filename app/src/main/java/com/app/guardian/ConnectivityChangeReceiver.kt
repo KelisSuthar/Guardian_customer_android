@@ -59,11 +59,14 @@ class ConnectivityChangeReceiver : BroadcastReceiver() {
                         false
                     )
                 ) {
-                    if (ReusedMethod.isNetworkConnected(context)) {
-                        if (file.exists()) {
-                            uploadFile(file, context)
+                    if (element.name.startsWith(context.getString(R.string.app_name) + "_" + SharedPreferenceManager.getUser()?.id)) {
+                        if (ReusedMethod.isNetworkConnected(context)) {
+                            if (file.exists()) {
+                                uploadFile(file, context)
+                            }
                         }
                     }
+
 
                 }
 

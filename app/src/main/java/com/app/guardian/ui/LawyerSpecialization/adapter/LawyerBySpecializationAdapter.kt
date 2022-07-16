@@ -85,14 +85,14 @@ class LawyerBySpecializationAdapter(
                 if (!array.profile_avatar.isNullOrEmpty()) {
                     fragment.callShowLawyerContactDetails(
                         array.full_name!!,
-                        "array.email",
+                        array.email,
                         array.dialing_code + array.phone!!,
                         array.profile_avatar!!,
                     )
                 } else {
                     fragment.callShowLawyerContactDetails(
                         array.full_name!!,
-                        "array.email!!",
+                        array.email,
                         array.dialing_code + array.phone!!,
                         "",
                     )
@@ -114,7 +114,7 @@ class LawyerBySpecializationAdapter(
                         AppConstants.APP_ROLE_LAWYER,
                         0,
                         "",
-                    0
+                        0
                     )
                 }
 

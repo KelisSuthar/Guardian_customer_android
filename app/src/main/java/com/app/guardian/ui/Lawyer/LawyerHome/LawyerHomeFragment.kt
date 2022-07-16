@@ -181,7 +181,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                             mBinding.noDataUserHomeFrag.visible()
                             mBinding.noInternetUserHomeFrag.llNointernet.gone()
                         }
-
+                        showLoadingIndicator(false)
                     }
                 }
                 requestState.error?.let { errorObj ->
@@ -281,7 +281,7 @@ class LawyerHomeFragment : BaseFragment(), View.OnClickListener {
                                             R.anim.left
                                         )
                                     } else {
-                                        displayMessage( requireActivity(), it)
+                                        displayMessage(requireActivity(), it)
                                     }
                                 }
                     }

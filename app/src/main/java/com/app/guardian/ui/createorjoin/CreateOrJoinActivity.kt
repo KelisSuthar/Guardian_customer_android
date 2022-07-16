@@ -25,6 +25,7 @@ class CreateOrJoinActivity : AppCompatActivity() {
     var to_id = ""
     var role = ""
     var name = ""
+    var is_cantacted = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,11 +36,19 @@ class CreateOrJoinActivity : AppCompatActivity() {
         txtUserName.text = "Create Meeting\nWith\n" + intent.getStringExtra(AppConstants.EXTRA_NAME)
 //        val btnJoin = findViewById<Button>(R.id.btnJoinMeeting)
 //        etMeetingId = findViewById(R.id.etMeetingId)
+        if (intent.getBooleanExtra(AppConstants.IS_CANTATCED_JOIN, false)) {
+            role = intent.getStringExtra(AppConstants.EXTRA_TO_ROLE)!!
+            name = intent.getStringExtra(AppConstants.EXTRA_NAME)!!
+            to_id = intent.getStringExtra(AppConstants.EXTRA_TO_ID)!!
+            is_cantacted = intent.getBooleanExtra(AppConstants.IS_CANTATCED_JOIN, false)
+        } else {
+            role = intent.getStringExtra(AppConstants.EXTRA_TO_ROLE)!!
+            name = intent.getStringExtra(AppConstants.EXTRA_NAME)!!
+            to_id = intent.getStringExtra(AppConstants.EXTRA_TO_ID)!!
+            history_id = intent.getStringExtra(AppConstants.EXTRA_CALLING_HISTORY_ID)!!
 
-        role = intent.getStringExtra(AppConstants.EXTRA_TO_ROLE)!!
-        name = intent.getStringExtra(AppConstants.EXTRA_NAME)!!
-        to_id = intent.getStringExtra(AppConstants.EXTRA_TO_ID)!!
-        history_id = intent.getStringExtra(AppConstants.EXTRA_CALLING_HISTORY_ID)!!
+        }
+
         //
         btnCreate.setOnClickListener { v: View? -> getToken(null) }
     }
@@ -134,6 +143,10 @@ class CreateOrJoinActivity : AppCompatActivity() {
                         intent.putExtra(
                             AppConstants.IS_JOIN,
                             false
+                        )
+                        intent.putExtra(
+                            AppConstants.IS_CANTATCED_JOIN,
+                            is_cantacted
                         )
                         intent.putExtra(
                             AppConstants.EXTRA_URL,

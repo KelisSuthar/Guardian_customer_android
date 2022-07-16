@@ -106,7 +106,12 @@ class VideoCallJoinActivity : BaseActivity() {
         mBinding.btnMic!!.setOnClickListener { v: View? -> toggleMic() }
 
         mBinding.btnWebcam!!.setOnClickListener { v: View? -> toggleWebcam() }
-        if (!intent.getBooleanExtra(AppConstants.IS_JOIN, false)) {
+        if (intent.getBooleanExtra(AppConstants.IS_CANTATCED_JOIN, false)) {
+            to_id = intent.getStringExtra(AppConstants.EXTRA_TO_ID)!!
+            role = intent.getStringExtra(AppConstants.EXTRA_TO_ROLE)!!
+            url = intent.getStringExtra(AppConstants.EXTRA_URL)!!
+            room_id = intent.getStringExtra(AppConstants.EXTRA_ROOM_ID)!!
+        } else if (!intent.getBooleanExtra(AppConstants.IS_JOIN, false)) {
             history_id = intent.getStringExtra(AppConstants.EXTRA_CALLING_HISTORY_ID)!!
             to_id = intent.getStringExtra(AppConstants.EXTRA_TO_ID)!!
             role = intent.getStringExtra(AppConstants.EXTRA_TO_ROLE)!!
@@ -117,7 +122,9 @@ class VideoCallJoinActivity : BaseActivity() {
         meetingId = intent.getStringExtra("meetingId")!!
 
         btnJoin.setOnClickListener { v: View? ->
-            if (intent.getBooleanExtra(AppConstants.IS_JOIN, false)) {
+            if (intent.getBooleanExtra(AppConstants.IS_CANTATCED_JOIN, false)) {
+                callScheduaCallFromLawyerTOUserAPI()
+            } else if (intent.getBooleanExtra(AppConstants.IS_JOIN, false)) {
                 val intent = Intent(
                     this@VideoCallJoinActivity,
                     VideoCallActivity::class.java
@@ -138,6 +145,7 @@ class VideoCallJoinActivity : BaseActivity() {
             }
         }
     }
+
 
     override fun initObserver() {
         mViewModel.getscheduleRequestedVideoCallResp().observe(this) { response ->
@@ -188,6 +196,51 @@ class VideoCallJoinActivity : BaseActivity() {
                 }
             }
         }
+        //SEND VIDEO CALLREQUEST FROM CONTACTED HISTRY RESP
+        mViewModel.getscheduleRequestedVideoCallFromLawyerToUserResp().observe(this) { response ->
+            response?.let { requestState ->
+                isVisible(requestState.progress, dialog)
+                requestState.apiResponse?.let {
+                    it.data?.let { data ->
+                        if (it.status) {
+                            val intent = Intent(
+                                this@VideoCallJoinActivity,
+                                VideoCallActivity::class.java
+                            )
+                            intent.putExtra("token", token)
+                            intent.putExtra("meetingId", meetingId)
+                            intent.putExtra("micEnabled", micEnabled)
+                            intent.putExtra("webcamEnabled", webcamEnabled)
+                            intent.putExtra(
+                                "paticipantName",
+                                mBinding.etName!!.text.toString().trim()
+                            )
+                            intent.putExtra(AppConstants.IS_JOIN, true)
+                            startActivity(intent)
+                            finish()
+
+
+                            ReusedMethod.displayMessage(this, it.message.toString())
+                        } else {
+                            ReusedMethod.displayMessage(this, it.message.toString())
+                        }
+                    }
+                }
+                requestState.error?.let { errorObj ->
+                    when (errorObj.errorState) {
+                        Config.NETWORK_ERROR ->
+                            ReusedMethod.displayMessage(
+                                this,
+                                getString(R.string.text_error_network)
+                            )
+
+                        Config.CUSTOM_ERROR ->
+                            errorObj.customMessage
+                                ?.let {}
+                    }
+                }
+            }
+        }
     }
 
     override fun handleListener() {
@@ -203,6 +256,21 @@ class VideoCallJoinActivity : BaseActivity() {
                 role,
                 url,
                 room_id,
+            )
+        } else {
+            ReusedMethod.displayMessage(this, resources.getString(R.string.text_error_network))
+        }
+    }
+
+    private fun callScheduaCallFromLawyerTOUserAPI() {
+        if (ReusedMethod.isNetworkConnected(this)) {
+            mViewModel.sendVidecallRequestByLawyertoUser(
+                true,
+                this,
+                to_id,
+                role,
+                room_id,
+                url,
             )
         } else {
             ReusedMethod.displayMessage(this, resources.getString(R.string.text_error_network))

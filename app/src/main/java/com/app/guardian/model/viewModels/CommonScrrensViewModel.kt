@@ -3,6 +3,7 @@ package com.app.guardian.model.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod.Companion.getCurrentDate
 import com.app.guardian.model.AcceptRejectCallByMediator.AcceptRejectCallByMediatorResp
 import com.app.guardian.model.AskModeQResp.ChatListResp
@@ -450,6 +451,36 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
         )
     }
 
+    //SEND VIDEO CALLREQUEST FROM CONTACTED HISTRY
+
+    private val scheduleRequestedVideoCallFromLawyerToUserResp =
+        MutableLiveData<RequestState<SendVideoCallReqResp>>()
+
+    fun getscheduleRequestedVideoCallFromLawyerToUserResp(): LiveData<RequestState<SendVideoCallReqResp>> =
+        scheduleRequestedVideoCallFromLawyerToUserResp
+
+    fun sendVidecallRequestByLawyertoUser(
+        isInternetConnected: Boolean,
+        baseView: BaseActivity,
+        to_id: String,
+        to_role: String,
+        room_id: String,
+        url: String,
+    ) {
+        val body = JsonObject()
+        body.addProperty(ApiConstant.EXTRAS_TO_ID, to_id)
+        body.addProperty(ApiConstant.EXTRAS_TO_ROLE, to_role)
+        body.addProperty("schedule_datetim", getCurrentDate())
+        body.addProperty(ApiConstant.EXTRAS_ROOM_ID, room_id)
+        body.addProperty(ApiConstant.EXTRAS_URL, url)
+        mUserRepository.sendVideoCallRequestFromLawyerToUser(
+            body,
+            isInternetConnected,
+            baseView,
+            scheduleRequestedVideoCallFromLawyerToUserResp
+        )
+    }
+
     //SEND END CALLREQUEST
     private val sendEndcallReqresp =
         MutableLiveData<RequestState<CommonResponse>>()
@@ -505,12 +536,14 @@ class CommonScreensViewModel(private val mUserRepository: UserRepo) : ViewModel(
             acceptRejectCallByMediatorResp
         )
     }
+
     //SEND REJECT MED REQ
     private val rejectRejectCallByMediatorResp =
         MutableLiveData<RequestState<CommonResponse>>()
 
     fun getRejectCallByMediatorResp(): LiveData<RequestState<CommonResponse>> =
         rejectRejectCallByMediatorResp
+
     fun sendRejectCallByMediatorResp(
         isInternetConnected: Boolean,
         baseView: BaseActivity,

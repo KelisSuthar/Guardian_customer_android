@@ -127,76 +127,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
         }
         mBinding = getBinding()
 
-        mBinding.bottomNavigationUser.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.menu_home -> {
-                    clearFragmentBackStack()
-                    loadHomeScreen()
-//                    ReplaceFragment.replaceFragment(this,KnowRightFragment(),false,"",HomeActivity::class.java.name)
-                }
-                R.id.menu_lawyer -> {
-                    clearFragmentBackStack()
-//                    ReplaceFragment.replaceFragment(
-//                        this,
-//                        ChattingFragment(),
-//                        false,
-//                        "",
-//                        HomeActivity::class.java.name
-//                    )
-                    ReplaceFragment.replaceFragment(
-                        this,
-                        LawyerListFragment(false),
-                        false,
-                        "",
-                        HomeActivity::class.java.name
-                    )
-                }
-                R.id.menu_radar -> {
-                    clearFragmentBackStack()
-                    ReplaceFragment.replaceFragment(
-                        this,
-                        RadarFragment(),
-                        false,
-                        "",
-                        HomeActivity::class.java.name
-                    )
 
-                }
-                R.id.menu_history -> {
-                    clearFragmentBackStack()
-                    ReplaceFragment.replaceFragment(
-                        this,
-                        ContectedHistoryFragment(),
-                        false,
-                        "",
-                        HomeActivity::class.java.name
-                    )
-                }
-                R.id.menu_setting -> {
-                    onHideBadgeCounter()
-                    clearFragmentBackStack()
-                    ReplaceFragment.replaceFragment(
-                        this,
-                        SettingsFragment(),
-                        false,
-                        "",
-                        HomeActivity::class.java.name
-                    )
-                }
-            }
-            true
-        }
-
-
-        mBinding.headerToolbar.ivBack.setOnClickListener()
-        {
-            onBackPressed()
-        }
-        //bottom navigation click listener
-        Log.i(
-            "NOTIFICATION_H",
-            SharedPreferenceManager.getString("NOTIFICATION", "").toString()
-        )
 
 
         locationManager = getSystemService(
@@ -208,11 +139,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
         locationRequest?.interval = 20 * 1000
 
 
-        headerTextVisible(
-            resources.getString(R.string.seek_legal_advice),
-            isHeaderVisible = false,
-            isBackButtonVisible = true
-        )
+
 
         applybadgeview()
 
@@ -307,123 +234,103 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
                 ReusedMethod.setLocationDialog(this)
             }
         }
+        clearFragmentBackStack()
+        loadHomeScreen()
 
-        val i = getIntent()
-        val extras = i.extras
-        if (extras != null) {
-            for (key in extras.keySet()) {
-                val value = extras[key]
-                Log.d(
-                    "Notification",
-                    "Extras received at onCreate:  Key: $key Value: $value"
-                )
+        mBinding.bottomNavigationUser.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.menu_home -> {
+                    clearFragmentBackStack()
+                    loadHomeScreen()
+//                    ReplaceFragment.replaceFragment(this,KnowRightFragment(),false,"",HomeActivity::class.java.name)
+                }
+                R.id.menu_lawyer -> {
+                    clearFragmentBackStack()
+//                    ReplaceFragment.replaceFragment(
+//                        this,
+//                        ChattingFragment(),
+//                        false,
+//                        "",
+//                        HomeActivity::class.java.name
+//                    )
+                    ReplaceFragment.replaceFragment(
+                        this,
+                        LawyerListFragment(false),
+                        false,
+                        "",
+                        HomeActivity::class.java.name
+                    )
+                }
+                R.id.menu_radar -> {
+                    clearFragmentBackStack()
+                    ReplaceFragment.replaceFragment(
+                        this,
+                        RadarFragment(),
+                        false,
+                        "",
+                        HomeActivity::class.java.name
+                    )
+
+                }
+                R.id.menu_history -> {
+                    clearFragmentBackStack()
+                    ReplaceFragment.replaceFragment(
+                        this,
+                        ContectedHistoryFragment(),
+                        false,
+                        "",
+                        HomeActivity::class.java.name
+                    )
+                }
+                R.id.menu_setting -> {
+                    onHideBadgeCounter()
+                    clearFragmentBackStack()
+                    ReplaceFragment.replaceFragment(
+                        this,
+                        SettingsFragment(),
+                        false,
+                        "",
+                        HomeActivity::class.java.name
+                    )
+                }
             }
-            val title = extras.getString("title")
-            val message = extras.getString("body")
-            if (message != null && message.length > 0) {
-                getIntent().removeExtra("body")
-            }
+            true
         }
 
-//        mBinding.bottomNavigationUser.setOnNavigationItemSelectedListener {
-//            when (it.itemId) {
-//                R.id.menu_home -> {
-//                    clearFragmentBackStack()
-//                    loadHomeScreen()
-////                    ReplaceFragment.replaceFragment(this,KnowRightFragment(),false,"",HomeActivity::class.java.name)
-//                }
-//                R.id.menu_lawyer -> {
-//                    clearFragmentBackStack()
-////                    ReplaceFragment.replaceFragment(
-////                        this,
-////                        ChattingFragment(),
-////                        false,
-////                        "",
-////                        HomeActivity::class.java.name
-////                    )
-//                    ReplaceFragment.replaceFragment(
-//                        this,
-//                        LawyerListFragment(false),
-//                        false,
-//                        "",
-//                        HomeActivity::class.java.name
-//                    )
-//                }
-//                R.id.menu_radar -> {
-//                    clearFragmentBackStack()
-//                    ReplaceFragment.replaceFragment(
-//                        this,
-//                        RadarFragment(),
-//                        false,
-//                        "",
-//                        HomeActivity::class.java.name
-//                    )
-//
-//                }
-//                R.id.menu_history -> {
-//                    clearFragmentBackStack()
-//                    ReplaceFragment.replaceFragment(
-//                        this,
-//                        ContectedHistoryFragment(),
-//                        false,
-//                        "",
-//                        HomeActivity::class.java.name
-//                    )
-//                }
-//                R.id.menu_setting -> {
-//                    onHideBadgeCounter()
-//                    clearFragmentBackStack()
-//                    ReplaceFragment.replaceFragment(
-//                        this,
-//                        SettingsFragment(),
-//                        false,
-//                        "",
-//                        HomeActivity::class.java.name
-//                    )
-//                }
-//            }
-//            true
-//        }
-//
-//
-//        mBinding.headerToolbar.ivBack.setOnClickListener()
-//        {
-//            onBackPressed()
-//        }
-//        //bottom navigation click listener
-//        Log.i(
-//            "NOTIFICATION_H",
-//            SharedPreferenceManager.getString("NOTIFICATION", "").toString()
-//        )
+
+        mBinding.headerToolbar.ivBack.setOnClickListener()
+        {
+            onBackPressed()
+        }
+        //bottom navigation click listener
+        Log.i(
+            "NOTIFICATION_H",
+            SharedPreferenceManager.getString("NOTIFICATION", "").toString()
+        )
+        headerTextVisible(
+            resources.getString(R.string.seek_legal_advice),
+            isHeaderVisible = false,
+            isBackButtonVisible = true
+        )
+
 
 
         if (intent != null && intent.extras != null) {
             val notification_type =
-                intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!
-            val notification_id =
-                intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_ID)!!
-            checkNotificationRedirection(notification_type, notification_id)
+                intent.extras!!.get("type")
+            val notification_id = intent.extras!!.get("sender_id")
 
-        } else if (!SharedPreferenceManager.getString(AppConstants.IS_NOTIFICATION_SHARED_TYPE, "")
-                .isNullOrEmpty()
-        ) {
-            checkNotificationRedirection(
-                SharedPreferenceManager.getString(AppConstants.IS_NOTIFICATION_SHARED_TYPE, "")
-                    .toString(),
-                SharedPreferenceManager.getString(AppConstants.IS_NOTIFICATION_SHARED_ID, "")
-                    .toString()
-            )
+            if (!notification_id.toString().isNullOrEmpty() || !notification_id.toString()
+                    .isNullOrEmpty()
+            ) {
+                Log.e("THIS_APP_GUAR", notification_type.toString())
+                Log.e("THIS_APP_GUAR", notification_id.toString())
+                checkNotificationRedirection(
+                    notification_type as String,
+                    notification_id as String
+                )
+            }
 
-        } else {
-
-            val getFragment = supportFragmentManager.findFragmentById(R.id.flUserContainer)
-            Log.e("LOGS", ReusedMethod.isAppIsInBackground(this).toString())
-//            if (getFragment is UserHomeFragment || getFragment is LawyerHomeFragment || getFragment is MediatorHomeFragment || getFragment == null) {
-                clearFragmentBackStack()
-                loadHomeScreen()
-                bottomTabVisibility(true)
-
-//            }
         }
     }
 
@@ -558,6 +465,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
 
     override fun onBackPressed() {
         //  super.onBackPressed()
+        SharedPreferenceManager.removeNotificationData()
         var getFragment = supportFragmentManager.findFragmentById(R.id.flUserContainer)
         if (getFragment != null) {
             if (getFragment is ChattingFragment) {

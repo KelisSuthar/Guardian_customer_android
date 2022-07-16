@@ -1105,4 +1105,23 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
             )
         }
     }
+
+    override fun sendVideoCallRequestFromLawyerToUser(
+        body: JsonObject,
+        internetConnected: Boolean,
+        baseView: BaseActivity,
+        scheduleRequestedVideoCallFromLawyerToUserResp: MutableLiveData<RequestState<SendVideoCallReqResp>>
+    ) {
+        if (!internetConnected) {
+            scheduleRequestedVideoCallFromLawyerToUserResp.value =
+                RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
+        } else {
+            scheduleRequestedVideoCallFromLawyerToUserResp.value = RequestState(progress = true)
+            NetworkManager.requestData(
+                mApiEndPoint.sendVideoCallRequestFromLawyer(body),
+                baseView,
+                scheduleRequestedVideoCallFromLawyerToUserResp
+            )
+        }
+    }
 }

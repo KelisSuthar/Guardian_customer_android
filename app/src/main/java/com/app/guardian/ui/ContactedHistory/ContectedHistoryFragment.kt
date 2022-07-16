@@ -3,6 +3,7 @@ package com.app.guardian.ui.ContactedHistory
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -21,7 +22,6 @@ import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.changeDateFormat
 import com.app.guardian.common.extentions.gone
-import com.app.guardian.common.extentions.inVisible
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentContectedHistoryBinding
 import com.app.guardian.model.ListFilter.FilterResp
@@ -36,6 +36,7 @@ import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
 import com.app.guardian.ui.chatting.ChattingFragment
+import com.app.guardian.ui.createorjoin.CreateOrJoinActivity
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.google.android.material.card.MaterialCardView
@@ -44,7 +45,6 @@ import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.text.FieldPosition
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -203,23 +203,42 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                     }
                 }
 
-                override fun onVideCallClick(position: Int, id: Int?) {
+                override fun onVideCallClick(position: Int, id: Int?, fullName: String?) {
 //                    ReusedMethod.displayMessage(
 //                        requireActivity(),
 //                        resources.getString(R.string.come_soon)
 //                    )
-                    if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
-                        displayVideoCallDialog(id)
-                    } else {
-                        callVideoCallRequestAPI(
-                            array[position].id!!,
-                            AppConstants.APP_ROLE_LAWYER,
-                            0,
-                            "",
-                            0
-                        )
-                    }
-
+//                    if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
+//                        displayVideoCallDialog(id)
+//                    } else {
+//                        callVideoCallRequestAPI(
+//                            array[position].id!!,
+//                            AppConstants.APP_ROLE_LAWYER,
+//                            0,
+//                            "",
+//                            0
+//                        )
+//                    }
+                    startActivity(
+                        Intent(context, CreateOrJoinActivity::class.java)
+                            .putExtra(
+                                AppConstants.EXTRA_TO_ID,
+                                id.toString()
+                            )
+                            .putExtra(
+                                AppConstants.EXTRA_TO_ROLE,
+                                AppConstants.APP_ROLE_USER
+                            )
+                            .putExtra(
+                                AppConstants.EXTRA_NAME,
+                                fullName
+                            )
+                            .putExtra(
+                                AppConstants.IS_CANTATCED_JOIN,
+                                true
+                            )
+                    )
+                    requireActivity().finish()
                 }
 
             })

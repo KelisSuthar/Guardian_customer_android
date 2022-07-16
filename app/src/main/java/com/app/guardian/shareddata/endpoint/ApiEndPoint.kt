@@ -215,5 +215,8 @@ interface ApiEndPoint {
     @GET("drivingOffenceList")
     fun getDrivingOffenceList(): Call<CommonResponseModel<MutableList<DrivingOffenceListResp>>>
 
+    @POST("sendVideoCallRequestFromLawyer")
+    fun sendVideoCallRequestFromLawyer(@Body body: JsonObject): Call<CommonResponseModel<SendVideoCallReqResp>>
+
 
 }

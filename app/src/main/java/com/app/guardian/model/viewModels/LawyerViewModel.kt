@@ -7,6 +7,7 @@ import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.model.AskModeQ.AskModeQResp
 import com.app.guardian.model.CommonResponse
 import com.app.guardian.model.RequestState
+import com.app.guardian.model.SendVideoCallReq.SendVideoCallReqResp
 import com.app.guardian.model.SubscriptionPlan.SubscriptionPlanResp
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.shareddata.repo.UserRepo
@@ -132,14 +133,14 @@ class LawyerViewModel(private val mUserRepository: UserRepo) : ViewModel() {
         plan_id: String,
         price: String,
         shared_secret: String,
-        packageName:String,
-        acknowledged:String,
-        orderId:String,
-        productId:String,
-        developerPayload:String,
-        purchaseTime:String,
-        purchaseState:String,
-        purchaseToken:String,
+        packageName: String,
+        acknowledged: String,
+        orderId: String,
+        productId: String,
+        developerPayload: String,
+        purchaseTime: String,
+        purchaseState: String,
+        purchaseToken: String,
     ) {
 
         val body = JsonObject()
@@ -150,14 +151,14 @@ class LawyerViewModel(private val mUserRepository: UserRepo) : ViewModel() {
         body.addProperty(ApiConstant.EXTRAS_PLAN_ID, plan_id)
 
         val payment_detail = JsonObject()
-        payment_detail.addProperty("packageName",packageName)
-        payment_detail.addProperty("acknowledged",acknowledged)
-        payment_detail.addProperty("orderId",orderId)
-        payment_detail.addProperty("productId",productId)
-        payment_detail.addProperty("developerPayload",developerPayload)
-        payment_detail.addProperty("purchaseTime",purchaseTime)
-        payment_detail.addProperty("purchaseState",purchaseState)
-        payment_detail.addProperty("purchaseToken",purchaseToken)
+        payment_detail.addProperty("packageName", packageName)
+        payment_detail.addProperty("acknowledged", acknowledged)
+        payment_detail.addProperty("orderId", orderId)
+        payment_detail.addProperty("productId", productId)
+        payment_detail.addProperty("developerPayload", developerPayload)
+        payment_detail.addProperty("purchaseTime", purchaseTime)
+        payment_detail.addProperty("purchaseState", purchaseState)
+        payment_detail.addProperty("purchaseToken", purchaseToken)
 
         body.add(ApiConstant.EXTRAS_PAYMENT_DETAILS, payment_detail)
         mUserRepository.addBannerSubscription(
