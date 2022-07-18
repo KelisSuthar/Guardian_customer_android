@@ -474,6 +474,16 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                         displayMessage(requireActivity(), "Video Deleted Successfully")
 //                        myVideoListAdapter?.remove(position!!)
                         arrayList.removeAt(position)
+                        myVideoListAdapter?.notifyDataSetChanged()
+                        if (arrayList.isNullOrEmpty()) {
+                            mBinding.noDataVideo.visible()
+                            mBinding.noInternetVideo.llNointernet.gone()
+                            mBinding.rv.gone()
+                        } else {
+                            mBinding.noDataVideo.gone()
+                            mBinding.rv.visible()
+                            mBinding.noInternetVideo.llNointernet.gone()
+                        }
                     }
                 }
 

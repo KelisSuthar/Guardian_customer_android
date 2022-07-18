@@ -143,7 +143,6 @@ class ConnectedHistoryAdapter(
                     position,
                     array.id,
                     array.full_name,
-
                 )
             }
 //            itemView.setOnClickListener { listeners.onNotesClick(position) }

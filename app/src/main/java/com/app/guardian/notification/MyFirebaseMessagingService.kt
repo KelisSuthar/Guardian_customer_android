@@ -63,7 +63,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val count1 = SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, 0)
         Log.e("bageCount", "BageCount onMessageReceived count1: " + count1.toString())
 
-        triggerBroadcastToActivity(this, HomeActivity.bage_counter_notification)
+//        triggerBroadcastToActivity(this, HomeActivity.bage_counter_notification)
 
 
         sendNotification(data, remoteMessage)
@@ -77,38 +77,17 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         body = remoteMessage.notification?.body
         title = remoteMessage.notification?.title
 
-        val sound = data.optString("sound")
-        val color = data.optString("color")
-        val type = data.optString("type")
-        val is_approve = data.optString("is_approve")
+
         val intent = Intent(AppConstants.BROADCAST_REC_INTENT)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        intent.putExtra("notificationData", data.toString())
         intent.putExtra("title", title)
-        intent.putExtra("type Value", type)
         intent.putExtra("body", body)
-        intent.putExtra("data", count)
-        intent.putExtra("is_approve", is_approve)
+        intent.putExtra("data", HomeActivity.bage_counter_notification)
+        intent.putExtra("type", data.getString("type"))
+        intent.putExtra("sender_id", data.getString("sender_id"))
+        intent.putExtra("url", data.getString("url"))
+        intent.putExtra("room_id", data.getString("room_id"))
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
-    }
-
-    private fun createNotificationChannel(
-        notificationChannelId: String,
-        systemTrayNotificationName: String
-    ) {
-        Log.i("Tag", "createNotificationChannel " + Build.VERSION.SDK_INT)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name: CharSequence = systemTrayNotificationName
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            val notificationChannel = NotificationChannel(notificationChannelId, name, importance)
-            notificationChannel.description = systemTrayNotificationName
-            notificationChannel.setShowBadge(true)
-            notificationChannel.canShowBadge()
-            val notificationManager: NotificationManager = applicationContext.getSystemService(
-                NotificationManager::class.java
-            )
-            notificationManager.createNotificationChannel(notificationChannel)
-        }
     }
 
     @SuppressLint(
@@ -161,21 +140,21 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             intent!!.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
         } else {
-        Log.i("FIREBASE_DATA_APP", isAppIsInBackground(this).toString())
-        intent =
-            Intent(this, HomeActivity::class.java)
-                .putExtra(
-                    AppConstants.IS_NOTIFICATION, true
-                ).putExtra(
-                    "type", data.getString("type").toString()
-                ).putExtra(
-                    "sender_id", data.getString("sender_id").toString()
-                )
-                .putExtra(
-                    "url", data.getString("url").toString()
-                ).putExtra(
-                    "room_id", data.getString("room_id").toString()
-                )
+            Log.i("FIREBASE_DATA_APP", isAppIsInBackground(this).toString())
+            intent =
+                Intent(this, HomeActivity::class.java)
+                    .putExtra(
+                        AppConstants.IS_NOTIFICATION, true
+                    ).putExtra(
+                        "type", data.optString("type").toString()
+                    ).putExtra(
+                        "sender_id", data.optString("sender_id").toString()
+                    )
+                    .putExtra(
+                        "url", data.optString("url").toString()
+                    ).putExtra(
+                        "room_id", data.optString("room_id").toString()
+                    )
         }
 //        }
 
@@ -213,7 +192,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             notificationLayout.setImageViewResource(R.id.imgChat, R.drawable.ic_notification_video)
         }
 
-        triggerBroadcastToActivity(this, HomeActivity.bage_counter_notification)
 
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setPriority(Notification.PRIORITY_MAX)

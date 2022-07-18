@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
+import com.app.guardian.common.AppConstants.BROADCAST_REC_INTENT
 import com.app.guardian.common.ReplaceFragment
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
@@ -184,7 +185,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         callCMSAPI()
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(
             mBroadcastReceiver, IntentFilter(
-                HomeActivity.intentAction
+                BROADCAST_REC_INTENT
             )
         )
     }

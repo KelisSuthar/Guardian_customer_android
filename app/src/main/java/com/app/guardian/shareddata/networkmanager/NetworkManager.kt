@@ -48,15 +48,15 @@ object NetworkManager {
                         }
                     }
                     callback.value = RequestState(
-                            progress = false,
-                            error = ApiError(Config.CUSTOM_ERROR, t.message)
+                        progress = false,
+                        error = ApiError(Config.CUSTOM_ERROR, t.message)
                     )
                 }
             }
 
             override fun onResponse(
-                    call: Call<CommonResponseModel<T>>,
-                    response: Response<CommonResponseModel<T>>
+                call: Call<CommonResponseModel<T>>,
+                response: Response<CommonResponseModel<T>>
             ) {
                 if (response.isSuccessful) {
                     /**
@@ -68,13 +68,16 @@ object NetworkManager {
                         /**
                          * incase of status is 0 or else ... not 1 will print body message
                          */
-                        Log.e("network_message","Display network error message : "+response.message())
+                        Log.e(
+                            "network_message",
+                            "Display network error message : " + response.message()
+                        )
                         callback?.postValue(
-                                RequestState(
-                                        error = ApiError(
-                                                Config.CUSTOM_ERROR, response.body()?.message,response.code()
-                                        )
+                            RequestState(
+                                error = ApiError(
+                                    Config.CUSTOM_ERROR, response.body()?.message, response.code()
                                 )
+                            )
 //                        callback.postValue(
 //                            RequestState(
 //                                error = ApiError(

@@ -24,6 +24,7 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.app.guardian.R
 import com.app.guardian.common.*
+import com.app.guardian.common.AppConstants.BROADCAST_REC_INTENT
 import com.app.guardian.common.SharedPreferenceManager.clearCityState
 import com.app.guardian.common.SharedPreferenceManager.removeSeletionData
 import com.app.guardian.common.extentions.checkLoationPermission
@@ -57,7 +58,12 @@ import org.json.JSONObject
 
 class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegration {
     lateinit var mBinding: ActivityHomeBinding
-//    private val mVideModel: UserViewModel by viewModel()
+
+    //    private val mVideModel: UserViewModel by viewModel()
+    var notification_type = ""
+    var notification_id = ""
+    var notification_URL = ""
+    var notification_meeting_id = ""
 
     //get Current Location
     private var locationManager: LocationManager? = null
@@ -79,7 +85,13 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
 
         override fun onReceive(context: Context, intent: Intent) {
 
-            val extras = intent.getExtras()
+            val extras = intent.extras
+
+            notification_id = extras!!.getString("sender_id").toString()
+            notification_type = extras!!.getString("type").toString()
+            notification_URL = extras!!.getString("url").toString()
+            notification_meeting_id = extras!!.getString("room_id").toString()
+
             val getFragment = supportFragmentManager.findFragmentById(R.id.flUserContainer)
             if (getFragment != null) {
                 if (getFragment !is SettingsFragment) {
@@ -87,8 +99,8 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
                         if (extras.containsKey("data")) {
                             onVisibleBageCounterCounter(extras.getInt("data"))
                         } else if (extras.containsKey("code")) {
-
                         }
+                        Log.e("BROADCAST_DATA", extras.getString("notification_data").toString())
                     }
                 }
             } else {
@@ -144,7 +156,11 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
         applybadgeview()
 
         clearFragmentBackStack()
-        loadHomeScreen()
+        Log.e("THIS_APP_NOTI", intent.getBooleanExtra(AppConstants.IS_NOTIFICATION, false).toString())
+        if (!intent.getBooleanExtra(AppConstants.IS_NOTIFICATION, false)) {
+            loadHomeScreen()
+        }
+
 
     }
 
@@ -221,7 +237,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
 
         LocalBroadcastManager.getInstance(this).registerReceiver(
             mBroadcastReceiver, IntentFilter(
-                intentAction
+                BROADCAST_REC_INTENT
             )
         )
         getLatLong()
@@ -313,6 +329,11 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
             isHeaderVisible = false,
             isBackButtonVisible = true
         )
+        setNotificationRedirection()
+
+    }
+
+    private fun setNotificationRedirection() {
         val i = intent
         val extras = i.extras
         if (extras != null) {
@@ -323,12 +344,12 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
                     "Extras received at initView splash:  Key: $key Value: $value"
                 )
             }
-            val notification_type =
-                intent.extras!!.getString("type")
-            val notification_id = intent.extras!!.getString("sender_id")
-            val notification_URL =
-                intent.extras!!.getString("url")
-            val notification_meeting_id = intent.extras!!.getString("room_id")
+            notification_type =
+                intent.extras!!.getString("type").toString()
+            notification_id = intent.extras!!.getString("sender_id").toString()
+            notification_URL =
+                intent.extras!!.getString("url").toString()
+            notification_meeting_id = intent.extras!!.getString("room_id").toString()
 
             if (notification_type == AppConstants.EXTRA_VIDEOCALLREQ_PAYLOAD) {
                 if (!notification_URL.isNullOrEmpty() || !notification_meeting_id.isNullOrEmpty()) {
@@ -363,8 +384,8 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
                         SettingsFragment::class.java.name
                     )
                 } else {
-                    if (!notification_id.toString().isNullOrEmpty() || !notification_id.toString()
-                            .isNullOrEmpty()
+                    if (!notification_id.toString()
+                            .isNullOrEmpty() || !notification_type.isNullOrEmpty()
                     ) {
                         Log.e("THIS_APP_GUAR", notification_type.toString())
                         Log.e("THIS_APP_GUAR", notification_id.toString())
@@ -375,6 +396,42 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
                     }
                 }
         } else {
+            if (!notification_URL.isNullOrEmpty() || !notification_meeting_id.isNullOrEmpty()) {
+                if (notification_type == AppConstants.EXTRA_VIDEOCALLREQ_PAYLOAD) {
+                    when (SharedPreferenceManager.getLoginUserRole()) {
+                        AppConstants.APP_ROLE_LAWYER -> {
+                            ReplaceFragment.replaceFragment(
+                                this,
+                                VideoCallReqFragment(),
+                                true,
+                                SettingsFragment::class.java.name,
+                                SettingsFragment::class.java.name
+                            )
+                        }
+                        AppConstants.APP_ROLE_USER -> {
+                            joinMeeting(notification_meeting_id)
+                        }
+                        AppConstants.APP_ROLE_MEDIATOR -> {
+
+                        }
+
+                    }
+                } else
+                    if (notification_type == AppConstants.EXTRA_MEDIATOR_PAYLOAD) {
+                        ReplaceFragment.replaceFragment(
+                            this,
+                            MediatorVideoCallReqFragment(),
+                            true,
+                            SettingsFragment::class.java.name,
+                            SettingsFragment::class.java.name
+                        )
+                    }
+            } else if (!notification_id.isNullOrEmpty() || !notification_type.isNullOrEmpty()) {
+                checkNotificationRedirection(
+                    notification_type,
+                    notification_id
+                )
+            }
 
         }
     }

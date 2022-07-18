@@ -47,6 +47,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         setPhoneEmailSelector()
         mBinding.emailphoneSelector.ccp.setCountryForPhoneCode(1)
         mBinding.headderLogin.ivBack.gone()
+        mBinding.headderLogin.tvHeaderText.text = resources.getString(R.string.sing_in)
         setFocus()
         Log.e("StoredDeviceToken", "LOGIN: " + DEVICE_TOKEN.toString())
 

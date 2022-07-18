@@ -60,6 +60,7 @@
 
     <!--    Login screen -->
     <string name="welcome_back">Welcome Back!</string>
+    <string name="sing_in">SignIn</string>
     <string name="enter_your_credentials_to_continue">Enter your credentials to continue</string>
     <string name="forgot_your_password_underline"><u>Forgot your password?</u></string>
     <string name="do_not_have_an_account">Don’t have an account? <b>Sign Up</b></string>

@@ -12,6 +12,7 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
+import com.app.guardian.common.AppConstants.IS_NOTIFICATION
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.databinding.ActivitySplashScreenBinding
@@ -148,6 +149,9 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
                             )
                                 .putExtra(
                                     "sender_id", notification_id
+                                )
+                                .putExtra(
+                                    IS_NOTIFICATION, true
                                 )
 
                         )
