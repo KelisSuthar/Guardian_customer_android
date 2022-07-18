@@ -238,7 +238,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                                 true
                             )
                     )
-                    requireActivity().finish()
+
                 }
 
             })

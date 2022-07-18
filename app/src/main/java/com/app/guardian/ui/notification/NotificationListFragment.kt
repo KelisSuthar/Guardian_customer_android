@@ -404,7 +404,7 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                     )
                     intent.putExtra(AppConstants.EXTRA_ROOM_ID, meetingId)
                     startActivity(intent)
-                    requireActivity().finish()
+
 
                 }
 
@@ -414,6 +414,7 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                         requireActivity(),
                         anError.message.toString()
                     )
+                    ReusedMethod.displayMessage(requireActivity(), "Your Token Has Expired")
                     Log.e("VIDEO_CALL", "JOIN_MEATING_ERRRO:    " + anError.errorBody)
 
                 }

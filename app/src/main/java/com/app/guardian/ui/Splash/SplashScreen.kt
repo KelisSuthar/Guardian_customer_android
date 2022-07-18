@@ -7,6 +7,9 @@ import android.os.Handler
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
@@ -16,14 +19,18 @@ import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
+import com.app.guardian.ui.videocalljoin.VideoCallJoinActivity
 import com.app.guardian.utils.ApiConstant
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
+import org.json.JSONObject
 
 class SplashScreen : AppCompatActivity(), View.OnClickListener {
     lateinit var mBinding: ActivitySplashScreenBinding
     var notification_type = ""
     var notification_id = ""
+    var notification_URL = ""
+    var notification_meeting_id = ""
     var DEVICE_TOKEN = SharedPreferenceManager.getString(ApiConstant.EXTRAS_DEVICETOKEN, "")
 
 //
@@ -45,33 +52,33 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
     }
 
 
-    //use for new screen open according to which notification are come
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        Log.e(
-            "NOTIFICATION_SPLASh",
-            "onNewIntent call"
-        )
-
-        val i = getIntent()
-        val extras = i.extras
-        if (extras != null) {
-            for (key in extras.keySet()) {
-                val value = extras[key]
-                Log.d(
-                    "Notification",
-                    "Extras received at onNewIntent splash onNewIntent :  Key: $key Value: $value"
-                )
-            }
-            val title = extras.getString("title")
-            val message = extras.getString("body")
-            if (message != null && message.length > 0) {
-                getIntent().removeExtra("body")
-            }
-        }
+//    //use for new screen open according to which notification are come
+//    override fun onNewIntent(intent: Intent?) {
+//        super.onNewIntent(intent)
+//        Log.e(
+//            "NOTIFICATION_SPLASh",
+//            "onNewIntent call"
+//        )
+//
+//        val i = getIntent()
+//        val extras = i.extras
+//        if (extras != null) {
+//            for (key in extras.keySet()) {
+//                val value = extras[key]
+//                Log.d(
+//                    "Notification",
+//                    "Extras received at onNewIntent splash onNewIntent :  Key: $key Value: $value"
+//                )
+//            }
+//            val title = extras.getString("title")
+//            val message = extras.getString("body")
+//            if (message != null && message.length > 0) {
+//                getIntent().removeExtra("body")
+//            }
+//        }
 //        setIntent(intent)
 //        val getIntent = intent
-    }
+//    }
 
     @SuppressLint("LogNotTimber")
     private fun initView() {
@@ -80,7 +87,7 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
             "initView call"
         )
 
-        val i = getIntent()
+        val i = intent
         val extras = i.extras
         if (extras != null) {
             for (key in extras.keySet()) {
@@ -90,31 +97,24 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
                     "Extras received at initView splash:  Key: $key Value: $value"
                 )
             }
-            val title = extras.getString("title")
-            val message = extras.getString("body")
-            if (message != null && message.length > 0) {
-                getIntent().removeExtra("body")
-            }
+
             notification_type =
-                intent.getStringExtra("type").toString()
+                intent.extras?.getString("type").toString()
             notification_id =
-                intent.getStringExtra("sender_id").toString()
+                intent.extras?.getString("sender_id").toString()
+            notification_URL =
+                intent.extras?.getString("url").toString()
+            notification_meeting_id =
+                intent.extras?.getString("room_id").toString()
         }
 
-//        mBinding = getBinding()
-        if (intent != null && intent.extras != null) {
-            notification_type =
-                intent.getStringExtra("type").toString()
-            notification_id =
-                intent.getStringExtra("sender_id").toString()
-        }
         Log.i(
-            "NOTIFICATION_TYPE_INIT",
+            "NOTIFICATION_INIT",
             notification_type.toString()
         )
 
         Log.i(
-            "NOTIFICATION_ID_INIT",
+            "NOTIFICATION_INIT",
             notification_id.toString()
         )
 
@@ -136,50 +136,34 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
                     )
                 )
             } else {
-                Log.i("NOTIFICATION_TYPE", notification_type)
                 if (intent != null && intent.extras != null) {
-
-                    if (notification_type == AppConstants.EXTRA_CHAT_MESSAGE_PAYLOAD) {
-                        Log.i("NOTIFICATION_TYPE", notification_type)
+                    if (notification_type != AppConstants.EXTRA_VIDEOCALLREQ_PAYLOAD) {
                         startActivity(
                             Intent(
                                 this@SplashScreen,
 
                                 HomeActivity::class.java
                             ).putExtra(
-                                AppConstants.EXTRA_NOTIFICATION_DATA_TYPE, notification_type
+                                "type", notification_type
                             )
                                 .putExtra(
-                                    AppConstants.EXTRA_NOTIFICATION_DATA_ID, notification_id
+                                    "sender_id", notification_id
                                 )
 
                         )
                     } else {
-                        startActivity(
-                            Intent(
-                                this@SplashScreen,
+                        when (SharedPreferenceManager.getLoginUserRole()) {
+                            AppConstants.APP_ROLE_LAWYER -> {
 
-                                HomeActivity::class.java
-                            ).putExtra(
-                                AppConstants.EXTRA_NOTIFICATION_DATA_TYPE, notification_type
-                            )
-                                .putExtra(
-                                    AppConstants.EXTRA_NOTIFICATION_DATA_ID, notification_id
-                                )
-                        )
+                            }
+                            AppConstants.APP_ROLE_USER -> {
+                                joinMeeting(notification_meeting_id)
+                            }
+                            AppConstants.APP_ROLE_MEDIATOR -> {
 
+                            }
 
-//                        else if (intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE) == AppConstants.EXTRA_MEDIATOR_PAYLOAD) {
-//                            Log.i(
-//                                "NOTIFICATION_DATA",
-//                                intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!
-//                            )
-//                        } else if (intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE) == AppConstants.EXTRA_VIRTUAL_WITNESS_PAYLOAD) {
-//                            Log.i(
-//                                "NOTIFICATION_DATA",
-//                                intent.getStringExtra(AppConstants.EXTRA_NOTIFICATION_DATA_TYPE)!!
-//                            )
-//                        }
+                        }
                     }
                 } else {
                     startActivity(
@@ -196,23 +180,6 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-
-//        val broadcastReceiver = ConnectivityChangeReceiver()
-//        registerReceiver(broadcastReceiver, IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"))
-//        IntentFilter(Intent.ACTION_ANSWER)
-//        val constraints: Constraints = Constraints.Builder()
-//            .setRequiredNetworkType(NetworkType.CONNECTED)
-//            .build()
-//        val notificationWork = OneTimeWorkRequest.Builder(NotifyWork::class.java)
-//            .setConstraints(constraints).build()
-//
-//        val instanceWorkManager = WorkManager.getInstance(this)
-//        instanceWorkManager.beginUniqueWork(
-//            NOTIFICATION_WORK,
-//            ExistingWorkPolicy.REPLACE, notificationWork
-//        ).enqueue()
-
-
         if (DEVICE_TOKEN.isNullOrEmpty() || DEVICE_TOKEN == "") {
             FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
                 if (!task.isSuccessful) {
@@ -234,5 +201,48 @@ class SplashScreen : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(p0: View?) {
 
+    }
+
+    private fun joinMeeting(meeting_Id: String) {
+        AndroidNetworking.post("https://api.videosdk.live/v1/meetings/$meeting_Id")
+            .addHeaders("Authorization", resources.getString(R.string.video_call_auth))
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject) {
+                    val meetingId = response.getString("meetingId")
+                    Log.e("VIDEO_CALL", "JOIN_MEATING_RESP:    $response")
+                    val intent =
+                        Intent(this@SplashScreen, VideoCallJoinActivity::class.java)
+                    intent.putExtra("token", resources.getString(R.string.video_call_auth))
+                    intent.putExtra("meetingId", meetingId)
+                    intent.putExtra(
+                        AppConstants.EXTRA_NAME,
+                        SharedPreferenceManager.getUser()?.full_name
+                    )
+                    intent.putExtra(
+                        AppConstants.IS_JOIN,
+                        true
+                    )
+                    intent.putExtra(
+                        AppConstants.EXTRA_URL,
+                        "https://api.videosdk.live/v1/meetings/$meetingId"
+                    )
+                    intent.putExtra(AppConstants.EXTRA_ROOM_ID, meetingId)
+                    startActivity(intent)
+                    finish()
+
+                }
+
+                override fun onError(anError: ANError) {
+                    anError.printStackTrace()
+                    ReusedMethod.displayMessage(
+                        this@SplashScreen,
+                        anError.message.toString()
+                    )
+                    ReusedMethod.displayMessage(this@SplashScreen, "Your Token Has Expired")
+                    Log.e("VIDEO_CALL", "JOIN_MEATING_ERRRO:    " + anError.errorBody)
+
+                }
+            })
     }
 }

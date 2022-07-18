@@ -14,6 +14,7 @@ import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.ReusedMethod.Companion.isAppIsInBackground
 import com.app.guardian.common.SharedPreferenceManager
+import com.app.guardian.termsandcondtions.TermAndConditionsActivity
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Splash.SplashScreen
 import com.app.guardian.utils.ApiConstant
@@ -125,6 +126,24 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         Log.e("bageCount", "BageCount sendNotification : " + count.toString())
 
+//        if (data.getString("type") == AppConstants.EXTRA_VIDEOCALLREQ_PAYLOAD) {
+////            if (isAppIsInBackground(this)) {
+////
+////            }else{
+////
+////            }
+//            when (SharedPreferenceManager.getLoginUserRole()) {
+//                AppConstants.APP_ROLE_USER -> {
+//
+//                }
+//                AppConstants.APP_ROLE_LAWYER -> {
+//
+//                }
+//                AppConstants.APP_ROLE_MEDIATOR -> {
+//
+//                }
+//            }
+//        } else {
         if (isAppIsInBackground(this)) {
             intent =
                 Intent(this, SplashScreen::class.java).putExtra(
@@ -133,22 +152,36 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     "type", data.getString("type").toString()
                 ).putExtra(
                     "sender_id", data.getString("sender_id").toString()
+                ).putExtra(
+                    "url", data.getString("url").toString()
+                ).putExtra(
+                    "room_id", data.getString("room_id").toString()
                 )
             intent!!.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent!!.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
         } else {
-            intent =
-                Intent(this, HomeActivity::class.java)
-                    .putExtra(
-                        "type", data.getString("type").toString()
-                    ).putExtra(
-                        "sender_id", data.getString("sender_id").toString()
-                    )
-            intent!!.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            intent!!.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        Log.i("FIREBASE_DATA_APP", isAppIsInBackground(this).toString())
+        intent =
+            Intent(this, HomeActivity::class.java)
+                .putExtra(
+                    AppConstants.IS_NOTIFICATION, true
+                ).putExtra(
+                    "type", data.getString("type").toString()
+                ).putExtra(
+                    "sender_id", data.getString("sender_id").toString()
+                )
+                .putExtra(
+                    "url", data.getString("url").toString()
+                ).putExtra(
+                    "room_id", data.getString("room_id").toString()
+                )
         }
+//        }
 
+
+        intent!!.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent!!.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         // createNotificationChannel(channelId,remoteMessage.notification!!.title!!);
 
         val pendingIntent = PendingIntent.getActivity(
@@ -221,4 +254,5 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         intent.putExtra("code", "000")
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
     }
+
 }

@@ -2,7 +2,6 @@ package com.app.guardian.ui.Home
 
 
 import android.annotation.SuppressLint
-import android.app.Application
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -16,11 +15,13 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.app.guardian.R
 import com.app.guardian.common.*
 import com.app.guardian.common.SharedPreferenceManager.clearCityState
@@ -29,13 +30,13 @@ import com.app.guardian.common.extentions.checkLoationPermission
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityHomeBinding
-import com.app.guardian.model.viewModels.UserViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.ContactedHistory.ContectedHistoryFragment
 import com.app.guardian.ui.Lawyer.LawyerHome.LawyerHomeFragment
 import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.Mediator.MediatorHome.MediatorHomeFragment
+import com.app.guardian.ui.MediatorVideoCallReq.MediatorVideoCallReqFragment
 import com.app.guardian.ui.Radar.RadarFragment
 import com.app.guardian.ui.SupportGroups.SupportGroupList
 import com.app.guardian.ui.User.ContactSupport.ContactSupportFragment
@@ -45,12 +46,13 @@ import com.app.guardian.ui.User.RecordPoliceInteraction_2.RecordPoliceInteractio
 import com.app.guardian.ui.User.ScheduleVirtualWitness.ScheduleVirtualWitnessFragment
 import com.app.guardian.ui.User.UserHome.UserHomeFragment
 import com.app.guardian.ui.User.settings.SettingsFragment
+import com.app.guardian.ui.VideoCallReq.VideoCallReqFragment
 import com.app.guardian.ui.chatting.ChattingFragment
-import com.app.guardian.utils.Config
+import com.app.guardian.ui.videocalljoin.VideoCallJoinActivity
 import com.google.android.gms.location.*
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.json.JSONObject
 
 
 class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegration {
@@ -97,20 +99,18 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
         }
     }
 
+//
+//    override fun onNewIntent(intent: Intent?) {
+//        super.onNewIntent(intent)
+//
+//        Log.e(
+//            "NOTIFICATION_SPLASh",
+//            "onNewIntent call"
+//        )
+//
+//
+//    }
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-
-
-    }
-
-    @SuppressLint("LogNotTimber")
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-    }
 
     override fun getResource(): Int {
         ReusedMethod.updateStatusBarColor(this, R.color.colorPrimaryDark, 4)
@@ -142,6 +142,9 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
 
 
         applybadgeview()
+
+        clearFragmentBackStack()
+        loadHomeScreen()
 
     }
 
@@ -234,8 +237,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
                 ReusedMethod.setLocationDialog(this)
             }
         }
-        clearFragmentBackStack()
-        loadHomeScreen()
 
         mBinding.bottomNavigationUser.setOnNavigationItemSelectedListener {
             when (it.itemId) {
@@ -312,31 +313,118 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
             isHeaderVisible = false,
             isBackButtonVisible = true
         )
-
-
-
-        if (intent != null && intent.extras != null) {
-            val notification_type =
-                intent.extras!!.get("type")
-            val notification_id = intent.extras!!.get("sender_id")
-
-            if (!notification_id.toString().isNullOrEmpty() || !notification_id.toString()
-                    .isNullOrEmpty()
-            ) {
-                Log.e("THIS_APP_GUAR", notification_type.toString())
-                Log.e("THIS_APP_GUAR", notification_id.toString())
-                checkNotificationRedirection(
-                    notification_type as String,
-                    notification_id as String
+        val i = intent
+        val extras = i.extras
+        if (extras != null) {
+            for (key in extras.keySet()) {
+                val value = extras[key]
+                Log.d(
+                    "Notification",
+                    "Extras received at initView splash:  Key: $key Value: $value"
                 )
             }
+            val notification_type =
+                intent.extras!!.getString("type")
+            val notification_id = intent.extras!!.getString("sender_id")
+            val notification_URL =
+                intent.extras!!.getString("url")
+            val notification_meeting_id = intent.extras!!.getString("room_id")
+
+            if (notification_type == AppConstants.EXTRA_VIDEOCALLREQ_PAYLOAD) {
+                if (!notification_URL.isNullOrEmpty() || !notification_meeting_id.isNullOrEmpty()) {
+
+                    when (SharedPreferenceManager.getLoginUserRole()) {
+                        AppConstants.APP_ROLE_LAWYER -> {
+                            ReplaceFragment.replaceFragment(
+                                this,
+                                VideoCallReqFragment(),
+                                true,
+                                SettingsFragment::class.java.name,
+                                SettingsFragment::class.java.name
+                            )
+                        }
+                        AppConstants.APP_ROLE_USER -> {
+                            joinMeeting(notification_meeting_id.toString())
+                        }
+                        AppConstants.APP_ROLE_MEDIATOR -> {
+
+                        }
+
+                    }
+                }
+
+            } else
+                if (notification_type == AppConstants.EXTRA_MEDIATOR_PAYLOAD) {
+                    ReplaceFragment.replaceFragment(
+                        this,
+                        MediatorVideoCallReqFragment(),
+                        true,
+                        SettingsFragment::class.java.name,
+                        SettingsFragment::class.java.name
+                    )
+                } else {
+                    if (!notification_id.toString().isNullOrEmpty() || !notification_id.toString()
+                            .isNullOrEmpty()
+                    ) {
+                        Log.e("THIS_APP_GUAR", notification_type.toString())
+                        Log.e("THIS_APP_GUAR", notification_id.toString())
+                        checkNotificationRedirection(
+                            notification_type as String,
+                            notification_id as String
+                        )
+                    }
+                }
+        } else {
 
         }
+    }
+
+    private fun joinMeeting(meeting_Id: String) {
+        AndroidNetworking.post("https://api.videosdk.live/v1/meetings/$meeting_Id")
+            .addHeaders("Authorization", resources.getString(R.string.video_call_auth))
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject) {
+                    val meetingId = response.getString("meetingId")
+                    Log.e("VIDEO_CALL", "JOIN_MEATING_RESP:    $response")
+                    val intent =
+                        Intent(this@HomeActivity, VideoCallJoinActivity::class.java)
+                    intent.putExtra("token", resources.getString(R.string.video_call_auth))
+                    intent.putExtra("meetingId", meetingId)
+                    intent.putExtra(
+                        AppConstants.EXTRA_NAME,
+                        SharedPreferenceManager.getUser()?.full_name
+                    )
+                    intent.putExtra(
+                        AppConstants.IS_JOIN,
+                        true
+                    )
+                    intent.putExtra(
+                        AppConstants.EXTRA_URL,
+                        "https://api.videosdk.live/v1/meetings/$meetingId"
+                    )
+                    intent.putExtra(AppConstants.EXTRA_ROOM_ID, meetingId)
+                    startActivity(intent)
+
+                }
+
+                override fun onError(anError: ANError) {
+                    anError.printStackTrace()
+                    ReusedMethod.displayMessage(
+                        this@HomeActivity,
+                        anError.message.toString()
+                    )
+                    ReusedMethod.displayMessage(this@HomeActivity, "Your Token Has Expired")
+                    Log.e("VIDEO_CALL", "JOIN_MEATING_ERRRO:    " + anError.errorBody)
+
+                }
+            })
     }
 
 
     fun checkNotificationRedirection(notification_type: String, id: String) {
         SharedPreferenceManager.removeNotificationData()
+        clearFragmentBackStack()
         when (notification_type) {
             AppConstants.EXTRA_CHAT_MESSAGE_PAYLOAD -> {
                 Log.i(
@@ -371,97 +459,13 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
     }
 
     override fun initObserver() {
-        //OFFLINE VIDEO UPLOAD
-//        mVideModel.getUploadOfflineVideoResp().observe(this) { response ->
-//            response?.let { requestState ->
-//                showLoadingIndicator(requestState.progress)
-//                requestState.apiResponse?.let {
-//                    it.data?.let { data ->
-//                        if (it.status) {
-//
-//
-//                        } else {
-//
-//                        }
-//
-//                    }
-//
-//                }
-//                requestState.error?.let { errorObj ->
-//                    when (errorObj.errorState) {
-//                        Config.NETWORK_ERROR ->
-//                            ReusedMethod.displayMessage(
-//                                this,
-//                                getString(R.string.text_error_network)
-//                            )
-//
-//                        Config.CUSTOM_ERROR ->
-//                            errorObj.customMessage
-//                                ?.let {}
-//                    }
-//                }
-//            }
-//        }
-        //Logout Resp
-//        authViewModel.getSignOutResp().observe(this) { response ->
-//            response?.let { requestState ->
-//                showLoadingIndicator(requestState.progress)
-//                requestState.apiResponse?.let {
-//                    it.data?.let { data ->
-//                        if (it.status) {
-//                            SharedPreferenceManager.removeAllData()
-////        authViewModel.signOUT(true, this as BaseActivity)
-//                            startActivity(
-//                                Intent(
-//                                    this@HomeActivity,
-//                                    LoginActivity::class.java
-//                                ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//                            )
-//                            overridePendingTransition(R.anim.rightto, R.anim.left)
-//                            finish()
-//                        } else {
-//                            ReusedMethod.displayMessage(this, it.message.toString())
-//                        }
-//                    }
-//                }
-//                requestState.error?.let { errorObj ->
-//                    when (errorObj.errorState) {
-//                        Config.NETWORK_ERROR ->
-//                            ReusedMethod.displayMessage(
-//                               this,
-//                                getString(R.string.text_error_network)
-//                            )
-//
-//                        Config.CUSTOM_ERROR ->
-//                            errorObj.customMessage
-//                                ?.let {
-//                                    if (errorObj.code == ApiConstant.API_401) {
-//                                        ReusedMethod.displayMessage(this, it)
-//                                        HomeActivity().unAuthorizedNavigation()
-//                                    } else {
-//                                        ReusedMethod.displayMessage(this as Activity, it)
-//                                    }
-//                                }
-//                    }
-//                }
-//            }
-//        }
+
 
     }
 
 
     override fun handleListener() {
     }
-
-
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_home)
-//
-//
-//        loadHomeScreen()
-//
-//    }
 
     override fun onBackPressed() {
         //  super.onBackPressed()

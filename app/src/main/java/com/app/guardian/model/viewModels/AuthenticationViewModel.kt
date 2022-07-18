@@ -19,7 +19,6 @@ import com.app.guardian.utils.ApiConstant
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import org.json.JSONObject
 
 
 class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel() {
@@ -54,8 +53,6 @@ class AuthenticationViewModel(private val mUserRepository: UserRepo) : ViewModel
         }
         signInJson.addProperty(ApiConstant.EXTRAS_PASSWORD, pass)
         signInJson.addProperty(ApiConstant.EXTRAS_DEVICETOKEN, device_token)
-
-
 
 
         mUserRepository.doSignIn(

@@ -6,6 +6,7 @@ import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.app.guardian.R
+import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
@@ -46,8 +47,54 @@ class TermAndConditionsActivity : BaseActivity(), View.OnClickListener {
             Handler().postDelayed({
                 showLoadingIndicator(false)
             }, 2000)
+            val i = intent
+            val extras = i.extras
+            if (extras != null) {
+                for (key in extras.keySet()) {
+                    val value = extras[key]
+                    Log.d(
+                        "TC",
+                        "Extras received at initView splash:  Key: $key Value: $value"
+                    )
+                }
+                val notification_type =
+                    intent.extras!!.getString("type")
+                val notification_id = intent.extras!!.getString("sender_id")
+                val notification_URL =
+                    intent.extras!!.getString("url")
+                val notification_meeting_id = intent.extras!!.getString("room_id")
 
-            mBinding.webview.loadWebViewData(SharedPreferenceManager.getCMS()!!.terms_conditions)
+                if (notification_type != AppConstants.EXTRA_VIDEOCALLREQ_PAYLOAD) {
+                    if (!notification_id.toString().isNullOrEmpty() || !notification_id.toString()
+                            .isNullOrEmpty()
+                    ) {
+                        Log.e("THIS_APP_GUAR_TC", notification_type.toString())
+                        Log.e("THIS_APP_GUAR_TC", notification_id.toString())
+
+                    }
+                } else {
+                    if (!notification_URL.isNullOrEmpty() || !notification_meeting_id.isNullOrEmpty()) {
+
+                        when (SharedPreferenceManager.getLoginUserRole()) {
+                            AppConstants.APP_ROLE_LAWYER -> {
+
+                            }
+                            AppConstants.APP_ROLE_USER -> {
+
+                            }
+                            AppConstants.APP_ROLE_MEDIATOR -> {
+
+                            }
+
+                        }
+                    }
+                }
+
+
+            } else {
+
+            }
+//            mBinding.webview.loadWebViewData(SharedPreferenceManager.getCMS()!!.terms_conditions)
             mBinding.cl.visible()
         } else {
             mBinding.noInternetTerms.llNointernet.visible()

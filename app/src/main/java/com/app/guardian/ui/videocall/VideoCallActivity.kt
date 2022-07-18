@@ -135,7 +135,7 @@ class VideoCallActivity : BaseActivity() {
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
-                            meeting!!.end()
+                            meeting!!.leave()
 //
 //                            ReusedMethod.displayMessage(this, it.message.toString())
 //                            val intents = Intent(this@VideoCallActivity, HomeActivity::class.java)
@@ -267,7 +267,7 @@ class VideoCallActivity : BaseActivity() {
             Log.d("#meeting_USER", "onMeetingLeft()")
             meeting = null
             if (!isDestroyed) {
-                val intents = Intent(this@VideoCallActivity, EditProfileActivity::class.java)
+                val intents = Intent(this@VideoCallActivity, HomeActivity::class.java)
                 intents.addFlags(
                     (Intent.FLAG_ACTIVITY_NEW_TASK
                             or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NO_HISTORY)
