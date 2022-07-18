@@ -112,7 +112,18 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
         }
 
         mBinding.imgRowLawyerVideo.setOnClickListener {
-            displayVideoCallDialog(selectedLawyerListId!!)
+            if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
+                displayVideoCallDialog(selectedLawyerListId!!)
+            } else {
+                callVideoCallRequestAPI(
+                    selected_laywer_id!!,
+                    AppConstants.APP_ROLE_LAWYER,
+                    0,
+                    ReusedMethod.getCurrentDate(),
+                    0
+                )
+            }
+
 //            ReusedMethod.displayMessage(requireActivity(), resources.getString(R.string.come_soon))
         }
     }

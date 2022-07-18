@@ -536,6 +536,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         if (data.user_doc.isNotEmpty()) {
             for (i in data.user_doc.indices) {
                 images.add(data.user_doc[i].document.toString())
+                upload_img_array.add(data.user_doc[i].document.toString())
                 imageAdapter?.notifyDataSetChanged()
             }
 
@@ -594,7 +595,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         .start(DOCUMENT_CODE)
 
                 } else {
-                    ReusedMethod.displayMessageDialog(
+                    displayMessageDialog(
                         this,
                         "",
                         "Maximum Image Limit Reached",
@@ -657,10 +658,10 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             mBinding.edtFromTime.text?.trim().toString(),
             mBinding.edtToTime.text?.trim().toString(),
             mBinding.edtDesc.text?.trim().toString(),
-            images,
+            upload_img_array,
             object : ValidationView.EditProfile {
                 override fun empty_profilePic() {
-                    ReusedMethod.displayMessageDialog(
+                    displayMessageDialog(
                         this@EditProfileActivity,
                         "",
                         resources.getString(R.string.empty_profile_pic),
@@ -671,7 +672,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 }
 
                 override fun fullname_empty() {
-                    ReusedMethod.displayMessageDialog(
+                    displayMessageDialog(
                         this@EditProfileActivity,
                         "",
                         resources.getString(R.string.empty_name),
@@ -683,7 +684,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 }
 
                 override fun fulllNameValidation() {
-                    ReusedMethod.displayMessageDialog(
+                    displayMessageDialog(
                         this@EditProfileActivity,
                         "",
                         resources.getString(R.string.valid_name),
@@ -695,7 +696,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 }
 
                 override fun email_empty() {
-                    ReusedMethod.displayMessageDialog(
+                    displayMessageDialog(
                         this@EditProfileActivity,
                         "",
                         resources.getString(R.string.empty_email),
@@ -707,7 +708,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 }
 
                 override fun emailValidation() {
-                    ReusedMethod.displayMessageDialog(
+                    displayMessageDialog(
                         this@EditProfileActivity,
                         "",
                         resources.getString(R.string.valid_email),
@@ -719,7 +720,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 }
 
                 override fun empty_specialization() {
-                    ReusedMethod.displayMessageDialog(
+                    displayMessageDialog(
                         this@EditProfileActivity,
                         "",
                         resources.getString(R.string.empty_specialization),
@@ -877,7 +878,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 }
 
                 override fun valid_postal_code() {
-                    ReusedMethod.displayMessageDialog(
+                    displayMessageDialog(
                         this@EditProfileActivity,
                         "",
                         resources.getString(R.string.valid_state),
@@ -999,7 +1000,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
 
 
                 override fun docValidations() {
-                    ReusedMethod.displayMessageDialog(
+                    displayMessageDialog(
                         this@EditProfileActivity,
                         "",
                         resources.getString(R.string.valid_doc),
@@ -1053,11 +1054,20 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                                 mBinding.edtToTime
                             )
                             ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtDesc)
-                            if (!TextUtils.isEmpty(selectedFile.toString()) || upload_img_array.size > 0) {
-                                uploadFile(selectedFile, upload_img_array)
-                            } else {
+                            if(!selectedFile?.absolutePath.isNullOrEmpty())
+                            {
+                                uploadFile(selectedFile)
+                            }else if(upload_img_array.size>0)
+                            {
+                                uploadMultipleImageFile(uploadedImageList!!)
+                            }else{
                                 callEditProfileApi()
                             }
+//                            if (!TextUtils.isEmpty(selectedFile.toString()) || upload_img_array.size > 0) {
+//                                uploadFile(selectedFile, upload_img_array)
+//                            } else {
+//                                callEditProfileApi()
+//                            }
                         } else {
                             displayMessageDialog(
                                 this@EditProfileActivity,
@@ -1087,9 +1097,13 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtFromTime)
                         ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtToTime)
                         ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtDesc)
-                        if (!selectedFile?.absolutePath.isNullOrEmpty() || upload_img_array.size > 0) {
-                            uploadFile(selectedFile, upload_img_array)
-                        } else {
+                        if(!selectedFile?.absolutePath.isNullOrEmpty())
+                        {
+                            uploadFile(selectedFile)
+                        }else if(upload_img_array.size>0)
+                        {
+                            uploadMultipleImageFile(uploadedImageList!!)
+                        }else{
                             callEditProfileApi()
                         }
 
@@ -1186,6 +1200,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         imageAdapter = ImageAdapter(this, images, object : ImageAdapter.onItemClicklisteners {
             override fun onCancelCick(position: Int) {
                 images.removeAt(position)
+                upload_img_array.removeAt(position)
                 imageAdapter?.notifyDataSetChanged()
             }
 
@@ -1258,7 +1273,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun uploadFile(selectedFile: File?, imageList: ArrayList<String>) {
+    private fun uploadFile(selectedFile: File?) {
         showLoadingIndicator(true)
         try {
             val options = StorageUploadFileOptions.defaultInstance()
@@ -1278,25 +1293,31 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             )
             val s3 = AmazonS3Client(credentials, clientConfig)
             s3.setRegion(Region.getRegion(Regions.US_EAST_2))
-            Amplify.Storage.uploadFile(selectedFile?.name.toString(), selectedFile!!, options, {
-                Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}")
-            },
-                {
-                    Log.i("MyAmplifyApp", "Successfully uploaded Single Image: ${it.key}")
-                    attachmentUrl =
-                        "${resources.getString(R.string.aws_base_url)}${selectedFile?.name}"
-                    Log.i("attachmentUrl", attachmentUrl)
+            if(!selectedFile?.absolutePath.isNullOrEmpty())
+            {
+                Amplify.Storage.uploadFile(selectedFile?.name.toString(), selectedFile!!, options, {
+                    Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}")
                 },
-                {
-                    showLoadingIndicator(false)
-                    Log.i("MyAmplifyApp", "Upload failed Single Image", it)
-                }
-            )
-            if (imageList.size > 0) {
-                uploadMultipleImageFile(imageList)
-            } else {
-                callEditProfileApi()
+                    {
+                        Log.i("MyAmplifyApp", "Successfully uploaded Single Image: ${it.key}")
+                        attachmentUrl =
+                            "${resources.getString(R.string.aws_base_url)}${selectedFile?.name}"
+                        Log.i("attachmentUrl", attachmentUrl)
+                    },
+                    {
+                        showLoadingIndicator(false)
+                        Log.i("MyAmplifyApp", "Upload failed Single Image", it)
+                    }
+                )
+            }else{
+                showLoadingIndicator(false)
             }
+
+//            if (imageList.size > 0) {
+//                uploadMultipleImageFile(imageList)
+//            } else {
+//                callEditProfileApi()
+//            }
 
 
         } catch (exception: Exception) {
@@ -1332,7 +1353,6 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             try {
 
                 val options = StorageUploadFileOptions.defaultInstance()
-
                 Amplify.Storage.uploadFile(image1.name.toString(), image1, options,
                     {
                         Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}")

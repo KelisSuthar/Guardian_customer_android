@@ -438,7 +438,7 @@
                         android:layout_height="@dimen/_17sdp"
                         android:layout_marginStart="@dimen/_20sdp"
                         android:layout_marginTop="@dimen/_20sdp"
-                        android:src="@drawable/ic_specialization"
+                        android:src="@drawable/ic_subscription"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/view8"
                         app:tint="@color/blue" />
