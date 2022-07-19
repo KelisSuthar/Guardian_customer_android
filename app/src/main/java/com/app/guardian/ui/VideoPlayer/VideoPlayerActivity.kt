@@ -1,15 +1,16 @@
 package com.app.guardian.ui.VideoPlayer
 
 
+import android.content.pm.ActivityInfo
 import android.net.Uri
-import android.os.Environment
 import android.util.Log
-import android.view.View
 import android.widget.MediaController
-import android.widget.VideoView
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
+import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.loadWebViewData
+import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityVideoPlayerBinding
 import com.app.guardian.shareddata.base.BaseActivity
 
@@ -25,15 +26,26 @@ class VideoPlayerActivity : BaseActivity() {
         mBinding = getBinding()
         if (intent != null && intent.extras != null) {
             Log.i("THIS_APP_PATH", intent.getStringExtra(AppConstants.EXTRA_PATH).toString())
-            mBinding.videoView.setVideoURI(
-                Uri.parse(
-                    intent.getStringExtra(AppConstants.EXTRA_PATH).toString()
+            val path = intent.getStringExtra(AppConstants.EXTRA_PATH).toString()
+            if (path.startsWith("http://") || path.startsWith("https://")) {
+                mBinding.videoView.gone()
+                mBinding.webview.visible()
+                this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                mBinding.webview.loadWebViewData(path)
+            } else {
+                mBinding.videoView.visible()
+                mBinding.webview.gone()
+                mBinding.videoView.setVideoURI(
+                    Uri.parse(
+                        intent.getStringExtra(AppConstants.EXTRA_PATH).toString()
+                    )
                 )
-            )
-            mBinding.videoView.setMediaController(MediaController(this));
-            mBinding.videoView.requestFocus()
+            }
+            val mediaController = MediaController(this)
+            mediaController.setAnchorView(mBinding.videoView);
+            mediaController.setMediaPlayer(mBinding.videoView);
+            mBinding.videoView.setMediaController(mediaController);
 
-            mBinding.videoView.requestFocus();
             mBinding.videoView.start();
         }
 

@@ -22,8 +22,21 @@ data class UserDetailsResp(
     val user_doc: List<UserDoc>,
     val user_role: String? = "",
     val vehicle_no: String? = "",
-    val years_of_experience: String? = ""
-)
+    val changephone_otp: String? = "",
+    val description: String? = "",
+    val plan_id: Int? = 0,
+    val is_expired: Int? = 0,
+    val is_subscribe: Int? = 0,
+    val is_online: Int? = 0,
+    val last_seen: String? = "",
+    val is_autoupload: Int? = 0,
+    val years_of_experience: String? = "",
+    val availability_time: String? = "",
+    val payment_detail: String? = "",
+    val pay_receipt: String? = "",
+    val shared_secret: String? = "",
+
+    )
 
 data class UserDoc(
     val created_at: String? = "",

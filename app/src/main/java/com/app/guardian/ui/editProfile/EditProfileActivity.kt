@@ -1,7 +1,9 @@
 package com.app.guardian.ui.editProfile
 
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.app.Dialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.location.LocationManager
@@ -14,6 +16,7 @@ import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.recyclerview.widget.RecyclerView
 import com.amazonaws.ClientConfiguration
@@ -28,10 +31,12 @@ import com.app.guardian.R
 import com.app.guardian.common.*
 import com.app.guardian.common.ReusedMethod.Companion.displayMessageDialog
 import com.app.guardian.common.ReusedMethod.Companion.getAddress
-import com.app.guardian.common.extentions.*
+import com.app.guardian.common.extentions.checkLoationPermission
+import com.app.guardian.common.extentions.gone
+import com.app.guardian.common.extentions.loadImage
+import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.ActivityEditProfileBinding
 import com.app.guardian.model.Editprofile.UserDetailsResp
-import com.app.guardian.model.Login.LoginResp
 import com.app.guardian.model.specializationList.SpecializationListResp
 import com.app.guardian.model.viewModels.AuthenticationViewModel
 import com.app.guardian.model.viewModels.CommonScreensViewModel
@@ -511,11 +516,27 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         if (is_mediator) {
             mBinding.edtSpecializations.setText(data.specialization)
             mBinding.edtYearsOfExp.setText(data.years_of_experience)
+            if (!data.availability_time.isNullOrEmpty()) {
+                mBinding.edtFromTime.setText(data.availability_time.substringBefore("to"))
+                mBinding.edtToTime.setText(data.availability_time.substringAfter("to"))
+            }
+            if (!data.description.isNullOrEmpty()) {
+                mBinding.edtDesc.setText(data.description)
+            }
+
+
         } else if (is_lawyer) {
             mBinding.edtSpecializations.setText(data.specialization)
             mBinding.edtYearsOfExp.setText(data.years_of_experience)
             mBinding.edtOfficeNum.setText(data.office_phone)
             mBinding.ccp1.setCountryForPhoneCode(data.office_dialing_code!!.toInt())
+            if (!data.availability_time.isNullOrEmpty()) {
+                mBinding.edtFromTime.setText(data.availability_time.substringBefore("to"))
+                mBinding.edtToTime.setText(data.availability_time.substringAfter("to"))
+            }
+            if (!data.description.isNullOrEmpty()) {
+                mBinding.edtDesc.setText(data.description)
+            }
         }
         mBinding.ccp2.setCountryForPhoneCode(data.dialing_code!!.toInt())
         mBinding.edtPhone.setText(data.phone)
@@ -536,7 +557,8 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         if (data.user_doc.isNotEmpty()) {
             for (i in data.user_doc.indices) {
                 images.add(data.user_doc[i].document.toString())
-                upload_img_array.add(data.user_doc[i].document.toString())
+                upload_img_array?.add(data.user_doc[i].document.toString())
+//                upload_img_array.add(data.user_doc[i].document.toString())
                 imageAdapter?.notifyDataSetChanged()
             }
 
@@ -557,10 +579,10 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.edtFromTime -> {
-                ReusedMethod.selectTime(this, mBinding.edtFromTime)
+                selectTime(mBinding.edtFromTime)
             }
             R.id.edtToTime -> {
-                ReusedMethod.selectTime(this, mBinding.edtToTime)
+                selectTime(mBinding.edtToTime)
             }
             R.id.btnTryAgain -> {
 //                callApi()
@@ -607,6 +629,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
 
             }
             R.id.btnSubmit -> {
+
                 validations()
             }
         }
@@ -1041,33 +1064,36 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                                 this@EditProfileActivity,
                                 mBinding.edtProvience
                             )
-                            ReusedMethod.ShowRedBorders(
+                            ReusedMethod.ShowNoBorders(
                                 this@EditProfileActivity,
                                 mBinding.edtRegisteredLicenceNum
                             )
-                            ReusedMethod.ShowRedBorders(
+                            ReusedMethod.ShowNoBorders(
                                 this@EditProfileActivity,
                                 mBinding.edtFromTime
                             )
-                            ReusedMethod.ShowRedBorders(
+                            ReusedMethod.ShowNoBorders(
                                 this@EditProfileActivity,
                                 mBinding.edtToTime
                             )
                             ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtDesc)
-                            if(!selectedFile?.absolutePath.isNullOrEmpty())
-                            {
-                                uploadFile(selectedFile)
-                            }else if(upload_img_array.size>0)
-                            {
-                                uploadMultipleImageFile(uploadedImageList!!)
-                            }else{
-                                callEditProfileApi()
+                            var isStorage = false
+                            images.forEachIndexed { index, s ->
+                                if (images[index].startsWith("/storage/")) {
+                                    isStorage = true
+                                }
                             }
-//                            if (!TextUtils.isEmpty(selectedFile.toString()) || upload_img_array.size > 0) {
-//                                uploadFile(selectedFile, upload_img_array)
-//                            } else {
-//                                callEditProfileApi()
-//                            }
+                            if (!selectedFile?.absolutePath.isNullOrEmpty() && isStorage) {
+                                uploadFile(selectedFile, false)
+                                uploadMultipleImageFile(images)
+                            } else
+                                if (!selectedFile?.absolutePath.isNullOrEmpty()) {
+                                    uploadFile(selectedFile, true)
+                                } else if (isStorage) {
+                                    uploadMultipleImageFile(images)
+                                } else {
+                                    callEditProfileApi()
+                                }
                         } else {
                             displayMessageDialog(
                                 this@EditProfileActivity,
@@ -1090,20 +1116,25 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtPhone)
                         ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtProvience)
                         ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtProvience)
-                        ReusedMethod.ShowRedBorders(
+                        ReusedMethod.ShowNoBorders(
                             this@EditProfileActivity,
                             mBinding.edtRegisteredLicenceNum
                         )
-                        ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtFromTime)
-                        ReusedMethod.ShowRedBorders(this@EditProfileActivity, mBinding.edtToTime)
+                        ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtFromTime)
+                        ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtToTime)
                         ReusedMethod.ShowNoBorders(this@EditProfileActivity, mBinding.edtDesc)
-                        if(!selectedFile?.absolutePath.isNullOrEmpty())
-                        {
-                            uploadFile(selectedFile)
-                        }else if(upload_img_array.size>0)
-                        {
-                            uploadMultipleImageFile(uploadedImageList!!)
-                        }else{
+                        Log.e("IMG_ARRAY", upload_img_array.toString())
+                        var isStorage = false
+                        images.forEachIndexed { index, s ->
+                            if (images[index].startsWith("/storage/")) {
+                                isStorage = true
+                            }
+                        }
+                        if (!selectedFile?.absolutePath.isNullOrEmpty()) {
+                            uploadFile(selectedFile, true)
+                        } else if (isStorage) {
+                            uploadMultipleImageFile(images)
+                        } else {
                             callEditProfileApi()
                         }
 
@@ -1154,10 +1185,10 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 mBinding.edtPostalCode.text?.trim().toString(),
                 mBinding.edtRegisteredLicenceNum.text?.trim().toString(),
                 mBinding.edtFromTime.text?.trim()
-                    .toString() + " To " + mBinding.edtToTime.text?.trim().toString(),
+                    .toString() + " to " + mBinding.edtToTime.text?.trim().toString(),
                 mBinding.edtDesc.text?.trim().toString(),
                 profile_img,
-                images,
+                upload_img_array,
             )
         } else {
             mBinding.noInternetEdit.llNointernet.visible()
@@ -1199,8 +1230,12 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         mBinding.rvImage.adapter = null
         imageAdapter = ImageAdapter(this, images, object : ImageAdapter.onItemClicklisteners {
             override fun onCancelCick(position: Int) {
+                for (i in upload_img_array.indices) {
+                    if (upload_img_array[i] == images[position]) {
+                        upload_img_array.removeAt(i)
+                    }
+                }
                 images.removeAt(position)
-                upload_img_array.removeAt(position)
                 imageAdapter?.notifyDataSetChanged()
             }
 
@@ -1241,7 +1276,6 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 }
                 DOCUMENT_CODE -> {
                     images.add(ImagePicker.getFilePath(data).toString())
-                    upload_img_array.add(ImagePicker.getFilePath(data).toString())
                     imageAdapter?.notifyDataSetChanged()
 
                 }
@@ -1273,7 +1307,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun uploadFile(selectedFile: File?) {
+    private fun uploadFile(selectedFile: File?, b: Boolean) {
         showLoadingIndicator(true)
         try {
             val options = StorageUploadFileOptions.defaultInstance()
@@ -1293,8 +1327,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             )
             val s3 = AmazonS3Client(credentials, clientConfig)
             s3.setRegion(Region.getRegion(Regions.US_EAST_2))
-            if(!selectedFile?.absolutePath.isNullOrEmpty())
-            {
+            if (!selectedFile?.absolutePath.isNullOrEmpty()) {
                 Amplify.Storage.uploadFile(selectedFile?.name.toString(), selectedFile!!, options, {
                     Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}")
                 },
@@ -1302,14 +1335,19 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                         Log.i("MyAmplifyApp", "Successfully uploaded Single Image: ${it.key}")
                         attachmentUrl =
                             "${resources.getString(R.string.aws_base_url)}${selectedFile?.name}"
+                        profile_img =
+                            "${resources.getString(R.string.aws_base_url)}${selectedFile?.name}"
                         Log.i("attachmentUrl", attachmentUrl)
+                        if (b) {
+                            callEditProfileApi()
+                        }
                     },
                     {
                         showLoadingIndicator(false)
                         Log.i("MyAmplifyApp", "Upload failed Single Image", it)
                     }
                 )
-            }else{
+            } else {
                 showLoadingIndicator(false)
             }
 
@@ -1329,6 +1367,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun uploadMultipleImageFile(imageList: ArrayList<String>) {
+        showLoadingIndicator(true)
         val clientConfig = ClientConfiguration()
         clientConfig.socketTimeout = 120000
         clientConfig.connectionTimeout = 10000
@@ -1347,40 +1386,124 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         var counter = 0
         val imageListSize = imageList.size
         uploadedImageList?.clear()
+
         imageList.forEachIndexed { index, s ->
+            if (imageList[index].startsWith("/storage/")) {
 
-            val image1 = File(s)
-            try {
+                val image1 = File(s)
+                try {
 
-                val options = StorageUploadFileOptions.defaultInstance()
-                Amplify.Storage.uploadFile(image1.name.toString(), image1, options,
-                    {
-                        Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}")
-                    },
-                    {
-                        counter += 1
-                        Log.i("MyAmplifyApp", "Successfully uploaded: ${it.key}")
-                        uploadedImageList?.add("${resources.getString(R.string.aws_base_url)}${image1.name}")
-                        if (imageListSize == counter) {
-                            Log.i("uploadedImageList", uploadedImageList.toString())
-                            callEditProfileApi()
-
+                    val options = StorageUploadFileOptions.defaultInstance()
+                    Amplify.Storage.uploadFile(image1.name.toString(), image1, options,
+                        {
+                            Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}")
+                        },
+                        {
+                            counter += 1
+                            Log.i("MyAmplifyApp", "Successfully uploaded: ${it.key}")
+                            upload_img_array?.add("${resources.getString(R.string.aws_base_url)}${image1.name}")
+                            if (imageListSize == (index + 1)) {
+                                Log.i("uploadedImageList", uploadedImageList.toString())
+                                callEditProfileApi()
+                            }
+                        },
+                        {
+                            showLoadingIndicator(false)
+                            Log.i("MyAmplifyApp", "Upload failed", it)
                         }
-                    },
-                    {
-                        showLoadingIndicator(false)
-                        Log.i("MyAmplifyApp", "Upload failed", it)
-                    }
-                )
-            } catch (exception: java.lang.Exception) {
-                showLoadingIndicator(false)
-                Log.i("MyAmplifyApp", "Upload failed", exception)
-            } catch (e: NetworkOnMainThreadException) {
-                showLoadingIndicator(false)
-                Log.i("MyAmplifyApp", "Upload failed$e.message")
+                    )
+                } catch (exception: java.lang.Exception) {
+                    showLoadingIndicator(false)
+                    Log.i("MyAmplifyApp", "Upload failed", exception)
+                } catch (e: NetworkOnMainThreadException) {
+                    showLoadingIndicator(false)
+                    Log.i("MyAmplifyApp", "Upload failed$e.message")
+                }
             }
         }
 
+
+    }
+
+    fun selectTime(txtTime: TextView) {
+
+        var hrsFormatter = 0
+        var minFormatter = 0
+        if (!txtTime.text.toString().isNullOrEmpty()) {
+            hrsFormatter = txtTime.text.toString().substringBefore(":").trim().toInt()
+            minFormatter = txtTime.text.toString().substringAfter(":").substring(0, 2).toInt()
+        }
+
+        val timePicker = TimePickerDialog(
+            this@EditProfileActivity, R.style.DialogTheme,
+            // listener to perform task
+            // when time is picked
+            { view, hourOfDay, minute ->
+                val formattedTime: String = when {
+                    hourOfDay == 0 -> {
+                        if (minute < 10) {
+                            "${hourOfDay + 12}:0${minute} AM"
+                        } else {
+                            "${hourOfDay + 12}:${minute} AM"
+                        }
+                    }
+                    hourOfDay > 12 -> {
+                        if (minute < 10) {
+                            "${hourOfDay - 12}:0${minute} PM"
+                        } else {
+                            "${hourOfDay - 12}:${minute} PM"
+                        }
+                    }
+                    hourOfDay == 12 -> {
+                        if (minute < 10) {
+                            "${hourOfDay}:0${minute} PM"
+                        } else {
+                            "${hourOfDay}:${minute} PM"
+                        }
+                    }
+                    else -> {
+                        if (minute < 10) {
+                            "${hourOfDay}:${minute} AM"
+                        } else {
+                            "${hourOfDay}:${minute} AM"
+                        }
+                    }
+                }
+                txtTime.text = formattedTime
+            },
+            // default hour when the time picker
+            // dialog is opened
+            hrsFormatter,
+            // default minute when the time picker
+            // dialog is opened
+            minFormatter,
+            false
+        )
+
+        // then after building the timepicker
+        // dialog show the dialog to user
+        timePicker.show()
+        timePicker.getButton(DatePickerDialog.BUTTON_NEGATIVE)
+            .setTextColor(
+                ContextCompat.getColor(
+                    this@EditProfileActivity,
+                    R.color.colorPrimaryDark
+                )
+            )
+        timePicker.getButton(DatePickerDialog.BUTTON_NEUTRAL)
+            .setTextColor(
+                ContextCompat.getColor(
+                    this@EditProfileActivity,
+                    R.color.colorPrimaryDark
+                )
+            )
+        timePicker.getButton(DatePickerDialog.BUTTON_POSITIVE)
+            .setTextColor(
+                ContextCompat.getColor(
+                    this@EditProfileActivity,
+                    R.color.colorPrimaryDark
+                )
+            )
     }
 
 }

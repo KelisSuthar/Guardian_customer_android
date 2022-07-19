@@ -1,6 +1,7 @@
 package com.app.guardian.ui.SubscriptionPlan
 
 import android.app.Activity
+import android.content.Intent
 import android.util.Log
 import android.view.View
 import com.android.billingclient.api.*
@@ -149,9 +150,8 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                         if (it.status) {
                             SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
                             SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
-                            onBackPressed()
+                            startActivity(Intent(this@SubScriptionPlanScreen,HomeActivity::class.java))
                             finish()
-                            overridePendingTransition(R.anim.rightto, R.anim.left)
 
 
                             ReusedMethod.displayMessage(this, it.message.toString())
@@ -236,9 +236,9 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                                 this,
                                 it.message.toString()
                             )
-                            onBackPressed()
+                            startActivity(Intent(this@SubScriptionPlanScreen,HomeActivity::class.java))
                             finish()
-                            overridePendingTransition(R.anim.leftto, R.anim.right)
+
                         } else {
                             ReusedMethod.displayMessage(
                                 this,

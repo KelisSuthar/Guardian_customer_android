@@ -92,6 +92,11 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
             notification_URL = extras!!.getString("url").toString()
             notification_meeting_id = extras!!.getString("room_id").toString()
 
+            Log.e("BROADCAST_DATA", extras!!.getString("sender_id").toString())
+            Log.e("BROADCAST_DATA", extras!!.getString("type").toString())
+            Log.e("BROADCAST_DATA", extras!!.getString("url").toString())
+            Log.e("BROADCAST_DATA", extras!!.getString("room_id").toString())
+
             val getFragment = supportFragmentManager.findFragmentById(R.id.flUserContainer)
             if (getFragment != null) {
                 if (getFragment !is SettingsFragment) {
@@ -156,7 +161,10 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
         applybadgeview()
 
         clearFragmentBackStack()
-        Log.e("THIS_APP_NOTI", intent.getBooleanExtra(AppConstants.IS_NOTIFICATION, false).toString())
+        Log.e(
+            "THIS_APP_NOTI",
+            intent.getBooleanExtra(AppConstants.IS_NOTIFICATION, false).toString()
+        )
         if (!intent.getBooleanExtra(AppConstants.IS_NOTIFICATION, false)) {
             loadHomeScreen()
         }
@@ -350,31 +358,27 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
             notification_URL =
                 intent.extras!!.getString("url").toString()
             notification_meeting_id = intent.extras!!.getString("room_id").toString()
-
-            if (notification_type == AppConstants.EXTRA_VIDEOCALLREQ_PAYLOAD) {
-                if (!notification_URL.isNullOrEmpty() || !notification_meeting_id.isNullOrEmpty()) {
-
-                    when (SharedPreferenceManager.getLoginUserRole()) {
-                        AppConstants.APP_ROLE_LAWYER -> {
-                            ReplaceFragment.replaceFragment(
-                                this,
-                                VideoCallReqFragment(),
-                                true,
-                                SettingsFragment::class.java.name,
-                                SettingsFragment::class.java.name
-                            )
-                        }
-                        AppConstants.APP_ROLE_USER -> {
-                            joinMeeting(notification_meeting_id.toString())
-                        }
-                        AppConstants.APP_ROLE_MEDIATOR -> {
-
-                        }
-
-                    }
+        }
+        when (SharedPreferenceManager.getLoginUserRole()) {
+            AppConstants.APP_ROLE_LAWYER -> {
+                if (notification_type == AppConstants.EXTRA_VIDEOCALLREQ_PAYLOAD) {
+                    ReplaceFragment.replaceFragment(
+                        this,
+                        VideoCallReqFragment(),
+                        true,
+                        SettingsFragment::class.java.name,
+                        SettingsFragment::class.java.name
+                    )
+                } else if (!notification_type.isNullOrEmpty() || !notification_id.isNullOrEmpty()) {
+                    Log.e("THIS_APP_GUAR", notification_type.toString())
+                    Log.e("THIS_APP_GUAR", notification_id.toString())
+                    checkNotificationRedirection(
+                        notification_type,
+                        notification_id
+                    )
                 }
-
-            } else
+            }
+            AppConstants.APP_ROLE_MEDIATOR -> {
                 if (notification_type == AppConstants.EXTRA_MEDIATOR_PAYLOAD) {
                     ReplaceFragment.replaceFragment(
                         this,
@@ -383,57 +387,33 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
                         SettingsFragment::class.java.name,
                         SettingsFragment::class.java.name
                     )
-                } else {
-                    if (!notification_id.toString()
-                            .isNullOrEmpty() || !notification_type.isNullOrEmpty()
-                    ) {
-                        Log.e("THIS_APP_GUAR", notification_type.toString())
-                        Log.e("THIS_APP_GUAR", notification_id.toString())
-                        checkNotificationRedirection(
-                            notification_type as String,
-                            notification_id as String
-                        )
-                    }
+                } else if (!notification_type.isNullOrEmpty() || !notification_id.isNullOrEmpty()) {
+                    Log.e("THIS_APP_GUAR", notification_type.toString())
+                    Log.e("THIS_APP_GUAR", notification_id.toString())
+                    checkNotificationRedirection(
+                        notification_type,
+                        notification_id
+                    )
                 }
-        } else {
-            if (!notification_URL.isNullOrEmpty() || !notification_meeting_id.isNullOrEmpty()) {
-                if (notification_type == AppConstants.EXTRA_VIDEOCALLREQ_PAYLOAD) {
-                    when (SharedPreferenceManager.getLoginUserRole()) {
-                        AppConstants.APP_ROLE_LAWYER -> {
-                            ReplaceFragment.replaceFragment(
-                                this,
-                                VideoCallReqFragment(),
-                                true,
-                                SettingsFragment::class.java.name,
-                                SettingsFragment::class.java.name
-                            )
-                        }
-                        AppConstants.APP_ROLE_USER -> {
-                            joinMeeting(notification_meeting_id)
-                        }
-                        AppConstants.APP_ROLE_MEDIATOR -> {
-
-                        }
-
-                    }
-                } else
-                    if (notification_type == AppConstants.EXTRA_MEDIATOR_PAYLOAD) {
-                        ReplaceFragment.replaceFragment(
-                            this,
-                            MediatorVideoCallReqFragment(),
-                            true,
-                            SettingsFragment::class.java.name,
-                            SettingsFragment::class.java.name
-                        )
-                    }
-            } else if (!notification_id.isNullOrEmpty() || !notification_type.isNullOrEmpty()) {
-                checkNotificationRedirection(
-                    notification_type,
-                    notification_id
-                )
             }
+            AppConstants.APP_ROLE_USER -> {
+                if (notification_type == AppConstants.EXTRA_VIDEOCALLREQ_PAYLOAD) {
+                    if (!notification_id.isNullOrEmpty()) {
+                        joinMeeting(notification_meeting_id.toString())
+                    }
 
+                } else if (!notification_type.isNullOrEmpty() || !notification_id.isNullOrEmpty()) {
+                    Log.e("THIS_APP_GUAR", notification_type.toString())
+                    Log.e("THIS_APP_GUAR", notification_id.toString())
+                    checkNotificationRedirection(
+                        notification_type,
+                        notification_id
+                    )
+                }
+            }
         }
+
+
     }
 
     private fun joinMeeting(meeting_Id: String) {
@@ -481,7 +461,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
 
     fun checkNotificationRedirection(notification_type: String, id: String) {
         SharedPreferenceManager.removeNotificationData()
-        clearFragmentBackStack()
         when (notification_type) {
             AppConstants.EXTRA_CHAT_MESSAGE_PAYLOAD -> {
                 Log.i(

@@ -116,7 +116,7 @@ class LawyerProfileFragment(selectLawyerListIdParams: Int) : BaseFragment() {
                 displayVideoCallDialog(selectedLawyerListId!!)
             } else {
                 callVideoCallRequestAPI(
-                    selected_laywer_id!!,
+                    selectedLawyerListId!!,
                     AppConstants.APP_ROLE_LAWYER,
                     0,
                     ReusedMethod.getCurrentDate(),

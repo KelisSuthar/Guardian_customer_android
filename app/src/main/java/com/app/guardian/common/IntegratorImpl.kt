@@ -706,9 +706,8 @@ object IntegratorImpl {
         images: ArrayList<String>,
         ValidationView: ValidationView.EditProfile
     ) {
-        if (profile_img == "") {
+        if (profile_img.isNullOrEmpty()) {
             ValidationView.empty_profilePic()
-
         } else if (TextUtils.isEmpty(fullName)) {
             ValidationView.fullname_empty()
         } else

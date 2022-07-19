@@ -118,6 +118,7 @@ class MediatorVideoCallReqFragment : BaseFragment(), View.OnClickListener {
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
+                            showLoadingIndicator(false)
                             array.clear()
                             array.addAll(data)
                             mBinding.cl1.visible()

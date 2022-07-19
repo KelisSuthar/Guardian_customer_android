@@ -238,8 +238,8 @@ class VirtualWitnessFragment(val resp: SupportGroupResp) : BaseFragment(),
         }
         btnImmediateJoin.setOnClickListener {
             dialog.dismiss()
-//            callVirtualWitnessReqAPI(0, getCurrentDate())
-            ReusedMethod.displayMessage(requireActivity(), resources.getString(R.string.come_soon))
+            callVirtualWitnessReqAPI(0, getCurrentDate())
+//            ReusedMethod.displayMessage(requireActivity(), resources.getString(R.string.come_soon))
         }
         btnRequestSend.setOnClickListener {
             dialog.dismiss()

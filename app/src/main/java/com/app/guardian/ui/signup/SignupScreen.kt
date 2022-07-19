@@ -75,7 +75,7 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
     var selectedid = -1
     var selectedFile: File? = null
     var attachmentUrl = ""
-    private var uploadedImageList: java.util.ArrayList<String>? = arrayListOf()
+    private var uploadedImageList: ArrayList<String>? = arrayListOf()
 
     private lateinit var auth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
@@ -1296,10 +1296,10 @@ class SignupScreen : BaseActivity(), View.OnClickListener {
                 mBinding.edtPostalCode.text?.trim().toString(),
                 mBinding.edtRegisteredLicenceNum.text?.trim().toString(),
                 mBinding.edtFromTime.text?.trim()
-                    .toString() + " To " + mBinding.edtToTime.text?.trim().toString(),
+                    .toString() + " to " + mBinding.edtToTime.text?.trim().toString(),
                 mBinding.edtDesc.text?.trim().toString(),
-                profile_img,
-                images,
+                attachmentUrl,
+                uploadedImageList!!,
                 DEVICE_TOKEN.toString(),
                 firebaseUUID
             )

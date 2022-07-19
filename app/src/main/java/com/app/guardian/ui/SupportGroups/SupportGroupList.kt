@@ -264,7 +264,7 @@ class SupportGroupList(
         btnImmediateJoin.setOnClickListener {
             dialog.dismiss()
             callVirtualWitnessReqAPI(1, ReusedMethod.getCurrentDate())
-            ReusedMethod.displayMessage(requireActivity(), resources.getString(R.string.come_soon))
+//            ReusedMethod.displayMessage(requireActivity(), resources.getString(R.string.come_soon))
 
         }
         btnRequestSend.setOnClickListener {

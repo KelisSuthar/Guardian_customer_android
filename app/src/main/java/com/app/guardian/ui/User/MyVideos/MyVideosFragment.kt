@@ -364,6 +364,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                     arrayList,
                     object : MyVideoListAdapter.onItemClicklisteners {
                         override fun onItemClick(position: Int?) {
+
                             startActivity(
                                 Intent(
                                     requireActivity(),
@@ -425,6 +426,11 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                     requireContext(),
                     object : UploadedVideosListAdapter.onItemClicklisteners {
                         override fun onItemClick(position: Int) {
+                            Log.e(
+                                "VIDEOLINK",
+                                uploadedVideoListAdapter?.getData()
+                                    ?.get(position)?.video_url!!.replace("\\", "/")
+                            )
                             startActivity(
                                 Intent(
                                     requireActivity(),
@@ -579,7 +585,7 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
                         if (it.status) {
-                            uploadedVideoListAdapter?.remove(delete_pos)
+                            uploadedVideoListAdapter?.removeItem(delete_pos)
                             displayMessage(requireActivity(), it.message.toString())
                         } else {
                             displayMessage(requireActivity(), it.message.toString())
@@ -744,6 +750,8 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
 
             val i = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
             i.putExtra(MediaStore.EXTRA_OUTPUT, recorduri)
+//            i.putExtra("android.intent.extra.videoQuality", 1)
+//            i.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1)
 
             startActivityForResult(i, 1001)
         }

@@ -352,7 +352,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                                                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                         )
                                     } else {
-                                        ReusedMethod.displayMessage(this as Activity, it)
+                                        ReusedMethod.displayMessage(requireActivity(), it)
                                     }
                                 }
                     }

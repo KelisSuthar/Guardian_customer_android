@@ -180,6 +180,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                         SubScriptionPlanScreen::class.java
                     )
                 )
+                finish()
                 overridePendingTransition(R.anim.rightto, R.anim.left)
 
             } else {

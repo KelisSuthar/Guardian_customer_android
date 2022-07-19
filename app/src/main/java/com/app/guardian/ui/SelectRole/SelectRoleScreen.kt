@@ -5,6 +5,10 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
+import com.app.guardian.common.AppConstants.APP_ROLE_LAWYER
+import com.app.guardian.common.AppConstants.APP_ROLE_MEDIATOR
+import com.app.guardian.common.AppConstants.APP_ROLE_USER
+import com.app.guardian.common.AppConstants.USER_ROLE
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.ReusedMethod.Companion.displayMessageDialog
 import com.app.guardian.common.SharedPreferenceManager
@@ -72,6 +76,7 @@ class SelectRoleScreen : BaseActivity(), View.OnClickListener {
             R.id.btnSubmit -> {
                 when {
                     mBinding.rb1.isChecked -> {
+                        SharedPreferenceManager.putString(USER_ROLE, APP_ROLE_USER)
                         startActivity(
                             Intent(
                                 this@SelectRoleScreen,
@@ -82,6 +87,7 @@ class SelectRoleScreen : BaseActivity(), View.OnClickListener {
                         overridePendingTransition(R.anim.rightto, R.anim.left)
                     }
                     mBinding.rb2.isChecked -> {
+                        SharedPreferenceManager.putString(USER_ROLE, APP_ROLE_MEDIATOR)
                         startActivity(
                             Intent(
                                 this@SelectRoleScreen,
@@ -92,6 +98,7 @@ class SelectRoleScreen : BaseActivity(), View.OnClickListener {
                         overridePendingTransition(R.anim.rightto, R.anim.left)
                     }
                     mBinding.rb3.isChecked -> {
+                        SharedPreferenceManager.putString(USER_ROLE, APP_ROLE_LAWYER)
                         startActivity(
                             Intent(
                                 this@SelectRoleScreen,
