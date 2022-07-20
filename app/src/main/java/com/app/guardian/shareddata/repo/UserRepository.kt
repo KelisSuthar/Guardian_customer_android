@@ -1041,7 +1041,7 @@ class UserRepository(private val mApiEndPoint: ApiEndPoint) : UserRepo {
             deleteUploadedOfflineVideoResp.value =
                 RequestState(progress = false, error = ApiError(Config.NETWORK_ERROR, null))
         } else {
-            deleteUploadedOfflineVideoResp.value = RequestState(progress = true)
+//            deleteUploadedOfflineVideoResp.value = RequestState(progress = true)
             NetworkManager.requestData(
                 mApiEndPoint.deleteUploadedVideos(id),
                 baseView,

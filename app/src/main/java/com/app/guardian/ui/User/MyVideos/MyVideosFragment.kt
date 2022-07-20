@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Environment
+import android.os.NetworkOnMainThreadException
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -14,8 +15,15 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.work.*
+import com.amazonaws.ClientConfiguration
+import com.amazonaws.Protocol
+import com.amazonaws.auth.BasicAWSCredentials
+import com.amazonaws.regions.Region
+import com.amazonaws.regions.Regions
+import com.amazonaws.services.s3.AmazonS3Client
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.storage.options.StorageUploadFileOptions
 import com.app.guardian.ConnectivityChangeReceiver
-import com.app.guardian.ConnectivityChangeReceiver2
 import com.app.guardian.NotifyWork
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
@@ -42,7 +50,7 @@ import com.app.guardian.utils.Config
 import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
-import kotlin.math.log
+import java.net.URL
 
 
 class MyVideosFragment : BaseFragment(), View.OnClickListener {
@@ -447,8 +455,6 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                             showDialog(position, false)
                             delete_pos = position!!
                         }
-
-
                     })
             mBinding.rv.adapter = uploadedVideoListAdapter
         }
@@ -494,11 +500,57 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
                 }
 
             } else {
-                callDeleteOfflienVideoAPI(uploadedVideoListAdapter?.getData()?.get(position!!)!!.id)
+
+                callDeleteAWS(position)
+//                callDeleteOfflienVideoAPI(
+//                    uploadedVideoListAdapter?.getData()?.get(position!!)!!.id
+//                )
             }
 
         }
         dialog.show()
+    }
+
+    private fun callDeleteAWS(position: Int?) {
+        showLoadingIndicator(true)
+        StorageUploadFileOptions.defaultInstance()
+        val clientConfig = ClientConfiguration()
+        clientConfig.socketTimeout = 120000
+        clientConfig.connectionTimeout = 10000
+        clientConfig.maxErrorRetry = 2
+        clientConfig.protocol = Protocol.HTTP
+
+        val credentials = BasicAWSCredentials(
+
+            resources.getString(R.string.aws_access_1) + resources.getString(R.string.aws_access_2),
+            resources.getString(R.string.aws_sec_1) + resources.getString(R.string.aws_sec_2) + resources.getString(
+                R.string.aws_sec_3
+            )
+        )
+        val url = URL(uploadedVideoListAdapter?.getData()?.get(position!!)!!.video_url)
+        val s3 = AmazonS3Client(credentials, clientConfig)
+        s3.setRegion(Region.getRegion(Regions.US_EAST_2))
+        try {
+            Amplify.Storage.remove(url.file.toString().replace("/public/", ""),
+                {
+                    Log.i("MyAmplifyApp", "Successfully removed: ${it.key}")
+                    callDeleteOfflienVideoAPI(
+                        uploadedVideoListAdapter?.getData()?.get(position!!)!!.id
+                    )
+                },
+                {
+                    Log.e("MyAmplifyApp", "Remove failure", it)
+                    showLoadingIndicator(false)
+                }
+            )
+
+        } catch (exception: Exception) {
+            showLoadingIndicator(false)
+            Log.i("MyAmplifyApp", "Upload failed", exception)
+        } catch (e: NetworkOnMainThreadException) {
+            showLoadingIndicator(false)
+            Log.i("MyAmplifyApp", "Upload failed$e.message")
+        }
     }
 
     override fun postInit() {
@@ -514,9 +566,10 @@ class MyVideosFragment : BaseFragment(), View.OnClickListener {
     override fun initObserver() {
         mVideModel.getOfflineUploadedVideoResp().observe(this) { response ->
             response?.let { requestState ->
-                showLoadingIndicator(requestState.progress)
+//                showLoadingIndicator(requestState.progress)
                 requestState.apiResponse?.let {
                     it.data?.let { data ->
+                        showLoadingIndicator(false)
                         if (it.status) {
                             if (data.isNotEmpty()) {
                                 uploadedVideoListAdapter?.updateAll(data)
