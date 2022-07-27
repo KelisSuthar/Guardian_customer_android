@@ -47,7 +47,6 @@ import com.google.android.material.textview.MaterialTextView
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
     private val mViewModel: CommonScreensViewModel by viewModel()
@@ -203,7 +202,12 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                     }
                 }
 
-                override fun onVideCallClick(position: Int, id: Int?, fullName: String?) {
+                override fun onVideCallClick(
+                    position: Int,
+                    id: Int?,
+                    fullName: String?,
+                    userRole: String?
+                ) {
 //                    ReusedMethod.displayMessage(
 //                        requireActivity(),
 //                        resources.getString(R.string.come_soon)
@@ -227,7 +231,7 @@ class ContectedHistoryFragment : BaseFragment(), View.OnClickListener {
                             )
                             .putExtra(
                                 AppConstants.EXTRA_TO_ROLE,
-                                AppConstants.APP_ROLE_USER
+                                userRole
                             )
                             .putExtra(
                                 AppConstants.EXTRA_NAME,

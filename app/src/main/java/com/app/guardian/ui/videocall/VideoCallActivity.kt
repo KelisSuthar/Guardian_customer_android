@@ -9,7 +9,6 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.media.projection.MediaProjectionManager
-import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
@@ -28,7 +27,6 @@ import com.app.guardian.databinding.ActivityVideoCallBinding
 import com.app.guardian.model.viewModels.CommonScreensViewModel
 import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.Home.HomeActivity
-import com.app.guardian.ui.editProfile.EditProfileActivity
 import com.app.guardian.ui.videocall.adapter.ParticipantAdapter
 import com.app.guardian.utils.Config
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -43,7 +41,10 @@ import live.videosdk.rtc.android.Stream
 import live.videosdk.rtc.android.VideoSDK
 import live.videosdk.rtc.android.lib.AppRTCAudioManager
 import live.videosdk.rtc.android.lib.PeerConnectionUtils
-import live.videosdk.rtc.android.listeners.*
+import live.videosdk.rtc.android.listeners.MeetingEventListener
+import live.videosdk.rtc.android.listeners.MicRequestListener
+import live.videosdk.rtc.android.listeners.ParticipantEventListener
+import live.videosdk.rtc.android.listeners.WebcamRequestListener
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.webrtc.RendererCommon
 import org.webrtc.SurfaceViewRenderer

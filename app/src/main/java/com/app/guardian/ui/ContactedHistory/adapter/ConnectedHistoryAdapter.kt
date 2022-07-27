@@ -143,6 +143,7 @@ class ConnectedHistoryAdapter(
                     position,
                     array.id,
                     array.full_name,
+                    array.user_role,
                 )
             }
 //            itemView.setOnClickListener { listeners.onNotesClick(position) }
@@ -184,7 +185,7 @@ class ConnectedHistoryAdapter(
         fun onChatClick(position: Int, id: Int?)
         fun onNotesClick(position: Int, id: Int?)
         fun onItemClick(position: Int, id: Int?)
-        fun onVideCallClick(position: Int, id: Int?, fullName: String?)
+        fun onVideCallClick(position: Int, id: Int?, fullName: String?, userRole: String?)
     }
 
     override fun getFilter(): Filter {
