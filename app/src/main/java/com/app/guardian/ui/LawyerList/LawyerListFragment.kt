@@ -4,7 +4,6 @@ package com.app.guardian.ui.LawyerList
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -28,7 +27,6 @@ import com.app.guardian.common.ReusedMethod.Companion.setUpDialog
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.changeDateFormat
 import com.app.guardian.common.extentions.gone
-import com.app.guardian.common.extentions.inVisible
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.databinding.FragmentLawyerListBinding
 import com.app.guardian.model.LawyerLsit.LawyerListResp
@@ -42,7 +40,6 @@ import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
 import com.app.guardian.ui.LawyerProfile.LawyerProfileFragment
 import com.app.guardian.ui.chatting.ChattingFragment
-import com.app.guardian.ui.createorjoin.CreateOrJoinActivity
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
 import com.google.android.material.card.MaterialCardView
@@ -50,12 +47,9 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textview.MaterialTextView
-import okhttp3.internal.cacheGet
 import org.koin.android.viewmodel.ext.android.viewModel
-import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickListener {

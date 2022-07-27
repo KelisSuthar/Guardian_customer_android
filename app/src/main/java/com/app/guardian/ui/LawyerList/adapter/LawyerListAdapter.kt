@@ -9,7 +9,6 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
-import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
@@ -109,18 +108,18 @@ class LawyerListAdapter(
 
 
             imgRowLawyerVideo?.setOnClickListener {
-                if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
-
-                    lawyerListFragment.displayVideoCallDialog(lawyerProfileData.id)
-                } else {
-                    lawyerListFragment.callVideoCallRequestAPI(
-                        lawyerProfileData.id!!,
-                        AppConstants.APP_ROLE_LAWYER,
-                        0,
-                        "",
-                        0,
-                    )
-                }
+//                if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
+//
+//                    lawyerListFragment.displayVideoCallDialog(lawyerProfileData.id)
+//                } else {
+                lawyerListFragment.callVideoCallRequestAPI(
+                    lawyerProfileData.id!!,
+                    AppConstants.APP_ROLE_LAWYER,
+                    0,
+                    "",
+                    0,
+                )
+//                }
 //                ReusedMethod.displayMessage(context,context.resources.getString(R.string.come_soon))
 
             }

@@ -9,14 +9,10 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
-import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
 import com.app.guardian.model.LawyerBySpecialization.LawyerBySpecializationResp
-import com.app.guardian.model.LawyerLsit.LawyerListResp
-import com.app.guardian.ui.Lawyer.adapter.LawyerListAdapter
-import com.app.guardian.ui.LawyerList.LawyerListFragment
 import com.app.guardian.ui.LawyerSpecialization.LawyerSpecializationFragment
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
@@ -106,9 +102,9 @@ class LawyerBySpecializationAdapter(
 
 
             imgRowLawyerVideo?.setOnClickListener {
-                if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
-                    fragment.displayVideoCallDialog(array.id)
-                } else {
+//                if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
+//                    fragment.displayVideoCallDialog(array.id)
+//                } else {
                     fragment.callVideoCallRequestAPI(
                         array.id!!,
                         AppConstants.APP_ROLE_LAWYER,
@@ -116,7 +112,7 @@ class LawyerBySpecializationAdapter(
                         "",
                         0
                     )
-                }
+//                }
 
             }
 
