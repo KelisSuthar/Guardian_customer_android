@@ -3,7 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="../../../../../../../layout/custom_preview.xml" value="0.1734375" />
+        <entry key="../../../../../../../layout/custom_preview.xml" value="0.18" />
         <entry key="..\:/Hardik Workspace/android/GuardianProject/Guardian_customer_android/app/src/main/res/drawable-v24/ic_notification_delete.xml" value="0.1995" />
         <entry key="..\:/Hardik Workspace/android/GuardianProject/Guardian_customer_android/app/src/main/res/drawable/ic_delete.xml" value="0.1995" />
         <entry key="..\:/Hardik Workspace/android/GuardianProject/Guardian_customer_android/app/src/main/res/drawable/ic_delte.xml" value="0.1995" />
@@ -99,6 +99,7 @@
         <entry key="app/src/main/res/layout/activity_virtual_witness.xml" value="0.30867892261650276" />
         <entry key="app/src/main/res/layout/banner_row_layout.xml" value="0.22" />
         <entry key="app/src/main/res/layout/banner_row_layout_2.xml" value="0.2296875" />
+        <entry key="app/src/main/res/layout/banner_row_layout_3.xml" value="0.3047699451245251" />
         <entry key="app/src/main/res/layout/chat_layout.xml" value="0.33" />
         <entry key="app/src/main/res/layout/chat_layout_header.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/chat_layout_left.xml" value="0.23072916666666668" />
@@ -138,6 +139,7 @@
         <entry key="app/src/main/res/layout/fragment_mediator_video_call_req.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_my_videos.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_notification.xml" value="0.3047699451245251" />
+        <entry key="app/src/main/res/layout/fragment_notification_list.xml" value="0.3047699451245251" />
         <entry key="app/src/main/res/layout/fragment_radar.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_radarfragment.xml" value="0.3047699451245251" />
         <entry key="app/src/main/res/layout/fragment_record_police_interaction.xml" value="0.22" />
@@ -166,7 +168,7 @@
         <entry key="app/src/main/res/layout/row_lawyer_contact.xml" value="0.2" />
         <entry key="app/src/main/res/layout/row_lawyer_list.xml" value="0.18" />
         <entry key="app/src/main/res/layout/row_moderator_contact.xml" value="0.3047699451245251" />
-        <entry key="app/src/main/res/layout/row_notification_layout.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/row_notification_layout.xml" value="0.22" />
         <entry key="app/src/main/res/layout/row_participants_video_call.xml" value="0.30867892261650276" />
         <entry key="app/src/main/res/layout/row_seek_legal_advice.xml" value="0.18" />
         <entry key="app/src/main/res/layout/row_support_group.xml" value="0.3047699451245251" />
@@ -184,6 +186,8 @@
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2135" />
         <entry key="app/src/main/res/xml/filter_chips.xml" value="0.30867892261650276" />
         <entry key="app/src/main/res/xml/provider_paths.xml" value="0.10816588285592134" />
+        <entry key="slidingitemmenu-recyclerview/src/main/res/drawable-v21/default_selector_recycler_item.xml" value="0.209" />
+        <entry key="slidingitemmenu-recyclerview/src/main/res/drawable/default_selector_recycler_item.xml" value="0.209" />
       </map>
     </option>
   </component>
