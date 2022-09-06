@@ -611,6 +611,7 @@ class LawyerListFragment(isDialLawyer: Boolean) : BaseFragment(), View.OnClickLi
         ).toInt()
         if (specialization == text || years_of_exp == text) {
             chip.setChipBackgroundColorResource(R.color.chip_selector)
+            chip.setChipBackgroundColorResource(R.color.chip_selector)
             chip.setTextColor(ContextCompat.getColor(context, R.color.white))
             chip.isChecked = true
         } else {

@@ -87,6 +87,7 @@ object AppConstants {
     const val IS_CANTATCED_JOIN = "IS_CANTATCED_JOIN"
 
     const val EXTRA_VIRTUAL_WITNESS_PAYLOAD = "virtual_witness_request"
+    const val EXTRA_VIRTUAL_WITNESS_ACCEPT_PAYLOAD = "accept_video_call_request"
     const val EXTRA_VIDEOCALLREQ_PAYLOAD = "video_call_request"
     const val EXTRA_MEDIATOR_PAYLOAD = "mediator_request"
     const val EXTRA_CHAT_MESSAGE_PAYLOAD = "chat_message"

@@ -150,7 +150,12 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                         if (it.status) {
                             SharedPreferenceManager.putBoolean(AppConstants.IS_SUBSCRIBE, true)
                             SharedPreferenceManager.putBoolean(AppConstants.IS_LOGIN, true)
-                            startActivity(Intent(this@SubScriptionPlanScreen,HomeActivity::class.java))
+                            startActivity(
+                                Intent(
+                                    this@SubScriptionPlanScreen,
+                                    HomeActivity::class.java
+                                )
+                            )
                             finish()
 
 
@@ -236,7 +241,12 @@ class SubScriptionPlanScreen : BaseActivity(), View.OnClickListener, PurchasesUp
                                 this,
                                 it.message.toString()
                             )
-                            startActivity(Intent(this@SubScriptionPlanScreen,HomeActivity::class.java))
+                            startActivity(
+                                Intent(
+                                    this@SubScriptionPlanScreen,
+                                    HomeActivity::class.java
+                                )
+                            )
                             finish()
 
                         } else {

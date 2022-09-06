@@ -16,7 +16,6 @@ import com.app.guardian.common.AppConstants.IS_NOTIFICATION
 import com.app.guardian.common.ReusedMethod
 import com.app.guardian.common.SharedPreferenceManager
 import com.app.guardian.databinding.ActivitySplashScreenBinding
-import com.app.guardian.shareddata.base.BaseActivity
 import com.app.guardian.ui.Home.HomeActivity
 import com.app.guardian.ui.Login.LoginActivity
 import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen

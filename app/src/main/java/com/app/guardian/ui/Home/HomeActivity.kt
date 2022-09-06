@@ -764,4 +764,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
 //        onHideBadgeCounter()
 //    }
 
+
+
 }

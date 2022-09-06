@@ -309,7 +309,6 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
         val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
             .build(requireActivity())
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
-
     }
 
     fun updatePlaceHolder() {

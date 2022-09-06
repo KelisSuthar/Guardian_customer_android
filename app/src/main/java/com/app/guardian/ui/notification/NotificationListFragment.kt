@@ -124,7 +124,7 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                                 NotificationListFragment::class.java.name,
                             )
                         }
-                        AppConstants.EXTRA_VIDEOCALLREQ_PAYLOAD -> {
+                        AppConstants.EXTRA_VIDEOCALLREQ_PAYLOAD  -> {
 //                            ReusedMethod.displayMessage(
 //                                requireActivity(),
 //                                resources.getString(R.string.come_soon)
@@ -161,6 +161,46 @@ class NotificationListFragment : BaseFragment(), View.OnClickListener {
                                     )
                                 }
                             }
+                        }
+                        AppConstants.EXTRA_VIRTUAL_WITNESS_ACCEPT_PAYLOAD  -> {
+//                            ReusedMethod.displayMessage(
+//                                requireActivity(),
+//                                resources.getString(R.string.come_soon)
+//                            )
+                            val jsonObject =
+                                JSONObject(array[position].data_obj)
+                            if (jsonObject.has("room_id")) {
+                                meeting_Id = jsonObject.getString("room_id")
+                                callCheckSubscriptionApi()
+                            }
+                            Log.e("CHECK_NOT",meeting_Id)
+//                            else {
+//                                if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_USER) {
+//                                    ReplaceFragment.replaceFragment(
+//                                        requireActivity(),
+//                                        LawyerVideoCallReqFragment(),
+//                                        true,
+//                                        SettingsFragment::class.java.name,
+//                                        SettingsFragment::class.java.name
+//                                    )
+//                                } else if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_MEDIATOR) {
+//                                    ReplaceFragment.replaceFragment(
+//                                        requireActivity(),
+//                                        MediatorVideoCallReqFragment(),
+//                                        true,
+//                                        SettingsFragment::class.java.name,
+//                                        SettingsFragment::class.java.name
+//                                    )
+//                                } else if (SharedPreferenceManager.getLoginUserRole() == AppConstants.APP_ROLE_LAWYER) {
+//                                    ReplaceFragment.replaceFragment(
+//                                        requireActivity(),
+//                                        VideoCallReqFragment(),
+//                                        true,
+//                                        SettingsFragment::class.java.name,
+//                                        SettingsFragment::class.java.name
+//                                    )
+//                                }
+//                            }
                         }
                     }
                 }
