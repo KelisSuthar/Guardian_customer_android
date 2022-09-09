@@ -2,14 +2,12 @@ package com.app.guardian.ui.Radar
 
 import android.app.Dialog
 import android.content.Context
-import android.graphics.BitmapFactory
 import android.location.LocationManager
 import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
