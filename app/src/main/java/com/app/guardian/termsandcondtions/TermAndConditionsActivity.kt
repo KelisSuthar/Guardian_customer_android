@@ -94,7 +94,7 @@ class TermAndConditionsActivity : BaseActivity(), View.OnClickListener {
             } else {
 
             }
-//            mBinding.webview.loadWebViewData(SharedPreferenceManager.getCMS()!!.terms_conditions)
+            mBinding.webview.loadWebViewData(SharedPreferenceManager.getCMS()!!.terms_conditions)
             mBinding.cl.visible()
         } else {
             mBinding.noInternetTerms.llNointernet.visible()

@@ -26,6 +26,8 @@ import com.app.guardian.ui.SubscriptionPlan.SubScriptionPlanScreen
 import com.app.guardian.ui.forgot.ForgotPasswordActivity
 import com.app.guardian.utils.ApiConstant
 import com.app.guardian.utils.Config
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -50,6 +52,20 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         mBinding.headderLogin.tvHeaderText.text = resources.getString(R.string.sing_in)
         setFocus()
         Log.e("StoredDeviceToken", "LOGIN: " + DEVICE_TOKEN.toString())
+
+        if (DEVICE_TOKEN.isNullOrEmpty() || DEVICE_TOKEN == "") {
+            FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w("FirebaseToken", "Fetching FCM registration token failed", task.exception)
+                    return@OnCompleteListener
+                }
+                // Get new FCM registration token
+                val token = task.result
+                SharedPreferenceManager.putString(ApiConstant.EXTRAS_DEVICETOKEN, token)
+                DEVICE_TOKEN = SharedPreferenceManager.getString(ApiConstant.EXTRAS_DEVICETOKEN, "")
+                Log.e("FinalGeneratedToken", "=$token")
+            })
+        }
 
 
     }

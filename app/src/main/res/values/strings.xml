@@ -11,8 +11,11 @@
     <string name="g_map_api_key_1">AIzaSyCn23HyRn8zm</string>
     <string name="g_map_api_key_2">-9sao4u-</string>
     <string name="g_map_api_key_3">2x2jYFX1JZ79jI</string>
-    <string name="g_map_api_key">AIzaSyCn23HyRn8zm-9sao4u-2x2jYFX1JZ79jI</string>
-    <string name="video_call_auth">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiI1NGE1NzM4Ni0zZWUwLTRkZjQtODkyYy1mMjk3NGZkZmViMGYiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTY1ODkwMjU2OSwiZXhwIjoxNjU5NTA3MzY5fQ.D8TRKlq_Sr2m6h6IH9U3BUkokCZBHq1iLhi_GrnZvY0</string>
+    <!--    <string name="g_map_api_key">AIzaSyCn23HyRn8zm-9sao4u-2x2jYFX1JZ79jI</string>-->
+    <!--    <string name="g_map_api_key">AIzaSyA_JTTuVPlkUVdTf19MlUfHS68qDSOdxpU</string>-->
+    <string name="g_map_api_key">AIzaSyB524vrRB5rsIzZJeGAqjMbnEPCBwruvd0</string>
+<!--    <string name="video_call_auth">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiIxZWVjYThlNi01YzUxLTQ5YzgtOTFhNi01Y2NmNTAxYTI4ZWIiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTY3Njk3MzU3NSwiZXhwIjoxNjc5NTY1NTc1fQ.g2EKbEcakvq2FPrLqVWHtruiSMfpFSh2aXEXiMDkfGA</string>-->
+    <string name="video_call_auth">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiIxZWVjYThlNi01YzUxLTQ5YzgtOTFhNi01Y2NmNTAxYTI4ZWIiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTY3Nzc1NTk3NiwiZXhwIjoxODM1NTQzOTc2fQ.zjQKv9hHSoM6hy0ASegOcQ4YERxaForittj2XBgtCnM</string>
     <string name="aws_access_1">AKIAQ64R4A</string>
     <string name="aws_access_2">J3AQCHTFOF</string>
     <string name="aws_sec_1">n1Il5CQO8ABCuFU6miXV/</string>

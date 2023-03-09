@@ -9,6 +9,7 @@ plugins {
 def STRING = "String"
 //variable
 def API_URL = "API_URL"
+def GOOGLE_MAP_KEY = "GOOGLE_MAP_KEY"
 
 android {
     compileSdk 32
@@ -38,6 +39,7 @@ android {
         dev {
             dimension "api"
             buildConfigField STRING, API_URL, APP_DEV_URL
+            buildConfigField STRING, GOOGLE_MAP_KEY, APP_G_MAP_KEY
         }
 //        production {
 //            dimension "api"

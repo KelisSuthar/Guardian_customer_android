@@ -10,6 +10,7 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.core.content.PermissionChecker
+import com.app.guardian.BuildConfig
 import com.app.guardian.R
 import com.app.guardian.common.AppConstants
 import com.app.guardian.common.ReusedMethod
@@ -295,7 +296,7 @@ class KnowRightFragment : BaseFragment(), View.OnClickListener {
 
     fun setGooglePlaceFragemnt() {
         val apiKey =
-            getString(R.string.g_map_api_key_1) + getString(R.string.g_map_api_key_2) + getString(R.string.g_map_api_key_3)
+           BuildConfig.GOOGLE_MAP_KEY
 
         if (!Places.isInitialized()) {
             Places.initialize(requireActivity(), apiKey)

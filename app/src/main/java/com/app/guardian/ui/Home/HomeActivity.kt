@@ -412,8 +412,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
                 }
             }
         }
-
-
     }
 
     private fun joinMeeting(meeting_Id: String) {
@@ -602,8 +600,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener, onBadgeCounterIntegra
         for (fragment in supportFragmentManager.fragments) {
             supportFragmentManager.beginTransaction().remove(fragment).commit()
         }
-
-
     }
 
     private fun loadHomeScreen() {

@@ -529,7 +529,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             mBinding.edtSpecializations.setText(data.specialization)
             mBinding.edtYearsOfExp.setText(data.years_of_experience)
             mBinding.edtOfficeNum.setText(data.office_phone)
-            mBinding.ccp1.setCountryForPhoneCode(data.office_dialing_code!!.toInt())
+            data.office_dialing_code?.toInt()?.let { mBinding.ccp1.setCountryForPhoneCode(it) }
             if (!data.availability_time.isNullOrEmpty()) {
                 mBinding.edtFromTime.setText(data.availability_time.substringBefore("to"))
                 mBinding.edtToTime.setText(data.availability_time.substringAfter("to"))
@@ -538,7 +538,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                 mBinding.edtDesc.setText(data.description)
             }
         }
-        mBinding.ccp2.setCountryForPhoneCode(data.dialing_code!!.toInt())
+        data.dialing_code?.toInt()?.let { mBinding.ccp2.setCountryForPhoneCode(it) }
         mBinding.edtPhone.setText(data.phone)
         mBinding.edtProvience.setText(data.state)
         mBinding.edtPostalCode.setText(data.postal_code)

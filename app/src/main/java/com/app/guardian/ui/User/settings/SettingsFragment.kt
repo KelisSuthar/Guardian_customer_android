@@ -55,7 +55,6 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
     private lateinit var mBinding: FragmentSettingsBinding
     private val mViewModel: CommonScreensViewModel by viewModel()
     private val authViewModel: AuthenticationViewModel by viewModel()
-    val intentAction = "com.parse.push.intent.RECEIVE"
     override fun getInflateResource(): Int {
         return R.layout.fragment_settings
 
@@ -64,6 +63,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
     override fun initView() {
         mBinding = getBinding()
         setViews()
+        callCMSAPI()
         Log.e("EDIT_APP", SharedPreferenceManager.getUser().toString())
         mBinding.txtSettingNotificationCoout.gone()
         if (SharedPreferenceManager.getInt(AppConstants.NOTIFICATION_BAGE, -1) > 0) {
@@ -182,7 +182,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        callCMSAPI()
+
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(
             mBroadcastReceiver, IntentFilter(
                 BROADCAST_REC_INTENT

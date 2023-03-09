@@ -29,6 +29,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
+import com.app.guardian.BuildConfig
 import com.app.guardian.R
 import com.app.guardian.common.extentions.gone
 import com.app.guardian.common.extentions.visible
@@ -494,9 +495,7 @@ class ReusedMethod {
             var placesClient: PlacesClient? = null
 
             val apiKey =
-                context.getString(R.string.g_map_api_key_1) + context.getString(R.string.g_map_api_key_2) + context.getString(
-                    R.string.g_map_api_key_3
-                )
+                BuildConfig.GOOGLE_MAP_KEY
             if (apiKey.isEmpty()) {
                 responseView!!.text = "error"
                 return
